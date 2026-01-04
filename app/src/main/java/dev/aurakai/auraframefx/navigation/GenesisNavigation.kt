@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.rememberNavController
+import dev.aurakai.auraframefx.aura.ui.AIChatScreen
 import dev.aurakai.auraframefx.aura.ui.AgentNexusScreen
 import dev.aurakai.auraframefx.aura.ui.AppBuilderScreen
 import dev.aurakai.auraframefx.aura.ui.CanvasScreen
@@ -203,7 +204,13 @@ fun GenesisNavigationHost(
                     onNavigateToAgents = {}
                 )
             }
-            composable(GenesisRoutes.AI_CHAT) { AIChatScreen() }
+            composable(GenesisRoutes.AI_CHAT) {
+                // Use DirectChatScreen (unified AI chat implementation)
+                val viewModel = hiltViewModel<AgentViewModel>()
+                with(viewModel) {
+                    DirectChatScreen { navController.popBackStack() }
+                }
+            }
 
             // Gate routes with REAL screens
             composable(GenesisRoutes.AGENT_HUB) {
