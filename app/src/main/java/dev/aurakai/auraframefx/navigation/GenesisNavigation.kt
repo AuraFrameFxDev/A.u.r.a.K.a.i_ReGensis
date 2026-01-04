@@ -12,9 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.rememberNavController
-// import dev.aurakai.auraframefx.aura.ui.AIChatScreen // DEPRECATED: Use DirectChatScreen instead
 import dev.aurakai.auraframefx.aura.ui.AgentNexusScreen
 import dev.aurakai.auraframefx.aura.ui.AppBuilderScreen
+import dev.aurakai.auraframefx.aura.ui.CanvasScreen
 import dev.aurakai.auraframefx.aura.ui.ConferenceRoomScreen
 import dev.aurakai.auraframefx.aura.ui.ConsciousnessVisualizerScreen
 import dev.aurakai.auraframefx.aura.ui.FirewallScreen
@@ -53,6 +53,7 @@ import dev.aurakai.auraframefx.ui.gates.StatusBarScreen
 import dev.aurakai.auraframefx.ui.gates.SupportChatViewModel
 import dev.aurakai.auraframefx.ui.gates.SystemJournalScreen
 import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
+import dev.aurakai.auraframefx.ui.gates.ThemeEngineScreen
 import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
 import dev.aurakai.auraframefx.ui.onboarding.GenderSelectionScreen
 import dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen
@@ -175,10 +176,7 @@ object GenesisRoutes {
 }
 
 /**
- * Hosts the app's Genesis navigation graph and registers composable destinations for each route.
  *
- * @param navController Navigation controller used by the NavHost.
- * @param startDestination Initial route shown when the NavHost is created; defaults to GenesisRoutes.GATES.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -214,10 +212,6 @@ fun GenesisNavigationHost(
                 AuraLabScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.ORACLE_DRIVE) {
-                OracleDriveSubmenuScreen(navController = navController)
-            }
-            composable(GenesisRoutes.NEURAL_ARCHIVE) {
-                NeuralArchiveScreen(navController = navController)
             }
             composable(GenesisRoutes.ROM_TOOLS) {
                 ROMToolsSubmenuScreen(navController = navController)

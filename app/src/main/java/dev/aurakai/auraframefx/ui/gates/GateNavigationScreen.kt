@@ -192,6 +192,7 @@ fun GateNavigationScreen(
             )
         }
     }
+}
 
 /**
  * Renders a gate card with active glow, hover/teleportation overlay and a double-tap entry action.
@@ -298,15 +299,9 @@ private fun MagicalParticleField() {
 }
 
 /**
- * Renders a centered page indicator that shows nearby gate titles and enables quick navigation.
  *
- * Displays up to three gates around the current page with leading/trailing ellipses when more gates exist.
  *
- * @param gates The list of gates in display order.
- * @param currentPage The index of the currently selected page.
- * @param modifier Modifier applied to the indicator row.
  * @param pagerState PagerState used to animate scrolling to a selected page.
- * @param navController NavController used to navigate into the active gate when tapped.
  */
 @Composable
 private fun GatePageIndicator(

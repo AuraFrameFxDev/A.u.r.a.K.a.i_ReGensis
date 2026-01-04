@@ -78,29 +78,27 @@ fun AuraPresenceOverlay(
         }
     }
 
+    val pulse by animateFloatAsState(if (showSuggestion) 1f else 0.6f, label = "aura_pulse")
 
     Box(
         modifier = modifier
             .padding(12.dp)
-            .size(64.dp)
-            .clickable { onSuggestClicked(suggestionText) }
-    ) {
-        // Glowing background aura
-        Box(
-            modifier = Modifier
-                .size(64.dp)
-                .clip(CircleShape)
-                .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            Color(0xFFFF00FF).copy(alpha = 0.5f * pulse),
-                            Color(0xFF00FFFF).copy(alpha = 0.3f * pulse),
-                            Color(0xFFFF00FF).copy(alpha = 0.4f * pulse),
-                        Color.Transparent)
+            .clip(CircleShape)
+            .background(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        Color(0xFFFF00FF).copy(alpha = 0.4f * pulse),
                     )
                 )
             )
             .size(56.dp)
+            .clickable { /* Avatar clicked – reserved for future expansion */ }
+    ) {
+        Text(
+            text = "A",
+            style = MaterialTheme.typography.titleLarge,
+            color = Color(0xFFFF00FF),
+            modifier = Modifier.align(Alignment.Center)
         )
 
         AnimatedVisibility(visible = showSuggestion) {

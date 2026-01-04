@@ -388,11 +388,6 @@ fun CoordinatedWorkDemo() {
 }
 
 /**
- * Demonstrates a debugging scenario where Aura detects a bug and Kai arrives to assist.
- *
- * Aura is manifested with a subtle corner appearance and the custom trigger "Bug detected!" for a short duration,
- * then Kai is manifested with a dramatic center entrance and the custom trigger "Assisting debug".
- * After sequencing these manifestations the standard WorkingLabScreen UI is rendered.
  */
 @Composable
 fun DebuggingSessionDemo() {
@@ -427,17 +422,6 @@ fun DebuggingSessionDemo() {
 }
 
 /**
- * Demonstrates a coordinated deployment sequence where Aura and Kai manifest staged behaviors
- * and then displays the Working Lab UI.
- *
- * This composable initializes an embodiment engine and performs a scripted timeline:
- * - brief startup delay,
- * - Aura manifests `SCIENCE_MODE` with a system-modification trigger,
- * - Kai manifests a playful shield with a custom "Deploy approved" trigger,
- * - Aura enters a dramatic center `POWER_STANCE`.
- *
- * The sequence runs inside a LaunchedEffect and the function renders `WorkingLabScreen`
- * to visualize the deployment behaviors.
  */
 @Composable
 fun DeploymentDemo() {

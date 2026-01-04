@@ -295,14 +295,6 @@ private fun GateTitle(
 }
 
 /**
- * Renders a radial holographic glow centered in the parent Box.
- *
- * Draws a radial gradient circle that transitions from the primary color (at reduced alpha)
- * through an optional secondary color to transparent, scaled relative to the box size.
- *
- * @param color Primary glow color.
- * @param secondaryColor Optional secondary glow color used between the primary color and transparent; if null, the primary color is used.
- * @param alpha Overall alpha multiplier applied to the glow colors.
  */
 @Composable
 private fun BoxScope.HologramGlow(
@@ -328,15 +320,6 @@ private fun BoxScope.HologramGlow(
 }
 
 /**
- * Renders the gate's interior artwork and a tight holographic border that fills the available space.
- *
- * Displays the pixel-art image identified by `config.pixelArtUrl` scaled to fill the area; when the drawable
- * resource is missing or `pixelArtUrl` is null, shows a vertical gradient fallback with the gate title.
- * A pulsing border and corner accents are drawn around the content, and a subtle scanline effect is overlaid
- * to enhance the holographic appearance.
- *
- * @param config Configuration for the gate visuals (title, colors, optional `pixelArtUrl`, title style, border and glow colors).
- * @param pulseAlpha Alpha multiplier used to drive the pulsing intensity of the border and accent colors (0f..1f).
  */
 @Composable
 private fun GateImageWithBorder(

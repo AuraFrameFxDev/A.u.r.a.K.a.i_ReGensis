@@ -36,7 +36,6 @@ import javax.inject.Singleton
 class TrinityCoordinatorService @Inject constructor(
     private val auraAIService: AuraAIService,
     private val kaiAIService: KaiAIService,
-    private val genesisBridgeService: GenesisBridgeService,
     private val securityContext: SecurityContext,
 ) {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
@@ -194,13 +193,8 @@ class TrinityCoordinatorService @Inject constructor(
     }
 
     /**
-     * Activate a Genesis fusion ability and report the activation outcome.
      *
-     * Emits a single success response that includes a descriptive message when available, or an error response on failure.
      *
-     * @param fusionType Identifier of the fusion ability to activate.
-     * @param context Optional key/value context passed to the activation.
-     * @return An AgentResponse representing the activation outcome; success responses include a descriptive message when available, error responses indicate failure.
      */
     fun activateFusion(
         fusionType: String,

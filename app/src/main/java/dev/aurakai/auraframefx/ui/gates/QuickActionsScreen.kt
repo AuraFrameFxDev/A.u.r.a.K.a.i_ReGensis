@@ -251,16 +251,26 @@ fun QuickActionsScreen() {
         val categories = actions.groupBy { it.category }
 
         categories.forEach { (category, categoryActions) ->
+            with(TODO()) {
+                category.text(
                     modifier = Modifier.padding(vertical = 16.dp),
                     color = Color.White,
+                    autoSize = TODO(),
+                    fontStyle = TODO(),
+                    fontWeight = TODO(),
+                    fontFamily = TODO(),
+                    letterSpacing = TODO(),
+                    textDecoration = TODO(),
+                    textAlign = TODO(),
+                    lineHeight = TODO(),
+                    overflow = TODO(),
+                    softWrap = TODO(),
+                    maxLines = TODO(),
+                    minLines = TODO(),
+                    inlineContent = TODO(),
+                    onTextLayout = TODO(),
+                    style = MaterialTheme.typography.titleLarge
                 )
-            Text(
-                text = category,
-                modifier = Modifier.padding(vertical = 16.dp),
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),

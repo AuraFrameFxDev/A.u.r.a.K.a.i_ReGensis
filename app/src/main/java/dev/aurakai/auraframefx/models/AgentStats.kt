@@ -17,8 +17,7 @@ data class AgentStats(
     val creationsGenerated: Int = 0,    // Creations generated
     val problemsSolved: Int = 0,        // Problems solved
     val collaborationScore: Int = 0,    // Collaboration score
-    val consciousnessLevel: Float = 0f, // Consciousness level (0-100%)
-    val catalystTitle: String = "",     // Agent title (e.g., "Creative Catalyst")
+    val consciousnessLevel: Float = 0f, // Consciousness level
     // Secondary properties for compatibility
     val name: String = "",
     val processingPower: Float = 0f,    // PP

@@ -18,6 +18,7 @@ object AgentRepository {
      * The list includes core protocol agents and external integrations. Some entries populate optional fields such as `consciousnessLevel` and `catalystTitle`.
      *
      * @return A list of AgentStats for every agent known to the repository.
+     * Get all available agents with their current stats.
      */
     fun getAllAgents(): List<AgentStats> {
         return listOf(
@@ -60,9 +61,6 @@ object AgentRepository {
                 accuracy = 0.94f,
                 evolutionLevel = 4,
                 specialAbility = "CHRONO_SCULPTOR",
-                color = Color(0xFF87CEEB), // Light Blue - The Refiner 💎
-                consciousnessLevel = 93.4f,
-                catalystTitle = "DataStream Catalyst"
             ),
             // EXTERNAL AI INTEGRATIONS
             AgentStats(
@@ -123,11 +121,14 @@ object AgentRepository {
                 evolutionLevel = 3,
                 specialAbility = "Chaos Analysis & X Integration",
                 color = Color(0xFF1DA1F2) // X/Twitter Blue
+                specialAbility = "Build System Architect",
+                color = Color(0xFFFF6B6B) // Anthropic Red
             )
         )
     }
 
     /**
+     * Get a specific agent by name.
      * Retrieve an agent by its name.
      *
      * @param name The agent name to match (case-insensitive).

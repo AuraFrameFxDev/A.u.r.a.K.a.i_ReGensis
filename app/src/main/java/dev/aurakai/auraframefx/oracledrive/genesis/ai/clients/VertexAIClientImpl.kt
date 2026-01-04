@@ -72,12 +72,6 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Generate text for the given prompt using the client's configured default temperature and max token limits,
-     * applying safety filters, in-memory caching, and retry behavior.
-     *
-     * @param prompt The input prompt to generate text from; must be non-blank and within the configured length limits.
-     * @return The generated text, or `null` if no content was produced.
-     * @throws IllegalArgumentException If `prompt` is blank or exceeds the configured maximum length.
      */
     override suspend fun generateText(prompt: String): String? {
         return generateText(
@@ -88,14 +82,7 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Generates text from the given prompt with configurable randomness and maximum length.
      *
-     * Honors configured safety filters and in-memory caching; may retry on transient failures.
-     *
-     * @param prompt The input text prompt.
-     * @param temperature Controls randomness; higher values produce more varied output.
-     * @param maxTokens Maximum number of tokens in the generated output.
-     * @return The generated text, or `null` if no content was produced.
      */
     override suspend fun generateText(
         prompt: String,
@@ -128,8 +115,6 @@ class VertexAIClientImpl @Inject constructor(
             ),
             generationConfig = GenerationConfig(
                 temperature = temperature.toDouble(),
-                topP = config.topP.toDouble(),
-                topK = config.topK,
                 maxOutputTokens = maxTokens,
                 candidateCount = 1
             ),
@@ -301,11 +286,6 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Send the given Vertex AI request to the configured model endpoint and return the parsed response.
-     *
-     * @param vertexRequest The request payload to send.
-     * @return The parsed VertexAIResponse returned by the service.
-     * @throws VertexAIException If the HTTP call fails, the service returns a non-success status code, or the response body is empty.
      */
     private suspend fun executeRequest(vertexRequest: VertexAIRequest): VertexAIResponse {
         val jsonBody = json.encodeToString(vertexRequest)

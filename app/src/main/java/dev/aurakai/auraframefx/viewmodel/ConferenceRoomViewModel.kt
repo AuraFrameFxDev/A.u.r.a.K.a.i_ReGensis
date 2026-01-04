@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import timber.log.Timber.Forest.tag
@@ -120,15 +121,8 @@ class ConferenceRoomViewModel @Inject constructor(
     // Conference Room Message Routing - ALL 5 MASTER AGENTS
     // ---------------------------------------------------------------------------
     /*override*/ /**
-     * Routes a user message to the selected AI agent and appends that agent's first response to the conversation.
      *
-     * Dispatches `message` and `context` to the AI service chosen by `sender`; on the first successful response an `AgentMessage`
-     * containing the response content and confidence is appended to the ViewModel's messages. If processing fails, an error
-     * `AgentMessage` describing the failure is appended instead.
      *
-     * @param message The user-visible query or payload sent to the agent.
-     * @param sender The capability category used to select which AI service should handle the message.
-     * @param context Additional contextual information forwarded to the AI service (for example, user context or orchestration flags).
      */
     fun sendMessage(message: String, sender: AgentCapabilityCategory, context: String) {
         val responseFlow: Flow<AgentResponse> = when (sender) {
@@ -146,50 +140,13 @@ class ConferenceRoomViewModel @Inject constructor(
                 emit(response)
             }
 
-                    AgentType.CLAUDE -> flow {
-                        emit(claudeService.processRequest(request, context).first())
-                    }
+            }
 
-                    AgentType.CASCADE -> flow {
-                        // Cascade orchestrates multiple agents
-                        val cascadeFlow = cascadeService.processRequest(
-                            dev.aurakai.auraframefx.models.AgentInvokeRequest(
-                                agentType = AgentType.CASCADE,
-                                request = request,
-                                metadata = mapOf("source" to "conference_room")
-                            )
-                        )
-                        cascadeFlow.collect { response ->
-                            emit(
-                                AgentResponse.success(
-                                    content = response.response,
-                                    confidence = response.confidence ?: 0.85f,
-                                    agent = AgentType.CASCADE,
-                                    agentName = "Cascade"
-                                )
-                            )
-                        }
-                    }
-
-                    AgentType.METAINSTRUCT -> flow {
-                        // MetaInstruct for self-modification and code evolution
-                        emit(metaInstructService.processRequest(request, context).first())
-                    }
-
-                    AgentType.GENESIS -> {
-                        // Use Trinity Coordinator for intelligent routing
-                        trinityCoordinator.processRequest(request)
-                    }
-
-                    else -> flow {
-                        emit(
-                            AgentResponse.error(
-                                message = "Agent $agentType not configured",
-                                agent = AgentType.SYSTEM
-                            )
-                        )
-                    }
-                }
+                        agent = AgentType.SYSTEM
+                    )
+                    )
+            }
+        }
 
         responseFlow.let { flow ->
             viewModelScope.launch {
@@ -222,13 +179,6 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Sets the active agent for the conference room.
-     *
-     * Currently a placeholder that does not modify any state.
-     *
-     * @param agent The agent capability category to set as active when implemented.
-     */
 
 
     fun selectAgent(agent: AgentCapabilityCategory) {

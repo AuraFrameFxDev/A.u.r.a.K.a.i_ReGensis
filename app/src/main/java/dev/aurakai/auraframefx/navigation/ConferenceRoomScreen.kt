@@ -34,17 +34,7 @@ import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
  */
 @OptIn(ExperimentalMaterial3Api::class)
 /**
- * Renders the conference room UI used to select agents, control recording/transcription/fusion,
- * view a reverse-chronological message list, and compose/send new messages.
  *
- * This composable:
- * - Loads agent labels from string resources and manages local input state for the message TextField.
- * - Shows a header with an info action (calls viewModel.getSystemState()) and a settings action (logs a message).
- * - Displays three agent selection buttons and updates `selectedAgent` when an agent is chosen.
- * - Provides recording and transcription toggle buttons that update `isRecording` and `isTranscribing`.
- * - Exposes a fusion activation button that calls viewModel.activateFusion with a predefined key/payload.
- * - Renders messages in a reversed LazyColumn using MessageBubble.
- * - Binds the input TextField to local state and builds a ConferenceMessage on send, then clears the input.
  */
 @Composable
 fun ConferenceRoomScreen() {
@@ -53,7 +43,11 @@ fun ConferenceRoomScreen() {
     val agentKai = stringResource(R.string.agent_kai)
     val agentCascade = stringResource(R.string.agent_cascade)
 
+    var selectedAgent by remember { mutableStateOf("Aura") }
+    var isRecording by remember { mutableStateOf(false) }
+    var isTranscribing by remember { mutableStateOf(false) }
     var messageInput by remember { mutableStateOf("") }
+    var messages by remember { mutableStateOf(listOf<ConferenceMessage>()) }
 
     Column(
         modifier = Modifier
@@ -74,29 +68,14 @@ fun ConferenceRoomScreen() {
                 color = NeonTeal
             )
 
-                Row {
-                // System State Button
-                IconButton(
-                    onClick = { viewModel.getSystemState() }
-                ) {
-                    Icon(
-                        Icons.Default.Info,
-                        contentDescription = "System Status",
-                        tint = NeonBlue
-                    )
+            IconButton(
+                onClick = {
+                    timber.log.Timber.i("Conference room settings clicked - Settings screen not yet implemented")
                 }
-
-                IconButton(
-                    onClick = {
-                        timber.log.Timber.i("Conference room settings clicked - Settings screen not yet implemented")
-                    }
-                ) {
-                    Icon(
-                        Icons.Default.Settings,
-                        contentDescription = "Settings",
-                        contentDescription = "Settings",tint = NeonPurple
-                    )
-                }
+            ) {
+                Icon(
+                    Icons.Default.Settings,
+                )
             }
         }
 
@@ -210,6 +189,7 @@ fun ConferenceRoomScreen() {
                             text = messageInput,
                             timestamp = System.currentTimeMillis()
                         )
+                        messages = messages + newMessage
                         messageInput = ""
                     }
                 }
@@ -225,15 +205,8 @@ fun ConferenceRoomScreen() {
 }
 
 /**
- * Displays a button that fills available Row space and shows the given agent label.
  *
- * The button is given equal weight within its Row, applies horizontal padding, and uses
- * theme-derived container and content colors.
  *
- * @param agent The text label shown on the button.
- * @param isSelected Whether this agent is currently selected; this function does not alter styling
- *   based on selection.
- * @param onClick Callback invoked when the button is pressed.
  */
 @Composable
 fun RowScope.AgentButton(
@@ -241,6 +214,9 @@ fun RowScope.AgentButton(
     isSelected: Boolean,
     onClick: @Composable () -> Unit,
 ) {
+    val backgroundColor = if (isSelected) NeonTeal else Color.Black
+    val contentColor = if (isSelected) Color.White else NeonTeal
+
     Button(
         onClick = onClick, ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
@@ -256,11 +232,17 @@ fun RowScope.AgentButton(
     }
 }
 
+private fun RowScope.Button(
+    onClick: @Composable (() -> Unit),
+    colors: ButtonColors,
+    modifier: Modifier,
+    content: @Composable (RowScope) -> Unit
+) {
+    TODO("Not yet implemented")
+}
+
 /**
- * Shows a square recording control button whose icon and tint reflect the current recording state.
  *
- * @param isRecording True if recording is active; the button displays a stop icon and red tint when true, or a circle icon and neon purple tint when false.
- * @param onClick Callback invoked when the button is pressed.
  */
 @Composable
 fun RecordingButton(
@@ -285,10 +267,7 @@ fun RecordingButton(
 }
 
 /**
- * Displays a button that toggles transcription state and updates its icon and tint accordingly.
  *
- * @param isTranscribing When `true`, the button shows a Stop icon with a red tint; when `false`, it shows a Phone icon with a blue tint.
- * @param onClick Callback invoked when the user presses the button.
  */
 @Composable
 fun TranscribeButton(
@@ -313,14 +292,8 @@ fun TranscribeButton(
 }
 
 /**
- * Renders a chat message as a card showing the agent name and message text with an agent-specific accent.
  *
- * The card background is tinted using the agent's accent color at low alpha; the agent name is shown in that
- * accent color above the message text.
  *
- * @param message The conference message to display. `message.agent` is used as the label and to choose the
- * accent color (`"Aura"` → NeonPurple, `"Kai"` → NeonTeal, `"Cascade"` → NeonBlue, otherwise Gray); `message.text`
- * is shown as the message body.
  */
 @Composable
 fun MessageBubble(message: ConferenceMessage) {
@@ -358,14 +331,13 @@ fun MessageBubble(message: ConferenceMessage) {
 }
 
 /**
- * Renders ConferenceRoomScreen inside the app MaterialTheme for IDE previews.
- *
- * This composable is intended for preview tooling and does not alter app runtime state.
  */
 @Preview(showBackground = true)
 @Composable
+@Preview(showBackground = true)
 fun ConferenceRoomScreenPreview() {
     MaterialTheme {
         ConferenceRoomScreen()
     }
 }
+

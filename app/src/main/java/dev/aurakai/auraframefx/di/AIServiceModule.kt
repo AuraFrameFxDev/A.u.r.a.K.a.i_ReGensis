@@ -50,7 +50,6 @@ abstract class AiServiceModule {
      */
     @Binds
     @Singleton
-    abstract fun bindKaiAIService(kaiAIService: GenesisBackedKaiAIService): KaiAIService
 
     /**
      * Binds CascadeAIService to the provided adapter implementation for dependency injection.
@@ -60,7 +59,6 @@ abstract class AiServiceModule {
      */
     @Binds
     @Singleton
-    abstract fun bindCascadeAIService(cascadeAIService: RealCascadeAIServiceAdapter): CascadeAIService
 
     // ═══════════════════════════════════════════════════════════════════════════
     // External AI Backend Services (ClaudeAIService, NemotronAIService,

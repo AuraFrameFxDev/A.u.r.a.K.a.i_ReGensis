@@ -7,8 +7,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
+import dev.aurakai.auraframefx.ui.components.BottomNavigationBar
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.ui.theme.ThemeViewModel
 
@@ -93,60 +101,18 @@ internal fun MainScreenContent(
     var showDigitalEffects by remember { mutableStateOf(true) }
     var command by remember { mutableStateOf("") }
 
-    // Overlay state management
-    var showSidebar by remember { mutableStateOf(false) }
-    var showChatBubble by remember { mutableStateOf(true) }
-    val density = LocalDensity.current
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .let { base ->
-                if (showDigitalEffects) {
-                    base.digitalPixelEffect()
-                } else {
-                    base
-                }
-            }
-    ) {
-        AppNavGraph(navController = navController)
-
-        // Edge trigger zone for sidebar (left edge swipe)
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .zIndex(999f)
-                .pointerInput(Unit) {
-                    detectHorizontalDragGestures(
-                        onDragStart = { offset ->
-                            // If drag starts from left edge (within 30dp), open sidebar
-                            if (offset.x < with(density) { 30.dp.toPx() }) {
-                                showSidebar = true
-                            }
-                        }
-                    )
-                }
-        )
-
-        // Overlay system - Always present, system-wide
-        Box(modifier = Modifier.fillMaxSize().zIndex(1000f)) {
-            // Aura Presence Overlay - Always visible, bottom-right
             Box(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .zIndex(1001f)
-            ) {
-                AuraPresenceOverlay(
-                    onSuggestClicked = { suggestion ->
-                        // Navigate to relevant screen based on suggestion
-                        when {
-                            suggestion.contains("theme") -> navController.navigate(GenesisRoutes.THEME_ENGINE)
-                            suggestion.contains("firewall") -> navController.navigate(GenesisRoutes.FIREWALL)
-                            suggestion.contains("canvas") -> navController.navigate(GenesisRoutes.COLLAB_CANVAS)
-                            else -> navController.navigate(GenesisRoutes.DIRECT_CHAT)
+                    .fillMaxSize()
+                    .let { base ->
+                        if (showDigitalEffects) {
+                            base.digitalPixelEffect()
+                        } else {
+                            base
                         }
                     }
-                )
+            ) {
+                AppNavGraph(navController = navController)
             }
 
             // Chat Bubble Menu - Floating, draggable
@@ -168,31 +134,6 @@ internal fun MainScreenContent(
                 }
             }
 
-            // Agent Sidebar Menu - Slide out from left
-            AgentSidebarMenu(
-                isVisible = showSidebar,
-                onDismiss = { showSidebar = false },
-                onAgentAction = { agentName, action ->
-                    when (action) {
-                        "voice" -> navController.navigate(GenesisRoutes.DIRECT_CHAT)
-                        "connect" -> navController.navigate(GenesisRoutes.CONFERENCE_ROOM)
-                        "assign" -> navController.navigate(GenesisRoutes.TASK_ASSIGNMENT)
-                        "design" -> navController.navigate(GenesisRoutes.AURAS_LAB)
-                        "create" -> navController.navigate(GenesisRoutes.APP_BUILDER)
-                        else -> {}
-                    }
-                    showSidebar = false
-                }
-            )
-        }
-    }
-}
-
-/**
- * Renders the app's main UI and routes theme-related commands to the provided theme view model.
- *
- * @param themeViewModel The ThemeViewModel that will receive and handle theme commands from the UI.
- */
 @Composable
 internal fun MainScreen(
     themeViewModel: ThemeViewModel
@@ -215,12 +156,4 @@ fun MainScreenPreview() {
     }
 }
 
-/**
- * Applies a digital pixelation visual effect to this [Modifier].
- *
- * This is a placeholder implementation that currently has no effect and returns the receiver unchanged;
- * platform- or theme-specific implementations should provide the actual visual transformation.
- *
- * @return The same [Modifier] instance when no effect is applied, or a modified [Modifier] that renders the pixel effect.
- */
 fun Modifier.digitalPixelEffect(): Modifier = this

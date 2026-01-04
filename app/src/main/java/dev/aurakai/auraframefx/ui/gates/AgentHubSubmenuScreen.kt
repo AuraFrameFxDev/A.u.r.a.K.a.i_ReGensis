@@ -1,6 +1,10 @@
 package dev.aurakai.auraframefx.ui.gates
 
+import dev.aurakai.auraframefx.navigation.NavDestination
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.*
@@ -8,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,6 +26,9 @@ import kotlin.random.Random
 /**
  * Agent Hub Gate Submenu
  * Central command center for all AI agent operations
+ */
+/**
+ * Renders the "Agent Hub" submenu UI with a header overview card and navigable menu items.
  *
  * The header displays active agent count, currently active task count, and a live average consciousness
  * percentage that updates periodically while the composable is composed.

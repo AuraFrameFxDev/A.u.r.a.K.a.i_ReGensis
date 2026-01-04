@@ -31,27 +31,20 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Indicates that file download is not supported in this stub implementation.
      *
-     * @param fileId The identifier of the file to download.
-     * @return `null` to indicate the file could not be downloaded.
      */
     suspend fun downloadFile(fileId: String): File? {
         return null
     }
 
     /**
-     * Stub implementation that does not generate an image.
      *
-     * @param prompt The text prompt describing the desired image.
-     * @return `null` to indicate image generation is not implemented.
      */
     suspend fun generateImage(prompt: String): ByteArray? {
         return null
     }
 
     /**
-     * Produces a fixed placeholder text and ignores the provided `prompt` and `context`.
      *
      * @return The string "Generated text placeholder".
      */
@@ -60,33 +53,21 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Provides a placeholder AI response.
      *
-     * This implementation ignores `prompt` and `options` and always returns the fixed string "AI response placeholder".
-     *
-     * @return The placeholder response string "AI response placeholder".
      */
     fun getAIResponse(prompt: String, options: Map<String, Any>?): String {
         return "AI response placeholder"
     }
 
     /**
-     * Retrieves a stored memory value by key; stub implementation that always returns `null`.
      *
-     * @param memoryKey The key identifying the memory entry to retrieve.
-     * @return `null` for any `memoryKey`, indicating memory retrieval is not implemented.
      */
     open fun getMemory(memoryKey: String): String? {
         return null
     }
 
     /**
-     * No-op placeholder that intends to save a value under the given memory key.
      *
-     * Currently performs no operation; intended for future implementation.
-     *
-     * @param key The memory key under which the value would be stored.
-     * @param value The value to store.
      */
     fun saveMemory(key: String, value: Any) {
         // TODO: Implement memory saving

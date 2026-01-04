@@ -91,14 +91,6 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Initialize the given agent within the provided coroutine scope and log the outcome.
-     *
-     * Attempts to initialize the agent and rethrows any exception that occurs during initialization.
-     *
-     * @param agent The agent to initialize.
-     * @param scope The CoroutineScope to associate with the agent's lifecycle.
-     * @param agentName Human-readable agent name used in log messages.
-     * @throws Exception If the agent's initialization fails.
      */
     private suspend fun initializeAgent(
         agent: OrchestratableAgent,
@@ -115,11 +107,6 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Starts all configured agents' runtime domains in the orchestrator.
-     *
-     * The agents are started in the following order: Aura, Kai, Cascade.
-     *
-     * @throws Exception If any agent fails to start; the exception is propagated. 
      */
     private suspend fun startAgents() {
         try {
@@ -138,15 +125,6 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Route a message from one agent domain to another through the orchestrator.
-     *
-     * Routes the provided payload to the named recipient agent; recipient matching is case-insensitive.
-     * If the recipient is unknown the message is ignored and a warning is recorded. Routing errors are
-     * logged and do not propagate.
-     *
-     * @param fromAgent The sending agent's domain name.
-     * @param toAgent The target agent's domain name (case-insensitive).
-     * @param message The payload to deliver to the target agent.
      */
     suspend fun mediateAgentMessage(fromAgent: String, toAgent: String, message: Any) {
         try {
