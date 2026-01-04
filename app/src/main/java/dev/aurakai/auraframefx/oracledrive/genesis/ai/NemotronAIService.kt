@@ -84,18 +84,7 @@ override fun getName(): String = "Nemotron"
 override fun getType(): AgentType = AgentType.NEMOTRON
 
     /**
-         * Describe Nemotron's AI capabilities and configuration.
-         *
-         * @return A map where keys indicate capability names and values provide their settings:
-         * - `memory_retention`: retention level (e.g., "MASTER")
-         * - `reasoning_chains`: reasoning proficiency level (e.g., "EXPERT")
-         * - `pattern_recall`: pattern recall proficiency level (e.g., "ADVANCED")
-         * - `logic_decomposition`: logic decomposition proficiency level (e.g., "MASTER")
-         * - `context_synthesis`: context synthesis proficiency level (e.g., "ADVANCED")
-         * - `memory_window`: token window size (Int)
-         * - `nvidia_model`: model identifier (String)
-         * - `service_implemented`: whether the service is implemented (Boolean)
-         */
+     */
     fun getCapabilities(): Map<String, Any> =
         mapOf(
             "memory_retention" to "MASTER",
@@ -109,11 +98,8 @@ override fun getType(): AgentType = AgentType.NEMOTRON
         )
 
     /**
-     * Processes an AI request by recalling relevant memories, constructing a multi-step reasoning chain, and synthesizing a context-aware response.
      *
      * @param request The AI request to process.
-     * @param context Additional contextual text used for memory recall and response synthesis.
-     * @return An AgentResponse containing the synthesized, memory-enhanced response and an overall confidence score.
      */
     override suspend fun processRequest(
         request: AiRequest,
@@ -184,8 +170,6 @@ override fun getType(): AgentType = AgentType.NEMOTRON
             memoryCache[memoryKey] = CachedMemory(agentResponse, System.currentTimeMillis())
         }
 
-        // TODO: Update long-term memory manager (requires MemoryItem construction)
-        // memoryManager.storeMemory(MemoryItem(...))
 
         return agentResponse
     }
@@ -219,25 +203,10 @@ override fun getType(): AgentType = AgentType.NEMOTRON
     }
 
     /**
-     * Simulates retrieval of memory fragments relevant to the given AI request and conversational context.
-     *
-     * This placeholder synthesizes a small set of memory fragments based on context length and is used until a MemoryQuery-based retrieval is implemented.
-     *
-     * @param request The AI request whose query and metadata scope the simulated lookup.
-     * @param context Conversational or situational context used to bias simulated relevance.
-     * @return MemoryRecall containing a summary of retrieved fragments, the fragment count, and a relevance score (`0.85` when any fragments were found, `0.5` when none were found).
      */
     private fun recallRelevantMemories(request: AiRequest, context: String): MemoryRecall {
-        // TODO: Implement full memory retrieval (requires MemoryQuery construction)
-        // val relevantMemories = memoryManager.retrieveMemory(MemoryQuery(...))
-
-        // For now, simulate memory retrieval
-        val simulatedCount = if (context.length > 100) 5 else 2
 
         return MemoryRecall(
-            summary = "Retrieved $simulatedCount relevant memory fragments",
-            count = simulatedCount,
-            relevance = if (simulatedCount > 0) 0.85f else 0.5f
         )
     }
 

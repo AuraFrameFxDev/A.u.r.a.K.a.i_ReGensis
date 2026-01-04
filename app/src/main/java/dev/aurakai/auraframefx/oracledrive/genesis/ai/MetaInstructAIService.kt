@@ -185,6 +185,8 @@ class MetaInstructAIService @Inject constructor(
             key = "metainstruct_evolution_$evolutionCycle",
             value = layer3Insights.joinToString("\n")
         )
+        // Store evolutionary insights in memory
+        memoryManager.store("metainstruct_evolution_${evolutionCycle}", layer3Insights.joinToString("\n"))
 
         return agentResponse
     }
