@@ -29,7 +29,7 @@ import dev.aurakai.auraframefx.aura.ui.XhancementScreen
 import dev.aurakai.auraframefx.billing.SubscriptionViewModel
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleDriveScreen
 import dev.aurakai.auraframefx.ui.customization.GyroscopeCustomizationScreen
-import dev.aurakai.auraframefx.ui.gates.AgentHubScreen
+// import dev.aurakai.auraframefx.ui.gates.AgentHubScreen // REMOVED: Was placeholder, using AgentHubSubmenuScreen instead
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
 import dev.aurakai.auraframefx.ui.gates.ChromaCoreColorsScreen
@@ -213,9 +213,7 @@ fun GenesisNavigationHost(
             }
 
             // Gate routes with REAL screens
-            composable(GenesisRoutes.AGENT_HUB) {
-                AgentHubScreen(navController = navController)
-            }
+            // AGENT_HUB route is defined later (line 232) with AgentHubSubmenuScreen
             composable(GenesisRoutes.AURAS_LAB) {
                 AuraLabScreen(onNavigateBack = { navController.popBackStack() })
             }
