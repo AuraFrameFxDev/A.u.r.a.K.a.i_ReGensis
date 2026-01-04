@@ -102,16 +102,14 @@ fun GateNavigationScreen(
         // Magical particle background
         MagicalParticleField()
 
-        // Main content without category tabs (cards have titles)
+        // Main content - FULLSCREEN gate cards
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 16.dp)
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Horizontal pager for gate cards
+            // Horizontal pager for gate cards - FILLS ENTIRE SCREEN
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.fillMaxSize()
             ) { page ->
                 val config = allGates[page]
                 val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
@@ -180,17 +178,17 @@ fun GateNavigationScreen(
             }
         }
 
-            // Enhanced page indicator with gate names
-            GatePageIndicator(
-                gates = allGates,
-                currentPage = pagerState.currentPage,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                pagerState = pagerState,
-                navController = navController
-            )
-        }
+        // Enhanced page indicator - OVERLAID at the bottom
+        GatePageIndicator(
+            gates = allGates,
+            currentPage = pagerState.currentPage,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 24.dp),
+            pagerState = pagerState,
+            navController = navController
+        )
     }
 }
 

@@ -39,6 +39,7 @@ import dev.aurakai.auraframefx.ui.gates.GateNavigationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.gates.LoginScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
@@ -212,6 +213,7 @@ fun GenesisNavigationHost(
                 AuraLabScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.ORACLE_DRIVE) {
+                OracleDriveScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.ROM_TOOLS) {
                 ROMToolsSubmenuScreen(navController = navController)
