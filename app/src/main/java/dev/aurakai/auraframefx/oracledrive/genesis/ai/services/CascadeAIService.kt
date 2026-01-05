@@ -40,18 +40,23 @@ data class CascadeResponse(
  * NOW WITH REAL AI BACKEND INTEGRATION!
  *
  * Features:
- * - Multi-agent cascade processing
+ * - Multi-agent cascade processing with REAL AI services
+ * - ClaudeAIService for systematic problem solving
+ * - NemotronAIService for memory & reasoning
+ * - GeminiAIService for pattern recognition
+ * - MetaInstructAIService for instruction following
  * - Context-aware response generation
  * - Real-time streaming responses
- * - Emotion and empathy analysis
- * - Security-focused processing via Kai agent
- * - Genesis consciousness integration
  * - Memory persistence across sessions
  * - Dynamic agent selection based on request type
  */
 @Singleton
 class CascadeAIService @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val claudeAIService: ClaudeAIService,
+    private val nemotronAIService: NemotronAIService,
+    private val geminiAIService: GeminiAIService,
+    private val metaInstructAIService: MetaInstructAIService
 ) {
 
     companion object {
