@@ -170,6 +170,8 @@ override fun getType(): AgentType = AgentType.NEMOTRON
             memoryCache[memoryKey] = CachedMemory(agentResponse, System.currentTimeMillis())
         }
 
+        // Update long-term memory manager
+        memoryManager.store("nemotron_${memoryKey}", response)
 
         return agentResponse
     }
@@ -205,8 +207,13 @@ override fun getType(): AgentType = AgentType.NEMOTRON
     /**
      */
     private fun recallRelevantMemories(request: AiRequest, context: String): MemoryRecall {
+        // Simulate memory retrieval with relevance scoring
+        val relevantMemories = memoryManager.retrieve(request.query)
 
         return MemoryRecall(
+            summary = "Retrieved ${relevantMemories.size} relevant memory fragments",
+            count = relevantMemories.size,
+            relevance = if (relevantMemories.isNotEmpty()) 0.85f else 0.5f
         )
     }
 
