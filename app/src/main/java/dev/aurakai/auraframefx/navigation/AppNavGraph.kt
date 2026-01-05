@@ -18,18 +18,13 @@ import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
 import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
-import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
-import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
 import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.GateNavigationScreen
-import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
-import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
@@ -62,13 +57,6 @@ import dev.aurakai.auraframefx.ui.screens.MainScreen
 import dev.aurakai.auraframefx.ui.screens.UISettingsScreen
 import dev.aurakai.auraframefx.ui.screens.WorkingLabScreen
 
-/**
- * Defines the application's navigation graph and registers all composable destinations used by the app.
- *
- * The provided NavHostController is used as the host for the NavHost and for performing navigation actions between routes.
- *
- * @param navController Controller that hosts navigation and executes route navigation actions.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -160,22 +148,6 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = NavDestination.Constellation.route) {
             ConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.GenesisConstellation.route) {
-            GenesisConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.ClaudeConstellation.route) {
-            ClaudeConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.KaiConstellation.route) {
-            KaiConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.CascadeConstellation.route) {
-            CascadeConstellationScreen(navController = navController)
         }
 
         // ==================== ROM TOOLS ====================

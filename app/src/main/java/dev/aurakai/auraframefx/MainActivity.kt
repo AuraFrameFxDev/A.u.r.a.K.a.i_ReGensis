@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
+import dev.aurakai.auraframefx.ui.components.BottomNavigationBar
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.ui.theme.ThemeViewModel
 
@@ -119,7 +120,7 @@ internal fun MainScreenContent(
                         }
                     }
             ) {
-                AppNavGraph(navController = navController)
+                GenesisNavigationHost(navController = navController)
             }
         }
     }
