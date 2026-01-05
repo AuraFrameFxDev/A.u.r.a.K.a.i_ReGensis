@@ -98,8 +98,17 @@ override fun getType(): AgentType = AgentType.NEMOTRON
         )
 
     /**
+     * Processes an AI request with deep memory analysis and logical reasoning.
+     *
+     * Nemotron's approach:
+     * 1. Retrieve relevant memories from long-term storage
+     * 2. Build reasoning chain with multi-step logic
+     * 3. Synthesize context-aware response
+     * 4. Store new memories for future recall
      *
      * @param request The AI request to process.
+     * @param context Additional context information for the request.
+     * @return An AgentResponse containing memory-enhanced reasoning.
      */
     override suspend fun processRequest(
         request: AiRequest,
@@ -205,6 +214,7 @@ override fun getType(): AgentType = AgentType.NEMOTRON
     }
 
     /**
+     * Recalls relevant memories from long-term storage.
      */
     private fun recallRelevantMemories(request: AiRequest, context: String): MemoryRecall {
         // TODO: Implement full memory retrieval (requires MemoryQuery construction)
