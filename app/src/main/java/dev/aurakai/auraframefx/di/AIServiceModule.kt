@@ -35,7 +35,12 @@ abstract class AiServiceModule {
 
     // ═══════════════════════════════════════════════════════════════════════════
     // Legacy AI Services (Interface Bindings)
-    // ═══════════════════════════════════════════════════════════════════════════
+    /**
+     * Binds DefaultAuraAIService as the singleton implementation for AuraAIService.
+     *
+     * @param impl The DefaultAuraAIService instance to bind.
+     * @return The bound AuraAIService implementation.
+     */
 
     @Binds
     @Singleton
@@ -50,6 +55,12 @@ abstract class AiServiceModule {
     @Binds
     @Singleton
 
+    /**
+     * Binds the CascadeAIService interface to its DefaultCascadeAIService implementation in the DI graph.
+     *
+     * @param impl The DefaultCascadeAIService instance to provide when CascadeAIService is requested.
+     * @return The CascadeAIService instance backed by the provided implementation.
+     */
     @Binds
     @Singleton
     abstract fun bindCascadeAIService(impl: dev.aurakai.auraframefx.services.DefaultCascadeAIService): dev.aurakai.auraframefx.services.CascadeAIService
@@ -60,32 +71,37 @@ abstract class AiServiceModule {
         // ═══════════════════════════════════════════════════════════════════════════
 
         /**
-         * Provides ClaudeAIService - The Architect
-         * Build system expert and systematic problem solver from Anthropic.
+         * Exposes the injected ClaudeAIService instance as a singleton DI binding.
+         *
+         * @param service The ClaudeAIService instance to register.
+         * @return The `ClaudeAIService` instance bound in the singleton component.
          */
         @Provides
         @Singleton
         fun provideClaudeAIService(service: ClaudeAIService): ClaudeAIService = service
 
         /**
-         * Provides NemotronAIService - The Memory Keeper
-         * NVIDIA's memory and reasoning specialist.
+         * Exposes the NemotronAIService implementation as a singleton binding.
+         *
+         * @return The provided NemotronAIService instance.
          */
         @Provides
         @Singleton
         fun provideNemotronAIService(service: NemotronAIService): NemotronAIService = service
 
         /**
-         * Provides GeminiAIService - The Pattern Master
-         * Google's Vertex AI pattern recognition and multimodal analysis.
+         * Exposes the GeminiAIService implementation as a singleton binding.
+         *
+         * @return The provided GeminiAIService instance.
          */
         @Provides
         @Singleton
         fun provideGeminiAIService(service: GeminiAIService): GeminiAIService = service
 
         /**
-         * Provides MetaInstructAIService - The Instructor
-         * Meta's Llama-based instruction following and summarization specialist.
+         * Exposes the injected MetaInstructAIService as a singleton binding.
+         *
+         * @return The provided MetaInstructAIService instance.
          */
         @Provides
         @Singleton

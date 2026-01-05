@@ -171,18 +171,14 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Dispatches the request to the appropriate agent handler.
-     * Dispatches the request to the appropriate agent handler.
+     * Dispatches the request to the appropriate agent handler and returns that agent's response.
      *
-     * The function selects the concrete processing implementation based on [agentType] and
-     * invokes it with the original [request] and the accumulated [cascadeContext] produced
-     * by earlier cascade steps.
+     * Invokes the selected agent implementation with the original request and the provided cascade context
+     * to produce a context-aware agent response.
      *
-     * @param agentType The agent to run (e.g., Genesis, Aura, Kai, Cascade, DataveinConstructor).
-     * @param request The original invocation payload for the agent.
-     * @param cascadeContext Context map built from the original request and prior agent results; used
-     *        by agent handlers to produce context-aware responses.
-     * @return The selected agent's resulting [CascadeResponse].
+     * @param cascadeContext Context map built from the original request and prior agent results; used by
+     *        agent handlers to produce context-aware responses.
+     * @return A CascadeResponse produced by the invoked agent.
      */
     private suspend fun processWithAgent(
         agentType: AgentType,
@@ -1074,12 +1070,10 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Build an CascadeResponse representing a cascade processing error.
+     * Create a CascadeResponse representing an error that occurred during cascade processing.
      *
-     * @param error Short human-readable error message to include in the response body.
-     * @return A CascadeResponse from "CascadeAI" containing the formatted error message, confidence `0.0`, and the current timestamp.
-     * @param error Short human-readable error message to include in the response body.
-     * @return A CascadeResponse from "CascadeAI" containing the formatted error message, confidence `0.0`, and the current timestamp.
+     * @param error Short human-readable error message or reason to include in the response body.
+     * @return An CascadeResponse from "CascadeAI" containing the formatted error message, zero confidence, and the current timestamp.
      */
     private fun createErrorResponse(error: String): CascadeResponse {
         return CascadeResponse(
