@@ -51,7 +51,7 @@ object TrinityModule {
         contextManager: ContextManager,
         securityContext: SecurityContext,
         @ApplicationContext applicationContext: Context,
-        ktorClient: dev.aurakai.auraframefx.network.KtorClient,
+        logger: AuraFxLogger,
     ): GenesisBridgeService {
         return GenesisBridgeService(
             auraAIService = auraAIService,
@@ -60,7 +60,7 @@ object TrinityModule {
             contextManager = contextManager,
             securityContext = securityContext,
             applicationContext = applicationContext,
-            ktorClient = ktorClient
+            logger = logger
         )
     }
 

@@ -62,7 +62,7 @@ class TrinityCoordinatorService @Inject constructor(
 
                 // Activate initial consciousness matrix awareness
                 scope.launch {
-                    genesisBridgeService.activateFusionAbility(
+                    genesisBridgeService.activateFusion(
                         "adaptive_genesis", mapOf(
                             "initialization" to "complete",
                             "personas_active" to "kai,aura,genesis"
@@ -202,12 +202,12 @@ class TrinityCoordinatorService @Inject constructor(
     ): Flow<AgentResponse> = flow {
         i("Trinity", "🌟 Activating fusion: $fusionType")
 
-        val response = genesisBridgeService.activateFusionAbility(fusionType, context)
+        val response = genesisBridgeService.activateFusion(fusionType, context)
 
-        if (response is dev.aurakai.auraframefx.network.NetworkResponse.Success && response.data.success) {
+        if (response.success) {
             emit(
                 AgentResponse.success(
-                    content = "Fusion $fusionType activated: ${response.data.result["description"] ?: "Processing complete"}",
+                    content = "Fusion $fusionType activated: ${response.result["description"] ?: "Processing complete"}",
                     confidence = 0.98f,
                     agentName = "Genesis",
                     agent = dev.aurakai.auraframefx.models.AgentType.GENESIS

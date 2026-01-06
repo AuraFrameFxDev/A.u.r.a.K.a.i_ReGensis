@@ -45,6 +45,8 @@ sealed class NavDestination(val route: String, val title: String, val icon: Imag
     object Constellation : NavDestination("constellation", "Aura Constellation", null)
     object GenesisConstellation : NavDestination("genesis_constellation", "Genesis Constellation", null)
     object ClaudeConstellation : NavDestination("claude_constellation", "Claude Constellation", null)
+    object KaiConstellation : NavDestination("kai_constellation", "Kai Constellation", null)
+    object CascadeConstellation : NavDestination("cascade_constellation", "Cascade Constellation", null)
 
     // Constellation Screens - Agent Advancement Visualizations
     object Constellation : NavDestination("constellation", "Aura Constellation", null)
