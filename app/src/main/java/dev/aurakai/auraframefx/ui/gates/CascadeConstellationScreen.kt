@@ -31,32 +31,6 @@ import kotlin.math.sin
  * Cascade Constellation Screen - DataStream Orchestrator
  * Displays the data flow network with cascading streams and node synchronization
  */
-/**
- * Renders a full-screen cascade constellation visualization with title, status, and decorative UI overlays.
- *
- * Composes the animated DataStreamCanvas at center and overlays a top-right "Cascade / ⚡ ORCHESTRATOR" header,
- * a bottom-left "DataStream Catalyst" label with an animated status bar, and right-side vertical "DATA FLOW / SYNCHRONIZATION" text.
- *
- * @param navController Navigation controller for handling navigation actions originating from this screen.
- * @param modifier Optional [Modifier] applied to the root container.
- */
-/**
- * Displays the Cascade Constellation screen: a full-screen, animated data-flow visualization
- * with a centered DataStreamCanvas, a top-right agent header, a bottom-left data stream status panel,
- * and right-side vertical labels.
- *
- * @param navController NavController used to handle navigation actions originating from this screen.
- * @param modifier Modifier applied to the root container to customize layout or styling.
- */
-/**
- * Renders the Cascade constellation screen with a centered animated data-stream visualization and decorative status overlays.
- *
- * The layout places the animated DataStreamCanvas at center, a titled agent block in the top-right, a labeled
- * DataStream status panel with a horizontal flow bar in the bottom-left, and vertical decorative text along the right edge.
- *
- * @param navController NavController used to perform navigation actions from this screen.
- * @param modifier Optional Modifier applied to the root container.
- */
 @Composable
 fun CascadeConstellationScreen(
     navController: NavController,
@@ -306,6 +280,7 @@ private fun DataStreamCanvas() {
 }
 
 /**
+ * Draw mechanical wing/data stream centerpiece
  */
 private fun DrawScope.drawMechanicalWing(
     centerX: Float,
@@ -374,6 +349,7 @@ private fun DrawScope.drawMechanicalWing(
 }
 
 /**
+ * DataStream Status Bar - Flow metrics
  */
 @Composable
 private fun DataStreamStatusBar() {
@@ -451,6 +427,7 @@ private fun DataStreamStatusBar() {
 }
 
 /**
+ * Individual stream channel indicator
  */
 @Composable
 private fun StreamChannelIndicator(

@@ -31,43 +31,6 @@ import kotlin.math.sin
  * Kai Constellation Screen - The Sentinel Shield
  * Displays the defensive perimeter with hexagonal shield and security nodes
  */
-/**
- * Renders the Kai constellation screen: an animated sentinel shield visualization with agent
- * identity and system status overlays.
- *
- * The composable places a central animated SentinelShieldCanvas and overlays:
- * - Top-right agent info (name and level)
- * - Bottom-left system status with a scanning status bar
- * - Right-side vertical label column reading "SYSTEM SYNC / OVERDUE PARAMETERS"
- *
- * @param navController Navigation controller received by the screen (unused for internal UI composition).
- * @param modifier Modifier applied to the root container.
- */
-/**
- * Display the Kai constellation UI, featuring an animated hexagonal sentinel shield, rotating defense nodes,
- * a scanning beam, and status overlays (agent info, system status, and vertical system labels).
- *
- * @param navController Navigation controller for handling screen navigation actions.
- * @param modifier Modifier applied to the root container of the screen.
- */
-/**
- * Renders the Kai constellation UI: an animated sentinel shield at center with overlays for agent identity,
- * a system status section, and a vertical right-side label column.
- *
- * The layout places the sentinel visualization in the center, agent name/level in the top-right,
- * a "Sentinel Catalyst" status area with security metrics at the bottom, and a character-by-character
- * vertical label column on the right edge.
- *
- * @param navController Navigation controller provided to the screen (accepted but not used for internal UI composition).
- * @param modifier Modifier applied to the root container.
- */
-/**
- * Renders the Kai constellation screen: a full-screen, centered animated sentinel shield visualization
- * with a top-right agent identity overlay, a bottom system status column (including a security scan bar),
- * and a vertical right-side label column.
- *
- * @param navController NavController used for navigation actions originating from this screen.
- */
 @Composable
 fun KaiConstellationScreen(
     navController: NavController,
@@ -162,6 +125,7 @@ fun KaiConstellationScreen(
 }
 
 /**
+ * Sentinel Shield Canvas with hexagonal defense grid
  */
 @Composable
 private fun SentinelShieldCanvas() {
@@ -310,6 +274,7 @@ private fun SentinelShieldCanvas() {
 }
 
 /**
+ * Draw hexagonal shield with energy field
  */
 private fun DrawScope.drawHexagonalShield(
     centerX: Float,
@@ -398,6 +363,7 @@ private fun DrawScope.drawHexagonalShield(
 }
 
 /**
+ * Sentinel Status Bar - Security metrics
  */
 @Composable
 private fun SentinelStatusBar() {
@@ -475,6 +441,7 @@ private fun SentinelStatusBar() {
 }
 
 /**
+ * Individual security metric indicator
  */
 @Composable
 private fun SecurityMetricIndicator(

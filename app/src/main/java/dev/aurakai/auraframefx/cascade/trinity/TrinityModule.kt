@@ -38,9 +38,9 @@ object TrinityModule {
 
 
     /**
-     * Provides a singleton instance of GenesisBridgeService that integrates multiple AI services with the Trinity Python backend.
+     * Creates a configured GenesisBridgeService that wires AuraAI, KaiAI, and Vertex AI clients together with context, security, and logging for application-wide use.
      *
-     * @return A configured GenesisBridgeService singleton for application-wide use.
+     * @return The configured GenesisBridgeService instance.
      */
     @Provides
     @Singleton
