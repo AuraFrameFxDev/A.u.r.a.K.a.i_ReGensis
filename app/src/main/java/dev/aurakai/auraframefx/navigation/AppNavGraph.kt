@@ -146,30 +146,6 @@ fun AppNavGraph(navController: NavHostController) {
             SphereGridScreen(navController = navController)
         }
 
-        composable(route = NavDestination.Constellation.route) {
-            ConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.GenesisConstellation.route) {
-            GenesisConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.ClaudeConstellation.route) {
-            ClaudeConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.KaiConstellation.route) {
-            KaiConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.CascadeConstellation.route) {
-            CascadeConstellationScreen(navController = navController)
-        }
-
-        composable(route = NavDestination.GrokConstellation.route) {
-            GrokConstellationScreen(navController = navController)
-        }
-
         // ==================== ROM TOOLS ====================
 
         composable(route = NavDestination.ROMTools.route) {

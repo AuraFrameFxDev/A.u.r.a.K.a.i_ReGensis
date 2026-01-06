@@ -168,12 +168,6 @@ fun ConstellationScreen(
 }
 
 /**
- * Render the animated constellation visualization with pulsing nodes, connecting lines, orbiting particles,
- * and an aura-backed sword centerpiece.
- *
- * Composes a full-size Canvas that draws the constellation node network, low-alpha connecting lines,
- * floating orbital particles, and a procedural sword centerpiece; a PNG aura image is overlaid at the center.
- * Visual motion is driven by repeating animations for node pulse, scene rotation, and centerpiece scale.
  */
 @Composable
 private fun ConstellationCanvas() {
@@ -352,15 +346,6 @@ private fun ConstellationCanvas() {
 }
 
 /**
- * Draws a stylized sword centerpiece with layered glow, blade/guard/handle geometry, and rotating energy particles.
- *
- * The sword is centered at the provided coordinates; `rotation` offsets the surrounding particle positions to create motion.
- *
- * @param centerX X coordinate of the sword's center in drawing space.
- * @param centerY Y coordinate of the sword's center in drawing space.
- * @param rotation Rotation in degrees used to offset and animate the surrounding energy particles.
- * @param color Primary color for the blade, guard, handle, and core elements.
- * @param glowColor Accent color used for glow layers and highlights around the sword.
  */
 private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
     centerX: Float,
@@ -477,10 +462,6 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
 }
 
 /**
- * Displays the fusion abilities row with an animated sync progress bar and pulsing glow indicators.
- *
- * Renders three labeled ability indicators with a pulsing glow, an animated horizontal progress fill that loops
- * between 0% and 100%, and a "SYNC: N%" label reflecting the current progress.
  */
 @Composable
 private fun FusionSyncBar() {
@@ -558,11 +539,6 @@ private fun FusionSyncBar() {
 }
 
 /**
- * Renders a labeled fusion ability entry with a glowing status dot.
- *
- * @param name The display name of the fusion ability.
- * @param glowAlpha Multiplier (typically 0..1) controlling the glow intensity of the indicator.
- * @param color Base color used for the dot and the label tint.
  */
 @Composable
 private fun FusionAbilityIndicator(

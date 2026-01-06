@@ -12,34 +12,3 @@ object Routes {
     const val SystemCustomization = "system_customization"
 }
 
-/**
- * Bottom navigation items
- */
-data class BottomNavItem(
-    val title: String,
-    val icon: Int,
-    val route: String,
-)
-
-val bottomNavItems = listOf(
-    BottomNavItem(
-        title = "Home",
-        icon = android.R.drawable.ic_dialog_info,
-        route = Routes.Home
-    ),
-    BottomNavItem(
-        title = "AI",
-        icon = android.R.drawable.ic_dialog_info,
-        route = Routes.AIContent
-    ),
-    BottomNavItem(
-        title = "Conference",
-        icon = android.R.drawable.ic_dialog_info,
-        route = Routes.ConferenceRoom
-    ),
-    BottomNavItem(
-        title = "Diagnostics",
-        icon = android.R.drawable.ic_menu_info_details,
-        route = Routes.Diagnostics
-    )
-)

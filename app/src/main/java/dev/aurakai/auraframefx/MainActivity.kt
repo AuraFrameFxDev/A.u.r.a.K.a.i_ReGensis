@@ -30,7 +30,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
-import dev.aurakai.auraframefx.ui.components.BottomNavigationBar
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.ui.theme.ThemeViewModel
 
@@ -101,6 +100,24 @@ internal fun MainScreenContent(
     var showDigitalEffects by remember { mutableStateOf(true) }
     var command by remember { mutableStateOf("") }
 
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController = navController) }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            Row {
+                TextField(
+                    value = command,
+                    onValueChange = { command = it },
+                    label = { Text("Enter theme command") }
+                )
+                Button(onClick = { processThemeCommand(command) }) {
+                    Text("Apply")
+                }
+            }
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -114,25 +131,9 @@ internal fun MainScreenContent(
             ) {
                 AppNavGraph(navController = navController)
             }
-
-            // Chat Bubble Menu - Floating, draggable
-            if (showChatBubble) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(16.dp)
-                        .zIndex(1002f)
-                ) {
-                    ChatBubbleMenu(
-                        onOpenChat = {
-                            navController.navigate(GenesisRoutes.DIRECT_CHAT)
-                        },
-                        onToggleVoice = {
-                            // TODO: Implement voice toggle
-                        }
-                    )
-                }
-            }
+        }
+    }
+}
 
 @Composable
 internal fun MainScreen(
