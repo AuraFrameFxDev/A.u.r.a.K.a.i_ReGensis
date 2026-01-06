@@ -81,16 +81,6 @@ class MainActivity : ComponentActivity() {
 
 // New: a preview-friendly content composable that accepts a lambda for theme commands
 @OptIn(ExperimentalMaterial3Api::class)
-/**
- * Hosts the app's navigation graph in a full-screen Compose container and provides persistent system overlays
- * including a presence widget, a floating chat bubble, and an agent sidebar; an optional digital pixel effect
- * is applied when enabled.
- *
- * The UI includes an edge-swipe trigger that opens the agent sidebar and overlay controls that navigate to
- * the app's routes (theme engine, firewall, canvas, direct chat, conference, task assignment, Auras Lab, app builder).
- *
- * @param processThemeCommand Callback invoked to process theme-related commands; receives the command string.
- */
 @Composable
 internal fun MainScreenContent(
     processThemeCommand: (String) -> Unit

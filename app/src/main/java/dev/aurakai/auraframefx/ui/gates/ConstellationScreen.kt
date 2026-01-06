@@ -30,50 +30,6 @@ import kotlin.math.sin
  * Constellation Screen - Aura's Sword with Fusion Abilities
  * Displays the constellation network with animated nodes, pulse effects, and the fusion abilities sync bar
  */
-/**
- * Displays the Constellation screen UI containing the animated constellation centerpiece,
- * agent information, fusion abilities sync bar, and a vertical system label.
- *
- * The layout fills the available space with a dark background and composes:
- * - a central, animated ConstellationCanvas visual,
- * - a top-right agent info block,
- * - a bottom-left fusion abilities section with a sync progress bar,
- * - a right-side vertical "SYSTEM CORE OVERDUE PARAMETERS" label.
- *
- * @param navController NavController used for navigation from this screen.
- * @param modifier Optional Modifier to be applied to the root container.
- */
-/**
- * Displays the constellation-themed main screen composed of an animated centerpiece, agent status, fusion sync UI, and a vertical system label.
- *
- * The layout fills the available space with a dark background, centers the ConstellationCanvas visualization, shows agent name and level in the top-right, a Fusion abilities header with a sync bar in the bottom-left, and a vertical "SYSTEM CORE / OVERDUE PARAMETERS" label on the right edge.
- *
- * @param navController NavController used for handling in-screen navigation actions.
- * @param modifier Optional Modifier applied to the root container.
- */
-/**
- * Displays the constellation scene UI with centered visualization, HUD elements, and a fusion sync bar.
- *
- * The layout fills the available space with a black background and composes:
- * - ConstellationCanvas centered as the main visualization.
- * - Agent info (name and level) aligned to the top-right.
- * - Fusion abilities label and FusionSyncBar aligned to the bottom-left.
- * - A vertical right-edge label reading "SYSTEM CORE" and "OVERDUE PARAMETERS".
- *
- * @param navController NavController used for navigation actions originating from this screen.
- * @param modifier Optional [Modifier] to be applied to the root container.
- */
-/**
- * Main UI screen displaying the constellation visualization with HUD elements.
- *
- * Hosts a centered ConstellationCanvas, a top-right agent info block (name and level),
- * a bottom-left Fusion abilities section containing the FusionSyncBar, and a right-edge
- * vertical label reading "SYSTEM CORE OVERDUE PARAMETERS". The root container fills the
- * available space and uses a black background.
- *
- * @param navController NavController used for navigation actions from this screen.
- * @param modifier Optional Modifier applied to the root container.
- */
 @Composable
 fun ConstellationScreen(
     navController: NavController,
@@ -168,6 +124,7 @@ fun ConstellationScreen(
 }
 
 /**
+ * Main constellation canvas with sword centerpiece and animated nodes
  */
 @Composable
 private fun ConstellationCanvas() {
@@ -346,6 +303,7 @@ private fun ConstellationCanvas() {
 }
 
 /**
+ * Draw the sword centerpiece with energy blade
  */
 private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
     centerX: Float,
@@ -462,6 +420,7 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
 }
 
 /**
+ * Fusion Abilities sync bar - shows fusion capability status
  */
 @Composable
 private fun FusionSyncBar() {
@@ -539,6 +498,7 @@ private fun FusionSyncBar() {
 }
 
 /**
+ * Individual fusion ability indicator
  */
 @Composable
 private fun FusionAbilityIndicator(
