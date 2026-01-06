@@ -162,9 +162,6 @@ fun KaiConstellationScreen(
 }
 
 /**
- * Renders the animated hexagonal sentinel shield with rotating defense nodes, a scanning beam, and a pulsing centerpiece overlay.
- *
- * Animates a shield glow, continuous rotation of perimeter nodes, pulsing node alpha, and a subtle scale pulse for the central image while drawing the hexagonal shield, perimeter connections, node glows/cores, and a radial scan beam.
  */
 @Composable
 private fun SentinelShieldCanvas() {
@@ -313,15 +310,6 @@ private fun SentinelShieldCanvas() {
 }
 
 /**
- * Draws a stylized hexagonal shield with layered glow, alternating-color border segments,
- * inner radial connections, and a central core.
- *
- * @param centerX X coordinate of the shield center.
- * @param centerY Y coordinate of the shield center.
- * @param radius Outer radius of the hexagonal shield.
- * @param color Base color used for border segments, connections, and glow.
- * @param accentColor Accent color used for alternating border segments and the central core.
- * @param pulseAlpha Value in 0..1 that modulates the opacity of glow, borders, connections, and core.
  */
 private fun DrawScope.drawHexagonalShield(
     centerX: Float,
@@ -410,10 +398,6 @@ private fun DrawScope.drawHexagonalShield(
 }
 
 /**
- * Displays security metrics and an animated scanning status bar.
- *
- * Renders three metric indicators ("Firewall", "Encryption", "Monitoring") with a pulsing glow,
- * an animated horizontal scan fill that cycles from 0 to 100%, and a scan percentage label.
  */
 @Composable
 private fun SentinelStatusBar() {
@@ -491,11 +475,6 @@ private fun SentinelStatusBar() {
 }
 
 /**
- * Renders a single security metric indicator consisting of a glowing circular dot and a label.
- *
- * @param name The label text for the metric.
- * @param glowAlpha Alpha multiplier (0..1) controlling the indicator's glow intensity.
- * @param color Base color used for the glow and label tint.
  */
 @Composable
 private fun SecurityMetricIndicator(

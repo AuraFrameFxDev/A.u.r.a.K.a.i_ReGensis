@@ -151,12 +151,6 @@ fun CascadeConstellationScreen(
 }
 
 /**
- * Renders the animated central data-stream canvas used by the Cascade constellation UI.
- *
- * Displays a full-size, centered visualization that includes a rotating, pulsing mechanical wing centerpiece,
- * a circular arrangement of node endpoints, animated data streams with moving packets between nodes, and a
- * decorative PNG overlay. Animations drive stream flow, node pulsing, rotation, and centerpiece scale to
- * simulate continuous data movement.
  */
 @Composable
 private fun DataStreamCanvas() {
@@ -312,14 +306,6 @@ private fun DataStreamCanvas() {
 }
 
 /**
- * Renders a rotating, pulsing mechanical wing centerpiece with gradient wing segments, joint markers, and a layered central core.
- *
- * @param centerX X coordinate of the centerpiece center.
- * @param centerY Y coordinate of the centerpiece center.
- * @param color Base color used for wing gradients and the hub.
- * @param accentColor Highlight color used for wing accents, joint markers, and the energy core.
- * @param rotation Rotation angle in degrees applied to the wing segments.
- * @param pulseAlpha Opacity multiplier in the range 0..1 that controls pulsing intensity for gradients and markers.
  */
 private fun DrawScope.drawMechanicalWing(
     centerX: Float,
@@ -388,9 +374,6 @@ private fun DrawScope.drawMechanicalWing(
 }
 
 /**
- * Renders a compact status panel with input/process/output channel indicators, an animated horizontal flow bar, and a numeric flow percentage.
- *
- * The horizontal bar animates continuously from 0% to 100% to represent stream throughput while the channel indicators pulse to reflect flow intensity; the bar fill uses a turquoise-to-blue gradient whose opacity follows the pulse.
  */
 @Composable
 private fun DataStreamStatusBar() {
@@ -468,13 +451,6 @@ private fun DataStreamStatusBar() {
 }
 
 /**
- * Displays a horizontal channel label with a glowing circular indicator.
- *
- * The component shows a small two-layer dot (outer glow and inner core) followed by the channel name.
- *
- * @param name The channel label text displayed to the right of the indicator.
- * @param glowAlpha Glow intensity applied to the outer and inner dot layers; expected range 0..1.
- * @param color Base color used for the indicator and label tint.
  */
 @Composable
 private fun StreamChannelIndicator(
