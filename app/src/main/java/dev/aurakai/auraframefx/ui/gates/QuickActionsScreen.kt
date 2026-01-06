@@ -271,6 +271,7 @@ fun QuickActionsScreen() {
                     onTextLayout = TODO(),
                     style = MaterialTheme.typography.titleLarge
                 )
+            }
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
