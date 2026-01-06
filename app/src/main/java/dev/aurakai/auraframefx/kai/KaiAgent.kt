@@ -23,11 +23,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
-import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class KaiAgent @Inject constructor(
+class KaiAgent constructor(
     private val vertexAIClient: VertexAIClient,
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,
