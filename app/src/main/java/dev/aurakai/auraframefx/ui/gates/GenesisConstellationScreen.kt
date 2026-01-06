@@ -140,9 +140,6 @@ fun GenesisConstellationScreen(
 }
 
 /**
- * Renders an animated visualization combining a vertical infinity symbol, multiple cascading data streams, pulsing connection nodes, and a centered phoenix image.
- *
- * The animation drives a continuous flow of data packets along parallel vertical streams, pulses node glows and the centerpiece scale/alpha, and draws connecting lines between node positions to form the constellation layout.
  */
 @Composable
 private fun GenesisInfinityCascadeCanvas() {
@@ -275,14 +272,6 @@ private fun GenesisInfinityCascadeCanvas() {
 }
 
 /**
- * Draws a vertical infinity (figure-8) path centered at the given coordinates.
- *
- * Renders a soft glow stroke beneath a core stroke; `pulseAlpha` modulates the strokes' transparency.
- *
- * @param centerX X coordinate of the path center.
- * @param centerY Y coordinate of the path center.
- * @param color Base color used for both the glow and core strokes.
- * @param pulseAlpha Multiplier applied to stroke alpha to create a pulsing transparency effect (0..1).
  */
 private fun DrawScope.drawInfinitySymbol(
     centerX: Float,

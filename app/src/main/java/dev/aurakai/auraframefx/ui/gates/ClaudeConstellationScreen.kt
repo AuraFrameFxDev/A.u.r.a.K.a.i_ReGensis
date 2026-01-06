@@ -147,13 +147,6 @@ fun ClaudeConstellationScreen(
 }
 
 /**
- * Renders a blueprint-style visualization of build progress with animated nodes, dependency lines,
- * moving construction particles, and a centered compass overlay.
- *
- * Visual elements include a faint blueprint grid, a pulsing T-square at the canvas center, a
- * systematic grid of build nodes whose appearance follows an internal animated build progression,
- * animated dependency lines and particles that travel between nodes, and a centered PNG compass
- * centerpiece. All animations are self-contained and purely presentational.
  */
 @Composable
 private fun ArchitectBlueprintCanvas() {
@@ -312,17 +305,6 @@ private fun ArchitectBlueprintCanvas() {
 }
 
 /**
- * Renders a T-square drafting tool centered at the given canvas coordinates.
- *
- * Draws a vertical ruler with a horizontal crossbar near the top, a series of
- * measurement marks along the ruler, and a pivot motif of two concentric circles.
- * The provided `color` is used for the ruler and marks; `pulseAlpha` scales the
- * opacity of those elements to produce a pulsing visual effect.
- *
- * @param centerX X coordinate of the T-square center on the canvas.
- * @param centerY Y coordinate of the T-square center on the canvas.
- * @param color Base color used for the ruler, crossbar, marks, and outer pivot circle.
- * @param pulseAlpha Opacity multiplier (typically 0..1) applied to modulate element alpha for pulsing.
  */
 private fun DrawScope.drawTSquare(
     centerX: Float,
@@ -376,9 +358,6 @@ private fun DrawScope.drawTSquare(
 }
 
 /**
- * Displays an animated build status bar with module indicators, a horizontal progress bar, and a build percentage label.
- *
- * The row of module indicators ("Gradle", "Kotlin", "Compose") shows a pulsing glow per module. A continuous progress animation drives the filled portion of the horizontal gradient bar and the "BUILD: X%" label, visually representing build completion from 0 to 100% in a loop.
  */
 @Composable
 private fun BuildStatusBar() {
@@ -456,13 +435,6 @@ private fun BuildStatusBar() {
 }
 
 /**
- * Displays a compact module indicator consisting of a glowing circular status dot and a label.
- *
- * The outer glow intensity and inner core opacity are scaled by `glowAlpha`; the dot and label use `color`.
- *
- * @param name The module name to display next to the indicator.
- * @param glowAlpha Opacity multiplier for the glow and core (expected range 0.0..1.0).
- * @param color Base color for the indicator and the label text.
 @Composable
 /**
  * Renders a compact module status indicator consisting of a small glowing dot and a module name label.

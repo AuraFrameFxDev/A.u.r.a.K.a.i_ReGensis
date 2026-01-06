@@ -146,6 +146,10 @@ fun AppNavGraph(navController: NavHostController) {
             SphereGridScreen(navController = navController)
         }
 
+        composable(route = NavDestination.Constellation.route) {
+            ConstellationScreen(navController = navController)
+        }
+
         // ==================== ROM TOOLS ====================
 
         composable(route = NavDestination.ROMTools.route) {
