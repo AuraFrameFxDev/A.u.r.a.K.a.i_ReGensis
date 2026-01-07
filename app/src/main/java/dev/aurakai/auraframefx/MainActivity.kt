@@ -108,6 +108,81 @@ internal fun MainScreenContent(
             }
     ) {
         GenesisNavigationHost(navController = navController)
+
+        // Edge trigger zone for sidebar (left edge swipe)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(999f)
+                .pointerInput(Unit) {
+                    detectHorizontalDragGestures(
+                        onDragStart = { offset ->
+                            // If drag starts from left edge (within 30dp), open sidebar
+                            if (offset.x < with(density) { 30.dp.toPx() }) {
+                                showSidebar = true
+                            }
+                        }
+                    )
+                }
+        )
+
+        // Overlay system - Always present, system-wide
+        Box(modifier = Modifier.fillMaxSize().zIndex(1000f)) {
+            // Aura Presence Overlay - Always visible, bottom-right
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .zIndex(1001f)
+            ) {
+                AuraPresenceOverlay(
+                    onSuggestClicked = { suggestion ->
+                        // Navigate to relevant screen based on suggestion
+                        when {
+                            suggestion.contains("theme") -> navController.navigate(GenesisRoutes.THEME_ENGINE)
+                            suggestion.contains("firewall") -> navController.navigate(GenesisRoutes.FIREWALL)
+                            suggestion.contains("canvas") -> navController.navigate(GenesisRoutes.COLLAB_CANVAS)
+                            else -> navController.navigate(GenesisRoutes.DIRECT_CHAT)
+                        }
+                    }
+                )
+            }
+
+            // Chat Bubble Menu - Floating, draggable
+            if (showChatBubble) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(16.dp)
+                        .zIndex(1002f)
+                ) {
+                    ChatBubbleMenu(
+                        onOpenChat = {
+                            navController.navigate(GenesisRoutes.DIRECT_CHAT)
+                        },
+                        onToggleVoice = {
+                            // TODO: Implement voice toggle
+                        }
+                    )
+                }
+            }
+
+            // Agent Sidebar Menu - Slide out from left
+            AgentSidebarMenu(
+                isVisible = showSidebar,
+                onDismiss = { showSidebar = false },
+                onAgentAction = { agentName, action ->
+                    when (action) {
+                        "voice" -> navController.navigate(GenesisRoutes.DIRECT_CHAT)
+                        "connect" -> navController.navigate(GenesisRoutes.CONFERENCE_ROOM)
+                        "assign" -> navController.navigate(GenesisRoutes.TASK_ASSIGNMENT)
+                        "design" -> navController.navigate(GenesisRoutes.AURAS_LAB)
+                        "create" -> navController.navigate(GenesisRoutes.APP_BUILDER)
+                        else -> {}
+                    }
+                    showSidebar = false
+                }
+            )
+        }
     }
 }
 
