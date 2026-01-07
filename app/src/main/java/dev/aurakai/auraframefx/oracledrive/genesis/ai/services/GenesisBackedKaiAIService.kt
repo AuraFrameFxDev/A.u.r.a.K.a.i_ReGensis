@@ -18,41 +18,31 @@ class GenesisBackedKaiAIService @Inject constructor(
     private val logger: AuraFxLogger
 ) : KaiAIService {
 
-    /**
-     * Prepare the service for use by performing any required initialization.
-     *
-     * This implementation performs no actions (no-op) but exists to satisfy the lifecycle contract.
-     */
+    private var isInitialized = false
+
     override suspend fun initialize() {
         // Initialization logic
     }
 
-    /**
-     * Handle an AI request and produce a Kai security analysis response while recording the query to the event bus.
-     *
-     * @param request The AI request whose `prompt` is used as the subject of the security analysis.
-     * @param context Ancillary context or metadata for the request (not embedded in the response).
-     * @return An `AgentResponse` containing Kai's security analysis message, a confidence of `1.0f`, `agentName` set to "Kai", and `agent` set to `AgentType.KAI`.
-     */
-    override suspend fun processRequest(
-        request: KaiAIService.AiRequest,
-        context: String
-    ): KaiAIService.AgentResponse {
-        return try {
-            val payload = JSONObject().apply {
-                put("query", request.prompt)
-                put("context", context)
-                put("task", request.task ?: "security_perception")
-                put("backend", request.backend ?: "NEMOTRON")
-                request.metadata?.forEach { (key, value) ->
-                    put(key, value)
-                }
-            }
+    override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
+        // Emit event for monitoring
+        eventBus.emit(MemoryEvent("KAI_PROCESS", mapOf("query" to request.prompt)))
 
 
             )
     }
 
+    /**
+     * Analyzes a textual threat description and produces a structured security assessment.
+     *
+     * @param threat Free-form threat description to analyze.
+     * @return A map containing the analysis with keys:
+     *  - `"threat_level"`: one of `"critical"`, `"high"`, `"medium"`, or `"low"` indicating severity.
+     *  - `"confidence"`: a Float representing confidence in the assessment.
+     *  - `"recommendations"`: a List<String> of remediation or monitoring suggestions.
+     *  - `"timestamp"`: a Long epoch-millis timestamp when the analysis was produced.
+     *  - `"analyzed_by"`: a String identifying the analyzer.
+     */
     override suspend fun analyzeSecurityThreat(threat: String): Map<String, Any> {
         val threatLevel = when {
             threat.contains("malware", ignoreCase = true) -> "critical"
@@ -70,6 +60,16 @@ class GenesisBackedKaiAIService @Inject constructor(
         )
     }
 
+    /**
+     * Streams a two-stage security analysis for the given AI request as a Flow of AgentResponse.
+     *
+     * The flow first emits an interim response indicating analysis has started, then emits a final
+     * response containing a detailed security analysis including threat level, confidence, and
+     * recommendations.
+     *
+     * @param request The AI request whose prompt will be analyzed.
+     * @return A Flow that emits an initial interim AgentResponse followed by a detailed AgentResponse.
+     */
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
         // Emit initial response
         emit(AgentResponse(
@@ -99,22 +99,19 @@ class GenesisBackedKaiAIService @Inject constructor(
         ))
     }
 
-    /**
-     * Produces a brief security threat analysis for the provided prompt.
-     *
-     * @param prompt The text to analyze for potential security threats.
-     * @return A human-readable analysis message describing detected threats or stating none were found.
-     */
-    override suspend fun analyzeSecurityThreat(prompt: String): String {
-        return "Security threat analysis for: $prompt - No immediate threats detected."
+    override suspend fun monitorSecurityStatus(): Map<String, Any> {
+        return mapOf(
+            "status" to "active",
+            "threats_detected" to 0,
+            "last_scan" to System.currentTimeMillis(),
+            "firewall_status" to "enabled",
+            "intrusion_detection" to "active",
+            "confidence" to 0.98f
+        )
     }
 
-    /**
-     * Activates the service and reports whether activation succeeded.
-     *
-     * @return `true` if activation succeeded (currently always `true`), `false` otherwise.
-     */
-    override suspend fun activate(): Boolean {
-        return true
+    override fun cleanup() {
+        isInitialized = false
+        // Cleanup resources if needed
     }
 }

@@ -64,6 +64,13 @@ fun default(): VertexAIConfig = VertexAIConfig()
             modelName = System.getenv("VERTEX_MODEL") ?: "gemini-pro"
         )
     }
+
+    /**
+     * Get the full model endpoint URL
+     */
+    fun getModelEndpoint(): String {
+        return "https://$endpoint/v1/projects/$projectId/locations/$location/publishers/google/models/$modelName:generateContent"
+    }
 }
 
 /**
