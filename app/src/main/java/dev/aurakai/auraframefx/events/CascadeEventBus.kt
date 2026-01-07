@@ -22,10 +22,12 @@ object CascadeEventBus {
  */
 val events: SharedFlow<MemoryEvent> = _events.asSharedFlow()
 
-    /**
-     */
+    fun emit(event: CascadeEvent) {
+        _events.tryEmit(event)
     }
 
+    // Compatibility method for error log "tryEmit is never used" - making it public usage
+    fun tryEmit(event: CascadeEvent): Boolean {
         return _events.tryEmit(event)
     }
 }

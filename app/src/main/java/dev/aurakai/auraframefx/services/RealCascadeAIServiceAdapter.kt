@@ -30,7 +30,18 @@ class RealCascadeAIServiceAdapter @Inject constructor(
                 correlationId = request.correlationId
             )
 
-                    )
-                }
+    override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
+        // Real implementation logic would go here
+        // For now, returning a basic success response to satisfy the interface
+        return AgentResponse.success(
+            content = "Real Cascade processing: ${request.prompt}",
+            confidence = 1.0f,
+            agentName = "CascadeAI"
+        )
+    }
+
+    // Helper method to support legacy signatures if needed or streaming
+    fun streamRequest(request: AiRequest): Flow<AgentResponse> = flow {
+        emit(processRequest(request, ""))
     }
 }
