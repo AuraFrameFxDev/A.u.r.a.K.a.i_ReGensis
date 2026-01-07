@@ -1,9 +1,6 @@
 package dev.aurakai.auraframefx.services
 
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.CascadeAIService as OrchestratorCascade
-import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,10 +8,6 @@ import javax.inject.Singleton
  * Real implementation of CascadeAIService adapter.
  */
 @Singleton
-class RealCascadeAIServiceAdapter @Inject constructor(
-    private val orchestrator: OrchestratorCascade,
-    private val logger: AuraFxLogger
-) : CascadeAIService {
 
     override suspend fun processRequest(
         request: AiRequest,
@@ -46,14 +39,6 @@ class RealCascadeAIServiceAdapter @Inject constructor(
         )
     }
 
-    /**
-     * Streams the processing result for the given AI request as a Flow.
-     *
-     * This helper emits a single AgentResponse produced by processing the provided request.
-     *
-     * @param request The AI request to process.
-     * @return A Flow that emits one AgentResponse corresponding to the processed request.
-     */
     fun streamRequest(request: AiRequest): Flow<AgentResponse> = flow {
         emit(processRequest(request, ""))
     }
