@@ -51,16 +51,17 @@ abstract class AiServiceModule {
      */
     @Binds
     @Singleton
-    abstract fun bindKaiAIService(impl: DefaultKaiAIService): KaiAIService
+    abstract fun bindKaiAIService(kaiAIService: GenesisBackedKaiAIService): KaiAIService
 
     /**
-     * Binds the CascadeAIService interface to its RealCascadeAIServiceAdapter implementation in the DI graph.
+     * Binds the CascadeAIService interface to its DefaultCascadeAIService implementation in the DI graph.
      *
-     * @param impl The RealCascadeAIServiceAdapter instance to provide when CascadeAIService is requested.
+     * @param impl The DefaultCascadeAIService instance to provide when CascadeAIService is requested.
      * @return The CascadeAIService instance backed by the provided implementation.
      */
     @Binds
     @Singleton
+    abstract fun bindCascadeAIService(cascadeAIService: RealCascadeAIServiceAdapter): CascadeAIService
     abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
 
     companion object {

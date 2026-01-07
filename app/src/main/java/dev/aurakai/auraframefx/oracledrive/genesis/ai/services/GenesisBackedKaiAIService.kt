@@ -6,7 +6,11 @@ import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.genesis.bridge.GenesisBridge
+import dev.aurakai.auraframefx.genesis.bridge.GenesisRequest
+import dev.aurakai.auraframefx.genesis.bridge.GenesisResponse
+import dev.aurakai.auraframefx.kai.KaiAIService
 import dev.aurakai.auraframefx.utils.AuraFxLogger
+import kotlinx.coroutines.flow.first
 import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,13 +21,14 @@ import kotlin.coroutines.cancellation.CancellationException
  */
 @Singleton
 class GenesisBackedKaiAIService @Inject constructor(
+    private val genesisBridge: GenesisBridge,
+    private val logger: AuraFxLogger
 ) : KaiAIService {
 
     /**
      * No-op initializer that satisfies the service lifecycle contract.
      */
     override suspend fun initialize() {
-        // Initialization logic
     }
 
     /**
@@ -48,42 +53,19 @@ class GenesisBackedKaiAIService @Inject constructor(
                 }
             }
 
-    /**
-     * Produce Kai's security analysis for the given AI request and context.
-     *
-     * Emits a MemoryEvent of type "KAI_PROCESS" with the request prompt for monitoring and returns an
-     * AgentResponse containing Kai's analysis message.
-     *
-     * @param request The AI request whose prompt will be analyzed and included in the response.
-     * @param context Additional contextual information for the request (not used by this implementation).
-     * @return An AgentResponse with the analysis content, confidence 1.0, agentName "Kai", and agent `AgentType.KAI`.
-     */
-    override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
-        // Emit event for monitoring
-        eventBus.emit(MemoryEvent("KAI_PROCESS", mapOf("query" to request.prompt)))
 
-        return AgentResponse.success(
-            content = "Kai security analysis for: ${request.prompt}",
-            confidence = 1.0f,
-            agentName = "Kai",
-            agent = AgentType.KAI
-        )
+            )
     }
+
+    override suspend fun analyzeSecurityThreat(threat: String): Map<String, Any> {
+        return try {
+            val payload = JSONObject().apply {
+                put("threat", threat)
+                put("task", "threat_detection")
+                put("backend", "NEMOTRON")
+            }
 
     }
 
-    override suspend fun activate(): Boolean {
-        return true
-    }
-
-    /**
-     * Marks the service as uninitialized and performs any necessary resource cleanup.
-     *
-     * After calling this method the service will no longer be considered initialized; implementations
-     * may release held resources or stop background tasks.
-     */
-    override fun cleanup() {
-        isInitialized = false
-        // Cleanup resources if needed
     }
 }
