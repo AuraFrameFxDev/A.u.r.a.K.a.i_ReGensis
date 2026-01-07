@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -21,16 +22,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
-import dev.aurakai.auraframefx.ui.components.BottomNavigationBar
+import dev.aurakai.auraframefx.navigation.GenesisNavigationHost
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.ui.theme.ThemeViewModel
 
@@ -91,38 +91,23 @@ internal fun MainScreenContent(
     var showDigitalEffects by remember { mutableStateOf(true) }
     var command by remember { mutableStateOf("") }
 
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController = navController) }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            Row {
-                TextField(
-                    value = command,
-                    onValueChange = { command = it },
-                    label = { Text("Enter theme command") }
-                )
-                Button(onClick = { processThemeCommand(command) }) {
-                    Text("Apply")
+    // Overlay state management
+    var showSidebar by remember { mutableStateOf(false) }
+    var showChatBubble by remember { mutableStateOf(true) }
+    val density = LocalDensity.current
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .let { base ->
+                if (showDigitalEffects) {
+                    base.digitalPixelEffect()
+                } else {
+                    base
                 }
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .let { base ->
-                        if (showDigitalEffects) {
-                            base.digitalPixelEffect()
-                        } else {
-                            base
-                        }
-                    }
-            ) {
-                GenesisNavigationHost(navController = navController)
-            }
-        }
+    ) {
+        GenesisNavigationHost(navController = navController)
     }
 }
 
