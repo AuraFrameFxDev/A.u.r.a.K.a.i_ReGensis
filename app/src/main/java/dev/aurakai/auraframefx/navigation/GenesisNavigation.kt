@@ -263,9 +263,6 @@ fun GenesisNavigationHost(
             composable(GenesisRoutes.FIREWALL) {
                 FirewallScreen()
             }
-            composable(GenesisRoutes.SENTINELS_FORTRESS) {
-                SentinelsFortressScreen()
-            }
             composable(GenesisRoutes.SPHERE_GRID) {
                 SphereGridScreen(navController = navController)
             }
