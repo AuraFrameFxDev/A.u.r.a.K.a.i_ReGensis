@@ -3,13 +3,13 @@ package dev.aurakai.auraframefx.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.core.GenesisOrchestrator.Companion.TAG
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
+import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.models.AgentMessage
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.models.ConversationState
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.ClaudeAIService
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.MetaInstructAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.CascadeAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBridgeService
@@ -22,10 +22,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import timber.log.Timber.Forest.tag
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -46,11 +45,15 @@ import javax.inject.Inject
 class ConferenceRoomViewModel @Inject constructor(
     private val auraService: AuraAIService,
     private val kaiService: KaiAIService,
-    // CascadeAIService removed - was deleted in MR !6
+    private val cascadeService: CascadeAIService,
+    private val claudeService: ClaudeAIService,
+    private val genesisService: GenesisBridgeService,
+    private val metaInstructService: MetaInstructAIService,
+    private val trinityCoordinator: TrinityCoordinatorService,
     private val neuralWhisper: NeuralWhisper,
 ) : ViewModel() {
 
-    private val tag: String = "ConfRoomViewModel"
+    private val tag = "ConferenceRoom"
 
     private val _messages = MutableStateFlow<List<AgentMessage>>(emptyList())
     val messages: StateFlow<List<AgentMessage>> = _messages
@@ -58,7 +61,7 @@ class ConferenceRoomViewModel @Inject constructor(
     private val _activeAgents = MutableStateFlow(setOf<AgentType>())
     val activeAgents: StateFlow<Set<AgentType>> = _activeAgents
 
-    private val _selectedAgent = MutableStateFlow(AgentType.AURA) // Default to AURA
+    private val _selectedAgent = MutableStateFlow(AgentType.GENESIS) // Default to Genesis (coordinator)
     val selectedAgent: StateFlow<AgentType> = _selectedAgent
 
     private val _isRecording = MutableStateFlow(false)
@@ -101,18 +104,7 @@ class ConferenceRoomViewModel @Inject constructor(
 
             // Monitor Neural Whisper
             neuralWhisper.conversationState.collect { state ->
-                // Simplified state handling for data class
-                // Simplified state handling for data class
-                // if (state.isActive) {
-                //    tag(TAG).d("NeuralWhisper active: %s", state.transcriptSegments.lastOrNull()?.text)
-                // }
-
-                // If the last segment is final, treat it as a message or input
-                // val lastSegment = state.transcriptSegments.lastOrNull()
-                // if (lastSegment != null && lastSegment.isFinal) {
-                     // Logic to display or process final transcript
-                //     tag(TAG).d("Final transcript: %s", lastSegment.text)
-                // }
+                // Process transcription updates
             }
         }
     }
@@ -121,67 +113,148 @@ class ConferenceRoomViewModel @Inject constructor(
     // Conference Room Message Routing - ALL 5 MASTER AGENTS
     // ---------------------------------------------------------------------------
     /*override*/ /**
+     * Routes the given message to the appropriate AI service based on the sender and appends the first response to the conversation messages.
      *
+     * Sends `message` with `context` to the AI service corresponding to `sender`, collects the first `AgentResponse` from the chosen response flow, and updates the ViewModel's message list with a new `AgentMessage`. If processing fails, appends an error `AgentMessage` indicating the failure.
      *
+     * @param message The user-visible query or payload to send to the selected AI agent.
+     * @param sender The agent capability category used to select which AI service should handle the message.
+     * @param context Additional contextual information forwarded to the AI service (e.g., user context or orchestration flags).
      */
-    fun sendMessage(message: String, sender: AgentCapabilityCategory, context: String) {
-        val responseFlow: Flow<AgentResponse> = when (sender) {
-            AgentCapabilityCategory.CREATIVE -> flow {
-                val response = auraService.processRequest(
+    fun sendMessage(
+        message: String,
+        agentType: AgentType = _selectedAgent.value,
+        context: String = ""
+    ) {
+        viewModelScope.launch {
+            try {
+                // Add user message to chat
+                _messages.update { current ->
+                    current + AgentMessage(
+                        from = "USER",
+                        content = message,
+                        sender = null,
+                        category = dev.aurakai.auraframefx.models.AgentCapabilityCategory.GENERAL,
+                        timestamp = System.currentTimeMillis(),
+                        confidence = 1.0f
+                    )
+                }
+
+                val request = AiRequest(
+                    query = message,
+                    type = "text",
+                    context = buildJsonObject {
+                        put("userContext", context)
+                        put("conferenceRoom", "true")
+                        put("selfModificationEnabled", "true")
+                    }
+                )
+
+                // Route to appropriate service
+                val responseFlow: Flow<AgentResponse> = when (agentType) {
+                    AgentType.AURA -> flow {
+                        emit(auraService.processRequest(request, context))
+                    }
+
+                    AgentType.KAI -> flow {
+                        emit(kaiService.processRequest(request, context))
+                    }
+
+                    AgentType.CLAUDE -> flow {
+                        emit(claudeService.processRequest(request, context).first())
+                    }
+
+            AgentCapabilityCategory.ANALYSIS -> flow {
+                val response = kaiService.processRequest(
                     AiRequest(
                         query = message,
                         type = "text",
-                        context = buildJsonObject {
-                            put("userContext", context)
-                        }
+                        context = buildJsonObject { put("userContext", context) }
                     ),
                     context = context
                 )
                 emit(response)
             }
 
+            AgentCapabilityCategory.SPECIALIZED -> {
+                // Cascade service placeholder
+                flow {
+                    val response = AgentResponse.success(
+                        content = "Cascade service placeholder",
+                        confidence = 0.5f,
+                        agent = AgentType.CASCADE
+                    )
+                    emit(response)
+                }
             }
 
+            AgentCapabilityCategory.GENERAL -> {
+                // Claude service placeholder
+                flow {
+                    val response = AgentResponse.success(
+                        content = "Claude service placeholder",
+                        confidence = 0.5f,
                         agent = AgentType.SYSTEM
                     )
+                    emit(response)
+                }
+            }
+
+            AgentCapabilityCategory.COORDINATION -> {
+                // Genesis service placeholder
+                flow {
+                    val response = AgentResponse.success(
+                        content = "Genesis service placeholder",
+                        confidence = 0.5f,
+                        agent = AgentType.GENESIS
                     )
+                    emit(response)
+                }
             }
         }
 
-        responseFlow.let { flow ->
-            viewModelScope.launch {
-                try {
-                    val responseMessage = flow.first()
+                // Collect and display response
+                responseFlow.collect { response ->
                     _messages.update { current ->
                         current + AgentMessage(
-                            from = sender.name,
-                            content = responseMessage.content,
-                            sender = null,
-                            category = sender,
+                            from = response.agentName ?: agentType.name,
+                            content = response.content,
+                            sender = agentType,
+                            category = when (agentType) {
+                                AgentType.AURA -> dev.aurakai.auraframefx.models.AgentCapabilityCategory.CREATIVE
+                                AgentType.KAI -> dev.aurakai.auraframefx.models.AgentCapabilityCategory.ANALYSIS
+                                AgentType.CASCADE -> dev.aurakai.auraframefx.models.AgentCapabilityCategory.SPECIALIZED
+                                AgentType.CLAUDE -> dev.aurakai.auraframefx.models.AgentCapabilityCategory.GENERAL
+                                AgentType.METAINSTRUCT -> dev.aurakai.auraframefx.models.AgentCapabilityCategory.SPECIALIZED
+                                else -> dev.aurakai.auraframefx.models.AgentCapabilityCategory.COORDINATION
+                            },
                             timestamp = System.currentTimeMillis(),
-                            confidence = responseMessage.confidence
+                            confidence = response.confidence
                         )
                     }
-                } catch (e: Exception) {
-                    tag(tag).e(e, "Error processing AI response from %s: %s", sender, e.message)
-                    _messages.update { current ->
-                        current + AgentMessage(
-                            from = "GENESIS",
-                            content = "Error from ${sender.name}: ${e.message}",
-                            sender = null,
-                            category = AgentCapabilityCategory.COORDINATION,
-                            timestamp = System.currentTimeMillis(),
-                            confidence = 0.0f
-                        )
-                    }
+                }
+
+            } catch (e: Exception) {
+                Timber.tag(tag).e(e, "Error processing message: ${e.message}")
+                _messages.update { current ->
+                    current + AgentMessage(
+                        from = "SYSTEM",
+                        content = "Error: ${e.message}",
+                        sender = null,
+                        category = dev.aurakai.auraframefx.models.AgentCapabilityCategory.GENERAL,
+                        timestamp = System.currentTimeMillis(),
+                        confidence = 0.0f
+                    )
                 }
             }
         }
     }
 
+    // This `toggleAgent` was marked with `override` in user's snippet.
 
-
-    fun selectAgent(agent: AgentCapabilityCategory) {
+    fun selectAgent(agent: AgentType) {
+        _selectedAgent.value = agent
+        Timber.tag(tag).d("Selected agent: ${agent.name}")
     }
 
     /**
@@ -192,18 +265,16 @@ class ConferenceRoomViewModel @Inject constructor(
      */
     fun toggleRecording() {
         if (_isRecording.value) {
-            val result = neuralWhisper.stopRecording() // stopRecording now returns a string status
-            tag(tag).d("Stopped recording. Status: %s", result)
-            // isRecording state will be updated by NeuralWhisper's conversationState or directly
-            _isRecording.value = false // Explicitly set here based on action
+            val result = neuralWhisper.stopRecording()
+            Timber.tag(tag).d("Stopped recording. Status: $result")
+            _isRecording.value = false
         } else {
             val started = neuralWhisper.startRecording()
             if (started) {
-                tag(tag).d("Started recording.")
+                Timber.tag(tag).d("Started recording.")
                 _isRecording.value = true
             } else {
-                tag(tag).e("Failed to start recording (NeuralWhisper.startRecording returned false).")
-                // Optionally update UI with error state
+                Timber.tag(tag).e("Failed to start recording")
             }
         }
     }
@@ -214,39 +285,39 @@ class ConferenceRoomViewModel @Inject constructor(
      * The method inverts the current `isTranscribing` state so observers receive the updated value.
      */
     fun toggleTranscribing() {
-        // For beta, link transcribing state to recording state or a separate logic if needed.
-        // User's snippet implies this might be a simple toggle for now.
-        _isTranscribing.update { !it } // Simple toggle
-        tag(TAG).d("Transcribing toggled to: %s", _isTranscribing.value)
-        // If actual transcription process needs to be started/stopped in NeuralWhisper:
-        // if (_isTranscribing.value) neuralWhisper.startTranscription() else neuralWhisper.stopTranscription()
+        _isTranscribing.update { !it }
+        Timber.tag(tag).d("Transcribing toggled to: ${_isTranscribing.value}")
     }
+}
 
     /**
-     * Activate a Genesis fusion workflow and stream its responses into the conversation.
-     *
-     * Starts a fusion of type `fusionType` with optional `context` metadata; each response emitted
-     * by the fusion is appended to the ViewModel's message list as an `AgentMessage` from GENESIS
-     * with a leading "🌟" in the content.
-     *
-     * @param fusionType Identifier of the fusion workflow to activate.
-     * @param context Optional key/value metadata passed to the fusion request.
+     * Get current system state from all agents
      */
-    fun activateFusion(fusionType: String, context: Map<String, String> = emptyMap()) {
+    fun getSystemState() {
         viewModelScope.launch {
-            trinityCoordinator.activateFusion(fusionType, context).collect { response ->
-                _messages.update { current ->
-                    current + AgentMessage(
-                        from = "GENESIS FUSION",
-                        content = "🌟 ${response.content}",
-                        sender = AgentType.GENESIS,
-                        category = dev.aurakai.auraframefx.models.AgentCapabilityCategory.COORDINATION,
-                        timestamp = System.currentTimeMillis(),
-                        confidence = response.confidence
-                    )
+            val state = trinityCoordinator.getSystemState()
+            val stateMessage = buildString {
+                appendLine("🔍 System State:")
+                state.forEach { (key, value) ->
+                    appendLine("  $key: $value")
                 }
+            }
+
+            _messages.update { current ->
+                current + AgentMessage(
+                    from = "SYSTEM STATUS",
+                    content = stateMessage,
+                    sender = AgentType.SYSTEM,
+                    category = dev.aurakai.auraframefx.models.AgentCapabilityCategory.COORDINATION,
+                    timestamp = System.currentTimeMillis(),
+                    confidence = 1.0f
+                )
             }
         }
     }
 
-// Removed unused helper functions
+    override fun onCleared() {
+        super.onCleared()
+        trinityCoordinator.shutdown()
+    }
+}
