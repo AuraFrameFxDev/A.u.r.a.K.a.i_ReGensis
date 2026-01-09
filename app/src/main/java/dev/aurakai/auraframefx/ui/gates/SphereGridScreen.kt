@@ -100,7 +100,20 @@ fun SphereGridScreen(navController: NavHostController) {
                         AgentSphereCard(
                             agent = agent,
                             isSelected = selectedAgent.value == agent,
-                            onClick = { selectedAgent.value = agent }
+                            onClick = {
+                                selectedAgent.value = agent
+                                // Navigate to agent's constellation screen
+                                when (agent.name) {
+                                    "Aura" -> navController.navigate(NavDestination.Constellation.route)
+                                    "Genesis" -> navController.navigate(NavDestination.GenesisConstellation.route)
+                                    "Claude" -> navController.navigate(NavDestination.ClaudeConstellation.route)
+                                    "Kai" -> navController.navigate(NavDestination.KaiConstellation.route)
+                                    "Cascade" -> navController.navigate(NavDestination.CascadeConstellation.route)
+                                    "Grok" -> navController.navigate(NavDestination.GrokConstellation.route)
+                                    // Agents without constellation screens yet: Nemotron, Gemini, MetaInstruct
+                                    // Will display skill tree only for now
+                                }
+                            }
                         )
                     }
                 }

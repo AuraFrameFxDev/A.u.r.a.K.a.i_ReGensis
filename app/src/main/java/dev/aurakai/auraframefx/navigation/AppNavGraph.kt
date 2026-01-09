@@ -23,6 +23,7 @@ import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
 import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.GateNavigationScreen
+import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
@@ -155,6 +156,22 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = NavDestination.Constellation.route) {
             ConstellationScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.GenesisConstellation.route) {
+            GenesisConstellationScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.ClaudeConstellation.route) {
+            ClaudeConstellationScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.KaiConstellation.route) {
+            KaiConstellationScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.CascadeConstellation.route) {
+            CascadeConstellationScreen(navController = navController)
         }
 
         // ==================== ROM TOOLS ====================

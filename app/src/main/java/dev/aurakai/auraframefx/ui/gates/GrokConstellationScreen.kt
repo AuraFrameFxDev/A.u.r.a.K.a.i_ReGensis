@@ -236,6 +236,133 @@ fun GrokConstellationScreen(navController: NavController) {
 }
 
 /**
+ * Draws the 8-pointed chaos wheel centerpiece
+ */
+private fun DrawScope.drawChaosWheel(
+    centerX: Float,
+    centerY: Float,
+    radius: Float,
+    rotation: Float,
+    color: Color,
+    accentColor: Color,
+    coreColor: Color,
+    pulseAlpha: Float
+) {
+    // Draw outer rotating ring
+    rotate(rotation, pivot = Offset(centerX, centerY)) {
+        drawCircle(
+            color = color.copy(alpha = 0.3f * pulseAlpha),
+            radius = radius,
+            center = Offset(centerX, centerY),
+            style = Stroke(width = 2f)
+        )
+
+        // Draw 8 spokes with nodes
+        for (i in 0 until 8) {
+            val angle = (i * 45f) * (Math.PI / 180f).toFloat()
+            val nodeX = centerX + cos(angle) * radius
+            val nodeY = centerY + sin(angle) * radius
+
+            // Spoke line
+            drawLine(
+                color = color.copy(alpha = pulseAlpha),
+                start = Offset(centerX, centerY),
+                end = Offset(nodeX, nodeY),
+                strokeWidth = 2f,
+                cap = StrokeCap.Round
+            )
+
+            // Outer node
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        accentColor.copy(alpha = pulseAlpha),
+                        color.copy(alpha = 0.3f * pulseAlpha)
+                    ),
+                    center = Offset(nodeX, nodeY),
+                    radius = 12f
+                ),
+                radius = 12f,
+                center = Offset(nodeX, nodeY)
+            )
+
+            // Node core
+            drawCircle(
+                color = Color.White.copy(alpha = pulseAlpha),
+                radius = 4f,
+                center = Offset(nodeX, nodeY)
+            )
+        }
+    }
+
+    // Draw connecting web between nodes (creates chaos pattern)
+    rotate(rotation * 0.5f, pivot = Offset(centerX, centerY)) {
+        for (i in 0 until 8) {
+            val angle1 = (i * 45f) * (Math.PI / 180f).toFloat()
+            val angle2 = ((i + 2) * 45f) * (Math.PI / 180f).toFloat()
+
+            val x1 = centerX + cos(angle1) * radius
+            val y1 = centerY + sin(angle1) * radius
+            val x2 = centerX + cos(angle2) * radius
+            val y2 = centerY + sin(angle2) * radius
+
+            drawLine(
+                color = color.copy(alpha = 0.2f * pulseAlpha),
+                start = Offset(x1, y1),
+                end = Offset(x2, y2),
+                strokeWidth = 1f
+            )
+        }
+    }
+
+    // Draw central core - concentric circles
+    drawCircle(
+        color = coreColor.copy(alpha = 0.4f * pulseAlpha),
+        radius = radius * 0.25f,
+        center = Offset(centerX, centerY),
+        style = Stroke(width = 3f)
+    )
+
+    drawCircle(
+        color = color.copy(alpha = 0.6f * pulseAlpha),
+        radius = radius * 0.15f,
+        center = Offset(centerX, centerY),
+        style = Stroke(width = 2f)
+    )
+
+    // X symbol in the center (chaos mark)
+    val xSize = radius * 0.1f
+    drawLine(
+        color = accentColor.copy(alpha = pulseAlpha),
+        start = Offset(centerX - xSize, centerY - xSize),
+        end = Offset(centerX + xSize, centerY + xSize),
+        strokeWidth = 3f,
+        cap = StrokeCap.Round
+    )
+    drawLine(
+        color = accentColor.copy(alpha = pulseAlpha),
+        start = Offset(centerX + xSize, centerY - xSize),
+        end = Offset(centerX - xSize, centerY + xSize),
+        strokeWidth = 3f,
+        cap = StrokeCap.Round
+    )
+
+    // Central glow
+    drawCircle(
+        brush = Brush.radialGradient(
+            colors = listOf(
+                accentColor.copy(alpha = pulseAlpha * 0.8f),
+                Color.Transparent
+            ),
+            center = Offset(centerX, centerY),
+            radius = radius * 0.3f
+        ),
+        radius = radius * 0.3f,
+        center = Offset(centerX, centerY)
+    )
+}
+
+/**
  * Draws entropy data streams flowing outward
  */
 /**
@@ -297,13 +424,6 @@ private fun DrawScope.drawEntropyStreams(
 }
 
 /**
- * Displays a compact entropy monitor: a labeled row of ten bars reflecting the current entropy
- * and a numeric "CHAOS LEVEL" percentage.
- *
- * @param entropyLevel Value from 0.0 to 1.0 controlling how many of the ten bars are shown as active
- *                     and the percentage displayed (active bars = floor(entropyLevel * 10)).
- * @param color The base color used for active/inactive bars and text; alpha is adjusted for inactive
- *              and active states.
 @Composable
 private fun EntropyMonitor(
     entropyLevel: Float,
