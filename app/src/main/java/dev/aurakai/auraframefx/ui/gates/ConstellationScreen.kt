@@ -296,7 +296,13 @@ private fun ConstellationCanvas() {
 }
 
 /**
- * Draw the sword centerpiece with energy blade
+ * Renders the sword centerpiece with an energy blade, guard, handle, pommel, glow layers, and surrounding energy particles.
+ *
+ * @param centerX X coordinate of the sword's center in the drawing coordinate space.
+ * @param centerY Y coordinate of the sword's center in the drawing coordinate space.
+ * @param rotation Rotation in degrees used to offset and animate the surrounding energy particles.
+ * @param color Primary color for the blade, guard, handle, and core elements.
+ * @param glowColor Accent color used for glow layers and highlights around the sword.
  */
 private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
     centerX: Float,

@@ -266,7 +266,9 @@ private fun SentinelShieldCanvas() {
 }
 
 /**
- * Draw hexagonal shield with energy field
+ * Renders a hexagonal shield with layered glow, alternating-color border segments, inner core connections, and a central core.
+ *
+ * @param pulseAlpha A 0..1 value that modulates the opacity of the glow, border, inner connections, and core visuals.
  */
 private fun DrawScope.drawHexagonalShield(
     centerX: Float,

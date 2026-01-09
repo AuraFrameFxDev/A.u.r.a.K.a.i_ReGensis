@@ -299,6 +299,7 @@ private fun ArchitectBlueprintCanvas() {
 }
 
 /**
+ * Draw T-square (architect's drafting tool)
  */
 private fun DrawScope.drawTSquare(
     centerX: Float,

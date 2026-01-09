@@ -266,6 +266,7 @@ private fun GenesisInfinityCascadeCanvas() {
 }
 
 /**
+ * Draw vertical infinity symbol (∞ rotated 90°)
  */
 private fun DrawScope.drawInfinitySymbol(
     centerX: Float,
