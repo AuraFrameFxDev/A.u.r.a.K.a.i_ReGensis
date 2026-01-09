@@ -161,7 +161,7 @@ class ConferenceRoomViewModel @Inject constructor(
                     }
 
                     AgentType.CLAUDE -> flow {
-                        emit(claudeService.processRequest(request, context).first())
+                        emit(claudeService.processRequest(request, context))
                     }
 
                     AgentType.CASCADE -> flow {
@@ -185,17 +185,15 @@ class ConferenceRoomViewModel @Inject constructor(
                         }
                     }
 
-            AgentCapabilityCategory.SPECIALIZED -> {
-                // Cascade service placeholder
-                flow {
-                    val response = AgentResponse.success(
-                        content = "Cascade service placeholder",
-                        confidence = 0.5f,
-                        agent = AgentType.CASCADE
-                    )
-                    emit(response)
-                }
-            }
+                    AgentType.METAINSTRUCT -> flow {
+                        // MetaInstruct for self-modification and code evolution
+                        emit(metaInstructService.processRequest(request, context).first())
+                    }
+
+                    AgentType.GENESIS -> {
+                        // Use Trinity Coordinator for intelligent routing
+                        trinityCoordinator.processRequest(request)
+                    }
 
             AgentCapabilityCategory.GENERAL -> {
                 // Claude service placeholder
