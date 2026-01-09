@@ -164,17 +164,26 @@ class ConferenceRoomViewModel @Inject constructor(
                         emit(claudeService.processRequest(request, context).first())
                     }
 
-            AgentCapabilityCategory.ANALYSIS -> flow {
-                val response = kaiService.processRequest(
-                    AiRequest(
-                        query = message,
-                        type = "text",
-                        context = buildJsonObject { put("userContext", context) }
-                    ),
-                    context = context
-                )
-                emit(response)
-            }
+                    AgentType.CASCADE -> flow {
+                        // Cascade orchestrates multiple agents
+                        val cascadeFlow = cascadeService.processRequest(
+                            dev.aurakai.auraframefx.models.AgentInvokeRequest(
+                                agentType = AgentType.CASCADE,
+                                request = request,
+                                metadata = mapOf("source" to "conference_room")
+                            )
+                        )
+                        cascadeFlow.collect { response ->
+                            emit(
+                                AgentResponse.success(
+                                    content = response.response,
+                                    confidence = response.confidence ?: 0.85f,
+                                    agent = AgentType.CASCADE,
+                                    agentName = "Cascade"
+                                )
+                            )
+                        }
+                    }
 
             AgentCapabilityCategory.SPECIALIZED -> {
                 // Cascade service placeholder
