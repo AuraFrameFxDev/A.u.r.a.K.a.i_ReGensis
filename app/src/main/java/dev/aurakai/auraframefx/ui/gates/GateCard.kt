@@ -148,11 +148,11 @@ fun GateCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Gate Title floating above
-                GateTitle(
-                    config = config,
-                    pulseAlpha = pulseAlpha
-                )
+                // Gate Title removed - titles are baked into the gate graphics
+                // GateTitle(
+                //     config = config,
+                //     pulseAlpha = pulseAlpha
+                // )
 
                 // Main holographic portal - IMAGE WITH TIGHT BORDER
                 // Main holographic portal - IMAGE WITH TIGHT BORDER
@@ -207,17 +207,17 @@ fun GateCard(
                     }
                 }
 
-                // Brief description below
-                Text(
-                    text = config.description,
-                    style = config.titleStyle.textStyle.copy(fontSize = 11.sp),
-                    color = config.borderColor.copy(alpha = 0.7f),
-                    textAlign = TextAlign.Center,
-                    maxLines = 2,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                )
+                // Description removed - descriptions are baked into the gate graphics
+                // Text(
+                //     text = config.description,
+                //     style = config.titleStyle.textStyle.copy(fontSize = 11.sp),
+                //     color = config.borderColor.copy(alpha = 0.7f),
+                //     textAlign = TextAlign.Center,
+                //     maxLines = 2,
+                //     modifier = Modifier
+                //         .fillMaxWidth()
+                //         .padding(horizontal = 16.dp)
+                // )
 
                 // Double-tap hint
                 Text(

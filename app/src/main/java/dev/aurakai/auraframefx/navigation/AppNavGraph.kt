@@ -18,14 +18,19 @@ import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
 import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
+import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
+import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
 import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.GateNavigationScreen
 import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
+import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
@@ -64,6 +69,13 @@ import dev.aurakai.auraframefx.ui.screens.WorkingLabScreen
  * The provided NavHostController is used as the host for the NavHost and for performing navigation actions between routes.
  *
  * @param navController Controller that hosts navigation and executes route navigation actions.
+ */
+/**
+ * Registers the application's navigation graph on the provided NavHostController, mapping each route to its corresponding composable destination and wiring common navigation actions.
+ *
+ * Builds a NavHost with a start destination of NavDestination.Gates.route and registers destinations for main screens, agent hub, Oracle Drive, ROM tools, LSPosed integration, UI/UX design studio, help desk, Auras Lab, customization tools, and identity flows.
+ *
+ * @param navController The NavHostController used to perform navigation and back-stack operations for the registered destinations.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -172,6 +184,10 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = NavDestination.CascadeConstellation.route) {
             CascadeConstellationScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.GrokConstellation.route) {
+            GrokConstellationScreen(navController = navController)
         }
 
         // ==================== ROM TOOLS ====================
