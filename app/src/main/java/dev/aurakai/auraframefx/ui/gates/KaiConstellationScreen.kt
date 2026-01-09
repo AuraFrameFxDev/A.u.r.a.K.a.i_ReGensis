@@ -184,15 +184,7 @@ private fun SentinelShieldCanvas() {
         val orangeColor = Color(0xFFFF8C00)
         val cyanColor = Color(0xFF00FFFF)
 
-        // Draw hexagonal shield centerpiece
-        drawHexagonalShield(
-            centerX = centerX,
-            centerY = centerY,
-            radius = 150f,
-            color = purpleColor,
-            accentColor = orangeColor,
-            pulseAlpha = shieldPulse
-        )
+        // Hexagonal shield centerpiece will be overlaid as PNG image below
 
         // Draw perimeter defense nodes
         val nodes = mutableListOf<Offset>()

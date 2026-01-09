@@ -212,13 +212,7 @@ private fun ArchitectBlueprintCanvas() {
             )
         }
 
-        // Draw T-square centerpiece (architect's tool)
-        drawTSquare(
-            centerX = centerX,
-            centerY = centerY,
-            color = orangeColor,
-            pulseAlpha = pulseAlpha
-        )
+        // T-square centerpiece will be overlaid as PNG image below
 
         // Draw build system nodes in a systematic grid pattern
         val nodes = mutableListOf<Offset>()

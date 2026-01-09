@@ -183,15 +183,7 @@ private fun DataStreamCanvas() {
         val cyanColor = Color(0xFF00FFFF)
         val blueColor = Color(0xFF1E90FF)
 
-        // Draw mechanical wing centerpiece
-        drawMechanicalWing(
-            centerX = centerX,
-            centerY = centerY,
-            color = turquoiseColor,
-            accentColor = cyanColor,
-            rotation = rotation,
-            pulseAlpha = pulseAlpha
-        )
+        // Mechanical wing centerpiece will be overlaid as PNG image below
 
         // Draw data flow network nodes
         val nodeCount = 12

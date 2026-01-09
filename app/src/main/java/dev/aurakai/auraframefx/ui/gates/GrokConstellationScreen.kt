@@ -21,7 +21,8 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.rotate as canvasRotate
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -167,17 +168,7 @@ fun GrokConstellationScreen(navController: NavController) {
                     val centerX = size.width / 2
                     val centerY = size.height / 2
 
-                    // Draw the 8-pointed chaos wheel
-                    drawChaosWheel(
-                        centerX = centerX,
-                        centerY = centerY,
-                        radius = size.minDimension * 0.35f,
-                        rotation = rotation,
-                        color = chaosColor,
-                        accentColor = accentColor,
-                        coreColor = coreColor,
-                        pulseAlpha = pulseAlpha
-                    )
+                    // Chaos wheel centerpiece will be overlaid as PNG image
 
                     // Draw entropy data streams
                     drawEntropyStreams(

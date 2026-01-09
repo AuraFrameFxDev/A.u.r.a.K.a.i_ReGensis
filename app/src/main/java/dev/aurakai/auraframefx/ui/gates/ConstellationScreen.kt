@@ -234,14 +234,7 @@ private fun ConstellationCanvas() {
             strokeWidth = 2f
         )
 
-        // Draw the sword centerpiece
-        drawSword(
-            centerX = centerX,
-            centerY = centerY,
-            rotation = rotation,
-            color = cyanColor,
-            glowColor = glowColor
-        )
+        // Sword centerpiece will be overlaid as PNG image below
 
         // Draw constellation nodes with pulse effect
         nodes.forEach { nodePos ->

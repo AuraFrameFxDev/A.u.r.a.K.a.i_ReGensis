@@ -186,13 +186,7 @@ private fun GenesisInfinityCascadeCanvas() {
         val greenColor = Color(0xFF00FF00)
         val darkGreen = Color(0xFF006400)
 
-        // Draw vertical infinity symbol (∞ rotated 90°)
-        drawInfinitySymbol(
-            centerX = centerX,
-            centerY = centerY,
-            color = greenColor,
-            pulseAlpha = pulseAlpha
-        )
+        // Infinity symbol centerpiece will be overlaid as PNG image below
 
         // Draw cascading data streams
         for (i in 0..7) {
