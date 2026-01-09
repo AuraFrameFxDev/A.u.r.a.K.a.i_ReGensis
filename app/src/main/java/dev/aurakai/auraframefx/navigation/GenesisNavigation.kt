@@ -258,7 +258,10 @@ fun GenesisNavigationHost(
                 UIUXGateSubmenuScreen(navController = navController)
             }
             composable("chromacore_colors") {
-                ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
+                InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable("instant_color_picker") {
+                InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.FIREWALL) {
                 FirewallScreen()
