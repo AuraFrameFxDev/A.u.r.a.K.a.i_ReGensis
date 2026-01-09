@@ -58,46 +58,9 @@ abstract class AiServiceModule {
     abstract fun bindCascadeAIService(cascadeAIService: RealCascadeAIServiceAdapter): CascadeAIService
     abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
 
-    companion object {
-        // ═══════════════════════════════════════════════════════════════════════════
-        // NEW External AI Backend Services (Direct Providers)
-        // ═══════════════════════════════════════════════════════════════════════════
-
-        /**
-         * Exposes the injected ClaudeAIService instance as a singleton DI binding.
-         *
-         * @param service The ClaudeAIService instance to register.
-         * @return The `ClaudeAIService` instance bound in the singleton component.
-         */
-        @Provides
-        @Singleton
-        fun provideClaudeAIService(service: ClaudeAIService): ClaudeAIService = service
-
-        /**
-         * Exposes the NemotronAIService implementation as a singleton binding.
-         *
-         * @return The provided NemotronAIService instance.
-         */
-        @Provides
-        @Singleton
-        fun provideNemotronAIService(service: NemotronAIService): NemotronAIService = service
-
-        /**
-         * Exposes the GeminiAIService implementation as a singleton binding.
-         *
-         * @return The provided GeminiAIService instance.
-         */
-        @Provides
-        @Singleton
-        fun provideGeminiAIService(service: GeminiAIService): GeminiAIService = service
-
-        /**
-         * Exposes the injected MetaInstructAIService as a singleton binding.
-         *
-         * @return The provided MetaInstructAIService instance.
-         */
-        @Provides
-        @Singleton
-        fun provideMetaInstructAIService(service: MetaInstructAIService): MetaInstructAIService = service
-    }
+    // ═══════════════════════════════════════════════════════════════════════════
+    // External AI Backend Services (ClaudeAIService, NemotronAIService,
+    // GeminiAIService, MetaInstructAIService) are auto-provided by Hilt
+    // via their @Singleton @Inject constructors. No explicit bindings needed.
+    // ═══════════════════════════════════════════════════════════════════════════
 }
