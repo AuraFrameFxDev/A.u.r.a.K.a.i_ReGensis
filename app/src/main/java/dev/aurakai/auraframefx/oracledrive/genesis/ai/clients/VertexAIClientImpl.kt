@@ -115,8 +115,8 @@ class VertexAIClientImpl @Inject constructor(
             ),
             generationConfig = GenerationConfig(
                 temperature = temperature.toDouble(),
-                topP = config.defaultTopP,
-                topK = config.defaultTopK,
+                topP = config.topP.toDouble(),
+                topK = config.topK,
                 maxOutputTokens = maxTokens,
                 candidateCount = 1
             ),
