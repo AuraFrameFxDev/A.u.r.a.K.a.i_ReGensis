@@ -388,12 +388,12 @@ class TaskExecutionManager @Inject constructor(
      *
      */
     private suspend fun executeWithGenesis(execution: TaskExecution1): AgentResponse {
-        AiRequest(
+        val request = AiRequest(
             query = execution.data["query"] ?: execution.type,
             type = execution.type,
             context = execution.data.toKotlinJsonObject()
         )
-        return TODO("Provide the return value")
+        return genesisAgent.processRequest(request, execution.agent.name)
     }
 
     /**
