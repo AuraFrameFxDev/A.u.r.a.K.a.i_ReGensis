@@ -159,7 +159,6 @@ fun AppNavGraph(navController: NavHostController) {
         // ==================== ORACLE DRIVE ====================
 
         composable(route = NavDestination.OracleDrive.route) {
-            dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen(navController = navController)
         }
 
         composable(route = NavDestination.SphereGrid.route) {

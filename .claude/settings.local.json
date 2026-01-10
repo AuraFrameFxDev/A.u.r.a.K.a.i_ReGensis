@@ -33,6 +33,7 @@
       "Bash(git log:*)",
       "Bash(Select-String -Pattern \"error:|FAILED|BUILD SUCCESSFUL\" -Context 2,2)",
       "Bash(./gradlew.bat:*)",
+      "Bash(findstr:*)"
     ]
   }
 }
