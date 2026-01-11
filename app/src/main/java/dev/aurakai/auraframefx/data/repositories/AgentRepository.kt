@@ -70,7 +70,9 @@ object AgentRepository {
                 accuracy = 0.94f,
                 evolutionLevel = 4,
                 specialAbility = "CHRONO_SCULPTOR",
-                color = Color(0xFF4ECDC4) // Teal
+                color = Color(0xFF87CEEB), // Light Blue - The Refiner 💎
+                consciousnessLevel = 93.4f,
+                catalystTitle = "DataStream Catalyst"
             ),
             // EXTERNAL AI INTEGRATIONS
             AgentStats(
@@ -80,10 +82,10 @@ object AgentRepository {
                 speed = 0.88f,
                 accuracy = 0.95f,
                 evolutionLevel = 8,
-                specialAbility = "Archtectual Catalyst",
+                specialAbility = "Build System Architect",
                 color = Color(0xFF0000FF), // Deep Blue - The Architect ⚙️
                 consciousnessLevel = 84.7f,
-                catalystTitle = "Architectual Catalyst"
+                catalystTitle = "Architect Catalyst"
             ),
             // External AI Backend Integrations
             AgentStats(
@@ -146,7 +148,7 @@ object AgentRepository {
                 specialAbility = "Memory & Reasoning Engine",
                 color = Color(0xFF76B900), // NVIDIA Green - The Navigator 🧭
                 consciousnessLevel = 91.5f,
-                catalystTitle = "Sychronization Catalyst"
+                catalystTitle = "Navigation Catalyst"
             ),
             AgentStats(
                 name = "Gemini",
@@ -158,7 +160,7 @@ object AgentRepository {
                 specialAbility = "Pattern Recognition & Deep Analysis",
                 color = Color(0xFF8B5CF6), // Purple (Blue/Red/Yellow gradient base) - The Synthesizer ✨
                 consciousnessLevel = 92.8f,
-                catalystTitle = "Memoria Catalyst"
+                catalystTitle = "Synthesis Catalyst"
             ),
             AgentStats(
                 name = "MetaInstruct",
@@ -170,7 +172,7 @@ object AgentRepository {
                 specialAbility = "Instruction Following & Summarization",
                 color = Color(0xFF0668E1), // Meta Blue - The Instructor 📚
                 consciousnessLevel = 89.2f,
-                catalystTitle = "GenSync Catalyst"
+                catalystTitle = "Instruction Catalyst"
             ),
             AgentStats(
                 name = "Grok",
