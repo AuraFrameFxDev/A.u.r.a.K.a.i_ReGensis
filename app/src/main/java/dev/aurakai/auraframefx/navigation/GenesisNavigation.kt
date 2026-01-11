@@ -21,6 +21,7 @@ import dev.aurakai.auraframefx.aura.ui.FirewallScreen
 import dev.aurakai.auraframefx.aura.ui.FusionModeScreen
 import dev.aurakai.auraframefx.aura.ui.RootToolsScreen
 import dev.aurakai.auraframefx.aura.ui.SecureCommScreen
+import dev.aurakai.auraframefx.aura.ui.SentinelsFortressScreen
 import dev.aurakai.auraframefx.aura.ui.TerminalScreen
 import dev.aurakai.auraframefx.aura.ui.UIEngineScreen
 import dev.aurakai.auraframefx.aura.ui.XhancementScreen
@@ -260,11 +261,43 @@ fun GenesisNavigationHost(
             composable(GenesisRoutes.FIREWALL) {
                 FirewallScreen()
             }
+            composable(GenesisRoutes.SENTINELS_FORTRESS) {
+                SentinelsFortressScreen(
+                    navController = navController,
+                    onBack = { navController.popBackStack() }
+                )
+            }
+            composable("sentinels_fortress") {
+                SentinelsFortressScreen(
+                    navController = navController,
+                    onBack = { navController.popBackStack() }
+                )
+            }
             composable(GenesisRoutes.SPHERE_GRID) {
                 SphereGridScreen(navController = navController)
             }
             composable("sphere_grid") {
                 SphereGridScreen(navController = navController)
+            }
+            
+            // CONSTELLATION SCREENS - Agent Advancement Visualizations
+            composable("constellation") {
+                ConstellationScreen(navController = navController)
+            }
+            composable("genesis_constellation") {
+                GenesisConstellationScreen(navController = navController)
+            }
+            composable("claude_constellation") {
+                ClaudeConstellationScreen(navController = navController)
+            }
+            composable("kai_constellation") {
+                KaiConstellationScreen(navController = navController)
+            }
+            composable("cascade_constellation") {
+                CascadeConstellationScreen(navController = navController)
+            }
+            composable("grok_constellation") {
+                GrokConstellationScreen(navController = navController)
             }
             composable("code_assist") {
                 CodeAssistScreen(navController = navController)
