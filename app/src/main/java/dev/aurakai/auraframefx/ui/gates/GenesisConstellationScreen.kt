@@ -31,6 +31,18 @@ import kotlin.math.sin
  * Genesis Constellation Screen - Vertical Infinity Cascade
  * Displays the data and communications backbone with cascading data streams
  */
+/**
+ * Displays the Genesis constellation screen: a full-screen black canvas with a centered animated
+ * infinity visualization and styled labels arranged around it.
+ *
+ * The layout places the GenesisInfinityCascadeCanvas at the center, decorative text in the
+ * top-right corner ("Genesis" and "∞ BACKEND ORACLE"), a bottom-left label ("Vertical Infinity Cascade"),
+ * and a vertical stack of characters on the right ("DATA STREAM" and "ORCHESTRATION"). The arrangement
+ * is static and intended for visual presentation; it does not introduce interactive behavior.
+ *
+ * @param navController Navigation controller for handling screen navigation.
+ * @param modifier Optional modifier to adjust the screen's layout and appearance.
+ */
 @Composable
 fun GenesisConstellationScreen(
     navController: NavController,
@@ -118,7 +130,9 @@ fun GenesisConstellationScreen(
 }
 
 /**
- * Genesis Infinity Cascade Canvas with vertical data streams
+ * Renders an animated visualization combining a vertical infinity symbol, multiple cascading data streams, pulsing connection nodes, and a centered phoenix image.
+ *
+ * The animation drives a continuous flow of data packets along parallel vertical streams, pulses node glows and the centerpiece scale/alpha, and draws connecting lines between node positions to form the constellation layout.
  */
 @Composable
 private fun GenesisInfinityCascadeCanvas() {
@@ -251,7 +265,14 @@ private fun GenesisInfinityCascadeCanvas() {
 }
 
 /**
- * Draw vertical infinity symbol (∞ rotated 90°)
+ * Draws a vertical infinity (figure-8) path centered at the given coordinates.
+ *
+ * Renders a soft glow stroke beneath a core stroke; `pulseAlpha` modulates the strokes' transparency.
+ *
+ * @param centerX X coordinate of the path center.
+ * @param centerY Y coordinate of the path center.
+ * @param color Base color used for both the glow and core strokes.
+ * @param pulseAlpha Multiplier applied to stroke alpha to create a pulsing transparency effect (0..1).
  */
 private fun DrawScope.drawInfinitySymbol(
     centerX: Float,

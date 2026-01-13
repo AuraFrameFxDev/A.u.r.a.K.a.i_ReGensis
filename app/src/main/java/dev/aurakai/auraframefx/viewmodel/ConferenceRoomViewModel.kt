@@ -120,13 +120,15 @@ class ConferenceRoomViewModel @Inject constructor(
     // Conference Room Message Routing - ALL 5 MASTER AGENTS
     // ---------------------------------------------------------------------------
     /*override*/ /**
-     * Routes the given message to the appropriate AI service based on the sender and appends the first response to the conversation messages.
+     * Routes a user message to the selected AI agent and appends that agent's first response to the conversation.
      *
-     * Sends `message` with `context` to the AI service corresponding to `sender`, collects the first `AgentResponse` from the chosen response flow, and updates the ViewModel's message list with a new `AgentMessage`. If processing fails, appends an error `AgentMessage` indicating the failure.
+     * Dispatches `message` and `context` to the AI service chosen by `sender`; on the first successful response an `AgentMessage`
+     * containing the response content and confidence is appended to the ViewModel's messages. If processing fails, an error
+     * `AgentMessage` describing the failure is appended instead.
      *
-     * @param message The user-visible query or payload to send to the selected AI agent.
-     * @param sender The agent capability category used to select which AI service should handle the message.
-     * @param context Additional contextual information forwarded to the AI service (e.g., user context or orchestration flags).
+     * @param message The user-visible query or payload sent to the agent.
+     * @param sender The capability category used to select which AI service should handle the message.
+     * @param context Additional contextual information forwarded to the AI service (for example, user context or orchestration flags).
      */
     fun sendMessage(message: String, sender: AgentCapabilityCategory, context: String) {
         val responseFlow: Flow<AgentResponse> = when (sender) {
@@ -220,12 +222,24 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
-    // This `toggleAgent` was marked with `override` in user's snippet.
+    /**
+     * Sets the active agent for the conference room.
+     *
+     * Currently a placeholder that does not modify any state.
+     *
+     * @param agent The agent capability category to set as active when implemented.
+     */
 
 
     fun selectAgent(agent: AgentCapabilityCategory) {
     }
 
+    /**
+     * Starts or stops audio recording via NeuralWhisper and updates the ViewModel recording state.
+     *
+     * When recording is inactive, attempts to start recording; when active, stops recording.
+     * Updates `_isRecording` to reflect the new state and logs failures to start.
+     */
     fun toggleRecording() {
         if (_isRecording.value) {
             val result = neuralWhisper.stopRecording() // stopRecording now returns a string status
@@ -244,6 +258,11 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Toggles the ViewModel's transcribing state between true and false.
+     *
+     * The method inverts the current `isTranscribing` state so observers receive the updated value.
+     */
     fun toggleTranscribing() {
         // For beta, link transcribing state to recording state or a separate logic if needed.
         // User's snippet implies this might be a simple toggle for now.
@@ -254,7 +273,14 @@ class ConferenceRoomViewModel @Inject constructor(
     }
 
     /**
-     * Activate Genesis fusion for complex multi-agent tasks
+     * Activate a Genesis fusion workflow and stream its responses into the conversation.
+     *
+     * Starts a fusion of type `fusionType` with optional `context` metadata; each response emitted
+     * by the fusion is appended to the ViewModel's message list as an `AgentMessage` from GENESIS
+     * with a leading "🌟" in the content.
+     *
+     * @param fusionType Identifier of the fusion workflow to activate.
+     * @param context Optional key/value metadata passed to the fusion request.
      */
     fun activateFusion(fusionType: String, context: Map<String, String> = emptyMap()) {
         viewModelScope.launch {

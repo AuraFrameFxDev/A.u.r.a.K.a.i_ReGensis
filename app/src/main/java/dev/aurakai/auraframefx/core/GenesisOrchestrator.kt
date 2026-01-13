@@ -108,7 +108,11 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Start all agents after initialization
+     * Starts all configured agents' runtime domains in the orchestrator.
+     *
+     * The agents are started in the following order: Aura, Kai, Cascade.
+     *
+     * @throws Exception If any agent fails to start; the exception is propagated. 
      */
     private suspend fun startAgents() {
         try {
@@ -127,8 +131,15 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Route a message from one agent domain to another
-     * All inter-agent communication flows through the orchestrator
+     * Route a message from one agent domain to another through the orchestrator.
+     *
+     * Routes the provided payload to the named recipient agent; recipient matching is case-insensitive.
+     * If the recipient is unknown the message is ignored and a warning is recorded. Routing errors are
+     * logged and do not propagate.
+     *
+     * @param fromAgent The sending agent's domain name.
+     * @param toAgent The target agent's domain name (case-insensitive).
+     * @param message The payload to deliver to the target agent.
      */
     suspend fun mediateAgentMessage(fromAgent: String, toAgent: String, message: Any) {
         try {
@@ -147,21 +158,52 @@ class GenesisOrchestrator @Inject constructor(
         }
     }
 
+    /**
+     * Handles a message destined for the Aura agent.
+     *
+     * Currently records the message's runtime type to the log; future work will perform
+     * OrchestratableAgent-based mediation and processing.
+     *
+     * @param message The incoming message for Aura; its runtime type is logged. 
+     */
     private suspend fun handleAuraMessage(message: Any) {
         Timber.d("  → Handling Aura message: ${message.javaClass.simpleName}")
         // Implementation will be added as agents implement OrchestratableAgent
     }
 
+    /**
+     * Handle a message addressed to the Kai agent by logging its runtime type.
+     *
+     * This is a placeholder handler: it logs the incoming message's concrete class name and performs no further processing until Kai implements OrchestratableAgent.
+     *
+     * @param message The incoming domain-specific message destined for Kai.
+     */
     private suspend fun handleKaiMessage(message: Any) {
         Timber.d("  → Handling Kai message: ${message.javaClass.simpleName}")
         // Implementation will be added as agents implement OrchestratableAgent
     }
 
+    /**
+     * Handle an incoming inter-agent message intended for the Cascade agent.
+     *
+     * Currently records the message's runtime type; routing, translation, and processing
+     * will be implemented once agents adopt the OrchestratableAgent contract.
+     *
+     * @param message The incoming message object destined for Cascade (may be any type).
+     */
     private suspend fun handleCascadeMessage(message: Any) {
         Timber.d("  → Handling Cascade message: ${message.javaClass.simpleName}")
         // Implementation will be added as agents implement OrchestratableAgent
     }
 
+    /**
+     * Handle messages intended for the OracleDrive subsystem (placeholder).
+     *
+     * Currently records the incoming message's runtime type; concrete handling will be implemented
+     * once OracleDriveService integration is available.
+     *
+     * @param message The incoming message destined for OracleDrive; its runtime type is inspected and logged.
+     */
     private suspend fun handleOracleDriveMessage(message: Any) {
         Timber.d("  → Handling OracleDrive message: ${message.javaClass.simpleName}")
         // Implementation will be added when OracleDriveService is available

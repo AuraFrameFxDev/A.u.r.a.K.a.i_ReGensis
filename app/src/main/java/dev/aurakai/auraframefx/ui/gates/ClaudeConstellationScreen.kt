@@ -31,6 +31,17 @@ import kotlin.math.sin
  * Claude Constellation Screen - The Architect
  * Displays the build system architecture with blueprint-style construction nodes
  */
+/**
+ * Displays the Claude constellation screen with a blueprint-style visualization and UI overlays.
+ *
+ * Shows a full-screen black canvas containing the ArchitectBlueprintCanvas at center, an agent
+ * identity block ("Claude — 🏗️ THE ARCHITECT") in the top-right, a "Build System Status" label
+ * and BuildStatusBar in the bottom-left, and a right-side vertical label reading "SYSTEMATIC
+ * CONSTRUCTION".
+ *
+ * @param navController NavController used for navigation actions from this screen.
+ * @param modifier Optional Modifier applied to the root container.
+ */
 @Composable
 fun ClaudeConstellationScreen(
     navController: NavController,
@@ -125,7 +136,9 @@ fun ClaudeConstellationScreen(
 }
 
 /**
- * Architect Blueprint Canvas with construction grid and build nodes
+ * Renders a blueprint-style canvas with a pulsing T-square centerpiece, a grid of build nodes, connecting dependency lines, animated construction particles, and a centered compass overlay.
+ *
+ * The composable is purely presentational: internal animated values drive overall build progression, node pulsing, and centerpiece scaling to convey build status visually. Visual elements include a faint blueprint grid, a T‑square at the canvas center, a systematic grid of nodes with dependency lines whose appearance follows build progress, moving construction particles that traverse between nodes as progress advances, and a PNG compass/centerpiece rendered on top.
  */
 @Composable
 private fun ArchitectBlueprintCanvas() {
@@ -284,7 +297,17 @@ private fun ArchitectBlueprintCanvas() {
 }
 
 /**
- * Draw T-square (architect's drafting tool)
+ * Renders a T-square drafting tool centered at the given canvas coordinates.
+ *
+ * Draws a vertical ruler with a horizontal crossbar near the top, a series of
+ * measurement marks along the ruler, and a pivot motif of two concentric circles.
+ * The provided `color` is used for the ruler and marks; `pulseAlpha` scales the
+ * opacity of those elements to produce a pulsing visual effect.
+ *
+ * @param centerX X coordinate of the T-square center on the canvas.
+ * @param centerY Y coordinate of the T-square center on the canvas.
+ * @param color Base color used for the ruler, crossbar, marks, and outer pivot circle.
+ * @param pulseAlpha Opacity multiplier (typically 0..1) applied to modulate element alpha for pulsing.
  */
 private fun DrawScope.drawTSquare(
     centerX: Float,
@@ -416,8 +439,13 @@ private fun BuildStatusBar() {
 }
 
 /**
- * Individual build module indicator
- */
+ * Displays a compact module indicator consisting of a glowing circular status dot and a label.
+ *
+ * The outer glow intensity and inner core opacity are scaled by `glowAlpha`; the dot and label use `color`.
+ *
+ * @param name The module name to display next to the indicator.
+ * @param glowAlpha Opacity multiplier for the glow and core (expected range 0.0..1.0).
+ * @param color Base color for the indicator and the label text.
 @Composable
 private fun BuildModuleIndicator(
     name: String,

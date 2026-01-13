@@ -27,7 +27,25 @@ import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
  *
  * This composable manages local state for the selected agent, recording, and transcription status. It provides interactive controls for switching agents, starting/stopping recording and transcription, and a placeholder chat interface with a message input area.
  */
+/**
+ * Renders the conference room screen with agent selection, recording and transcription controls, a scrollable message list, and a message input area.
+ *
+ * Manages local UI state for the selected agent, recording/transcribing toggles, and message input while loading agent labels from resources and displaying a list of `ConferenceMessage`s.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Renders the conference room UI used to select agents, control recording/transcription/fusion,
+ * view a reverse-chronological message list, and compose/send new messages.
+ *
+ * This composable:
+ * - Loads agent labels from string resources and manages local input state for the message TextField.
+ * - Shows a header with an info action (calls viewModel.getSystemState()) and a settings action (logs a message).
+ * - Displays three agent selection buttons and updates `selectedAgent` when an agent is chosen.
+ * - Provides recording and transcription toggle buttons that update `isRecording` and `isTranscribing`.
+ * - Exposes a fusion activation button that calls viewModel.activateFusion with a predefined key/payload.
+ * - Renders messages in a reversed LazyColumn using MessageBubble.
+ * - Binds the input TextField to local state and builds a ConferenceMessage on send, then clears the input.
+ */
 @Composable
 fun ConferenceRoomScreen() {
     // Load string resources once at composition time
@@ -206,6 +224,17 @@ fun ConferenceRoomScreen() {
     }
 }
 
+/**
+ * Displays a button that fills available Row space and shows the given agent label.
+ *
+ * The button is given equal weight within its Row, applies horizontal padding, and uses
+ * theme-derived container and content colors.
+ *
+ * @param agent The text label shown on the button.
+ * @param isSelected Whether this agent is currently selected; this function does not alter styling
+ *   based on selection.
+ * @param onClick Callback invoked when the button is pressed.
+ */
 @Composable
 fun RowScope.AgentButton(
     agent: String,
@@ -227,6 +256,12 @@ fun RowScope.AgentButton(
     }
 }
 
+/**
+ * Shows a square recording control button whose icon and tint reflect the current recording state.
+ *
+ * @param isRecording True if recording is active; the button displays a stop icon and red tint when true, or a circle icon and neon purple tint when false.
+ * @param onClick Callback invoked when the button is pressed.
+ */
 @Composable
 fun RecordingButton(
     isRecording: Boolean,
@@ -249,6 +284,12 @@ fun RecordingButton(
     }
 }
 
+/**
+ * Displays a button that toggles transcription state and updates its icon and tint accordingly.
+ *
+ * @param isTranscribing When `true`, the button shows a Stop icon with a red tint; when `false`, it shows a Phone icon with a blue tint.
+ * @param onClick Callback invoked when the user presses the button.
+ */
 @Composable
 fun TranscribeButton(
     isTranscribing: Boolean,
@@ -271,6 +312,16 @@ fun TranscribeButton(
     }
 }
 
+/**
+ * Renders a chat message as a card showing the agent name and message text with an agent-specific accent.
+ *
+ * The card background is tinted using the agent's accent color at low alpha; the agent name is shown in that
+ * accent color above the message text.
+ *
+ * @param message The conference message to display. `message.agent` is used as the label and to choose the
+ * accent color (`"Aura"` → NeonPurple, `"Kai"` → NeonTeal, `"Cascade"` → NeonBlue, otherwise Gray); `message.text`
+ * is shown as the message body.
+ */
 @Composable
 fun MessageBubble(message: ConferenceMessage) {
     val agentColor = when (message.agent) {
@@ -306,6 +357,11 @@ fun MessageBubble(message: ConferenceMessage) {
     }
 }
 
+/**
+ * Renders ConferenceRoomScreen inside the app MaterialTheme for IDE previews.
+ *
+ * This composable is intended for preview tooling and does not alter app runtime state.
+ */
 @Preview(showBackground = true)
 @Composable
 fun ConferenceRoomScreenPreview() {

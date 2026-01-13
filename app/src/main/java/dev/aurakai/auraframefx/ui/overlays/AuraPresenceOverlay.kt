@@ -28,6 +28,22 @@ import dev.aurakai.auraframefx.R
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
+/**
+ * Shows a pulsing aura overlay that occasionally displays a short suggestion card.
+ *
+ * The overlay is clickable and will invoke the provided callback with the current suggestion text.
+ *
+ * @param modifier Modifier applied to the overlay's outer container.
+ * @param onSuggestClicked Called with the currently displayed suggestion when the overlay or suggestion card is tapped.
+ */
+/**
+ * Displays a pulsing aura overlay that periodically shows a short suggestion card and forwards taps with the current suggestion text.
+ *
+ * The overlay renders a circular glowing aura and, at randomized intervals, briefly shows a suggestion card. Tapping the aura or the suggestion card invokes `onSuggestClicked` with the suggestion that is currently shown (which may be an empty string before the first suggestion is generated).
+ *
+ * @param modifier Modifier applied to the outer container.
+ * @param onSuggestClicked Callback invoked with the current suggestion text when the overlay or suggestion card is tapped.
+ */
 @Composable
 fun AuraPresenceOverlay(
     modifier: Modifier = Modifier,

@@ -75,9 +75,14 @@ class MainActivity : ComponentActivity() {
 // New: a preview-friendly content composable that accepts a lambda for theme commands
 @OptIn(ExperimentalMaterial3Api::class)
 /**
- * Hosts the app's navigation graph in a full-screen container that can optionally apply the digital pixel effect.
+ * Hosts the app's navigation graph in a full-screen Compose container and provides persistent system overlays
+ * including a presence widget, a floating chat bubble, and an agent sidebar; an optional digital pixel effect
+ * is applied when enabled.
  *
- * @param processThemeCommand Callback invoked to process theme-related commands; receives the command as a `String`.
+ * The UI includes an edge-swipe trigger that opens the agent sidebar and overlay controls that navigate to
+ * the app's routes (theme engine, firewall, canvas, direct chat, conference, task assignment, Auras Lab, app builder).
+ *
+ * @param processThemeCommand Callback invoked to process theme-related commands; receives the command string.
  */
 @Composable
 internal fun MainScreenContent(
@@ -191,6 +196,12 @@ internal fun MainScreen(
     MainScreenContent(processThemeCommand = { themeViewModel.processThemeCommand(it) })
 }
 
+/**
+ * Renders a preview of the main app screen inside AuraFrameFXTheme using a no-op theme command handler.
+ *
+ * Intended for IDE previews; it composes MainScreenContent with a placeholder lambda so the preview
+ * can display the screen without requiring a real ThemeViewModel.
+ */
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
@@ -200,5 +211,12 @@ fun MainScreenPreview() {
     }
 }
 
-// Extension function placeholder - this should be implemented elsewhere
+/**
+ * Applies a digital pixelation visual effect to this [Modifier].
+ *
+ * This is a placeholder implementation that currently has no effect and returns the receiver unchanged;
+ * platform- or theme-specific implementations should provide the actual visual transformation.
+ *
+ * @return The same [Modifier] instance when no effect is applied, or a modified [Modifier] that renders the pixel effect.
+ */
 fun Modifier.digitalPixelEffect(): Modifier = this

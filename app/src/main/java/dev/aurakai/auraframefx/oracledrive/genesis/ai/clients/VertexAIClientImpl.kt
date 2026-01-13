@@ -83,14 +83,14 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Advanced text generation with temperature and token control.
+     * Generate text from the prompt with adjustable randomness and maximum length.
      *
-     * Implements real Vertex AI / Gemini integration with:
-     * - HTTP REST API calls to Google Cloud
-     * - JSON request/response serialization
-     * - Retry logic with exponential backoff
-     * - LRU caching for performance
-     * - Input validation and error handling
+     * Uses the configured Vertex AI integration, honoring safety filters, caching, and retry behavior.
+     *
+     * @param prompt The input text prompt to generate from.
+     * @param temperature Controls generation randomness; higher values produce more varied output.
+     * @param maxTokens Maximum number of tokens allowed in the generated output.
+     * @return The generated text, or `null` if no content was produced or generation failed after retries.
      */
     override suspend fun generateText(
         prompt: String,
@@ -268,11 +268,21 @@ class VertexAIClientImpl @Inject constructor(
         return generateText(prompt)
     }
 
+    /**
+     * Perform any startup initialization required for the Vertex AI client.
+     *
+     * Implementations may prepare resources or perform health checks; current implementation logs client initialization.
+     */
     override suspend fun initialize() {
         // Initialize Vertex AI client connection
         Timber.i("VertexAI: Initializing client")
     }
 
+    /**
+     * Clears the client's in-memory response cache and releases related resources.
+     *
+     * Removes all cached entries and records a completion log entry.
+     */
     override suspend fun cleanup() {
         // Cleanup Vertex AI client resources
         cache.clear()
@@ -280,7 +290,11 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Execute HTTP request to Vertex AI endpoint.
+     * Sends the given Vertex AI request to the configured model endpoint and deserializes the response.
+     *
+     * @param vertexRequest The request payload to send.
+     * @return The deserialized VertexAIResponse from the service.
+     * @throws VertexAIException If the HTTP call fails, the service returns a non-success status, or the response body is empty.
      */
     private suspend fun executeRequest(vertexRequest: VertexAIRequest): VertexAIResponse {
         val jsonBody = json.encodeToString(vertexRequest)

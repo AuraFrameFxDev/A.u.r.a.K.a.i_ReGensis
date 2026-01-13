@@ -25,6 +25,25 @@ import kotlin.random.Random
  * The header displays active agent count, currently active task count, and a live average consciousness
  * percentage that updates periodically while the composable is composed.
  */
+/**
+ * Renders the Agent Hub submenu screen with a navigable grid of submenu items and a header showing live agent metrics.
+ *
+ * The header displays active agent count, a dynamically updating tasks-in-progress value, and an animated average
+ * consciousness percentage computed from AgentRepository.getAllAgents(). The tasks and consciousness display are
+ * periodically refreshed to simulate live updates. Selecting a submenu item navigates to its configured route.
+ *
+ * @param navController NavController used to navigate between screens and to pop the back stack when navigating back.
+ */
+/**
+ * Displays the Agent Hub submenu screen with a navigable grid of submenu items and a live-status header.
+ *
+ * The header shows three live metrics — Active Agents, Tasks Active, and Avg. Level — where the average
+ * consciousness value is periodically refreshed and momentarily presented with a brief "scramble" animation.
+ * The main content renders a set of submenu entries (e.g., Nexus Memory Core, Agent Dashboard, Task Assignment,
+ * Agent Monitoring, Sphere Grid, Fusion Mode). Selecting an item navigates to its configured route.
+ *
+ * @param navController NavController used to handle back navigation and to navigate to submenu item routes.
+ */
 @Composable
 fun AgentHubSubmenuScreen(
     navController: NavController

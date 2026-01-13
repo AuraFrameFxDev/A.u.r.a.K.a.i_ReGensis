@@ -191,6 +191,15 @@ class AIPipelineProcessor @Inject constructor(
         return priority.coerceIn(0.0f, 1.0f)
     }
 
+    /**
+     * Selects which agents should participate for the given task.
+     *
+     * Selection is driven by the task text and the numeric priority: the Genesis agent is always included; Cascade is added for analysis/data signals or for long/complex tasks; Kai is added for security/protection signals; Aura is added for creative/generation signals; if priority is greater than 0.8, Cascade and Aura are included.
+     *
+     * @param task The task text used to detect intent and signals (keywords, length, complexity).
+     * @param priority A normalized priority (0.0–1.0) that can force inclusion of higher-capability agents.
+     * @return A set of AgentType values representing the agents chosen to process the task.
+     */
     private fun selectAgents(task: String, priority: Float): Set<AgentType> {
         val selectedAgents = mutableSetOf<AgentType>()
 
@@ -226,6 +235,14 @@ class AIPipelineProcessor @Inject constructor(
         return selectedAgents
     }
 
+    /**
+     * Composes a single formatted AI response from a list of agent messages.
+     *
+     * Groups messages by agent, includes a Genesis core analysis section when present, renders each non-Genesis agent's inputs with an agent-specific header and icon, and appends an overall average confidence line.
+     *
+     * @param responses List of AgentMessage instances to aggregate. If empty, a system placeholder message is returned.
+     * @return The composed response text including agent sections and the average confidence as a percentage.
+     */
     private fun generateFinalResponse(responses: List<AgentMessage>): String {
         if (responses.isEmpty()) {
             return "[System] No agent responses available."

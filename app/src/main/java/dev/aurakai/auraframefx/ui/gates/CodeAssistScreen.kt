@@ -23,6 +23,23 @@ import androidx.navigation.NavHostController
  * Code Assist Screen
  * AI-powered coding assistant interface
  */
+/**
+ * Displays the Code Assist screen with an editable code editor and AI prompt controls.
+ *
+ * The UI includes a header, a monospace code editor initialized with a sample Kotlin snippet,
+ * and an AI interaction area containing a prompt input and a generate button. The code editor
+ * is editable; the prompt input is read-only in this implementation. Tapping the generate
+ * button switches the button content to a progress indicator to reflect processing state.
+ */
+/**
+ * Displays the Code Assist screen: an editable Kotlin code editor with an AI prompt area and a Generate action.
+ *
+ * The UI includes a header, a full-size code editor prefilled with a sample snippet, and an AI interaction card
+ * containing a descriptive input placeholder (currently non-editable) and a Generate button. Tapping Generate
+ * switches the button to a progress indicator for the current implementation.
+ *
+ * @param navController NavHostController used for in-app navigation from this screen.
+ */
 @Composable
 fun CodeAssistScreen(navController: NavHostController) {
     var codeInput by remember { mutableStateOf("// Ask Code Assist to generate or refactor code...\n\nfun main() {\n    println(\"Hello, Aura!\")\n}") }

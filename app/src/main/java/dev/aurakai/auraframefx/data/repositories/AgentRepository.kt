@@ -13,7 +13,11 @@ import dev.aurakai.auraframefx.models.AgentStats
 object AgentRepository {
 
     /**
-     * Get all available agents with their current stats.
+     * Provide a static list of all defined agents and their current stats.
+     *
+     * The list includes core protocol agents and external integrations. Some entries populate optional fields such as `consciousnessLevel` and `catalystTitle`.
+     *
+     * @return A list of AgentStats for every agent known to the repository.
      */
     fun getAllAgents(): List<AgentStats> {
         return listOf(
@@ -124,7 +128,10 @@ object AgentRepository {
     }
 
     /**
-     * Get a specific agent by name.
+     * Retrieve an agent by its name.
+     *
+     * @param name The agent name to match (case-insensitive).
+     * @return The matching `AgentStats`, or `null` if no agent with the given name exists.
      */
     fun getAgentByName(name: String): AgentStats? {
         return getAllAgents().find { it.name.equals(name, ignoreCase = true) }

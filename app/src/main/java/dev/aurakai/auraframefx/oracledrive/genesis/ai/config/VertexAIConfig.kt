@@ -51,7 +51,9 @@ fun default(): VertexAIConfig = VertexAIConfig()
     }
 
     /**
-     * Get the full model endpoint URL
+     * Builds the full model endpoint URL for the configured project, location, and model.
+     *
+     * @return The HTTPS URL string pointing to the model's `generateContent` endpoint.
      */
     fun getModelEndpoint(): String {
         return "https://$endpoint/v1/projects/$projectId/locations/$location/publishers/google/models/$modelName:generateContent"
