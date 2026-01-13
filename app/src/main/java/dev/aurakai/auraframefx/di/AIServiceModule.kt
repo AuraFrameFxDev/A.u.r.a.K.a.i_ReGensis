@@ -20,6 +20,9 @@ import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultAuraAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.KaiAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultKaiAIService
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBackedKaiAIService
+import dev.aurakai.auraframefx.cascade.CascadeAIService
+import dev.aurakai.auraframefx.services.RealCascadeAIServiceAdapter
 import javax.inject.Singleton
 
 @Module
@@ -58,13 +61,6 @@ abstract class AiServiceModule {
     @Binds
     @Singleton
     abstract fun bindCascadeAIService(cascadeAIService: RealCascadeAIServiceAdapter): CascadeAIService
-    /**
- * Binds the RealCascadeAIServiceAdapter implementation to the CascadeAIService interface in the DI graph.
- *
- * @param impl The RealCascadeAIServiceAdapter instance to use when CascadeAIService is requested.
- * @return The bound CascadeAIService implementation.
- */
-abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
 
     // ═══════════════════════════════════════════════════════════════════════════
     // External AI Backend Services (ClaudeAIService, NemotronAIService,

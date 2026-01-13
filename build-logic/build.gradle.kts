@@ -34,7 +34,9 @@ java {
 
 // Configure Kotlin compilation to match Java toolchain
 // MUST match the target used in GenesisApplicationPlugin and GenesisLibraryHiltPlugin (JVM 25)
-kotlin.compilerOptions.jvmTarget
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+}
 // Explicitly configure Java compilation tasks to target JVM 25
 tasks.withType<JavaCompile>().configureEach {
     sourceCompatibility = "25"
@@ -76,7 +78,6 @@ dependencies {
 
     // Hilt Gradle Plugin (Android AAR dependencies excluded globally via configurations.all)
     implementation(libs.hilt.gradle.plugin)
-    implementation(libs.hilt.android)
     implementation(libs.ksp.gradle.plugin)
     implementation(libs.gms.google.services)
     testImplementation(kotlin("test"))

@@ -5,6 +5,7 @@
 // kotlinOptions replaced with KotlinAndroidProjectExtension.compilerOptions
 
 import com.android.build.api.dsl.LibraryExtension
+import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -22,50 +23,84 @@ subprojects { subproject ->
     if (isAndroidModule) {
         // Apply common Android and YukiHook configurations
         with(subproject) {
-            // Apply common plugins if not already applied
-            if (!pluginManager.hasPlugin("com.android.library") && !pluginManager.hasPlugin("com.android.application")) {
-                pluginManager.apply("com.android.library")
-            }
+            // Apply KSP and LSParanoid plugins
             pluginManager.apply("com.google.devtools.ksp")
             pluginManager.apply("org.lsposed.lsparanoid")
 
-            // Configure Android settings using AGP 9.0 Public DSL
-            extensions.configure(LibraryExtension::class.java) {
-                compileSdk = 36
+            // Branch based on actual Android plugin type
+            when {
+                plugins.hasPlugin("com.android.library") -> {
+                    // Configure Android library settings using AGP 9.0 Public DSL
+                    extensions.configure(LibraryExtension::class.java) {
+                        compileSdk = 36
 
-                defaultConfig {
-                    minSdk = 33
-                    targetSdk = 36
+                        defaultConfig {
+                            minSdk = 33
+                            targetSdk = 36
 
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    consumerProguardFiles("consumer-rules.pro")
-                }
+                            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                            consumerProguardFiles("consumer-rules.pro")
+                        }
 
-                buildTypes {
-                    release {
-                        isMinifyEnabled = true
-                        proguardFiles(
-                            getDefaultProguardFile("proguard-android-optimize.txt"),
-                            "proguard-rules.pro",
-                        )
+                        buildTypes {
+                            release {
+                                isMinifyEnabled = true
+                                proguardFiles(
+                                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                                    "proguard-rules.pro",
+                                )
+                            }
+                        }
+
+                        compileOptions {
+                            sourceCompatibility = JavaVersion.VERSION_25
+                            targetCompatibility = JavaVersion.VERSION_25
+                            isCoreLibraryDesugaringEnabled = true
+                        }
                     }
                 }
+                plugins.hasPlugin("com.android.application") -> {
+                    // Configure Android application settings using AGP 9.0 Public DSL
+                    extensions.configure(ApplicationExtension::class.java) {
+                        compileSdk = 36
 
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_25
-                    targetCompatibility = JavaVersion.VERSION_25
-                    isCoreLibraryDesugaringEnabled = true
+                        defaultConfig {
+                            minSdk = 33
+                            targetSdk = 36
+
+                            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                        }
+
+                        buildTypes {
+                            release {
+                                isMinifyEnabled = true
+                                proguardFiles(
+                                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                                    "proguard-rules.pro",
+                                )
+                            }
+                        }
+
+                        compileOptions {
+                            sourceCompatibility = JavaVersion.VERSION_25
+                            targetCompatibility = JavaVersion.VERSION_25
+                            isCoreLibraryDesugaringEnabled = true
+                        }
+                    }
                 }
             }
 
             // Configure Kotlin compiler options (AGP 9.0 replacement for kotlinOptions)
-            extensions.configure(KotlinAndroidProjectExtension::class.java) {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_25)
-                    freeCompilerArgs.addAll(
-                        "-Xjvm-default=all",
-                        "-opt-in=kotlin.RequiresOptIn",
-                    )
+            // Only if Kotlin Android plugin is present
+            pluginManager.withPlugin("org.jetbrains.kotlin.android") {
+                extensions.configure(KotlinAndroidProjectExtension::class.java) {
+                    compilerOptions {
+                        jvmTarget.set(JvmTarget.JVM_25)
+                        freeCompilerArgs.addAll(
+                            "-Xjvm-default=all",
+                            "-opt-in=kotlin.RequiresOptIn",
+                        )
+                    }
                 }
             }
 
