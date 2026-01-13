@@ -38,6 +38,15 @@ import dev.aurakai.auraframefx.ui.viewmodels.XhancementViewModel
  * This composable also clears any transient error or success messages exposed by the screen's
  * ViewModel after three seconds when such a message is present.
  */
+/**
+ * Displays the Xhancement feature placeholder UI centered on the screen.
+ *
+ * Observes feature state and transient messages from the associated ViewModel and clears any displayed
+ * error or success message after three seconds. The UI includes an icon, title, subtitle, and a brief
+ * descriptive line about quick toggles for Xposed hooks.
+ *
+ * @param onNavigateBack Callback invoked to navigate back; defaults to no-op.
+ */
 @Composable
 fun XhancementScreen(
     onNavigateBack: () -> Unit = {}

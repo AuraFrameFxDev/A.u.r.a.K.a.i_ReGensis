@@ -31,6 +31,18 @@ import kotlin.math.sin
  * Genesis Constellation Screen - Vertical Infinity Cascade
  * Displays the data and communications backbone with cascading data streams
  */
+/**
+ * Displays the Genesis constellation screen: a full-screen black canvas with a centered animated
+ * infinity visualization and styled labels arranged around it.
+ *
+ * The layout places the GenesisInfinityCascadeCanvas at the center, decorative text in the
+ * top-right corner ("Genesis" and "∞ BACKEND ORACLE"), a bottom-left label ("Vertical Infinity Cascade"),
+ * and a vertical stack of characters on the right ("DATA STREAM" and "ORCHESTRATION"). The arrangement
+ * is static and intended for visual presentation; it does not introduce interactive behavior.
+ *
+ * @param navController Navigation controller for handling screen navigation.
+ * @param modifier Optional modifier to adjust the screen's layout and appearance.
+ */
 @Composable
 fun GenesisConstellationScreen(
     navController: NavController,

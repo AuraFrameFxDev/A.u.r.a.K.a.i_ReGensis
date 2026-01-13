@@ -196,6 +196,12 @@ internal fun MainScreen(
     MainScreenContent(processThemeCommand = { themeViewModel.processThemeCommand(it) })
 }
 
+/**
+ * Renders a preview of the main app screen inside AuraFrameFXTheme using a no-op theme command handler.
+ *
+ * Intended for IDE previews; it composes MainScreenContent with a placeholder lambda so the preview
+ * can display the screen without requiring a real ThemeViewModel.
+ */
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
@@ -205,5 +211,12 @@ fun MainScreenPreview() {
     }
 }
 
-// Extension function placeholder - this should be implemented elsewhere
+/**
+ * Applies a digital pixelation visual effect to this [Modifier].
+ *
+ * This is a placeholder implementation that currently has no effect and returns the receiver unchanged;
+ * platform- or theme-specific implementations should provide the actual visual transformation.
+ *
+ * @return The same [Modifier] instance when no effect is applied, or a modified [Modifier] that renders the pixel effect.
+ */
 fun Modifier.digitalPixelEffect(): Modifier = this

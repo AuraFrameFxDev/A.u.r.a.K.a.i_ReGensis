@@ -23,11 +23,11 @@ object CascadeEventBus {
     val events: SharedFlow<MemoryEvent> = _events.asSharedFlow()
 
     /**
-     * Emits the given event to the cascade memory event stream as a best-effort, non-blocking delivery.
+     * Publish a cascade memory/insight event to the shared event stream using best-effort, non-blocking delivery.
      *
-     * The emission is attempted without suspending; if the internal buffer is full the event may be dropped.
+     * If the internal buffer is full the event may be dropped.
      *
-     * @param event The event to publish to the memory/insight event stream.
+     * @param event The CascadeEvent to publish to the memory/insight event stream.
      */
     fun emit(event: CascadeEvent) {
         _events.tryEmit(event)

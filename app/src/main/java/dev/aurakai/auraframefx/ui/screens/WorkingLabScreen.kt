@@ -43,6 +43,13 @@ import kotlinx.coroutines.launch
  *
  * @param onNavigate Callback invoked with a destination identifier when a module or menu item is selected (e.g., "collab_canvas", "oracle_drive", "console", "romtools", "center").
  */
+/**
+ * Renders the Working Lab UI with autonomous Aura and Kai manifestations, interactive module cards, a holographic platform, and visual data streams.
+ *
+ * Initializes and drives the embodiment engine and choreographer, starts the autonomous work loop that manifests and moves Aura and Kai between module cards, and renders the resulting UI (background, platform, module cards, character manifestations, and data streams). User interactions on module cards and the center menu invoke the navigation callback.
+ *
+ * @param onNavigate Callback invoked with a destination identifier (e.g. "collab_canvas", "oracle_drive", "console", "romtools", or other menu targets) when a module card or menu item is selected.
+ */
 @Composable
 fun WorkingLabScreen(
     onNavigate: (String) -> Unit = {}
@@ -409,7 +416,17 @@ fun DebuggingSessionDemo() {
 }
 
 /**
- * 🚀 Deployment Demo
+ * Demonstrates a coordinated deployment sequence where Aura and Kai manifest staged behaviors
+ * and then displays the Working Lab UI.
+ *
+ * This composable initializes an embodiment engine and performs a scripted timeline:
+ * - brief startup delay,
+ * - Aura manifests `SCIENCE_MODE` with a system-modification trigger,
+ * - Kai manifests a playful shield with a custom "Deploy approved" trigger,
+ * - Aura enters a dramatic center `POWER_STANCE`.
+ *
+ * The sequence runs inside a LaunchedEffect and the function renders `WorkingLabScreen`
+ * to visualize the deployment behaviors.
  */
 @Composable
 fun DeploymentDemo() {

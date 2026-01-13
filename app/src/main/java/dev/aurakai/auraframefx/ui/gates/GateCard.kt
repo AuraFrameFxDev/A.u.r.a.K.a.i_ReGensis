@@ -321,7 +321,15 @@ private fun BoxScope.HologramGlow(
 }
 
 /**
- * Gate image with tight holographic border - no gaps, pure floating display
+ * Renders the gate's interior artwork and a tight holographic border that fills the available space.
+ *
+ * Displays the pixel-art image identified by `config.pixelArtUrl` scaled to fill the area; when the drawable
+ * resource is missing or `pixelArtUrl` is null, shows a vertical gradient fallback with the gate title.
+ * A pulsing border and corner accents are drawn around the content, and a subtle scanline effect is overlaid
+ * to enhance the holographic appearance.
+ *
+ * @param config Configuration for the gate visuals (title, colors, optional `pixelArtUrl`, title style, border and glow colors).
+ * @param pulseAlpha Alpha multiplier used to drive the pulsing intensity of the border and accent colors (0f..1f).
  */
 @Composable
 private fun GateImageWithBorder(
