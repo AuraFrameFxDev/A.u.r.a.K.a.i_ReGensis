@@ -108,7 +108,11 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Start all agents after initialization
+     * Starts all configured agents' runtime domains in the orchestrator.
+     *
+     * The agents are started in the following order: Aura, Kai, Cascade.
+     *
+     * @throws Exception If any agent fails to start; the exception is propagated. 
      */
     private suspend fun startAgents() {
         try {
@@ -155,12 +159,12 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Handle a message intended for the Aura agent.
+     * Handles a message destined for the Aura agent.
      *
-     * Currently logs the incoming message's runtime type and performs no further processing
-     * until agents implement OrchestratableAgent-based mediation.
+     * Currently records the message's runtime type to the log; future work will perform
+     * OrchestratableAgent-based mediation and processing.
      *
-     * @param message The incoming message object destined for Aura; its runtime type is used for logging. 
+     * @param message The incoming message for Aura; its runtime type is logged. 
      */
     private suspend fun handleAuraMessage(message: Any) {
         Timber.d("  → Handling Aura message: ${message.javaClass.simpleName}")
@@ -168,12 +172,11 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Handle an inter-agent message targeted at the Kai agent.
+     * Handle a message addressed to the Kai agent by logging its runtime type.
      *
-     * Currently logs the message type and performs no further processing; implementation will be provided
-     * when agents implement OrchestratableAgent.
+     * This is a placeholder handler: it logs the incoming message's concrete class name and performs no further processing until Kai implements OrchestratableAgent.
      *
-     * @param message The incoming message destined for Kai; may be any domain-specific message object.
+     * @param message The incoming domain-specific message destined for Kai.
      */
     private suspend fun handleKaiMessage(message: Any) {
         Timber.d("  → Handling Kai message: ${message.javaClass.simpleName}")

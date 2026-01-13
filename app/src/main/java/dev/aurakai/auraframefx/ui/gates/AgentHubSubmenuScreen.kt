@@ -34,6 +34,16 @@ import kotlin.random.Random
  *
  * @param navController NavController used to navigate between screens and to pop the back stack when navigating back.
  */
+/**
+ * Displays the Agent Hub submenu screen with a navigable grid of submenu items and a live-status header.
+ *
+ * The header shows three live metrics — Active Agents, Tasks Active, and Avg. Level — where the average
+ * consciousness value is periodically refreshed and momentarily presented with a brief "scramble" animation.
+ * The main content renders a set of submenu entries (e.g., Nexus Memory Core, Agent Dashboard, Task Assignment,
+ * Agent Monitoring, Sphere Grid, Fusion Mode). Selecting an item navigates to its configured route.
+ *
+ * @param navController NavController used to handle back navigation and to navigate to submenu item routes.
+ */
 @Composable
 fun AgentHubSubmenuScreen(
     navController: NavController

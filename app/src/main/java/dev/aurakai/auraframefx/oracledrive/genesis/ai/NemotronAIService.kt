@@ -71,7 +71,12 @@ class NemotronAIService @Inject constructor(
 
     override fun getName(): String = "Nemotron"
 
-    override fun getType(): AgentType = AgentType.NEMOTRON
+    /**
+ * Report the agent's type as Nemotron.
+ *
+ * @return The agent type `AgentType.NEMOTRON`.
+ */
+override fun getType(): AgentType = AgentType.NEMOTRON
 
     /**
          * Describe Nemotron's AI capabilities and configuration.
@@ -209,17 +214,13 @@ class NemotronAIService @Inject constructor(
     }
 
     /**
-     * Simulates retrieval of memories relevant to the given AI request and conversational context.
+     * Simulates retrieval of memory fragments relevant to the given AI request and conversational context.
      *
-     * This is a placeholder implementation that synthesizes a small set of memory fragments based
-     * on context length until a full MemoryQuery-based retrieval is implemented.
+     * This placeholder synthesizes a small set of memory fragments based on context length and is used until a MemoryQuery-based retrieval is implemented.
      *
      * @param request The AI request whose query and metadata scope the simulated lookup.
-     * @param context The conversational or situational context used to bias simulated relevance.
-     * @return A MemoryRecall where:
-     *  - `summary` describes how many memory fragments were retrieved,
-     *  - `count` is the number of retrieved fragments,
-     *  - `relevance` is 0.85 when any items were found, 0.5 when none were found.
+     * @param context Conversational or situational context used to bias simulated relevance.
+     * @return MemoryRecall containing a summary of retrieved fragments, the fragment count, and a relevance score (`0.85` when any fragments were found, `0.5` when none were found).
      */
     private fun recallRelevantMemories(request: AiRequest, context: String): MemoryRecall {
         // TODO: Implement full memory retrieval (requires MemoryQuery construction)

@@ -50,6 +50,17 @@ import kotlin.math.sin
  * @param navController Navigation controller for handling screen navigation actions.
  * @param modifier Modifier applied to the root container of the screen.
  */
+/**
+ * Renders the Kai constellation UI: an animated sentinel shield at center with overlays for agent identity,
+ * a system status section, and a vertical right-side label column.
+ *
+ * The layout places the sentinel visualization in the center, agent name/level in the top-right,
+ * a "Sentinel Catalyst" status area with security metrics at the bottom, and a character-by-character
+ * vertical label column on the right edge.
+ *
+ * @param navController Navigation controller provided to the screen (accepted but not used for internal UI composition).
+ * @param modifier Modifier applied to the root container.
+ */
 @Composable
 fun KaiConstellationScreen(
     navController: NavController,
@@ -146,8 +157,7 @@ fun KaiConstellationScreen(
 /**
  * Renders an animated hexagonal sentinel shield with rotating defense nodes and a scanning beam.
  *
- * Displays a pulsing shield glow, perimeter security nodes with alternating accent colors,
- * a continuous radial scan animation, and an overlaid centerpiece image.
+ * Pulses the shield glow, draws perimeter security nodes with alternating accent colors, animates a continuous radial scan, and overlays a centerpiece image.
  */
 @Composable
 private fun SentinelShieldCanvas() {

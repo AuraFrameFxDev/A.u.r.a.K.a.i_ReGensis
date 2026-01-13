@@ -40,6 +40,14 @@ import kotlin.math.sin
  * @param navController Navigation controller for handling navigation actions originating from this screen.
  * @param modifier Optional [Modifier] applied to the root container.
  */
+/**
+ * Displays the Cascade Constellation screen: a full-screen, animated data-flow visualization
+ * with a centered DataStreamCanvas, a top-right agent header, a bottom-left data stream status panel,
+ * and right-side vertical labels.
+ *
+ * @param navController NavController used to handle navigation actions originating from this screen.
+ * @param modifier Modifier applied to the root container to customize layout or styling.
+ */
 @Composable
 fun CascadeConstellationScreen(
     navController: NavController,
@@ -371,9 +379,9 @@ private fun DrawScope.drawMechanicalWing(
 }
 
 /**
- * Displays a compact status panel showing input/process/output channel indicators, an animated flow progress bar, and a numeric flow percentage.
+ * Renders a compact status panel with input/process/output channel indicators, an animated horizontal flow bar, and a numeric flow percentage.
  *
- * The progress bar animates from 0% to 100% continuously while the channel indicators pulse to reflect flow intensity.
+ * The horizontal bar animates continuously from 0% to 100% to represent stream throughput while the channel indicators pulse to reflect flow intensity; the bar fill uses a turquoise-to-blue gradient whose opacity follows the pulse.
  */
 @Composable
 private fun DataStreamStatusBar() {

@@ -35,6 +35,13 @@ import kotlinx.coroutines.launch
  * and simulates execution for two seconds during which the corresponding card shows a running indicator and other actions
  * are non-clickable.
  */
+/**
+ * Renders the Quick Actions screen: a header, execution status, recent actions, categorized action grid, and system status.
+ *
+ * The UI displays a set of predefined quick actions grouped by their category. Tapping an action marks it as executing,
+ * adds its title to the recent actions list (keeps up to three most recent unique entries), disables interaction for the
+ * currently executing action, and simulates execution by clearing the executing state after a two-second delay.
+ */
 @Composable
 fun QuickActionsScreen() {
     val actions = listOf(

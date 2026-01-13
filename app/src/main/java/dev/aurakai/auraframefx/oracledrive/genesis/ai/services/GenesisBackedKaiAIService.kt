@@ -69,15 +69,15 @@ class GenesisBackedKaiAIService @Inject constructor(
     }
 
     /**
-     * Produce a security threat assessment from a threat description.
+     * Produce a security threat assessment from a textual threat description.
      *
      * @param threat A textual description or indicator of the potential threat to analyze.
-     * @return A map containing the analysis:
+     * @return A map with analysis results:
      * - `threat_level`: severity as `"critical"`, `"high"`, `"medium"`, or `"low"`.
-     * - `confidence`: confidence score as a `Float` (e.g., `0.95f`).
-     * - `recommendations`: a `List<String>` of suggested actions.
-     * - `timestamp`: analysis time as epoch milliseconds (`Long`).
-     * - `analyzed_by`: identifier of the analyzer (`String`).
+     * - `confidence`: confidence score (e.g., `0.95f`).
+     * - `recommendations`: list of suggested actions.
+     * - `timestamp`: analysis time as epoch milliseconds.
+     * - `analyzed_by`: identifier of the analyzer.
      */
     override suspend fun analyzeSecurityThreat(threat: String): Map<String, Any> {
         val threatLevel = when {
@@ -176,6 +176,12 @@ override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow 
         return true
     }
 
+    /**
+     * Marks the service as uninitialized and performs any necessary resource cleanup.
+     *
+     * After calling this method the service will no longer be considered initialized; implementations
+     * may release held resources or stop background tasks.
+     */
     override fun cleanup() {
         isInitialized = false
         // Cleanup resources if needed
