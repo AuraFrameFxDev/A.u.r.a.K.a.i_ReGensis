@@ -41,17 +41,17 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Returns null as image generation is not implemented in this stub.
+     * Stub implementation that does not generate an image.
      *
-     * @param _prompt The prompt describing the desired image.
-     * @return Always null.
+     * @param prompt The text prompt describing the desired image.
+     * @return `null` to indicate image generation is not implemented.
      */
     suspend fun generateImage(prompt: String): ByteArray? {
         return null
     }
 
     /**
-     * Always returns a fixed placeholder generated text and ignores `prompt` and `context`.
+     * Produces a fixed placeholder text and ignores the provided `prompt` and `context`.
      *
      * @return The string "Generated text placeholder".
      */
@@ -81,10 +81,10 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Placeholder method for saving a value to memory with the specified key.
+     * Placeholder that would save a value under the given memory key but currently performs no operation.
      *
-     * This implementation does not perform any operation and serves as a stub for future functionality.
-     */
+     * @param key The memory key under which the value would be stored.
+     * @param value The value to store. */
     fun saveMemory(key: String, value: Any) {
         // TODO: Implement memory saving
     }

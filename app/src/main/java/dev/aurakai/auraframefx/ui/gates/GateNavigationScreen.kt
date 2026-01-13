@@ -61,11 +61,11 @@ import kotlin.math.absoluteValue
  */
 @OptIn(ExperimentalFoundationApi::class)
 /**
-     * Displays the main gate navigation UI: a horizontal pager of gate cards with animated glow, a particle background, and an enhanced page indicator.
+     * Shows the main gate navigation UI: a horizontally scrollable pager of gate cards with an animated glow, particle background, and an enhanced page indicator.
      *
-     * The composable builds its gate list from configured GateConfigs, applies parallax/scale/alpha transforms per page, animates a subtle glow, and handles double-tap interactions to navigate to a gate route (blocks gates marked `comingSoon` and contains a placeholder authentication check that may route to the login screen with a `returnTo` parameter).
+     * Double-tapping a gate attempts instantaneous navigation to that gate's route, blocks gates marked `comingSoon`, and will route to the login screen when a gate requires authentication (login routing includes a `returnTo` parameter). The pager applies a subtle parallax/scale/alpha transform per page and animates gate glow intensity.
      *
-     * @param navController Used to navigate to gate routes or to the login screen when a gate requires authentication.
+     * @param navController NavController used to navigate to gate routes or to the login screen when a gate requires authentication.
      * @param modifier Optional Modifier for layout and styling.
      */
     @Composable
@@ -283,6 +283,11 @@ private fun TeleportingGateCard(
     }
 }
 
+/**
+ * Renders a dynamic particle background used as the scene's magical/energetic backdrop.
+ *
+ * This composable displays a NeuralLinkBackground with a moderate speed and cyan-to-blue color scheme.
+ */
 @Composable
 private fun MagicalParticleField() {
     NeuralLinkBackground(

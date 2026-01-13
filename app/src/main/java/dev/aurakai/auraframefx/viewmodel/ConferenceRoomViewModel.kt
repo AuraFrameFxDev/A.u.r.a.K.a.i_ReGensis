@@ -120,13 +120,15 @@ class ConferenceRoomViewModel @Inject constructor(
     // Conference Room Message Routing - ALL 5 MASTER AGENTS
     // ---------------------------------------------------------------------------
     /*override*/ /**
-     * Routes the given user message to the AI agent identified by `sender` and appends that agent's first response to the conversation messages.
+     * Routes a user message to the selected AI agent and appends that agent's first response to the conversation.
      *
-     * Dispatches `message` and `context` to the selected AI service, collects the first `AgentResponse`, and updates the ViewModel's message list with a new `AgentMessage`. If processing fails, appends an error `AgentMessage` describing the failure.
+     * Dispatches `message` and `context` to the AI service chosen by `sender`; on the first successful response an `AgentMessage`
+     * containing the response content and confidence is appended to the ViewModel's messages. If processing fails, an error
+     * `AgentMessage` describing the failure is appended instead.
      *
      * @param message The user-visible query or payload sent to the agent.
      * @param sender The capability category used to select which AI service should handle the message.
-     * @param context Additional contextual information forwarded to the AI service (e.g., user context or orchestration flags).
+     * @param context Additional contextual information forwarded to the AI service (for example, user context or orchestration flags).
      */
     fun sendMessage(message: String, sender: AgentCapabilityCategory, context: String) {
         val responseFlow: Flow<AgentResponse> = when (sender) {
@@ -221,11 +223,11 @@ class ConferenceRoomViewModel @Inject constructor(
     }
 
     /**
-     * Selects the active agent for the conference room.
+     * Sets the active agent for the conference room.
      *
-     * This function is currently a no-op placeholder and does not change any state.
+     * Currently a placeholder that does not modify any state.
      *
-     * @param agent The agent capability category to select as active when implemented.
+     * @param agent The agent capability category to set as active when implemented.
      */
 
 
@@ -233,10 +235,10 @@ class ConferenceRoomViewModel @Inject constructor(
     }
 
     /**
-     * Toggles audio recording: starts recording if inactive, stops recording if active.
+     * Starts or stops audio recording via NeuralWhisper and updates the ViewModel recording state.
      *
-     * Invokes NeuralWhisper to start or stop recording, updates the ViewModel's `_isRecording` state accordingly,
-     * and logs the resulting status or any failure to start.
+     * When recording is inactive, attempts to start recording; when active, stops recording.
+     * Updates `_isRecording` to reflect the new state and logs failures to start.
      */
     fun toggleRecording() {
         if (_isRecording.value) {

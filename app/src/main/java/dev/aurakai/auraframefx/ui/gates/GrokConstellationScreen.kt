@@ -44,12 +44,12 @@ import kotlin.math.sin
  */
 @OptIn(ExperimentalMaterial3Api::class)
 /**
- * Renders the "Grok" chaos constellation screen with an animated chaos wheel, entropy streams,
+ * Display the Grok chaos constellation screen with an animated centerpiece, entropy streams,
  * background particles, and an entropy monitor.
  *
- * The screen includes a back button that navigates up, an animated centerpiece wheel (rotation
- * and pulsing), programmatic drawing of entropy streams and particles, a level label, and an
- * entropy monitor reflecting the current pulse/flow state.
+ * The screen includes a back button that navigates up, an animated wheel that rotates and pulses,
+ * programmatic drawing of entropy streams and particles, a level label, and an entropy monitor
+ * reflecting the current pulse/flow state.
  *
  * @param navController Navigation controller used to navigate up from this screen.
  */
@@ -284,8 +284,13 @@ private fun DrawScope.drawEntropyStreams(
 }
 
 /**
- * Entropy Monitor Component
- */
+ * Displays a compact entropy monitor: a labeled row of ten bars reflecting the current entropy
+ * and a numeric "CHAOS LEVEL" percentage.
+ *
+ * @param entropyLevel Value from 0.0 to 1.0 controlling how many of the ten bars are shown as active
+ *                     and the percentage displayed (active bars = floor(entropyLevel * 10)).
+ * @param color The base color used for active/inactive bars and text; alpha is adjusted for inactive
+ *              and active states.
 @Composable
 private fun EntropyMonitor(
     entropyLevel: Float,

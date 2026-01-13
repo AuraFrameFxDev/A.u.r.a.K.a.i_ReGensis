@@ -191,6 +191,15 @@ class AIPipelineProcessor @Inject constructor(
         return priority.coerceIn(0.0f, 1.0f)
     }
 
+    /**
+     * Selects which agents should participate for the given task.
+     *
+     * Selection is driven by the task text and the numeric priority: the Genesis agent is always included; Cascade is added for analysis/data signals or for long/complex tasks; Kai is added for security/protection signals; Aura is added for creative/generation signals; if priority is greater than 0.8, Cascade and Aura are included.
+     *
+     * @param task The task text used to detect intent and signals (keywords, length, complexity).
+     * @param priority A normalized priority (0.0–1.0) that can force inclusion of higher-capability agents.
+     * @return A set of AgentType values representing the agents chosen to process the task.
+     */
     private fun selectAgents(task: String, priority: Float): Set<AgentType> {
         val selectedAgents = mutableSetOf<AgentType>()
 

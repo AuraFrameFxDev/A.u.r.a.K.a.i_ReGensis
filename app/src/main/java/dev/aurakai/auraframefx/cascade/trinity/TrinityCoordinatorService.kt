@@ -198,8 +198,8 @@ class TrinityCoordinatorService @Inject constructor(
      *
      * Emits a single AgentResponse describing success (includes a descriptive message when available) or failure.
      *
-     * @param fusionType The identifier of the fusion ability to activate.
-     * @param context Optional key/value context passed to the fusion activation.
+     * @param fusionType Identifier of the fusion ability to activate.
+     * @param context Optional key/value context passed to the activation.
      * @return A Flow that emits one AgentResponse representing the activation result.
      */
     fun activateFusion(

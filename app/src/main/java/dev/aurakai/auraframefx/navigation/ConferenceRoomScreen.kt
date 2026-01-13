@@ -33,6 +33,19 @@ import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
  * Manages local UI state for the selected agent, recording/transcribing toggles, and message input while loading agent labels from resources and displaying a list of `ConferenceMessage`s.
  */
 @OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Renders the conference room UI used to select agents, control recording/transcription/fusion,
+ * view a reverse-chronological message list, and compose/send new messages.
+ *
+ * This composable:
+ * - Loads agent labels from string resources and manages local input state for the message TextField.
+ * - Shows a header with an info action (calls viewModel.getSystemState()) and a settings action (logs a message).
+ * - Displays three agent selection buttons and updates `selectedAgent` when an agent is chosen.
+ * - Provides recording and transcription toggle buttons that update `isRecording` and `isTranscribing`.
+ * - Exposes a fusion activation button that calls viewModel.activateFusion with a predefined key/payload.
+ * - Renders messages in a reversed LazyColumn using MessageBubble.
+ * - Binds the input TextField to local state and builds a ConferenceMessage on send, then clears the input.
+ */
 @Composable
 fun ConferenceRoomScreen() {
     // Load string resources once at composition time
@@ -212,15 +225,15 @@ fun ConferenceRoomScreen() {
 }
 
 /**
- * Renders a row-scoped, equally weighted button labeled with an agent name.
+ * Displays a button that fills available Row space and shows the given agent label.
  *
- * The button fills available horizontal space within the Row (equal weight), applies horizontal
- * padding, and invokes the provided `onClick` composable when pressed.
+ * The button is given equal weight within its Row, applies horizontal padding, and uses
+ * theme-derived container and content colors.
  *
- * @param agent The label text to display on the button.
- * @param isSelected Indicates whether this agent is currently selected; the visual styling for
- *   selection is not applied by this function.
- * @param onClick Composable lambda invoked when the button is clicked.
+ * @param agent The text label shown on the button.
+ * @param isSelected Whether this agent is currently selected; this function does not alter styling
+ *   based on selection.
+ * @param onClick Callback invoked when the button is pressed.
  */
 @Composable
 fun RowScope.AgentButton(

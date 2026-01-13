@@ -363,12 +363,9 @@ class TaskExecutionManager @Inject constructor(
     }
 
     /**
-     * Executes the specified task using the Kai agent and returns the agent's response.
+     * Dispatches the given task to the Kai agent for processing.
      *
-     * Constructs an `AgentRequest` from the task's type, data, and priority, then delegates processing to the Kai agent.
-     *
-     * @param execution The task execution to process.
-     * @return The response from the Kai agent.
+     * @return The response returned by the Kai agent.
      */
     private suspend fun executeWithKai(execution: TaskExecution1): AgentResponse {
         val request = AiRequest(
@@ -380,13 +377,13 @@ class TaskExecutionManager @Inject constructor(
     }
 
     /**
-     * Sends the task execution to the Genesis agent and returns the agent's response.
+     * Dispatches the task execution to the Genesis agent and returns the agent's response.
      *
-     * Builds an AiRequest from the execution's query (fallback to type), type, and context, and then returns the resulting AgentResponse from the Genesis agent.
+     * Builds an AiRequest from the execution's query (falling back to the execution type), type, and context.
      *
-     * @param execution The task execution to be processed.
+     * @param execution The task execution to process.
      * @return The response produced by the Genesis agent.
-     * @throws NotImplementedError Thrown because Genesis execution is not yet implemented.
+     * @throws NotImplementedError Indicates Genesis execution is not yet implemented.
      */
     private suspend fun executeWithGenesis(execution: TaskExecution1): AgentResponse {
         AiRequest(

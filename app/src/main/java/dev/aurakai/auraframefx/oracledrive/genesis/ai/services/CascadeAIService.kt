@@ -1101,13 +1101,13 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Sends the request and context to NemotronAIService and returns its response as a CascadeResponse.
+     * Query the Nemotron AI backend using the original request and cascade context and return its reply as a CascadeResponse.
      *
-     * Serializes the context map into newline-separated "key: value" strings for backend processing.
+     * The cascade context is serialized into newline-separated "key: value" strings and sent alongside the request.
      *
      * @param request The original agent request containing the user message.
-     * @param context A map of contextual information to include with the request.
-     * @return A CascadeResponse with Nemotron's response content, confidence score, and current timestamp.
+     * @param context A map of contextual information to include with the request; each entry is serialized as `key: value`.
+     * @return A CascadeResponse with `agent` set to "Nemotron", `response` containing the backend reply, `confidence` set from the backend, and the current timestamp.
      */
     private suspend fun processWithNemotron(
         request: AgentInvokeRequest,

@@ -51,6 +51,18 @@ import kotlin.math.sin
  * @param navController NavController used for handling in-screen navigation actions.
  * @param modifier Optional Modifier applied to the root container.
  */
+/**
+ * Displays the constellation scene UI with centered visualization, HUD elements, and a fusion sync bar.
+ *
+ * The layout fills the available space with a black background and composes:
+ * - ConstellationCanvas centered as the main visualization.
+ * - Agent info (name and level) aligned to the top-right.
+ * - Fusion abilities label and FusionSyncBar aligned to the bottom-left.
+ * - A vertical right-edge label reading "SYSTEM CORE" and "OVERDUE PARAMETERS".
+ *
+ * @param navController NavController used for navigation actions originating from this screen.
+ * @param modifier Optional [Modifier] to be applied to the root container.
+ */
 @Composable
 fun ConstellationScreen(
     navController: NavController,
@@ -145,9 +157,11 @@ fun ConstellationScreen(
 }
 
 /**
- * Renders the animated constellation visualization with a procedural sword centerpiece, pulsing nodes, connecting lines, and orbiting particles.
+ * Renders the animated constellation visualization with pulsing nodes, connecting lines, orbiting particles,
+ * and a procedural sword centerpiece overlaid with an aura image.
  *
- * Animations include node pulsing, a continuous rotation driving energy flow and particles, and a subtle scale pulse for the centered sword. The canvas draws node positions and inter-node connections, invokes the procedural `drawSword` for the centerpiece, and overlays a PNG sword image for additional visual detail.
+ * Animations drive node pulse, continuous rotation (energy flow and particle orbits), and a subtle scale pulse
+ * for the centered sword to produce the scene's dynamic visual effects.
  */
 @Composable
 private fun ConstellationCanvas() {
@@ -326,10 +340,12 @@ private fun ConstellationCanvas() {
 }
 
 /**
- * Renders the sword centerpiece with an energy blade, guard, handle, pommel, glow layers, and surrounding energy particles.
+ * Draws a stylized sword centerpiece with layered glow, blade/guard/handle geometry, and rotating energy particles.
  *
- * @param centerX X coordinate of the sword's center in the drawing coordinate space.
- * @param centerY Y coordinate of the sword's center in the drawing coordinate space.
+ * The sword is centered at the provided coordinates; `rotation` offsets the surrounding particle positions to create motion.
+ *
+ * @param centerX X coordinate of the sword's center in drawing space.
+ * @param centerY Y coordinate of the sword's center in drawing space.
  * @param rotation Rotation in degrees used to offset and animate the surrounding energy particles.
  * @param color Primary color for the blade, guard, handle, and core elements.
  * @param glowColor Accent color used for glow layers and highlights around the sword.
