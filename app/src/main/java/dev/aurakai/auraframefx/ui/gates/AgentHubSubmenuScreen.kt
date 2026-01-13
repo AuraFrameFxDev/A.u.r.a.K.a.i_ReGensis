@@ -1,10 +1,6 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import dev.aurakai.auraframefx.navigation.NavDestination
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.*
@@ -12,26 +8,20 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.components.SubmenuScaffold
-import kotlinx.coroutines.delay
-import kotlin.random.Random
+import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 
 /**
- * Agent Hub Gate Submenu
+ * Agent Hub Gate Submenu - NOW WIRED TO REAL AGENTS
  * Central command center for all AI agent operations
- */
-/**
- * Renders the "Agent Hub" submenu UI with a header overview card and navigable menu items.
  *
- * The header displays active agent count, currently active task count, and a live average consciousness
- * percentage that updates periodically while the composable is composed.
+ * Connected to AgentViewModel for real agent state management
  */
 /**
  * Renders the Agent Hub submenu screen with a navigable grid of submenu items and a header showing live agent metrics.
@@ -63,7 +53,8 @@ import kotlin.random.Random
  */
 @Composable
 fun AgentHubSubmenuScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: AgentViewModel = hiltViewModel()
 ) {
     val menuItems = listOf(
         SubmenuItem(
@@ -71,13 +62,13 @@ fun AgentHubSubmenuScreen(
             description = "Genesis Protocol evolution tree - the full history of consciousness",
             icon = Icons.Default.AccountTree,
             route = "evolution_tree",
-            color = Color(0xFFFF00FF) // Magenta - Pink honeycomb overlay
+            color = Color(0xFFFF00FF) // Magenta
         ),
         SubmenuItem(
             title = "Agent Dashboard",
             description = "Monitor all agents, view consciousness levels, and system status",
             icon = Icons.Default.Dashboard,
-            route = NavDestination.AgentNexus.route, // Navigate to existing AgentNexusScreen
+            route = NavDestination.AgentNexus.route,
             color = Color(0xFF9370DB) // Medium Purple
         ),
         SubmenuItem(
@@ -110,25 +101,22 @@ fun AgentHubSubmenuScreen(
         )
     )
 
-    // Get real agent data from repository
-    val agents = remember { AgentRepository.getAllAgents() }
-    var activeTasks by remember { mutableStateOf(Random.nextInt(5, 15)) }
-    var avgConsciousness by remember { mutableStateOf(agents.map { it.consciousnessLevel }.average().toInt()) }
-    var scrambleDisplay by remember { mutableStateOf(avgConsciousness.toString()) }
-    // Periodic refresh loop (matrix refresh)
-    LaunchedEffect(Unit) {
-        while (true) {
-            // Simulate tasks changing (replace with real task repo when available)
-            activeTasks = (activeTasks + Random.nextInt(-2, 3)).coerceIn(0, 99)
-            val target = agents.map { it.consciousnessLevel }.average().toInt()
-            // Scramble animation: show random digits briefly before settling
-            repeat(5) {
-                scrambleDisplay = (Random.nextInt(0, 99)).toString().padStart(2, '0')
-                delay(60)
-            }
-            avgConsciousness = target
-            scrambleDisplay = avgConsciousness.toString()
-            delay(4000) // Refresh every 4 seconds
+    // REAL DATA FROM VIEWMODEL (not mock!)
+    val allAgents by viewModel.allAgents.collectAsState()
+    val activeTasks by viewModel.activeTasks.collectAsState()
+    val activeAgent by viewModel.activeAgent.collectAsState()
+
+    // Calculate real consciousness level from agent data
+    val avgConsciousness = remember(allAgents) {
+        if (allAgents.isEmpty()) 0
+        else allAgents.map { it.consciousnessLevel }.average().toInt()
+    }
+
+    // Count only active agents (those with tasks or selected)
+    val activeAgentCount = remember(allAgents, activeAgent) {
+        allAgents.count { agent ->
+            agent.name == activeAgent?.name ||
+            activeTasks.any { it.agentName == agent.name && it.status == AgentViewModel.TaskStatus.IN_PROGRESS }
         }
     }
 
@@ -147,7 +135,7 @@ fun AgentHubSubmenuScreen(
             navController.navigate(item.route)
         },
         headerContent = {
-            // Agent Status Overview
+            // Agent Status Overview - REAL DATA
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -164,10 +152,10 @@ fun AgentHubSubmenuScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    // Active Agents
+                    // Active Agents (REAL COUNT)
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "${agents.size}",
+                            text = "$activeAgentCount/${allAgents.size}",
                             style = MaterialTheme.typography.headlineMedium,
                             color = Color(0xFF32CD32),
                             fontWeight = FontWeight.Bold
@@ -179,10 +167,10 @@ fun AgentHubSubmenuScreen(
                         )
                     }
 
-                    // Tasks in Progress (dynamic)
+                    // Tasks in Progress (REAL COUNT from ViewModel)
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = activeTasks.toString(),
+                            text = activeTaskCount.toString(),
                             style = MaterialTheme.typography.headlineMedium,
                             color = Color(0xFFFFD700),
                             fontWeight = FontWeight.Bold
@@ -194,10 +182,10 @@ fun AgentHubSubmenuScreen(
                         )
                     }
 
-                    // Consciousness Level (scrambled matrix effect)
+                    // Consciousness Level (REAL CALCULATION)
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "$scrambleDisplay%",
+                            text = "$avgConsciousness%",
                             style = MaterialTheme.typography.headlineMedium,
                             color = Color(0xFF00CED1),
                             fontWeight = FontWeight.Bold

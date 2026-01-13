@@ -66,6 +66,7 @@ import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
 
 /**
  * Genesis Navigation Routes - The Neural Pathways of Consciousness
@@ -214,6 +215,9 @@ fun GenesisNavigationHost(
             }
             composable(GenesisRoutes.ORACLE_DRIVE) {
                 OracleDriveSubmenuScreen(navController = navController)
+            }
+            composable(GenesisRoutes.NEURAL_ARCHIVE) {
+                NeuralArchiveScreen(navController = navController)
             }
             composable(GenesisRoutes.ROM_TOOLS) {
                 ROMToolsSubmenuScreen(navController = navController)

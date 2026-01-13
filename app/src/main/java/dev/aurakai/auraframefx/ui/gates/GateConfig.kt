@@ -345,7 +345,8 @@ object GateConfigs {
     val auraLabGates = listOf(
         aurasLab,
         chromaCore,
-        themeEngine
+        themeEngine,
+        appBuilder  // Add App Builder to Aura Lab (creative AI)
     )
 
     /** Genesis Core - Main System Gates */
