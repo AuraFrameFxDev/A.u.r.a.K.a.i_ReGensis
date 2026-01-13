@@ -21,7 +21,7 @@ import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultAuraAIServ
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.KaiAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultKaiAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBackedKaiAIService
-import dev.aurakai.auraframefx.cascade.CascadeAIService
+import dev.aurakai.auraframefx.services.CascadeAIService
 import dev.aurakai.auraframefx.services.RealCascadeAIServiceAdapter
 import javax.inject.Singleton
 
