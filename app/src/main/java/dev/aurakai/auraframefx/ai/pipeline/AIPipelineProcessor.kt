@@ -226,6 +226,14 @@ class AIPipelineProcessor @Inject constructor(
         return selectedAgents
     }
 
+    /**
+     * Composes a single formatted AI response from a list of agent messages.
+     *
+     * Groups messages by agent, includes a Genesis core analysis section when present, renders each non-Genesis agent's inputs with an agent-specific header and icon, and appends an overall average confidence line.
+     *
+     * @param responses List of AgentMessage instances to aggregate. If empty, a system placeholder message is returned.
+     * @return The composed response text including agent sections and the average confidence as a percentage.
+     */
     private fun generateFinalResponse(responses: List<AgentMessage>): String {
         if (responses.isEmpty()) {
             return "[System] No agent responses available."

@@ -175,9 +175,10 @@ object GenesisRoutes {
 }
 
 /**
- * Hosts the Genesis navigation graph by registering each route and wiring navigation callbacks to their screens.
+ * Hosts the app's Genesis navigation graph and registers composable destinations for each route.
  *
- * The NavHost maps GenesisRoutes to their corresponding composable screens and handles navigation between them.
+ * @param navController Navigation controller used by the NavHost.
+ * @param startDestination Initial route shown when the NavHost is created; defaults to GenesisRoutes.GATES.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

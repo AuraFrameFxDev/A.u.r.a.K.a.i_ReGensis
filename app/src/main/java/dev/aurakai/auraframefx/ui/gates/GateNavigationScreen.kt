@@ -60,7 +60,15 @@ import kotlin.math.absoluteValue
  * @param modifier Optional modifier for the root container.
  */
 @OptIn(ExperimentalFoundationApi::class)
-@Composable
+/**
+     * Displays the main gate navigation UI: a horizontal pager of gate cards with animated glow, a particle background, and an enhanced page indicator.
+     *
+     * The composable builds its gate list from configured GateConfigs, applies parallax/scale/alpha transforms per page, animates a subtle glow, and handles double-tap interactions to navigate to a gate route (blocks gates marked `comingSoon` and contains a placeholder authentication check that may route to the login screen with a `returnTo` parameter).
+     *
+     * @param navController Used to navigate to gate routes or to the login screen when a gate requires authentication.
+     * @param modifier Optional Modifier for layout and styling.
+     */
+    @Composable
 fun GateNavigationScreen(
     navController: NavController,
     modifier: Modifier = Modifier
@@ -285,17 +293,15 @@ private fun MagicalParticleField() {
 }
 
 /**
- * Renders a centered, enhanced page indicator for gate cards that shows nearby gate titles and allows quick navigation.
+ * Renders a centered page indicator that shows nearby gate titles and enables quick navigation.
  *
- * Shows up to three gates around the current page; displays leading/trailing ellipses when there are more gates.
- * The active gate is displayed as a labeled pill and tapping it navigates to the gate's route unless the gate is marked
- * as coming soon. Inactive gates are shown as dots and tapping a dot animates the pager to that page.
+ * Displays up to three gates around the current page with leading/trailing ellipses when more gates exist.
  *
- * @param gates List of gate configurations to display in the indicator.
- * @param currentPage Index of the currently selected page.
- * @param modifier Modifier applied to the Row containing the indicator.
+ * @param gates The list of gates in display order.
+ * @param currentPage The index of the currently selected page.
+ * @param modifier Modifier applied to the indicator row.
  * @param pagerState PagerState used to animate scrolling to a selected page.
- * @param navController NavController used to navigate into a gate when the active pill is tapped.
+ * @param navController NavController used to navigate into the active gate when tapped.
  */
 @Composable
 private fun GatePageIndicator(

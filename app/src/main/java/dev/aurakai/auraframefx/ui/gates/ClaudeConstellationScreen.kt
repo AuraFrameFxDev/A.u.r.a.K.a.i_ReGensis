@@ -125,7 +125,9 @@ fun ClaudeConstellationScreen(
 }
 
 /**
- * Architect Blueprint Canvas with construction grid and build nodes
+ * Renders a blueprint-style canvas showing a pulsing T-square centerpiece, a grid of build nodes with connecting dependency lines, and animated construction particles.
+ *
+ * The composable is purely presentational: animated values drive an overall build progression, node pulsing, and centerpiece scaling to convey build status visually. It also overlays a centered compass image.
  */
 @Composable
 private fun ArchitectBlueprintCanvas() {
@@ -284,7 +286,17 @@ private fun ArchitectBlueprintCanvas() {
 }
 
 /**
- * Draw T-square (architect's drafting tool)
+ * Renders a T-square drafting tool centered at the given canvas coordinates.
+ *
+ * Draws a vertical ruler with a horizontal crossbar near the top, a series of
+ * measurement marks along the ruler, and a pivot motif of two concentric circles.
+ * The provided `color` is used for the ruler and marks; `pulseAlpha` scales the
+ * opacity of those elements to produce a pulsing visual effect.
+ *
+ * @param centerX X coordinate of the T-square center on the canvas.
+ * @param centerY Y coordinate of the T-square center on the canvas.
+ * @param color Base color used for the ruler, crossbar, marks, and outer pivot circle.
+ * @param pulseAlpha Opacity multiplier (typically 0..1) applied to modulate element alpha for pulsing.
  */
 private fun DrawScope.drawTSquare(
     centerX: Float,

@@ -43,6 +43,14 @@ import kotlin.math.sin
  * @param navController NavController used for navigation from this screen.
  * @param modifier Optional Modifier to be applied to the root container.
  */
+/**
+ * Displays the constellation-themed main screen composed of an animated centerpiece, agent status, fusion sync UI, and a vertical system label.
+ *
+ * The layout fills the available space with a dark background, centers the ConstellationCanvas visualization, shows agent name and level in the top-right, a Fusion abilities header with a sync bar in the bottom-left, and a vertical "SYSTEM CORE / OVERDUE PARAMETERS" label on the right edge.
+ *
+ * @param navController NavController used for handling in-screen navigation actions.
+ * @param modifier Optional Modifier applied to the root container.
+ */
 @Composable
 fun ConstellationScreen(
     navController: NavController,
@@ -137,7 +145,9 @@ fun ConstellationScreen(
 }
 
 /**
- * Main constellation canvas with sword centerpiece and animated nodes
+ * Renders the animated constellation visualization with a procedural sword centerpiece, pulsing nodes, connecting lines, and orbiting particles.
+ *
+ * Animations include node pulsing, a continuous rotation driving energy flow and particles, and a subtle scale pulse for the centered sword. The canvas draws node positions and inter-node connections, invokes the procedural `drawSword` for the centerpiece, and overlays a PNG sword image for additional visual detail.
  */
 @Composable
 private fun ConstellationCanvas() {
@@ -439,7 +449,10 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
 }
 
 /**
- * Fusion Abilities sync bar - shows fusion capability status
+ * Displays the fusion abilities row with an animated sync progress bar and pulsing glow indicators.
+ *
+ * Renders three labeled ability indicators with a pulsing glow, an animated horizontal progress fill that loops
+ * between 0% and 100%, and a "SYNC: N%" label reflecting the current progress.
  */
 @Composable
 private fun FusionSyncBar() {
@@ -517,7 +530,11 @@ private fun FusionSyncBar() {
 }
 
 /**
- * Individual fusion ability indicator
+ * Renders a labeled fusion ability entry with a glowing status dot.
+ *
+ * @param name The display name of the fusion ability.
+ * @param glowAlpha Multiplier (typically 0..1) controlling the glow intensity of the indicator.
+ * @param color Base color used for the dot and the label tint.
  */
 @Composable
 private fun FusionAbilityIndicator(

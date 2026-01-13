@@ -59,6 +59,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "aurakai-reactive-intelligence"
 
+/**
+ * Includes the Gradle project at the given path if its directory exists.
+ *
+ * The `path` should be a colon-separated Gradle project path (for example `:a:b`). The function checks
+ * the corresponding filesystem directory and calls `include(path)` when present; if not present, it
+ * prints a warning indicating the missing directory.
+ *
+ * @param path Colon-separated Gradle project path to include (e.g., `:module:submodule`).
+ */
 fun includeIfExists(path: String) {
     val dir = path.removePrefix(":").replace(":", "/")
     if (file(dir).exists()) {

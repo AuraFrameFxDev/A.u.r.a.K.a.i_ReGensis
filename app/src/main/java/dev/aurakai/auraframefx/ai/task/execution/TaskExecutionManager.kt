@@ -380,12 +380,13 @@ class TaskExecutionManager @Inject constructor(
     }
 
     /**
-     * Executes a task using the Genesis agent and returns the agent's response.
+     * Sends the task execution to the Genesis agent and returns the agent's response.
      *
-     * Constructs an `AgentRequest` from the task's type, data, and priority, then delegates processing to the Genesis agent.
+     * Builds an AiRequest from the execution's query (fallback to type), type, and context, and then returns the resulting AgentResponse from the Genesis agent.
      *
      * @param execution The task execution to be processed.
-     * @return The response from the Genesis agent.
+     * @return The response produced by the Genesis agent.
+     * @throws NotImplementedError Thrown because Genesis execution is not yet implemented.
      */
     private suspend fun executeWithGenesis(execution: TaskExecution1): AgentResponse {
         AiRequest(
