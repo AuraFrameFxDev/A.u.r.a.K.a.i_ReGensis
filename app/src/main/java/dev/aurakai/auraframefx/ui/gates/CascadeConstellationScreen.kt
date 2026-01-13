@@ -48,6 +48,15 @@ import kotlin.math.sin
  * @param navController NavController used to handle navigation actions originating from this screen.
  * @param modifier Modifier applied to the root container to customize layout or styling.
  */
+/**
+ * Renders the Cascade constellation screen with a centered animated data-stream visualization and decorative status overlays.
+ *
+ * The layout places the animated DataStreamCanvas at center, a titled agent block in the top-right, a labeled
+ * DataStream status panel with a horizontal flow bar in the bottom-left, and vertical decorative text along the right edge.
+ *
+ * @param navController NavController used to perform navigation actions from this screen.
+ * @param modifier Optional Modifier applied to the root container.
+ */
 @Composable
 fun CascadeConstellationScreen(
     navController: NavController,

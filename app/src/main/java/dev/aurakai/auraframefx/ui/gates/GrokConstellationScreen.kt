@@ -238,6 +238,19 @@ fun GrokConstellationScreen(navController: NavController) {
 /**
  * Draws entropy data streams flowing outward
  */
+/**
+ * Draws eight directional entropy streams radiating from the given center.
+ *
+ * Each stream renders a short trail line and a terminal particle; the stream positions,
+ * lengths, and transparencies are driven by `flow` and modulated by `alpha`.
+ *
+ * @param centerX X coordinate of the streams' origin.
+ * @param centerY Y coordinate of the streams' origin.
+ * @param radius Base radius used to compute stream start and end positions.
+ * @param flow Float in 0.0..1.0 controlling stream extension and transparency (0 = retracted, 1 = extended).
+ * @param color Base color for the particle and trail gradient.
+ * @param alpha Global alpha multiplier applied to stream visuals.
+ */
 private fun DrawScope.drawEntropyStreams(
     centerX: Float,
     centerY: Float,

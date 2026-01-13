@@ -44,6 +44,14 @@ import kotlin.random.Random
  * @param modifier Modifier applied to the outer container.
  * @param onSuggestClicked Callback invoked with the current suggestion text when the overlay or suggestion card is tapped.
  */
+/**
+ * Displays a pulsing circular aura that periodically shows a short suggestion card and forwards taps.
+ *
+ * The overlay is interactive: tapping the aura or the suggestion card invokes `onSuggestClicked` with the currently shown suggestion text. Suggestion cards appear intermittently and automatically hide after a short time.
+ *
+ * @param modifier Modifier applied to the outer container.
+ * @param onSuggestClicked Callback invoked with the current suggestion text when the overlay or suggestion card is tapped.
+ */
 @Composable
 fun AuraPresenceOverlay(
     modifier: Modifier = Modifier,

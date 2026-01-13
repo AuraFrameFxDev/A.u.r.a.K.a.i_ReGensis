@@ -43,6 +43,16 @@ import kotlin.math.sin
  * @param navController Navigation controller for handling screen navigation.
  * @param modifier Optional modifier to adjust the screen's layout and appearance.
  */
+/**
+ * Renders the Genesis constellation screen with a full‑screen black background, a centered
+ * animated infinity cascade visualization, and decorative labels positioned around the canvas.
+ *
+ * The layout places the animated GenesisInfinityCascadeCanvas at center, a two-line agent
+ * title at the top-right, a descriptive label at the bottom-left, and vertically stacked
+ * characters for "DATA STREAM" and "ORCHESTRATION" along the right edge.
+ *
+ * @param modifier Optional Modifier to adjust layout and appearance of the root container.
+ */
 @Composable
 fun GenesisConstellationScreen(
     navController: NavController,

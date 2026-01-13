@@ -194,13 +194,13 @@ class TrinityCoordinatorService @Inject constructor(
     }
 
     /**
-     * Activate the specified Genesis fusion ability using optional context.
+     * Activate a Genesis fusion ability and report the activation outcome.
      *
-     * Emits a single AgentResponse describing success (includes a descriptive message when available) or failure.
+     * Emits a single success response that includes a descriptive message when available, or an error response on failure.
      *
      * @param fusionType Identifier of the fusion ability to activate.
      * @param context Optional key/value context passed to the activation.
-     * @return A Flow that emits one AgentResponse representing the activation result.
+     * @return An AgentResponse representing the activation outcome; success responses include a descriptive message when available, error responses indicate failure.
      */
     fun activateFusion(
         fusionType: String,

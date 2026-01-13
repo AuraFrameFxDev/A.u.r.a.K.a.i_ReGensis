@@ -69,10 +69,15 @@ class NemotronAIService @Inject constructor(
         internal const val CACHE_TTL_MS = 7200_000L // 2 hours TTL (longer for memories)
     }
 
-    override fun getName(): String = "Nemotron"
+    /**
+ * Provides the agent's human-readable name.
+ *
+ * @return The agent name "Nemotron".
+ */
+override fun getName(): String = "Nemotron"
 
     /**
- * Report the agent's type as Nemotron.
+ * Identify this agent's classification.
  *
  * @return The agent type `AgentType.NEMOTRON`.
  */

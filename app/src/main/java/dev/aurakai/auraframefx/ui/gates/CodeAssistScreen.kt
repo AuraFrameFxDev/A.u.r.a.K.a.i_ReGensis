@@ -40,6 +40,13 @@ import androidx.navigation.NavHostController
  *
  * @param navController NavHostController used for in-app navigation from this screen.
  */
+/**
+ * Composable screen that provides an editable Kotlin code editor with an AI prompt area and a Generate action.
+ *
+ * Shows a header, a card-based code editor initialized with sample Kotlin code (editable), and an AI interaction card
+ * containing a prompt input (currently non-editable) alongside a Generate button. Tapping Generate switches the button
+ * into a processing state and displays a progress indicator.
+ */
 @Composable
 fun CodeAssistScreen(navController: NavHostController) {
     var codeInput by remember { mutableStateOf("// Ask Code Assist to generate or refactor code...\n\nfun main() {\n    println(\"Hello, Aura!\")\n}") }

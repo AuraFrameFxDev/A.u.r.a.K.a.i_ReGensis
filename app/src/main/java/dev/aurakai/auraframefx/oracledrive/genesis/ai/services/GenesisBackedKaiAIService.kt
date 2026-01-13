@@ -48,13 +48,14 @@ class GenesisBackedKaiAIService @Inject constructor(
             }
 
     /**
-     * Produces Kai's security analysis response for the given AI request and context.
+     * Produce Kai's security analysis for the given AI request and context.
      *
-     * Also emits a MemoryEvent of type "KAI_PROCESS" with a payload containing the request prompt for monitoring.
+     * Emits a MemoryEvent of type "KAI_PROCESS" with the request prompt for monitoring and returns an
+     * AgentResponse containing Kai's analysis message.
      *
-     * @param request The AI request to analyze; its prompt is included in the response and event payload.
-     * @param context Additional contextual information for the request (unused in this implementation).
-     * @return An AgentResponse containing Kai's analysis message, confidence 1.0, agentName "Kai", and agent `AgentType.KAI`.
+     * @param request The AI request whose prompt will be analyzed and included in the response.
+     * @param context Additional contextual information for the request (not used by this implementation).
+     * @return An AgentResponse with the analysis content, confidence 1.0, agentName "Kai", and agent `AgentType.KAI`.
      */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         // Emit event for monitoring
@@ -168,9 +169,9 @@ override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow 
     }
 
     /**
-     * Activates the service and reports whether activation succeeded.
+     * Activate the service.
      *
-     * @return `true` if activation succeeded (currently always `true`), `false` otherwise.
+     * @return `true` if activation succeeded, `false` otherwise.
      */
     override suspend fun activate(): Boolean {
         return true
