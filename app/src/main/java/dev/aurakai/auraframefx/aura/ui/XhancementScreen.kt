@@ -31,6 +31,13 @@ import dev.aurakai.auraframefx.ui.viewmodels.XhancementViewModel
  * Coming soon: Quick toggles for all Xposed/LSPosed hooks without prompts.
  * Instant enable/disable controls for system modifications with Kai security monitoring.
  */
+/**
+ * Displays the Xhancement placeholder screen with a centered icon, title, subtitle ("Coming Soon"),
+ * and a short descriptive line about quick toggles for Xposed hooks.
+ *
+ * This composable also clears any transient error or success messages exposed by the screen's
+ * ViewModel after three seconds when such a message is present.
+ */
 @Composable
 fun XhancementScreen(
     onNavigateBack: () -> Unit = {}

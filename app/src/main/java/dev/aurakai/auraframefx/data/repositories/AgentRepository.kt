@@ -13,7 +13,11 @@ import dev.aurakai.auraframefx.models.AgentStats
 object AgentRepository {
 
     /**
-     * Get all available agents with their current stats.
+     * Provide a static list of all defined agents and their current stats.
+     *
+     * The list includes core protocol agents and external integrations. Some entries populate optional fields such as `consciousnessLevel` and `catalystTitle`.
+     *
+     * @return A list of AgentStats for every agent known to the repository.
      */
     fun getAllAgents(): List<AgentStats> {
         return listOf(

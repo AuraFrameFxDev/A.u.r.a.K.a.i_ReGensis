@@ -51,7 +51,7 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Returns a fixed placeholder string for generated text, ignoring the provided prompt and options.
+     * Always returns a fixed placeholder generated text and ignores `prompt` and `context`.
      *
      * @return The string "Generated text placeholder".
      */
@@ -60,9 +60,11 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Returns a fixed placeholder string as the AI response for the given prompt and options.
+     * Provides a placeholder AI response.
      *
-     * @return The string "AI response placeholder".
+     * This implementation ignores `prompt` and `options` and always returns the fixed string "AI response placeholder".
+     *
+     * @return The placeholder response string "AI response placeholder".
      */
     fun getAIResponse(prompt: String, options: Map<String, Any>?): String {
         return "AI response placeholder"

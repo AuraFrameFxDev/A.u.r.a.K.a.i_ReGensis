@@ -52,6 +52,17 @@ import kotlin.math.sin
 /**
  * Gate card with hologram border, pixel art interior, and double-tap to enter
  */
+/**
+ * Renders an interactive holographic gate card that displays a title, pixel-art interior (with a tight
+ * glowing border), a short description, and a double-tap entry hint.
+ *
+ * The card presents continuous floating and pulsing visuals and invokes [onDoubleTap] when the user
+ * double-taps the card. If `config.comingSoon` is true, a "COMING SOON" overlay covers the interior.
+ *
+ * @param config Configuration object providing content and styling (title, description, colors, pixelArtUrl, titleStyle, comingSoon flag, etc.).
+ * @param modifier Modifier applied to the root container of the card.
+ * @param onDoubleTap Callback executed when the card is double-tapped.
+ */
 @Composable
 fun GateCard(
     config: GateConfig,

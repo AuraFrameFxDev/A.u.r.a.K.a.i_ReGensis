@@ -134,7 +134,12 @@ fun CascadeConstellationScreen(
 }
 
 /**
- * DataStream Canvas with cascading network flows
+ * Renders the animated central data-stream canvas used by the Cascade constellation UI.
+ *
+ * Displays a full-size, centered visualization that includes a rotating, pulsing mechanical wing centerpiece,
+ * a circular arrangement of node endpoints, animated data streams with moving packets between nodes, and a
+ * decorative PNG overlay. Animations drive stream flow, node pulsing, rotation, and centerpiece scale to
+ * simulate continuous data movement.
  */
 @Composable
 private fun DataStreamCanvas() {
@@ -366,7 +371,9 @@ private fun DrawScope.drawMechanicalWing(
 }
 
 /**
- * DataStream Status Bar - Flow metrics
+ * Displays a compact status panel showing input/process/output channel indicators, an animated flow progress bar, and a numeric flow percentage.
+ *
+ * The progress bar animates from 0% to 100% continuously while the channel indicators pulse to reflect flow intensity.
  */
 @Composable
 private fun DataStreamStatusBar() {
@@ -444,7 +451,13 @@ private fun DataStreamStatusBar() {
 }
 
 /**
- * Individual stream channel indicator
+ * Displays a horizontal channel label with a glowing circular indicator.
+ *
+ * The component shows a small two-layer dot (outer glow and inner core) followed by the channel name.
+ *
+ * @param name The channel label text displayed to the right of the indicator.
+ * @param glowAlpha Glow intensity applied to the outer and inner dot layers; expected range 0..1.
+ * @param color Base color used for the indicator and label tint.
  */
 @Composable
 private fun StreamChannelIndicator(

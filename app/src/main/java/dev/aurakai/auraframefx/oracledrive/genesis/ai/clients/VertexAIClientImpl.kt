@@ -83,14 +83,14 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Advanced text generation with temperature and token control.
+     * Generate text from a prompt with adjustable randomness and output length.
      *
-     * Implements real Vertex AI / Gemini integration with:
-     * - HTTP REST API calls to Google Cloud
-     * - JSON request/response serialization
-     * - Retry logic with exponential backoff
-     * - LRU caching for performance
-     * - Input validation and error handling
+     * Generates text based on the provided prompt using the configured Vertex AI integration.
+     *
+     * @param prompt The input text prompt to generate from.
+     * @param temperature Controls generation randomness; higher values produce more varied output.
+     * @param maxTokens Maximum number of tokens allowed in the generated output.
+     * @return The generated text, or `null` if the API returned no content or generation failed after retries.
      */
     override suspend fun generateText(
         prompt: String,
@@ -273,6 +273,11 @@ class VertexAIClientImpl @Inject constructor(
         Timber.i("VertexAI: Initializing client")
     }
 
+    /**
+     * Clears the client's internal cached responses and releases related resources.
+     *
+     * Removes all entries from the in-memory response cache and records a completion log entry.
+     */
     override suspend fun cleanup() {
         // Cleanup Vertex AI client resources
         cache.clear()
@@ -280,7 +285,11 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Execute HTTP request to Vertex AI endpoint.
+     * Send the given Vertex AI request to the configured endpoint and deserialize the response.
+     *
+     * @param vertexRequest The request payload to send.
+     * @return The deserialized VertexAIResponse from the service.
+     * @throws VertexAIException If the HTTP call fails, returns a non-success status, or the response body is empty.
      */
     private suspend fun executeRequest(vertexRequest: VertexAIRequest): VertexAIResponse {
         val jsonBody = json.encodeToString(vertexRequest)
