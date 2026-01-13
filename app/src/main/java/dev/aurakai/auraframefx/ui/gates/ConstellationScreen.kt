@@ -63,6 +63,17 @@ import kotlin.math.sin
  * @param navController NavController used for navigation actions originating from this screen.
  * @param modifier Optional [Modifier] to be applied to the root container.
  */
+/**
+ * Main UI screen displaying the constellation visualization with HUD elements.
+ *
+ * Hosts a centered ConstellationCanvas, a top-right agent info block (name and level),
+ * a bottom-left Fusion abilities section containing the FusionSyncBar, and a right-edge
+ * vertical label reading "SYSTEM CORE OVERDUE PARAMETERS". The root container fills the
+ * available space and uses a black background.
+ *
+ * @param navController NavController used for navigation actions from this screen.
+ * @param modifier Optional Modifier applied to the root container.
+ */
 @Composable
 fun ConstellationScreen(
     navController: NavController,
@@ -157,11 +168,12 @@ fun ConstellationScreen(
 }
 
 /**
- * Renders the animated constellation visualization with pulsing nodes, connecting lines, orbiting particles,
- * and a procedural sword centerpiece overlaid with an aura image.
+ * Render the animated constellation visualization with pulsing nodes, connecting lines, orbiting particles,
+ * and an aura-backed sword centerpiece.
  *
- * Animations drive node pulse, continuous rotation (energy flow and particle orbits), and a subtle scale pulse
- * for the centered sword to produce the scene's dynamic visual effects.
+ * Composes a full-size Canvas that draws the constellation node network, low-alpha connecting lines,
+ * floating orbital particles, and a procedural sword centerpiece; a PNG aura image is overlaid at the center.
+ * Visual motion is driven by repeating animations for node pulse, scene rotation, and centerpiece scale.
  */
 @Composable
 private fun ConstellationCanvas() {

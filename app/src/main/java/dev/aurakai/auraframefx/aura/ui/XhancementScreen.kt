@@ -47,6 +47,16 @@ import dev.aurakai.auraframefx.ui.viewmodels.XhancementViewModel
  *
  * @param onNavigateBack Callback invoked to navigate back; defaults to no-op.
  */
+/**
+ * Displays the Xhancement placeholder screen and manages transient status messages.
+ *
+ * The UI centers an icon, title ("Xhancement"), subtitle ("Coming Soon"), and a short
+ * descriptive line. While visible it observes feature state (hook modules and Kai security)
+ * and transient messages (error and success); when a transient message appears it is cleared
+ * automatically after three seconds.
+ *
+ * @param onNavigateBack Callback invoked to navigate back from this screen. Defaults to a no-op.
+ */
 @Composable
 fun XhancementScreen(
     onNavigateBack: () -> Unit = {}

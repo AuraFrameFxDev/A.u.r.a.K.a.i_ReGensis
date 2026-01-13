@@ -31,10 +31,10 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Stub implementation that always returns null, indicating file download is not supported.
+     * Indicates that file download is not supported in this stub implementation.
      *
-     * @param _fileId The identifier of the file to download.
-     * @return Always null.
+     * @param fileId The identifier of the file to download.
+     * @return `null` to indicate the file could not be downloaded.
      */
     suspend fun downloadFile(fileId: String): File? {
         return null
@@ -71,20 +71,23 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Returns `null` for any memory key, as memory retrieval is not implemented in this stub.
+     * Retrieves a stored memory value by key; stub implementation that always returns `null`.
      *
-     * @param memoryKey The key for the memory entry to retrieve.
-     * @return Always returns `null`.
+     * @param memoryKey The key identifying the memory entry to retrieve.
+     * @return `null` for any `memoryKey`, indicating memory retrieval is not implemented.
      */
     open fun getMemory(memoryKey: String): String? {
         return null
     }
 
     /**
-     * Placeholder that would save a value under the given memory key but currently performs no operation.
+     * No-op placeholder that intends to save a value under the given memory key.
+     *
+     * Currently performs no operation; intended for future implementation.
      *
      * @param key The memory key under which the value would be stored.
-     * @param value The value to store. */
+     * @param value The value to store.
+     */
     fun saveMemory(key: String, value: Any) {
         // TODO: Implement memory saving
     }

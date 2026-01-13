@@ -294,13 +294,11 @@ fun DirectChatScreen(
 }
 
 /**
- * Renders a single chat message as a styled bubble and aligns it based on the sender.
+ * Render a chat message as a styled bubble aligned to the start for agent messages and to the end for user messages.
  *
- * Displays the sender's name above the content for non-user (agent) messages and applies
- * distinct colors and corner shaping depending on whether `message.isFromUser` is true.
+ * Shows the sender name above the content for agent messages, uses a blue bubble for user messages and a semi-transparent black bubble for agent messages, and applies asymmetric corner radii to create a chat-tail effect.
  *
- * @param message ChatMessage whose `sender`, `content`, and `isFromUser` fields determine
- *        the displayed text, alignment, and visual styling of the bubble.
+ * @param message ChatMessage whose `sender`, `content`, and `isFromUser` fields determine the displayed text, alignment, colors, and corner shaping of the bubble.
  */
 @Composable
 private fun MessageBubble(message: AgentViewModel.ChatMessage) {

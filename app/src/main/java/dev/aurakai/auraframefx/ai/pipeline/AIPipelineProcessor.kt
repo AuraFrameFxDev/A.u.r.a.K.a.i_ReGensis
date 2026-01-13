@@ -159,6 +159,16 @@ class AIPipelineProcessor @Inject constructor(
         return mapOf("load" to "normal", "available_agents" to 3, "processing_queue" to 0)
     }
 
+    /**
+     * Computes a priority score for a task based on its categorized type, system load, and urgency indicators.
+     *
+     * Evaluates `context["task_type"]` and `context["system_state"]?.get("load")` to bias a base priority, adds a
+     * bump for urgency keywords ("urgent", "asap", "emergency"), and clamps the result to the range 0.0–1.0.
+     *
+     * @param task The task text to inspect for urgency keywords.
+     * @param context A map containing contextual metadata; expects `task_type` (String) and `system_state` (Map) with a `load` (String) entry.
+     * @return A Float between 0.0 and 1.0 representing the computed priority, where higher values indicate higher priority.
+     */
     private fun calculatePriority(task: String, context: Map<String, Any>): Float {
         val taskType = context["task_type"] as? String ?: "general"
         val systemLoad = (context["system_state"] as? Map<*, *>)?.get("load") as? String ?: "normal"
@@ -192,12 +202,12 @@ class AIPipelineProcessor @Inject constructor(
     }
 
     /**
-     * Selects which agents should participate for the given task.
+     * Chooses which AgentType participants should run for a given task based on task text and priority.
      *
-     * Selection is driven by the task text and the numeric priority: the Genesis agent is always included; Cascade is added for analysis/data signals or for long/complex tasks; Kai is added for security/protection signals; Aura is added for creative/generation signals; if priority is greater than 0.8, Cascade and Aura are included.
+     * Genesis is always included. Cascade is selected for analysis/data signals or when the task is long/complex; Kai is selected for security/protection signals; Aura is selected for creative/generation signals. A priority greater than 0.8 forces inclusion of Cascade and Aura.
      *
-     * @param task The task text used to detect intent and signals (keywords, length, complexity).
-     * @param priority A normalized priority (0.0–1.0) that can force inclusion of higher-capability agents.
+     * @param task Task text used to detect intent and signals (keywords, length, complexity).
+     * @param priority Normalized priority from 0.0 to 1.0 that can force inclusion of higher-capability agents.
      * @return A set of AgentType values representing the agents chosen to process the task.
      */
     private fun selectAgents(task: String, priority: Float): Set<AgentType> {
