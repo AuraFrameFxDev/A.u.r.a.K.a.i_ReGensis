@@ -15,7 +15,12 @@ import dev.aurakai.auraframefx.ui.theme.NeonPurple
 import dev.aurakai.auraframefx.ui.theme.NeonTeal
 import dev.aurakai.auraframefx.ui.theme.NeonPink
 import dev.aurakai.auraframefx.ui.theme.SpaceColors
-import androidx.compose.ui.unit.dp
+import dev.aurakai.auraframefx.ui.theme.GlassColors
+import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.ui.theme.NeonTeal
+import dev.aurakai.auraframefx.ui.theme.NeonPink
+import dev.aurakai.auraframefx.ui.theme.SpaceColors
+import androidax.compose.ui.unit.dp
 
 /**
  * 💎 Professional Glassmorphism Utilities

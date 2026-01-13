@@ -232,6 +232,9 @@ fun QuickActionsScreen() {
         val categories = actions.groupBy { it.category }
 
         categories.forEach { (category, categoryActions) ->
+                    modifier = Modifier.padding(vertical = 16.dp),
+                    color = Color.White,
+                )
             Text(
                 text = category,
                 modifier = Modifier.padding(vertical = 16.dp),

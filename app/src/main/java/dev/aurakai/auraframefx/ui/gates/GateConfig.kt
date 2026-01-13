@@ -99,7 +99,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_romtools_new",
+        pixelArtUrl = "romtools",
         description = "Live ROM editing, flashing, and bootloader management. ⚠️ CAUTION: Advanced users only.",
         backgroundColor = Color.Black,
         route = "rom_tools"
@@ -127,7 +127,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_oracledrive_new",
+        pixelArtUrl = "oracledrivepixel2",
         description = "Main module creation, direct AI access, and system overrides. The heart of Genesis.",
         backgroundColor = Color.Black,
         route = "oracle_drive"
@@ -144,7 +144,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_sentinel_new",
+        pixelArtUrl = "sentinelfinalgate",
         description = "Kai's security command center with firewall, threat monitoring, and all security protocols.",
         backgroundColor = Color.Black,
         route = "sentinels_fortress"
@@ -161,7 +161,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_chromacore_new",
+        pixelArtUrl = "chromacorefinal",
         description = "Pure color customization: Material 3 color schemes, palettes, and live preview. Colors only - no typography, shapes, or other theme elements.",
         backgroundColor = Color.Black,
         route = "chromacore_colors"
@@ -189,7 +189,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_collabcanvas_new",
+        pixelArtUrl = "collabcanvasfinalpng",
         description = "Collaborative design environment. Create and share projects with your team in real-time.",
         backgroundColor = Color.Black,
         route = "collab_canvas"
@@ -203,7 +203,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_auralab_new",
+        pixelArtUrl = "aura2pixellabfinal",
         description = "Sandbox for UI components and experimental features. Test and prototype new designs.",
         backgroundColor = Color.Black,
         route = "auras_lab"
@@ -237,7 +237,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_helpdesk_new",
+        pixelArtUrl = "gate_helpdesk_final",
         description = "User support, FAQs, and documentation. Get help with AuraKai features.",
         backgroundColor = Color.Black,
         route = "help_desk"
@@ -251,7 +251,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_lsposed_new",
+        pixelArtUrl = "xposed",
         description = "Quick access panel for LSPosed, Xposed, and YukiHookAPI. Enable/disable modules, view hooks, and restart framework instantly.",
         backgroundColor = Color.Black,
         route = "xposed_panel"
@@ -265,7 +265,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_codeassist_new",
+        pixelArtUrl = "gate_codeassist_final",
         description = "AI-powered coding assistant. Get intelligent code suggestions and automated refactoring.",
         backgroundColor = Color.Black,
         route = "code_assist"
@@ -307,7 +307,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_uxuidesign_new",
+        pixelArtUrl = "gate_uiuxdesignstudio_final",
         description = "Comprehensive UI/UX design tools for creating beautiful interfaces.",
         backgroundColor = Color.Black,
         route = "uiux_design_studio"
@@ -321,7 +321,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_personalscreen_new",
+        pixelArtUrl = "gate_settings_final",
         description = "User profile selection and quick menu access. Choose your AI companion identity and navigate to key features.",
         backgroundColor = Color.Black,
         route = "system_journal"
@@ -345,8 +345,7 @@ object GateConfigs {
     val auraLabGates = listOf(
         aurasLab,
         chromaCore,
-        themeEngine,
-        appBuilder  // Add App Builder to Aura Lab (creative AI)
+        themeEngine
     )
 
     /** Genesis Core - Main System Gates */

@@ -193,7 +193,15 @@ private fun DataStreamCanvas() {
         val cyanColor = Color(0xFF00FFFF)
         val blueColor = Color(0xFF1E90FF)
 
-        // Mechanical wing centerpiece will be overlaid as PNG image below
+        // Draw mechanical wing centerpiece
+        drawMechanicalWing(
+            centerX = centerX,
+            centerY = centerY,
+            color = turquoiseColor,
+            accentColor = cyanColor,
+            rotation = rotation,
+            pulseAlpha = pulseAlpha
+        )
 
         // Draw data flow network nodes
         val nodeCount = 12
@@ -282,9 +290,83 @@ private fun DataStreamCanvas() {
 }
 
 /**
- * Renders an animated status bar with channel indicators, a horizontal flow progress bar, and a percentage label.
+ * Renders a rotating, pulsing mechanical wing centerpiece with gradient wing segments, joint markers, and a layered central core.
  *
- * The bar visually reflects stream activity: a repeating fill animation drives the progress percentage while a pulsing glow affects the channel indicators and gradient fill.
+ * @param centerX X coordinate of the centerpiece center.
+ * @param centerY Y coordinate of the centerpiece center.
+ * @param color Base color used for wing gradients and the hub.
+ * @param accentColor Highlight color used for wing accents, joint markers, and the energy core.
+ * @param rotation Rotation angle in degrees applied to the wing segments.
+ * @param pulseAlpha Opacity multiplier in the range 0..1 that controls pulsing intensity for gradients and markers.
+ */
+private fun DrawScope.drawMechanicalWing(
+    centerX: Float,
+    centerY: Float,
+    color: Color,
+    accentColor: Color,
+    rotation: Float,
+    pulseAlpha: Float
+) {
+    val wingLength = 120f
+    val wingWidth = 40f
+
+    // Main wing structure (asymmetric, mechanical design)
+    for (i in 0..3) {
+        val angle = (rotation + i * 20f) * (Math.PI / 180).toFloat()
+        val length = wingLength - i * 15f
+        val endX = centerX + cos(angle) * length
+        val endY = centerY + sin(angle) * length
+
+        // Wing segment
+        drawLine(
+            brush = Brush.linearGradient(
+                colors = listOf(
+                    color.copy(alpha = pulseAlpha * 0.8f),
+                    accentColor.copy(alpha = pulseAlpha * 0.6f),
+                    Color.Transparent
+                ),
+                start = Offset(centerX, centerY),
+                end = Offset(endX, endY)
+            ),
+            start = Offset(centerX, centerY),
+            end = Offset(endX, endY),
+            strokeWidth = wingWidth - i * 5f
+        )
+
+        // Mechanical joint markers
+        val jointX = centerX + cos(angle) * (length * 0.6f)
+        val jointY = centerY + sin(angle) * (length * 0.6f)
+
+        drawCircle(
+            color = accentColor.copy(alpha = pulseAlpha),
+            radius = 6f,
+            center = Offset(jointX, jointY)
+        )
+    }
+
+    // Central hub
+    drawCircle(
+        color = color.copy(alpha = pulseAlpha),
+        radius = 20f,
+        center = Offset(centerX, centerY)
+    )
+
+    // Energy core
+    drawCircle(
+        color = accentColor.copy(alpha = pulseAlpha * 0.8f),
+        radius = 12f,
+        center = Offset(centerX, centerY)
+    )
+
+    drawCircle(
+        color = Color.White.copy(alpha = pulseAlpha),
+        radius = 6f,
+        center = Offset(centerX, centerY)
+    )
+}
+
+/**
+ * DataStream Status Bar - Flow metrics
  */
 @Composable
 private fun DataStreamStatusBar() {
@@ -362,14 +444,7 @@ private fun DataStreamStatusBar() {
 }
 
 /**
- * Renders a labeled channel indicator with a glowing circular dot.
- *
- * Displays a small circular indicator whose outer glow and inner core are tinted by `color`
- * and modulated by `glowAlpha`, followed by the channel `name` styled with a matching tint.
- *
- * @param name The label text for the channel (e.g., "Input", "Process", "Output").
- * @param glowAlpha Float in the range 0..1 that controls the opacity of the outer glow and inner core.
- * @param color The base tint used for the dot and the label text.
+ * Individual stream channel indicator
  */
 @Composable
 private fun StreamChannelIndicator(

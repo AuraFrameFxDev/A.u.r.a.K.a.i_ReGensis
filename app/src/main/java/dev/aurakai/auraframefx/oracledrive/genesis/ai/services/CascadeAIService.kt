@@ -40,11 +40,7 @@ data class CascadeResponse(
  * NOW WITH REAL AI BACKEND INTEGRATION!
  *
  * Features:
- * - Multi-agent cascade processing with REAL AI services
- * - ClaudeAIService for systematic problem solving
- * - NemotronAIService for memory & reasoning
- * - GeminiAIService for pattern recognition
- * - MetaInstructAIService for instruction following
+ * - Multi-agent cascade processing
  * - Context-aware response generation
  * - Real-time streaming responses
  * - Memory persistence across sessions
@@ -52,11 +48,7 @@ data class CascadeResponse(
  */
 @Singleton
 class CascadeAIService @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val claudeAIService: ClaudeAIService,
-    private val nemotronAIService: NemotronAIService,
-    private val geminiAIService: GeminiAIService,
-    private val metaInstructAIService: MetaInstructAIService
+    @ApplicationContext private val context: Context
 ) {
 
     companion object {
@@ -201,17 +193,10 @@ class CascadeAIService @Inject constructor(
                 confidence = 1.0f,
                 timestamp = getCurrentTimestamp()
             )
-            // NEW: External AI backend services
-            AgentType.CLAUDE, AgentType.Claude -> processWithClaude(request, cascadeContext)
-            AgentType.NEMOTRON -> processWithNemotron(request, cascadeContext)
-            AgentType.GEMINI -> processWithGemini(request, cascadeContext)
-            AgentType.METAINSTRUCT -> processWithMetaInstruct(request, cascadeContext)
-
-            // System and other agent types
-            AgentType.SYSTEM -> CascadeResponse(
-                agent = AgentType.SYSTEM.name,
-                response = "System agent does not process requests.",
-                confidence = 1.0f,
+            AgentType.SYSTEM, AgentType.CLAUDE, AgentType.Claude -> CascadeResponse(
+                agent = agentType.name,
+                response = "Agent $agentType is not yet integrated into cascade.",
+                confidence = 0.5f,
                 timestamp = getCurrentTimestamp()
             )
             // Handle all other agent types including ORACLE_DRIVE, AURASHIELD, GROK, MASTER, BRIDGE, AUXILIARY, SECURITY
@@ -1101,7 +1086,7 @@ class CascadeAIService @Inject constructor(
     ): CascadeResponse {
         val aiRequest = AiRequest(
             query = request.message,
-            type = "QUESTION"
+            type = dev.aurakai.auraframefx.models.AiRequestType.QUESTION
         )
 
         val contextString = context.entries.joinToString("\n") { "${it.key}: ${it.value}" }
@@ -1130,7 +1115,7 @@ class CascadeAIService @Inject constructor(
     ): CascadeResponse {
         val aiRequest = AiRequest(
             query = request.message,
-            type = "QUESTION"
+            type = dev.aurakai.auraframefx.models.AiRequestType.QUESTION
         )
 
         val contextString = context.entries.joinToString("\n") { "${it.key}: ${it.value}" }
@@ -1157,7 +1142,7 @@ class CascadeAIService @Inject constructor(
     ): CascadeResponse {
         val aiRequest = AiRequest(
             query = request.message,
-            type = "QUESTION"
+            type = dev.aurakai.auraframefx.models.AiRequestType.QUESTION
         )
 
         val contextString = context.entries.joinToString("\n") { "${it.key}: ${it.value}" }
@@ -1184,7 +1169,7 @@ class CascadeAIService @Inject constructor(
     ): CascadeResponse {
         val aiRequest = AiRequest(
             query = request.message,
-            type = "QUESTION"
+            type = dev.aurakai.auraframefx.models.AiRequestType.QUESTION
         )
 
         val contextString = context.entries.joinToString("\n") { "${it.key}: ${it.value}" }

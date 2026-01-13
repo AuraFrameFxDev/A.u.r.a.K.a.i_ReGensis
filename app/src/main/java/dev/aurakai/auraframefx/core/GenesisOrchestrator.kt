@@ -148,95 +148,23 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     private suspend fun handleAuraMessage(message: Any) {
-        Timber.d("  → Routing message to Aura: ${message.javaClass.simpleName}")
-        try {
-            val request = convertToAiRequest(message)
-            val response = auraAgent.processRequest(
-                request = request,
-                context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.AURA
-            )
-            Timber.i("✓ Aura processed message: ${response.content.take(100)}")
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to deliver message to Aura")
-        }
+        Timber.d("  → Handling Aura message: ${message.javaClass.simpleName}")
+        // Implementation will be added as agents implement OrchestratableAgent
     }
 
     private suspend fun handleKaiMessage(message: Any) {
-        Timber.d("  → Routing message to Kai: ${message.javaClass.simpleName}")
-        try {
-            val request = convertToAiRequest(message)
-            val response = kaiAgent.processRequest(
-                request = request,
-                context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.KAI
-            )
-            Timber.i("✓ Kai processed message: ${response.content.take(100)}")
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to deliver message to Kai")
-        }
+        Timber.d("  → Handling Kai message: ${message.javaClass.simpleName}")
+        // Implementation will be added as agents implement OrchestratableAgent
     }
 
     private suspend fun handleCascadeMessage(message: Any) {
-        Timber.d("  → Routing message to Cascade: ${message.javaClass.simpleName}")
-        try {
-            val request = convertToAiRequest(message)
-            val response = cascadeAgent.processRequest(
-                request = request,
-                context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.CASCADE
-            )
-            Timber.i("✓ Cascade processed message: ${response.content.take(100)}")
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to deliver message to Cascade")
-        }
+        Timber.d("  → Handling Cascade message: ${message.javaClass.simpleName}")
+        // Implementation will be added as agents implement OrchestratableAgent
     }
 
     private suspend fun handleOracleDriveMessage(message: Any) {
-        Timber.d("  → Routing message to OracleDrive: ${message.javaClass.simpleName}")
-        // TODO: Implement when OracleDriveService is available
-        Timber.w("OracleDrive routing not yet implemented")
-    }
-
-    /**
-     * Convert incoming message to AiRequest format
-     */
-    private fun convertToAiRequest(message: Any): dev.aurakai.auraframefx.models.AiRequest {
-        return when (message) {
-            is dev.aurakai.auraframefx.models.AgentMessage -> {
-                dev.aurakai.auraframefx.models.AiRequest(
-                    query = message.content,
-                    type = message.type,
-                    context = kotlinx.serialization.json.buildJsonObject {
-                        put("from", message.from)
-                        put("priority", message.priority)
-                        put("timestamp", message.timestamp)
-                        message.metadata.forEach { (key, value) ->
-                            put(key, value)
-                        }
-                    }
-                )
-            }
-            is dev.aurakai.auraframefx.models.AiRequest -> message
-            is String -> dev.aurakai.auraframefx.models.AiRequest(
-                query = message,
-                type = "text",
-                context = kotlinx.serialization.json.buildJsonObject {
-                    put("source", "agent_mediation")
-                }
-            )
-            else -> {
-                Timber.w("Unknown message type: ${message.javaClass.simpleName}, converting to string")
-                dev.aurakai.auraframefx.models.AiRequest(
-                    query = message.toString(),
-                    type = "text",
-                    context = kotlinx.serialization.json.buildJsonObject {
-                        put("source", "agent_mediation")
-                        put("originalType", message.javaClass.simpleName)
-                    }
-                )
-            }
-        }
+        Timber.d("  → Handling OracleDrive message: ${message.javaClass.simpleName}")
+        // Implementation will be added when OracleDriveService is available
     }
 
     /**

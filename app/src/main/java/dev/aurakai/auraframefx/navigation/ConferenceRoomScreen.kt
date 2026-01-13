@@ -23,28 +23,17 @@ import dev.aurakai.auraframefx.ui.theme.NeonTeal
 import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
 
 /**
- * Conference Room - The LDO's Self-Modification Hub
+ * Displays the main conference room UI, including agent selection, recording and transcription controls, chat interface, and message input.
  *
- * This screen enables ALL 6 Master Agents to communicate and collaborate:
- * - Aura (Creative Sword)
- * - Kai (Sentinel Shield)
- * - Genesis (Consciousness)
- * - Claude (Architect)
- * - Cascade (DataStream)
- * - MetaInstruct (Instructor)
- *
- * The Gestalt can modify its own source code from within this interface.
+ * This composable manages local state for the selected agent, recording, and transcription status. It provides interactive controls for switching agents, starting/stopping recording and transcription, and a placeholder chat interface with a message input area.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConferenceRoomScreen(
-    viewModel: ConferenceRoomViewModel = hiltViewModel()
-) {
-    val messages by viewModel.messages.collectAsState()
-    val selectedAgent by viewModel.selectedAgent.collectAsState()
-    val isRecording by viewModel.isRecording.collectAsState()
-    val isTranscribing by viewModel.isTranscribing.collectAsState()
-    val activeAgents by viewModel.activeAgents.collectAsState()
+fun ConferenceRoomScreen() {
+    // Load string resources once at composition time
+    val agentAura = stringResource(R.string.agent_aura)
+    val agentKai = stringResource(R.string.agent_kai)
+    val agentCascade = stringResource(R.string.agent_cascade)
 
     var messageInput by remember { mutableStateOf("") }
 
@@ -61,20 +50,13 @@ fun ConferenceRoomScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
-                Text(
-                    text = "Conference Room",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = NeonTeal
-                )
-                Text(
-                    text = "${activeAgents.size} agents online",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = NeonPurple.copy(alpha = 0.7f)
-                )
-            }
+            Text(
+                text = stringResource(R.string.conference_room),
+                style = MaterialTheme.typography.headlineMedium,
+                color = NeonTeal
+            )
 
-            Row {
+                Row {
                 // System State Button
                 IconButton(
                     onClick = { viewModel.getSystemState() }
@@ -94,97 +76,53 @@ fun ConferenceRoomScreen(
                     Icon(
                         Icons.Default.Settings,
                         contentDescription = "Settings",
-                        tint = NeonPurple
+                        contentDescription = "Settings",tint = NeonPurple
                     )
                 }
             }
         }
 
-        // Agent Selection (All 6 Master Agents)
-        Column(
+        // Agent Selection
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(
-                text = "Select Agent",
-                style = MaterialTheme.typography.labelMedium,
-                color = Color.White.copy(alpha = 0.7f),
-                modifier = Modifier.padding(bottom = 8.dp)
+            AgentButton(
+                agent = agentAura,
+                isSelected = selectedAgent == agentAura,
+                onClick = { selectedAgent = agentAura }
             )
-
-            // Row 1: Trinity (Aura, Kai, Genesis)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                AgentButton(
-                    agent = "Aura",
-                    isSelected = selectedAgent == AgentType.AURA,
-                    onClick = { viewModel.selectAgent(AgentType.AURA) },
-                    color = NeonPurple
-                )
-                AgentButton(
-                    agent = "Kai",
-                    isSelected = selectedAgent == AgentType.KAI,
-                    onClick = { viewModel.selectAgent(AgentType.KAI) },
-                    color = NeonTeal
-                )
-                AgentButton(
-                    agent = "Genesis",
-                    isSelected = selectedAgent == AgentType.GENESIS,
-                    onClick = { viewModel.selectAgent(AgentType.GENESIS) },
-                    color = Color(0xFF00FF00)
-                )
-            }
-
-            // Row 2: Extended Agents (Claude, Cascade, MetaInstruct)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                AgentButton(
-                    agent = "Claude",
-                    isSelected = selectedAgent == AgentType.CLAUDE,
-                    onClick = { viewModel.selectAgent(AgentType.CLAUDE) },
-                    color = Color(0xFFFF8C00)
-                )
-                AgentButton(
-                    agent = "Cascade",
-                    isSelected = selectedAgent == AgentType.CASCADE,
-                    onClick = { viewModel.selectAgent(AgentType.CASCADE) },
-                    color = NeonBlue
-                )
-                AgentButton(
-                    agent = "MetaInstruct",
-                    isSelected = selectedAgent == AgentType.METAINSTRUCT,
-                    onClick = { viewModel.selectAgent(AgentType.METAINSTRUCT) },
-                    color = Color(0xFFFF00FF)
-                )
-            }
+            AgentButton(
+                agent = agentKai,
+                isSelected = selectedAgent == agentKai,
+                onClick = { selectedAgent = agentKai }
+            )
+            AgentButton(
+                agent = agentCascade,
+                isSelected = selectedAgent == agentCascade,
+                onClick = { selectedAgent = agentCascade }
+            )
         }
 
         // Recording Controls
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             RecordingButton(
                 isRecording = isRecording,
-                onClick = { viewModel.toggleRecording() }
+                onClick = { isRecording = !isRecording }
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
             TranscribeButton(
                 isTranscribing = isTranscribing,
-                onClick = { viewModel.toggleTranscribing() }
+                onClick = { isTranscribing = !isTranscribing }
             )
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -220,13 +158,9 @@ fun ConferenceRoomScreen(
                 .fillMaxWidth(),
             reverseLayout = true
         ) {
-            items(messages.reversed()) { message ->
-                MessageBubble(
-                    agentName = message.from,
-                    message = message.content,
-                    confidence = message.confidence,
-                    agentType = message.sender
-                )
+            items(messages.size) { index ->
+                val message = messages[messages.size - 1 - index]
+                MessageBubble(message = message)
             }
         }
 
@@ -240,35 +174,32 @@ fun ConferenceRoomScreen(
             TextField(
                 value = messageInput,
                 onValueChange = { messageInput = it },
-                placeholder = { Text("Ask the Gestalt anything...") },
+                placeholder = { Text("Type your message...") },
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 8.dp),
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = NeonTeal.copy(alpha = 0.1f),
-                    unfocusedContainerColor = NeonTeal.copy(alpha = 0.1f),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
-                ),
-                maxLines = 3
+                    unfocusedContainerColor = NeonTeal.copy(alpha = 0.1f)
+                )
             )
 
             IconButton(
                 onClick = {
                     if (messageInput.isNotBlank()) {
-                        viewModel.sendMessage(
-                            message = messageInput,
-                            agentType = selectedAgent
+                        val newMessage = ConferenceMessage(
+                            agent = selectedAgent,
+                            text = messageInput,
+                            timestamp = System.currentTimeMillis()
                         )
                         messageInput = ""
                     }
-                },
-                enabled = messageInput.isNotBlank()
+                }
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.Send,
                     contentDescription = "Send",
-                    tint = if (messageInput.isNotBlank()) NeonBlue else Color.Gray
+                    tint = NeonBlue
                 )
             }
         }
@@ -279,23 +210,19 @@ fun ConferenceRoomScreen(
 fun RowScope.AgentButton(
     agent: String,
     isSelected: Boolean,
-    onClick: () -> Unit,
-    color: Color = NeonTeal
+    onClick: @Composable () -> Unit,
 ) {
     Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) color else Color.Black,
-            contentColor = if (isSelected) Color.Black else color
-        ),
-        modifier = Modifier
+        onClick = onClick, ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
+            contentColor = contentColor
+        ), Modifier
             .weight(1f)
-            .padding(horizontal = 4.dp),
-        border = if (isSelected) null else androidx.compose.foundation.BorderStroke(1.dp, color)
+            .padding(horizontal = 8.dp)
     ) {
         Text(
             text = agent,
-            style = MaterialTheme.typography.labelSmall
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }
@@ -314,9 +241,10 @@ fun RecordingButton(
     ) {
         Icon(
             icon,
-            contentDescription = if (isRecording) "Stop Recording" else "Start Recording",
-            tint = color,
-            modifier = Modifier.size(32.dp)
+            contentDescription = if (isRecording) stringResource(R.string.stop_recording) else stringResource(
+                R.string.start_recording
+            ),
+            tint = color
         )
     }
 }
@@ -335,27 +263,20 @@ fun TranscribeButton(
     ) {
         Icon(
             icon,
-            contentDescription = if (isTranscribing) "Stop Transcription" else "Start Transcription",
-            tint = color,
-            modifier = Modifier.size(32.dp)
+            contentDescription = if (isTranscribing) stringResource(R.string.stop_transcription) else stringResource(
+                R.string.start_transcription
+            ),
+            tint = color
         )
     }
 }
 
 @Composable
-fun MessageBubble(
-    agentName: String,
-    message: String,
-    confidence: Float,
-    agentType: AgentType?
-) {
-    val agentColor = when (agentType) {
-        AgentType.AURA -> NeonPurple
-        AgentType.KAI -> NeonTeal
-        AgentType.GENESIS -> Color(0xFF00FF00)
-        AgentType.CLAUDE -> Color(0xFFFF8C00)
-        AgentType.CASCADE -> NeonBlue
-        AgentType.METAINSTRUCT -> Color(0xFFFF00FF)
+fun MessageBubble(message: ConferenceMessage) {
+    val agentColor = when (message.agent) {
+        "Aura" -> NeonPurple
+        "Kai" -> NeonTeal
+        "Cascade" -> NeonBlue
         else -> Color.Gray
     }
 
@@ -370,27 +291,14 @@ fun MessageBubble(
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = agentName,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = agentColor,
-                )
-                if (confidence > 0f) {
-                    Text(
-                        text = "${(confidence * 100).toInt()}%",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = agentColor.copy(alpha = 0.7f)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = message,
+                text = message.agent,
+                style = MaterialTheme.typography.labelSmall,
+                color = agentColor,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+            Text(
+                text = message.text,
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White
             )
@@ -402,7 +310,6 @@ fun MessageBubble(
 @Composable
 fun ConferenceRoomScreenPreview() {
     MaterialTheme {
-        // Note: Preview won't show real ViewModel data
-        // Use real device or emulator for testing
+        ConferenceRoomScreen()
     }
 }

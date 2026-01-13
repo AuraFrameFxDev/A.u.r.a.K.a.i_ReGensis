@@ -137,9 +137,7 @@ fun KaiConstellationScreen(
 }
 
 /**
- * Renders the animated Sentinel shield visualization used as the central defensive constellation.
- *
- * The composable displays a pulsing hexagonal shield, a rotating scan beam, and an animated ring of perimeter security nodes connected by a defensive perimeter; visuals use a purple/orange/cyan palette to indicate status and emphasis.
+ * Sentinel Shield Canvas with hexagonal defense grid
  */
 @Composable
 private fun SentinelShieldCanvas() {
@@ -198,7 +196,15 @@ private fun SentinelShieldCanvas() {
         val orangeColor = Color(0xFFFF8C00)
         val cyanColor = Color(0xFF00FFFF)
 
-        // Hexagonal shield centerpiece will be overlaid as PNG image below
+        // Draw hexagonal shield centerpiece
+        drawHexagonalShield(
+            centerX = centerX,
+            centerY = centerY,
+            radius = 150f,
+            color = purpleColor,
+            accentColor = orangeColor,
+            pulseAlpha = shieldPulse
+        )
 
         // Draw perimeter defense nodes
         val nodes = mutableListOf<Offset>()
@@ -280,11 +286,98 @@ private fun SentinelShieldCanvas() {
 }
 
 /**
- * Displays the sentinel's security metrics row and an animated scan progress bar.
+ * Renders a hexagonal shield with layered glow, alternating-color border segments, inner core connections, and a central core.
  *
- * Shows three metric indicators (Firewall, Encryption, Monitoring) whose dot glow is driven
- * by a pulsing animation, and a horizontal scan bar that fills over time with a gradient.
- * Also renders a percentage text reflecting the current scan progress.
+ * @param pulseAlpha A 0..1 value that modulates the opacity of the glow, border, inner connections, and core visuals.
+ */
+private fun DrawScope.drawHexagonalShield(
+    centerX: Float,
+    centerY: Float,
+    radius: Float,
+    color: Color,
+    accentColor: Color,
+    pulseAlpha: Float
+) {
+    val path = Path()
+
+    // Draw hexagon
+    for (i in 0..5) {
+        val angle = (i * 60f - 30f) * (Math.PI / 180).toFloat()
+        val x = centerX + radius * cos(angle)
+        val y = centerY + radius * sin(angle)
+
+        if (i == 0) {
+            path.moveTo(x, y)
+        } else {
+            path.lineTo(x, y)
+        }
+    }
+    path.close()
+
+    // Draw shield glow
+    drawPath(
+        path = path,
+        brush = Brush.radialGradient(
+            colors = listOf(
+                color.copy(alpha = pulseAlpha * 0.3f),
+                accentColor.copy(alpha = pulseAlpha * 0.2f),
+                Color.Transparent
+            ),
+            center = Offset(centerX, centerY),
+            radius = radius * 1.5f
+        )
+    )
+
+    // Draw shield border (alternating colors)
+    for (i in 0..5) {
+        val angle1 = (i * 60f - 30f) * (Math.PI / 180).toFloat()
+        val angle2 = ((i + 1) * 60f - 30f) * (Math.PI / 180).toFloat()
+        val x1 = centerX + radius * cos(angle1)
+        val y1 = centerY + radius * sin(angle1)
+        val x2 = centerX + radius * cos(angle2)
+        val y2 = centerY + radius * sin(angle2)
+
+        val segmentColor = if (i % 2 == 0) color else accentColor
+
+        drawLine(
+            color = segmentColor.copy(alpha = pulseAlpha),
+            start = Offset(x1, y1),
+            end = Offset(x2, y2),
+            strokeWidth = 8f
+        )
+    }
+
+    // Draw inner hexagonal core
+    val innerRadius = radius * 0.4f
+    for (i in 0..5) {
+        val angle = (i * 60f - 30f) * (Math.PI / 180).toFloat()
+        val x = centerX + innerRadius * cos(angle)
+        val y = centerY + innerRadius * sin(angle)
+
+        // Connection lines from center
+        drawLine(
+            color = color.copy(alpha = pulseAlpha * 0.5f),
+            start = Offset(centerX, centerY),
+            end = Offset(x, y),
+            strokeWidth = 2f
+        )
+    }
+
+    // Center core
+    drawCircle(
+        color = accentColor.copy(alpha = pulseAlpha),
+        radius = 20f,
+        center = Offset(centerX, centerY)
+    )
+    drawCircle(
+        color = Color.White.copy(alpha = pulseAlpha * 0.8f),
+        radius = 10f,
+        center = Offset(centerX, centerY)
+    )
+}
+
+/**
+ * Sentinel Status Bar - Security metrics
  */
 @Composable
 private fun SentinelStatusBar() {
@@ -362,11 +455,7 @@ private fun SentinelStatusBar() {
 }
 
 /**
- * Displays a labeled security metric with a small glowing status dot.
- *
- * @param name The metric label shown to the right of the indicator.
- * @param glowAlpha Alpha multiplier (typically 0.0–1.0) controlling the intensity of the dot's glow.
- * @param color Base color used for the dot and label tint.
+ * Individual security metric indicator
  */
 @Composable
 private fun SecurityMetricIndicator(

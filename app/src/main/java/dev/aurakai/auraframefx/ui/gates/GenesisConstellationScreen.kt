@@ -165,7 +165,13 @@ private fun GenesisInfinityCascadeCanvas() {
         val greenColor = Color(0xFF00FF00)
         val darkGreen = Color(0xFF006400)
 
-        // Infinity symbol centerpiece will be overlaid as PNG image below
+        // Draw vertical infinity symbol (∞ rotated 90°)
+        drawInfinitySymbol(
+            centerX = centerX,
+            centerY = centerY,
+            color = greenColor,
+            pulseAlpha = pulseAlpha
+        )
 
         // Draw cascading data streams
         for (i in 0..7) {
@@ -244,3 +250,42 @@ private fun GenesisInfinityCascadeCanvas() {
     }
 }
 
+/**
+ * Draw vertical infinity symbol (∞ rotated 90°)
+ */
+private fun DrawScope.drawInfinitySymbol(
+    centerX: Float,
+    centerY: Float,
+    color: Color,
+    pulseAlpha: Float
+) {
+    val path = Path()
+    val scale = 60f
+
+    // Draw vertical infinity (figure-8)
+    for (t in 0..360 step 5) {
+        val rad = t * (Math.PI / 180).toFloat()
+        val x = centerX + scale * sin(2 * rad)
+        val y = centerY + scale * sin(rad)
+
+        if (t == 0) {
+            path.moveTo(x, y)
+        } else {
+            path.lineTo(x, y)
+        }
+    }
+
+    // Draw glow
+    drawPath(
+        path = path,
+        color = color.copy(alpha = pulseAlpha * 0.4f),
+        style = Stroke(width = 12f)
+    )
+
+    // Draw core line
+    drawPath(
+        path = path,
+        color = color.copy(alpha = pulseAlpha),
+        style = Stroke(width = 4f)
+    )
+}

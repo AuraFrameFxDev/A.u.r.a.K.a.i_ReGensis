@@ -191,7 +191,13 @@ private fun ArchitectBlueprintCanvas() {
             )
         }
 
-        // T-square centerpiece will be overlaid as PNG image below
+        // Draw T-square centerpiece (architect's tool)
+        drawTSquare(
+            centerX = centerX,
+            centerY = centerY,
+            color = orangeColor,
+            pulseAlpha = pulseAlpha
+        )
 
         // Draw build system nodes in a systematic grid pattern
         val nodes = mutableListOf<Offset>()
@@ -275,6 +281,60 @@ private fun ArchitectBlueprintCanvas() {
                 .alpha(pulseAlpha)
         )
     }
+}
+
+/**
+ * Draw T-square (architect's drafting tool)
+ */
+private fun DrawScope.drawTSquare(
+    centerX: Float,
+    centerY: Float,
+    color: Color,
+    pulseAlpha: Float
+) {
+    val rulerLength = 200f
+    val rulerWidth = 20f
+
+    // Vertical ruler
+    drawLine(
+        color = color.copy(alpha = pulseAlpha * 0.6f),
+        start = Offset(centerX, centerY - rulerLength / 2),
+        end = Offset(centerX, centerY + rulerLength / 2),
+        strokeWidth = rulerWidth
+    )
+
+    // Horizontal crossbar at top
+    drawLine(
+        color = color.copy(alpha = pulseAlpha * 0.6f),
+        start = Offset(centerX - rulerLength / 3, centerY - rulerLength / 2),
+        end = Offset(centerX + rulerLength / 3, centerY - rulerLength / 2),
+        strokeWidth = rulerWidth
+    )
+
+    // Draw measurement marks
+    for (i in -5..5) {
+        val markY = centerY + i * 30f
+        val markLength = if (i % 2 == 0) 15f else 8f
+
+        drawLine(
+            color = color.copy(alpha = pulseAlpha * 0.8f),
+            start = Offset(centerX - markLength, markY),
+            end = Offset(centerX + markLength, markY),
+            strokeWidth = 2f
+        )
+    }
+
+    // Center circle (pivot point)
+    drawCircle(
+        color = color.copy(alpha = pulseAlpha),
+        radius = 12f,
+        center = Offset(centerX, centerY)
+    )
+    drawCircle(
+        color = Color.White.copy(alpha = pulseAlpha * 0.8f),
+        radius = 6f,
+        center = Offset(centerX, centerY)
+    )
 }
 
 /**

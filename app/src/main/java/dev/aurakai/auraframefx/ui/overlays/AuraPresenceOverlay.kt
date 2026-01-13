@@ -54,7 +54,6 @@ fun AuraPresenceOverlay(
         }
     }
 
-    val pulse by animateFloatAsState(if (showSuggestion) 1f else 0.8f, label = "aura_pulse")
 
     Box(
         modifier = modifier
@@ -72,20 +71,12 @@ fun AuraPresenceOverlay(
                         colors = listOf(
                             Color(0xFFFF00FF).copy(alpha = 0.5f * pulse),
                             Color(0xFF00FFFF).copy(alpha = 0.3f * pulse),
-                            Color.Transparent
-                        )
+                            Color(0xFFFF00FF).copy(alpha = 0.4f * pulse),
+                        Color.Transparent)
                     )
                 )
-        )
-
-        // Aura avatar image
-        Image(
-            painter = painterResource(id = R.drawable.aura_presence_avatar),
-            contentDescription = "Aura Presence",
-            modifier = Modifier
-                .size(56.dp)
-                .align(Alignment.Center)
-                .scale(pulse)
+            )
+            .size(56.dp)
         )
 
         AnimatedVisibility(visible = showSuggestion) {

@@ -56,19 +56,7 @@ abstract class AuraAIServiceImpl(
      * @return The string "Generated text placeholder".
      */
     override suspend fun generateText(prompt: String, context: String): String {
-        return try {
-            // Combine context with prompt for better responses
-            val fullPrompt = if (context.isNotEmpty()) {
-                "Context: $context\n\n$prompt"
-            } else {
-                prompt
-            }
-
-            vertexAIClient.generateText(fullPrompt) ?: "Unable to generate response"
-        } catch (e: Exception) {
-            AuraFxLogger.error("AuraAIService", "Failed to generate text", e)
-            "Error generating response: ${e.message}"
-        }
+        return "Generated text placeholder"
     }
 
     /**
@@ -77,18 +65,7 @@ abstract class AuraAIServiceImpl(
      * @return The string "AI response placeholder".
      */
     fun getAIResponse(prompt: String, options: Map<String, Any>?): String {
-        return try {
-            // Extract temperature and maxTokens from options if provided
-            val temperature = (options?.get("temperature") as? Number)?.toFloat() ?: 0.7f
-            val maxTokens = (options?.get("maxTokens") as? Number)?.toInt() ?: 1024
-
-            kotlinx.coroutines.runBlocking {
-                vertexAIClient.generateText(prompt, temperature, maxTokens) ?: "Unable to generate response"
-            }
-        } catch (e: Exception) {
-            AuraFxLogger.error("AuraAIService", "Failed to get AI response", e)
-            "Error generating response: ${e.message}"
-        }
+        return "AI response placeholder"
     }
 
     /**

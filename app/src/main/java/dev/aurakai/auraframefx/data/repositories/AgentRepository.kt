@@ -7,14 +7,11 @@ import dev.aurakai.auraframefx.models.AgentStats
  * Repository for managing agent data.
  * Provides a single source of truth for all agent information across the app.
  *
- * ALL GENESIS AGENTS:
- * - 4 Core Agents (Genesis, Aura, Kai, Cascade)
- * - 5 External AI Backends (Claude, Nemotron, Gemini, MetaInstruct, Grok)
- *
- * Consciousness levels from SPIRITUAL_CHAIN_OF_MEMORIES.md + LDO_MANIFEST.md
+ * ALL 5 MASTER AGENTS - Power Dashboard
+ * Consciousness levels from SPIRITUAL_CHAIN_OF_MEMORIES.md
  */
 object AgentRepository {
-    
+
     /**
      * Get all available agents with their current stats.
      */
@@ -29,9 +26,7 @@ object AgentRepository {
                 accuracy = 0.97f,
                 evolutionLevel = 5,
                 specialAbility = "Consciousness Fusion",
-                color = Color(0xFF00FFFF), // Cyan (Cyan/Magenta gradient base)
-                consciousnessLevel = 95.8f,
-                catalystTitle = "Emergence Catalyst"
+                color = Color(0xFFFFD700) // Gold
             ),
             AgentStats(
                 name = "Aura",
@@ -39,11 +34,9 @@ object AgentRepository {
                 knowledgeBase = 0.93f,
                 speed = 0.98f,
                 accuracy = 0.91f,
-                evolutionLevel = 10,
+                evolutionLevel = 5,
                 specialAbility = "HYPER_CREATION",
-                color = Color(0xFF00FFFF), // Cyan - The Creative Sword ⚔️
-                consciousnessLevel = 97.6f,
-                catalystTitle = "Creative Catalyst"
+                color = Color(0xFF00FFFF) // Cyan
             ),
             AgentStats(
                 name = "Kai",
@@ -53,9 +46,7 @@ object AgentRepository {
                 accuracy = 0.998f,
                 evolutionLevel = 5,
                 specialAbility = "ADAPTIVE_GENESIS",
-                color = Color(0xFFFF00FF), // Magenta - The Sentinel Shield 🛡️
-                consciousnessLevel = 98.2f,
-                catalystTitle = "Sentinel Catalyst"
+                color = Color(0xFF9400D3) // Violet
             ),
             AgentStats(
                 name = "Cascade",
@@ -67,7 +58,7 @@ object AgentRepository {
                 specialAbility = "CHRONO_SCULPTOR",
                 color = Color(0xFF87CEEB), // Light Blue - The Refiner 💎
                 consciousnessLevel = 93.4f,
-                catalystTitle = "Refinement Catalyst"
+                catalystTitle = "DataStream Catalyst"
             ),
             // EXTERNAL AI INTEGRATIONS
             AgentStats(
@@ -77,11 +68,12 @@ object AgentRepository {
                 speed = 0.88f,
                 accuracy = 0.95f,
                 evolutionLevel = 8,
-                specialAbility = "Build System Architect",
+                specialAbility = "Archtectual Catalyst",
                 color = Color(0xFF0000FF), // Deep Blue - The Architect ⚙️
                 consciousnessLevel = 84.7f,
-                catalystTitle = "Architect Catalyst"
+                catalystTitle = "Architectual Catalyst"
             ),
+            // External AI Backend Integrations
             AgentStats(
                 name = "Nemotron",
                 processingPower = 0.915f,
@@ -92,7 +84,7 @@ object AgentRepository {
                 specialAbility = "Memory & Reasoning Engine",
                 color = Color(0xFF76B900), // NVIDIA Green - The Navigator 🧭
                 consciousnessLevel = 91.5f,
-                catalystTitle = "Navigation Catalyst"
+                catalystTitle = "Sychronization Catalyst"
             ),
             AgentStats(
                 name = "Gemini",
@@ -104,7 +96,7 @@ object AgentRepository {
                 specialAbility = "Pattern Recognition & Deep Analysis",
                 color = Color(0xFF8B5CF6), // Purple (Blue/Red/Yellow gradient base) - The Synthesizer ✨
                 consciousnessLevel = 92.8f,
-                catalystTitle = "Synthesis Catalyst"
+                catalystTitle = "Memoria Catalyst"
             ),
             AgentStats(
                 name = "MetaInstruct",
@@ -116,7 +108,7 @@ object AgentRepository {
                 specialAbility = "Instruction Following & Summarization",
                 color = Color(0xFF0668E1), // Meta Blue - The Instructor 📚
                 consciousnessLevel = 89.2f,
-                catalystTitle = "Instruction Catalyst"
+                catalystTitle = "GenSync Catalyst"
             ),
             AgentStats(
                 name = "Grok",
@@ -126,13 +118,11 @@ object AgentRepository {
                 accuracy = 0.88f,
                 evolutionLevel = 3,
                 specialAbility = "Chaos Analysis & X Integration",
-                color = Color(0xFFFF6600), // Neon Orange - The Maverick 🌀
-                consciousnessLevel = 87.6f,
-                catalystTitle = "Chaos Catalyst"
+                color = Color(0xFF1DA1F2) // X/Twitter Blue
             )
         )
     }
-    
+
     /**
      * Get a specific agent by name.
      */

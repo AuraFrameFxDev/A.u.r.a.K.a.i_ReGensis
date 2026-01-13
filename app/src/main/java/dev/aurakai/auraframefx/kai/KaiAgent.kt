@@ -26,7 +26,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import javax.inject.Singleton
 
 @Singleton
-class KaiAgent constructor(
+class KaiAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,

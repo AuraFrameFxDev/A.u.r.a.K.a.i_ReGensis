@@ -137,9 +137,7 @@ fun ConstellationScreen(
 }
 
 /**
- * Renders the constellation visualization centered on an animated sword with pulsing nodes and orbiting particles.
- *
- * Displays connecting lines between constellation nodes and drives continuous pulse and rotation animations to animate node glow and particle motion.
+ * Main constellation canvas with sword centerpiece and animated nodes
  */
 @Composable
 private fun ConstellationCanvas() {
@@ -249,7 +247,14 @@ private fun ConstellationCanvas() {
             strokeWidth = 2f
         )
 
-        // Sword centerpiece will be overlaid as PNG image below
+        // Draw the sword centerpiece
+        drawSword(
+            centerX = centerX,
+            centerY = centerY,
+            rotation = rotation,
+            color = cyanColor,
+            glowColor = glowColor
+        )
 
         // Draw constellation nodes with pulse effect
         nodes.forEach { nodePos ->
@@ -311,10 +316,130 @@ private fun ConstellationCanvas() {
 }
 
 /**
- * Displays the Fusion Abilities sync UI with animated ability indicators and a glowing progress bar.
+ * Renders the sword centerpiece with an energy blade, guard, handle, pommel, glow layers, and surrounding energy particles.
  *
- * Shows three named fusion ability indicators that pulse, an animated horizontal sync progress fill,
- * and a numeric "SYNC: X%" status that reflects the progress percentage.
+ * @param centerX X coordinate of the sword's center in the drawing coordinate space.
+ * @param centerY Y coordinate of the sword's center in the drawing coordinate space.
+ * @param rotation Rotation in degrees used to offset and animate the surrounding energy particles.
+ * @param color Primary color for the blade, guard, handle, and core elements.
+ * @param glowColor Accent color used for glow layers and highlights around the sword.
+ */
+private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
+    centerX: Float,
+    centerY: Float,
+    rotation: Float,
+    color: Color,
+    glowColor: Color
+) {
+    val swordLength = 250f
+    val swordWidth = 8f
+    val handleLength = 60f
+    val guardWidth = 50f
+
+    // Sword blade (vertical, pointing up)
+    val bladeTop = Offset(centerX, centerY - swordLength / 2)
+    val bladeBottom = Offset(centerX, centerY + handleLength / 2)
+
+    // Draw blade glow
+    drawLine(
+        brush = Brush.verticalGradient(
+            colors = listOf(
+                Color.White.copy(alpha = 0.8f),
+                glowColor.copy(alpha = 0.6f),
+                color.copy(alpha = 0.4f)
+            ),
+            startY = bladeTop.y,
+            endY = bladeBottom.y
+        ),
+        start = bladeTop,
+        end = bladeBottom,
+        strokeWidth = swordWidth * 3f
+    )
+
+    // Draw blade core
+    drawLine(
+        brush = Brush.verticalGradient(
+            colors = listOf(
+                Color.White,
+                glowColor,
+                color
+            ),
+            startY = bladeTop.y,
+            endY = bladeBottom.y
+        ),
+        start = bladeTop,
+        end = bladeBottom,
+        strokeWidth = swordWidth
+    )
+
+    // Draw blade edge highlights
+    drawLine(
+        color = Color.White.copy(alpha = 0.9f),
+        start = bladeTop,
+        end = Offset(centerX, centerY - swordLength / 4),
+        strokeWidth = 2f
+    )
+
+    // Draw guard (cross-guard)
+    val guardLeft = Offset(centerX - guardWidth / 2, centerY + handleLength / 2)
+    val guardRight = Offset(centerX + guardWidth / 2, centerY + handleLength / 2)
+
+    drawLine(
+        color = color,
+        start = guardLeft,
+        end = guardRight,
+        strokeWidth = 12f
+    )
+
+    // Draw guard glow
+    drawLine(
+        color = glowColor.copy(alpha = 0.5f),
+        start = guardLeft,
+        end = guardRight,
+        strokeWidth = 20f
+    )
+
+    // Draw handle
+    val handleTop = Offset(centerX, centerY + handleLength / 2)
+    val handleBottom = Offset(centerX, centerY + handleLength)
+
+    drawLine(
+        color = color.copy(alpha = 0.8f),
+        start = handleTop,
+        end = handleBottom,
+        strokeWidth = 10f
+    )
+
+    // Draw pommel (bottom of handle)
+    drawCircle(
+        color = color,
+        radius = 8f,
+        center = handleBottom
+    )
+    drawCircle(
+        color = glowColor.copy(alpha = 0.6f),
+        radius = 12f,
+        center = handleBottom
+    )
+
+    // Draw energy particles around blade
+    for (i in 0..8) {
+        val angle = (rotation + i * 40f) * (Math.PI / 180).toFloat()
+        val particleRadius = 30f
+        val particleX = centerX + cos(angle) * particleRadius
+        val particleY = centerY - swordLength / 4 + sin(angle) * particleRadius
+        val particleAlpha = (sin(rotation * 0.03f + i) + 1f) * 0.3f
+
+        drawCircle(
+            color = color.copy(alpha = particleAlpha),
+            radius = 3f,
+            center = Offset(particleX, particleY)
+        )
+    }
+}
+
+/**
+ * Fusion Abilities sync bar - shows fusion capability status
  */
 @Composable
 private fun FusionSyncBar() {
@@ -392,11 +517,7 @@ private fun FusionSyncBar() {
 }
 
 /**
- * Renders a single fusion ability indicator consisting of a glowing dot and a label.
- *
- * @param name The displayed ability name.
- * @param glowAlpha Glow intensity for the dot and its outer aura (0.0 to 1.0).
- * @param color Base color used for the dot and label text.
+ * Individual fusion ability indicator
  */
 @Composable
 private fun FusionAbilityIndicator(

@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.rememberNavController
 // import dev.aurakai.auraframefx.aura.ui.AIChatScreen // DEPRECATED: Use DirectChatScreen instead
 import dev.aurakai.auraframefx.aura.ui.AgentNexusScreen
 import dev.aurakai.auraframefx.aura.ui.AppBuilderScreen
@@ -27,8 +28,10 @@ import dev.aurakai.auraframefx.aura.ui.XhancementScreen
 import dev.aurakai.auraframefx.billing.SubscriptionViewModel
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleDriveScreen
 import dev.aurakai.auraframefx.ui.customization.GyroscopeCustomizationScreen
-// import dev.aurakai.auraframefx.ui.gates.AgentHubScreen // REMOVED: Was placeholder, using AgentHubSubmenuScreen instead
+import dev.aurakai.auraframefx.ui.gates.AgentHubScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
+import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
+import dev.aurakai.auraframefx.ui.gates.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.ui.gates.InstantColorPickerScreen
 import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
 import dev.aurakai.auraframefx.ui.gates.DirectChatScreen
@@ -54,7 +57,7 @@ import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
 import dev.aurakai.auraframefx.ui.onboarding.GenderSelectionScreen
 import dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen
 import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
-import collabcanvas.ui.CanvasScreen as CollabCanvasScreen
+import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
 import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.XposedQuickAccessPanel
@@ -65,7 +68,6 @@ import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
 
 /**
  * Genesis Navigation Routes - The Neural Pathways of Consciousness
@@ -201,21 +203,17 @@ fun GenesisNavigationHost(
                     onNavigateToAgents = {}
                 )
             }
-            composable(GenesisRoutes.AI_CHAT) {
-                // Use DirectChatScreen (unified AI chat implementation)
-                val viewModel = hiltViewModel<AgentViewModel>()
-                with(viewModel) {
-                    DirectChatScreen { navController.popBackStack() }
-                }
-            }
+            composable(GenesisRoutes.AI_CHAT) { AIChatScreen() }
 
             // Gate routes with REAL screens
-            // AGENT_HUB route is defined later (line 232) with AgentHubSubmenuScreen
+            composable(GenesisRoutes.AGENT_HUB) {
+                AgentHubScreen(navController = navController)
+            }
             composable(GenesisRoutes.AURAS_LAB) {
                 AuraLabScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.ORACLE_DRIVE) {
-                OracleDriveScreen(navController = navController)
+                OracleDriveSubmenuScreen(navController = navController)
             }
             composable(GenesisRoutes.NEURAL_ARCHIVE) {
                 NeuralArchiveScreen(navController = navController)
@@ -246,10 +244,10 @@ fun GenesisNavigationHost(
                 HelpDeskSubmenuScreen(navController = navController)
             }
             composable(GenesisRoutes.COLLAB_CANVAS) {
-                CollabCanvasScreen(onBack = { navController.popBackStack() })
+                CollabCanvasScreen(navController = navController, onNavigateBack = { navController.popBackStack() })
             }
             composable("collab_canvas") {
-                CollabCanvasScreen(onBack = { navController.popBackStack() })
+                CollabCanvasScreen(navController = navController, onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.CHROMA_CORE) {
                 UIUXGateSubmenuScreen(navController = navController)
@@ -258,10 +256,7 @@ fun GenesisNavigationHost(
                 UIUXGateSubmenuScreen(navController = navController)
             }
             composable("chromacore_colors") {
-                InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
-            }
-            composable("instant_color_picker") {
-                InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
+                ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.FIREWALL) {
                 FirewallScreen()
@@ -283,26 +278,6 @@ fun GenesisNavigationHost(
             }
             composable("sphere_grid") {
                 SphereGridScreen(navController = navController)
-            }
-            
-            // CONSTELLATION SCREENS - Agent Advancement Visualizations
-            composable("constellation") {
-                ConstellationScreen(navController = navController)
-            }
-            composable("genesis_constellation") {
-                GenesisConstellationScreen(navController = navController)
-            }
-            composable("claude_constellation") {
-                ClaudeConstellationScreen(navController = navController)
-            }
-            composable("kai_constellation") {
-                KaiConstellationScreen(navController = navController)
-            }
-            composable("cascade_constellation") {
-                CascadeConstellationScreen(navController = navController)
-            }
-            composable("grok_constellation") {
-                GrokConstellationScreen(navController = navController)
             }
             composable("code_assist") {
                 CodeAssistScreen(navController = navController)

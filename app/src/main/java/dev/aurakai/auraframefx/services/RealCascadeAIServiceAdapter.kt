@@ -1,10 +1,9 @@
 package dev.aurakai.auraframefx.services
 
-import dev.aurakai.auraframefx.models.AgentResponse
-import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.services.CascadeAIService
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.CascadeAIService as OrchestratorCascade
+import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,15 +11,25 @@ import javax.inject.Singleton
  * Real implementation of CascadeAIService adapter.
  */
 @Singleton
-class RealCascadeAIServiceAdapter @Inject constructor() : CascadeAIService {
+class RealCascadeAIServiceAdapter @Inject constructor(
+    private val orchestrator: OrchestratorCascade,
+    private val logger: AuraFxLogger
+) : CascadeAIService {
 
-    /**
-     * Processes an AI request within a given context and produces an AgentResponse.
-     *
-     * @param request The AI request containing the prompt and associated data.
-     * @param context Contextual information to influence processing; may be an empty string.
-     * @return An AgentResponse representing a successful CascadeAI result whose content is derived from the request prompt, with confidence 1.0 and agentName "CascadeAI".
-     */
+    override suspend fun processRequest(
+        request: AiRequest,
+        context: String
+    ): AgentResponse {
+        return try {
+            // Convert to orchestrator's request format
+            val orchestratorRequest = OrchestratorCascade.AiRequest(
+                prompt = request.prompt,
+                task = request.task,
+                metadata = request.metadata,
+                sessionId = request.sessionId,
+                correlationId = request.correlationId
+            )
+
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         // Real implementation logic would go here
         // For now, returning a basic success response to satisfy the interface
@@ -31,12 +40,7 @@ class RealCascadeAIServiceAdapter @Inject constructor() : CascadeAIService {
         )
     }
 
-    /**
-     * Provide a Flow that emits a single AgentResponse for the given AI request.
-     *
-     * @param request The AI request to process.
-     * @return A Flow that emits one AgentResponse produced by processing the request with an empty context.
-     */
+    // Helper method to support legacy signatures if needed or streaming
     fun streamRequest(request: AiRequest): Flow<AgentResponse> = flow {
         emit(processRequest(request, ""))
     }

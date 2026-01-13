@@ -74,8 +74,8 @@ fun CodeAssistScreen(navController: NavHostController) {
         // Code Editor Area
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp),
+                .weight(1f)
+                .fillMaxWidth(),
             colors = CardDefaults.cardColors(
                 containerColor = Color(0xFF0F0F1A)
             ),

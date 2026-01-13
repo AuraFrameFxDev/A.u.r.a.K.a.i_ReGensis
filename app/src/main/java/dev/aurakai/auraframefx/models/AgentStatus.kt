@@ -29,22 +29,22 @@ data class AgentStatus(
     enum class Status {
         /** Agent is ready and waiting for tasks */
         IDLE,
-        
+
         /** Agent is currently processing a request */
         PROCESSING,
-        
+
         /** Agent is in an error state */
         ERROR,
-        
+
         /** Agent is initializing */
         INITIALIZING,
-        
+
         /** Agent is updating */
         UPDATING,
-        
+
         /** Agent is in maintenance mode */
         MAINTENANCE,
-        
+
         /** Agent is shutting down */
         SHUTTING_DOWN,
 
@@ -57,7 +57,7 @@ data class AgentStatus(
         /** Agent is evolving */
         EVOLVING
     }
-    
+
     /**
      * Represents resource usage metrics for an agent
      * @property cpuUsage CPU usage percentage (0-100)

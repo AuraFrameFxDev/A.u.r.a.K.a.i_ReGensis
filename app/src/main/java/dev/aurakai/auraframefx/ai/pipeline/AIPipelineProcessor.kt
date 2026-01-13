@@ -242,8 +242,8 @@ class AIPipelineProcessor @Inject constructor(
                 append("\n\n")
             }
 
-            responsesByAgent.forEach { (agentType, agentResponses) ->
-                if (agentType != null && agentType != AgentType.GENESIS && agentResponses.isNotEmpty()) {
+            responsesByAgent.filterKeys { it != null }.forEach { (agentType, agentResponses) ->
+                if (agentType != AgentType.GENESIS && agentResponses.isNotEmpty()) {
                     val agentIcon = when (agentType) {
                         AgentType.CASCADE -> "4ca"
                         AgentType.AURA -> "3a8"
