@@ -40,9 +40,8 @@ abstract class AiServiceModule {
     abstract fun bindAuraAIService(impl: DefaultAuraAIService): AuraAIService
 
     /**
-     * Binds GenesisBackedKaiAIService as the KaiAIService implementation in the DI graph.
+     * Bind GenesisBackedKaiAIService as the singleton KaiAIService implementation in the DI graph.
      *
-     * @param impl The GenesisBackedKaiAIService instance to bind.
      * @return The bound KaiAIService implementation.
      */
     @Binds
@@ -50,15 +49,21 @@ abstract class AiServiceModule {
     abstract fun bindKaiAIService(kaiAIService: GenesisBackedKaiAIService): KaiAIService
 
     /**
-     * Binds the CascadeAIService interface to its DefaultCascadeAIService implementation in the DI graph.
+     * Binds the CascadeAIService interface to the provided RealCascadeAIServiceAdapter in the DI graph.
      *
-     * @param impl The DefaultCascadeAIService instance to provide when CascadeAIService is requested.
-     * @return The CascadeAIService instance backed by the provided implementation.
+     * @param cascadeAIService The implementation instance to supply when CascadeAIService is requested.
+     * @return A CascadeAIService backed by the given implementation.
      */
     @Binds
     @Singleton
     abstract fun bindCascadeAIService(cascadeAIService: RealCascadeAIServiceAdapter): CascadeAIService
-    abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
+    /**
+ * Binds the RealCascadeAIServiceAdapter implementation to the CascadeAIService interface in the DI graph.
+ *
+ * @param impl The RealCascadeAIServiceAdapter instance to use when CascadeAIService is requested.
+ * @return The bound CascadeAIService implementation.
+ */
+abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
 
     // ═══════════════════════════════════════════════════════════════════════════
     // External AI Backend Services (ClaudeAIService, NemotronAIService,

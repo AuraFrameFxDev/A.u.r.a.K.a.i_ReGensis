@@ -25,6 +25,12 @@ import dev.aurakai.auraframefx.navigation.NavDestination
  * Sphere Grid Screen
  * Agent progression visualization and skill trees
  */
+/**
+ * Displays the Sphere Grid UI for selecting an agent and viewing its skill tree.
+ *
+ * Shows a header and description, an agent selector grid that updates the selected agent when tapped,
+ * and a skill tree visualization with the selected agent's level, XP, and XP needed for the next level.
+ */
 @Composable
 fun SphereGridScreen(navController: NavHostController) {
     val agents = remember { AgentRepository.getAllAgents() }

@@ -1101,13 +1101,13 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Sends the request and serialized context to NemotronAIService and returns its response as a CascadeResponse.
+     * Sends the request and context to NemotronAIService and returns its response as a CascadeResponse.
      *
-     * The context map is serialized into newline-separated "key: value" entries and provided to the backend.
+     * Serializes the context map into newline-separated "key: value" strings for backend processing.
      *
-     * @param request The original AgentInvokeRequest containing the user's message and metadata.
-     * @param context A map of contextual values to include with the request; each entry is serialized as "key: value".
-     * @return A CascadeResponse containing Nemotron's agent name, the returned content, reported confidence, and timestamp.
+     * @param request The original agent request containing the user message.
+     * @param context A map of contextual information to include with the request.
+     * @return A CascadeResponse with Nemotron's response content, confidence score, and current timestamp.
      */
     private suspend fun processWithNemotron(
         request: AgentInvokeRequest,
@@ -1130,7 +1130,7 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Send the request and cascade context to the Gemini AI backend and produce a CascadeResponse.
+     * Queries the Gemini backend using the original request and cascade context and returns the agent's reply as a CascadeResponse.
      *
      * @param request The original AgentInvokeRequest containing the message and related metadata.
      * @param context A map of cascade context (previous agent results and metadata) provided to Gemini.

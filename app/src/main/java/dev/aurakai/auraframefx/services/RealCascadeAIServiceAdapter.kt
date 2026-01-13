@@ -30,6 +30,15 @@ class RealCascadeAIServiceAdapter @Inject constructor(
                 correlationId = request.correlationId
             )
 
+    /**
+     * Processes the given AI request within the provided context and produces an AgentResponse from the Cascade AI adapter.
+     *
+     * The current implementation returns a basic success response that includes the original request prompt.
+     *
+     * @param request The AI request to process.
+     * @param context Optional context string associated with the request; may be empty.
+     * @return An AgentResponse representing the outcome of processing (currently a success response containing the request prompt).
+     */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         // Real implementation logic would go here
         // For now, returning a basic success response to satisfy the interface
@@ -40,7 +49,14 @@ class RealCascadeAIServiceAdapter @Inject constructor(
         )
     }
 
-    // Helper method to support legacy signatures if needed or streaming
+    /**
+     * Streams the processing result for the given AI request as a Flow.
+     *
+     * This helper emits a single AgentResponse produced by processing the provided request.
+     *
+     * @param request The AI request to process.
+     * @return A Flow that emits one AgentResponse corresponding to the processed request.
+     */
     fun streamRequest(request: AiRequest): Flow<AgentResponse> = flow {
         emit(processRequest(request, ""))
     }

@@ -28,6 +28,13 @@ import kotlinx.coroutines.launch
  * Quick Actions Screen
  * Common operations and shortcuts for LSPosed
  */
+/**
+ * Renders the Quick Actions screen showing categorized action cards, recent actions, execution status, and system status.
+ *
+ * Triggering an action marks it as executing, adds its title to the recent-actions list (keeps up to three most recent),
+ * and simulates execution for two seconds during which the corresponding card shows a running indicator and other actions
+ * are non-clickable.
+ */
 @Composable
 fun QuickActionsScreen() {
     val actions = listOf(

@@ -36,6 +36,13 @@ import kotlinx.coroutines.launch
  * - Cyberpunk background with particles
  */
 
+/**
+ * Renders the Working Lab UI with autonomous Aura and Kai manifestations, interactive module cards, and visual effects.
+ *
+ * This composable initializes the embodiment engine and choreographer, drives continuous autonomous work behaviors for Aura and Kai, displays their manifestations and module cards positioned in a 3D-like layout, and shows a data stream when both characters are centered.
+ *
+ * @param onNavigate Callback invoked with a destination identifier when a module or menu item is selected (e.g., "collab_canvas", "oracle_drive", "console", "romtools", "center").
+ */
 @Composable
 fun WorkingLabScreen(
     onNavigate: (String) -> Unit = {}

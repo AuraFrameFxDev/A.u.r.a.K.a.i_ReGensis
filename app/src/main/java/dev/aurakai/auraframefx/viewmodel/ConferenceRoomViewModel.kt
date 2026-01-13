@@ -120,12 +120,12 @@ class ConferenceRoomViewModel @Inject constructor(
     // Conference Room Message Routing - ALL 5 MASTER AGENTS
     // ---------------------------------------------------------------------------
     /*override*/ /**
-     * Routes the given message to the appropriate AI service based on the sender and appends the first response to the conversation messages.
+     * Routes the given user message to the AI agent identified by `sender` and appends that agent's first response to the conversation messages.
      *
-     * Sends `message` with `context` to the AI service corresponding to `sender`, collects the first `AgentResponse` from the chosen response flow, and updates the ViewModel's message list with a new `AgentMessage`. If processing fails, appends an error `AgentMessage` indicating the failure.
+     * Dispatches `message` and `context` to the selected AI service, collects the first `AgentResponse`, and updates the ViewModel's message list with a new `AgentMessage`. If processing fails, appends an error `AgentMessage` describing the failure.
      *
-     * @param message The user-visible query or payload to send to the selected AI agent.
-     * @param sender The agent capability category used to select which AI service should handle the message.
+     * @param message The user-visible query or payload sent to the agent.
+     * @param sender The capability category used to select which AI service should handle the message.
      * @param context Additional contextual information forwarded to the AI service (e.g., user context or orchestration flags).
      */
     fun sendMessage(message: String, sender: AgentCapabilityCategory, context: String) {
@@ -220,12 +220,24 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
-    // This `toggleAgent` was marked with `override` in user's snippet.
+    /**
+     * Selects the active agent for the conference room.
+     *
+     * This function is currently a no-op placeholder and does not change any state.
+     *
+     * @param agent The agent capability category to select as active when implemented.
+     */
 
 
     fun selectAgent(agent: AgentCapabilityCategory) {
     }
 
+    /**
+     * Toggles audio recording: starts recording if inactive, stops recording if active.
+     *
+     * Invokes NeuralWhisper to start or stop recording, updates the ViewModel's `_isRecording` state accordingly,
+     * and logs the resulting status or any failure to start.
+     */
     fun toggleRecording() {
         if (_isRecording.value) {
             val result = neuralWhisper.stopRecording() // stopRecording now returns a string status
@@ -244,6 +256,11 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Toggles the ViewModel's transcribing state between true and false.
+     *
+     * The method inverts the current `isTranscribing` state so observers receive the updated value.
+     */
     fun toggleTranscribing() {
         // For beta, link transcribing state to recording state or a separate logic if needed.
         // User's snippet implies this might be a simple toggle for now.
@@ -254,7 +271,14 @@ class ConferenceRoomViewModel @Inject constructor(
     }
 
     /**
-     * Activate Genesis fusion for complex multi-agent tasks
+     * Activate a Genesis fusion workflow and stream its responses into the conversation.
+     *
+     * Starts a fusion of type `fusionType` with optional `context` metadata; each response emitted
+     * by the fusion is appended to the ViewModel's message list as an `AgentMessage` from GENESIS
+     * with a leading "🌟" in the content.
+     *
+     * @param fusionType Identifier of the fusion workflow to activate.
+     * @param context Optional key/value metadata passed to the fusion request.
      */
     fun activateFusion(fusionType: String, context: Map<String, String> = emptyMap()) {
         viewModelScope.launch {

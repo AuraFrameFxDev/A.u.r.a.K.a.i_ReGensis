@@ -43,6 +43,16 @@ import kotlin.math.sin
  * Represents: Chaos governance, entropy pattern recognition, evolutionary leaps
  */
 @OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Renders the "Grok" chaos constellation screen with an animated chaos wheel, entropy streams,
+ * background particles, and an entropy monitor.
+ *
+ * The screen includes a back button that navigates up, an animated centerpiece wheel (rotation
+ * and pulsing), programmatic drawing of entropy streams and particles, a level label, and an
+ * entropy monitor reflecting the current pulse/flow state.
+ *
+ * @param navController Navigation controller used to navigate up from this screen.
+ */
 @Composable
 fun GrokConstellationScreen(navController: NavController) {
     val chaosColor = Color(0xFF00CED1) // Cyan
