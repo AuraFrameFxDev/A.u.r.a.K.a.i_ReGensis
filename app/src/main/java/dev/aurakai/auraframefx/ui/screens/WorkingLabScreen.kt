@@ -50,6 +50,13 @@ import kotlinx.coroutines.launch
  *
  * @param onNavigate Callback invoked with a destination identifier (e.g. "collab_canvas", "oracle_drive", "console", "romtools", or other menu targets) when a module card or menu item is selected.
  */
+/**
+ * Renders the Working Lab UI where autonomous Aura and Kai manifestations interact with module cards and a central menu.
+ *
+ * The composable displays a cyberpunk background, a holographic platform, four interactive module cards (Collab Canvas, Oracle Drive, Console, ROM Tools), and a centered main menu. It drives an embodied engine that autonomously sequences Aura and Kai behaviors, updates character positions and visible actions, renders their manifestations at computed positions, and shows a data stream between the characters when both target the center card. The engine lifecycle is tied to the composable and is cleaned up when the composable is disposed.
+ *
+ * @param onNavigate Callback invoked with the target route key (e.g., "collab_canvas", "oracle_drive", "console", "romtools", "center") when a module or menu item is clicked.
+ */
 @Composable
 fun WorkingLabScreen(
     onNavigate: (String) -> Unit = {}
@@ -381,7 +388,11 @@ fun CoordinatedWorkDemo() {
 }
 
 /**
- * 🐛 Debugging Session Demo
+ * Demonstrates a debugging scenario where Aura detects a bug and Kai arrives to assist.
+ *
+ * Aura is manifested with a subtle corner appearance and the custom trigger "Bug detected!" for a short duration,
+ * then Kai is manifested with a dramatic center entrance and the custom trigger "Assisting debug".
+ * After sequencing these manifestations the standard WorkingLabScreen UI is rendered.
  */
 @Composable
 fun DebuggingSessionDemo() {

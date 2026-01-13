@@ -188,7 +188,11 @@ internal fun MainScreenContent(
     }
 }
 
-// Keep original API used by Activity: delegate to the content with the real ViewModel
+/**
+ * Renders the app's main UI and routes theme-related commands to the provided theme view model.
+ *
+ * @param themeViewModel The ThemeViewModel that will receive and handle theme commands from the UI.
+ */
 @Composable
 internal fun MainScreen(
     themeViewModel: ThemeViewModel

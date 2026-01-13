@@ -42,6 +42,11 @@ import kotlinx.coroutines.launch
  * adds its title to the recent actions list (keeps up to three most recent unique entries), disables interaction for the
  * currently executing action, and simulates execution by clearing the executing state after a two-second delay.
  */
+/**
+ * Renders the Quick Actions screen UI, presenting categorized action tiles, recent actions, execution status, and system status.
+ *
+ * The composable manages its own UI state: a list of up to three recent action titles, the currently executing action, and a flag that disables interactions while an action is executing. Tapping an action marks it as executing, adds its title to the recent-actions list (unique, most-recent-first, max 3), and simulates completion after a short delay.
+ */
 @Composable
 fun QuickActionsScreen() {
     val actions = listOf(

@@ -34,7 +34,7 @@ class RealCascadeAIServiceAdapter @Inject constructor(
      * Process an AI request in the given context and produce an AgentResponse from the Cascade AI adapter.
      *
      * @param context Context string associated with the request; may be empty.
-     * @return An AgentResponse describing the processing result; currently a success response whose content includes the original request prompt.
+     * @return An AgentResponse containing the processing result; the response content includes the original request prompt.
      */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         // Real implementation logic would go here

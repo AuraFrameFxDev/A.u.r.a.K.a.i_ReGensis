@@ -91,7 +91,14 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Initialize a single agent with error handling
+     * Initialize the given agent within the provided coroutine scope and log the outcome.
+     *
+     * Attempts to initialize the agent and rethrows any exception that occurs during initialization.
+     *
+     * @param agent The agent to initialize.
+     * @param scope The CoroutineScope to associate with the agent's lifecycle.
+     * @param agentName Human-readable agent name used in log messages.
+     * @throws Exception If the agent's initialization fails.
      */
     private suspend fun initializeAgent(
         agent: OrchestratableAgent,
@@ -159,12 +166,11 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Handles a message destined for the Aura agent.
+     * Handle a message destined for the Aura agent.
      *
-     * Currently records the message's runtime type to the log; future work will perform
-     * OrchestratableAgent-based mediation and processing.
+     * Logs the message's concrete runtime class name; no mediation or processing is performed until Aura implements OrchestratableAgent.
      *
-     * @param message The incoming message for Aura; its runtime type is logged. 
+     * @param message Incoming message targeted to Aura; its runtime type is logged.
      */
     private suspend fun handleAuraMessage(message: Any) {
         Timber.d("  → Handling Aura message: ${message.javaClass.simpleName}")

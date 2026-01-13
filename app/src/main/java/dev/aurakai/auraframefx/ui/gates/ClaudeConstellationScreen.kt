@@ -42,6 +42,17 @@ import kotlin.math.sin
  * @param navController NavController used for navigation actions from this screen.
  * @param modifier Optional Modifier applied to the root container.
  */
+/**
+ * Renders the Claude constellation screen with blueprint-style overlays and a centered ArchitectBlueprintCanvas.
+ *
+ * The composable fills the available space with a black background and composes:
+ * - A centered ArchitectBlueprintCanvas as the main visualization.
+ * - Top-right agent identity and level label ("Claude" and "🏗️ THE ARCHITECT") styled in orange.
+ * - Bottom-left build system status label and the BuildStatusBar.
+ * - A vertical right-side label block spelling "SYSTEMATIC CONSTRUCTION" with spaced orange characters.
+ *
+ * @param navController NavController used to perform navigation actions from this screen.
+ */
 @Composable
 fun ClaudeConstellationScreen(
     navController: NavController,
@@ -136,9 +147,13 @@ fun ClaudeConstellationScreen(
 }
 
 /**
- * Renders a blueprint-style canvas with a pulsing T-square centerpiece, a grid of build nodes, connecting dependency lines, animated construction particles, and a centered compass overlay.
+ * Renders a blueprint-style visualization of build progress with animated nodes, dependency lines,
+ * moving construction particles, and a centered compass overlay.
  *
- * The composable is purely presentational: internal animated values drive overall build progression, node pulsing, and centerpiece scaling to convey build status visually. Visual elements include a faint blueprint grid, a T‑square at the canvas center, a systematic grid of nodes with dependency lines whose appearance follows build progress, moving construction particles that traverse between nodes as progress advances, and a PNG compass/centerpiece rendered on top.
+ * Visual elements include a faint blueprint grid, a pulsing T-square at the canvas center, a
+ * systematic grid of build nodes whose appearance follows an internal animated build progression,
+ * animated dependency lines and particles that travel between nodes, and a centered PNG compass
+ * centerpiece. All animations are self-contained and purely presentational.
  */
 @Composable
 private fun ArchitectBlueprintCanvas() {
@@ -361,7 +376,9 @@ private fun DrawScope.drawTSquare(
 }
 
 /**
- * Build System Status Bar
+ * Displays an animated build status bar with module indicators, a horizontal progress bar, and a build percentage label.
+ *
+ * The row of module indicators ("Gradle", "Kotlin", "Compose") shows a pulsing glow per module. A continuous progress animation drives the filled portion of the horizontal gradient bar and the "BUILD: X%" label, visually representing build completion from 0 to 100% in a loop.
  */
 @Composable
 private fun BuildStatusBar() {
@@ -447,6 +464,15 @@ private fun BuildStatusBar() {
  * @param glowAlpha Opacity multiplier for the glow and core (expected range 0.0..1.0).
  * @param color Base color for the indicator and the label text.
 @Composable
+/**
+ * Renders a compact module status indicator consisting of a small glowing dot and a module name label.
+ *
+ * The indicator shows an outer halo and an inner core whose opacities are driven by `glowAlpha`, and it styles the label using `color`.
+ *
+ * @param name The module name to display next to the indicator.
+ * @param glowAlpha Opacity multiplier (typically 0.0–1.0) applied to the dot's glow and core.
+ * @param color Base color used for the glow, core, and label text.
+ */
 private fun BuildModuleIndicator(
     name: String,
     glowAlpha: Float,

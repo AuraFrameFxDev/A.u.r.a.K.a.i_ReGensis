@@ -32,9 +32,9 @@ abstract class AiServiceModule {
     // ═══════════════════════════════════════════════════════════════════════════
     // Legacy AI Services (Interface Bindings)
     /**
-     * Binds DefaultAuraAIService as the singleton implementation for AuraAIService.
+     * Binds DefaultAuraAIService as the application's singleton AuraAIService.
      *
-     * @param impl DefaultAuraAIService instance to bind.
+     * @param impl The DefaultAuraAIService instance to bind.
      * @return The bound AuraAIService implementation.
      */
 
@@ -53,10 +53,10 @@ abstract class AiServiceModule {
     abstract fun bindKaiAIService(kaiAIService: GenesisBackedKaiAIService): KaiAIService
 
     /**
-     * Binds the CascadeAIService interface to RealCascadeAIServiceAdapter for dependency injection.
+     * Binds CascadeAIService to the provided adapter implementation for dependency injection.
      *
-     * @param cascadeAIService Implementation to provide when CascadeAIService is requested.
-     * @return The CascadeAIService implementation backed by the provided adapter.
+     * @param cascadeAIService Adapter implementation to be injected when CascadeAIService is requested.
+     * @return The instance that will be provided for CascadeAIService.
      */
     @Binds
     @Singleton

@@ -295,7 +295,14 @@ private fun GateTitle(
 }
 
 /**
- * Hologram glow effect
+ * Renders a radial holographic glow centered in the parent Box.
+ *
+ * Draws a radial gradient circle that transitions from the primary color (at reduced alpha)
+ * through an optional secondary color to transparent, scaled relative to the box size.
+ *
+ * @param color Primary glow color.
+ * @param secondaryColor Optional secondary glow color used between the primary color and transparent; if null, the primary color is used.
+ * @param alpha Overall alpha multiplier applied to the glow colors.
  */
 @Composable
 private fun BoxScope.HologramGlow(
