@@ -59,10 +59,12 @@ object AgentModule {
     fun provideCascadeAgent(
         auraAgent: AuraAgent,
         kaiAgent: KaiAgent,
+        genesisAgent: GenesisAgent,
+        systemOverlayManager: SystemOverlayManager,
         memoryManager: MemoryManager,
         contextManager: ContextManager
     ): CascadeAgent {
-        return CascadeAgent(auraAgent, kaiAgent, memoryManager, contextManager)
+        return CascadeAgent(auraAgent, kaiAgent, genesisAgent, systemOverlayManager, memoryManager, contextManager)
     }
 
 
@@ -73,6 +75,7 @@ object AgentModule {
         auraAIService: AuraAIService,
         contextManager: ContextManager,
         securityContext: SecurityContext,
+        systemOverlayManager: SystemOverlayManager,
         logger: dev.aurakai.auraframefx.utils.AuraFxLogger
     ): AuraAgent {
         return AuraAgent(
@@ -80,6 +83,7 @@ object AgentModule {
             auraAIService = auraAIService,
             contextManagerInstance = contextManager,
             securityContext = securityContext,
+            systemOverlayManager = systemOverlayManager,
             logger = logger
         )
     }
