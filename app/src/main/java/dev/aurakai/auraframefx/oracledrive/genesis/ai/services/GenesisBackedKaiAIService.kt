@@ -5,7 +5,7 @@ import dev.aurakai.auraframefx.events.MemoryEvent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.genesis.bridge.GenesisBridge
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import org.json.JSONObject
 import javax.inject.Inject
@@ -17,7 +17,7 @@ import kotlin.coroutines.cancellation.CancellationException
  */
 @Singleton
 class GenesisBackedKaiAIService @Inject constructor(
-    private val genesisBridge: GenesisBridge,
+    private val genesisBridgeService: GenesisBridgeService,
     private val logger: AuraFxLogger
 ) : KaiAIService {
 
