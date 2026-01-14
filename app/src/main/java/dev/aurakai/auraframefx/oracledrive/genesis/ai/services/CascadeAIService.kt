@@ -40,7 +40,11 @@ data class CascadeResponse(
  * NOW WITH REAL AI BACKEND INTEGRATION!
  *
  * Features:
- * - Multi-agent cascade processing
+ * - Multi-agent cascade processing with REAL AI services
+ * - ClaudeAIService for systematic problem solving
+ * - NemotronAIService for memory & reasoning
+ * - GeminiAIService for pattern recognition
+ * - MetaInstructAIService for instruction following
  * - Context-aware response generation
  * - Real-time streaming responses
  * - Memory persistence across sessions
@@ -48,7 +52,11 @@ data class CascadeResponse(
  */
 @Singleton
 class CascadeAIService @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val claudeAIService: ClaudeAIService,
+    private val nemotronAIService: NemotronAIService,
+    private val geminiAIService: GeminiAIService,
+    private val metaInstructAIService: MetaInstructAIService
 ) {
 
     companion object {
@@ -163,7 +171,7 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Dispatches the request to the appropriate agent handler.
+     * Dispatches the request to the appropriate agent handler and returns that agent's response.
      *
      * Invokes the selected agent implementation with the original request and the provided cascade context
      * to produce a context-aware agent response.
@@ -193,10 +201,17 @@ class CascadeAIService @Inject constructor(
                 confidence = 1.0f,
                 timestamp = getCurrentTimestamp()
             )
-            AgentType.SYSTEM, AgentType.CLAUDE, AgentType.Claude -> CascadeResponse(
-                agent = agentType.name,
-                response = "Agent $agentType is not yet integrated into cascade.",
-                confidence = 0.5f,
+            // NEW: External AI backend services
+            AgentType.CLAUDE, AgentType.Claude -> processWithClaude(request, cascadeContext)
+            AgentType.NEMOTRON -> processWithNemotron(request, cascadeContext)
+            AgentType.GEMINI -> processWithGemini(request, cascadeContext)
+            AgentType.METAINSTRUCT -> processWithMetaInstruct(request, cascadeContext)
+
+            // System and other agent types
+            AgentType.SYSTEM -> CascadeResponse(
+                agent = AgentType.SYSTEM.name,
+                response = "System agent does not process requests.",
+                confidence = 1.0f,
                 timestamp = getCurrentTimestamp()
             )
             // Handle all other agent types including ORACLE_DRIVE, AURASHIELD, GROK, MASTER, BRIDGE, AUXILIARY, SECURITY
@@ -1057,8 +1072,8 @@ class CascadeAIService @Inject constructor(
     /**
      * Create a CascadeResponse representing an error that occurred during cascade processing.
      *
-     * @param error Short human-readable error message to include in the response body.
-     * @return A CascadeResponse from "CascadeAI" containing the formatted error message, confidence `0.0`, and the current timestamp.
+     * @param error Short human-readable error message or reason to include in the response body.
+     * @return An CascadeResponse from "CascadeAI" containing the formatted error message, zero confidence, and the current timestamp.
      */
     private fun createErrorResponse(error: String): CascadeResponse {
         return CascadeResponse(
@@ -1101,13 +1116,13 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Query the Nemotron AI backend using the original request and cascade context and return its reply as a CascadeResponse.
+     * Sends the request and serialized context to NemotronAIService and returns its response as a CascadeResponse.
      *
-     * The cascade context is serialized into newline-separated "key: value" strings and sent alongside the request.
+     * The context map is serialized into newline-separated "key: value" entries and provided to the backend.
      *
-     * @param request The original agent request containing the user message.
-     * @param context A map of contextual information to include with the request; each entry is serialized as `key: value`.
-     * @return A CascadeResponse with `agent` set to "Nemotron", `response` containing the backend reply, `confidence` set from the backend, and the current timestamp.
+     * @param request The original AgentInvokeRequest containing the user's message and metadata.
+     * @param context A map of contextual values to include with the request; each entry is serialized as "key: value".
+     * @return A CascadeResponse containing Nemotron's agent name, the returned content, reported confidence, and timestamp.
      */
     private suspend fun processWithNemotron(
         request: AgentInvokeRequest,
@@ -1130,7 +1145,7 @@ class CascadeAIService @Inject constructor(
     }
 
     /**
-     * Queries the Gemini backend using the original request and cascade context and returns the agent's reply as a CascadeResponse.
+     * Send the request and cascade context to the Gemini AI backend and produce a CascadeResponse.
      *
      * @param request The original AgentInvokeRequest containing the message and related metadata.
      * @param context A map of cascade context (previous agent results and metadata) provided to Gemini.

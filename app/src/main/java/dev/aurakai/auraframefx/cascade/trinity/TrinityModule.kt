@@ -19,6 +19,7 @@ import dev.aurakai.auraframefx.ai.task.execution.TaskExecutionManager
 import dev.aurakai.auraframefx.common.ErrorHandler
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.security.SecurityMonitor
 import javax.inject.Singleton
@@ -37,9 +38,9 @@ object TrinityModule {
 
 
     /**
-     * Provides a singleton instance of GenesisBridgeService that integrates multiple AI services with the Trinity Python backend.
+     * Creates a configured GenesisBridgeService that wires AuraAI, KaiAI, and Vertex AI clients together with context, security, and logging for application-wide use.
      *
-     * @return A configured GenesisBridgeService singleton for application-wide use.
+     * @return The configured GenesisBridgeService instance.
      */
     @Provides
     @Singleton
@@ -50,7 +51,7 @@ object TrinityModule {
         contextManager: ContextManager,
         securityContext: SecurityContext,
         @ApplicationContext applicationContext: Context,
-        ktorClient: dev.aurakai.auraframefx.network.KtorClient,
+        logger: AuraFxLogger,
     ): GenesisBridgeService {
         return GenesisBridgeService(
             auraAIService = auraAIService,
@@ -59,7 +60,7 @@ object TrinityModule {
             contextManager = contextManager,
             securityContext = securityContext,
             applicationContext = applicationContext,
-            ktorClient = ktorClient
+            logger = logger
         )
     }
 

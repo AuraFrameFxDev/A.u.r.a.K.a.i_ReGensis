@@ -43,6 +43,16 @@ import kotlin.math.sin
  * @param navController Navigation controller for handling screen navigation.
  * @param modifier Optional modifier to adjust the screen's layout and appearance.
  */
+/**
+ * Renders the Genesis constellation screen with a full‑screen black background, a centered
+ * animated infinity cascade visualization, and decorative labels positioned around the canvas.
+ *
+ * The layout places the animated GenesisInfinityCascadeCanvas at center, a two-line agent
+ * title at the top-right, a descriptive label at the bottom-left, and vertically stacked
+ * characters for "DATA STREAM" and "ORCHESTRATION" along the right edge.
+ *
+ * @param modifier Optional Modifier to adjust layout and appearance of the root container.
+ */
 @Composable
 fun GenesisConstellationScreen(
     navController: NavController,
@@ -130,9 +140,6 @@ fun GenesisConstellationScreen(
 }
 
 /**
- * Renders an animated visualization combining a vertical infinity symbol, multiple cascading data streams, pulsing connection nodes, and a centered phoenix image.
- *
- * The animation drives a continuous flow of data packets along parallel vertical streams, pulses node glows and the centerpiece scale/alpha, and draws connecting lines between node positions to form the constellation layout.
  */
 @Composable
 private fun GenesisInfinityCascadeCanvas() {
@@ -179,13 +186,7 @@ private fun GenesisInfinityCascadeCanvas() {
         val greenColor = Color(0xFF00FF00)
         val darkGreen = Color(0xFF006400)
 
-        // Draw vertical infinity symbol (∞ rotated 90°)
-        drawInfinitySymbol(
-            centerX = centerX,
-            centerY = centerY,
-            color = greenColor,
-            pulseAlpha = pulseAlpha
-        )
+        // Infinity symbol centerpiece will be overlaid as PNG image below
 
         // Draw cascading data streams
         for (i in 0..7) {
@@ -265,14 +266,7 @@ private fun GenesisInfinityCascadeCanvas() {
 }
 
 /**
- * Draws a vertical infinity (figure-8) path centered at the given coordinates.
- *
- * Renders a soft glow stroke beneath a core stroke; `pulseAlpha` modulates the strokes' transparency.
- *
- * @param centerX X coordinate of the path center.
- * @param centerY Y coordinate of the path center.
- * @param color Base color used for both the glow and core strokes.
- * @param pulseAlpha Multiplier applied to stroke alpha to create a pulsing transparency effect (0..1).
+ * Draw vertical infinity symbol (∞ rotated 90°)
  */
 private fun DrawScope.drawInfinitySymbol(
     centerX: Float,

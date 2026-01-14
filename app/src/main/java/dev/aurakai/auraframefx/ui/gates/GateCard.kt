@@ -148,11 +148,11 @@ fun GateCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Gate Title floating above
-                GateTitle(
-                    config = config,
-                    pulseAlpha = pulseAlpha
-                )
+                // Gate Title removed - titles are baked into the gate graphics
+                // GateTitle(
+                //     config = config,
+                //     pulseAlpha = pulseAlpha
+                // )
 
                 // Main holographic portal - IMAGE WITH TIGHT BORDER
                 // Main holographic portal - IMAGE WITH TIGHT BORDER
@@ -207,17 +207,17 @@ fun GateCard(
                     }
                 }
 
-                // Brief description below
-                Text(
-                    text = config.description,
-                    style = config.titleStyle.textStyle.copy(fontSize = 11.sp),
-                    color = config.borderColor.copy(alpha = 0.7f),
-                    textAlign = TextAlign.Center,
-                    maxLines = 2,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                )
+                // Description removed - descriptions are baked into the gate graphics
+                // Text(
+                //     text = config.description,
+                //     style = config.titleStyle.textStyle.copy(fontSize = 11.sp),
+                //     color = config.borderColor.copy(alpha = 0.7f),
+                //     textAlign = TextAlign.Center,
+                //     maxLines = 2,
+                //     modifier = Modifier
+                //         .fillMaxWidth()
+                //         .padding(horizontal = 16.dp)
+                // )
 
                 // Double-tap hint
                 Text(
@@ -295,7 +295,6 @@ private fun GateTitle(
 }
 
 /**
- * Hologram glow effect
  */
 @Composable
 private fun BoxScope.HologramGlow(
@@ -321,15 +320,6 @@ private fun BoxScope.HologramGlow(
 }
 
 /**
- * Renders the gate's interior artwork and a tight holographic border that fills the available space.
- *
- * Displays the pixel-art image identified by `config.pixelArtUrl` scaled to fill the area; when the drawable
- * resource is missing or `pixelArtUrl` is null, shows a vertical gradient fallback with the gate title.
- * A pulsing border and corner accents are drawn around the content, and a subtle scanline effect is overlaid
- * to enhance the holographic appearance.
- *
- * @param config Configuration for the gate visuals (title, colors, optional `pixelArtUrl`, title style, border and glow colors).
- * @param pulseAlpha Alpha multiplier used to drive the pulsing intensity of the border and accent colors (0f..1f).
  */
 @Composable
 private fun GateImageWithBorder(

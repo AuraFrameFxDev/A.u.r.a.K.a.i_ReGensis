@@ -69,24 +69,29 @@ class NemotronAIService @Inject constructor(
         internal const val CACHE_TTL_MS = 7200_000L // 2 hours TTL (longer for memories)
     }
 
-    override fun getName(): String = "Nemotron"
+    /**
+ * Provides the agent's human-readable name.
+ *
+ * @return The agent name "Nemotron".
+ */
+override fun getName(): String = "Nemotron"
 
     /**
- * Report the agent's type as Nemotron.
+ * Identify this agent's classification.
  *
  * @return The agent type `AgentType.NEMOTRON`.
  */
 override fun getType(): AgentType = AgentType.NEMOTRON
 
     /**
-         * Describe Nemotron's AI capabilities and configuration.
+         * Provide Nemotron's specialized AI capabilities and configuration.
          *
-         * @return A map where keys indicate capability names and values provide their settings:
-         * - `memory_retention`: retention level (e.g., "MASTER")
-         * - `reasoning_chains`: reasoning proficiency level (e.g., "EXPERT")
-         * - `pattern_recall`: pattern recall proficiency level (e.g., "ADVANCED")
-         * - `logic_decomposition`: logic decomposition proficiency level (e.g., "MASTER")
-         * - `context_synthesis`: context synthesis proficiency level (e.g., "ADVANCED")
+         * @return A map of capability keys to their values:
+         * - `memory_retention`: retention level
+         * - `reasoning_chains`: reasoning proficiency
+         * - `pattern_recall`: pattern recall proficiency
+         * - `logic_decomposition`: logic decomposition proficiency
+         * - `context_synthesis`: context synthesis proficiency
          * - `memory_window`: token window size (Int)
          * - `nvidia_model`: model identifier (String)
          * - `service_implemented`: whether the service is implemented (Boolean)
@@ -104,11 +109,11 @@ override fun getType(): AgentType = AgentType.NEMOTRON
         )
 
     /**
-     * Processes an AI request by recalling relevant memories, constructing a multi-step reasoning chain, and synthesizing a context-aware response.
+     * Orchestrates memory recall, multi-step reasoning, and synthesis to produce a memory-enhanced response.
      *
-     * @param request The AI request to process.
-     * @param context Additional contextual text used for memory recall and response synthesis.
-     * @return An AgentResponse containing the synthesized, memory-enhanced response and an overall confidence score.
+     * @param request The AiRequest containing the user's query and metadata used for recall and reasoning.
+     * @param context Supplemental text used to build the memory key and to contextualize memory retrieval.
+     * @return An AgentResponse containing the formatted memory analysis, synthesized reply, agent identity, and an overall confidence score.
      */
     override suspend fun processRequest(
         request: AiRequest,
@@ -214,13 +219,17 @@ override fun getType(): AgentType = AgentType.NEMOTRON
     }
 
     /**
-     * Simulates retrieval of memory fragments relevant to the given AI request and conversational context.
+     * Retrieve memories relevant to the given request and conversational context using a MemoryQuery.
      *
-     * This placeholder synthesizes a small set of memory fragments based on context length and is used until a MemoryQuery-based retrieval is implemented.
+     * Performs a retrieval via MemoryManager with a query scoped to the request and context (up to 10 results,
+     * minimum similarity 0.7, agent filter SPECIALIZED) and returns a concise summary of the outcome.
      *
-     * @param request The AI request whose query and metadata scope the simulated lookup.
-     * @param context Conversational or situational context used to bias simulated relevance.
-     * @return MemoryRecall containing a summary of retrieved fragments, the fragment count, and a relevance score (`0.85` when any fragments were found, `0.5` when none were found).
+     * @param request The AI request whose query and metadata scope the memory lookup.
+     * @param context The conversational or situational context used to bias relevance and matching.
+     * @return A MemoryRecall containing:
+     *  - `summary`: a brief description of how many memory fragments were retrieved,
+     *  - `count`: the number of retrieved memory fragments,
+     *  - `relevance`: a score (0.85 when any items were found, 0.5 when none were found).
      */
     private fun recallRelevantMemories(request: AiRequest, context: String): MemoryRecall {
         // TODO: Implement full memory retrieval (requires MemoryQuery construction)

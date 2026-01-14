@@ -1,3 +1,149 @@
+package dev.aurakai.auraframefx.navigation
+
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import dev.aurakai.auraframefx.screens.HomeScreen
+import dev.aurakai.auraframefx.ui.customization.AnimationType
+import dev.aurakai.auraframefx.ui.customization.ComponentEditor
+import dev.aurakai.auraframefx.ui.customization.ComponentType
+import dev.aurakai.auraframefx.ui.customization.UIComponent
+import dev.aurakai.auraframefx.ui.customization.ZOrderEditor
+import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
+import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
+import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
+import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
+import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
+import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
+import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
+import dev.aurakai.auraframefx.ui.gates.GateNavigationScreen
+import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
+import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
+import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
+import dev.aurakai.auraframefx.ui.gates.LogsViewerScreen
+import dev.aurakai.auraframefx.ui.gates.SupportChatViewModel
+import dev.aurakai.auraframefx.ui.gates.ModuleCreationScreen
+import dev.aurakai.auraframefx.ui.gates.ModuleManagerScreen
+import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
+import dev.aurakai.auraframefx.ui.gates.OverlayMenusScreen
+import dev.aurakai.auraframefx.ui.gates.QuickActionsScreen
+import dev.aurakai.auraframefx.ui.gates.QuickSettingsScreen
+import dev.aurakai.auraframefx.ui.gates.ROMFlasherScreen
+import dev.aurakai.auraframefx.ui.gates.ROMToolsSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.RecoveryToolsScreen
+import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
+import dev.aurakai.auraframefx.ui.gates.StatusBarScreen
+import dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen
+import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
+import dev.aurakai.auraframefx.ui.gates.ThemeEngineScreen
+import dev.aurakai.auraframefx.ui.gates.TutorialVideosScreen
+import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
+import dev.aurakai.auraframefx.ui.identity.GenderSelectionNavigator
+import dev.aurakai.auraframefx.ui.screens.AgentProfileScreen
+import dev.aurakai.auraframefx.ui.screens.EcosystemMenuScreen
+import dev.aurakai.auraframefx.ui.screens.HolographicMenuScreen
+import dev.aurakai.auraframefx.ui.screens.IntroScreen
+import dev.aurakai.auraframefx.ui.screens.JournalPDAScreen
+import dev.aurakai.auraframefx.ui.screens.MainScreen
+import dev.aurakai.auraframefx.ui.screens.UISettingsScreen
+import dev.aurakai.auraframefx.ui.screens.WorkingLabScreen
+
+/**
+ * Defines the application's navigation graph and registers all composable destinations used by the app.
+ *
+ * The provided NavHostController is used as the host for the NavHost and for performing navigation actions between routes.
+ *
+ * @param navController Controller that hosts navigation and executes route navigation actions.
+ */
+/**
+ * Registers the application's navigation graph on the provided NavHostController, mapping each route to its corresponding composable destination and wiring common navigation actions.
+ *
+ * Builds a NavHost with a start destination of NavDestination.Gates.route and registers destinations for main screens, agent hub, Oracle Drive, ROM tools, LSPosed integration, UI/UX design studio, help desk, Auras Lab, customization tools, and identity flows.
+ *
+ * @param navController The NavHostController used to perform navigation and back-stack operations for the registered destinations.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppNavGraph(navController: NavHostController) {
+    NavHost(
+        navController = navController,
+        startDestination = NavDestination.Gates.route
+    ) {
+        // ==================== MAIN SCREENS ====================
+
+        composable(route = NavDestination.Home.route) {
+            HomeScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.Gates.route) {
+            GateNavigationScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.JournalPDA.route) {
+            JournalPDAScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.IntroScreen.route) {
+            IntroScreen(onIntroComplete = {
+                navController.navigate(NavDestination.Gates.route) {
+                    popUpTo(NavDestination.IntroScreen.route) { inclusive = true }
+                }
+            })
+        }
+
+        composable(route = NavDestination.MainScreen.route) {
+            MainScreen(
+                onNavigateToAgentNexus = { navController.navigate(NavDestination.AgentHub.route) },
+                onNavigateToOracleDrive = { navController.navigate(NavDestination.OracleDrive.route) },
+                onNavigateToSettings = { navController.navigate(NavDestination.UISettings.route) }
+            )
+        }
+
+        composable(route = NavDestination.WorkingLab.route) {
+            WorkingLabScreen(onNavigate = { route -> navController.navigate(route) })
+        }
+
+        composable(route = NavDestination.AgentProfile.route) {
+            AgentProfileScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(route = NavDestination.EcosystemMenu.route) {
+            EcosystemMenuScreen()
+        }
+
+        composable(route = NavDestination.HolographicMenu.route) {
+            HolographicMenuScreen(onNavigate = { route -> navController.navigate(route) })
+        }
+
+        composable(route = NavDestination.UISettings.route) {
+            UISettingsScreen(navController = navController)
+        }
+
+        // ==================== AGENT HUB ====================
+
+        composable(route = NavDestination.AgentHub.route) {
+            AgentHubSubmenuScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.TaskAssignment.route) {
+            TaskAssignmentScreen()
+        }
+
         composable(route = NavDestination.AgentMonitoring.route) {
             AgentMonitoringScreen()
         }

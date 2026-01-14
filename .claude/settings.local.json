@@ -40,11 +40,7 @@
       "Bash(for file in \"C:\\\\Users\\\\Wehtt\\\\Downloads\\\\New folder\\\\NewGates\"/*.jpg \"C:\\\\Users\\\\Wehtt\\\\Downloads\\\\New folder\\\\NewGates\"/*.png \"C:\\\\Users\\\\Wehtt\\\\Downloads\\\\New folder\\\\NewGates\"/*.webp)",
       "Bash(do:*)",
       "Bash(basename:*)",
-      "Bash(done)",
-      "Bash(gh issue view:*)",
-      "Bash(git -C \"C:\\\\Users\\\\Wehtt\\\\.claude-worktrees\\\\New folder\\\\wonderful-tu\" status)",
-      "Bash(git remote get-url:*)",
-      "Bash(git remote set-url:*)"
+      "Bash(done)"
     ]
   }
 }

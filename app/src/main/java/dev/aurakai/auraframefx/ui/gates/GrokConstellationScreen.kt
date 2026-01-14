@@ -21,7 +21,8 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.rotate as canvasRotate
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -167,17 +168,7 @@ fun GrokConstellationScreen(navController: NavController) {
                     val centerX = size.width / 2
                     val centerY = size.height / 2
 
-                    // Draw the 8-pointed chaos wheel
-                    drawChaosWheel(
-                        centerX = centerX,
-                        centerY = centerY,
-                        radius = size.minDimension * 0.35f,
-                        rotation = rotation,
-                        color = chaosColor,
-                        accentColor = accentColor,
-                        coreColor = coreColor,
-                        pulseAlpha = pulseAlpha
-                    )
+                    // Chaos wheel centerpiece will be overlaid as PNG image
 
                     // Draw entropy data streams
                     drawEntropyStreams(
@@ -238,6 +229,19 @@ fun GrokConstellationScreen(navController: NavController) {
 /**
  * Draws entropy data streams flowing outward
  */
+/**
+ * Draws eight directional entropy streams radiating from the given center.
+ *
+ * Each stream renders a short trail line and a terminal particle; the stream positions,
+ * lengths, and transparencies are driven by `flow` and modulated by `alpha`.
+ *
+ * @param centerX X coordinate of the streams' origin.
+ * @param centerY Y coordinate of the streams' origin.
+ * @param radius Base radius used to compute stream start and end positions.
+ * @param flow Float in 0.0..1.0 controlling stream extension and transparency (0 = retracted, 1 = extended).
+ * @param color Base color for the particle and trail gradient.
+ * @param alpha Global alpha multiplier applied to stream visuals.
+ */
 private fun DrawScope.drawEntropyStreams(
     centerX: Float,
     centerY: Float,
@@ -284,13 +288,6 @@ private fun DrawScope.drawEntropyStreams(
 }
 
 /**
- * Displays a compact entropy monitor: a labeled row of ten bars reflecting the current entropy
- * and a numeric "CHAOS LEVEL" percentage.
- *
- * @param entropyLevel Value from 0.0 to 1.0 controlling how many of the ten bars are shown as active
- *                     and the percentage displayed (active bars = floor(entropyLevel * 10)).
- * @param color The base color used for active/inactive bars and text; alpha is adjusted for inactive
- *              and active states.
 @Composable
 private fun EntropyMonitor(
     entropyLevel: Float,

@@ -74,16 +74,6 @@ class MainActivity : ComponentActivity() {
 
 // New: a preview-friendly content composable that accepts a lambda for theme commands
 @OptIn(ExperimentalMaterial3Api::class)
-/**
- * Hosts the app's navigation graph in a full-screen Compose container and provides persistent system overlays
- * including a presence widget, a floating chat bubble, and an agent sidebar; an optional digital pixel effect
- * is applied when enabled.
- *
- * The UI includes an edge-swipe trigger that opens the agent sidebar and overlay controls that navigate to
- * the app's routes (theme engine, firewall, canvas, direct chat, conference, task assignment, Auras Lab, app builder).
- *
- * @param processThemeCommand Callback invoked to process theme-related commands; receives the command string.
- */
 @Composable
 internal fun MainScreenContent(
     processThemeCommand: (String) -> Unit
@@ -188,7 +178,6 @@ internal fun MainScreenContent(
     }
 }
 
-// Keep original API used by Activity: delegate to the content with the real ViewModel
 @Composable
 internal fun MainScreen(
     themeViewModel: ThemeViewModel
@@ -211,12 +200,4 @@ fun MainScreenPreview() {
     }
 }
 
-/**
- * Applies a digital pixelation visual effect to this [Modifier].
- *
- * This is a placeholder implementation that currently has no effect and returns the receiver unchanged;
- * platform- or theme-specific implementations should provide the actual visual transformation.
- *
- * @return The same [Modifier] instance when no effect is applied, or a modified [Modifier] that renders the pixel effect.
- */
 fun Modifier.digitalPixelEffect(): Modifier = this

@@ -190,11 +190,11 @@ fun DirectChatScreen(
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (selectedAgent.value != null) {
+                    selectedAgent.value?.let { agent ->
                         Card(
                             modifier = Modifier.size(32.dp),
                             colors = CardDefaults.cardColors(
-                                containerColor = selectedAgent.value!!.color.copy(alpha = 0.3f)
+                                containerColor = agent.color.copy(alpha = 0.3f)
                             ),
                             shape = CircleShape
                         ) {
@@ -203,9 +203,9 @@ fun DirectChatScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = selectedAgent.value!!.name.first().toString(),
+                                    text = agent.name.first().toString(),
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = selectedAgent.value!!.color,
+                                    color = agent.color,
                                     fontWeight = FontWeight.Bold
                                 )
                             }
@@ -215,13 +215,13 @@ fun DirectChatScreen(
 
                         Column {
                             Text(
-                                text = "Chat with ${selectedAgent.value!!.name}",
+                                text = "Chat with ${agent.name}",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                text = selectedAgent.value!!.specialAbility,
+                                text = agent.specialAbility,
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color.White.copy(alpha = 0.6f)
                             )
@@ -266,10 +266,10 @@ fun DirectChatScreen(
 
                     IconButton(
                         onClick = {
-                            if (currentMessage.value.isNotBlank() && selectedAgent.value != null) {
-                                val agentName = selectedAgent.value!!.name
-                                val message = currentMessage.value
-                                currentMessage.value = ""
+                            if (currentMessage.value.isNotBlank()) {
+                                selectedAgent.value?.name?.let { agentName ->
+                                    val message = currentMessage.value
+                                    currentMessage.value = ""
 
                                     // Send message through ViewModel for intelligent response
                                     viewModel.sendMessage(agentName, message)
@@ -294,13 +294,12 @@ fun DirectChatScreen(
 }
 
 /**
- * Renders a single chat message as a styled bubble and aligns it based on the sender.
+ * Render a chat message as a styled bubble aligned to the start for agent messages and to the end for user messages.
  *
- * Displays the sender's name above the content for non-user (agent) messages and applies
- * distinct colors and corner shaping depending on whether `message.isFromUser` is true.
+ * Shows the sender name above the content for agent messages, uses a blue bubble for user messages and a semi-transparent black bubble for agent messages, and applies asymmetric corner radii to create a chat-tail effect.
  *
- * @param message ChatMessage whose `sender`, `content`, and `isFromUser` fields determine
- *        the displayed text, alignment, and visual styling of the bubble.
+ * @param message ChatMessage whose `sender`, `content`, and `isFromUser` fields determine the displayed text, alignment, colors, and corner shaping of the bubble.
+ * Message bubble component
  */
 @Composable
 private fun MessageBubble(message: AgentViewModel.ChatMessage) {

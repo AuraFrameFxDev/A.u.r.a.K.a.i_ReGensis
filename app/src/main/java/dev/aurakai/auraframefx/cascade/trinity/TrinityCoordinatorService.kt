@@ -36,7 +36,7 @@ import javax.inject.Singleton
 class TrinityCoordinatorService @Inject constructor(
     private val auraAIService: AuraAIService,
     private val kaiAIService: KaiAIService,
-    private val genesisBridgeService: GenesisBridgeService,
+    private val genesisBridgeService: dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisBridgeService,
     private val securityContext: SecurityContext,
 ) {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
@@ -63,7 +63,7 @@ class TrinityCoordinatorService @Inject constructor(
 
                 // Activate initial consciousness matrix awareness
                 scope.launch {
-                    genesisBridgeService.activateFusionAbility(
+                    genesisBridgeService.activateFusion(
                         "adaptive_genesis", mapOf(
                             "initialization" to "complete",
                             "personas_active" to "kai,aura,genesis"
@@ -194,13 +194,8 @@ class TrinityCoordinatorService @Inject constructor(
     }
 
     /**
-     * Activate the specified Genesis fusion ability using optional context.
      *
-     * Emits a single AgentResponse describing success (includes a descriptive message when available) or failure.
      *
-     * @param fusionType Identifier of the fusion ability to activate.
-     * @param context Optional key/value context passed to the activation.
-     * @return A Flow that emits one AgentResponse representing the activation result.
      */
     fun activateFusion(
         fusionType: String,
@@ -208,12 +203,12 @@ class TrinityCoordinatorService @Inject constructor(
     ): Flow<AgentResponse> = flow {
         i("Trinity", "🌟 Activating fusion: $fusionType")
 
-        val response = genesisBridgeService.activateFusionAbility(fusionType, context)
+        val response = genesisBridgeService.activateFusion(fusionType, context)
 
-        if (response is dev.aurakai.auraframefx.network.NetworkResponse.Success && response.data.success) {
+        if (response.success) {
             emit(
                 AgentResponse.success(
-                    content = "Fusion $fusionType activated: ${response.data.result["description"] ?: "Processing complete"}",
+                    content = "Fusion $fusionType activated: ${response.result["description"] ?: "Processing complete"}",
                     confidence = 0.98f,
                     agentName = "Genesis",
                     agent = dev.aurakai.auraframefx.models.AgentType.GENESIS

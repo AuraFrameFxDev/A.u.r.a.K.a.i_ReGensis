@@ -23,7 +23,22 @@ data class VertexAIConfig(
     val safetySettings: Map<String, String> = emptyMap(),
     val timeout: Long = 30000,
     val retryCount: Int = 3,
-    val enableStreaming: Boolean = false
+    val enableStreaming: Boolean = false,
+    // Additional properties for VertexAIClientImpl
+    val timeoutMs: Long = 30000,
+    val maxCacheSize: Int = 100,
+    val defaultTemperature: Double = 0.7,
+    val defaultMaxTokens: Int = 2048,
+    val defaultTopP: Float = 0.95f,
+    val defaultTopK: Int = 40,
+    val enableCaching: Boolean = true,
+    val cacheExpiryMs: Long = 3600000, // 1 hour
+    val enableSafetyFilters: Boolean = true,
+    val maxRetries: Int = 3,
+    val retryDelayMs: Long = 1000,
+    val enableLogging: Boolean = true,
+    val logLevel: String = "INFO",
+    val maxContentLength: Int = 32000
 ) {
     companion object {
         /**
@@ -51,9 +66,7 @@ fun default(): VertexAIConfig = VertexAIConfig()
     }
 
     /**
-     * Builds the full model endpoint URL for the configured project, location, and model.
-     *
-     * @return The HTTPS URL string pointing to the model's `generateContent` endpoint.
+     * Get the full model endpoint URL
      */
     fun getModelEndpoint(): String {
         return "https://$endpoint/v1/projects/$projectId/locations/$location/publishers/google/models/$modelName:generateContent"

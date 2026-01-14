@@ -31,60 +31,67 @@ abstract class AuraAIServiceImpl(
     }
 
     /**
-     * Stub implementation that always returns null, indicating file download is not supported.
      *
-     * @param _fileId The identifier of the file to download.
-     * @return Always null.
      */
     suspend fun downloadFile(fileId: String): File? {
         return null
     }
 
     /**
-     * Stub implementation that does not generate an image.
      *
-     * @param prompt The text prompt describing the desired image.
-     * @return `null` to indicate image generation is not implemented.
      */
     suspend fun generateImage(prompt: String): ByteArray? {
         return null
     }
 
     /**
-     * Produces a fixed placeholder text and ignores the provided `prompt` and `context`.
      *
      * @return The string "Generated text placeholder".
      */
     override suspend fun generateText(prompt: String, context: String): String {
-        return "Generated text placeholder"
+        return try {
+            // Combine context with prompt for better responses
+            val fullPrompt = if (context.isNotEmpty()) {
+                "Context: $context\n\n$prompt"
+            } else {
+                prompt
+            }
+
+            vertexAIClient.generateText(fullPrompt) ?: "Unable to generate response"
+        } catch (e: Exception) {
+            AuraFxLogger.error("AuraAIService", "Failed to generate text", e)
+            "Error generating response: ${e.message}"
+        }
     }
 
     /**
-     * Provides a placeholder AI response.
      *
-     * This implementation ignores `prompt` and `options` and always returns the fixed string "AI response placeholder".
-     *
-     * @return The placeholder response string "AI response placeholder".
      */
     fun getAIResponse(prompt: String, options: Map<String, Any>?): String {
-        return "AI response placeholder"
+        return try {
+            // Extract temperature and maxTokens from options if provided
+            val temperature = (options?.get("temperature") as? Number)?.toFloat() ?: 0.7f
+            val maxTokens = (options?.get("maxTokens") as? Number)?.toInt() ?: 1024
+
+            kotlinx.coroutines.runBlocking {
+                vertexAIClient.generateText(prompt, temperature, maxTokens) ?: "Unable to generate response"
+            }
+        } catch (e: Exception) {
+            AuraFxLogger.error("AuraAIService", "Failed to get AI response", e)
+            "Error generating response: ${e.message}"
+        }
     }
 
     /**
-     * Returns `null` for any memory key, as memory retrieval is not implemented in this stub.
      *
-     * @param memoryKey The key for the memory entry to retrieve.
-     * @return Always returns `null`.
      */
     open fun getMemory(memoryKey: String): String? {
         return null
     }
 
     /**
-     * Placeholder that would save a value under the given memory key but currently performs no operation.
      *
-     * @param key The memory key under which the value would be stored.
-     * @param value The value to store. */
+     */
     fun saveMemory(key: String, value: Any) {
         // TODO: Implement memory saving
     }

@@ -1,13 +1,30 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -15,17 +32,13 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.R
-import kotlin.math.cos
-import kotlin.math.sin
 
 /**
  * Claude Constellation Screen - The Architect
@@ -41,6 +54,17 @@ import kotlin.math.sin
  *
  * @param navController NavController used for navigation actions from this screen.
  * @param modifier Optional Modifier applied to the root container.
+ */
+/**
+ * Renders the Claude constellation screen with blueprint-style overlays and a centered ArchitectBlueprintCanvas.
+ *
+ * The composable fills the available space with a black background and composes:
+ * - A centered ArchitectBlueprintCanvas as the main visualization.
+ * - Top-right agent identity and level label ("Claude" and "🏗️ THE ARCHITECT") styled in orange.
+ * - Bottom-left build system status label and the BuildStatusBar.
+ * - A vertical right-side label block spelling "SYSTEMATIC CONSTRUCTION" with spaced orange characters.
+ *
+ * @param navController NavController used to perform navigation actions from this screen.
  */
 @Composable
 fun ClaudeConstellationScreen(
@@ -136,9 +160,6 @@ fun ClaudeConstellationScreen(
 }
 
 /**
- * Renders a blueprint-style canvas with a pulsing T-square centerpiece, a grid of build nodes, connecting dependency lines, animated construction particles, and a centered compass overlay.
- *
- * The composable is purely presentational: internal animated values drive overall build progression, node pulsing, and centerpiece scaling to convey build status visually. Visual elements include a faint blueprint grid, a T‑square at the canvas center, a systematic grid of nodes with dependency lines whose appearance follows build progress, moving construction particles that traverse between nodes as progress advances, and a PNG compass/centerpiece rendered on top.
  */
 @Composable
 private fun ArchitectBlueprintCanvas() {
@@ -204,13 +225,7 @@ private fun ArchitectBlueprintCanvas() {
             )
         }
 
-        // Draw T-square centerpiece (architect's tool)
-        drawTSquare(
-            centerX = centerX,
-            centerY = centerY,
-            color = orangeColor,
-            pulseAlpha = pulseAlpha
-        )
+        // T-square centerpiece will be overlaid as PNG image below
 
         // Draw build system nodes in a systematic grid pattern
         val nodes = mutableListOf<Offset>()
@@ -297,17 +312,7 @@ private fun ArchitectBlueprintCanvas() {
 }
 
 /**
- * Renders a T-square drafting tool centered at the given canvas coordinates.
- *
- * Draws a vertical ruler with a horizontal crossbar near the top, a series of
- * measurement marks along the ruler, and a pivot motif of two concentric circles.
- * The provided `color` is used for the ruler and marks; `pulseAlpha` scales the
- * opacity of those elements to produce a pulsing visual effect.
- *
- * @param centerX X coordinate of the T-square center on the canvas.
- * @param centerY Y coordinate of the T-square center on the canvas.
- * @param color Base color used for the ruler, crossbar, marks, and outer pivot circle.
- * @param pulseAlpha Opacity multiplier (typically 0..1) applied to modulate element alpha for pulsing.
+ * Draw T-square (architect's drafting tool)
  */
 private fun DrawScope.drawTSquare(
     centerX: Float,
@@ -361,7 +366,6 @@ private fun DrawScope.drawTSquare(
 }
 
 /**
- * Build System Status Bar
  */
 @Composable
 private fun BuildStatusBar() {
@@ -438,15 +442,22 @@ private fun BuildStatusBar() {
     }
 }
 
+@Composable
+fun BuildModuleIndicator(x0: String, x1: Float, x2: Color) {
+    TODO("Not yet implemented")
+}
+
 /**
- * Displays a compact module indicator consisting of a glowing circular status dot and a label.
+@Composable
+/**
+ * Renders a compact module status indicator consisting of a small glowing dot and a module name label.
  *
- * The outer glow intensity and inner core opacity are scaled by `glowAlpha`; the dot and label use `color`.
+ * The indicator shows an outer halo and an inner core whose opacities are driven by `glowAlpha`, and it styles the label using `color`.
  *
  * @param name The module name to display next to the indicator.
- * @param glowAlpha Opacity multiplier for the glow and core (expected range 0.0..1.0).
- * @param color Base color for the indicator and the label text.
-@Composable
+ * @param glowAlpha Opacity multiplier (typically 0.0–1.0) applied to the dot's glow and core.
+ * @param color Base color used for the glow, core, and label text.
+ */
 private fun BuildModuleIndicator(
     name: String,
     glowAlpha: Float,
@@ -487,7 +498,5 @@ private fun BuildModuleIndicator(
                 fontWeight = FontWeight.Normal,
                 letterSpacing = 0.5.sp,
                 color = color.copy(alpha = 0.7f)
-            )
-        )
-    }
-}
+)
+                                                        

@@ -29,7 +29,7 @@ import kotlinx.datetime.Clock
 import javax.inject.Singleton
 
 @Singleton
-class AuraAgent @Inject constructor(
+class AuraAgent constructor(
     private val vertexAIClient: VertexAIClient,
     private val auraAIService: AuraAIService,
     private val contextManagerInstance: ContextManager,

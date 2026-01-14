@@ -169,17 +169,17 @@ fun ConferenceRoomScreen(
             IconButton(
                 onClick = {
                     if (messageText.isNotBlank()) {
-                        // Determine the capability category for the selected agent name
-                        val sendCategory = when (selectedAgent) {
-                            agentAura -> AgentCapabilityCategory.CREATIVE
-                            agentKai -> AgentCapabilityCategory.ANALYSIS
-                            agentCascade -> AgentCapabilityCategory.SPECIALIZED
-                            else -> AgentCapabilityCategory.GENERAL
+                        // Determine the agent type for the selected agent name
+                        val agentType = when (selectedAgent) {
+                            agentAura -> AgentType.AURA
+                            agentKai -> AgentType.KAI
+                            agentCascade -> AgentType.CASCADE
+                            else -> AgentType.GENESIS
                         }
 
                         // Launch a coroutine for the suspend function
                         scope.launch {
-                            viewModel.sendMessage(messageText, sendCategory, "user_conversation")
+                            viewModel.sendMessage(messageText, agentType, "user_conversation")
                             messageText = ""
                         }
                     }

@@ -102,16 +102,14 @@ fun GateNavigationScreen(
         // Magical particle background
         MagicalParticleField()
 
-        // Main content without category tabs (cards have titles)
+        // Main content - FULLSCREEN gate cards
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 16.dp)
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Horizontal pager for gate cards
+            // Horizontal pager for gate cards - FILLS ENTIRE SCREEN
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.fillMaxSize()
             ) { page ->
                 val config = allGates[page]
                 val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
@@ -180,18 +178,19 @@ fun GateNavigationScreen(
             }
         }
 
-            // Enhanced page indicator with gate names
-            GatePageIndicator(
-                gates = allGates,
-                currentPage = pagerState.currentPage,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                pagerState = pagerState,
-                navController = navController
-            )
-        }
+        // Enhanced page indicator - OVERLAID at the bottom
+        GatePageIndicator(
+            gates = allGates,
+            currentPage = pagerState.currentPage,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 24.dp),
+            pagerState = pagerState,
+            navController = navController
+        )
     }
+}
 
 /**
  * Renders a gate card with active glow, hover/teleportation overlay and a double-tap entry action.
@@ -298,15 +297,9 @@ private fun MagicalParticleField() {
 }
 
 /**
- * Renders a centered page indicator that shows nearby gate titles and enables quick navigation.
  *
- * Displays up to three gates around the current page with leading/trailing ellipses when more gates exist.
  *
- * @param gates The list of gates in display order.
- * @param currentPage The index of the currently selected page.
- * @param modifier Modifier applied to the indicator row.
  * @param pagerState PagerState used to animate scrolling to a selected page.
- * @param navController NavController used to navigate into the active gate when tapped.
  */
 @Composable
 private fun GatePageIndicator(

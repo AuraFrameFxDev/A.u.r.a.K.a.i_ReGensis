@@ -12,7 +12,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.concurrent.TimeUnit
 import timber.log.Timber
-import dev.aurakai.auraframefx.config.VertexAIConfig
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.config.VertexAIConfig
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -72,7 +72,6 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Simple text generation with default parameters.
      */
     override suspend fun generateText(prompt: String): String? {
         return generateText(
@@ -83,14 +82,7 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Generate text from the prompt with adjustable randomness and maximum length.
      *
-     * Uses the configured Vertex AI integration, honoring safety filters, caching, and retry behavior.
-     *
-     * @param prompt The input text prompt to generate from.
-     * @param temperature Controls generation randomness; higher values produce more varied output.
-     * @param maxTokens Maximum number of tokens allowed in the generated output.
-     * @return The generated text, or `null` if no content was produced or generation failed after retries.
      */
     override suspend fun generateText(
         prompt: String,
@@ -264,14 +256,20 @@ class VertexAIClientImpl @Inject constructor(
         }
     }
 
+    /**
+     * Generates content from the provided prompt using the client's text generation pipeline.
+     *
+     * @param prompt The user-facing prompt describing the desired content.
+     * @return The generated content string, or `null` if no content was produced.
+     */
     override suspend fun generateContent(prompt: String): String? {
         return generateText(prompt)
     }
 
     /**
-     * Perform any startup initialization required for the Vertex AI client.
+     * Performs startup initialization for the Vertex AI client.
      *
-     * Implementations may prepare resources or perform health checks; current implementation logs client initialization.
+     * Implementations can prepare resources or perform health checks; this implementation logs client initialization.
      */
     override suspend fun initialize() {
         // Initialize Vertex AI client connection
@@ -279,9 +277,9 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Clears the client's in-memory response cache and releases related resources.
+     * Clears the in-memory response cache and logs completion.
      *
-     * Removes all cached entries and records a completion log entry.
+     * Removes all cached generation responses held by the client.
      */
     override suspend fun cleanup() {
         // Cleanup Vertex AI client resources
@@ -290,11 +288,7 @@ class VertexAIClientImpl @Inject constructor(
     }
 
     /**
-     * Sends the given Vertex AI request to the configured model endpoint and deserializes the response.
-     *
-     * @param vertexRequest The request payload to send.
-     * @return The deserialized VertexAIResponse from the service.
-     * @throws VertexAIException If the HTTP call fails, the service returns a non-success status, or the response body is empty.
+     * Execute HTTP request to Vertex AI endpoint.
      */
     private suspend fun executeRequest(vertexRequest: VertexAIRequest): VertexAIResponse {
         val jsonBody = json.encodeToString(vertexRequest)
@@ -315,9 +309,9 @@ class VertexAIClientImpl @Inject constructor(
             .apply {
                 // Add authentication header
                 config.apiKey?.let { apiKey ->
-                    addHeader("Authorization", "Bearer $apiKey")
+                    header("Authorization", "Bearer $apiKey")
                 }
-                addHeader("Content-Type", "application/json")
+                header("Content-Type", "application/json")
             }
             .build()
 

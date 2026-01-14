@@ -21,66 +21,30 @@ class GenesisBackedKaiAIService @Inject constructor(
     private val logger: AuraFxLogger
 ) : KaiAIService {
 
-    /**
-     * No-op initializer that satisfies the service lifecycle contract.
-     */
+    private var isInitialized = false
+
     override suspend fun initialize() {
         // Initialization logic
     }
 
-    /**
-     * Handle an AI request and produce a Kai security analysis response while recording the query to the event bus.
-     *
-     * @param request The AI request whose `prompt` is used as the subject of the security analysis.
-     * @param context Ancillary context or metadata for the request (not embedded in the response).
-     * @return An `AgentResponse` containing Kai's security analysis message, a confidence of `1.0f`, `agentName` set to "Kai", and `agent` set to `AgentType.KAI`.
-     */
-    override suspend fun processRequest(
-        request: KaiAIService.AiRequest,
-        context: String
-    ): KaiAIService.AgentResponse {
-        return try {
-            val payload = JSONObject().apply {
-                put("query", request.prompt)
-                put("context", context)
-                put("task", request.task ?: "security_perception")
-                put("backend", request.backend ?: "NEMOTRON")
-                request.metadata?.forEach { (key, value) ->
-                    put(key, value)
-                }
-            }
-
-    /**
-     * Produces Kai's security analysis response for the given AI request and context.
-     *
-     * Also emits a MemoryEvent of type "KAI_PROCESS" with a payload containing the request prompt for monitoring.
-     *
-     * @param request The AI request to analyze; its prompt is included in the response and event payload.
-     * @param context Additional contextual information for the request (unused in this implementation).
-     * @return An AgentResponse containing Kai's analysis message, confidence 1.0, agentName "Kai", and agent `AgentType.KAI`.
-     */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         // Emit event for monitoring
         eventBus.emit(MemoryEvent("KAI_PROCESS", mapOf("query" to request.prompt)))
 
-        return AgentResponse.success(
-            content = "Kai security analysis for: ${request.prompt}",
-            confidence = 1.0f,
-            agentName = "Kai",
-            agent = AgentType.KAI
-        )
+
+            )
     }
 
     /**
-     * Produce a security threat assessment from a textual threat description.
+     * Analyzes a textual threat description and produces a structured security assessment.
      *
-     * @param threat A textual description or indicator of the potential threat to analyze.
-     * @return A map with analysis results:
-     * - `threat_level`: severity as `"critical"`, `"high"`, `"medium"`, or `"low"`.
-     * - `confidence`: confidence score (e.g., `0.95f`).
-     * - `recommendations`: list of suggested actions.
-     * - `timestamp`: analysis time as epoch milliseconds.
-     * - `analyzed_by`: identifier of the analyzer.
+     * @param threat Free-form threat description to analyze.
+     * @return A map containing the analysis with keys:
+     *  - `"threat_level"`: one of `"critical"`, `"high"`, `"medium"`, or `"low"` indicating severity.
+     *  - `"confidence"`: a Float representing confidence in the assessment.
+     *  - `"recommendations"`: a List<String> of remediation or monitoring suggestions.
+     *  - `"timestamp"`: a Long epoch-millis timestamp when the analysis was produced.
+     *  - `"analyzed_by"`: a String identifying the analyzer.
      */
     override suspend fun analyzeSecurityThreat(threat: String): Map<String, Any> {
         val threatLevel = when {
@@ -100,12 +64,16 @@ class GenesisBackedKaiAIService @Inject constructor(
     }
 
     /**
- * Streams a stepwise security analysis for the given AI request's prompt.
- *
- * @param request The AI request whose `prompt` will be analyzed for security threats.
- * @return AgentResponse emissions representing analysis progress and final findings.
- */
-override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
+     * Streams a two-stage security analysis for the given AI request as a Flow of AgentResponse.
+     *
+     * The flow first emits an interim response indicating analysis has started, then emits a final
+     * response containing a detailed security analysis including threat level, confidence, and
+     * recommendations.
+     *
+     * @param request The AI request whose prompt will be analyzed.
+     * @return A Flow that emits an initial interim AgentResponse followed by a detailed AgentResponse.
+     */
+    override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
         // Emit initial response
         emit(AgentResponse(
             content = "Kai analyzing security posture...",
@@ -127,64 +95,24 @@ override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow 
             }
         }
 
-    /**
-     * Produces a brief security threat analysis for the provided prompt.
-     *
-     * @param prompt The text to analyze for potential security threats.
-     * @return A map containing threat analysis results including threat_level, confidence, recommendations, and timestamp.
-     */
-    override suspend fun analyzeSecurityThreat(prompt: String): Map<String, Any> {
-        eventBus.emit(MemoryEvent("KAI_THREAT_ANALYSIS", mapOf("query" to prompt)))
+        emit(AgentResponse(
+            content = detailedResponse,
+            confidence = analysisResult["confidence"] as? Float ?: 0.95f,
+            agent = AgentType.KAI
+        ))
+    }
 
+    override suspend fun monitorSecurityStatus(): Map<String, Any> {
         return mapOf(
-            "threat_level" to "low",
-            "confidence" to 0.95f,
-            "recommendations" to listOf("Continue normal operations", "Routine monitoring"),
-            "timestamp" to System.currentTimeMillis(),
-            "analyzed_by" to "Kai - The Shield (Genesis-backed)"
+            "status" to "active",
+            "threats_detected" to 0,
+            "last_scan" to System.currentTimeMillis(),
+            "firewall_status" to "enabled",
+            "intrusion_detection" to "active",
+            "confidence" to 0.98f
         )
     }
 
-    /**
-     * Streams a security analysis for the given AI request.
-     *
-     * @param request The AI request whose `prompt` will be analyzed for security threats.
-     * @return A Flow that emits AgentResponse objects with analysis results.
-     */
-    override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
-        eventBus.emit(MemoryEvent("KAI_PROCESS_FLOW", mapOf("query" to request.prompt)))
-
-        // Emit initial response
-        emit(AgentResponse(
-            content = "Kai analyzing security posture...",
-            confidence = 0.5f,
-            agent = AgentType.KAI
-        ))
-
-        // Emit detailed analysis
-        val analysisResult = analyzeSecurityThreat(request.prompt)
-        emit(AgentResponse(
-            content = "Security Analysis: ${analysisResult["threat_level"]} threat level detected - ${analysisResult["analyzed_by"]}",
-            confidence = analysisResult["confidence"] as? Float ?: 0.9f,
-            agent = AgentType.KAI
-        ))
-    }
-
-    /**
-     * Activates the service and reports whether activation succeeded.
-     *
-     * @return `true` if activation succeeded (currently always `true`), `false` otherwise.
-     */
-    override suspend fun activate(): Boolean {
-        return true
-    }
-
-    /**
-     * Marks the service as uninitialized and performs any necessary resource cleanup.
-     *
-     * After calling this method the service will no longer be considered initialized; implementations
-     * may release held resources or stop background tasks.
-     */
     override fun cleanup() {
         isInitialized = false
         // Cleanup resources if needed

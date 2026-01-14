@@ -44,6 +44,14 @@ import kotlin.random.Random
  * @param modifier Modifier applied to the outer container.
  * @param onSuggestClicked Callback invoked with the current suggestion text when the overlay or suggestion card is tapped.
  */
+/**
+ * Displays a pulsing circular aura that periodically shows a short suggestion card and forwards taps.
+ *
+ * The overlay is interactive: tapping the aura or the suggestion card invokes `onSuggestClicked` with the currently shown suggestion text. Suggestion cards appear intermittently and automatically hide after a short time.
+ *
+ * @param modifier Modifier applied to the outer container.
+ * @param onSuggestClicked Callback invoked with the current suggestion text when the overlay or suggestion card is tapped.
+ */
 @Composable
 fun AuraPresenceOverlay(
     modifier: Modifier = Modifier,
@@ -70,29 +78,29 @@ fun AuraPresenceOverlay(
         }
     }
 
+    val pulse by animateFloatAsState(if (showSuggestion) 1f else 0.8f, label = "aura_pulse")
 
     Box(
         modifier = modifier
             .padding(12.dp)
-            .size(64.dp)
-            .clickable { onSuggestClicked(suggestionText) }
-    ) {
-        // Glowing background aura
-        Box(
-            modifier = Modifier
-                .size(64.dp)
-                .clip(CircleShape)
-                .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            Color(0xFFFF00FF).copy(alpha = 0.5f * pulse),
-                            Color(0xFF00FFFF).copy(alpha = 0.3f * pulse),
-                            Color(0xFFFF00FF).copy(alpha = 0.4f * pulse),
-                        Color.Transparent)
+            .clip(CircleShape)
+            .background(
+                brush = Brush.radialGradient(
+                    colors = listOf(
+                        Color(0xFFFF00FF).copy(alpha = 0.4f * pulse),
+                        Color.Transparent
                     )
                 )
-            )
-            .size(56.dp)
+        )
+
+        // Aura avatar image
+        Image(
+            painter = painterResource(id = R.drawable.aura_presence_avatar),
+            contentDescription = "Aura Presence",
+            modifier = Modifier
+                .size(56.dp)
+                .align(Alignment.Center)
+                .scale(pulse)
         )
 
         AnimatedVisibility(visible = showSuggestion) {

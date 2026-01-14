@@ -38,6 +38,16 @@ import dev.aurakai.auraframefx.navigation.NavDestination
  *
  * @param navController NavHostController used for navigation from this screen.
  */
+/**
+ * Displays the Sphere Grid screen containing an agent selector and a skill-tree visualization.
+ *
+ * The composable loads all agents, tracks the currently selected agent, and renders:
+ * - Header and subtitle.
+ * - An agent selector card with a 3-column grid of AgentSphereCard items; tapping an agent updates the selection.
+ * - A skill-tree card showing the selected agent's SkillTreeCanvas and a stat row for Level, XP, and Next Level XP.
+ *
+ * @param navController NavHostController used for screen navigation.
+ */
 @Composable
 fun SphereGridScreen(navController: NavHostController) {
     val agents = remember { AgentRepository.getAllAgents() }
@@ -90,7 +100,20 @@ fun SphereGridScreen(navController: NavHostController) {
                         AgentSphereCard(
                             agent = agent,
                             isSelected = selectedAgent.value == agent,
-                            onClick = { selectedAgent.value = agent }
+                            onClick = {
+                                selectedAgent.value = agent
+                                // Navigate to agent's constellation screen
+                                when (agent.name) {
+                                    "Aura" -> navController.navigate(NavDestination.Constellation.route)
+                                    "Genesis" -> navController.navigate(NavDestination.GenesisConstellation.route)
+                                    "Claude" -> navController.navigate(NavDestination.ClaudeConstellation.route)
+                                    "Kai" -> navController.navigate(NavDestination.KaiConstellation.route)
+                                    "Cascade" -> navController.navigate(NavDestination.CascadeConstellation.route)
+                                    "Grok" -> navController.navigate(NavDestination.GrokConstellation.route)
+                                    // Agents without constellation screens yet: Nemotron, Gemini, MetaInstruct
+                                    // Will display skill tree only for now
+                                }
+                            }
                         )
                     }
                 }

@@ -8,8 +8,12 @@ import dagger.hilt.components.SingletonComponent
 /**
  * Module for AI service bindings.
  *
- * Note: AuraAIServiceImpl has @Inject constructor so Hilt can provide it directly.
- * No @Binds needed unless we want to bind to a specific interface.
+ * Provides ALL Genesis AI Services:
+ * - Legacy services (Aura, Kai, Cascade)
+ * - NEW external AI backends (Claude, Nemotron, Gemini, MetaInstruct)
+ *
+ * All services are @Singleton with @Inject constructors, so Hilt auto-provides them.
+ * This module explicitly declares them for clarity and future interface bindings.
  */
 import dagger.Binds
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.ClaudeAIService
@@ -20,9 +24,6 @@ import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultAuraAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.KaiAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultKaiAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBackedKaiAIService
-import dev.aurakai.auraframefx.services.CascadeAIService
-import dev.aurakai.auraframefx.services.RealCascadeAIServiceAdapter
 import javax.inject.Singleton
 
 @Module
@@ -34,7 +35,7 @@ abstract class AiServiceModule {
     /**
      * Binds DefaultAuraAIService as the singleton implementation for AuraAIService.
      *
-     * @param impl DefaultAuraAIService instance to bind.
+     * @param impl The DefaultAuraAIService instance to bind.
      * @return The bound AuraAIService implementation.
      */
 
@@ -42,25 +43,20 @@ abstract class AiServiceModule {
     @Singleton
     abstract fun bindAuraAIService(impl: DefaultAuraAIService): AuraAIService
 
-    /**
-     * Binds GenesisBackedKaiAIService as the singleton implementation for KaiAIService in the DI graph.
-     *
-     * @param kaiAIService The concrete GenesisBackedKaiAIService instance to bind.
-     * @return The bound KaiAIService implementation.
-     */
     @Binds
     @Singleton
     abstract fun bindKaiAIService(kaiAIService: GenesisBackedKaiAIService): KaiAIService
 
     /**
-     * Binds the CascadeAIService interface to RealCascadeAIServiceAdapter for dependency injection.
+     * Binds the CascadeAIService interface to its DefaultCascadeAIService implementation in the DI graph.
      *
-     * @param cascadeAIService Implementation to provide when CascadeAIService is requested.
-     * @return The CascadeAIService implementation backed by the provided adapter.
+     * @param impl The DefaultCascadeAIService instance to provide when CascadeAIService is requested.
+     * @return The CascadeAIService instance backed by the provided implementation.
      */
     @Binds
     @Singleton
     abstract fun bindCascadeAIService(cascadeAIService: RealCascadeAIServiceAdapter): CascadeAIService
+    abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
 
     // ═══════════════════════════════════════════════════════════════════════════
     // External AI Backend Services (ClaudeAIService, NemotronAIService,

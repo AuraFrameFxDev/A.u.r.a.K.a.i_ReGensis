@@ -31,23 +31,6 @@ import kotlin.math.sin
  * Cascade Constellation Screen - DataStream Orchestrator
  * Displays the data flow network with cascading streams and node synchronization
  */
-/**
- * Renders a full-screen cascade constellation visualization with title, status, and decorative UI overlays.
- *
- * Composes the animated DataStreamCanvas at center and overlays a top-right "Cascade / ⚡ ORCHESTRATOR" header,
- * a bottom-left "DataStream Catalyst" label with an animated status bar, and right-side vertical "DATA FLOW / SYNCHRONIZATION" text.
- *
- * @param navController Navigation controller for handling navigation actions originating from this screen.
- * @param modifier Optional [Modifier] applied to the root container.
- */
-/**
- * Displays the Cascade Constellation screen: a full-screen, animated data-flow visualization
- * with a centered DataStreamCanvas, a top-right agent header, a bottom-left data stream status panel,
- * and right-side vertical labels.
- *
- * @param navController NavController used to handle navigation actions originating from this screen.
- * @param modifier Modifier applied to the root container to customize layout or styling.
- */
 @Composable
 fun CascadeConstellationScreen(
     navController: NavController,
@@ -142,12 +125,6 @@ fun CascadeConstellationScreen(
 }
 
 /**
- * Renders the animated central data-stream canvas used by the Cascade constellation UI.
- *
- * Displays a full-size, centered visualization that includes a rotating, pulsing mechanical wing centerpiece,
- * a circular arrangement of node endpoints, animated data streams with moving packets between nodes, and a
- * decorative PNG overlay. Animations drive stream flow, node pulsing, rotation, and centerpiece scale to
- * simulate continuous data movement.
  */
 @Composable
 private fun DataStreamCanvas() {
@@ -206,15 +183,7 @@ private fun DataStreamCanvas() {
         val cyanColor = Color(0xFF00FFFF)
         val blueColor = Color(0xFF1E90FF)
 
-        // Draw mechanical wing centerpiece
-        drawMechanicalWing(
-            centerX = centerX,
-            centerY = centerY,
-            color = turquoiseColor,
-            accentColor = cyanColor,
-            rotation = rotation,
-            pulseAlpha = pulseAlpha
-        )
+        // Mechanical wing centerpiece will be overlaid as PNG image below
 
         // Draw data flow network nodes
         val nodeCount = 12
@@ -379,9 +348,7 @@ private fun DrawScope.drawMechanicalWing(
 }
 
 /**
- * Renders a compact status panel with input/process/output channel indicators, an animated horizontal flow bar, and a numeric flow percentage.
- *
- * The horizontal bar animates continuously from 0% to 100% to represent stream throughput while the channel indicators pulse to reflect flow intensity; the bar fill uses a turquoise-to-blue gradient whose opacity follows the pulse.
+ * DataStream Status Bar - Flow metrics
  */
 @Composable
 private fun DataStreamStatusBar() {
@@ -459,13 +426,7 @@ private fun DataStreamStatusBar() {
 }
 
 /**
- * Displays a horizontal channel label with a glowing circular indicator.
- *
- * The component shows a small two-layer dot (outer glow and inner core) followed by the channel name.
- *
- * @param name The channel label text displayed to the right of the indicator.
- * @param glowAlpha Glow intensity applied to the outer and inner dot layers; expected range 0..1.
- * @param color Base color used for the indicator and label tint.
+ * Individual stream channel indicator
  */
 @Composable
 private fun StreamChannelIndicator(

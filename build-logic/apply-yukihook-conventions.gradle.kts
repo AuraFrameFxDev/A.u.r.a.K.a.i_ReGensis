@@ -23,16 +23,11 @@ subprojects { subproject ->
     if (isAndroidModule) {
         // Apply common Android and YukiHook configurations
         with(subproject) {
-            // Apply KSP and LSParanoid plugins
             pluginManager.apply("com.google.devtools.ksp")
             pluginManager.apply("org.lsposed.lsparanoid")
 
-            // Branch based on actual Android plugin type
-            when {
-                plugins.hasPlugin("com.android.library") -> {
-                    // Configure Android library settings using AGP 9.0 Public DSL
-                    extensions.configure(LibraryExtension::class.java) {
-                        compileSdk = 36
+            extensions.configure(LibraryExtension::class.java) {
+                compileSdk = 36
 
                         defaultConfig {
                             minSdk = 33

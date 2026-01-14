@@ -30,39 +30,6 @@ import kotlin.math.sin
  * Constellation Screen - Aura's Sword with Fusion Abilities
  * Displays the constellation network with animated nodes, pulse effects, and the fusion abilities sync bar
  */
-/**
- * Displays the Constellation screen UI containing the animated constellation centerpiece,
- * agent information, fusion abilities sync bar, and a vertical system label.
- *
- * The layout fills the available space with a dark background and composes:
- * - a central, animated ConstellationCanvas visual,
- * - a top-right agent info block,
- * - a bottom-left fusion abilities section with a sync progress bar,
- * - a right-side vertical "SYSTEM CORE OVERDUE PARAMETERS" label.
- *
- * @param navController NavController used for navigation from this screen.
- * @param modifier Optional Modifier to be applied to the root container.
- */
-/**
- * Displays the constellation-themed main screen composed of an animated centerpiece, agent status, fusion sync UI, and a vertical system label.
- *
- * The layout fills the available space with a dark background, centers the ConstellationCanvas visualization, shows agent name and level in the top-right, a Fusion abilities header with a sync bar in the bottom-left, and a vertical "SYSTEM CORE / OVERDUE PARAMETERS" label on the right edge.
- *
- * @param navController NavController used for handling in-screen navigation actions.
- * @param modifier Optional Modifier applied to the root container.
- */
-/**
- * Displays the constellation scene UI with centered visualization, HUD elements, and a fusion sync bar.
- *
- * The layout fills the available space with a black background and composes:
- * - ConstellationCanvas centered as the main visualization.
- * - Agent info (name and level) aligned to the top-right.
- * - Fusion abilities label and FusionSyncBar aligned to the bottom-left.
- * - A vertical right-edge label reading "SYSTEM CORE" and "OVERDUE PARAMETERS".
- *
- * @param navController NavController used for navigation actions originating from this screen.
- * @param modifier Optional [Modifier] to be applied to the root container.
- */
 @Composable
 fun ConstellationScreen(
     navController: NavController,
@@ -157,11 +124,7 @@ fun ConstellationScreen(
 }
 
 /**
- * Renders the animated constellation visualization with pulsing nodes, connecting lines, orbiting particles,
- * and a procedural sword centerpiece overlaid with an aura image.
- *
- * Animations drive node pulse, continuous rotation (energy flow and particle orbits), and a subtle scale pulse
- * for the centered sword to produce the scene's dynamic visual effects.
+ * Main constellation canvas with sword centerpiece and animated nodes
  */
 @Composable
 private fun ConstellationCanvas() {
@@ -271,14 +234,7 @@ private fun ConstellationCanvas() {
             strokeWidth = 2f
         )
 
-        // Draw the sword centerpiece
-        drawSword(
-            centerX = centerX,
-            centerY = centerY,
-            rotation = rotation,
-            color = cyanColor,
-            glowColor = glowColor
-        )
+        // Sword centerpiece will be overlaid as PNG image below
 
         // Draw constellation nodes with pulse effect
         nodes.forEach { nodePos ->
@@ -340,12 +296,10 @@ private fun ConstellationCanvas() {
 }
 
 /**
- * Draws a stylized sword centerpiece with layered glow, blade/guard/handle geometry, and rotating energy particles.
+ * Renders the sword centerpiece with an energy blade, guard, handle, pommel, glow layers, and surrounding energy particles.
  *
- * The sword is centered at the provided coordinates; `rotation` offsets the surrounding particle positions to create motion.
- *
- * @param centerX X coordinate of the sword's center in drawing space.
- * @param centerY Y coordinate of the sword's center in drawing space.
+ * @param centerX X coordinate of the sword's center in the drawing coordinate space.
+ * @param centerY Y coordinate of the sword's center in the drawing coordinate space.
  * @param rotation Rotation in degrees used to offset and animate the surrounding energy particles.
  * @param color Primary color for the blade, guard, handle, and core elements.
  * @param glowColor Accent color used for glow layers and highlights around the sword.
@@ -465,10 +419,7 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
 }
 
 /**
- * Displays the fusion abilities row with an animated sync progress bar and pulsing glow indicators.
- *
- * Renders three labeled ability indicators with a pulsing glow, an animated horizontal progress fill that loops
- * between 0% and 100%, and a "SYNC: N%" label reflecting the current progress.
+ * Fusion Abilities sync bar - shows fusion capability status
  */
 @Composable
 private fun FusionSyncBar() {
@@ -546,11 +497,7 @@ private fun FusionSyncBar() {
 }
 
 /**
- * Renders a labeled fusion ability entry with a glowing status dot.
- *
- * @param name The display name of the fusion ability.
- * @param glowAlpha Multiplier (typically 0..1) controlling the glow intensity of the indicator.
- * @param color Base color used for the dot and the label tint.
+ * Individual fusion ability indicator
  */
 @Composable
 private fun FusionAbilityIndicator(
