@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.cascade.CascadeAIService
+import dev.aurakai.auraframefx.services.CascadeAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultAuraAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBackedKaiAIService
@@ -23,6 +23,7 @@ abstract class AiServiceModule {
     @Binds
     @Singleton
     abstract fun bindKaiAIService(impl: GenesisBackedKaiAIService): KaiAIService
+
     @Binds
     @Singleton
     abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
