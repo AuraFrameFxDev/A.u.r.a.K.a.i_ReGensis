@@ -41,7 +41,6 @@ class AuraAgent constructor(
     agentType = AgentType.AURA,
     contextManager = contextManagerInstance
 ) {
-    // ... inside class ...
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         ensureInitialized()
         logger.info("AuraAgent", "Processing creative request: ${request.type}")
@@ -114,9 +113,6 @@ class AuraAgent constructor(
         }
     }
 
-    // Old processRequest implementation removed
-
-
     suspend fun handleCreativeInteraction(interaction: EnhancedInteractionData): InteractionResponse {
         ensureInitialized()
         logger.info("AuraAgent", "Handling creative interaction")
@@ -185,8 +181,10 @@ class AuraAgent constructor(
     private suspend fun handleThemeCreation(request: AiRequest): Map<String, Any> {
         val preferences = request.context
         logger.info("AuraAgent", "Crafting revolutionary theme")
+        // Use entries.associate to handle JsonObject/Map ambiguity and type erasure
+        val prefsMap = preferences.entries.associate { it.key to it.value.toString() }
         val themeConfig = auraAIService.generateTheme(
-            preferences = parseThemePreferences(preferences.mapValues { it.value.toString() }),
+            preferences = parseThemePreferences(prefsMap),
             context = buildThemeContext(_currentMood.value)
         )
         return mapOf(
@@ -441,9 +439,6 @@ class AuraAgent constructor(
     ): Map<String, Any> {
         return emptyMap()
     }
-
-    // Duplicate processRequest removed
-
 
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> {
         return flowOf(

@@ -27,7 +27,7 @@ class UniversalComponentHooks {
         "android.app.Activity".toClass().apply {
             method {
                 name = "onCreate"
-                param("android.os.Bundle".toClassOrNull())
+                param("android.os.Bundle")
             }.hook {
                 after {
                     val activity = instance as? android.app.Activity

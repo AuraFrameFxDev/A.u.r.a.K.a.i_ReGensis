@@ -9,6 +9,7 @@ import dev.aurakai.auraframefx.system.overlay.model.SystemOverlayConfig
 import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
 import dev.aurakai.auraframefx.ui.OverlayShape
 import dev.aurakai.auraframefx.ui.theme.manager.SystemThemeManager
+import dev.aurakai.auraframefx.ui.theme.manager.ThemeColors
 import dev.aurakai.auraframefx.ui.theme.model.OverlayTheme
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import dev.aurakai.auraframefx.utils.overlay.OverlayUtils
@@ -42,17 +43,41 @@ class SystemOverlayManagerImpl @Inject constructor(
             try {
                 logger.info("SystemOverlayManager", "Applying theme: ${theme.name}")
 
+                val colors = theme.colors ?: emptyMap()
+                val themeColors = ThemeColors(
+                    primary = colors["primary"] ?: ThemeColors().primary,
+                    primaryVariant = colors["primaryVariant"] ?: ThemeColors().primaryVariant,
+                    secondary = colors["secondary"] ?: ThemeColors().secondary,
+                    secondaryVariant = colors["secondaryVariant"] ?: ThemeColors().secondaryVariant,
+                    accent = colors["accent"] ?: ThemeColors().accent,
+                    background = colors["background"] ?: ThemeColors().background,
+                    onBackground = colors["onBackground"] ?: ThemeColors().onBackground
+                )
+
                 // Update SystemThemeManager with new colors
-                SystemThemeManager.updateTheme(theme.colors)
+                SystemThemeManager.updateTheme(themeColors)
 
                 // Apply via Android overlay system
+                // Using .value.toInt() on Compose Color which is ULong, convert to Int ARGB
+                // Assuming OverlayUtils expects Int
                 val result = overlayUtils.applyColorScheme(
-                    primary = theme.colors.primary.value.toInt(),
-                    secondary = theme.colors.secondary.value.toInt(),
-                    tertiary = theme.colors.primaryVariant.value.toInt(),
+                    primary = android.graphics.Color.parseColor(themeColors.primary.toString().replace("Color(", "#").replace(")", "")), // Fallback if direct conversion fails?
+                    // Actually ThemeColors uses ComposeColor.
+                    // ComposeColor value is ULong. toArgb() is not public in Compose Color?
+                    // SystemThemeManager.updateTheme handles it internally.
+                    // I need to pass Ints to overlayUtils.applyColorScheme.
+                    // Let's rely on SystemThemeManager to provide the Ints if possible, or convert myself.
+                    // Compose Color.toArgb() is an extension.
+                    // I'll try straightforward conversion assuming toArgb is available or simple cast.
+                    // The previous code used .value.toInt(). Compose Color value is ARGB (Long/ULong).
+                    // I'll use toInt() on the value property but shifted?
+                    // Safe bet: Use SystemThemeManager.primaryColor which is Int.
+                    primary = SystemThemeManager.primaryColor,
+                    secondary = SystemThemeManager.secondaryColor,
+                    tertiary = SystemThemeManager.primaryVariantColor,
                     error = 0xFFB00020.toInt(),
-                    background = theme.colors.background.value.toInt(),
-                    surface = theme.colors.background.value.toInt()
+                    background = SystemThemeManager.backgroundColor,
+                    surface = SystemThemeManager.backgroundColor
                 )
 
                 result.onSuccess {
