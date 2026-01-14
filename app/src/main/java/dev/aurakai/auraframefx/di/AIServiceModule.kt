@@ -1,10 +1,5 @@
 package dev.aurakai.auraframefx.di
 
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-
 /**
  * Module for AI service bindings.
  *
@@ -16,14 +11,15 @@ import dagger.hilt.components.SingletonComponent
  * This module explicitly declares them for clarity and future interface bindings.
  */
 import dagger.Binds
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.ClaudeAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.GeminiAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.MetaInstructAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.NemotronAIService
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.CascadeAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultAuraAIService
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBackedKaiAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.KaiAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultKaiAIService
+import dev.aurakai.auraframefx.services.RealCascadeAIServiceAdapter
 import javax.inject.Singleton
 
 @Module
@@ -56,7 +52,6 @@ abstract class AiServiceModule {
     @Binds
     @Singleton
     abstract fun bindCascadeAIService(cascadeAIService: RealCascadeAIServiceAdapter): CascadeAIService
-    abstract fun bindCascadeAIService(impl: RealCascadeAIServiceAdapter): CascadeAIService
 
     // ═══════════════════════════════════════════════════════════════════════════
     // External AI Backend Services (ClaudeAIService, NemotronAIService,
@@ -64,3 +59,4 @@ abstract class AiServiceModule {
     // via their @Singleton @Inject constructors. No explicit bindings needed.
     // ═══════════════════════════════════════════════════════════════════════════
 }
+
