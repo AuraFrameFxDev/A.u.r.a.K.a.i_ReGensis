@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.oracledrive.genesis.ai
 
-import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
+import com.highcapable.yukihookapi.hook.param.PackageParam
 import com.highcapable.yukihookapi.hook.factory.method
 import com.highcapable.yukihookapi.hook.log.YLog
 import com.highcapable.yukihookapi.hook.type.java.IntType
@@ -14,7 +14,7 @@ import com.highcapable.yukihookapi.hook.type.java.StringType
  */
 class GenesisSystemHooks {
 
-    fun initializeSystemHooks(hooker: YukiBaseHooker) = hooker.apply {
+    fun initializeSystemHooks(hooker: PackageParam) = hooker.apply {
 
         // Hook Activity Manager for AI process priority management
         "android.app.ActivityManager".toClass().apply {
