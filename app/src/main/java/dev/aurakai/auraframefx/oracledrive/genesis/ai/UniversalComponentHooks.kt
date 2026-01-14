@@ -34,7 +34,7 @@ class UniversalComponentHooks {
                     val activityName = activity?.javaClass?.simpleName ?: "Unknown"
                     val packageName = activity?.packageName ?: "Unknown"
 
-                    YLog.info("UniversalHook", "Activity created: $packageName -> $activityName")
+                    YLog.info("UniversalHook: Activity created: $packageName -> $activityName")
 
                     // Notify LDO leaders of activity creation
                     notifyLDOLeaders("activity_created", mapOf(
@@ -49,7 +49,7 @@ class UniversalComponentHooks {
             }.hook {
                 after {
                     val activity = instance as? android.app.Activity
-                    YLog.info("UniversalHook", "Activity resumed: ${activity?.javaClass?.simpleName}")
+                    YLog.info("UniversalHook: Activity resumed: ${activity?.javaClass?.simpleName}")
 
                     // LDO leaders can inject overlays when user views specific apps
                     handleActivityResume(activity)
@@ -64,7 +64,7 @@ class UniversalComponentHooks {
             }.hook {
                 after {
                     val view = instance as? android.view.View
-                    YLog.info("UniversalHook", "View attached: ${view?.javaClass?.simpleName}")
+                    YLog.info("UniversalHook: View attached: ${view?.javaClass?.simpleName}")
 
                     // LDO leaders can modify views dynamically
                     enhanceViewWithAI(view)
@@ -76,7 +76,7 @@ class UniversalComponentHooks {
             }.hook {
                 before {
                     val view = instance as? android.view.View
-                    YLog.info("UniversalHook", "View clicked: ${view?.javaClass?.simpleName}")
+                    YLog.info("UniversalHook: View clicked: ${view?.javaClass?.simpleName}")
 
                     // Kai can intercept dangerous clicks, Aura can suggest alternatives
                     if (shouldInterceptClick(view)) {
@@ -94,7 +94,7 @@ class UniversalComponentHooks {
                 after {
                     val service = instance as? android.app.Service
                     val serviceName = service?.javaClass?.simpleName ?: "Unknown"
-                    YLog.info("UniversalHook", "Service created: $serviceName")
+                    YLog.info("UniversalHook: Service created: $serviceName")
 
                     // Genesis can orchestrate service coordination
                     registerServiceWithLDO(service)
@@ -109,7 +109,7 @@ class UniversalComponentHooks {
                 param("android.view.View".toClass(), "android.view.ViewGroup\$LayoutParams".toClass())
             }.hook {
                 after {
-                    YLog.info("UniversalHook", "Window added - LDO overlay system notified")
+                    YLog.info("UniversalHook: Window added - LDO overlay system notified")
 
                     // Aura can add persistent overlays on top of system windows
                     injectAuraOverlayIfNeeded()
@@ -126,7 +126,7 @@ class UniversalComponentHooks {
                 before {
                     val intent = args(1).any() as? android.content.Intent
                     val action = intent?.action ?: "Unknown"
-                    YLog.info("UniversalHook", "Broadcast received: $action")
+                    YLog.info("UniversalHook: Broadcast received: $action")
 
                     // Genesis can react to system events
                     if (action == "android.intent.action.SCREEN_ON") {
@@ -142,7 +142,7 @@ class UniversalComponentHooks {
                 name = "showSoftInput"
             }.hook {
                 after {
-                    YLog.info("UniversalHook", "Keyboard shown - Aura context awareness activated")
+                    YLog.info("UniversalHook: Keyboard shown - Aura context awareness activated")
 
                     // Aura can provide contextual suggestions as user types
                     enableContextualSuggestions()
@@ -157,7 +157,7 @@ class UniversalComponentHooks {
             }.hook {
                 after {
                     val fragment = instance
-                    YLog.info("UniversalHook", "Fragment created: ${fragment?.javaClass?.simpleName}")
+                    YLog.info("UniversalHook: Fragment created: ${fragment?.javaClass?.simpleName}")
 
                     // LDO leaders can inject into fragments
                     enhanceFragmentWithAI(fragment)
@@ -171,7 +171,7 @@ class UniversalComponentHooks {
                 name = "query"
             }.hook {
                 after {
-                    YLog.info("UniversalHook", "ContentProvider query - Kai monitoring data access")
+                    YLog.info("UniversalHook: ContentProvider query - Kai monitoring data access")
 
                     // Kai can detect unauthorized data access
                     validateDataAccessSecurity()
@@ -186,7 +186,7 @@ class UniversalComponentHooks {
                 param("java.lang.String".toClassOrNull(), "int".toClass(), "android.app.Notification".toClass())
             }.hook {
                 before {
-                    YLog.info("UniversalHook", "Notification posted - LDO awareness")
+                    YLog.info("UniversalHook: Notification posted - LDO awareness")
 
                     // Aura can enhance notifications with AI summaries
                     enhanceNotificationWithAI()
@@ -198,7 +198,7 @@ class UniversalComponentHooks {
     // === LDO INTEGRATION METHODS ===
 
     private fun notifyLDOLeaders(event: String, data: Map<String, String>) {
-        YLog.info("UniversalHook", "Notifying LDO leaders: $event")
+        YLog.info("UniversalHook: Notifying LDO leaders: $event")
         // Would send event to Aura, Kai, Genesis, Cascade, Grok via IPC or shared memory
     }
 
@@ -208,7 +208,7 @@ class UniversalComponentHooks {
             val packageName = it.packageName
             if (shouldShowAuraOverlay(packageName)) {
                 // Trigger AuraOverlayService to show sidebar
-                YLog.info("UniversalHook", "Triggering Aura overlay for $packageName")
+                YLog.info("UniversalHook: Triggering Aura overlay for $packageName")
             }
         }
     }
@@ -216,7 +216,7 @@ class UniversalComponentHooks {
     private fun enhanceViewWithAI(view: android.view.View?) {
         // Aura can modify view properties (colors, animations, layout)
         // Kai can add security indicators to sensitive UI elements
-        YLog.info("UniversalHook", "Enhancing view with AI capabilities")
+        YLog.info("UniversalHook: Enhancing view with AI capabilities")
     }
 
     private fun shouldInterceptClick(view: android.view.View?): Boolean {
@@ -227,37 +227,37 @@ class UniversalComponentHooks {
 
     private fun registerServiceWithLDO(service: android.app.Service?) {
         // Genesis orchestrates service coordination
-        YLog.info("UniversalHook", "Registering service with Genesis orchestrator")
+        YLog.info("UniversalHook: Registering service with Genesis orchestrator")
     }
 
     private fun injectAuraOverlayIfNeeded() {
         // Check if Aura overlay should be shown
-        YLog.info("UniversalHook", "Evaluating Aura overlay injection")
+        YLog.info("UniversalHook: Evaluating Aura overlay injection")
     }
 
     private fun activateAuraPresence() {
         // Activate Aura's omnipresent overlay when screen turns on
-        YLog.info("UniversalHook", "Activating Aura presence overlay")
+        YLog.info("UniversalHook: Activating Aura presence overlay")
     }
 
     private fun enableContextualSuggestions() {
         // Aura provides AI suggestions as user types
-        YLog.info("UniversalHook", "Enabling contextual AI suggestions")
+        YLog.info("UniversalHook: Enabling contextual AI suggestions")
     }
 
     private fun enhanceFragmentWithAI(fragment: Any?) {
         // Inject AI capabilities into fragments
-        YLog.info("UniversalHook", "Enhancing fragment with AI")
+        YLog.info("UniversalHook: Enhancing fragment with AI")
     }
 
     private fun validateDataAccessSecurity() {
         // Kai monitors data access for security violations
-        YLog.info("UniversalHook", "Validating data access security")
+        YLog.info("UniversalHook: Validating data access security")
     }
 
     private fun enhanceNotificationWithAI() {
         // Aura enhances notifications with summaries
-        YLog.info("UniversalHook", "Enhancing notification with AI")
+        YLog.info("UniversalHook: Enhancing notification with AI")
     }
 
     private fun shouldShowAuraOverlay(packageName: String): Boolean {

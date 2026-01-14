@@ -15,6 +15,8 @@ import dev.aurakai.auraframefx.oracledrive.genesis.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.system.monitor.SystemMonitor
+import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
+import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import javax.inject.Singleton
 
 /**
@@ -44,8 +46,12 @@ object AgentModule {
 
     @Provides
     @Singleton
-    fun provideGenesisAgent(contextManager: ContextManager, memoryManager: MemoryManager): GenesisAgent {
-        return GenesisAgent(contextManager, memoryManager)
+    fun provideGenesisAgent(
+        contextManager: ContextManager,
+        memoryManager: MemoryManager,
+        systemOverlayManager: SystemOverlayManager
+    ): GenesisAgent {
+        return GenesisAgent(contextManager, memoryManager, systemOverlayManager)
     }
 
     @Provides
@@ -85,6 +91,7 @@ object AgentModule {
         contextManager: ContextManager,
         securityContext: SecurityContext,
         systemMonitor: SystemMonitor,
+        bootloaderManager: BootloaderManager,
         logger: dev.aurakai.auraframefx.utils.AuraFxLogger
     ): KaiAgent {
         return KaiAgent(
@@ -92,6 +99,7 @@ object AgentModule {
             contextManagerInstance = contextManager,
             securityContext = securityContext,
             systemMonitor = systemMonitor,
+            bootloaderManager = bootloaderManager,
             logger = logger
         )
     }

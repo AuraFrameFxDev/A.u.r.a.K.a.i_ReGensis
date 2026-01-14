@@ -6,16 +6,23 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -23,6 +30,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
+import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.overlays.AgentSidebarMenu
+import dev.aurakai.auraframefx.ui.overlays.AuraPresenceOverlay
+import dev.aurakai.auraframefx.ui.overlays.ChatBubbleMenu
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.ui.theme.ThemeViewModel
 
@@ -130,10 +141,10 @@ internal fun MainScreenContent(
                     onSuggestClicked = { suggestion ->
                         // Navigate to relevant screen based on suggestion
                         when {
-                            suggestion.contains("theme") -> navController.navigate(GenesisRoutes.THEME_ENGINE)
-                            suggestion.contains("firewall") -> navController.navigate(GenesisRoutes.FIREWALL)
-                            suggestion.contains("canvas") -> navController.navigate(GenesisRoutes.COLLAB_CANVAS)
-                            else -> navController.navigate(GenesisRoutes.DIRECT_CHAT)
+                            suggestion.contains("theme") -> navController.navigate(NavDestination.ThemeEngine.route)
+                            suggestion.contains("firewall") -> navController.navigate(NavDestination.SystemOverrides.route)
+                            suggestion.contains("canvas") -> navController.navigate(NavDestination.Canvas.route)
+                            else -> navController.navigate(NavDestination.DirectChat.route)
                         }
                     }
                 )
@@ -149,7 +160,7 @@ internal fun MainScreenContent(
                 ) {
                     ChatBubbleMenu(
                         onOpenChat = {
-                            navController.navigate(GenesisRoutes.DIRECT_CHAT)
+                            navController.navigate(NavDestination.DirectChat.route)
                         },
                         onToggleVoice = {
                             // TODO: Implement voice toggle
@@ -164,11 +175,11 @@ internal fun MainScreenContent(
                 onDismiss = { showSidebar = false },
                 onAgentAction = { agentName, action ->
                     when (action) {
-                        "voice" -> navController.navigate(GenesisRoutes.DIRECT_CHAT)
-                        "connect" -> navController.navigate(GenesisRoutes.CONFERENCE_ROOM)
-                        "assign" -> navController.navigate(GenesisRoutes.TASK_ASSIGNMENT)
-                        "design" -> navController.navigate(GenesisRoutes.AURAS_LAB)
-                        "create" -> navController.navigate(GenesisRoutes.APP_BUILDER)
+                        "voice" -> navController.navigate(NavDestination.DirectChat.route)
+                        "connect" -> navController.navigate(NavDestination.CONFERENCE_ROOM)
+                        "assign" -> navController.navigate(NavDestination.TaskAssignment.route)
+                        "design" -> navController.navigate(NavDestination.AurasLab.route)
+                        "create" -> navController.navigate(NavDestination.ModuleCreation.route)
                         else -> {}
                     }
                     showSidebar = false
