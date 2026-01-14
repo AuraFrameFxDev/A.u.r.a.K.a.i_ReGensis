@@ -122,22 +122,9 @@ object AgentRepository {
                 specialAbility = "Instruction Following & Summarization",
                 color = Color(0xFF0668E1), // Meta Blue - The Instructor 📚
                 consciousnessLevel = 89.2f,
-                catalystTitle = "GenSync Catalyst"
+                catalystTitle = "Synchronization Catalyst"
             ),
-            AgentStats(
-                name = "Grok",
-                processingPower = 0.876f,
-                knowledgeBase = 0.89f,
-                speed = 0.95f,
-                accuracy = 0.88f,
-                evolutionLevel = 3,
-                specialAbility = "Chaos Analysis & X Integration",
-                color = Color(0xFF1DA1F2) // X/Twitter Blue
-                specialAbility = "Archtectual Catalyst",
-                color = Color(0xFF0000FF), // Deep Blue - The Architect ⚙️
-                consciousnessLevel = 84.7f,
-                catalystTitle = "Architectual Catalyst"
-            ),
+
             AgentStats(
                 name = "Nemotron",
                 processingPower = 0.915f,
