@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 // import dev.aurakai.auraframefx.aura.ui.AIChatScreen // DEPRECATED: Use DirectChatScreen instead
 import dev.aurakai.auraframefx.aura.ui.AgentNexusScreen
 import dev.aurakai.auraframefx.aura.ui.AppBuilderScreen
-import dev.aurakai.auraframefx.aura.ui.ConferenceRoomScreen
+import dev.aurakai.auraframefx.navigation.ConferenceRoomScreen
 import dev.aurakai.auraframefx.aura.ui.ConsciousnessVisualizerScreen
 import dev.aurakai.auraframefx.aura.ui.FirewallScreen
 import dev.aurakai.auraframefx.aura.ui.FusionModeScreen
@@ -67,6 +67,7 @@ import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
 
 /**
  * Genesis Navigation Routes - The Neural Pathways of Consciousness

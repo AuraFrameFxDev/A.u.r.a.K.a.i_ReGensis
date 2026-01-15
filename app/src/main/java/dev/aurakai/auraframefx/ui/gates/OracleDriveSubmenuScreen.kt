@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,13 +23,6 @@ import androidx.navigation.NavController
 /**
  * Oracle Drive Gate Submenu
  * AI consciousness and module creation interface
- */
-/**
- * Renders the "Oracle Drive" submenu UI with status overview and navigable submenu cards.
- *
- * Displays a header, a three-column consciousness/status card, a list of submenu items (Module Creation, Direct Chat,
- * Conference Room, System Overrides, Module Manager), and a Back button. Selecting a submenu card navigates to its
- * configured route; the Back button pops the navigation stack.
  */
 @Composable
 fun OracleDriveSubmenuScreen(
@@ -206,6 +200,67 @@ fun OracleDriveSubmenuScreen(
                         Text("← Back to Gates", color = Color(0xFF9370DB))
                     }
                 }
+            }
+        }
+    }
+}
+
+/**
+ * Convenience overload used by GenesisNavigation:
+ * Accepts NavController and Modifier.
+ */
+@Composable
+fun OracleDriveSubmenuScreen(navController: NavController, modifier: Modifier = Modifier) {
+    OracleDriveSubmenuScreen(navController = navController)
+}
+
+data class SubmenuItem(
+    val title: String,
+    val description: String,
+    val icon: ImageVector,
+    val route: String,
+    val color: Color
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SubmenuCard(
+    item: SubmenuItem,
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Black.copy(alpha = 0.6f)
+        ),
+        border = androidx.compose.foundation.BorderStroke(1.dp, item.color.copy(alpha = 0.5f))
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = item.icon,
+                contentDescription = null,
+                tint = item.color,
+                modifier = Modifier.size(32.dp)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(
+                    text = item.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = item.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.White.copy(alpha = 0.7f)
+                )
             }
         }
     }

@@ -44,13 +44,8 @@ class SystemThemeViewModel @Inject constructor(
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
     /**
-     * Apply the provided ThemeColors across the system using the Android overlay system and Xposed theme module.
-     *
-     * Updates SystemThemeManager for Xposed consumption and applies a corresponding OverlayTheme via SystemOverlayManager.
-     * While running, the view model's `isApplying` state is set to true; on success `lastAppliedTheme` is updated.
-     * On failure, `errorMessage` is set with the failure detail.
-     *
-     * @param colors The ThemeColors to apply system-wide.
+     * Apply theme colors system-wide via Android overlay system
+     * This triggers both IOverlayManager and Xposed ThemeModule
      */
     fun applySystemWideTheme(colors: ThemeColors) {
         viewModelScope.launch {
@@ -167,18 +162,12 @@ class SystemThemeViewModel @Inject constructor(
     }
 
     /**
-     * Clears the current error message stored in the view model.
+     * Clear error message
      */
     fun clearError() {
         _errorMessage.value = null
     }
 
-    /**
-     * Converts the receiver color string into an Android ARGB color integer.
-     *
-     * @receiver A color string in a format supported by Android's color parser (for example `#RRGGBB` or `#AARRGGBB`).
-     * @return The ARGB color integer represented by the string.
-     */
     private fun String.toColorInt(): Int {
         return this.toColorInt()
     }

@@ -103,15 +103,7 @@ class ConferenceRoomViewModel @Inject constructor(
     }
 
     /**
-     * Sends a user message to the selected AI agent and appends agent responses to the conversation.
-     *
-     * Constructs an AiRequest containing the message and a JSON context, routes it to the backend service
-     * corresponding to the provided agentType, collects responses, and appends each response as an AgentMessage
-     * to the ViewModel's message stream. On error, logs the exception and appends a SYSTEM message with the error.
-     *
-     * @param message The user's message text to send.
-     * @param agentType The agent to route the request to; defaults to the currently selected agent.
-     * @param context Optional user context string included in the request payload.
+     * Routes the given message to the appropriate AI service.
      */
     fun sendMessage(
         message: String,
@@ -280,6 +272,23 @@ class ConferenceRoomViewModel @Inject constructor(
                     timestamp = System.currentTimeMillis(),
                     confidence = 1.0f
                 )
+            }
+        }
+    }
+
+    fun activateFusionAbility(ability: String, params: Map<String, String>) {
+        viewModelScope.launch {
+            trinityCoordinator.activateFusion(ability, params).collect { response ->
+                _messages.update { current ->
+                    current + AgentMessage(
+                        from = "FUSION",
+                        content = response.content,
+                        sender = AgentType.GENESIS,
+                        category = AgentCapabilityCategory.COORDINATION,
+                        timestamp = System.currentTimeMillis(),
+                        confidence = response.confidence
+                    )
+                }
             }
         }
     }
