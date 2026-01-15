@@ -12,15 +12,15 @@ object CascadeEventBus {
     private const val REPLAY = 10
     private const val EXTRA_BUFFER_CAPACITY = 64
 
-    private val _events = MutableSharedFlow<MemoryEvent>(
+    private val _events = MutableSharedFlow<CascadeEvent>(
         replay = REPLAY,
         extraBufferCapacity = EXTRA_BUFFER_CAPACITY
     )
 
     /**
      * Public flow of memory events. New collectors will receive the last [REPLAY] events.
- */
-val events: SharedFlow<MemoryEvent> = _events.asSharedFlow()
+     */
+    val events: SharedFlow<CascadeEvent> = _events.asSharedFlow()
 
     fun emit(event: CascadeEvent) {
         _events.tryEmit(event)
@@ -30,6 +30,18 @@ val events: SharedFlow<MemoryEvent> = _events.asSharedFlow()
     fun tryEmit(event: CascadeEvent): Boolean {
         return _events.tryEmit(event)
     }
+}
+
+/**
+ * Cascade Event Hierarchy
+ */
+sealed class CascadeEvent {
+    data class AgentInvoked(val agentType: String, val timestamp: Long) : CascadeEvent()
+    data class ResponseReceived(val content: String, val confidence: Float) : CascadeEvent()
+    data class Error(val message: String) : CascadeEvent()
+
+    // Wrapper for legacy MemoryEvent
+    data class Memory(val event: MemoryEvent) : CascadeEvent()
 }
 
 /**

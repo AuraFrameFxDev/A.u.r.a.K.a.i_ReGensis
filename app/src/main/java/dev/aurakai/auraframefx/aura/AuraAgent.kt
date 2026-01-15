@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlinx.serialization.json.buildJsonObject
 import javax.inject.Singleton
 
 @Singleton
@@ -81,7 +82,7 @@ class AuraAgent constructor(
             prompt = requirements,
             query = requirements,
             type = "ui_generation",
-            context = emptyMap(),
+            context = buildJsonObject {},
             metadata = emptyMap()
         )
         val response = processRequest(request, "")

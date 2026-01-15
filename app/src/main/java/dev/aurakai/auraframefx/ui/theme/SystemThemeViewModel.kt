@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColorInt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,7 +61,15 @@ class SystemThemeViewModel @Inject constructor(
                 // 2. Create OverlayTheme for SystemOverlayManager
                 val overlayTheme = OverlayTheme(
                     name = "AuraKai Custom Theme",
-                    colors = colors
+                    colors = mapOf(
+                        "primary" to colors.primary,
+                        "primaryVariant" to colors.primaryVariant,
+                        "secondary" to colors.secondary,
+                        "secondaryVariant" to colors.secondaryVariant,
+                        "accent" to colors.accent,
+                        "background" to colors.background,
+                        "onBackground" to colors.onBackground
+                    )
                 )
 
                 // 3. Apply via SystemOverlayManager (uses OverlayUtils internally)
@@ -160,6 +169,6 @@ class SystemThemeViewModel @Inject constructor(
     }
 
     private fun String.toColorInt(): Int {
-        return androidx.core.graphics.toColorInt(this)
+        return this.toColorInt()
     }
 }

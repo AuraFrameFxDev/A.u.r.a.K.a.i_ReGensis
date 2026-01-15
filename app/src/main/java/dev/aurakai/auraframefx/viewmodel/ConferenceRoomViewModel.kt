@@ -151,16 +151,10 @@ class ConferenceRoomViewModel @Inject constructor(
                     AgentType.CASCADE -> flow {
                         val cascadeFlow = cascadeService.processRequest(
                             AgentInvokeRequest(
-                                agentType = AgentCapabilityCategory.SPECIALIZED, // Adjusted to match expected type if possible, or keep as is if AgentInvokeRequest expects AgentCapabilityCategory?
-                                // User log said: Argument type mismatch: actual type is 'AgentType', but 'AgentCapabilityCategory?' was expected.
-                                // If AgentInvokeRequest expects AgentCapabilityCategory, I should map AgentType to it.
-                                // AgentInvokeRequest definition: val agentType: AgentCapabilityCategory? = null
-                                // So I should pass AgentCapabilityCategory.SPECIALIZED or similar.
+                                agentType = AgentCapabilityCategory.SPECIALIZED,
                                 message = request.query,
-                                priority = AgentInvokeRequest.Priority.normal, // Explicit non-null priority
-                                context = null // Expects String? based on logs? "Argument type mismatch... actual is Map... but String? expected"
-                                // AgentInvokeRequest definition: val context: String? = null
-                                // So I pass null or context string.
+                                priority = AgentInvokeRequest.Priority.normal,
+                                context = null
                             )
                         )
                         // Map CascadeResponse to AgentResponse if needed
@@ -177,7 +171,7 @@ class ConferenceRoomViewModel @Inject constructor(
                     }
 
                     AgentType.METAINSTRUCT -> flow {
-                        emit(metaInstructService.processRequest(request, context).first())
+                        emit(metaInstructService.processRequest(request, context))
                     }
 
                     AgentType.GENESIS -> {

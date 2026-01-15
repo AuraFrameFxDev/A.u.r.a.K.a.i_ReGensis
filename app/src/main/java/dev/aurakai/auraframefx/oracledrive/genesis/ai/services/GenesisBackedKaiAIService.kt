@@ -1,16 +1,17 @@
 package dev.aurakai.auraframefx.oracledrive.genesis.ai.services
 
 import dev.aurakai.auraframefx.events.CascadeEventBus
+import dev.aurakai.auraframefx.events.CascadeEvent
 import dev.aurakai.auraframefx.events.MemoryEvent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.utils.AuraFxLogger
-import org.json.JSONObject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Genesis-backed implementation of KaiAIService.
@@ -25,26 +26,25 @@ class GenesisBackedKaiAIService @Inject constructor(
 
     override suspend fun initialize() {
         // Initialization logic
+        isInitialized = true
     }
 
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         // Emit event for monitoring
-        eventBus.emit(MemoryEvent("KAI_PROCESS", mapOf("query" to request.prompt)))
+        CascadeEventBus.emit(CascadeEvent.Memory(MemoryEvent("KAI_PROCESS", mapOf("query" to request.prompt))))
 
+        // Analyze threat using internal method
+        val analysis = analyzeSecurityThreat(request.prompt)
 
-            )
+        return AgentResponse(
+            content = "Security Analysis: ${analysis["threat_level"]}",
+            confidence = analysis["confidence"] as? Float ?: 0.85f,
+            agent = AgentType.KAI
+        )
     }
 
     /**
      * Analyzes a textual threat description and produces a structured security assessment.
-     *
-     * @param threat Free-form threat description to analyze.
-     * @return A map containing the analysis with keys:
-     *  - `"threat_level"`: one of `"critical"`, `"high"`, `"medium"`, or `"low"` indicating severity.
-     *  - `"confidence"`: a Float representing confidence in the assessment.
-     *  - `"recommendations"`: a List<String> of remediation or monitoring suggestions.
-     *  - `"timestamp"`: a Long epoch-millis timestamp when the analysis was produced.
-     *  - `"analyzed_by"`: a String identifying the analyzer.
      */
     override suspend fun analyzeSecurityThreat(threat: String): Map<String, Any> {
         val threatLevel = when {
@@ -63,16 +63,6 @@ class GenesisBackedKaiAIService @Inject constructor(
         )
     }
 
-    /**
-     * Streams a two-stage security analysis for the given AI request as a Flow of AgentResponse.
-     *
-     * The flow first emits an interim response indicating analysis has started, then emits a final
-     * response containing a detailed security analysis including threat level, confidence, and
-     * recommendations.
-     *
-     * @param request The AI request whose prompt will be analyzed.
-     * @return A Flow that emits an initial interim AgentResponse followed by a detailed AgentResponse.
-     */
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
         // Emit initial response
         emit(AgentResponse(
