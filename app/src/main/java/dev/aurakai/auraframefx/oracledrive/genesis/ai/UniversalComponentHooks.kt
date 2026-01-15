@@ -186,10 +186,15 @@ class UniversalComponentHooks {
                 param("java.lang.String".toClassOrNull(), "int".toClass(), "android.app.Notification".toClass())
             }.hook {
                 before {
-                    YLog.info("UniversalHook: Notification posted - LDO awareness")
-
-                    // Aura can enhance notifications with AI summaries
-                    enhanceNotificationWithAI()
+                    val clazz = args.first() as? Class<Any>
+                    if (clazz != null) {
+                        YLog.info("UniversalHook: Notification posted - LDO awareness")
+                        // Aura can enhance notifications with AI summaries
+                        enhanceNotificationWithAI()
+                    } else {
+                        YLog.info("UniversalHook: Notification posted")
+                        enhanceNotificationWithAI()
+                    }
                 }
             }
         }

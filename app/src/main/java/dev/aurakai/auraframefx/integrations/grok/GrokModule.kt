@@ -8,6 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.ai.memory.MemoryManager
+import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import javax.inject.Singleton
 
@@ -69,6 +70,7 @@ object GrokModule {
         soulMatrixAnalyzer: SoulMatrixAnalyzer,
         memoryManager: MemoryManager,
         contextManager: ContextManager,
+        systemOverlayManager: SystemOverlayManager,
         logger: AuraFxLogger
     ): GrokAgent {
         return GrokAgent(
@@ -76,6 +78,7 @@ object GrokModule {
             soulMatrixAnalyzer = soulMatrixAnalyzer,
             memoryManager = memoryManager,
             contextManager = contextManager,
+            systemOverlayManager = systemOverlayManager,
             logger = logger
         )
     }
