@@ -61,7 +61,15 @@ object GrokModule {
     }
 
     /**
-     * Provides the Grok agent
+     * Creates and returns a configured GrokAgent singleton.
+     *
+     * @param grokClient Client used to communicate with the Grok API.
+     * @param soulMatrixAnalyzer Component that performs soul matrix analysis.
+     * @param memoryManager Manages persistent and in-memory storage used by the agent.
+     * @param contextManager Provides contextual information about the app/environment.
+     * @param systemOverlayManager Manages system overlay UI used by the agent.
+     * @param logger Logger for agent diagnostics and events.
+     * @return A GrokAgent instance wired with the provided dependencies.
      */
     @Provides
     @Singleton

@@ -21,6 +21,14 @@ import com.highcapable.yukihookapi.hook.log.YLog
  */
 class UniversalComponentHooks {
 
+    /**
+     * Registers a comprehensive set of universal hooks across common Android components to enable LDO AI/overlay integrations and cross-component interactions.
+     *
+     * Hooks are applied for activities, views, services, windows, broadcast receivers, input methods, fragments, content providers, and notifications to support logging, Aura/Kai/Genesis integrations, click interception, overlay injection, contextual suggestions, and data-access monitoring.
+     *
+     * @param hooker The PackageParam instance used to register the hooks.
+     * @return The same PackageParam instance after applying the hooks.
+     */
     fun initializeUniversalHooks(hooker: PackageParam) = hooker.apply {
 
         // === ACTIVITY HOOKS (All Apps) ===
