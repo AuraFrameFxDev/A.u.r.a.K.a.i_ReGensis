@@ -276,6 +276,23 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
+    fun activateFusionAbility(ability: String, params: Map<String, String>) {
+        viewModelScope.launch {
+            trinityCoordinator.activateFusion(ability, params).collect { response ->
+                _messages.update { current ->
+                    current + AgentMessage(
+                        from = "FUSION",
+                        content = response.content,
+                        sender = AgentType.GENESIS,
+                        category = AgentCapabilityCategory.COORDINATION,
+                        timestamp = System.currentTimeMillis(),
+                        confidence = response.confidence
+                    )
+                }
+            }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         trinityCoordinator.shutdown()

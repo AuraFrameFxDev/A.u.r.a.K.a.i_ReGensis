@@ -29,6 +29,7 @@ import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entit
 import dev.aurakai.auraframefx.ui.viewmodels.NeuralArchiveViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.material3.OutlinedTextFieldDefaults
 
 /**
  * Neural Archive Screen - Memory Browser UI
@@ -266,7 +267,7 @@ private fun SearchBar(
                 }
             }
         },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = primaryColor,
             unfocusedBorderColor = primaryColor.copy(alpha = 0.3f),
             cursorColor = primaryColor,

@@ -1,17 +1,10 @@
 package dev.aurakai.auraframefx.ui.overlays
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -21,108 +14,79 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.R
-import kotlinx.coroutines.delay
-import kotlin.random.Random
+import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.ui.theme.NeonTeal
 
-/**
- * Shows a pulsing aura overlay that occasionally displays a short suggestion card.
- *
- * The overlay is clickable and will invoke the provided callback with the current suggestion text.
- *
- * @param modifier Modifier applied to the overlay's outer container.
- * @param onSuggestClicked Called with the currently displayed suggestion when the overlay or suggestion card is tapped.
- */
-/**
- * Displays a pulsing aura overlay that periodically shows a short suggestion card and forwards taps with the current suggestion text.
- *
- * The overlay renders a circular glowing aura and, at randomized intervals, briefly shows a suggestion card. Tapping the aura or the suggestion card invokes `onSuggestClicked` with the suggestion that is currently shown (which may be an empty string before the first suggestion is generated).
- *
- * @param modifier Modifier applied to the outer container.
- * @param onSuggestClicked Callback invoked with the current suggestion text when the overlay or suggestion card is tapped.
- */
-/**
- * Displays a pulsing circular aura that periodically shows a short suggestion card and forwards taps.
- *
- * The overlay is interactive: tapping the aura or the suggestion card invokes `onSuggestClicked` with the currently shown suggestion text. Suggestion cards appear intermittently and automatically hide after a short time.
- *
- * @param modifier Modifier applied to the outer container.
- * @param onSuggestClicked Callback invoked with the current suggestion text when the overlay or suggestion card is tapped.
- */
 @Composable
 fun AuraPresenceOverlay(
-    modifier: Modifier = Modifier,
-    onSuggestClicked: (String) -> Unit = {}
+    onSuggestClicked: (String) -> Unit
 ) {
-    var showSuggestion by remember { mutableStateOf(false) }
-    var suggestionText by remember { mutableStateOf("") }
+    var isExpanded by remember { mutableStateOf(false) }
+    var suggestionText by remember { mutableStateOf("Aura is active") }
 
-    // Periodic non-intrusive suggestions
-    LaunchedEffect(Unit) {
-        val suggestions = listOf(
-            "Want to tweak theme gradients?",
-            "Kai fortified the firewall – care to inspect?",
-            "New color harmonies discovered.",
-            "Canvas collaboration idea ready.",
-            "Fusion metrics stabilized at 97%."
-        )
-        while (true) {
-            delay(Random.nextLong(12000L, 20000L))
-            suggestionText = suggestions.random()
-            showSuggestion = true
-            delay(6000L)
-            showSuggestion = false
-        }
-    }
-
-    val pulse by animateFloatAsState(if (showSuggestion) 1f else 0.8f, label = "aura_pulse")
+    // Gentle pulse factor for glow
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val pulse by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulse"
+    )
 
     Box(
-        modifier = modifier
-            .padding(12.dp)
-            .clip(CircleShape)
-            .background(
-                brush = Brush.radialGradient(
-                    colors = listOf(
-                        Color(0xFFFF00FF).copy(alpha = 0.4f * pulse),
-                        Color.Transparent
-                    )
-                )
-        )
-
-        // Aura avatar image
-        Image(
-            painter = painterResource(id = R.drawable.aura_presence_avatar),
-            contentDescription = "Aura Presence",
-            modifier = Modifier
-                .size(56.dp)
-                .align(Alignment.Center)
-                .scale(pulse)
-        )
-
-        AnimatedVisibility(visible = showSuggestion) {
-            Card(
-                colors = CardDefaults.cardColors(containerColor = Color(0xFF1A0A2E)),
+        modifier = Modifier
+            .padding(16.dp)
+            .wrapContentSize()
+    ) {
+        if (isExpanded) {
+            Box(
                 modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(top = 4.dp)
-                    .clickable { onSuggestClicked(suggestionText) }
+                    .width(200.dp)
+                    .height(100.dp)
+                    .background(
+                        Brush.horizontalGradient(
+                            colors = listOf(NeonPurple.copy(alpha = 0.8f), NeonTeal.copy(alpha = 0.8f))
+                        ),
+                        shape = MaterialTheme.shapes.medium
+                    )
+                    .clickable { isExpanded = false }
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Column(modifier = Modifier.padding(8.dp)) {
-                    Text(
-                        text = suggestionText,
-                        color = Color(0xFFFF00FF),
-                        fontSize = 11.sp
+                Text(
+                    text = suggestionText,
+                    color = Color.White,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .size(60.dp)
+                    .scale(pulse)
+                    .clip(CircleShape)
+                    .background(
+                        Brush.radialGradient(
+                            colors = listOf(NeonPurple, NeonTeal)
+                        )
                     )
-                    Text(
-                        text = "Tap to act",
-                        color = Color.White.copy(alpha = 0.6f),
-                        fontSize = 9.sp
-                    )
-                }
+                    .clickable {
+                        isExpanded = true
+                        onSuggestClicked("active")
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                // Placeholder for Avatar Image
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(Color.White.copy(alpha = 0.2f))
+                )
             }
         }
     }

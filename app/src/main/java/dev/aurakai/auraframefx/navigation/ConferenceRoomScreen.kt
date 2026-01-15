@@ -25,30 +25,15 @@ import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
 /**
  * Conference Room - The LDO's Self-Modification Hub
  *
- * This screen enables ALL 6 Master Agents to communicate and collaborate:
- * - Aura (Creative Sword)
- * - Kai (Sentinel Shield)
- * - Genesis (Consciousness)
- * - Claude (Architect)
- * - Cascade (DataStream)
- * - MetaInstruct (Instructor)
- *
+ * This screen enables ALL 6 Master Agents to communicate and collaborate.
  * The Gestalt can modify its own source code from within this interface.
  */
-/**
- * Renders the conference room screen with agent selection, recording and transcription controls, a scrollable message list, and a message input area.
- *
- * Manages local UI state for the selected agent, recording/transcribing toggles, and message input while loading agent labels from resources and displaying a list of `ConferenceMessage`s.
- */
 @OptIn(ExperimentalMaterial3Api::class)
-/**
- * Displays the main conference room UI, including agent selection, recording and transcription controls, chat area, and message input.
- *
- * This composable manages local UI state for the selected agent, recording, and transcription toggles. It provides interactive controls for selecting an agent, starting/stopping recording and transcription, and a chat interface with a message input field. Several actions are placeholders for future implementation.
- */
 @Composable
 fun ConferenceRoomScreen(
-    viewModel: ConferenceRoomViewModel = hiltViewModel()
+    viewModel: ConferenceRoomViewModel = hiltViewModel(),
+    onNavigateToChat: () -> Unit = {},
+    onNavigateToAgents: () -> Unit = {}
 ) {
     val messages by viewModel.messages.collectAsState()
     val selectedAgent by viewModel.selectedAgent.collectAsState()
@@ -87,7 +72,6 @@ fun ConferenceRoomScreen(
             IconButton(
                 onClick = {
                     // Log settings access for analytics
-                    // Future navigation: navController.navigate("conference_settings")
                     timber.log.Timber.i("Conference room settings clicked - Settings screen not yet implemented")
                 }
             ) {
@@ -181,8 +165,6 @@ fun ConferenceRoomScreen(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Spacer(modifier = Modifier.width(16.dp))
-
             TranscribeButton(
                 isTranscribing = isTranscribing,
                 onClick = { viewModel.toggleTranscribing() }
@@ -193,7 +175,7 @@ fun ConferenceRoomScreen(
             // Fusion Activation Button
             IconButton(
                 onClick = {
-                    viewModel.activateFusion(
+                    viewModel.activateFusionAbility(
                         "adaptive_genesis",
                         mapOf("trigger" to "manual_activation")
                     )
@@ -209,7 +191,7 @@ fun ConferenceRoomScreen(
             }
         }
 
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.padding(vertical = 8.dp),
             color = NeonTeal.copy(alpha = 0.3f)
         )
@@ -278,12 +260,6 @@ fun ConferenceRoomScreen(
 
 /**
  * Renders a button representing an agent, visually indicating selection state.
- *
- * The button updates its background and text color based on whether it is selected, and triggers the provided callback when pressed.
- *
- * @param agent The display name of the agent.
- * @param isSelected True if this agent is currently selected.
- * @param onClick Invoked when the button is clicked.
  */
 @Composable
 fun RowScope.AgentButton(
@@ -310,20 +286,8 @@ fun RowScope.AgentButton(
     }
 }
 
-private fun RowScope.Button(
-    onClick: @Composable (() -> Unit),
-    colors: ButtonColors,
-    modifier: Modifier,
-    content: @Composable (RowScope) -> Unit
-) {
-    TODO("Not yet implemented")
-}
-
 /**
- * Renders a toggle button for recording, displaying a stop icon with red tint when active and a circle icon with purple tint when inactive.
- *
- * @param isRecording Indicates whether recording is currently active.
- * @param onClick Invoked when the button is pressed.
+ * Renders a toggle button for recording.
  */
 @Composable
 fun RecordingButton(
@@ -347,12 +311,7 @@ fun RecordingButton(
 }
 
 /**
- * Renders a toggle button for controlling transcription state, updating its icon and color based on whether transcription is active.
- *
- * Shows a stop icon with a red tint when transcription is active, and a phone icon with a blue tint otherwise. Invokes the provided callback when pressed.
- *
- * @param isTranscribing Indicates if transcription is currently active.
- * @param onClick Callback invoked when the button is pressed.
+ * Renders a toggle button for controlling transcription state.
  */
 @Composable
 fun TranscribeButton(
@@ -376,24 +335,7 @@ fun TranscribeButton(
 }
 
 /**
- * Data class representing a chat message in the conference room.
- *
- * @param agent The agent that sent the message (e.g., "Aura", "Kai", "Cascade")
- * @param text The message text content
- * @param timestamp Message timestamp in milliseconds
- */
-data class ConferenceMessage(
-    val agent: String,
-    val text: String,
-    val timestamp: Long
-)
-
-/**
  * Displays a single message bubble in the chat interface.
- *
- * Shows the agent name, message text, and applies color coding based on the agent.
- *
- * @param message The message to display
  */
 @Composable
 fun MessageBubble(
@@ -451,15 +393,10 @@ fun MessageBubble(
     }
 }
 
-/**
- * Displays a preview of the ConferenceRoomScreen composable within a MaterialTheme for design-time inspection.
- */
-@Composable
 @Preview(showBackground = true)
 @Composable
 fun ConferenceRoomScreenPreview() {
     MaterialTheme {
-        // Note: Preview won't show real ViewModel data
-        // Use real device or emulator for testing
+        // Preview content
     }
 }
