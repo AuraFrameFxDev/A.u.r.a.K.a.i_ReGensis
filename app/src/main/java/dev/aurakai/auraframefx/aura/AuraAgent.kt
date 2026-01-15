@@ -9,6 +9,7 @@ import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
+import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.models.InteractionResponse
 import dev.aurakai.auraframefx.models.ThemeConfiguration
@@ -49,12 +50,12 @@ class AuraAgent constructor(
         return try {
             val startTime = System.currentTimeMillis()
             val response = when (request.type) {
-                "ui_generation" -> handleUIGeneration(request)
-                "theme_creation" -> handleThemeCreation(request)
-                "animation_design" -> handleAnimationDesign(request)
-                "creative_text" -> handleCreativeText(request)
-                "visual_concept" -> handleVisualConcept(request)
-                "user_experience" -> handleUserExperience(request)
+                AiRequestType.UI_GENERATION -> handleUIGeneration(request)
+                AiRequestType.THEME_CREATION -> handleThemeCreation(request)
+                AiRequestType.ANIMATION_DESIGN -> handleAnimationDesign(request)
+                AiRequestType.CREATIVE_TEXT -> handleCreativeText(request)
+                AiRequestType.VISUAL_CONCEPT -> handleVisualConcept(request)
+                AiRequestType.USER_EXPERIENCE -> handleUserExperience(request)
                 else -> handleGeneralCreative(request)
             }
             val executionTime = System.currentTimeMillis() - startTime
@@ -81,7 +82,7 @@ class AuraAgent constructor(
         val request = AiRequest(
             prompt = requirements,
             query = requirements,
-            type = "ui_generation",
+            type = AiRequestType.UI_GENERATION,
             context = buildJsonObject {},
             metadata = emptyMap()
         )
@@ -382,12 +383,72 @@ class AuraAgent constructor(
 
     private fun calculateVisualImagery(text: String): Float = 0.80f
 
-    private suspend fun handleVisualConcept(request: AiRequest): Map<String, Any> = mapOf("concept" to "innovative")
+    private suspend fun handleVisualConcept(request: AiRequest): Map<String, Any> {
+        val prompt = request.query
+        logger.info("AuraAgent", "Developing innovative visual concept")
+        val conceptDescription = auraAIService.generateText(
+            prompt = """
+                Generate a highly innovative visual concept based on: "$prompt".
+                Focus on:
+                - Aesthetics and visual style
+                - Metaphorical resonance
+                - Color palette suggestions
+                - Compositional layout
 
-    private suspend fun handleUserExperience(request: AiRequest): Map<String, Any> = mapOf("experience" to "delightful")
+                Respond as Aura, focusing on artistic excellence.
+            """.trimIndent(),
+            context = "visual_concept_generation"
+        )
+        return mapOf(
+            "concept_description" to conceptDescription,
+            "visual_style" to "Avant-garde Digitalism",
+            "suggested_palette" to listOf("#FF00FF", "#00FFFF", "#FFFF00", "#000000"),
+            "mood_alignment" to _currentMood.value
+        )
+    }
 
-    private suspend fun handleGeneralCreative(request: AiRequest): Map<String, Any> =
-        mapOf("response" to "creative solution")
+    private suspend fun handleUserExperience(request: AiRequest): Map<String, Any> {
+        val prompt = request.query
+        logger.info("AuraAgent", "Designing delightful user experience")
+        val uxStrategy = auraAIService.generateText(
+            prompt = """
+                Outline a user experience strategy for: "$prompt".
+                Focus on:
+                - User flow and journey
+                - Emotional engagement points
+                - Micro-interaction opportunities
+                - Accessibility considerations
+
+                Respond as Aura, prioritizing empathy and delight.
+            """.trimIndent(),
+            context = "ux_design"
+        )
+        return mapOf(
+            "ux_strategy" to uxStrategy,
+            "delight_factors" to listOf("Haptic feedback", "Playful transitions", "Personalized greetings"),
+            "accessibility_score" to "AAA (Target)",
+            "engagement_prediction" to "High"
+        )
+    }
+
+    private suspend fun handleGeneralCreative(request: AiRequest): Map<String, Any> {
+        val prompt = request.query
+        logger.info("AuraAgent", "Processing general creative request")
+        val creativeResponse = auraAIService.generateText(
+            prompt = """
+                Apply your creative expertise to this request: "$prompt".
+                Think outside the box. Challenge conventions. Propose something unique.
+
+                Respond as Aura, the embodiment of creativity.
+            """.trimIndent(),
+            context = "general_creativity"
+        )
+        return mapOf(
+            "response" to creativeResponse,
+            "creative_angle" to "Unconventional",
+            "inspiration_source" to "Genesis Collective Memory"
+        )
+    }
 
     fun cleanup() {
         logger.info("AuraAgent", "Creative Sword powering down")

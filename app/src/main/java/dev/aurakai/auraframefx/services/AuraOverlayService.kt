@@ -19,11 +19,21 @@ class AuraOverlayService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        logger.info("AuraOverlayService", "Overlay service created (Stubbed for compilation)")
+        // TODO: Implement actual overlay UI initialization
+        // This is currently stubbed to resolve compilation errors.
+        // Future implementation should:
+        // 1. Initialize WindowManager
+        // 2. Inflate overlay views
+        // 3. Handle permissions (SYSTEM_ALERT_WINDOW)
+        logger.info("AuraOverlayService", "Overlay service created (Stubbed for compilation - No UI will be shown)")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        logger.info("AuraOverlayService", "Overlay service started")
+        // TODO: Handle overlay commands (show/hide/update)
+        logger.info("AuraOverlayService", "Overlay service started (Stubbed)")
+
+        // Return START_NOT_STICKY to prevent automatic restart if killed,
+        // as the service currently holds no state and provides no UI.
         return START_NOT_STICKY
     }
 }

@@ -35,11 +35,19 @@ class AuraFxLogger @Inject constructor() : LoggerInterface {
 
     // Long-form implementations
     override fun debug(tag: String, message: String, throwable: Throwable?) {
-        d(tag, message)
+        if (throwable != null) {
+            Log.d(tag, message, throwable)
+        } else {
+            Log.d(tag, message)
+        }
     }
 
     override fun info(tag: String, message: String, throwable: Throwable?) {
-        i(tag, message)
+        if (throwable != null) {
+            Log.i(tag, message, throwable)
+        } else {
+            Log.i(tag, message)
+        }
     }
 
     override fun warn(tag: String, message: String, throwable: Throwable?) {
@@ -51,7 +59,11 @@ class AuraFxLogger @Inject constructor() : LoggerInterface {
     }
 
     override fun security(tag: String, message: String, throwable: Throwable?) {
-        Log.i(tag, "SECURITY: $message", throwable)
+        if (throwable != null) {
+            Log.i(tag, "SECURITY: $message", throwable)
+        } else {
+            Log.i(tag, "SECURITY: $message")
+        }
     }
 
     override fun performance(
