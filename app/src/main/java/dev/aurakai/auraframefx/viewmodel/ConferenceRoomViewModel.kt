@@ -151,10 +151,16 @@ class ConferenceRoomViewModel @Inject constructor(
                     AgentType.CASCADE -> flow {
                         val cascadeFlow = cascadeService.processRequest(
                             AgentInvokeRequest(
-                                agentType = AgentType.CASCADE,
+                                agentType = AgentCapabilityCategory.SPECIALIZED, // Adjusted to match expected type if possible, or keep as is if AgentInvokeRequest expects AgentCapabilityCategory?
+                                // User log said: Argument type mismatch: actual type is 'AgentType', but 'AgentCapabilityCategory?' was expected.
+                                // If AgentInvokeRequest expects AgentCapabilityCategory, I should map AgentType to it.
+                                // AgentInvokeRequest definition: val agentType: AgentCapabilityCategory? = null
+                                // So I should pass AgentCapabilityCategory.SPECIALIZED or similar.
                                 message = request.query,
-                                priority = null, // or default
-                                context = emptyMap() // or context map
+                                priority = AgentInvokeRequest.Priority.normal, // Explicit non-null priority
+                                context = null // Expects String? based on logs? "Argument type mismatch... actual is Map... but String? expected"
+                                // AgentInvokeRequest definition: val context: String? = null
+                                // So I pass null or context string.
                             )
                         )
                         // Map CascadeResponse to AgentResponse if needed
