@@ -76,7 +76,12 @@ class AuraAgent constructor(
         }
     }
 
-    // Compatibility method for InterfaceForge
+    /**
+     * Convert a plain-text UI requirements string into a UI-generation request and return the generated content.
+     *
+     * @param requirements The UI requirements or specification as a plain-text string.
+     * @return The generated UI content produced by the agent.
+     */
     suspend fun processRequest(requirements: String): String {
         val request = AiRequest(
             prompt = requirements,
