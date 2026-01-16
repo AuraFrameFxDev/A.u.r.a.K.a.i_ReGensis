@@ -31,9 +31,7 @@ import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConferenceRoomScreen(
-    viewModel: ConferenceRoomViewModel = hiltViewModel(),
-    onNavigateToChat: () -> Unit = {},
-    onNavigateToAgents: () -> Unit = {}
+    viewModel: ConferenceRoomViewModel = hiltViewModel()
 ) {
     val messages by viewModel.messages.collectAsState()
     val selectedAgent by viewModel.selectedAgent.collectAsState()

@@ -41,7 +41,8 @@ import dev.aurakai.auraframefx.navigation.NavDestination
  */
 @Composable
 fun OracleDriveSubmenuScreen(
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     val menuItems = listOf(
         SubmenuItem(
@@ -82,7 +83,7 @@ fun OracleDriveSubmenuScreen(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.Black)
     ) {
@@ -219,13 +220,3 @@ fun OracleDriveSubmenuScreen(
         }
     }
 }
-
-/**
- * Convenience overload used by GenesisNavigation:
- * Accepts NavController and Modifier.
- */
-@Composable
-fun OracleDriveSubmenuScreen(navController: NavController, modifier: Modifier = Modifier) {
-    OracleDriveSubmenuScreen(navController = navController)
-}
-
