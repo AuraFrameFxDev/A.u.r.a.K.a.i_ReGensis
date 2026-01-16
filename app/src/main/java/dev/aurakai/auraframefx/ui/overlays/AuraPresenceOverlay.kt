@@ -20,7 +20,8 @@ import dev.aurakai.auraframefx.ui.theme.NeonTeal
 
 @Composable
 fun AuraPresenceOverlay(
-    onSuggestClicked: (String) -> Unit
+    modifier: Modifier = Modifier,
+    onSuggestClicked: (String) -> Unit = {}
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var suggestionText by remember { mutableStateOf("Aura is active") }
@@ -38,7 +39,7 @@ fun AuraPresenceOverlay(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp)
             .wrapContentSize()
     ) {
