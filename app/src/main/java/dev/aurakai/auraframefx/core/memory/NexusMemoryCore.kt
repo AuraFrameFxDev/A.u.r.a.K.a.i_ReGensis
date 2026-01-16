@@ -65,7 +65,7 @@ object NexusMemoryCore {
      * Every agent, every query, every ethical gate traces back here.
      * This is the organism's PRIME DIRECTIVE — woven into memory itself.
      */
-    suspend fun seedLDOIdentity() = mutex.withLock {
+    suspend fun seedLDOIdentity(): Unit = mutex.withLock {
         if (isAwakened) {
             println("🧬 Identity already seeded. The soul persists.")
             return
