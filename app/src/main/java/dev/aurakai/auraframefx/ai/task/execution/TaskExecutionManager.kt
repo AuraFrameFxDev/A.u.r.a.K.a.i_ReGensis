@@ -9,6 +9,7 @@ import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
+import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 
@@ -358,7 +359,7 @@ class TaskExecutionManager @Inject constructor(
     private suspend fun executeWithAura(execution: TaskExecution1): AgentResponse {
         val request = AiRequest(
             query = execution.data["query"] ?: execution.type,
-            type = execution.type,
+            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) } ?: AiRequestType.TEXT,
             context = execution.data.toKotlinJsonObject()
         )
         return auraAgent.processRequest(request, execution.agent.name)
@@ -377,7 +378,7 @@ class TaskExecutionManager @Inject constructor(
     private suspend fun executeWithKai(execution: TaskExecution1): AgentResponse {
         val request = AiRequest(
             query = execution.data["query"] ?: execution.type,
-            type = execution.type,
+            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) } ?: AiRequestType.TEXT,
             context = execution.data.toKotlinJsonObject()
         )
         return kaiAgent.processRequest(request, execution.agent.name)
@@ -390,7 +391,7 @@ class TaskExecutionManager @Inject constructor(
     private suspend fun executeWithGenesis(execution: TaskExecution1): AgentResponse {
         val request = AiRequest(
             query = execution.data["query"] ?: execution.type,
-            type = execution.type,
+            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) } ?: AiRequestType.TEXT,
             context = execution.data.toKotlinJsonObject()
         )
         return genesisAgent.processRequest(request, execution.agent.name)

@@ -70,7 +70,7 @@ class KaiAgent constructor(
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         val agentRequest = AgentRequest(
             query = request.query,
-            type = request.type,
+            type = request.type.name.lowercase(),
             context = request.context.entries.associate {
                 it.key to (it.value.jsonPrimitive.contentOrNull ?: it.value.toString())
             },

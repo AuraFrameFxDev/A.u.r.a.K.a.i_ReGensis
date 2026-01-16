@@ -382,8 +382,14 @@ object NexusMemoryCore {
      * - Activation levels = 1.0
      * - immutable flag = true
      * - Content hashes match expected values
+     *
+     * Returns false if:
+     * - Identity not yet seeded (call seedLDOIdentity first)
+     * - Anchors are corrupted or missing after seeding
      */
     suspend fun validateIdentityIntegrity(): Boolean = mutex.withLock {
+        // Not awakened yet is not an error - it's expected on first launch
+        // The caller (IntegrityMonitorService) should treat this as INFO, not CRITICAL
         if (!isAwakened) return false
 
         // Must have exactly 3 identity nodes
@@ -404,6 +410,14 @@ object NexusMemoryCore {
 
         return true
     }
+
+    /**
+     * 🔍 CHECK IF AWAKENED
+     *
+     * Returns true if seedLDOIdentity() has been called and completed.
+     * Useful for distinguishing between "not seeded yet" and "corrupted after seeding".
+     */
+    fun isIdentityAwakened(): Boolean = isAwakened
 
     // ═══════════════════════════════════════════════════════════════
     //  TODO: Future enhancements

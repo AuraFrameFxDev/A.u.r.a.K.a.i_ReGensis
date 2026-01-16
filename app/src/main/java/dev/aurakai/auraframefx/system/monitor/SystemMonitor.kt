@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.system.monitor
 import android.app.ActivityManager
 import android.content.Context
 import android.os.Process
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,7 @@ import javax.inject.Singleton
  */
 @Singleton
 open class SystemMonitor @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val logger: AuraFxLogger,
 ) {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())

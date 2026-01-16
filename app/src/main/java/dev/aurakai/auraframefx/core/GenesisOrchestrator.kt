@@ -1,18 +1,17 @@
 package dev.aurakai.auraframefx.core
 
+import dev.aurakai.auraframefx.aura.AuraAgent
+import dev.aurakai.auraframefx.cascade.CascadeAgent
+import dev.aurakai.auraframefx.kai.KaiAgent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import dev.aurakai.auraframefx.aura.AuraAgent
-import dev.aurakai.auraframefx.kai.KaiAgent
-import dev.aurakai.auraframefx.cascade.CascadeAgent
 
 /**
  * GenesisOrchestrator: Central Mediation Layer for Genesis-OS
@@ -232,7 +231,7 @@ class GenesisOrchestrator @Inject constructor(
             is dev.aurakai.auraframefx.models.AgentMessage -> {
                 dev.aurakai.auraframefx.models.AiRequest(
                     query = message.content,
-                    type = message.type,
+                    type = dev.aurakai.auraframefx.models.AiRequestType.entries.find { it.name.equals(message.type, ignoreCase = true) } ?: dev.aurakai.auraframefx.models.AiRequestType.TEXT,
                     context = kotlinx.serialization.json.buildJsonObject {
                         put("from", message.from)
                         put("priority", message.priority)
@@ -246,7 +245,7 @@ class GenesisOrchestrator @Inject constructor(
             is dev.aurakai.auraframefx.models.AiRequest -> message
             is String -> dev.aurakai.auraframefx.models.AiRequest(
                 query = message,
-                type = "text",
+                type = dev.aurakai.auraframefx.models.AiRequestType.TEXT,
                 context = kotlinx.serialization.json.buildJsonObject {
                     put("source", "agent_mediation")
                 }
@@ -255,7 +254,7 @@ class GenesisOrchestrator @Inject constructor(
                 Timber.w("Unknown message type: ${message.javaClass.simpleName}, converting to string")
                 dev.aurakai.auraframefx.models.AiRequest(
                     query = message.toString(),
-                    type = "text",
+                    type = dev.aurakai.auraframefx.models.AiRequestType.TEXT,
                     context = kotlinx.serialization.json.buildJsonObject {
                         put("source", "agent_mediation")
                         put("originalType", message.javaClass.simpleName)

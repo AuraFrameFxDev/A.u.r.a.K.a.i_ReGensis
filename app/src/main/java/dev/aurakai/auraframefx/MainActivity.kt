@@ -1,11 +1,16 @@
 package dev.aurakai.auraframefx
 
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +46,7 @@ import dev.aurakai.auraframefx.ui.overlays.AuraPresenceOverlay
 import dev.aurakai.auraframefx.ui.overlays.ChatBubbleMenu
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.ui.theme.ThemeViewModel
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -44,7 +55,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Enable edge-to-edge and hide system UI
+        // Enable edge-to-edge display and fullscreen immersive mode
         enableEdgeToEdge()
         setupFullscreenMode()
 
@@ -57,33 +68,20 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun setupFullscreenMode() {
-        // Hide status bar and navigation bar for true fullscreen
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController.apply {
-            // Hide both status and navigation bars
             hide(WindowInsetsCompat.Type.statusBars())
             hide(WindowInsetsCompat.Type.navigationBars())
-
-            // Keep them hidden even when user swipes from edge
             systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
-        // Additional flags for older Android versions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.attributes.layoutInDisplayCutoutMode =
-                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Perform any cleanup here if needed
+        window.attributes.layoutInDisplayCutoutMode =
+            WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
     }
 }
 
-// New: a preview-friendly content composable that accepts a lambda for theme commands
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MainScreenContent(
@@ -92,7 +90,6 @@ internal fun MainScreenContent(
     val navController = rememberNavController()
 
     var showDigitalEffects by remember { mutableStateOf(true) }
-    var command by remember { mutableStateOf("") }
 
     // Overlay state management
     var showSidebar by remember { mutableStateOf(false) }
@@ -112,7 +109,7 @@ internal fun MainScreenContent(
     ) {
         AppNavGraph(navController = navController)
 
-        // Edge trigger zone for sidebar (left edge swipe)
+        // Left edge swipe trigger zone for sidebar
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -120,18 +117,25 @@ internal fun MainScreenContent(
                 .pointerInput(Unit) {
                     detectHorizontalDragGestures(
                         onDragStart = { offset ->
-                            // If drag starts from left edge (within 30dp), open sidebar
+                            // Open sidebar if drag starts from left edge (within 30dp)
                             if (offset.x < with(density) { 30.dp.toPx() }) {
                                 showSidebar = true
                             }
+                        },
+                        onHorizontalDrag = { change, dragAmount ->
+                            // Optional: allow dragging sidebar out further
+                            change.consume()
                         }
                     )
                 }
         )
 
-        // Overlay system - Always present, system-wide
-        Box(modifier = Modifier.fillMaxSize().zIndex(1000f)) {
-            // Aura Presence Overlay - Always visible, bottom-right
+        // Overlay system – system-wide floating elements
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .zIndex(1000f)) {
+
+            // Aura Presence Overlay – always visible, bottom-right
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -139,18 +143,21 @@ internal fun MainScreenContent(
             ) {
                 AuraPresenceOverlay(
                     onSuggestClicked = { suggestion ->
-                        // Navigate to relevant screen based on suggestion
                         when {
-                            suggestion.contains("theme") -> navController.navigate(NavDestination.ThemeEngine.route)
-                            suggestion.contains("firewall") -> navController.navigate(NavDestination.SystemOverrides.route)
-                            suggestion.contains("canvas") -> navController.navigate(NavDestination.Canvas.route)
-                            else -> navController.navigate(NavDestination.DirectChat.route)
+                            suggestion.contains("theme", ignoreCase = true) ->
+                                navController.navigate(NavDestination.ThemeEngine.route)
+                            suggestion.contains("firewall", ignoreCase = true) ->
+                                navController.navigate(NavDestination.SystemOverrides.route)
+                            suggestion.contains("canvas", ignoreCase = true) ->
+                                navController.navigate(NavDestination.Canvas.route)
+                            else ->
+                                navController.navigate(NavDestination.DirectChat.route)
                         }
                     }
                 )
             }
 
-            // Chat Bubble Menu - Floating, draggable
+            // Chat Bubble Menu – floating, draggable
             if (showChatBubble) {
                 Box(
                     modifier = Modifier
@@ -159,17 +166,15 @@ internal fun MainScreenContent(
                         .zIndex(1002f)
                 ) {
                     ChatBubbleMenu(
-                        onOpenChat = {
-                            navController.navigate(NavDestination.DirectChat.route)
-                        },
+                        onOpenChat = { navController.navigate(NavDestination.DirectChat.route) },
                         onToggleVoice = {
-                            // TODO: Implement voice toggle
+                            // TODO: Implement voice toggle (e.g., trigger Neural Whisper)
                         }
                     )
                 }
             }
 
-            // Agent Sidebar Menu - Slide out from left
+            // Agent Sidebar Menu – slide out from left
             AgentSidebarMenu(
                 isVisible = showSidebar,
                 onDismiss = { showSidebar = false },
@@ -189,6 +194,53 @@ internal fun MainScreenContent(
     }
 }
 
+/**
+ * Improved digital pixel/glitch effect modifier.
+ * Creates a subtle animated noise overlay that gives a "reactive intelligence" / matrix-like feel.
+ * Lightweight and performant.
+ */
+@Composable
+fun Modifier.digitalPixelEffect(): Modifier = composed {
+    val infiniteTransition = rememberInfiniteTransition(label = "pixelNoise")
+    val noiseOffset by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 10f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(800, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "noiseOffset"
+    )
+
+    this.then(
+        Modifier.drawBehind {
+            drawDigitalNoise(noiseOffset)
+        }
+    )
+}
+
+private fun DrawScope.drawDigitalNoise(offset: Float) {
+    val random = Random(offset.toInt())
+    val cellSize = 4f // Smaller = more dense glitch
+    val rows = (size.height / cellSize).toInt()
+    val cols = (size.width / cellSize).toInt()
+
+    for (row in 0..rows) {
+        for (col in 0..cols) {
+            val x = col * cellSize
+            val y = row * cellSize
+            val alpha = random.nextFloat() * 0.08f + 0.02f // subtle noise
+
+            drawRect(
+                color = Color.White.copy(alpha = alpha),
+                topLeft = Offset(x + random.nextFloat() * 2f, y + random.nextFloat() * 2f),
+                size = androidx.compose.ui.geometry.Size(cellSize, cellSize)
+            )
+        }
+    }
+}
+
+// Preview helper
 @Composable
 internal fun MainScreen(
     themeViewModel: ThemeViewModel
@@ -196,19 +248,10 @@ internal fun MainScreen(
     MainScreenContent(processThemeCommand = { themeViewModel.processThemeCommand(it) })
 }
 
-/**
- * Renders a preview of the main app screen inside AuraFrameFXTheme using a no-op theme command handler.
- *
- * Intended for IDE previews; it composes MainScreenContent with a placeholder lambda so the preview
- * can display the screen without requiring a real ThemeViewModel.
- */
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
     AuraFrameFXTheme {
-        // For preview, use a no-op lambda for the theme command handler
         MainScreenContent(processThemeCommand = { /* no-op in preview */ })
     }
 }
-
-fun Modifier.digitalPixelEffect(): Modifier = this

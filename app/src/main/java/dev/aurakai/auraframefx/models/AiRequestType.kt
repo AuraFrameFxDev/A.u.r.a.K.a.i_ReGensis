@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.models
 
 enum class AiRequestType {
     TEXT,
+    CHAT,
     QUESTION,
     IMAGE,
     AUDIO,

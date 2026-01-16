@@ -11,7 +11,7 @@ import kotlinx.serialization.json.buildJsonObject
 data class AiRequest(
     val query: String,
     val prompt: String = query, // Alias for query for backward compatibility
-    val type: String = "text",
+    val type: AiRequestType = AiRequestType.TEXT,
     val context: JsonObject = buildJsonObject {},
     val metadata: Map<String, String> = emptyMap(),
     val agentId: String? = null,

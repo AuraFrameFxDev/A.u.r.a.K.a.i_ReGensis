@@ -26,7 +26,6 @@ import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
  *
  * ✨ Now powered by AgentViewModel for real agent intelligence!
  */
-context(viewModel: AgentViewModel)
 /**
  * Composable screen that presents a one-on-one chat UI for selecting an AI agent and messaging it.
  *
@@ -34,11 +33,13 @@ context(viewModel: AgentViewModel)
  * to compose and send messages. Selecting an agent activates it via the ViewModel; sending a
  * message forwards the text to the ViewModel for processing.
  *
+ * @param viewModel The AgentViewModel that powers agent communication.
  * @param onNavigateBack Callback invoked when navigation back is requested (default is a no-op).
  */
 @Suppress("UNUSED_PARAMETER")
 @Composable
 fun DirectChatScreen(
+    viewModel: AgentViewModel,
     onNavigateBack: () -> Unit = {}
 ) {
     val agents = remember { AgentRepository.getAllAgents() }

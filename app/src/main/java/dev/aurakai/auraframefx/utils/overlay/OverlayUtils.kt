@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.RequiresApi
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 
 @Singleton
 class OverlayUtils @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val logger: AuraFxLogger
 ) {
     // Hidden Android overlay APIs are not referenced here; all methods use safe fallbacks.

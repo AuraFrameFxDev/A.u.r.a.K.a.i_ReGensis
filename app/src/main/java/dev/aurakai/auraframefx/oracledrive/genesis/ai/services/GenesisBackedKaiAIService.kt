@@ -1,12 +1,12 @@
 package dev.aurakai.auraframefx.oracledrive.genesis.ai.services
 
+import dagger.Lazy
 import dev.aurakai.auraframefx.events.CascadeEventBus
 import dev.aurakai.auraframefx.events.CascadeEvent
 import dev.aurakai.auraframefx.events.MemoryEvent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,10 +15,11 @@ import javax.inject.Singleton
 
 /**
  * Genesis-backed implementation of KaiAIService.
+ * Uses Lazy injection to break dependency cycle with GenesisBridgeService.
  */
 @Singleton
 class GenesisBackedKaiAIService @Inject constructor(
-    private val genesisBridgeService: GenesisBridgeService,
+    private val genesisBridgeService: Lazy<GenesisBridgeService>,
     private val logger: AuraFxLogger
 ) : KaiAIService {
 

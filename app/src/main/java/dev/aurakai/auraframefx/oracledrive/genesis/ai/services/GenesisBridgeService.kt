@@ -153,7 +153,7 @@ class GenesisBridgeService @Inject constructor(
                 fusionMode = fusionMode,
                 payload = mapOf(
                     "message" to request.query,
-                    "type" to request.type,
+                    "type" to request.type.name,
                     "priority" to "normal" // AiRequest doesn't have isUrgent
                 ),
                 context = buildContextMap(request)
@@ -328,7 +328,7 @@ class GenesisBridgeService @Inject constructor(
     private fun determinePersona(request: AiRequest): String {
         return when {
             // PRIORITY 1: Explicit Governance Checks (Sentinel Directive)
-            request.type == "governance_check" -> "genesis"
+            request.type.name.equals("governance_check", ignoreCase = true) -> "genesis"
 
             // PRIORITY 2: Keyword Routing
             request.query.contains("creative", ignoreCase = true) ||

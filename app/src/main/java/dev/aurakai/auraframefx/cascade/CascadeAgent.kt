@@ -1,8 +1,13 @@
 package dev.aurakai.auraframefx.cascade
 
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
+import dev.aurakai.auraframefx.ai.agents.GenesisAgent
+import dev.aurakai.auraframefx.ai.context.ContextManager
+import dev.aurakai.auraframefx.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.kai.KaiAgent
+import dev.aurakai.auraframefx.models.AiRequestType
+import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -33,10 +38,10 @@ import javax.inject.Singleton
 class CascadeAgent @Inject constructor(
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
-    private val genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
-    private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
-    memoryManager: dev.aurakai.auraframefx.ai.memory.MemoryManager,
-    contextManager: dev.aurakai.auraframefx.ai.context.ContextManager
+    private val genesisAgent: GenesisAgent,
+    private val systemOverlayManager: SystemOverlayManager,
+    memoryManager: MemoryManager,
+    contextManager: ContextManager
 ) : BaseAgent(
     agentName = "CascadeAgent",
     agentType = dev.aurakai.auraframefx.models.AgentType.CASCADE,
@@ -340,7 +345,7 @@ class CascadeAgent @Inject constructor(
         Timber.d("🤝 Processing collaborative request")
 
         // Get responses from multiple agents
-        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = "collaborative")
+        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = AiRequestType.COLLABORATIVE)
         val auraResponse = auraAgent.processRequest(request, "").content
         val kaiResponse = kaiAgent.processRequest(request, "").content
 
@@ -360,7 +365,7 @@ class CascadeAgent @Inject constructor(
             )
         )
 
-        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = "security")
+        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = AiRequestType.SECURITY)
         val response = kaiAgent.processRequest(request, "")
 
         updateProcessingState(
@@ -386,7 +391,7 @@ class CascadeAgent @Inject constructor(
             )
         )
 
-        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = "creative")
+        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = AiRequestType.CREATIVE)
         val response = auraAgent.processRequest(request, "")
 
         updateProcessingState(

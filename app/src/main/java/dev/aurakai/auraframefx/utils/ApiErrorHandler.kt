@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.utils
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.R
 import retrofit2.HttpException
 import java.io.IOException
@@ -15,7 +16,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class ApiErrorHandler @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
 ) {
     /**
      * Get a user-friendly error message from a throwable.

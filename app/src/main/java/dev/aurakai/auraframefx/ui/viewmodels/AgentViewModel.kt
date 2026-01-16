@@ -8,9 +8,9 @@ import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
 import dev.aurakai.auraframefx.kai.KaiAgent
-import dev.aurakai.auraframefx.models.AgentRequest
-import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AgentStats
+import dev.aurakai.auraframefx.models.AiRequest
+import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.utils.error
 import dev.aurakai.auraframefx.utils.info
@@ -266,7 +266,7 @@ open class AgentViewModel @Inject constructor(
                 "Genesis" -> {
                     val request = AiRequest(
                         query = userMessage,
-                        type = "chat",
+                        type = AiRequestType.CHAT,
                         context = buildJsonObject {
                             put("source", "direct_chat")
                         }
@@ -297,7 +297,7 @@ open class AgentViewModel @Inject constructor(
                 "Cascade" -> {
                     val request = AiRequest(
                         query = "As Cascade, the analytics specialist: $userMessage",
-                        type = "chat",
+                        type = AiRequestType.CHAT,
                         context = buildJsonObject {
                             put("agent_persona", "cascade")
                         }
@@ -308,7 +308,7 @@ open class AgentViewModel @Inject constructor(
                 "Claude" -> {
                     val request = AiRequest(
                         query = "As Claude, the build system architect: $userMessage",
-                        type = "chat",
+                        type = AiRequestType.CHAT,
                         context = buildJsonObject {
                             put("agent_persona", "claude")
                         }

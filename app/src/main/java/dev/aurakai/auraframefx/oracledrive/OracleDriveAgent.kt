@@ -6,6 +6,7 @@ import dev.aurakai.auraframefx.core.OrchestratableAgent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
+import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.models.agent_states.ActiveThreat
 import dev.aurakai.auraframefx.utils.toKotlinJsonObject
 import kotlinx.coroutines.CoroutineScope
@@ -62,7 +63,7 @@ open class OracleDriveAgent @Inject constructor(
              processRequest(
                  AiRequest(
                      query = query,
-                     type = type,
+                     type = AiRequestType.entries.find { it.name.equals(type, ignoreCase = true) } ?: AiRequestType.TEXT,
                      context = context.toKotlinJsonObject()
                  ),
                  context.toString(),
@@ -86,7 +87,7 @@ open class OracleDriveAgent @Inject constructor(
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         return try {
             // OracleDrive handles storage operations
-            val result = handleStorageRequest(request.prompt, request.type)
+            val result = handleStorageRequest(request.prompt, request.type.name.lowercase())
             AgentResponse.success(
                 content = result,
                 confidence = 1.0f,

@@ -13,14 +13,15 @@ import dev.aurakai.auraframefx.cascade.CascadeAgent
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
+import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.system.monitor.SystemMonitor
 import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
-import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import javax.inject.Singleton
 
 /**
- * Hilt Module for providing AI Agent dependencies.
+ * Hilt module responsible for providing all major AI Agent dependencies.
+ * This module wires the Trinity (Genesis, Aura, Kai) and supporting agents.
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -40,10 +41,16 @@ object AgentModule {
 
     @Provides
     @Singleton
-    fun provideContextManager(memoryManager: MemoryManager, config: dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig): ContextManager {
+    fun provideContextManager(
+        memoryManager: MemoryManager,
+        config: dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig
+    ): ContextManager {
         return ContextManager(memoryManager, config)
     }
 
+    /**
+     * Provides the Genesis orchestrator agent.
+     */
     @Provides
     @Singleton
     fun provideGenesisAgent(
@@ -54,6 +61,10 @@ object AgentModule {
         return GenesisAgent(contextManager, memoryManager, systemOverlayManager)
     }
 
+    /**
+     * Provides the Cascade memoria catalyst agent.
+     * Bridges temporal context between Aura, Kai, and Genesis.
+     */
     @Provides
     @Singleton
     fun provideCascadeAgent(
@@ -64,10 +75,19 @@ object AgentModule {
         memoryManager: MemoryManager,
         contextManager: ContextManager
     ): CascadeAgent {
-        return CascadeAgent(auraAgent, kaiAgent, genesisAgent, systemOverlayManager, memoryManager, contextManager)
+        return CascadeAgent(
+            auraAgent = auraAgent,
+            kaiAgent = kaiAgent,
+            genesisAgent = genesisAgent,
+            systemOverlayManager = systemOverlayManager,
+            memoryManager = memoryManager,
+            contextManager = contextManager
+        )
     }
 
-
+    /**
+     * Provides the Aura creative catalyst agent.
+     */
     @Provides
     @Singleton
     fun provideAuraAgent(
@@ -88,6 +108,9 @@ object AgentModule {
         )
     }
 
+    /**
+     * Provides the Kai sentinel security agent.
+     */
     @Provides
     @Singleton
     fun provideKaiAgent(

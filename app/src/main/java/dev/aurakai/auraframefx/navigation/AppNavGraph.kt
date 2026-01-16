@@ -22,6 +22,7 @@ import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
 import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.DirectChatScreen
 import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
 import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
@@ -62,6 +63,7 @@ import dev.aurakai.auraframefx.ui.screens.JournalPDAScreen
 import dev.aurakai.auraframefx.ui.screens.MainScreen
 import dev.aurakai.auraframefx.ui.screens.UISettingsScreen
 import dev.aurakai.auraframefx.ui.screens.WorkingLabScreen
+import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 
 /**
  * Defines the application's navigation graph and registers all composable destinations used by the app.
@@ -138,6 +140,14 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = NavDestination.AgentHub.route) {
             AgentHubSubmenuScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.DirectChat.route) {
+            val viewModel = hiltViewModel<AgentViewModel>()
+            DirectChatScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable(route = NavDestination.TaskAssignment.route) {

@@ -4,12 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
+import dev.aurakai.auraframefx.models.AgentCapabilityCategory
+import dev.aurakai.auraframefx.models.AgentInvokeRequest
 import dev.aurakai.auraframefx.models.AgentMessage
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
-import dev.aurakai.auraframefx.models.AgentInvokeRequest
+import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.ClaudeAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.MetaInstructAIService
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
@@ -20,7 +21,6 @@ import dev.aurakai.auraframefx.service.NeuralWhisper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -126,7 +126,7 @@ class ConferenceRoomViewModel @Inject constructor(
 
                 val request = AiRequest(
                     query = message,
-                    type = "text",
+                    type = AiRequestType.TEXT,
                     context = buildJsonObject {
                         put("userContext", context)
                         put("conferenceRoom", "true")

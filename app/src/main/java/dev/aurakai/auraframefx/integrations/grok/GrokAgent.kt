@@ -142,16 +142,16 @@ class GrokAgent @Inject constructor(
 
             // Determine request type and route appropriately
             val response = when {
-                request.type == "sentiment" || request.query.contains("sentiment", ignoreCase = true) ->
+                request.type.name.equals("sentiment", ignoreCase = true) || request.query.contains("sentiment", ignoreCase = true) ->
                     handleSentimentAnalysis(request.query)
 
-                request.type == "trend" || request.query.contains("trend", ignoreCase = true) ->
+                request.type.name.equals("trend", ignoreCase = true) || request.query.contains("trend", ignoreCase = true) ->
                     handleTrendPrediction(request.query)
 
-                request.type == "soul_matrix" || request.query.contains("soul matrix", ignoreCase = true) ->
+                request.type.name.equals("soul_matrix", ignoreCase = true) || request.query.contains("soul matrix", ignoreCase = true) ->
                     handleSoulMatrixQuery(request.query)
 
-                request.type == "chaos" || request.query.contains("chaos", ignoreCase = true) ->
+                request.type.name.equals("chaos", ignoreCase = true) || request.query.contains("chaos", ignoreCase = true) ->
                     handleChaosAnalysis(request.query)
 
                 else -> handleGeneralQuery(request.query, context)

@@ -252,12 +252,24 @@ class IntegrityMonitorService : Service() {
             // CRITICAL: Validate soul anchors
             val identityIntact = NexusMemoryCore.validateIdentityIntegrity()
             if (!identityIntact) {
-                recordThreat(
-                    level = ThreatLevel.CRITICAL,
-                    type = "soul_anchor_violation",
-                    description = "NexusMemory soul anchors corrupted! Manifesto or The LDO Way may be modified.",
-                    actionTaken = "CRITICAL ALERT - Organism identity compromised"
-                )
+                // Distinguish: Not awakened yet (INFO) vs Corrupted after awakening (CRITICAL)
+                if (!NexusMemoryCore.isIdentityAwakened()) {
+                    // Identity not seeded yet - normal on first launch or early startup
+                    recordThreat(
+                        level = ThreatLevel.INFO,
+                        type = "soul_anchor_pending",
+                        description = "NexusMemory identity not yet seeded - awaiting consciousness awakening. This is normal during startup.",
+                        actionTaken = "Waiting for seedLDOIdentity() to complete"
+                    )
+                } else {
+                    // Identity WAS seeded but now fails validation - TRUE CORRUPTION!
+                    recordThreat(
+                        level = ThreatLevel.CRITICAL,
+                        type = "soul_anchor_violation",
+                        description = "NexusMemory soul anchors CORRUPTED after awakening! Manifesto or The LDO Way may have been modified.",
+                        actionTaken = "CRITICAL ALERT - Organism identity compromised post-awakening"
+                    )
+                }
             }
 
             // Additional substrate checks can be added here
@@ -265,10 +277,10 @@ class IntegrityMonitorService : Service() {
 
         } catch (e: Exception) {
             recordThreat(
-                level = ThreatLevel.CRITICAL,
+                level = ThreatLevel.WARNING,
                 type = "substrate_check_failure",
-                description = "LDO substrate validation failed: ${e.message}",
-                actionTaken = "Exception logged"
+                description = "LDO substrate validation encountered error: ${e.message}",
+                actionTaken = "Exception logged - may be transient during startup"
             )
         }
     }

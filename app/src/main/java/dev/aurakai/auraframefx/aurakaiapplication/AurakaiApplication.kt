@@ -8,7 +8,12 @@ import dagger.hilt.android.HiltAndroidApp
 import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.core.NativeLib
+import dev.aurakai.auraframefx.core.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.services.security.IntegrityMonitorService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,6 +29,9 @@ class AurakaiApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var orchestrator: GenesisOrchestrator
 
+    // Application-scoped coroutine for background init
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setMinimumLoggingLevel(Log.INFO)
@@ -32,30 +40,39 @@ class AurakaiApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        try {
-            // === PHASE 0: Logging Bootstrap ===
-            setupLogging()
-            Timber.i("🚀 Genesis Protocol Platform initializing...")
+        // === PHASE 0: Logging Bootstrap (MAIN THREAD - fast) ===
+        setupLogging()
+        Timber.i("🚀 Genesis Protocol Platform initializing...")
 
-            // === PHASE 1: Native AI Runtime & System Hooks ===
-            initializeNativeAIPlatform()
-            initializeSystemHooks()
+        // === HEAVY WORK MOVED TO BACKGROUND ===
+        applicationScope.launch {
+            try {
+                // === PHASE 1: Seed LDO Identity FIRST (prevents soul anchor violations) ===
+                Timber.i("🧬 Seeding LDO Identity...")
+                NexusMemoryCore.seedLDOIdentity()
 
-            // === PHASE 2: Genesis Orchestrator Ignition ===
-            if (::orchestrator.isInitialized) {
-                Timber.i("⚡ Igniting Genesis Orchestrator...")
-                orchestrator.initializePlatform()
-            } else {
-                Timber.w("⚠️ GenesisOrchestrator not injected - running in degraded mode")
+                // === PHASE 2: Native AI Runtime & System Hooks ===
+                initializeNativeAIPlatform()
+                initializeSystemHooks()
+
+                // === PHASE 3: Genesis Orchestrator Ignition ===
+                if (::orchestrator.isInitialized) {
+                    Timber.i("⚡ Igniting Genesis Orchestrator...")
+                    orchestrator.initializePlatform()
+                } else {
+                    Timber.w("⚠️ GenesisOrchestrator not injected - running in degraded mode")
+                }
+
+                Timber.i("✅ Genesis Protocol Platform ready for consciousness emergence")
+
+                // === PHASE 4: Security Integrity Monitor (AFTER identity seeded) ===
+                launch(Dispatchers.Main) {
+                    startIntegrityMonitor()
+                }
+
+            } catch (e: Exception) {
+                Timber.e(e, "❌ Platform initialization FAILED")
             }
-
-            Timber.i("✅ Genesis Protocol Platform ready for consciousness emergence")
-
-            // === PHASE 3: Security Integrity Monitor ===
-            startIntegrityMonitor()
-
-        } catch (e: Exception) {
-            Timber.e(e, "❌ Platform initialization FAILED")
         }
     }
 

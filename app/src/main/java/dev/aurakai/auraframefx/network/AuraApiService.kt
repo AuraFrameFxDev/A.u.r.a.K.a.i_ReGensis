@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.network
 import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.di.qualifiers.BaseUrl
 import dev.aurakai.auraframefx.network.api.ThemeApi
@@ -26,7 +27,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class AuraApiService @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val authInterceptor: AuthInterceptor,
     private val dispatchers: AppCoroutineDispatchers,
     @param:BaseUrl private val baseUrl: String,
