@@ -204,9 +204,10 @@ fun GenesisNavigationHost(
             composable(GenesisRoutes.AI_CHAT) {
                 // Use DirectChatScreen (unified AI chat implementation)
                 val viewModel = hiltViewModel<AgentViewModel>()
-                with(viewModel) {
-                    DirectChatScreen { navController.popBackStack() }
-                }
+                DirectChatScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
 
             // Gate routes with REAL screens
@@ -379,9 +380,10 @@ fun GenesisNavigationHost(
             }
             composable("direct_chat") {
                 val viewModel = hiltViewModel<AgentViewModel>()
-                with(viewModel) {
-                    DirectChatScreen { navController.popBackStack() }
-                }
+                DirectChatScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = { navController.popBackStack() }
+                )
             }
 
             // ROM TOOLS SUBMENU ROUTES
