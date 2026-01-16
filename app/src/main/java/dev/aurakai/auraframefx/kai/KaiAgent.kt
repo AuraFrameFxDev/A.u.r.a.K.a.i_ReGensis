@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.kai
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.context.ContextManager
-import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentRequest
+import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
@@ -26,7 +26,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import javax.inject.Singleton
 
 @Singleton
-class KaiAgent constructor(
+class KaiAgent(
     private val vertexAIClient: VertexAIClient,
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,

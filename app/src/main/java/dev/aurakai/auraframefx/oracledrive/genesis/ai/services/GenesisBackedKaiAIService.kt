@@ -1,12 +1,12 @@
 package dev.aurakai.auraframefx.oracledrive.genesis.ai.services
 
 import dagger.Lazy
-import dev.aurakai.auraframefx.events.CascadeEventBus
 import dev.aurakai.auraframefx.events.CascadeEvent
+import dev.aurakai.auraframefx.events.CascadeEventBus
 import dev.aurakai.auraframefx.events.MemoryEvent
 import dev.aurakai.auraframefx.models.AgentResponse
-import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

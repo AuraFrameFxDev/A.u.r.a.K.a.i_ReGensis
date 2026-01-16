@@ -231,7 +231,12 @@ class GenesisOrchestrator @Inject constructor(
             is dev.aurakai.auraframefx.models.AgentMessage -> {
                 dev.aurakai.auraframefx.models.AiRequest(
                     query = message.content,
-                    type = dev.aurakai.auraframefx.models.AiRequestType.entries.find { it.name.equals(message.type, ignoreCase = true) } ?: dev.aurakai.auraframefx.models.AiRequestType.TEXT,
+                    type = dev.aurakai.auraframefx.models.AiRequestType.entries.find {
+                        it.name.equals(
+                            message.type,
+                            ignoreCase = true
+                        )
+                    } ?: dev.aurakai.auraframefx.models.AiRequestType.TEXT,
                     context = kotlinx.serialization.json.buildJsonObject {
                         put("from", message.from)
                         put("priority", message.priority)

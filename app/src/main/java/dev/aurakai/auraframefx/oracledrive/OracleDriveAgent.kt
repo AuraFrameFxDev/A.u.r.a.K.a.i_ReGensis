@@ -63,7 +63,8 @@ open class OracleDriveAgent @Inject constructor(
              processRequest(
                  AiRequest(
                      query = query,
-                     type = AiRequestType.entries.find { it.name.equals(type, ignoreCase = true) } ?: AiRequestType.TEXT,
+                     type = AiRequestType.entries.find { it.name.equals(type, ignoreCase = true) }
+                         ?: AiRequestType.TEXT,
                      context = context.toKotlinJsonObject()
                  ),
                  context.toString(),

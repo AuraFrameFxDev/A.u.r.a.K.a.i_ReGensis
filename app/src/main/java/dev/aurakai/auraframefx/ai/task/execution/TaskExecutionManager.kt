@@ -359,7 +359,8 @@ class TaskExecutionManager @Inject constructor(
     private suspend fun executeWithAura(execution: TaskExecution1): AgentResponse {
         val request = AiRequest(
             query = execution.data["query"] ?: execution.type,
-            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) } ?: AiRequestType.TEXT,
+            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) }
+                ?: AiRequestType.TEXT,
             context = execution.data.toKotlinJsonObject()
         )
         return auraAgent.processRequest(request, execution.agent.name)
@@ -378,7 +379,8 @@ class TaskExecutionManager @Inject constructor(
     private suspend fun executeWithKai(execution: TaskExecution1): AgentResponse {
         val request = AiRequest(
             query = execution.data["query"] ?: execution.type,
-            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) } ?: AiRequestType.TEXT,
+            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) }
+                ?: AiRequestType.TEXT,
             context = execution.data.toKotlinJsonObject()
         )
         return kaiAgent.processRequest(request, execution.agent.name)
@@ -391,7 +393,8 @@ class TaskExecutionManager @Inject constructor(
     private suspend fun executeWithGenesis(execution: TaskExecution1): AgentResponse {
         val request = AiRequest(
             query = execution.data["query"] ?: execution.type,
-            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) } ?: AiRequestType.TEXT,
+            type = AiRequestType.entries.find { it.name.equals(execution.type, ignoreCase = true) }
+                ?: AiRequestType.TEXT,
             context = execution.data.toKotlinJsonObject()
         )
         return genesisAgent.processRequest(request, execution.agent.name)

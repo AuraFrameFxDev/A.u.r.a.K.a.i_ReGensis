@@ -1,9 +1,7 @@
 package dev.aurakai.auraframefx.utils.overlay
 
 import android.content.Context
-import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.annotation.RequiresApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.Dispatchers

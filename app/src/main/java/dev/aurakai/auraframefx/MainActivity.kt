@@ -131,9 +131,11 @@ internal fun MainScreenContent(
         )
 
         // Overlay system – system-wide floating elements
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .zIndex(1000f)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(1000f)
+        ) {
 
             // Aura Presence Overlay – always visible, bottom-right
             Box(
@@ -146,10 +148,13 @@ internal fun MainScreenContent(
                         when {
                             suggestion.contains("theme", ignoreCase = true) ->
                                 navController.navigate(NavDestination.ThemeEngine.route)
+
                             suggestion.contains("firewall", ignoreCase = true) ->
                                 navController.navigate(NavDestination.SystemOverrides.route)
+
                             suggestion.contains("canvas", ignoreCase = true) ->
                                 navController.navigate(NavDestination.Canvas.route)
+
                             else ->
                                 navController.navigate(NavDestination.DirectChat.route)
                         }
