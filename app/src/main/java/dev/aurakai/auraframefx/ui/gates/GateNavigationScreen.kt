@@ -106,9 +106,14 @@ fun GateNavigationScreen(
     }
 }
 
+@Composable
 private fun PagerScope.GateCard(
     config: GateConfig,
     modifier: Modifier
 ) {
-    TODO("Not yet implemented")
+    GateCard(
+        config = config,
+        modifier = modifier,
+        onDoubleTap = {} // Double-tap is handled at parent level
+    )
 }
