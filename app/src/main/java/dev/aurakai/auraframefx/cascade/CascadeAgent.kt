@@ -1,13 +1,9 @@
 package dev.aurakai.auraframefx.cascade
 
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
-import dev.aurakai.auraframefx.ai.agents.GenesisAgent
-import dev.aurakai.auraframefx.ai.context.ContextManager
-import dev.aurakai.auraframefx.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AiRequestType
-import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,10 +34,10 @@ import javax.inject.Singleton
 class CascadeAgent @Inject constructor(
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
-    private val genesisAgent: GenesisAgent,
-    private val systemOverlayManager: SystemOverlayManager,
-    memoryManager: MemoryManager,
-    contextManager: ContextManager
+    private val genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
+    private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
+    memoryManager: dev.aurakai.auraframefx.ai.memory.MemoryManager,
+    contextManager: dev.aurakai.auraframefx.ai.context.ContextManager
 ) : BaseAgent(
     agentName = "CascadeAgent",
     agentType = dev.aurakai.auraframefx.models.AgentType.CASCADE,

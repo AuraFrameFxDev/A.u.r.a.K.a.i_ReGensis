@@ -85,9 +85,7 @@ object AgentModule {
         )
     }
 
-    /**
-     * Provides the Aura creative catalyst agent.
-     */
+
     @Provides
     @Singleton
     fun provideAuraAgent(

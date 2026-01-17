@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.screens.MainScreen
 
 @Composable
 fun AppNavGraph(
@@ -24,10 +23,9 @@ fun AppNavGraph(
                 onNavigateToOracleDrive = {
                     navController.navigate(NavDestination.OracleDrive.route)
                 },
-                onNavigateToSettings = {
-                    navController.navigate(NavDestination.Settings.route)
-                }
-            )
+            ) {
+                navController.navigate(NavDestination.Settings.route)
+            }
         }
         composable(NavDestination.AgentNexus.route) { dev.aurakai.auraframefx.aura.ui.AgentNexusScreen() }
         composable(NavDestination.OracleDrive.route) { dev.aurakai.auraframefx.genesis.oracledrive.ui.OracleDriveScreen() }
@@ -41,4 +39,12 @@ fun AppNavGraph(
         composable(NavDestination.FusionMode.route) { /* FusionModeScreen placeholder */ }
         composable(NavDestination.CONFERENCE_ROOM) { /* ConferenceRoomScreen placeholder */ }
     }
+}
+
+private fun MainScreen(
+    onNavigateToAgentNexus: () -> Unit,
+    onNavigateToOracleDrive: () -> Unit,
+    onNavigateToSettings: () -> Unit
+) {
+    TODO("Not yet implemented")
 }

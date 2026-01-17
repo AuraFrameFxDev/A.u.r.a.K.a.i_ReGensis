@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -59,7 +60,6 @@ import dev.aurakai.auraframefx.ui.screens.EcosystemMenuScreen
 import dev.aurakai.auraframefx.ui.screens.HolographicMenuScreen
 import dev.aurakai.auraframefx.ui.screens.IntroScreen
 import dev.aurakai.auraframefx.ui.screens.JournalPDAScreen
-import dev.aurakai.auraframefx.ui.screens.MainScreen
 import dev.aurakai.auraframefx.ui.screens.UISettingsScreen
 import dev.aurakai.auraframefx.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
@@ -111,7 +111,7 @@ fun AppNavGraph(navController: NavHostController) {
             MainScreen(
                 onNavigateToAgentNexus = { navController.navigate(NavDestination.AgentHub.route) },
                 onNavigateToOracleDrive = { navController.navigate(NavDestination.OracleDrive.route) },
-                onNavigateToSettings = { navController.navigate(NavDestination.UISettings.route) }
+                onNavigateToSettings = { navController.navigate(NavDestination.UISettings.route) },
             )
         }
 
@@ -347,4 +347,12 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
     }
+}
+
+private fun AnimatedContentScope.MainScreen(
+    onNavigateToAgentNexus: () -> Unit,
+    onNavigateToOracleDrive: () -> Unit,
+    onNavigateToSettings: () -> Unit
+) {
+    TODO("Not yet implemented")
 }

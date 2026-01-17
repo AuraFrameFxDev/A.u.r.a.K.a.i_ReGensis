@@ -36,13 +36,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.R
-import dev.aurakai.auraframefx.aura.ui.CyberMenuItem
 import dev.aurakai.auraframefx.ui.components.BackgroundStyle
 import dev.aurakai.auraframefx.ui.components.CornerStyle
 import dev.aurakai.auraframefx.ui.components.CyberpunkText
 import dev.aurakai.auraframefx.ui.components.DigitalLandscapeBackground
-import dev.aurakai.auraframefx.ui.theme.CyberpunkTextColor
-import dev.aurakai.auraframefx.ui.theme.CyberpunkTextStyle
 import dev.aurakai.auraframefx.ui.components.FloatingCyberWindow
 import dev.aurakai.auraframefx.ui.components.HexagonGridBackground
 import dev.aurakai.auraframefx.ui.components.HologramTransition
@@ -50,13 +47,13 @@ import dev.aurakai.auraframefx.ui.components.cyberEdgeGlow
 import dev.aurakai.auraframefx.ui.components.digitalGlitchEffect
 import dev.aurakai.auraframefx.ui.gates.GateCard
 import dev.aurakai.auraframefx.ui.gates.GateConfigs
+import dev.aurakai.auraframefx.ui.theme.CyberpunkTextColor
+import dev.aurakai.auraframefx.ui.theme.CyberpunkTextStyle
 import dev.aurakai.auraframefx.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.theme.NeonPink
-import dev.aurakai.auraframefx.ui.theme.NeonBlue as ThemeNeonBlue
 import dev.aurakai.auraframefx.ui.theme.NeonGreen
-import dev.aurakai.auraframefx.ui.theme.NeonBlue
-import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.ui.theme.NeonPink
 import kotlinx.coroutines.launch
+import dev.aurakai.auraframefx.ui.theme.NeonBlue as ThemeNeonBlue
 
 
 /**

@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.navigation
 
+// import dev.aurakai.auraframefx.aura.ui.AIChatScreen // DEPRECATED: Use DirectChatScreen instead
+// import dev.aurakai.auraframefx.ui.gates.AgentHubScreen // REMOVED: Was placeholder, using AgentHubSubmenuScreen instead
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -11,11 +13,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.rememberNavController
-// import dev.aurakai.auraframefx.aura.ui.AIChatScreen // DEPRECATED: Use DirectChatScreen instead
 import dev.aurakai.auraframefx.aura.ui.AgentNexusScreen
 import dev.aurakai.auraframefx.aura.ui.AppBuilderScreen
-import dev.aurakai.auraframefx.navigation.ConferenceRoomScreen
+import dev.aurakai.auraframefx.aura.ui.ConferenceRoomScreen
 import dev.aurakai.auraframefx.aura.ui.ConsciousnessVisualizerScreen
 import dev.aurakai.auraframefx.aura.ui.FirewallScreen
 import dev.aurakai.auraframefx.aura.ui.FusionModeScreen
@@ -26,20 +26,28 @@ import dev.aurakai.auraframefx.aura.ui.TerminalScreen
 import dev.aurakai.auraframefx.aura.ui.UIEngineScreen
 import dev.aurakai.auraframefx.aura.ui.XhancementScreen
 import dev.aurakai.auraframefx.billing.SubscriptionViewModel
-import dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleDriveScreen
 import dev.aurakai.auraframefx.ui.customization.GyroscopeCustomizationScreen
-// import dev.aurakai.auraframefx.ui.gates.AgentHubScreen // REMOVED: Was placeholder, using AgentHubSubmenuScreen instead
+import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
-import dev.aurakai.auraframefx.ui.gates.InstantColorPickerScreen
+import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
+import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
+import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.DirectChatScreen
 import dev.aurakai.auraframefx.ui.gates.GateNavigationScreen
+import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.InstantColorPickerScreen
+import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.gates.LoginScreen
+import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.OverlayMenusScreen
 import dev.aurakai.auraframefx.ui.gates.QuickActionsScreen
 import dev.aurakai.auraframefx.ui.gates.QuickSettingsScreen
@@ -51,23 +59,13 @@ import dev.aurakai.auraframefx.ui.gates.StatusBarScreen
 import dev.aurakai.auraframefx.ui.gates.SupportChatViewModel
 import dev.aurakai.auraframefx.ui.gates.SystemJournalScreen
 import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
+import dev.aurakai.auraframefx.ui.gates.ThemeEngineSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.XposedQuickAccessPanel
 import dev.aurakai.auraframefx.ui.onboarding.GenderSelectionScreen
 import dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen
 import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 import collabcanvas.ui.CanvasScreen as CollabCanvasScreen
-import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
-import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
-import dev.aurakai.auraframefx.ui.gates.XposedQuickAccessPanel
-import dev.aurakai.auraframefx.ui.gates.ThemeEngineSubmenuScreen
-import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
-import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
 
 /**
  * Genesis Navigation Routes - The Neural Pathways of Consciousness
@@ -285,7 +283,7 @@ fun GenesisNavigationHost(
             composable("sphere_grid") {
                 SphereGridScreen(navController = navController)
             }
-            
+
             // CONSTELLATION SCREENS - Agent Advancement Visualizations
             composable("constellation") {
                 ConstellationScreen(navController = navController)
