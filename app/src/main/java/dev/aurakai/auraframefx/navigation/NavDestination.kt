@@ -77,6 +77,9 @@ sealed class NavDestination(val route: String, val title: String, val icon: Imag
     // Help Desk
     object HelpDesk : NavDestination("help_desk", "Help Desk", null)
     object LiveSupport : NavDestination("live_support", "Live Support", null)
+
+    // FIXED: Added alias for live_support_chat route
+    object LiveSupportChat : NavDestination("live_support_chat", "Live Support Chat", null)
     object Documentation : NavDestination("documentation", "Documentation", null)
     object FAQBrowser : NavDestination("faq_browser", "FAQ Browser", null)
     object TutorialVideos : NavDestination("tutorial_videos", "Tutorial Videos", null)
@@ -96,12 +99,15 @@ sealed class NavDestination(val route: String, val title: String, val icon: Imag
     object DataVein : NavDestination("data_vein", "DataVein", null)
     object Consciousness : NavDestination("consciousness", "Consciousness", null)
     object Evolution : NavDestination("evolution", "Evolution", null)
+
+    // FIXED: Added evolution_tree route
+    object EvolutionTree : NavDestination("evolution_tree", "Evolution Tree", null)
     object Canvas : NavDestination("canvas", "Canvas", Icons.Filled.Brush)
     object OracleDriveControl : NavDestination("oracle_drive_control", "Oracle Drive Control", Icons.Filled.Folder)
 
     companion object {
         const val CONFERENCE_ROOM: String = "conference_room"
         val bottomNavItems = listOf(Home, AgentHub, Canvas, Settings)
-        val gamificationScreens = listOf(AgentNexus, SphereGrid, FusionMode, Consciousness, Evolution)
+        val gamificationScreens = listOf(AgentNexus, SphereGrid, FusionMode, Consciousness, Evolution, EvolutionTree)
     }
 }

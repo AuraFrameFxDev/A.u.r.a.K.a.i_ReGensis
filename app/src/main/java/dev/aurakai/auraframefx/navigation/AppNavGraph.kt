@@ -346,6 +346,29 @@ fun AppNavGraph(navController: NavHostController) {
                 onGenderSelected = { navController.popBackStack() }
             )
         }
+
+        // ==================== MISSING ROUTES FIX ====================
+
+        // Agent Nexus - Legacy gamification screen
+        composable(route = NavDestination.AgentNexus.route) {
+            // Redirect to AgentHub for now
+            AgentHubSubmenuScreen(navController = navController)
+        }
+
+        // Evolution Tree - Agent advancement visualization  
+        composable(route = NavDestination.EvolutionTree.route) {
+            // Redirect to Constellation for now
+            ConstellationScreen(navController = navController)
+        }
+
+        // Live Support Chat (alternate route name)
+        composable(route = NavDestination.LiveSupportChat.route) {
+            val viewModel = hiltViewModel<SupportChatViewModel>()
+            LiveSupportChatScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
     }
 }
 
