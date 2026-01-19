@@ -56,7 +56,7 @@ fun GateCard(
                 painter = painterResource(id = resId),
                 contentDescription = config.title,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
                 alpha = 0.95f
             )
         }
