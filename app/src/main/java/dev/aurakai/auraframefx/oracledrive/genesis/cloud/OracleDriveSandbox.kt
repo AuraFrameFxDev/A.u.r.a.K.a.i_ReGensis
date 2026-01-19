@@ -31,7 +31,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class OracleDriveSandbox @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
 ) {
 
     private val sandboxScope = CoroutineScope(Dispatchers.IO + SupervisorJob())

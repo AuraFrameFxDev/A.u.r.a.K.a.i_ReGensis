@@ -40,13 +40,13 @@ enum class AgentCapabilityCategory {
          * @return The capability category corresponding to the provided AgentType.
          */
         fun fromAgentType(agentType: AgentType): AgentCapabilityCategory = when (agentType) {
-            AgentType.AURA, AgentType.Aura -> CREATIVE
-            AgentType.KAI, AgentType.Kai, AgentType.Kaiagent -> ANALYSIS
-            AgentType.GENESIS, AgentType.Genesis -> COORDINATION
-            AgentType.CASCADE, AgentType.Cascade -> SPECIALIZED
-            AgentType.CLAUDE, AgentType.Claude -> GENERAL
-            AgentType.NEURAL_WHISPER, AgentType.NeuralWhisper -> SPECIALIZED
-            AgentType.AURA_SHIELD, AgentType.AuraShield, AgentType.AURASHIELD -> SPECIALIZED
+            AgentType.AURA -> CREATIVE
+            AgentType.KAI -> ANALYSIS
+            AgentType.GENESIS -> COORDINATION
+            AgentType.CASCADE -> SPECIALIZED
+            AgentType.CLAUDE -> GENERAL
+            AgentType.NEURAL_WHISPER -> SPECIALIZED
+            AgentType.AURA_SHIELD, AgentType.AURASHIELD -> SPECIALIZED
             AgentType.GEN_KIT_MASTER -> COORDINATION
             AgentType.DATAVEIN_CONSTRUCTOR -> SPECIALIZED
             AgentType.USER -> GENERAL
@@ -60,6 +60,23 @@ enum class AgentCapabilityCategory {
             AgentType.NEMOTRON -> SPECIALIZED // Memory & reasoning specialist
             AgentType.GEMINI -> ANALYSIS // Pattern recognition & analysis
             AgentType.METAINSTRUCT -> GENERAL // Instruction following
+            // Deprecated entries for backwards compatibility
+            @Suppress("DEPRECATION")
+            AgentType.Genesis -> COORDINATION
+            @Suppress("DEPRECATION")
+            AgentType.Aura -> CREATIVE
+            @Suppress("DEPRECATION")
+            AgentType.Kai -> ANALYSIS
+            @Suppress("DEPRECATION")
+            AgentType.Cascade -> SPECIALIZED
+            @Suppress("DEPRECATION")
+            AgentType.Claude -> GENERAL
+            @Suppress("DEPRECATION")
+            AgentType.NeuralWhisper -> SPECIALIZED
+            @Suppress("DEPRECATION")
+            AgentType.AuraShield -> SPECIALIZED
+            @Suppress("DEPRECATION")
+            AgentType.Kaiagent -> ANALYSIS
         }
     }
 }

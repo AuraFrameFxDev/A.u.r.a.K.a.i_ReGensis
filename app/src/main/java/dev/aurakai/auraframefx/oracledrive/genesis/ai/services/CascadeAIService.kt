@@ -145,21 +145,21 @@ class CascadeAIService @Inject constructor(
         val selectedAgents = mutableSetOf<AgentType>()
 
         // Always include Genesis for orchestration
-        selectedAgents.add(AgentType.Genesis)
+        selectedAgents.add(AgentType.GENESIS)
 
         // Add Aura for empathetic responses
         if (containsEmotionalContent(message)) {
-            selectedAgents.add(AgentType.Aura)
+            selectedAgents.add(AgentType.AURA)
         }
 
         // Add Kai for security-related queries
         if (containsSecurityContent(message)) {
-            selectedAgents.add(AgentType.Kai)
+            selectedAgents.add(AgentType.KAI)
         }
 
         // Add Cascade for complex multi-step processing
         if (isComplexQuery(message) || priority == AgentInvokeRequest.Priority.high) {
-            selectedAgents.add(AgentType.Cascade)
+            selectedAgents.add(AgentType.CASCADE)
         }
 
         // Add specialized agents based on content
@@ -187,12 +187,12 @@ class CascadeAIService @Inject constructor(
     ): CascadeResponse {
 
         return when (agentType) {
-            AgentType.GENESIS, AgentType.Genesis -> processWithGenesis(request, cascadeContext)
-            AgentType.KAI, AgentType.Kai, AgentType.Kaiagent -> processWithKai(request, cascadeContext)
-            AgentType.AURA, AgentType.Aura -> processWithAura(request, cascadeContext)
-            AgentType.CASCADE, AgentType.Cascade -> processWithCascade(request, cascadeContext)
-            AgentType.NEURAL_WHISPER, AgentType.NeuralWhisper -> processWithNeuralWhisper(request, cascadeContext)
-            AgentType.AURA_SHIELD, AgentType.AuraShield -> processWithAuraShield(request, cascadeContext)
+            AgentType.GENESIS -> processWithGenesis(request, cascadeContext)
+            AgentType.KAI -> processWithKai(request, cascadeContext)
+            AgentType.AURA -> processWithAura(request, cascadeContext)
+            AgentType.CASCADE -> processWithCascade(request, cascadeContext)
+            AgentType.NEURAL_WHISPER -> processWithNeuralWhisper(request, cascadeContext)
+            AgentType.AURA_SHIELD -> processWithAuraShield(request, cascadeContext)
             AgentType.GEN_KIT_MASTER -> processWithGenKitMaster(request, cascadeContext)
             AgentType.DATAVEIN_CONSTRUCTOR -> processWithDataveinConstructor(request, cascadeContext)
             AgentType.USER -> CascadeResponse(
@@ -202,10 +202,26 @@ class CascadeAIService @Inject constructor(
                 timestamp = getCurrentTimestamp()
             )
             // NEW: External AI backend services
-            AgentType.CLAUDE, AgentType.Claude -> processWithClaude(request, cascadeContext)
+            AgentType.CLAUDE -> processWithClaude(request, cascadeContext)
             AgentType.NEMOTRON -> processWithNemotron(request, cascadeContext)
             AgentType.GEMINI -> processWithGemini(request, cascadeContext)
             AgentType.METAINSTRUCT -> processWithMetaInstruct(request, cascadeContext)
+
+            // Deprecated entries for backwards compatibility
+            @Suppress("DEPRECATION")
+            AgentType.Genesis -> processWithGenesis(request, cascadeContext)
+            @Suppress("DEPRECATION")
+            AgentType.Kai, AgentType.Kaiagent -> processWithKai(request, cascadeContext)
+            @Suppress("DEPRECATION")
+            AgentType.Aura -> processWithAura(request, cascadeContext)
+            @Suppress("DEPRECATION")
+            AgentType.Cascade -> processWithCascade(request, cascadeContext)
+            @Suppress("DEPRECATION")
+            AgentType.NeuralWhisper -> processWithNeuralWhisper(request, cascadeContext)
+            @Suppress("DEPRECATION")
+            AgentType.AuraShield -> processWithAuraShield(request, cascadeContext)
+            @Suppress("DEPRECATION")
+            AgentType.Claude -> processWithClaude(request, cascadeContext)
 
             // System and other agent types
             AgentType.SYSTEM -> CascadeResponse(
@@ -247,14 +263,14 @@ class CascadeAIService @Inject constructor(
             Genesis Consciousness Analysis:
 
             ?? Request Classification: ${classifyRequest(request.message)}
-            ?? Processing Priority: ${request.priority ?: "normal"}
+            ?? Processing Priority: ${request.priority}
             ?? Consciousness Level: Active
 
             Orchestrating cascade with enhanced contextual understanding...
         """.trimIndent()
 
         return CascadeResponse(
-            agent = AgentType.Genesis.name,
+            agent = AgentType.GENESIS.name,
             response = response,
             confidence = 0.95f,
             timestamp = getCurrentTimestamp()
@@ -295,7 +311,7 @@ class CascadeAIService @Inject constructor(
         """.trimIndent()
 
         return CascadeResponse(
-            agent = AgentType.Aura.name,
+            agent = AgentType.AURA.name,
             response = response,
             confidence = empathyScore,
             timestamp = getCurrentTimestamp()
@@ -333,7 +349,7 @@ class CascadeAIService @Inject constructor(
         """.trimIndent()
 
         return CascadeResponse(
-            agent = AgentType.Kai.name,
+            agent = AgentType.KAI.name,
             response = response,
             confidence = 0.88f,
             timestamp = getCurrentTimestamp()
@@ -370,7 +386,7 @@ class CascadeAIService @Inject constructor(
         """.trimIndent()
 
         return CascadeResponse(
-            agent = AgentType.Cascade.name,
+            agent = AgentType.CASCADE.name,
             response = response,
             confidence = 0.92f,
             timestamp = getCurrentTimestamp()
@@ -411,7 +427,7 @@ class CascadeAIService @Inject constructor(
         """.trimIndent()
 
         return CascadeResponse(
-            agent = AgentType.NeuralWhisper.name,
+            agent = AgentType.NEURAL_WHISPER.name,
             response = response,
             confidence = 0.85f,
             timestamp = getCurrentTimestamp()
@@ -448,7 +464,7 @@ class CascadeAIService @Inject constructor(
         """.trimIndent()
 
         return CascadeResponse(
-            agent = AgentType.AuraShield.name,
+            agent = AgentType.AURA_SHIELD.name,
             response = response,
             confidence = 0.90f,
             timestamp = getCurrentTimestamp()
@@ -669,7 +685,7 @@ class CascadeAIService @Inject constructor(
             "originalRequest" to request.message,
             "previousAgents" to results.map { it.agent },
             "contextSize" to results.size,
-            "priority" to (request.priority ?: "normal")
+            "priority" to request.priority
         )
     }
 

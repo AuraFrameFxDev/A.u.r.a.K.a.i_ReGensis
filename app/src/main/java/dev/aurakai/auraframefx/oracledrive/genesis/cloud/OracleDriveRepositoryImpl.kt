@@ -19,7 +19,7 @@ private const val OCTET_STREAM_MIME = "application/octet-stream"
 
 open class OracleDriveRepositoryImpl @Inject constructor(
     private val oracleCloudApi: OracleCloudApi,
-    @ApplicationContext private val context: Context // Added @ApplicationContext
+    @param:ApplicationContext private val context: Context // Added @ApplicationContext
 ) : OracleDriveRepository {
 
     /**
