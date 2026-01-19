@@ -47,10 +47,10 @@ open class BillingManager @Inject constructor(
         const val PRODUCT_ID_YEARLY = "genesis_protocol_yearly" // Future: $50/year
     }
 
-    private val _subscriptionState = MutableStateFlow<SubscriptionState>(SubscriptionState.Premium) // TODO: Set to Loading for production
+    private val _subscriptionState = MutableStateFlow<SubscriptionState>(SubscriptionState.Loading)
     val subscriptionState: StateFlow<SubscriptionState> = _subscriptionState.asStateFlow()
 
-    private val _premiumFeatures = MutableStateFlow(true) // TODO: Set to false for production
+    private val _premiumFeatures = MutableStateFlow(false)
     val premiumFeatures: StateFlow<Boolean> = _premiumFeatures.asStateFlow()
 
     private lateinit var billingClient: BillingClient
