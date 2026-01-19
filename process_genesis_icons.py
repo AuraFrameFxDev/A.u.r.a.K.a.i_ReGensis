@@ -10,15 +10,8 @@ import sys
 
 def detect_tilt(image):
     """Detect if image has a slight tilt"""
-    # Convert to grayscale
-    gray = image.convert('L')
-
-    # Simple edge detection
-    edges = gray.filter(ImageFilter.FIND_EDGES)
-
-    # Analyze horizontal lines to detect tilt
-    # For now, return a small correction angle based on visual inspection
-    # The original images had ~0.5 degree tilt
+    # Based on visual inspection, the original images had ~0.5 degree tilt
+    # Return correction angle to straighten
     return -0.5
 
 def straighten_image(image, angle):
@@ -44,8 +37,15 @@ def straighten_image(image, angle):
 
     return cropped
 
-def create_adaptive_icon_set(image, output_dir, name_prefix):
-    """Create Android adaptive icon set (mdpi to xxxhdpi)"""
+def create_adaptive_icon_set(image, output_dir, name_prefix, theme_qualifier=None):
+    """Create Android adaptive icon set (mdpi to xxxhdpi)
+
+    Args:
+        image: PIL Image to process
+        output_dir: Base res directory
+        name_prefix: Icon filename prefix (e.g., 'ic_launcher')
+        theme_qualifier: Optional theme qualifier ('night' or 'day') for Android resource qualifiers
+    """
     sizes = {
         'mdpi': 48,
         'hdpi': 72,
@@ -55,7 +55,12 @@ def create_adaptive_icon_set(image, output_dir, name_prefix):
     }
 
     for density, size in sizes.items():
-        density_dir = os.path.join(output_dir, f'mipmap-{density}')
+        # Android resource qualifiers: mipmap-<theme>-<density>
+        # e.g., mipmap-night-mdpi, mipmap-day-hdpi
+        if theme_qualifier:
+            density_dir = os.path.join(output_dir, f'mipmap-{theme_qualifier}-{density}')
+        else:
+            density_dir = os.path.join(output_dir, f'mipmap-{density}')
         os.makedirs(density_dir, exist_ok=True)
 
         resized = image.copy()
@@ -108,7 +113,7 @@ def process_icon(input_path, output_dir, name, theme):
         print(f"  Rotated by {-tilt_angle:.2f} degrees to straighten")
     else:
         corrected = image
-        print(f"  No rotation needed")
+        print("  No rotation needed")
 
     # Save high-res version
     os.makedirs(output_dir, exist_ok=True)
@@ -152,8 +157,9 @@ def main():
         print("\n📱 Creating Android adaptive icon sets...")
         create_adaptive_icon_set(
             night_processed,
-            os.path.join(output_base, "res-night"),
-            "ic_launcher"
+            output_base,
+            "ic_launcher",
+            theme_qualifier="night"
         )
 
         # Create Play Store icon
@@ -167,8 +173,9 @@ def main():
         # Create adaptive icons for day theme
         create_adaptive_icon_set(
             day_processed,
-            os.path.join(output_base, "res-day"),
-            "ic_launcher"
+            output_base,
+            "ic_launcher",
+            theme_qualifier="day"
         )
 
         # Create Play Store icon
@@ -180,9 +187,10 @@ def main():
     print("\n" + "=" * 60)
     print("✅ Icon processing complete!")
     print("=" * 60)
-    print(f"\nOutput locations:")
+    print("\nOutput locations:")
     print(f"  - High-res icons: {output_base}")
-    print(f"  - Adaptive icon sets: {output_base}/res-night and res-day")
+    print(f"  - Night adaptive icons: {output_base}/mipmap-night-<density>/")
+    print(f"  - Day adaptive icons: {output_base}/mipmap-day-<density>/")
     print(f"  - Play Store icons: {base_dir}/ic_genesis_*_512.png")
     print()
 
