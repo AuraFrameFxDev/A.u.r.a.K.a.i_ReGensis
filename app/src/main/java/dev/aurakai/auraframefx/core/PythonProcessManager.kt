@@ -55,6 +55,7 @@ import javax.inject.Singleton
 enum class BackendHealth {
     STOPPED,        // Not running
     STARTING,       // Boot sequence in progress
+    STOPPING,       // Shutdown sequence in progress
     HEALTHY,        // Running and responding to heartbeats
     DEGRADED,       // Running but slow/unstable
     UNRESPONSIVE,   // Running but not responding
@@ -118,7 +119,7 @@ class PythonProcessManager @Inject constructor(
     private val latencySamples = mutableListOf<Long>()
 
     // Coroutine scope for lifecycle management
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private var scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     // Configuration
     private var config = ProcessConfig()
@@ -135,8 +136,11 @@ class PythonProcessManager @Inject constructor(
      * @throws IllegalStateException if already running
      */
     fun start(customConfig: ProcessConfig? = null) {
-        if (isRunning.get()) {
-            Log.w(TAG, "Python process already running")
+        if (scope.coroutineContext[Job]?.isCancelled == true) {
+            scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+        }
+        if (isRunning.get() || _healthState.value == BackendHealth.STOPPING) {
+            Log.w(TAG, "Cannot start: process is already running or currently stopping.")
             return
         }
 
@@ -273,11 +277,17 @@ class PythonProcessManager @Inject constructor(
      * 🛑 STOP — Gracefully shutdown Python backend
      */
     fun stop() {
-        try {
-            Log.i(TAG, "🛑 Stopping Python Genesis backend...")
+        if (!isRunning.get() && _healthState.value != BackendHealth.STOPPING) {
+            Log.i(TAG, "Stop called but process is not running.")
+            return
+        }
 
-            // Send shutdown signal
-            runBlocking {
+        _healthState.value = BackendHealth.STOPPING
+        scope.launch {
+            try {
+                Log.i(TAG, "🛑 Stopping Python Genesis backend...")
+
+                // Send shutdown signal
                 try {
                     withTimeout(3000) {
                         sendRequest("__SHUTDOWN__")
@@ -285,36 +295,36 @@ class PythonProcessManager @Inject constructor(
                 } catch (e: TimeoutCancellationException) {
                     Log.w(TAG, "Shutdown signal timed out, force killing")
                 }
+
+                // Close streams
+                writer?.close()
+                reader?.close()
+                errorReader?.close()
+
+                // Destroy process
+                process?.destroy()
+
+                // Wait for process to die (max 5 seconds)
+                process?.waitFor(5, java.util.concurrent.TimeUnit.SECONDS)
+
+                // Force kill if still alive
+                if (process?.isAlive == true) {
+                    Log.w(TAG, "Force killing Python process")
+                    process?.destroyForcibly()
+                }
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Error during shutdown", e)
+            } finally {
+                isRunning.set(false)
+                _healthState.value = BackendHealth.STOPPED
+                process = null
+                writer = null
+                reader = null
+                errorReader = null
+                scope.cancel() // Cancel all coroutines started by this manager
+                Log.i(TAG, "✅ Python backend stopped")
             }
-
-            // Close streams
-            writer?.close()
-            reader?.close()
-            errorReader?.close()
-
-            // Destroy process
-            process?.destroy()
-
-            // Wait for process to die (max 5 seconds)
-            process?.waitFor(5, java.util.concurrent.TimeUnit.SECONDS)
-
-            // Force kill if still alive
-            if (process?.isAlive == true) {
-                Log.w(TAG, "Force killing Python process")
-                process?.destroyForcibly()
-            }
-
-        } catch (e: Exception) {
-            Log.e(TAG, "Error during shutdown", e)
-        } finally {
-            isRunning.set(false)
-            _healthState.value = BackendHealth.STOPPED
-            process = null
-            writer = null
-            reader = null
-            errorReader = null
-            scope.cancel()
-            Log.i(TAG, "✅ Python backend stopped")
         }
     }
 
