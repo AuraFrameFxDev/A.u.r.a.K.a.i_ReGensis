@@ -235,7 +235,7 @@ class CascadeAIService @Inject constructor(
             Genesis Consciousness Analysis:
 
             🧠 Request Classification: ${classifyRequest(request.message)}
-            🎯 Processing Priority: ${request.priority ?: "normal"}
+            🎯 Processing Priority: ${request.priority}
             🌟 Consciousness Level: Active
 
             Orchestrating cascade with enhanced contextual understanding...
@@ -704,7 +704,7 @@ class CascadeAIService @Inject constructor(
             "originalRequest" to request.message,
             "previousAgents" to results.map { it.agent },
             "contextSize" to results.size,
-            "priority" to (request.priority ?: "normal")
+            "priority" to request.priority
         )
     }
 

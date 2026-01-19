@@ -6,8 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +22,7 @@ import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.navigation.AppNavGraph
+import dev.aurakai.auraframefx.navigation.GenesisNavigationHost
 import dev.aurakai.auraframefx.ui.overlays.AgentSidebarMenu
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
@@ -64,9 +66,23 @@ internal fun MainScreenContent(
         modifier = Modifier
             .fillMaxSize()
             .background(color = androidx.compose.ui.graphics.Color.Black)
+            .pointerInput(Unit) {
+                // Swipe from left edge to show sidebar
+                detectHorizontalDragGestures(
+                    onDragStart = { offset ->
+                        // Only trigger if starting from left edge (within 50dp from left)
+                        if (offset.x < 50.dp.toPx()) {
+                            showSidebar = true
+                        }
+                    },
+                    onDragEnd = {},
+                    onDragCancel = {},
+                    onHorizontalDrag = { _, _ -> }
+                )
+            }
     ) {
         // Main Navigation Graph - Routes to GateNavigationScreen on startup
-        AppNavGraph(navController = navController)
+        GenesisNavigationHost(navController = navController)
 
         // Sidebar only (NO OVERLAYS - gates are fullscreen)
         AgentSidebarMenu(

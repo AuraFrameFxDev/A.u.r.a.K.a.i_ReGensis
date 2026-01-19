@@ -20,7 +20,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CloudStatusMonitor @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
 ) {
     private val TAG = "CloudStatusMonitor"
     private val _isCloudReachable = MutableStateFlow(true) // Assume reachable initially
