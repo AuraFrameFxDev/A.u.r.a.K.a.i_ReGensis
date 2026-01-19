@@ -113,7 +113,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_romtools_final",
+        pixelArtUrl = "gate_roottools",
         description = "Quick toggles for root operations: bootloader, recovery, system partition, and Magisk modules.",
         backgroundColor = Color.Black,
         route = "root_tools_toggles"
@@ -189,7 +189,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_spheregrid_final",
+        pixelArtUrl = "collabcanvasgate",
         description = "Collaborative design environment. Create and share projects with your team in real-time.",
         backgroundColor = Color.Black,
         route = "collab_canvas"
@@ -293,7 +293,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_terminal_premium",
+        pixelArtUrl = "gate_terminal_final",
         description = "Direct system terminal access. Execute commands and manage system processes.",
         backgroundColor = Color.Black,
         route = "terminal"
@@ -307,7 +307,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_uxuidesign_new",
+        pixelArtUrl = "gate_theme2_final",
         description = "Comprehensive UI/UX design tools for creating beautiful interfaces.",
         backgroundColor = Color.Black,
         route = "uiux_design_studio"
@@ -321,7 +321,7 @@ object GateConfigs {
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
-        pixelArtUrl = "gate_personalscreen_new",
+        pixelArtUrl = "gate_journal_premium",
         description = "User profile selection and quick menu access. Choose your AI companion identity and navigate to key features.",
         backgroundColor = Color.Black,
         route = "system_journal"
