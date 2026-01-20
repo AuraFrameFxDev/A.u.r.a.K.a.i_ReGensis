@@ -12,10 +12,13 @@ import dev.aurakai.auraframefx.core.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.services.security.IntegrityMonitorService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.jvm.java
 
 /**
  * AurakaiApplication - Genesis Protocol Root Manager
@@ -30,7 +33,7 @@ class AurakaiApplication : Application(), Configuration.Provider {
     lateinit var orchestrator: GenesisOrchestrator
 
     // Application-scoped coroutine for background init
-    private val applicationScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -76,6 +79,13 @@ class AurakaiApplication : Application(), Configuration.Provider {
         }
     }
 
+    private fun launch(
+        context: MainCoroutineDispatcher,
+        block: suspend CoroutineScope.() -> Unit
+    ) {
+        TODO("Not yet implemented")
+    }
+
     private fun initializeSystemHooks() {
         try {
             com.highcapable.yukihookapi.YukiHookAPI.configs {
@@ -112,4 +122,8 @@ class AurakaiApplication : Application(), Configuration.Provider {
             Timber.w(e, "⚠️ Integrity monitor failed to start (not critical)")
         }
     }
+}
+
+private fun Unit.launch(block: suspend CoroutineScope.() -> Unit) {
+    TODO("Not yet implemented")
 }
