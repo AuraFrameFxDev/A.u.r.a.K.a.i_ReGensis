@@ -26,7 +26,7 @@ fun DataRibbonsBackground(
     val inf = rememberInfiniteTransition(label = "ribbons")
     val t by inf.animateFloat(
         initialValue = 0f, targetValue = 2f * Math.PI.toFloat(),
-        animationSpec = infiniteRepeatable(tween(7000, LinearEasing)), label = "t"
+        animationSpec = infiniteRepeatable(tween(7000, easing = LinearEasing)), label = "t"
     )
 
     data class Ribbon(

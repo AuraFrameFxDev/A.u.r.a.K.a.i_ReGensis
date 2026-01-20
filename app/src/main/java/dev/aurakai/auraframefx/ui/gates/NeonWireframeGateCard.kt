@@ -86,7 +86,7 @@ fun NeonWireframeGateCard(
                 text = title,
                 color = ProjectionBlue,
                 style = MaterialTheme.typography.titleLarge.copy(
-                    shadow = Shadow(color = ProjectionBlue, blurRadius = 22f)
+                    shadow = Shadow(color = ProjectionBlue, offset = Offset(0f, 0f), blurRadius = 22f)
                 )
             )
             if (!subtitle.isNullOrBlank()) {
@@ -126,7 +126,7 @@ private fun BoxScope.CenterIconWithHalo(icon: ImageVector, tint: Color) {
     val inf = rememberInfiniteTransition(label = "halo")
     val haloAlpha by inf.animateFloat(
         0.25f, 0.6f,
-        infiniteRepeatable(tween(1600, FastOutSlowInEasing), RepeatMode.Reverse),
+        infiniteRepeatable(tween(1600, easing = FastOutSlowInEasing), RepeatMode.Reverse),
         label = "haloAlpha"
     )
     Box(
@@ -138,7 +138,12 @@ private fun BoxScope.CenterIconWithHalo(icon: ImageVector, tint: Color) {
                 shape = CircleShape
             )
     )
-    Icon(icon, null, tint, modifier = Modifier.align(Alignment.Center).size(44.dp))
+    Icon(
+        imageVector = icon,
+        contentDescription = null,
+        modifier = Modifier.align(Alignment.Center).size(44.dp),
+        tint = tint
+    )
 }
 
 @Composable

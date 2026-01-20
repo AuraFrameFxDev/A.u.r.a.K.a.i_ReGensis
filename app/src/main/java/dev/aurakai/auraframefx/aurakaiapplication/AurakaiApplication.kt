@@ -30,7 +30,7 @@ class AurakaiApplication : Application(), Configuration.Provider {
     lateinit var orchestrator: GenesisOrchestrator
 
     // Application-scoped coroutine for background init
-    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val applicationScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()

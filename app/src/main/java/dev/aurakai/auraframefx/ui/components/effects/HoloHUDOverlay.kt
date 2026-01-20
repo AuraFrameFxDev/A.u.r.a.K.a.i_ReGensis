@@ -19,10 +19,10 @@ fun HoloHUDOverlay(
 ) {
     val inf = rememberInfiniteTransition(label = "hud")
     val sweep by inf.animateFloat(
-        0f, 360f, infiniteRepeatable(tween(4000, LinearEasing)), label = "sweep"
+        0f, 360f, infiniteRepeatable(tween(4000, easing = LinearEasing)), label = "sweep"
     )
     val pulse by inf.animateFloat(
-        0.15f, 0.45f, infiniteRepeatable(tween(1800, FastOutSlowInEasing), RepeatMode.Reverse),
+        0.15f, 0.45f, infiniteRepeatable(tween(1800, easing = FastOutSlowInEasing), RepeatMode.Reverse),
         label = "pulse"
     )
 
