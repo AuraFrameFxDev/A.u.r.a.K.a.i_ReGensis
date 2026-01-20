@@ -74,6 +74,12 @@ sealed class NavDestination(val route: String, val title: String, val icon: Imag
     object QuickActions : NavDestination("quick_actions", "Quick Actions", null)
     object SystemOverrides : NavDestination("system_overrides", "System Overrides", null)
 
+    // Iconify Integration
+    object IconifyPicker : NavDestination("iconify_picker", "Iconify", null)
+
+    // ChromaCore - System-wide Color Editor
+    object ChromaCoreColors : NavDestination("chromacore_colors", "ChromaCore Colors", null)
+
     // Help Desk
     object HelpDesk : NavDestination("help_desk", "Help Desk", null)
     object LiveSupport : NavDestination("live_support", "Live Support", null)

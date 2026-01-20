@@ -32,6 +32,20 @@ fun UIUXGateSubmenuScreen(
 ) {
     val menuItems = listOf(
         SubmenuItem(
+            title = "ChromaCore Colors",
+            description = "System-wide color customization for entire device",
+            icon = Icons.Default.Palette,
+            route = NavDestination.ChromaCoreColors.route,
+            color = Color(0xFFFF1493) // Deep Pink
+        ),
+        SubmenuItem(
+            title = "Iconify Picker",
+            description = "250,000+ icons from Iconify API",
+            icon = Icons.Default.Layers,
+            route = NavDestination.IconifyPicker.route,
+            color = Color(0xFF00D1FF) // Neon Blue
+        ),
+        SubmenuItem(
             title = "Theme Engine",
             description = "Customize system colors, fonts, and styles",
             icon = Icons.Default.Palette,
