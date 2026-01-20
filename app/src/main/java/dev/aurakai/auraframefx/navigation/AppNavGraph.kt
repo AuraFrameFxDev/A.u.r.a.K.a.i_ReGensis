@@ -1,9 +1,26 @@
 package dev.aurakai.auraframefx.navigation
 
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Support
+import androidx.compose.material.icons.filled.Terminal
+import androidx.compose.material.icons.filled.VideoLibrary
+import androidx.compose.material.icons.filled.ViewQuilt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -26,7 +43,6 @@ import dev.aurakai.auraframefx.ui.gates.DirectChatScreen
 import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
 import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
-import dev.aurakai.auraframefx.ui.gates.GateNavigationScreen
 import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
@@ -34,6 +50,9 @@ import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.Level1GateScreen
+import dev.aurakai.auraframefx.ui.gates.Level2GateItem
+import dev.aurakai.auraframefx.ui.gates.Level2GateScreen
 import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
 import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.gates.LogsViewerScreen
@@ -71,13 +90,6 @@ import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
  *
  * @param navController Controller that hosts navigation and executes route navigation actions.
  */
-/**
- * Registers the application's navigation graph on the provided NavHostController, mapping each route to its corresponding composable destination and wiring common navigation actions.
- *
- * Builds a NavHost with a start destination of NavDestination.Gates.route and registers destinations for main screens, agent hub, Oracle Drive, ROM tools, LSPosed integration, UI/UX design studio, help desk, Auras Lab, customization tools, and identity flows.
- *
- * @param navController The NavHostController used to perform navigation and back-stack operations for the registered destinations.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -91,9 +103,65 @@ fun AppNavGraph(navController: NavHostController) {
             HomeScreen(navController = navController)
         }
 
+        // --- NEW GATE SYSTEM ---
+
+        // Level 1: Main Gate Hub
         composable(route = NavDestination.Gates.route) {
-            GateNavigationScreen(navController = navController)
+            Level1GateScreen(
+                navController = navController,
+                onGateClick = { route -> navController.navigate(route) }
+            )
         }
+
+        // Level 2: Aura Gate
+        composable(route = "aura_gate") {
+            val items = listOf(
+                Level2GateItem("ChromaCore", "Global Color Engine", Icons.Filled.ColorLens, NavDestination.UIUXDesignStudio.route), // Reusing route/screen for now, ideally specific chroma core screen
+                Level2GateItem("UX/UI Studio", "Design & Layout", Icons.Filled.Palette, NavDestination.UIUXDesignStudio.route),
+                Level2GateItem("Help Desk", "Support & Docs", Icons.Filled.Help, NavDestination.HelpDesk.route)
+            )
+            Level2GateScreen(navController, "AURA GATE", items, onBack = { navController.popBackStack() })
+        }
+
+        // Level 2: Kai Gate
+        composable(route = "kai_gate") {
+            val items = listOf(
+                Level2GateItem("Terminal", "System Command", Icons.Filled.Terminal, "terminal"), // Need to define terminal route if not exists
+                Level2GateItem("LSPosed", "System Hooks Manager", Icons.Filled.Extension, NavDestination.LSPosedGate.route),
+                Level2GateItem("ROM Tools", "Flasher & Editor", Icons.Filled.Build, NavDestination.ROMTools.route),
+                Level2GateItem("Root Tools", "Magisk & More", Icons.Filled.Security, NavDestination.SystemOverrides.route) // Mapping closest
+            )
+            Level2GateScreen(navController, "KAI GATE", items, onBack = { navController.popBackStack() })
+        }
+
+        // Level 2: Genesis Gate
+        composable(route = "genesis_gate") {
+            val items = listOf(
+                Level2GateItem("Code Assist", "AI Developer", Icons.Filled.Code, NavDestination.CodeAssist.route),
+                Level2GateItem("App Builder", "Visual Creator", Icons.Filled.ViewQuilt, NavDestination.AurasLab.route), // Mapping closest
+                Level2GateItem("Oracle Storage", "Data Persistence", Icons.Filled.Storage, NavDestination.OracleDrive.route)
+            )
+            Level2GateScreen(navController, "GENESIS GATE", items, onBack = { navController.popBackStack() })
+        }
+
+        // Level 2: Agent Nexus (Direct Features)
+        composable(route = "agent_nexus") {
+            // "Features (Level 2 - no cards, direct access)" -> Direct to AgentHub for now as it aggregates them
+             AgentHubSubmenuScreen(navController = navController)
+        }
+
+        // Level 2: Help Services
+        composable(route = "help_gate") {
+             val items = listOf(
+                Level2GateItem("Live Help", "Chat Support", Icons.Filled.Support, NavDestination.LiveSupport.route),
+                Level2GateItem("Documentation", "User Guides", Icons.Filled.Description, NavDestination.Documentation.route),
+                Level2GateItem("Wiki/GitHub", "Community Knowledge", Icons.Filled.Groups, NavDestination.FAQBrowser.route),
+                Level2GateItem("Community Hub", "Forums & Social", Icons.Filled.Groups, NavDestination.TutorialVideos.route) // Placeholder
+            )
+            Level2GateScreen(navController, "HELP SERVICES", items, onBack = { navController.popBackStack() })
+        }
+
+        // --- END NEW GATE SYSTEM ---
 
         composable(route = NavDestination.JournalPDA.route) {
             JournalPDAScreen(navController = navController)
@@ -377,5 +445,5 @@ private fun AnimatedContentScope.MainScreen(
     onNavigateToOracleDrive: () -> Unit,
     onNavigateToSettings: () -> Unit
 ) {
-    TODO("Not yet implemented")
+    // TODO: Implement MainScreen or remove usage if not needed
 }
