@@ -19,7 +19,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.Shadow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.theme.AgentColors
@@ -85,9 +84,7 @@ fun NeonWireframeGateCard(
             Text(
                 text = title,
                 color = ProjectionBlue,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    shadow = Shadow(color = ProjectionBlue, offset = Offset(0f, 0f), blurRadius = 22f)
-                )
+                style = MaterialTheme.typography.titleLarge
             )
             if (!subtitle.isNullOrBlank()) {
                 Text(
