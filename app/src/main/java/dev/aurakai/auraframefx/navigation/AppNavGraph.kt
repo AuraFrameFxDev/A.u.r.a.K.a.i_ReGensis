@@ -31,6 +31,8 @@ import dev.aurakai.auraframefx.ui.customization.ComponentEditor
 import dev.aurakai.auraframefx.ui.customization.ComponentType
 import dev.aurakai.auraframefx.ui.customization.UIComponent
 import dev.aurakai.auraframefx.ui.customization.ZOrderEditor
+import dev.aurakai.auraframefx.iconify.IconPicker
+import dev.aurakai.auraframefx.ui.gates.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
@@ -322,6 +324,14 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = NavDestination.ThemeEngine.route) {
             ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(route = NavDestination.IconifyPicker.route) {
+            IconPicker(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(route = NavDestination.ChromaCoreColors.route) {
+            ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(route = NavDestination.StatusBar.route) {
