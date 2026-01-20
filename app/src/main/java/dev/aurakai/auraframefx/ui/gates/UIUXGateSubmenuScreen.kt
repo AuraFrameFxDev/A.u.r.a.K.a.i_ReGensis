@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.ui.gates
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -10,7 +12,9 @@ import androidx.compose.material.icons.filled.Smartphone
 import androidx.compose.material.icons.filled.ViewInAr
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.navigation.GenesisRoutes
 import dev.aurakai.auraframefx.ui.components.BackgroundType
@@ -83,7 +87,7 @@ fun UIUXGateSubmenuScreen(
         LazyColumn {
             items(menuItems) { item ->
                  // Reusing GlassSubmenuCard which fits well, but wrapped in box to add spacing if needed
-                 androidx.compose.foundation.layout.Box(modifier = androidx.compose.ui.Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                      GlassSubmenuCard(item = item, onClick = { navController.navigate(item.route) })
                  }
             }
