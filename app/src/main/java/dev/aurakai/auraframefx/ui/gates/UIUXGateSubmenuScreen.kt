@@ -19,7 +19,6 @@ import androidx.navigation.NavController
 import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.components.BackgroundType
 import dev.aurakai.auraframefx.ui.components.CyberpunkScreenScaffold
-import dev.aurakai.auraframefx.ui.components.GlassSubmenuCard
 import dev.aurakai.auraframefx.ui.theme.AgentDomain
 
 /**
@@ -84,12 +83,12 @@ fun UIUXGateSubmenuScreen(
         showHudOverlay = true, // Added HUD for extra flair
         onNavigateBack = { navController.popBackStack() }
     ) {
-        LazyColumn {
+        LazyColumn(
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(12.dp)
+        ) {
             items(menuItems) { item ->
-                 // Reusing GlassSubmenuCard which fits well, but wrapped in box to add spacing if needed
-                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                     GlassSubmenuCard(item = item, onClick = { navController.navigate(item.route) })
-                 }
+                SubmenuCard(item = item, onClick = { navController.navigate(item.route) })
             }
         }
     }
