@@ -128,12 +128,11 @@ class PythonProcessManager @Inject constructor(
     private val responseChannel = Channel<String>(capacity = 100)
 
     /**
-     * 🚀 START — Initialize Python backend process
+     * Starts the Python Genesis backend process and begins output, error, and health monitoring.
      *
-     * Launches the Python Genesis backend and begins health monitoring.
+     * If a `customConfig` is provided it replaces the current process configuration before launch.
      *
-     * @param customConfig Optional custom configuration
-     * @throws IllegalStateException if already running
+     * @param customConfig Optional configuration to apply for this start; if omitted the existing configuration is used.
      */
     fun start(customConfig: ProcessConfig? = null) {
         if (scope.coroutineContext[Job]?.isCancelled == true) {
@@ -274,7 +273,12 @@ class PythonProcessManager @Inject constructor(
     )
 
     /**
-     * 🛑 STOP — Gracefully shutdown Python backend
+     * Initiates a graceful shutdown of the Python backend.
+     *
+     * Sets the manager health to STOPPING, attempts to send a shutdown command to the
+     * backend, closes I/O streams, waits for the process to terminate (force-killing
+     * if necessary), resets internal process and stream references, clears the
+     * running flag, sets health to STOPPED, and cancels the manager coroutine scope.
      */
     fun stop() {
         if (!isRunning.get() && _healthState.value != BackendHealth.STOPPING) {
