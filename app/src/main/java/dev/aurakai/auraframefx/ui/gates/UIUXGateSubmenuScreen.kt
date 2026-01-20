@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.GenesisRoutes
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.components.BackgroundType
 import dev.aurakai.auraframefx.ui.components.CyberpunkScreenScaffold
 import dev.aurakai.auraframefx.ui.components.GlassSubmenuCard
@@ -35,42 +35,42 @@ fun UIUXGateSubmenuScreen(
             title = "Theme Engine",
             description = "Customize system colors, fonts, and styles",
             icon = Icons.Default.Palette,
-            route = GenesisRoutes.THEME_ENGINE,
+            route = NavDestination.ThemeEngine.route,
             color = Color(0xFFFF00FF) // Magenta
         ),
         SubmenuItem(
             title = "Notch Bar",
             description = "Adjust notch height, style, and visibility",
             icon = Icons.Default.Smartphone,
-            route = GenesisRoutes.NOTCH_BAR,
+            route = NavDestination.NotchBar.route,
             color = Color(0xFF00FFFF) // Cyan
         ),
         SubmenuItem(
             title = "Status Bar",
             description = "Configure icons, clock, and battery styles",
             icon = Icons.Default.Wifi,
-            route = GenesisRoutes.STATUS_BAR,
+            route = NavDestination.StatusBar.route,
             color = Color(0xFF00FF00) // Green
         ),
         SubmenuItem(
             title = "Quick Settings",
             description = "Modify quick settings tiles and layout",
             icon = Icons.Default.SettingsInputComponent,
-            route = GenesisRoutes.QUICK_SETTINGS,
-            color = Color(0xFFFFD700) // Gold
+            route = NavDestination.QuickSettings.route,
+            color = Color(0xFF00FFFF) // Gold
         ),
         SubmenuItem(
             title = "Overlay Menus",
             description = "Manage floating bubbles and sidebars",
             icon = Icons.Default.Layers,
-            route = GenesisRoutes.OVERLAY_MENUS,
+            route = NavDestination.OverlayMenus.route,
             color = Color(0xFFFF4500) // Orange Red
         ),
         SubmenuItem(
             title = "3D Customization Lab",
             description = "Gyroscope-controlled 3D component editor",
             icon = Icons.Default.ViewInAr,
-            route = GenesisRoutes.GYROSCOPE_CUSTOMIZATION,
+            route = "gyroscope_customization", // Using route string directly
             color = Color(0xFF00B4D8) // Futuristic Blue
         )
     )
