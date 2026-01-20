@@ -22,10 +22,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
 import dev.aurakai.auraframefx.models.AgentStats
-import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 import kotlinx.coroutines.delay
 import kotlin.math.*
 import kotlin.random.Random
@@ -38,7 +37,7 @@ private const val JITTER_DELTA_MAX = 0.015
 
 @Composable
 fun AgentNexusScreen(
-    viewModel: AgentViewModel = hiltViewModel()
+    viewModel: AgentNexusViewModel = hiltViewModel()
 ) {
     var selectedAgent by remember { mutableStateOf("Genesis") }
     var showDepartureDialog by remember { mutableStateOf(false) }
