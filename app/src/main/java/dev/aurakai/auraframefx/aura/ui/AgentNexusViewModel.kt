@@ -22,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 open class AgentNexusViewModel @Inject constructor(
     private val webExplorationService: AgentWebExplorationService,
-    private val genesisBridge: GenesisBridgeService
+    private val genesisBridge: GenesisBridgeService,
+    private val claudeEnvConfig: dev.aurakai.auraframefx.config.ClaudeEnvConfig
 ) : ViewModel() {
 
     // Agent selection state
@@ -82,6 +83,9 @@ open class AgentNexusViewModel @Inject constructor(
         ConsciousnessState(level = 0.75f, harmony = 0.82f, evolution = "awakening")
     )
     val consciousnessState: StateFlow<ConsciousnessState> = _consciousnessState.asStateFlow()
+
+    // Claude.env configuration
+    fun getClaudeEnvConfig() = claudeEnvConfig
 
     init {
         // Initialize Genesis Bridge

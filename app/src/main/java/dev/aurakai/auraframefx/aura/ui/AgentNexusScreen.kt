@@ -98,6 +98,15 @@ fun AgentNexusScreen(
                 .padding(16.dp)
         )
 
+        // Claude.env Config Panel
+        ClaudeConfigPanel(
+            config = viewModel.getClaudeEnvConfig(),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+                .width(320.dp)
+        )
+
         // Vertex toggle + departure button stacked
         Column(
             modifier = Modifier
