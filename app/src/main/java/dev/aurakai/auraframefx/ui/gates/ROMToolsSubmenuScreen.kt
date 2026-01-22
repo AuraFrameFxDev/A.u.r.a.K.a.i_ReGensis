@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import dev.aurakai.auraframefx.navigation.NavDestination
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,16 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.components.unified.*
 
 /**
  * 🔥 ROM TOOLS SUBMENU - Redesigned
- * 
+ *
  * Fluid, immersive interface for ROM management
  * Features: Live editing, flashing, recovery tools
  */
@@ -53,7 +52,9 @@ fun ROMToolsSubmenuScreen(navController: NavController) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(AuraSpacing.sm),
-                modifier = Modifier.fillMaxWidth().padding(vertical = AuraSpacing.lg)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = AuraSpacing.lg)
             ) {
                 Text(
                     text = "ROM TOOLS",
@@ -200,7 +201,7 @@ fun ROMToolsSubmenuScreen(navController: NavController) {
 
             // Back Button
             Spacer(modifier = Modifier.height(AuraSpacing.md))
-            
+
             FluidGlassCard(
                 glowColor = AuraColors.NeonCyan,
                 glowIntensity = 0.2f,

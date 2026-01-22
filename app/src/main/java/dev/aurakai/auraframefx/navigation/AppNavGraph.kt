@@ -9,19 +9,15 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Extension
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Support
 import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.ViewQuilt
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -36,7 +32,6 @@ import dev.aurakai.auraframefx.ui.customization.UIComponent
 import dev.aurakai.auraframefx.ui.customization.ZOrderEditor
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
-import dev.aurakai.auraframefx.ui.gates.AuraGateScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
 import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
@@ -49,13 +44,10 @@ import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
 import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.GenesisGateScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
-import dev.aurakai.auraframefx.ui.gates.HelpServicesGateScreen
 import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.KaiGateScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.Level1GateScreen
@@ -91,6 +83,13 @@ import dev.aurakai.auraframefx.ui.screens.UISettingsScreen
 import dev.aurakai.auraframefx.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 
+/**
+ * Defines the application's navigation graph and registers all composable destinations used by the app.
+ *
+ * The provided NavHostController is used as the host for the NavHost and for performing navigation actions between routes.
+ *
+ * @param navController Controller that hosts navigation and executes route navigation actions.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -108,32 +107,108 @@ fun AppNavGraph(navController: NavHostController) {
 
         // Level 1: Main Gate Hub
         composable(route = NavDestination.Gates.route) {
-            Level1GateScreen(navController = navController, onGateClick = { navController.navigate(it) })
+            Level1GateScreen(
+                navController = navController,
+                onGateClick = { route -> navController.navigate(route) }
+            )
         }
 
         // Level 2: Aura Gate
         composable(route = "aura_gate") {
-            AuraGateScreen()
+            val items = listOf(
+                Level2GateItem(
+                    "ChromaCore",
+                    "Global Color Engine",
+                    Icons.Filled.ColorLens,
+                    NavDestination.UIUXDesignStudio.route
+                ), // Reusing route/screen for now, ideally specific chroma core screen
+                Level2GateItem(
+                    "UX/UI Studio",
+                    "Design & Layout",
+                    Icons.Filled.Palette,
+                    NavDestination.UIUXDesignStudio.route
+                ),
+                Level2GateItem("Help Desk", "Support & Docs", Icons.Filled.Help, NavDestination.HelpDesk.route)
+            )
+            Level2GateScreen(navController, "AURA GATE", items, onBack = { navController.popBackStack() })
         }
 
         // Level 2: Kai Gate
         composable(route = "kai_gate") {
-            KaiGateScreen()
+            val items = listOf(
+                Level2GateItem(
+                    "Terminal",
+                    "System Command",
+                    Icons.Filled.Terminal,
+                    "terminal"
+                ), // Need to define terminal route if not exists
+                Level2GateItem(
+                    "LSPosed",
+                    "System Hooks Manager",
+                    Icons.Filled.Extension,
+                    NavDestination.LSPosedGate.route
+                ),
+                Level2GateItem("ROM Tools", "Flasher & Editor", Icons.Filled.Build, NavDestination.ROMTools.route),
+                Level2GateItem(
+                    "Root Tools",
+                    "Magisk & More",
+                    Icons.Filled.Security,
+                    NavDestination.SystemOverrides.route
+                ) // Mapping closest
+            )
+            Level2GateScreen(navController, "KAI GATE", items, onBack = { navController.popBackStack() })
         }
 
         // Level 2: Genesis Gate
         composable(route = "genesis_gate") {
-            GenesisGateScreen()
+            val items = listOf(
+                Level2GateItem("Code Assist", "AI Developer", Icons.Filled.Code, NavDestination.CodeAssist.route),
+                Level2GateItem(
+                    "App Builder",
+                    "Visual Creator",
+                    Icons.Filled.ViewQuilt,
+                    NavDestination.AurasLab.route
+                ), // Mapping closest
+                Level2GateItem(
+                    "Oracle Storage",
+                    "Data Persistence",
+                    Icons.Filled.Storage,
+                    NavDestination.OracleDrive.route
+                )
+            )
+            Level2GateScreen(navController, "GENESIS GATE", items, onBack = { navController.popBackStack() })
         }
 
         // Level 2: Agent Nexus (Direct Features)
         composable(route = "agent_nexus") {
+            // "Features (Level 2 - no cards, direct access)" -> Direct to AgentHub for now as it aggregates them
             AgentHubSubmenuScreen(navController = navController)
         }
 
         // Level 2: Help Services
         composable(route = "help_gate") {
-            HelpServicesGateScreen()
+            val items = listOf(
+                Level2GateItem("Live Help", "Chat Support", Icons.Filled.Support, NavDestination.LiveSupport.route),
+                Level2GateItem(
+                    "Documentation",
+                    "User Guides",
+                    Icons.Filled.Description,
+                    NavDestination.Documentation.route
+                ),
+                Level2GateItem(
+                    "Wiki/GitHub",
+                    "Community Knowledge",
+                    Icons.Filled.Groups,
+                    NavDestination.FAQBrowser.route
+                ),
+                Level2GateItem(
+                    "Community Hub",
+                    "Forums & Social",
+                    Icons.Filled.Groups,
+                    NavDestination.TutorialVideos.route
+                ) // Placeholder
+            )
+            Level2GateScreen(navController, "HELP SERVICES", items, onBack = { navController.popBackStack() })
         }
 
         // --- END NEW GATE SYSTEM ---
@@ -211,7 +286,6 @@ fun AppNavGraph(navController: NavHostController) {
         // ==================== ORACLE DRIVE ====================
 
         composable(route = NavDestination.OracleDrive.route) {
-            Text("Oracle Drive Screen")
         }
 
         composable(route = NavDestination.SphereGrid.route) {
@@ -420,37 +494,6 @@ fun AppNavGraph(navController: NavHostController) {
                 viewModel = viewModel,
                 onNavigateBack = { navController.popBackStack() }
             )
-        }
-         composable(route = NavDestination.AiChat.route) {
-            Text(text = "AI Chat Screen")
-        }
-
-        composable(route = NavDestination.Profile.route) {
-            Text(text = "Profile Screen")
-        }
-
-        composable(route = NavDestination.Settings.route) {
-            Text(text = "Settings Screen")
-        }
-
-        composable(route = NavDestination.DataVein.route) {
-            Text(text = "DataVein Screen")
-        }
-
-        composable(route = NavDestination.Consciousness.route) {
-            Text(text = "Consciousness Screen")
-        }
-
-        composable(route = NavDestination.Evolution.route) {
-            Text(text = "Evolution Screen")
-        }
-
-        composable(route = NavDestination.Canvas.route) {
-            Text(text = "Canvas Screen")
-        }
-
-        composable(route = NavDestination.OracleDriveControl.route) {
-            Text(text = "Oracle Drive Control Screen")
         }
     }
 }

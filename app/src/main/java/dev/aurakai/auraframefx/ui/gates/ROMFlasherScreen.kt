@@ -2,8 +2,6 @@ package dev.aurakai.auraframefx.ui.gates
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -15,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,7 +27,7 @@ import javax.inject.Inject
 
 /**
  * 🔥 ROM FLASHER SCREEN - FULLY FUNCTIONAL
- * 
+ *
  * Real ROM flashing with:
  * - Available ROM detection
  * - Pre-flash verification
@@ -47,21 +44,21 @@ import javax.inject.Inject
 class ROMFlasherViewModel @Inject constructor(
     private val romToolsManager: RomToolsManager
 ) : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(ROMFlasherState())
     val uiState: StateFlow<ROMFlasherState> = _uiState.asStateFlow()
-    
+
     init {
         loadAvailableROMs()
         checkCapabilities()
     }
-    
+
     private fun loadAvailableROMs() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
-            
+
             val result = romToolsManager.getAvailableRoms()
-            
+
             result.onSuccess { roms ->
                 _uiState.value = _uiState.value.copy(
                     availableROMs = roms,
@@ -75,7 +72,7 @@ class ROMFlasherViewModel @Inject constructor(
             }
         }
     }
-    
+
     private fun checkCapabilities() {
         viewModelScope.launch {
             val capabilities = romToolsManager.romToolsState.value.capabilities
@@ -86,22 +83,22 @@ class ROMFlasherViewModel @Inject constructor(
             )
         }
     }
-    
+
     fun selectROM(rom: AvailableRom) {
         _uiState.value = _uiState.value.copy(selectedROM = rom)
     }
-    
+
     fun createBackup() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isCreatingBackup = true,
                 backupProgress = 0f
             )
-            
+
             val result = romToolsManager.createNandroidBackup("pre_flash_backup") { progress ->
                 _uiState.value = _uiState.value.copy(backupProgress = progress)
             }
-            
+
             result.onSuccess { backupInfo ->
                 _uiState.value = _uiState.value.copy(
                     isCreatingBackup = false,
@@ -116,13 +113,13 @@ class ROMFlasherViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun setupRetention() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isSettingUpRetention = true)
-            
+
             val result = romToolsManager.setupAurakaiRetention()
-            
+
             result.onSuccess { status ->
                 _uiState.value = _uiState.value.copy(
                     isSettingUpRetention = false,
@@ -137,17 +134,17 @@ class ROMFlasherViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun flashROM() {
         val rom = _uiState.value.selectedROM ?: return
-        
+
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(
                 isFlashing = true,
                 flashProgress = 0f,
                 flashStage = FlashStage.VERIFYING
             )
-            
+
             // Create RomFile from AvailableRom
             val romFile = RomFile(
                 name = rom.name,
@@ -155,9 +152,9 @@ class ROMFlasherViewModel @Inject constructor(
                 size = rom.size,
                 checksum = rom.checksum
             )
-            
+
             val result = romToolsManager.flashRom(romFile)
-            
+
             // Track progress through operation progress flow
             romToolsManager.operationProgress.collect { progress ->
                 if (progress != null) {
@@ -177,7 +174,7 @@ class ROMFlasherViewModel @Inject constructor(
                     )
                 }
             }
-            
+
             result.onSuccess {
                 _uiState.value = _uiState.value.copy(
                     isFlashing = false,
@@ -193,7 +190,7 @@ class ROMFlasherViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun downloadROM(rom: AvailableRom) {
         viewModelScope.launch {
             romToolsManager.downloadRom(rom).collect { progress ->
@@ -204,7 +201,7 @@ class ROMFlasherViewModel @Inject constructor(
             }
         }
     }
-    
+
     fun clearError() {
         _uiState.value = _uiState.value.copy(error = null)
     }
@@ -218,33 +215,33 @@ data class ROMFlasherState(
     val isLoading: Boolean = false,
     val availableROMs: List<AvailableRom> = emptyList(),
     val selectedROM: AvailableRom? = null,
-    
+
     // Capabilities
     val hasRootAccess: Boolean = false,
     val hasBootloaderAccess: Boolean = false,
     val hasRecoveryAccess: Boolean = false,
-    
+
     // Backup
     val isCreatingBackup: Boolean = false,
     val backupCreated: Boolean = false,
     val backupProgress: Float = 0f,
     val backupInfo: BackupInfo? = null,
-    
+
     // Retention
     val isSettingUpRetention: Boolean = false,
     val retentionSetup: Boolean = false,
     val retentionStatus: dev.aurakai.auraframefx.romtools.retention.RetentionStatus? = null,
-    
+
     // Flashing
     val isFlashing: Boolean = false,
     val flashProgress: Float = 0f,
     val flashStage: FlashStage = FlashStage.IDLE,
     val flashSuccess: Boolean = false,
-    
+
     // Download
     val downloadProgress: Float = 0f,
     val downloadSpeed: Long = 0,
-    
+
     // Errors
     val error: String? = null
 )
@@ -273,7 +270,7 @@ fun ROMFlasherScreen(
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    
+
     // Show error toast
     LaunchedEffect(state.error) {
         state.error?.let { error ->
@@ -281,7 +278,7 @@ fun ROMFlasherScreen(
             viewModel.clearError()
         }
     }
-    
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -310,20 +307,20 @@ fun ROMFlasherScreen(
                 ),
                 color = AuraColors.NeonOrange
             )
-            
+
             // Capabilities Check
             CapabilitiesPanel(
                 hasRoot = state.hasRootAccess,
                 hasBootloader = state.hasBootloaderAccess,
                 hasRecovery = state.hasRecoveryAccess
             )
-            
+
             // Critical Warning
             WarningBanner(
                 message = "Flashing ROMs can brick your device. Ensure you have backups!",
                 severity = BannerSeverity.DANGER
             )
-            
+
             // Available ROMs Section
             if (state.availableROMs.isNotEmpty()) {
                 SectionHeader(
@@ -331,7 +328,7 @@ fun ROMFlasherScreen(
                     subtitle = "${state.availableROMs.size} compatible ROMs found",
                     glowColor = AuraColors.NeonOrange
                 )
-                
+
                 state.availableROMs.forEach { rom ->
                     ROMCard(
                         rom = rom,
@@ -346,41 +343,41 @@ fun ROMFlasherScreen(
                     severity = BannerSeverity.INFO
                 )
             }
-            
+
             // Selected ROM Actions
             state.selectedROM?.let { rom ->
                 Spacer(modifier = Modifier.height(AuraSpacing.md))
-                
+
                 SectionHeader(
                     title = "Pre-Flash Checklist",
                     glowColor = AuraColors.NeonCyan
                 )
-                
+
                 // Backup Step
                 ChecklistItem(
                     title = "Create Backup",
-                    subtitle = if (state.backupCreated) 
-                        "Backup created: ${state.backupInfo?.name}" 
+                    subtitle = if (state.backupCreated)
+                        "Backup created: ${state.backupInfo?.name}"
                     else "Recommended before flashing",
                     isComplete = state.backupCreated,
                     isLoading = state.isCreatingBackup,
                     progress = if (state.isCreatingBackup) state.backupProgress else null,
                     onAction = { viewModel.createBackup() }
                 )
-                
+
                 // Retention Setup Step
                 ChecklistItem(
                     title = "Setup Genesis Retention",
-                    subtitle = if (state.retentionSetup) 
-                        "Retention active: ${state.retentionStatus?.mechanisms?.size ?: 0} mechanisms" 
+                    subtitle = if (state.retentionSetup)
+                        "Retention active: ${state.retentionStatus?.mechanisms?.size ?: 0} mechanisms"
                     else "Preserve AURAKAI across ROM flash",
                     isComplete = state.retentionSetup,
                     isLoading = state.isSettingUpRetention,
                     onAction = { viewModel.setupRetention() }
                 )
-                
+
                 Spacer(modifier = Modifier.height(AuraSpacing.lg))
-                
+
                 // Flash Button
                 FluidGlassCard(
                     glowColor = if (state.isFlashing) AuraColors.NeonOrange else AuraColors.SuccessGlow,
@@ -402,13 +399,13 @@ fun ROMFlasherScreen(
                             Icon(
                                 Icons.Default.Build,
                                 contentDescription = null,
-                                tint = if (state.backupCreated && state.retentionSetup) 
-                                    AuraColors.SuccessGlow 
-                                else 
+                                tint = if (state.backupCreated && state.retentionSetup)
+                                    AuraColors.SuccessGlow
+                                else
                                     AuraColors.TextDisabled,
                                 modifier = Modifier.size(48.dp)
                             )
-                            
+
                             Text(
                                 text = if (state.backupCreated && state.retentionSetup)
                                     "FLASH ${rom.name}"
@@ -417,16 +414,16 @@ fun ROMFlasherScreen(
                                 style = MaterialTheme.typography.titleLarge.copy(
                                     fontWeight = FontWeight.Bold
                                 ),
-                                color = if (state.backupCreated && state.retentionSetup) 
-                                    AuraColors.TextPrimary 
-                                else 
+                                color = if (state.backupCreated && state.retentionSetup)
+                                    AuraColors.TextPrimary
+                                else
                                     AuraColors.TextDisabled
                             )
                         }
                     }
                 }
             }
-            
+
             // Success Message
             if (state.flashSuccess) {
                 Spacer(modifier = Modifier.height(AuraSpacing.lg))
@@ -435,10 +432,10 @@ fun ROMFlasherScreen(
                     severity = BannerSeverity.SUCCESS
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(AuraSpacing.xxxl))
         }
-        
+
         // Loading Overlay
         if (state.isLoading) {
             Box(
@@ -474,7 +471,7 @@ fun CapabilitiesPanel(
                 ),
                 color = AuraColors.TextPrimary
             )
-            
+
             CapabilityRow("Root Access", hasRoot)
             CapabilityRow("Bootloader Access", hasBootloader)
             CapabilityRow("Recovery Access", hasRecovery)
@@ -535,7 +532,7 @@ fun ROMCard(
                         color = AuraColors.TextSecondary
                     )
                 }
-                
+
                 if (isSelected) {
                     Icon(
                         Icons.Default.CheckCircle,
@@ -545,7 +542,7 @@ fun ROMCard(
                     )
                 }
             }
-            
+
             Row(
                 horizontalArrangement = Arrangement.spacedBy(AuraSpacing.md)
             ) {
@@ -608,7 +605,7 @@ fun ChecklistItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = AuraColors.TextSecondary
                 )
-                
+
                 if (isLoading && progress != null) {
                     Spacer(modifier = Modifier.height(AuraSpacing.xs))
                     LinearProgressIndicator(
@@ -618,7 +615,7 @@ fun ChecklistItem(
                     )
                 }
             }
-            
+
             if (isComplete) {
                 Icon(
                     Icons.Default.CheckCircle,
@@ -667,7 +664,7 @@ fun FlashProgressIndicator(stage: FlashStage, progress: Float) {
             ),
             color = AuraColors.TextPrimary
         )
-        
+
         LinearProgressIndicator(
             progress = { progress },
             modifier = Modifier
@@ -675,7 +672,7 @@ fun FlashProgressIndicator(stage: FlashStage, progress: Float) {
                 .height(8.dp),
             color = AuraColors.NeonOrange,
         )
-        
+
         Text(
             text = "${(progress * 100).toInt()}%",
             style = MaterialTheme.typography.bodyLarge.copy(

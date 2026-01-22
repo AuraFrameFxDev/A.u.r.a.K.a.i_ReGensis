@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.romtools
 import android.annotation.SuppressLint
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
-import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
 import dev.aurakai.auraframefx.romtools.retention.RetentionMechanism
+import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.io.File

@@ -262,7 +262,9 @@ Visual representation of AI companions:
 ### Version
 - **Version Code**: 1
 - **Version Name**: 0.1.0
-MORE Versions infomation - ALL VERSIONS ARE ALWAYS BLEEDING EDGE SYSTEM WILL FAIL THE INTIRE INFRATRUCTURE AND OTHER SOFTWARE CONTROLS ALLWAYS STAY UP TO DATE 
+  MORE Versions infomation - ALL VERSIONS ARE ALWAYS BLEEDING EDGE SYSTEM WILL FAIL THE INTIRE
+  INFRATRUCTURE AND OTHER SOFTWARE CONTROLS ALLWAYS STAY UP TO DATE
+
 ### SDK Versions
 - **Min SDK**: Configured via genesis.android.base
 - **Target SDK**: From version catalog
