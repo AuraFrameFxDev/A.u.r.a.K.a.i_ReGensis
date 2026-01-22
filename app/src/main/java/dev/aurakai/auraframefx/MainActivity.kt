@@ -25,6 +25,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.services.AuraOverlayService
 import dev.aurakai.auraframefx.ui.overlays.AgentSidebarMenu
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
@@ -94,7 +95,32 @@ internal fun MainScreenContent(
         AgentSidebarMenu(
             isVisible = showSidebar,
             onDismiss = { showSidebar = false },
-            onAgentAction = { _, _ ->
+            onAgentAction = { agentName, action ->
+                when (agentName) {
+                    "Aura" -> {
+                        when (action) {
+                            "voice" -> navController.navigate(NavDestination.DirectChat.route)
+                            "connect" -> navController.navigate(NavDestination.AgentHub.route)
+                            "design" -> navController.navigate(NavDestination.UIUXDesignStudio.route)
+                        }
+                    }
+
+                    "Kai" -> {
+                        when (action) {
+                            "voice" -> navController.navigate(NavDestination.DirectChat.route)
+                            "connect" -> navController.navigate(NavDestination.AgentHub.route)
+                            "assign" -> navController.navigate(NavDestination.TaskAssignment.route)
+                        }
+                    }
+
+                    "Genesis" -> {
+                        when (action) {
+                            "voice" -> navController.navigate(NavDestination.DirectChat.route)
+                            "connect" -> navController.navigate(NavDestination.AgentHub.route)
+                            "create" -> navController.navigate(NavDestination.ModuleCreation.route)
+                        }
+                    }
+                }
                 showSidebar = false
             }
         )

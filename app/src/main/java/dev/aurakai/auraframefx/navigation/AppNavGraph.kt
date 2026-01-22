@@ -32,16 +32,12 @@ import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
 import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.GenesisGateScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
-import dev.aurakai.auraframefx.ui.gates.HelpServicesGateScreen
 import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.KaiGateScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
-import dev.aurakai.auraframefx.ui.gates.Level1GateScreen
 import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
 import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.gates.LogsViewerScreen
@@ -89,7 +85,7 @@ fun AppNavGraph(navController: NavHostController) {
 
         // Level 1: Main Gate Hub
         composable(route = NavDestination.Gates.route) {
-            Level1GateScreen(navController = navController, onGateClick = { navController.navigate(it) })
+            Text("EnhancedGateCarousel placeholder")
         }
 
         // Level 2: Aura Gate
@@ -97,25 +93,25 @@ fun AppNavGraph(navController: NavHostController) {
             AuraGateScreen()
         }
 
-        // Level 2: Kai Gate
-        composable(route = "kai_gate") {
-            KaiGateScreen()
-        }
-
-        // Level 2: Genesis Gate
-        composable(route = "genesis_gate") {
-            GenesisGateScreen()
-        }
+//        // Level 2: Kai Gate
+//        composable(route = "kai_gate") {
+//            KaiGateScreen()
+//        }
+//
+//        // Level 2: Genesis Gate
+//        composable(route = "genesis_gate") {
+//            GenesisGateScreen()
+//        }
 
         // Level 2: Agent Nexus (Direct Features)
         composable(route = "agent_nexus") {
             AgentHubSubmenuScreen(navController = navController)
         }
 
-        // Level 2: Help Services
-        composable(route = "help_gate") {
-            HelpServicesGateScreen()
-        }
+//        // Level 2: Help Services
+//        composable(route = "help_gate") {
+//            HelpServicesGateScreen()
+//        }
 
         // --- END NEW GATE SYSTEM ---
 
@@ -132,11 +128,11 @@ fun AppNavGraph(navController: NavHostController) {
         }
 
         composable(route = NavDestination.MainScreen.route) {
-            MainScreen(
-                onNavigateToAgentNexus = { navController.navigate(NavDestination.AgentHub.route) },
-                onNavigateToOracleDrive = { navController.navigate(NavDestination.OracleDrive.route) },
-                onNavigateToSettings = { navController.navigate(NavDestination.UISettings.route) },
-            )
+//            MainScreen(
+//                onNavigateToAgentNexus = { navController.navigate(NavDestination.AgentHub.route) },
+//                onNavigateToOracleDrive = { navController.navigate(NavDestination.OracleDrive.route) },
+//                onNavigateToSettings = { navController.navigate(NavDestination.UISettings.route) },
+//            )
         }
 
         composable(route = NavDestination.WorkingLab.route) {
