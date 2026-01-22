@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ui.gates
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,7 +20,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.romtools.*
-import dev.aurakai.auraframefx.ui.components.unified.*
+import dev.aurakai.auraframefx.ui.components.unified.BannerSeverity
+import dev.aurakai.auraframefx.ui.components.unified.FluidGlassCard
+import dev.aurakai.auraframefx.ui.components.unified.SectionHeader
+import dev.aurakai.auraframefx.ui.components.unified.WarningBanner
+import dev.aurakai.auraframefx.ui.theme.AuraColors
+import dev.aurakai.auraframefx.ui.theme.AuraShapes
+import dev.aurakai.auraframefx.ui.theme.AuraSpacing
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -95,9 +103,7 @@ class ROMFlasherViewModel @Inject constructor(
                 backupProgress = 0f
             )
 
-            val result = romToolsManager.createNandroidBackup("pre_flash_backup") { progress ->
-                _uiState.value = _uiState.value.copy(backupProgress = progress)
-            }
+            val result = romToolsManager.createNandroidBackup("pre_flash_backup")
 
             result.onSuccess { backupInfo ->
                 _uiState.value = _uiState.value.copy(
@@ -160,17 +166,7 @@ class ROMFlasherViewModel @Inject constructor(
                 if (progress != null) {
                     _uiState.value = _uiState.value.copy(
                         flashProgress = progress.progress,
-                        flashStage = when (progress.operation) {
-                            RomOperation.VERIFYING_ROM -> FlashStage.VERIFYING
-                            RomOperation.CREATING_BACKUP -> FlashStage.BACKING_UP
-                            RomOperation.SETTING_UP_RETENTION -> FlashStage.SETTING_UP_RETENTION
-                            RomOperation.UNLOCKING_BOOTLOADER -> FlashStage.UNLOCKING_BOOTLOADER
-                            RomOperation.INSTALLING_RECOVERY -> FlashStage.INSTALLING_RECOVERY
-                            RomOperation.FLASHING_ROM -> FlashStage.FLASHING
-                            RomOperation.RESTORING_AURAKAI -> FlashStage.RESTORING_GENESIS
-                            RomOperation.COMPLETED -> FlashStage.COMPLETE
-                            else -> FlashStage.VERIFYING
-                        }
+                        flashStage = FlashStage.IDLE
                     )
                 }
             }
@@ -225,7 +221,7 @@ data class ROMFlasherState(
     val isCreatingBackup: Boolean = false,
     val backupCreated: Boolean = false,
     val backupProgress: Float = 0f,
-    val backupInfo: BackupInfo? = null,
+    val backupInfo: dev.aurakai.auraframefx.romtools.BackupInfo? = null,
 
     // Retention
     val isSettingUpRetention: Boolean = false,
@@ -283,7 +279,7 @@ fun ROMFlasherScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                androidx.compose.ui.graphics.Brush.verticalGradient(
+                Brush.verticalGradient(
                     colors = listOf(
                         AuraColors.BackgroundDeepest,
                         AuraColors.BackgroundDeep,
@@ -439,7 +435,9 @@ fun ROMFlasherScreen(
         // Loading Overlay
         if (state.isLoading) {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(androidx.compose.ui.graphics.Color.Black.copy(alpha = 0.5f)),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
