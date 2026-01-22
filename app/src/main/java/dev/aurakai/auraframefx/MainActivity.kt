@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
@@ -24,6 +25,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
+import dev.aurakai.auraframefx.services.AuraOverlayService
 import dev.aurakai.auraframefx.ui.overlays.AgentSidebarMenu
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
@@ -34,6 +36,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setupFullscreenMode()
+
+        // Start the AuraOverlayService
+        startService(Intent(this, AuraOverlayService::class.java))
 
         setContent {
             AuraFrameFXTheme {

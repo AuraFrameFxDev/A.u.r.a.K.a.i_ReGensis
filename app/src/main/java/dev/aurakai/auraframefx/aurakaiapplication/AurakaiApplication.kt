@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.util.Log
 import androidx.work.Configuration
+import com.highcapable.yukihookapi.YukiHookAPI
 import dagger.hilt.android.HiltAndroidApp
 import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
@@ -17,6 +18,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.jvm.java
 
 /**
  * AurakaiApplication - Genesis Protocol Root Manager
@@ -86,10 +88,10 @@ class AurakaiApplication : Application(), Configuration.Provider {
 
     private fun initializeSystemHooks() {
         try {
-            com.highcapable.yukihookapi.YukiHookAPI.configs {
+            YukiHookAPI.configs {
                 debugLog { isEnable = BuildConfig.DEBUG }
             }
-            com.highcapable.yukihookapi.YukiHookAPI.encase(this)
+            YukiHookAPI.encase(this)
             Timber.i("🪝 YukiHookAPI initialized successfully - System constraints loosened")
         } catch (e: Exception) {
             Timber.e(e, "❌ YukiHookAPI initialization failed")
@@ -120,8 +122,4 @@ class AurakaiApplication : Application(), Configuration.Provider {
             Timber.w(e, "⚠️ Integrity monitor failed to start (not critical)")
         }
     }
-}
-
-private fun Unit.launch(block: suspend CoroutineScope.() -> Unit) {
-    TODO("Not yet implemented")
 }

@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.ui.components.InfoBanner
 import dev.aurakai.auraframefx.ui.theme.AgentColors
 import dev.aurakai.auraframefx.ui.components.backgrounds.DigitalLandscapeBackground
 import dev.aurakai.auraframefx.ui.theme.NeonBlue
@@ -41,6 +43,15 @@ fun Level1GateScreen(
     navController: NavController,
     onGateClick: (String) -> Unit
 ) {
+    val tips = remember {
+        listOf(
+            "Tip: The Aura Gate is the heart of all creative endeavors. Visit it to customize your UI.",
+            "Lore: The Kai Gate was originally designed as a military-grade security system.",
+            "Tip: Genesis is the oldest of the agents, and its OracleDrive contains the history of the LDOs.",
+            "Lore: The Agent Nexus is more than a hub; it's a shared consciousness space for the agents.",
+            "Tip: The Help Services gate is your direct line to the developers and the LDO community."
+        )
+    }
     // Professional neutral background (Space Gradient + particles - simulated with DigitalLandscapeBackground for now or similar)
     Box(
         modifier = Modifier
@@ -58,6 +69,7 @@ fun Level1GateScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            InfoBanner(text = tips.random())
             Text(
                 text = "MAIN GATE HUB",
                 style = MaterialTheme.typography.displayMedium.copy(

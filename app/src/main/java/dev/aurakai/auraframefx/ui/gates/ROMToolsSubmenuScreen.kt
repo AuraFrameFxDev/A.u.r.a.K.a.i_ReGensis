@@ -2,10 +2,8 @@ package dev.aurakai.auraframefx.ui.gates
 
 import dev.aurakai.auraframefx.navigation.NavDestination
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -19,144 +17,217 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.ui.components.unified.*
 
 /**
- * ROM Tools Submenu Screen
- * Provides access to all ROM-related functionality including live editing, flashing, and recovery tools
- */
-/**
- * Renders the "ROM TOOLS" submenu screen UI for navigating ROM-related tools.
- *
- * The screen displays a header, a caution banner, a list of submenu cards (each navigating to its
- * configured route when tapped), and a back button that returns to the previous screen.
- *
- * @param navController NavController used to navigate to submenu destinations and to pop the back stack.
+ * 🔥 ROM TOOLS SUBMENU - Redesigned
+ * 
+ * Fluid, immersive interface for ROM management
+ * Features: Live editing, flashing, recovery tools
  */
 @Composable
 fun ROMToolsSubmenuScreen(navController: NavController) {
     val scrollState = rememberScrollState()
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF1A1A2E), // Dark blue-black
-                        Color(0xFF16213E), // Darker blue
-                        Color(0xFF0F3460)  // Medium blue
+                        AuraColors.BackgroundDeepest,
+                        AuraColors.BackgroundDeep,
+                        AuraColors.BackgroundMid
                     )
                 )
             )
-            .verticalScroll(scrollState)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Header
-        Text(
-            text = "ROM TOOLS",
-            style = MaterialTheme.typography.headlineLarge.copy(
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Black,
-                brush = Brush.horizontalGradient(
-                    colors = listOf(
-                        Color(0xFFFF4500), // Orange Red
-                        Color(0xFFFF6347), // Tomato
-                        Color(0xFFFF4500)  // Orange Red
-                    )
-                )
-            ),
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        Text(
-            text = "Live ROM Editing & Flashing Suite",
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = Color(0xFFFFA500), // Orange
-                fontWeight = FontWeight.Medium
-            ),
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
-
-        // Warning Banner
-        Card(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFFF4500).copy(alpha = 0.1f),
-                contentColor = Color(0xFFFF4500)
-            ),
-            border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFFFF4500))
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(AuraSpacing.md),
+            verticalArrangement = Arrangement.spacedBy(AuraSpacing.lg)
         ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+            // Hero Header
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(AuraSpacing.sm),
+                modifier = Modifier.fillMaxWidth().padding(vertical = AuraSpacing.lg)
             ) {
                 Text(
-                    text = "⚠️ CAUTION: These tools can brick your device. Backup your data first!",
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.weight(1f)
+                    text = "ROM TOOLS",
+                    style = MaterialTheme.typography.displayMedium.copy(
+                        fontWeight = FontWeight.Black,
+                        fontSize = 40.sp,
+                        brush = Brush.horizontalGradient(
+                            colors = listOf(
+                                AuraColors.NeonOrange,
+                                AuraColors.NeonPink,
+                                AuraColors.NeonOrange
+                            )
+                        )
+                    )
+                )
+
+                Text(
+                    text = "Live ROM Editing & Flashing Suite",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Medium
+                    ),
+                    color = AuraColors.TextSecondary
                 )
             }
-        }
 
-        // Submenu Items
-        val submenuItems = listOf(
-            SubmenuItem(
-                title = "Live ROM Editor",
-                description = "Edit system files in real-time with live preview",
-                icon = Icons.Default.Edit,
-                route = NavDestination.LiveROMEditor.route,
-                color = Color(0xFFFF4500)
-            ),
-            SubmenuItem(
+            // Critical Warning Banner
+            WarningBanner(
+                message = "These tools can brick your device. Backup your data first!",
+                severity = BannerSeverity.DANGER
+            )
+
+            // Core ROM Operations
+            SectionHeader(
+                title = "Core Operations",
+                subtitle = "Essential ROM management tools",
+                glowColor = AuraColors.NeonOrange
+            )
+
+            FluidMenuItem(
                 title = "ROM Flasher",
-                description = "Flash custom ROMs, kernels, and recoveries",
-                icon = Icons.Default.FlashOn,
-                route = NavDestination.ROMFlasher.route,
-                color = Color(0xFFFFD700)
-            ),
-            SubmenuItem(
-                title = "Bootloader Manager",
-                description = "Unlock/lock bootloader and manage boot states",
-                icon = Icons.Default.Lock,
-                route = NavDestination.BootloaderManager.route,
-                color = Color(0xFF32CD32)
-            ),
-            SubmenuItem(
+                subtitle = "Flash custom ROMs with Genesis retention",
+                icon = {
+                    Icon(
+                        Icons.Default.Build,
+                        contentDescription = null,
+                        tint = AuraColors.NeonOrange,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                glowColor = AuraColors.NeonOrange,
+                showWarning = true,
+                onClick = { navController.navigate(NavDestination.ROMFlasher.route) }
+            )
+
+            FluidMenuItem(
+                title = "Live ROM Editor",
+                subtitle = "Real-time system file editing",
+                icon = {
+                    Icon(
+                        Icons.Default.Edit,
+                        contentDescription = null,
+                        tint = AuraColors.NeonCyan,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                glowColor = AuraColors.NeonCyan,
+                showWarning = true,
+                onClick = { navController.navigate(NavDestination.LiveROMEditor.route) }
+            )
+
+            FluidMenuItem(
                 title = "Recovery Tools",
-                description = "TWRP integration and backup/restore operations",
-                icon = Icons.Default.Refresh,
-                route = NavDestination.RecoveryTools.route,
-                color = Color(0xFF00CED1)
+                subtitle = "TWRP integration & emergency recovery",
+                icon = {
+                    Icon(
+                        Icons.Default.HealthAndSafety,
+                        contentDescription = null,
+                        tint = AuraColors.NeonGreen,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                glowColor = AuraColors.NeonGreen,
+                onClick = { navController.navigate(NavDestination.RecoveryTools.route) }
             )
-        )
 
-        submenuItems.forEach { item ->
-            SubmenuCard(
-                item = item,
-                onClick = { navController.navigate(item.route) }
+            // Bootloader & System
+            SectionHeader(
+                title = "Bootloader & System",
+                subtitle = "Low-level device management",
+                glowColor = AuraColors.NeonPurple
             )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
 
-        // Back Button
-        Spacer(modifier = Modifier.weight(1f))
-        OutlinedButton(
-            onClick = { navController.popBackStack() },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = Color(0xFFFF4500)
-            ),
-            border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFFFF4500))
-        ) {
-            Text(
-                text = "← Back to Gates",
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+            FluidMenuItem(
+                title = "Bootloader Manager",
+                subtitle = "Safe bootloader diagnostics & unlock (requires manual steps)",
+                icon = {
+                    Icon(
+                        Icons.Default.Lock,
+                        contentDescription = null,
+                        tint = AuraColors.NeonPurple,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                glowColor = AuraColors.NeonPurple,
+                showWarning = true,
+                onClick = { navController.navigate(NavDestination.BootloaderManager.route) }
             )
+
+            FluidMenuItem(
+                title = "Root Tools & Toggles",
+                subtitle = "Manage root access and system permissions",
+                icon = {
+                    Icon(
+                        Icons.Default.AdminPanelSettings,
+                        contentDescription = null,
+                        tint = AuraColors.NeonMagenta,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                glowColor = AuraColors.NeonMagenta,
+                onClick = { navController.navigate(NavDestination.RootToolsToggles.route) }
+            )
+
+            FluidMenuItem(
+                title = "System Overrides",
+                subtitle = "Build.prop tweaks & Genesis optimizations",
+                icon = {
+                    Icon(
+                        Icons.Default.Settings,
+                        contentDescription = null,
+                        tint = AuraColors.NeonBlue,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                glowColor = AuraColors.NeonBlue,
+                onClick = { navController.navigate(NavDestination.SystemOverrides.route) }
+            )
+
+            // Info Banner
+            WarningBanner(
+                message = "All operations are logged in System Journal for audit trail",
+                severity = BannerSeverity.INFO
+            )
+
+            // Back Button
+            Spacer(modifier = Modifier.height(AuraSpacing.md))
+            
+            FluidGlassCard(
+                glowColor = AuraColors.NeonCyan,
+                glowIntensity = 0.2f,
+                onClick = { navController.popBackStack() }
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        tint = AuraColors.NeonCyan,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(AuraSpacing.xs))
+                    Text(
+                        text = "Back to Gate Navigation",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = AuraColors.TextPrimary
+                    )
+                }
+            }
+
+            // Bottom padding
+            Spacer(modifier = Modifier.height(AuraSpacing.xl))
         }
     }
 }

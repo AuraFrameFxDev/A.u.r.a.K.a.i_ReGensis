@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
 import dev.aurakai.auraframefx.romtools.retention.RetentionMechanism
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import java.io.File
 
 /**
  * Fake implementation of RomToolsManager for Jetpack Compose previews.
@@ -48,7 +49,7 @@ class FakeBootloaderManager : BootloaderManager {
     override fun checkBootloaderAccess(): Boolean = true
     override fun isBootloaderUnlocked(): Boolean = true
     override suspend fun unlockBootloader(): Result<Unit> = Result.success(Unit)
-    
+
     override fun collectPreflightSignals(): BootloaderManager.PreflightSignals {
         return BootloaderManager.PreflightSignals(
             isBootloaderUnlocked = true,
@@ -72,6 +73,21 @@ class FakeSystemModificationManager : SystemModificationManager {
     override fun checkSystemWriteAccess(): Boolean = true
     override suspend fun installGenesisOptimizations(progressCallback: (Float) -> Unit): Result<Unit> {
         progressCallback(100f)
+        return Result.success(Unit)
+    }
+
+    override suspend fun verifyOptimizations(): Result<OptimizationStatus> {
+        return Result.success(
+            OptimizationStatus(
+                isInstalled = true,
+                optimizations = listOf("build_prop_tweaks", "init_d_script"),
+                version = "1.0.0",
+                installedAt = System.currentTimeMillis()
+            )
+        )
+    }
+
+    override suspend fun removeOptimizations(): Result<Unit> {
         return Result.success(Unit)
     }
 }
@@ -102,6 +118,20 @@ class FakeFlashManager : FlashManager {
 class FakeRomVerificationManager : RomVerificationManager {
     override suspend fun verifyRomFile(romFile: RomFile): Result<Unit> = Result.success(Unit)
     override suspend fun verifyInstallation(): Result<Unit> = Result.success(Unit)
+    override suspend fun calculateChecksum(file: File, algorithm: String): Result<String> {
+        return Result.success("fake_checksum")
+    }
+
+    override suspend fun verifyZipIntegrity(zipFile: File): Result<ZipVerificationResult> {
+        return Result.success(
+            ZipVerificationResult(
+                isValid = true,
+                entries = listOf("META-INF/com/google/android/updater-script", "boot.img"),
+                errors = emptyList(),
+                totalEntries = 2
+            )
+        )
+    }
 }
 
 class FakeBackupManager : BackupManager {
@@ -120,7 +150,7 @@ class FakeBackupManager : BackupManager {
 
     @SuppressLint("SdCardPath")
     override suspend fun createNandroidBackup(
-        name: String,
+        backupName: String,
         progressCallback: (Float) -> Unit
     ): Result<BackupInfo> {
         progressCallback(100f)
@@ -138,10 +168,18 @@ class FakeBackupManager : BackupManager {
     }
 
     override suspend fun restoreNandroidBackup(
-        backup: BackupInfo,
+        backupInfo: BackupInfo,
         progressCallback: (Float) -> Unit
     ): Result<Unit> {
         progressCallback(100f)
+        return Result.success(Unit)
+    }
+
+    override suspend fun listBackups(): Result<List<BackupInfo>> {
+        return Result.success(emptyList())
+    }
+
+    override suspend fun deleteBackup(backupInfo: BackupInfo): Result<Unit> {
         return Result.success(Unit)
     }
 }
