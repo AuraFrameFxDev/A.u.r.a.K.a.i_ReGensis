@@ -1,50 +1,29 @@
 package dev.aurakai.auraframefx.navigation
 
+// AURA DOMAIN - All real screens (20 files found!)
+
+// GENESIS & CLAUDE
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
-
-// AURA DOMAIN - All real screens (20 files found!)
-import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen
-import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
-import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
-import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
-import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
-import dev.aurakai.auraframefx.domains.aura.screens.GyroscopeCustomizationScreen
-import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskScreen
-import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
-import dev.aurakai.auraframefx.domains.aura.screens.InstantColorPickerScreen
-import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
-import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineSubmenuScreen
-import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
-import dev.aurakai.auraframefx.domains.aura.screens.UISettingsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.UIUXDesignStudioScreen
-import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
-
-// GENESIS & CLAUDE
-import dev.aurakai.auraframefx.navigation.GenesisEntry
-import dev.aurakai.auraframefx.navigation.ClaudeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.ROMToolsSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
+import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
+import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
 
 /**
  * 🌐 REGENESIS NAVIGATION GRAPH
- * 
+ *
  * GATE NAMES (Kai's naming):
  * - KAI → SentinelsFortress
  * - AURA → UXUI Design Studio
  * - GENESIS → OracleDrive
- * 
- * Features:
- * - 20 fully functional Aura/Help screens
- * - Genesis nested navigation
- * - Claude constellation
- * - NO STUBS!
  */
 @Composable
 fun AppNavGraph(
@@ -58,7 +37,7 @@ fun AppNavGraph(
         // ═══════════════════════════════════════════════════════════════
         // ROOT: 3D GATE CAROUSEL
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.HomeGateCarousel.route) {
             EnhancedGateCarousel(
                 onNavigate = { route -> navController.navigate(route) }
@@ -67,107 +46,65 @@ fun AppNavGraph(
 
         // ═══════════════════════════════════════════════════════════════
         // AURA GATE - UXUI Design Studio 🎨
-        // 20 REAL SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
-        composable(NavDestination.ThemeEngineSubmenu.route) { 
-            ThemeEngineSubmenuScreen(navController)
+
+        composable(NavDestination.ThemeEngineSubmenu.route) {
+            UIUXGateSubmenuScreen(navController)
         }
-        composable(NavDestination.UXUIDesignStudio.route) { 
-            UIUXDesignStudioScreen(navController)
+        composable(NavDestination.UXUIDesignStudio.route) {
+            UIUXGateSubmenuScreen(navController)
         }
-        composable(NavDestination.AuraLab.route) { 
-            AuraLabScreen(navController)
-        }
-        composable("chroma_core_colors") {
-            ChromaCoreColorsScreen(navController)
-        }
-        composable("instant_color_picker") {
-            InstantColorPickerScreen(navController)
-        }
-        composable("status_bar") {
-            StatusBarScreen(navController)
-        }
-        composable("quick_settings") {
-            QuickSettingsScreen(navController)
-        }
-        composable("ui_settings") {
-            UISettingsScreen(navController)
-        }
-        composable("gyroscope_customization") {
-            GyroscopeCustomizationScreen(navController)
-        }
-        composable("direct_chat") {
-            DirectChatScreen(navController)
-        }
-        composable("theme_engine") {
-            ThemeEngineScreen(navController)
-        }
-        composable("agent_profile") {
-            AgentProfileScreen(navController)
-        }
-        composable("user_preferences") {
-            UserPreferencesScreen(navController)
-        }
-        composable("gender_selection") {
-            GenderSelectionScreen(navController)
+        composable(NavDestination.AuraLab.route) {
+            AurasLabScreen(navController as () -> Unit)
         }
 
         // ═══════════════════════════════════════════════════════════════
         // GENESIS GATE - OracleDrive 🔮
-        // Nested navigation architecture
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.CodeAssist.route) {
-            GenesisEntry(navController, start = "code_assist")
+            OracleDriveSubmenuScreen(navController)
         }
         composable(NavDestination.OracleDriveSubmenu.route) {
-            GenesisEntry(navController, start = "oracle_drive")
+            OracleDriveSubmenuScreen(navController)
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // KAI GATE - SentinelsFortress 🛡️
+        // ═══════════════════════════════════════════════════════════════
+
+        composable(NavDestination.ROMToolsSubmenu.route) {
+            ROMToolsSubmenuScreen(navController)
         }
 
         // ═══════════════════════════════════════════════════════════════
         // AGENT NEXUS - AgentHub 🌐
         // ═══════════════════════════════════════════════════════════════
-        
-        composable(NavDestination.PartyScreen.route) { 
-            AgentProfileScreen(navController) // Use agent profiles as home
+
+        composable(NavDestination.PartyScreen.route) {
+            AgentHubSubmenuScreen(navController)
         }
         composable("claude_constellation") {
             ClaudeConstellationScreen(navController)
         }
+        composable("sphere_grids") {
+            SphereGridScreen(navController)
+        }
 
         // ═══════════════════════════════════════════════════════════════
         // HELP SERVICES - LDO Control 💬
-        // 6 REAL SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
-        composable("documentation") {
-            DocumentationScreen(navController)
-        }
-        composable("faq_browser") {
-            FAQBrowserScreen(navController)
-        }
-        composable("tutorial_videos") {
-            TutorialVideosScreen(navController)
-        }
-        composable("live_help") {
-            LiveSupportChatScreen(navController)
-        }
+
         composable(NavDestination.HelpDeskSubmenu.route) {
-            HelpDeskSubmenuScreen(navController)
+            HelpServicesGateScreen(navController)
         }
-        composable("help_desk") {
-            HelpDeskScreen(navController)
-        }
-        
+
         // ═══════════════════════════════════════════════════════════════
-        // KAI GATE - SentinelsFortress 🛡️
-        // Placeholder until ROM Tools screens are built
+        // LSPOSED 🔧
         // ═══════════════════════════════════════════════════════════════
-        
-        composable(NavDestination.ROMToolsSubmenu.route) { 
-            // TODO: Build ROM Tools screens
-            AgentProfileScreen(navController) // Temporary placeholder
+
+        composable("lsposed_panel") {
+            LSPosedSubmenuScreen(navController)
         }
     }
 }

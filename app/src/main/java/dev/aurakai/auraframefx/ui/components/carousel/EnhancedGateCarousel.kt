@@ -2,17 +2,31 @@ package dev.aurakai.auraframefx.ui.components.carousel
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -20,15 +34,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.navigation.NavDestination
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,7 +47,7 @@ import kotlin.math.absoluteValue
 
 /**
  * 🌍 REGENESIS GATE CAROUSEL - KAI'S GAME NAMES!
- * 
+ *
  * Gate Names (Kai's naming):
  * - KAI → SentinelsFortress (his security game)
  * - AURA → UXUI Design Studio (her creative space)
@@ -110,15 +121,15 @@ fun EnhancedGateCarousel(
             )
         )
     }
-    
+
     val startIndex = Int.MAX_VALUE / 2
     val pagerState = rememberPagerState(
         initialPage = startIndex,
         pageCount = { Int.MAX_VALUE }
     )
-    
+
     val currentGate = gates[pagerState.currentPage % gates.size]
-    
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -149,9 +160,9 @@ fun EnhancedGateCarousel(
                 color = Color(0xFFAA00FF),
                 letterSpacing = 4.sp
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             // Domain name with glow
             Text(
                 text = currentGate.domainName,
@@ -160,9 +171,9 @@ fun EnhancedGateCarousel(
                 color = currentGate.glowColor,
                 letterSpacing = 2.sp
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             // Tagline
             Text(
                 text = currentGate.tagline,
@@ -172,9 +183,9 @@ fun EnhancedGateCarousel(
                 letterSpacing = 3.sp,
                 textAlign = TextAlign.Center
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             // Description
             Text(
                 text = currentGate.description,
@@ -185,7 +196,7 @@ fun EnhancedGateCarousel(
                 modifier = Modifier.padding(horizontal = 40.dp)
             )
         }
-        
+
         // Platform glow at bottom
         Canvas(
             Modifier
@@ -202,7 +213,7 @@ fun EnhancedGateCarousel(
                 )
             )
         }
-        
+
         // 3D ROTATING GATE CARDS
         HorizontalPager(
             state = pagerState,
@@ -211,7 +222,7 @@ fun EnhancedGateCarousel(
                 .padding(top = 280.dp, bottom = 140.dp)
         ) { pageIndex ->
             val gate = gates[pageIndex % gates.size]
-            
+
             GlobeCard(pagerState, pageIndex) {
                 DoubleTapGateCard(
                     gate = gate,
@@ -219,7 +230,7 @@ fun EnhancedGateCarousel(
                 )
             }
         }
-        
+
         // Page indicator dots
         Row(
             Modifier
@@ -250,18 +261,18 @@ fun GlobeCard(
     content: @Composable () -> Unit
 ) {
     val density = LocalDensity.current
-    
+
     Box(
         Modifier
             .fillMaxSize()
             .graphicsLayer {
-                val offset = ((pagerState.currentPage - pageIndex) + 
+                val offset = ((pagerState.currentPage - pageIndex) +
                     pagerState.currentPageOffsetFraction).coerceIn(-2f, 2f)
-                
+
                 cameraDistance = 32f * density.density
                 rotationY = offset * -70f
                 transformOrigin = TransformOrigin(0.5f, 0.5f)
-                
+
                 val abs = offset.absoluteValue
                 alpha = lerp(0.5f, 1f, 1f - abs.coerceAtMost(1f))
                 val depth = 1f - (0.2f * abs.coerceAtMost(1f))
@@ -278,7 +289,7 @@ fun DoubleTapGateCard(
 ) {
     var tapCount by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
-    
+
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -309,7 +320,7 @@ fun DoubleTapGateCard(
                         )
                     )
             )
-            
+
             // Card background with gradient
             Box(
                 Modifier
@@ -336,7 +347,7 @@ fun DoubleTapGateCard(
                         RoundedCornerShape(20.dp)
                     )
             )
-            
+
             // Domain name on card
             Box(
                 Modifier
@@ -362,7 +373,7 @@ fun DoubleTapGateCard(
                     )
                 }
             }
-            
+
             // Double-tap hint
             Text(
                 "✨ DOUBLE TAP TO ENTER ✨",
