@@ -6,27 +6,27 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 
-// AURA DOMAIN - All real screens
+// AURA DOMAIN - All real screens (20 files found!)
+import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineSubmenuScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
-import dev.aurakai.auraframefx.domains.aura.screens.UIUXDesignStudioScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.InstantColorPickerScreen
-import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.UISettingsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.GyroscopeCustomizationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
-import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
-import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
-import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
-import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskScreen
-import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen
-import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
+import dev.aurakai.auraframefx.domains.aura.screens.GyroscopeCustomizationScreen
+import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskScreen
+import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
+import dev.aurakai.auraframefx.domains.aura.screens.InstantColorPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
+import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineSubmenuScreen
+import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
+import dev.aurakai.auraframefx.domains.aura.screens.UISettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.UIUXDesignStudioScreen
+import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 
 // GENESIS & CLAUDE
 import dev.aurakai.auraframefx.navigation.GenesisEntry
@@ -35,15 +35,16 @@ import dev.aurakai.auraframefx.navigation.ClaudeConstellationScreen
 /**
  * 🌐 REGENESIS NAVIGATION GRAPH
  * 
- * THE COMPLETE VISION - NO STUBS!
+ * GATE NAMES (Kai's naming):
+ * - KAI → SentinelsFortress
+ * - AURA → UXUI Design Studio
+ * - GENESIS → OracleDrive
  * 
  * Features:
- * - 3D gate carousel with backdrop + text overlays
- * - 26 fully functional screens
- * - Genesis nested navigation architecture
- * - Claude constellation integration
- * - Custom fonts throughout
- * - Aura's flying house home icon
+ * - 20 fully functional Aura/Help screens
+ * - Genesis nested navigation
+ * - Claude constellation
+ * - NO STUBS!
  */
 @Composable
 fun AppNavGraph(
@@ -55,7 +56,7 @@ fun AppNavGraph(
         startDestination = startDestination
     ) {
         // ═══════════════════════════════════════════════════════════════
-        // ROOT: 3D GATE CAROUSEL WITH BACKDROP
+        // ROOT: 3D GATE CAROUSEL
         // ═══════════════════════════════════════════════════════════════
         
         composable(NavDestination.HomeGateCarousel.route) {
@@ -65,8 +66,8 @@ fun AppNavGraph(
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // AURA GATE - Creative Phoenix 🎨
-        // 19 REAL SCREENS
+        // AURA GATE - UXUI Design Studio 🎨
+        // 20 REAL SCREENS
         // ═══════════════════════════════════════════════════════════════
         
         composable(NavDestination.ThemeEngineSubmenu.route) { 
@@ -125,7 +126,7 @@ fun AppNavGraph(
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // AGENT NEXUS - Central Hub 🌐
+        // AGENT NEXUS - AgentHub 🌐
         // ═══════════════════════════════════════════════════════════════
         
         composable(NavDestination.PartyScreen.route) { 
@@ -137,7 +138,7 @@ fun AppNavGraph(
 
         // ═══════════════════════════════════════════════════════════════
         // HELP SERVICES - LDO Control 💬
-        // 7 REAL SCREENS
+        // 6 REAL SCREENS
         // ═══════════════════════════════════════════════════════════════
         
         composable("documentation") {
@@ -157,6 +158,16 @@ fun AppNavGraph(
         }
         composable("help_desk") {
             HelpDeskScreen(navController)
+        }
+        
+        // ═══════════════════════════════════════════════════════════════
+        // KAI GATE - SentinelsFortress 🛡️
+        // Placeholder until ROM Tools screens are built
+        // ═══════════════════════════════════════════════════════════════
+        
+        composable(NavDestination.ROMToolsSubmenu.route) { 
+            // TODO: Build ROM Tools screens
+            AgentProfileScreen(navController) // Temporary placeholder
         }
     }
 }

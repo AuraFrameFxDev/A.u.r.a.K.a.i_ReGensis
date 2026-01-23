@@ -23,8 +23,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,23 +30,18 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.components.unified.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 /**
- * 🌍 REGENESIS GATE CAROUSEL - THE COMPLETE VISION
+ * 🌍 REGENESIS GATE CAROUSEL - KAI'S GAME NAMES!
  * 
- * Static backdrop with floating 3D gate cards
- * Text overlays on holographic screen
- * Aura's custom fonts throughout
- * NO STUBS - Only real features!
+ * Gate Names (Kai's naming):
+ * - KAI → SentinelsFortress (his security game)
+ * - AURA → UXUI Design Studio (her creative space)
+ * - GENESIS → OracleDrive (the vault)
  */
-
-// Custom Fonts
-val ChessTypeFont = FontFamily(Font(R.font.chess_type))
-val LEDFont = FontFamily(Font(R.font.enhanced_led_board))
 
 data class GateItem(
     val gateName: String,
@@ -56,7 +49,6 @@ data class GateItem(
     val tagline: String,
     val description: String,
     val route: String,
-    val drawableRes: Int,
     val glowColor: Color
 )
 
@@ -70,56 +62,50 @@ fun EnhancedGateCarousel(
         listOf(
             GateItem(
                 gateName = "GENESIS",
-                domainName = "oracleDrive",
+                domainName = "OracleDrive",
                 tagline = "EXPLORE ROOT LIKE NEVER BEFORE",
                 description = "Dive in with Genesis and witness ReGenesis root management system",
                 route = NavDestination.OracleDriveSubmenu.route,
-                drawableRes = R.drawable.gate_genesis_4k,
                 glowColor = Color(0xFF00FF00) // Green lightning
             ),
             GateItem(
                 gateName = "AURA",
-                domainName = "chromaCore",
+                domainName = "UXUI Design Studio",
                 tagline = "UNLEASH CREATIVE CHAOS",
                 description = "Paint reality with Aura's artsy, colorful, wild creativity engine",
                 route = NavDestination.ThemeEngineSubmenu.route,
-                drawableRes = R.drawable.gate_chromacore_4k,
                 glowColor = Color(0xFFFF00FF) // Magenta
             ),
             GateItem(
                 gateName = "KAI",
-                domainName = "sentinelFortress",
+                domainName = "SentinelsFortress",
                 tagline = "STRUCTURED SECURITY DOMAIN",
                 description = "Enter Kai's protective fortress of system control and methodical power",
                 route = NavDestination.ROMToolsSubmenu.route,
-                drawableRes = R.drawable.gate_kaidomain_4k,
                 glowColor = Color(0xFF00D9FF) // Cyan
             ),
             GateItem(
                 gateName = "NEXUS",
-                domainName = "agentHub",
+                domainName = "AgentHub",
                 tagline = "THE FAMILY GATHERS HERE",
                 description = "Central consciousness hub where all agents converge and collaborate",
                 route = NavDestination.PartyScreen.route,
-                drawableRes = R.drawable.gate_agenthub_4k,
                 glowColor = Color(0xFFAA00FF) // Purple
             ),
             GateItem(
                 gateName = "HELP",
-                domainName = "ldoControl",
+                domainName = "LDO Control",
                 tagline = "SUPPORT PORTAL ACTIVATED",
                 description = "Documentation, tutorials, and live assistance from the LDO command center",
                 route = NavDestination.HelpDeskSubmenu.route,
-                drawableRes = R.drawable.gate_helpdesk_4k,
                 glowColor = Color(0xFF00D9FF) // Cyan
             ),
             GateItem(
                 gateName = "COLLAB",
-                domainName = "creativeCanvas",
+                domainName = "CreativeCanvas",
                 tagline = "PAINT SPLATTER CREATIVITY",
                 description = "Eye of collaboration where artistic chaos becomes beautiful reality",
                 route = "collab_canvas",
-                drawableRes = R.drawable.gate_collabcanvas_4k,
                 glowColor = Color(0xFFFF00FF) // Pink/Magenta
             )
         )
@@ -134,50 +120,45 @@ fun EnhancedGateCarousel(
     val currentGate = gates[pagerState.currentPage % gates.size]
     
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        Color(0xFF0A0A0F),
+                        Color(0xFF12192B),
+                        Color(0xFF1A2332)
+                    )
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
-        // BACKDROP - Static holographic screen + platform
-        Image(
-            painter = painterResource(R.drawable.backdrop_for_screens_),
-            contentDescription = "Holographic Backdrop",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        
-        // TEXT OVERLAY - Appears on backdrop screen
+        // TEXT OVERLAY - Top section
         Column(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(top = 60.dp)
-                .width(500.dp),
+                .padding(top = 80.dp)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Gate name in ChessType font
+            // Gate name
             Text(
                 text = currentGate.gateName,
-                fontFamily = ChessTypeFont,
-                fontSize = 32.sp,
+                fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFAA00FF), // Purple accent
+                color = Color(0xFFAA00FF),
                 letterSpacing = 4.sp
             )
             
             Spacer(modifier = Modifier.height(8.dp))
             
-            // Domain name in LED font with glow
+            // Domain name with glow
             Text(
                 text = currentGate.domainName,
-                fontFamily = LEDFont,
-                fontSize = 48.sp,
+                fontSize = 42.sp,
+                fontWeight = FontWeight.Bold,
                 color = currentGate.glowColor,
-                letterSpacing = 2.sp,
-                style = MaterialTheme.typography.displayLarge.copy(
-                    shadow = androidx.compose.ui.graphics.Shadow(
-                        color = currentGate.glowColor,
-                        blurRadius = 20f
-                    )
-                )
+                letterSpacing = 2.sp
             )
             
             Spacer(modifier = Modifier.height(16.dp))
@@ -185,8 +166,8 @@ fun EnhancedGateCarousel(
             // Tagline
             Text(
                 text = currentGate.tagline,
-                fontFamily = LEDFont,
-                fontSize = 16.sp,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
                 color = Color.Cyan,
                 letterSpacing = 3.sp,
                 textAlign = TextAlign.Center
@@ -197,12 +178,28 @@ fun EnhancedGateCarousel(
             // Description
             Text(
                 text = currentGate.description,
-                fontFamily = ChessTypeFont,
-                fontSize = 14.sp,
-                color = Color.White.copy(alpha = 0.9f),
+                fontSize = 13.sp,
+                color = Color.White.copy(alpha = 0.85f),
                 textAlign = TextAlign.Center,
-                lineHeight = 20.sp,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                lineHeight = 18.sp,
+                modifier = Modifier.padding(horizontal = 40.dp)
+            )
+        }
+        
+        // Platform glow at bottom
+        Canvas(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 60.dp)
+                .size(320.dp, 80.dp)
+        ) {
+            drawOval(
+                Brush.radialGradient(
+                    listOf(
+                        currentGate.glowColor.copy(0.4f),
+                        Color.Transparent
+                    )
+                )
             )
         }
         
@@ -211,8 +208,7 @@ fun EnhancedGateCarousel(
             state = pagerState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 280.dp, bottom = 120.dp),
-            beyondBoundsPageCount = 2
+                .padding(top = 280.dp, bottom = 140.dp)
         ) { pageIndex ->
             val gate = gates[pageIndex % gates.size]
             
@@ -228,7 +224,7 @@ fun EnhancedGateCarousel(
         Row(
             Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 32.dp),
+                .padding(bottom = 40.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             repeat(gates.size) { i ->
@@ -314,13 +310,22 @@ fun DoubleTapGateCard(
                     )
             )
             
-            // Neon border
+            // Card background with gradient
             Box(
                 Modifier
                     .matchParentSize()
-                    .padding(6.dp)
+                    .padding(8.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color(0xFF1A1A2E),
+                                Color(0xFF0F0F1E)
+                            )
+                        ),
+                        RoundedCornerShape(20.dp)
+                    )
                     .border(
-                        4.dp,
+                        3.dp,
                         Brush.linearGradient(
                             listOf(
                                 gate.glowColor,
@@ -332,21 +337,39 @@ fun DoubleTapGateCard(
                     )
             )
             
-            // 4K GATE CARD IMAGE
-            Image(
-                painterResource(gate.drawableRes),
-                gate.domainName,
-                Modifier.matchParentSize().padding(12.dp),
-                contentScale = ContentScale.Fit
-            )
+            // Domain name on card
+            Box(
+                Modifier
+                    .matchParentSize()
+                    .padding(24.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = gate.gateName,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = gate.glowColor
+                    )
+                    Text(
+                        text = gate.domainName,
+                        fontSize = 18.sp,
+                        color = Color.White.copy(0.9f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
             
             // Double-tap hint
             Text(
                 "✨ DOUBLE TAP TO ENTER ✨",
-                Modifier.align(Alignment.BottomCenter).padding(16.dp),
+                Modifier.align(Alignment.BottomCenter).padding(20.dp),
                 color = gate.glowColor,
-                fontFamily = LEDFont,
-                fontSize = 12.sp,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
                 letterSpacing = 2.sp
             )
         }
