@@ -80,8 +80,10 @@ class StdioGenesisBridge @Inject constructor(
 
             pythonProcess = processBuilder.start()
 
-            processWriter = BufferedWriter(OutputStreamWriter(pythonProcess!!.outputStream))
-            processReader = BufferedReader(InputStreamReader(pythonProcess!!.inputStream))
+            pythonProcess?.let {
+                processWriter = BufferedWriter(OutputStreamWriter(it.outputStream))
+                processReader = BufferedReader(InputStreamReader(it.inputStream))
+            }
 
             // Send initialization handshake
             val initMessage = mapOf(
@@ -382,7 +384,7 @@ class StdioGenesisBridge @Inject constructor(
 
     override suspend fun healthCheck(): BridgeHealthStatus = withContext(Dispatchers.IO) {
         try {
-            if (!isInitialized || pythonProcess == null || !pythonProcess!!.isAlive) {
+            if (!isInitialized || pythonProcess?.isAlive != true) {
                 return@withContext BridgeHealthStatus(
                     healthy = false,
                     backendResponsive = false,

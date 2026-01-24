@@ -21,12 +21,22 @@ sealed class NavDestination(val route: String) {
     data object HomeGateCarousel : NavDestination("home_gate_carousel")
 
     // ═══════════════════════════════════════════════════════════════
+    // LEVEL 2: MAIN GATES (Card Grid Screens)
+    // ═══════════════════════════════════════════════════════════════
+    data object AuraGate : NavDestination("aura_gate")
+    data object KaiGate : NavDestination("kai_gate")
+    data object GenesisGate : NavDestination("genesis_gate")
+    data object AgentNexusGate : NavDestination("agent_nexus_gate")
+    data object HelpServicesGate : NavDestination("help_services_gate")
+
+    // ═══════════════════════════════════════════════════════════════
     // GATE 1: AURA - Creative/Theming 🎨
     // Personality: Artsy, colorful, chaotic, out-of-the-box
     // ═══════════════════════════════════════════════════════════════
 
     data object ThemeEngineSubmenu : NavDestination("theme_engine_submenu")
-    data object UXUIDesignStudio : NavDestination("uiux_gate_submenu")
+    data object UIUXGateSubmenu : NavDestination("uiux_gate_submenu")
+    data object UXUIDesignStudio : NavDestination("uiux_gate_submenu") // Alias
     data object AuraLab : NavDestination("aura_lab")
 
     // ═══════════════════════════════════════════════════════════════
@@ -66,17 +76,25 @@ sealed class NavDestination(val route: String) {
     data object StatusBar : NavDestination("status_bar")
     data object QuickSettings : NavDestination("quick_settings")
     data object OverlayMenus : NavDestination("overlay_menus")
-    object AgentHub : NavDestination("agent_hub")
-    object TaskAssignment : NavDestination("task_assignment")
-    object ModuleCreation : NavDestination("module_creation")
-    object DirectChat : NavDestination("direct_chat")
-    object SystemOverrides : NavDestination("system_overrides")
-    object ModuleManager : NavDestination("module_manager")
-    object Constellation : NavDestination("constellation")
-    object GenesisConstellation : NavDestination("genesis_constellation")
-    object ClaudeConstellation : NavDestination("claude_constellation")
-    object KaiConstellation : NavDestination("kai_constellation")
-    object CascadeConstellation : NavDestination("cascade_constellation")
-    object GrokConstellation : NavDestination("grok_constellation")
+    data object AgentHub : NavDestination("agent_hub")
+    data object TaskAssignment : NavDestination("task_assignment")
+    data object ModuleCreation : NavDestination("module_creation")
+    data object DirectChat : NavDestination("direct_chat")
+    data object SystemOverrides : NavDestination("system_overrides")
+    data object ModuleManager : NavDestination("module_manager")
+    data object Constellation : NavDestination("constellation")
+    data object GenesisConstellation : NavDestination("genesis_constellation")
+    data object ClaudeConstellation : NavDestination("claude_constellation")
+    data object KaiConstellation : NavDestination("kai_constellation")
+    data object CascadeConstellation : NavDestination("cascade_constellation")
+    data object GrokConstellation : NavDestination("grok_constellation")
+    data object AgentMonitoring : NavDestination("agent_monitoring")
+    data object FusionMode : NavDestination("fusion_mode")
+    data object ConferenceRoom : NavDestination("conference_room")
+    data object ROMTools : NavDestination("rom_tools")
+    data object HelpDesk : NavDestination("help_desk")
+    data object SphereGrid : NavDestination("sphere_grid")
+    data object AgentNexus : NavDestination("agent_nexus")
+    data object Settings : NavDestination("settings")
 
 }
