@@ -108,7 +108,7 @@ fun GenesisGateScreen(navController: NavController) {
                 domainColor = Color(0xFF00FF85), // Genesis green
                 modifier = Modifier.fillMaxSize()
             )
-            
+
             // Card grid on top
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -160,7 +160,7 @@ private fun GateCardTile(
                     .fillMaxSize()
                     .blur(1.dp)
             )
-            
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -175,7 +175,7 @@ private fun GateCardTile(
                     )
             )
         }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

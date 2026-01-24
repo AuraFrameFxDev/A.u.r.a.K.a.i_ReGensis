@@ -107,7 +107,7 @@ fun HelpServicesGateScreen(navController: NavController) {
                 domainColor = Color(0xFF00B8FF), // Help Services cyan
                 modifier = Modifier.fillMaxSize()
             )
-            
+
             // Card grid on top
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -159,7 +159,7 @@ private fun GateCardTile(
                     .fillMaxSize()
                     .blur(1.dp)
             )
-            
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -174,7 +174,7 @@ private fun GateCardTile(
                     )
             )
         }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

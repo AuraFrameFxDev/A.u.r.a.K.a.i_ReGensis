@@ -110,7 +110,7 @@ fun AuraGateScreen(navController: NavController) {
                 domainColor = Color(0xFFB026FF), // Aura purple
                 modifier = Modifier.fillMaxSize()
             )
-            
+
             // Card grid on top
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -169,7 +169,7 @@ private fun GateCardTile(
                     .fillMaxSize()
                     .blur(1.dp)
             )
-            
+
             // Gradient scrim overlay
             Box(
                 modifier = Modifier
@@ -185,7 +185,7 @@ private fun GateCardTile(
                     )
             )
         }
-        
+
         // Content
         Column(
             modifier = Modifier

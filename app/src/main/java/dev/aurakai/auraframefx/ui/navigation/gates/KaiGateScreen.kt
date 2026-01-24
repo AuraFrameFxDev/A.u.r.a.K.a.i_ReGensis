@@ -108,7 +108,7 @@ fun KaiGateScreen(navController: NavController) {
                 domainColor = Color(0xFFFF3366), // Kai red
                 modifier = Modifier.fillMaxSize()
             )
-            
+
             // Card grid on top
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -128,9 +128,6 @@ fun KaiGateScreen(navController: NavController) {
     }
 }
 
-/**
- * Gate Card Tile with image support
- */
 @Composable
 private fun GateCardTile(
     card: GateTile,
@@ -164,7 +161,7 @@ private fun GateCardTile(
                     .fillMaxSize()
                     .blur(1.dp)
             )
-            
+
             // Gradient scrim overlay
             Box(
                 modifier = Modifier
@@ -180,7 +177,7 @@ private fun GateCardTile(
                     )
             )
         }
-        
+
         // Content
         Column(
             modifier = Modifier

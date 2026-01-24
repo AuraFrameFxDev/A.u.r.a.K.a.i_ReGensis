@@ -9,16 +9,63 @@ import androidx.navigation.compose.composable
 // Level 1: Gate carousel
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 
-// Level 2: Gate screens  
+// Level 2: Gate screens
 import dev.aurakai.auraframefx.ui.navigation.gates.AgentNexusGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.AuraGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
 
-// Level 3: Feature screens (import only the ones that exist)
-import dev.aurakai.auraframefx.domains.aura.screens.*
-import dev.aurakai.auraframefx.ui.gates.*
+// Level 3: Feature screens - ALL REAL SCREENS (no more wildcards)
+// ui/gates screens
+import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
+import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
+import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
+import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
+import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.ConferenceRoomScreen
+import dev.aurakai.auraframefx.ui.gates.DirectChatScreen
+import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
+import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
+import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
+import dev.aurakai.auraframefx.ui.gates.LogsViewerScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedGateScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.ModuleCreationScreen
+import dev.aurakai.auraframefx.ui.gates.ModuleManagerScreen
+import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
+import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.OverlayMenusScreen
+import dev.aurakai.auraframefx.ui.gates.QuickActionsScreen
+import dev.aurakai.auraframefx.ui.gates.RecoveryToolsScreen
+import dev.aurakai.auraframefx.ui.gates.ROMFlasherScreen
+import dev.aurakai.auraframefx.ui.gates.ROMToolsSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.RootToolsTogglesScreen
+import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
+import dev.aurakai.auraframefx.ui.gates.SystemJournalScreen
+import dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen
+import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
+import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
+
+// domains/aura/screens  
+import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen as AuraDirectChatScreen
+import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
+import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
+import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskScreen
+import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
+import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
 
 /**
  * Main Navigation Graph
@@ -36,7 +83,7 @@ fun AppNavGraph(
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 1: 3D GATE CAROUSEL
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.HomeGateCarousel.route) {
             EnhancedGateCarousel(
                 onNavigate = { route -> navController.navigate(route) }
@@ -46,7 +93,7 @@ fun AppNavGraph(
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 2: GATE GRID SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.AuraGate.route) {
             AuraGateScreen(navController)
         }
@@ -66,7 +113,7 @@ fun AppNavGraph(
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 3: AURA DOMAIN SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.ThemeEngineSubmenu.route) {
             UIUXGateSubmenuScreen(navController)
         }
@@ -74,7 +121,7 @@ fun AppNavGraph(
             UIUXGateSubmenuScreen(navController)
         }
         composable(NavDestination.AuraLab.route) {
-            SimpleTitle("Aura Lab - Coming Soon")
+             AurasLabScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // UI/UX Sub-screens
@@ -102,26 +149,70 @@ fun AppNavGraph(
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 3: GENESIS DOMAIN SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
-        composable(NavDestination.CodeAssist.route) {
-            OracleDriveSubmenuScreen(navController)
-        }
+
         composable(NavDestination.OracleDriveSubmenu.route) {
             OracleDriveSubmenuScreen(navController)
+        }
+
+        // AI & Code - FIXED: CodeAssist now points to correct screen!
+        composable(NavDestination.CodeAssist.route) {
+            CodeAssistScreen(navController) // FIXED! Was OracleDriveSubmenuScreen
+        }
+        composable("neural_network") {
+            NeuralArchiveScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 3: KAI DOMAIN SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.ROMToolsSubmenu.route) {
             ROMToolsSubmenuScreen(navController)
+        }
+
+        // ROM & Boot Management - ALL REAL SCREENS WIRED!
+        composable("bootloader") {
+            BootloaderManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("root_tools") {
+            RootToolsTogglesScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("rom_flasher") {
+            ROMFlasherScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("live_rom_editor") {
+            LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("recovery_tools") {
+            RecoveryToolsScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // LSPosed & Hooks - ALL REAL SCREENS WIRED!
+        composable(NavDestination.LSPosedPanel.route) {
+            LSPosedGateScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("lsposed_modules") {
+            LSPosedModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("hook_manager") {
+            HookManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // System Tools - ALL REAL SCREENS WIRED!
+        composable("logs_viewer") {
+            LogsViewerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("system_journal") {
+            SystemJournalScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("quick_actions") {
+            QuickActionsScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 3: AGENT NEXUS SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.PartyScreen.route) {
             AgentHubSubmenuScreen(navController)
         }
@@ -165,17 +256,32 @@ fun AppNavGraph(
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // LEVEL 3: HELP SERVICES SCREENS
+        // LEVEL 3: HELP SERVICES SCREENS - ALL REAL SCREENS WIRED!
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.HelpDeskSubmenu.route) {
             HelpServicesGateScreen(navController)
+        }
+        composable(NavDestination.HelpDesk.route) {
+            HelpDeskScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("documentation") {
+            DocumentationScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("faq_browser") {
+            FAQBrowserScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("tutorial_videos") {
+            TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("live_help") {
+            LiveSupportChatScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
         // LSPOSED SCREENS
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable("lsposed_panel") {
             LSPosedSubmenuScreen(navController)
         }
@@ -183,34 +289,31 @@ fun AppNavGraph(
         // ═══════════════════════════════════════════════════════════════
         // ADDITIONAL ROUTES (from MainActivity sidebar)
         // ═══════════════════════════════════════════════════════════════
-        
+
         composable(NavDestination.OverlayMenus.route) {
             OverlayMenusScreen(navController = navController)
         }
 
         composable(NavDestination.AgentHub.route) {
-            AgentNexusGateScreen(navController)
+            AgentHubSubmenuScreen(navController)
         }
 
         composable(NavDestination.TaskAssignment.route) {
-            // TaskAssignmentScreen expects AgentViewModel, use placeholder
-            SimpleTitle("Task Assignment")
+            TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(NavDestination.ModuleCreation.route) {
-            // ModuleCreationScreen expects () -> Unit, use placeholder
-            SimpleTitle("Module Creation")
+            ModuleCreationScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(NavDestination.DirectChat.route) {
             DirectChatScreen(navController)
         }
-        
+
         composable(NavDestination.SystemOverrides.route) {
-            // SystemOverridesScreen expects () -> Unit, use placeholder
-            SimpleTitle("System Overrides")
+            SystemOverridesScreen(onNavigateBack = { navController.popBackStack() })
         }
-        
+
         composable(NavDestination.ModuleManager.route) {
             ModuleManagerScreen()
         }

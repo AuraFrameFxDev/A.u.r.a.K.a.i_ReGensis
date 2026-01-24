@@ -40,14 +40,14 @@ fun AgentNexusGateScreen(navController: NavController) {
             title = "Agent Hub",
             subtitle = "AI Management",
             route = "agent_hub",
-            imageRes = R.drawable.card_agent_hub,
+            imageRes = null,
             glowColor = Color(0xFF7B2FFF)
         ),
         GateTile(
             title = "Agent Creation",
             subtitle = "Build AI",
             route = "agent_creation",
-            imageRes = R.drawable.card_agent_creation,
+            imageRes = null,
             glowColor = Color(0xFFFFD700)
         ),
         GateTile(
@@ -107,7 +107,7 @@ fun AgentNexusGateScreen(navController: NavController) {
                 domainColor = Color(0xFF7B2FFF), // Agent Nexus purple
                 modifier = Modifier.fillMaxSize()
             )
-            
+
             // Card grid on top
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
@@ -159,7 +159,7 @@ private fun GateCardTile(
                     .fillMaxSize()
                     .blur(1.dp)
             )
-            
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -174,7 +174,7 @@ private fun GateCardTile(
                     )
             )
         }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
