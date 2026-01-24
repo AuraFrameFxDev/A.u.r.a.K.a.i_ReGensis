@@ -41,6 +41,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
 import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 
@@ -50,21 +52,10 @@ import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
  *
  * ✨ Now powered by AgentViewModel for real agent intelligence!
  */
-/**
- * Composable screen that presents a one-on-one chat UI for selecting an AI agent and messaging it.
- *
- * Displays an agent selector, the selected agent's chat header and message list, and an input row
- * to compose and send messages. Selecting an agent activates it via the ViewModel; sending a
- * message forwards the text to the ViewModel for processing.
- *
- * @param viewModel The AgentViewModel that powers agent communication.
- * @param onNavigateBack Callback invoked when navigation back is requested (default is a no-op).
- */
-@Suppress("UNUSED_PARAMETER")
 @Composable
 fun DirectChatScreen(
-    viewModel: AgentViewModel,
-    onNavigateBack: () -> Unit = {}
+    navController: NavController,
+    viewModel: AgentViewModel = hiltViewModel()
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
     val selectedAgent = remember { mutableStateOf(agents.firstOrNull()) }

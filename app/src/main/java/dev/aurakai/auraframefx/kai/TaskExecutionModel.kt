@@ -2,11 +2,10 @@ package dev.aurakai.auraframefx.kai
 
 import dev.aurakai.auraframefx.ai.task.TaskPriority
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.models.InstantSerializer
-import dev.aurakai.auraframefx.serialization.JavaInstantAsIso8601Serializer
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import dev.aurakai.auraframefx.helpers.InstantSerializer
 import kotlinx.serialization.Serializable
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 @Serializable
 data class TaskExecution(
@@ -16,8 +15,8 @@ data class TaskExecution(
     val type: String,
     val data: Map<String, String> = emptyMap(),
     val priority: TaskPriority = TaskPriority.NORMAL,
-    @Serializable(with = JavaInstantAsIso8601Serializer::class) val startTime: Instant = Clock.System.now(),
-    @Serializable(with = JavaInstantAsIso8601Serializer::class) val endTime: Instant? = null,
+    @Serializable(with = InstantSerializer::class) val startTime: Instant = Clock.System.now(),
+    @Serializable(with = InstantSerializer::class) val endTime: Instant? = null,
     val startedAt: Long? = null,
     val completedAt: Long? = null,
     val errorMessage: String? = null,

@@ -43,13 +43,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 /**
  * Overlay Menus Customization Screen
  * Manage floating bubbles and sidebars
  */
 @Composable
-fun OverlayMenusScreen() {
+fun OverlayMenusScreen(navController: NavController) {
     val auraOverlayEnabled = remember { mutableStateOf(true) }
     val kaiOverlayEnabled = remember { mutableStateOf(false) }
     val chatBubbleEnabled = remember { mutableStateOf(true) }

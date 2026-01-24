@@ -25,29 +25,6 @@ import dev.aurakai.auraframefx.navigation.NavDestination
  * Sphere Grid Screen
  * Agent progression visualization and skill trees
  */
-/**
- * Displays the Sphere Grid UI for selecting an agent and viewing its skill tree.
- *
- * Shows a header and description, an agent selector grid that updates the selected agent when tapped,
- * and a skill tree visualization with the selected agent's level, XP, and XP needed for the next level.
- */
-/**
- * Displays the Sphere Grid UI including a header, an agent selector grid, and a skill-tree visualization for the selected agent.
- *
- * Renders a selectable grid of agents (updates selection state on tap), a canvas-based skill tree for the currently selected agent, and stat blocks showing Level, XP, and XP to next level.
- *
- * @param navController NavHostController used for navigation from this screen.
- */
-/**
- * Displays the Sphere Grid screen containing an agent selector and a skill-tree visualization.
- *
- * The composable loads all agents, tracks the currently selected agent, and renders:
- * - Header and subtitle.
- * - An agent selector card with a 3-column grid of AgentSphereCard items; tapping an agent updates the selection.
- * - A skill-tree card showing the selected agent's SkillTreeCanvas and a stat row for Level, XP, and Next Level XP.
- *
- * @param navController NavHostController used for screen navigation.
- */
 @Composable
 fun SphereGridScreen(navController: NavHostController) {
     val agents = remember { AgentRepository.getAllAgents() }
@@ -110,8 +87,6 @@ fun SphereGridScreen(navController: NavHostController) {
                                     "Kai" -> navController.navigate(NavDestination.KaiConstellation.route)
                                     "Cascade" -> navController.navigate(NavDestination.CascadeConstellation.route)
                                     "Grok" -> navController.navigate(NavDestination.GrokConstellation.route)
-                                    // Agents without constellation screens yet: Nemotron, Gemini, MetaInstruct
-                                    // Will display skill tree only for now
                                 }
                             }
                         )

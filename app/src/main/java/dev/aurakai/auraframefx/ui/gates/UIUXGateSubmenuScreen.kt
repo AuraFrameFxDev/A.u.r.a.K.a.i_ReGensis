@@ -71,7 +71,7 @@ fun UIUXGateSubmenuScreen(
             description = "Modify quick settings tiles and layout",
             icon = Icons.Default.SettingsInputComponent,
             route = NavDestination.QuickSettings.route,
-            color = Color(0xFF00FFFF) // Gold
+            color = Color(0xFF00FFFF) // Cyan
         ),
         SubmenuItem(
             title = "Overlay Menus",

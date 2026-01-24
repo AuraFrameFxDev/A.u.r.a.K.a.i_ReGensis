@@ -101,7 +101,7 @@ internal fun MainScreenContent(
                         when (action) {
                             "voice" -> navController.navigate(NavDestination.DirectChat.route)
                             "connect" -> navController.navigate(NavDestination.AgentHub.route)
-                            "design" -> navController.navigate(NavDestination.UIUXDesignStudio.route)
+                            "design" -> navController.navigate(NavDestination.UXUIDesignStudio.route)
                         }
                     }
 

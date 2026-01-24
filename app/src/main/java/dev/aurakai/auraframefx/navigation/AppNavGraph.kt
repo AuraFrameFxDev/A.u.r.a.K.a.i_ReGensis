@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.navigation
 // AURA DOMAIN - All real screens (20 files found!)
 
 // GENESIS & CLAUDE
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,11 +11,14 @@ import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
+import dev.aurakai.auraframefx.ui.gates.DirectChatScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.OverlayMenusScreen
 import dev.aurakai.auraframefx.ui.gates.ROMToolsSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
 import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
+import dev.aurakai.auraframefx.ui.navigation.gates.AgentNexusGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
 
 /**
@@ -85,7 +89,7 @@ fun AppNavGraph(
             AgentHubSubmenuScreen(navController)
         }
         composable("claude_constellation") {
-            ClaudeConstellationScreen(navController)
+            // ClaudeConstellationScreen(navController)
         }
         composable("sphere_grids") {
             SphereGridScreen(navController)
@@ -105,6 +109,29 @@ fun AppNavGraph(
 
         composable("lsposed_panel") {
             LSPosedSubmenuScreen(navController)
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // Missing routes
+        // ═══════════════════════════════════════════════════════════════
+        composable(NavDestination.OverlayMenus.route) {
+            OverlayMenusScreen(navController = navController)
+        }
+
+        composable(NavDestination.AgentHub.route) {
+            AgentNexusGateScreen(navController)
+        }
+
+        composable(NavDestination.TaskAssignment.route) {
+            ConferenceRoomScreen()
+        }
+
+        composable(NavDestination.ModuleCreation.route) {
+            Text("Module Creation → App Builder")
+        }
+
+        composable(NavDestination.DirectChat.route) {
+            DirectChatScreen(navController)
         }
     }
 }

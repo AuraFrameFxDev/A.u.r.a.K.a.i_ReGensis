@@ -26,9 +26,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.serialization.json.buildJsonObject
 import javax.inject.Singleton
+import kotlin.time.Clock
 
 @Singleton
 class AuraAgent constructor(

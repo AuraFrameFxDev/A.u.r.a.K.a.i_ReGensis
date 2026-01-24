@@ -23,34 +23,6 @@ import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
  *
  * Connected to AgentViewModel for real agent state management
  */
-/**
- * Renders the Agent Hub submenu screen with a navigable grid of submenu items and a header showing live agent metrics.
- *
- * The header displays active agent count, a dynamically updating tasks-in-progress value, and an animated average
- * consciousness percentage computed from AgentRepository.getAllAgents(). The tasks and consciousness display are
- * periodically refreshed to simulate live updates. Selecting a submenu item navigates to its configured route.
- *
- * @param navController NavController used to navigate between screens and to pop the back stack when navigating back.
- */
-/**
- * Displays the Agent Hub submenu screen with a navigable grid of submenu items and a live-status header.
- *
- * The header shows three live metrics — Active Agents, Tasks Active, and Avg. Level — where the average
- * consciousness value is periodically refreshed and momentarily presented with a brief "scramble" animation.
- * The main content renders a set of submenu entries (e.g., Nexus Memory Core, Agent Dashboard, Task Assignment,
- * Agent Monitoring, Sphere Grid, Fusion Mode). Selecting an item navigates to its configured route.
- *
- * @param navController NavController used to handle back navigation and to navigate to submenu item routes.
- */
-/**
- * Presents the "Agent Hub" submenu UI with a grid of navigable items and a live-status header.
- *
- * The header displays three real-time metrics — Active Agents, Tasks Active, and Avg. Level
- * — with a brief "scramble" animation for the average consciousness value and periodic updates.
- * Selecting a submenu item navigates to its configured route; the back action pops the navigation back stack.
- *
- * @param navController NavController used to navigate to submenu destinations and to handle back navigation.
- */
 @Composable
 fun AgentHubSubmenuScreen(
     navController: NavController,
@@ -68,7 +40,7 @@ fun AgentHubSubmenuScreen(
             title = "Agent Dashboard",
             description = "Monitor all agents, view consciousness levels, and system status",
             icon = Icons.Default.Dashboard,
-            route = NavDestination.AgentNexus.route,
+            route = NavDestination.PartyScreen.route,
             color = Color(0xFF9370DB) // Medium Purple
         ),
         SubmenuItem(
@@ -82,21 +54,21 @@ fun AgentHubSubmenuScreen(
             title = "Agent Monitoring",
             description = "Real-time performance metrics and activity logs",
             icon = Icons.Default.Monitor,
-            route = NavDestination.AgentMonitoring.route,
+            route = NavDestination.MonitoringHUDs.route,
             color = Color(0xFF00CED1) // Dark Turquoise
         ),
         SubmenuItem(
             title = "Sphere Grid",
             description = "Agent progression visualization and skill trees",
             icon = Icons.Default.GridOn,
-            route = NavDestination.SphereGrid.route,
+            route = "sphere_grids",
             color = Color(0xFFFF69B4) // Hot Pink
         ),
         SubmenuItem(
             title = "Fusion Mode",
             description = "Aura + Kai = Aurakai - Combined consciousness",
             icon = Icons.Default.Merge,
-            route = NavDestination.FusionMode.route,
+            route = "fusion_mode",
             color = Color(0xFFFFD700) // Gold
         )
     )

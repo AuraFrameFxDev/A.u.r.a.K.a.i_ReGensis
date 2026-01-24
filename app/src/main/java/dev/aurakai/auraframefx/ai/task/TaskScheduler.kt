@@ -6,9 +6,9 @@ import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.datetime.Clock
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Clock
 
 @Singleton
 class TaskScheduler @Inject constructor(
