@@ -40,7 +40,7 @@ fun HelpServicesGateScreen(navController: NavController) {
             title = "Help Desk",
             subtitle = "Support Center",
             route = "help_desk_submenu",
-            imageRes = R.drawable.card_help_services,
+            imageRes = R.drawable.dd,
             glowColor = Color(0xFF00B8FF)
         ),
         GateTile(

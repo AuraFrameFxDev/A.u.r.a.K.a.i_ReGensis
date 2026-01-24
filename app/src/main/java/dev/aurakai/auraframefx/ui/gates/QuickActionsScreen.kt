@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
  * The composable manages its own UI state: a list of up to three recent action titles, the currently executing action, and a flag that disables interactions while an action is executing. Tapping an action marks it as executing, adds its title to the recent-actions list (unique, most-recent-first, max 3), and simulates completion after a short delay.
  */
 @Composable
-fun QuickActionsScreen() {
+fun QuickActionsScreen(onNavigateBack: () -> Boolean) {
     val actions = listOf(
         ScreenQuickAction(
             "Reboot System",

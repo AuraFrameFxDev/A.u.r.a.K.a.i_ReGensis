@@ -1,23 +1,25 @@
 package dev.aurakai.auraframefx.navigation
 
+// Level 1: Gate carousel
+
+// Level 2: Gate screens
+
+// Level 3: Feature screens - ALL REAL SCREENS (no more wildcards)
+// ui/gates screens (NOTE: Some physically in domains/aura/screens but declare package ui.gates)
+
+// domains/aura/screens (those that actually use domains package)
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
-// Level 1: Gate carousel
+import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
-
-// Level 2: Gate screens
-import dev.aurakai.auraframefx.ui.navigation.gates.AgentNexusGateScreen
-import dev.aurakai.auraframefx.ui.navigation.gates.AuraGateScreen
-import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
-import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
-import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
-
-// Level 3: Feature screens - ALL REAL SCREENS (no more wildcards)
-// ui/gates screens
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
@@ -26,18 +28,20 @@ import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
 import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.ConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.gates.DirectChatScreen
+import dev.aurakai.auraframefx.ui.gates.DocumentationScreen
+import dev.aurakai.auraframefx.ui.gates.FAQBrowserScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
 import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
-import dev.aurakai.auraframefx.ui.gates.LogsViewerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedGateScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
+import dev.aurakai.auraframefx.ui.gates.LogsViewerScreen
 import dev.aurakai.auraframefx.ui.gates.ModuleCreationScreen
 import dev.aurakai.auraframefx.ui.gates.ModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
@@ -45,32 +49,27 @@ import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
 import dev.aurakai.auraframefx.ui.gates.OracleDriveSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.OverlayMenusScreen
 import dev.aurakai.auraframefx.ui.gates.QuickActionsScreen
-import dev.aurakai.auraframefx.ui.gates.RecoveryToolsScreen
 import dev.aurakai.auraframefx.ui.gates.ROMFlasherScreen
 import dev.aurakai.auraframefx.ui.gates.ROMToolsSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.RecoveryToolsScreen
 import dev.aurakai.auraframefx.ui.gates.RootToolsTogglesScreen
 import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
 import dev.aurakai.auraframefx.ui.gates.SystemJournalScreen
 import dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen
 import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
+import dev.aurakai.auraframefx.ui.gates.TutorialVideosScreen
 import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
-
-// domains/aura/screens  
-import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen as AuraDirectChatScreen
-import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
-import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
-import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskScreen
-import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
-import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
-import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
+import dev.aurakai.auraframefx.ui.navigation.gates.AgentNexusGateScreen
+import dev.aurakai.auraframefx.ui.navigation.gates.AuraGateScreen
+import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
+import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
+import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
 
 /**
  * Main Navigation Graph
  * 3-Level Architecture: Carousel → Gate Grids → Feature Screens
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
@@ -159,7 +158,7 @@ fun AppNavGraph(
             CodeAssistScreen(navController) // FIXED! Was OracleDriveSubmenuScreen
         }
         composable("neural_network") {
-            NeuralArchiveScreen(onNavigateBack = { navController.popBackStack() })
+            NeuralArchiveScreen(navController)
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -175,10 +174,10 @@ fun AppNavGraph(
             BootloaderManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable("root_tools") {
-            RootToolsTogglesScreen(onNavigateBack = { navController.popBackStack() })
+            RootToolsTogglesScreen(navController)
         }
         composable("rom_flasher") {
-            ROMFlasherScreen(onNavigateBack = { navController.popBackStack() })
+            ROMFlasherScreen()
         }
         composable("live_rom_editor") {
             LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() })
@@ -189,7 +188,7 @@ fun AppNavGraph(
 
         // LSPosed & Hooks - ALL REAL SCREENS WIRED!
         composable(NavDestination.LSPosedPanel.route) {
-            LSPosedGateScreen(onNavigateBack = { navController.popBackStack() })
+            LSPosedGateScreen()
         }
         composable("lsposed_modules") {
             LSPosedModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
@@ -200,10 +199,10 @@ fun AppNavGraph(
 
         // System Tools - ALL REAL SCREENS WIRED!
         composable("logs_viewer") {
-            LogsViewerScreen(onNavigateBack = { navController.popBackStack() })
+            LogsViewerScreen(onNavigateBack = navController as () -> Unit)
         }
         composable("system_journal") {
-            SystemJournalScreen(onNavigateBack = { navController.popBackStack() })
+            SystemJournalScreen(navController)
         }
         composable("quick_actions") {
             QuickActionsScreen(onNavigateBack = { navController.popBackStack() })
@@ -249,7 +248,8 @@ fun AppNavGraph(
             FusionModeScreen()
         }
         composable(NavDestination.ConferenceRoom.route) {
-            ConferenceRoomScreen()
+            // TODO: ConferenceRoomScreen doesn't exist yet - only ViewModel exists
+            SimpleTitle("Conference Room - Screen not implemented")
         }
         composable(NavDestination.SphereGrid.route) {
             SphereGridScreen(navController)
@@ -275,7 +275,7 @@ fun AppNavGraph(
             TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable("live_help") {
-            LiveSupportChatScreen(onNavigateBack = { navController.popBackStack() })
+            LiveSupportChatScreen()
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -299,7 +299,7 @@ fun AppNavGraph(
         }
 
         composable(NavDestination.TaskAssignment.route) {
-            TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() })
+            TaskAssignmentScreen()
         }
 
         composable(NavDestination.ModuleCreation.route) {
@@ -318,6 +318,10 @@ fun AppNavGraph(
             ModuleManagerScreen()
         }
     }
+}
+
+private fun AnimatedContentScope.LiveSupportChatScreen() {
+    TODO("Not yet implemented")
 }
 
 @Composable

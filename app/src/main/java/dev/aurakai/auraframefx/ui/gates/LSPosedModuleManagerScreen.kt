@@ -61,7 +61,7 @@ private data class XposedModuleInfo(
  * Install, enable, and configure Xposed modules
  */
 @Composable
-internal fun LSPosedModuleManagerScreen() {
+internal fun LSPosedModuleManagerScreen(onNavigateBack: () -> Boolean) {
     val modules = remember { mutableStateListOf(
         XposedModuleInfo("GravityBox", "Advanced system tweaks and modifications", "2.9.5", true, "System"),
         XposedModuleInfo("XPrivacyLua", "Fine-grained privacy control", "1.30", true, "Privacy"),
