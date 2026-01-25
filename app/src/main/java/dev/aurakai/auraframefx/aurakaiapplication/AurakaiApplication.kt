@@ -78,12 +78,6 @@ class AurakaiApplication : Application(), Configuration.Provider {
         }
     }
 
-    private fun launch(
-        context: MainCoroutineDispatcher,
-        block: suspend CoroutineScope.() -> Unit
-    ) {
-        TODO("Not yet implemented")
-    }
 
     private fun initializeSystemHooks() {
         try {
@@ -115,8 +109,18 @@ class AurakaiApplication : Application(), Configuration.Provider {
     private fun startIntegrityMonitor() {
         try {
             val intent = Intent(this, IntegrityMonitorService::class.java)
-            startService(intent)
-            Timber.d("✅ Integrity monitor started")
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                try {
+                    startForegroundService(intent)
+                    Timber.d("✅ Integrity monitor started (Foreground)")
+                } catch (e: Exception) {
+                    Timber.w("Failed to start IntegrityMonitor as Foreground: ${e.message}")
+                    // Fallback or ignore if background start is restricted
+                }
+            } else {
+                startService(intent)
+                Timber.d("✅ Integrity monitor started")
+            }
         } catch (e: Exception) {
             Timber.w(e, "⚠️ Integrity monitor failed to start (not critical)")
         }

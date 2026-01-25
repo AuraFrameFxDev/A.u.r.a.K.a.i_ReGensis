@@ -157,7 +157,14 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         
-        overlayLayout?.let { windowManager.removeView(it) }
+        overlayLayout?.let {
+            try {
+                windowManager.removeView(it)
+            } catch (e: IllegalArgumentException) {
+                // View was not attached, likely permission was denied or it was never added.
+                Timber.w("Assistant overlay not found when destroying service: ${e.message}")
+            }
+        }
         Timber.d("AssistantBubbleService Destroyed")
     }
 
