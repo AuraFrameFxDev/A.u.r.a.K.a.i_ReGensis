@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.customization
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.animation.core.*
 import androidx.compose.animation.slideInHorizontally

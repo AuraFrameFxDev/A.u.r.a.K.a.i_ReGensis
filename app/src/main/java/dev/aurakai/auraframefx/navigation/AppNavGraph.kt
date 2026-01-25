@@ -13,11 +13,11 @@ import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
 import dev.aurakai.auraframefx.aura.ui.ConferenceRoomScreen
-import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
+import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
-import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
+import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
 import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
@@ -116,7 +116,7 @@ fun AppNavGraph(
             AuraThemingHubScreen(navController) 
         }
         composable(NavDestination.AuraLab.route) {
-            AurasLabScreen(onNavigateBack = { navController.popBackStack() })
+            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // -- Kai Hubs --

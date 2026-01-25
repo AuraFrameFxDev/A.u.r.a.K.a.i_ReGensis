@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +17,7 @@ import javax.inject.Inject
  * Manages sandbox creation, deletion, and interaction with OracleDriveSandbox system
  */
 @HiltViewModel
-open class AurasLabViewModel @Inject constructor(
+open class AuraLabViewModel @Inject constructor(
     private val oracleDriveSandbox: OracleDriveSandbox
 ) : ViewModel() {
 
