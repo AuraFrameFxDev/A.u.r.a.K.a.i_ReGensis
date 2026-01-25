@@ -232,6 +232,9 @@ fun AppNavGraph(
         composable(NavDestination.SphereGrid.route) {
             SphereGridScreen(navController)
         }
+        composable(NavDestination.AgentCreation.route) {
+            androidx.compose.material3.Text("Agent Creation Screen - Coming Soon", color = androidx.compose.ui.graphics.Color.White)
+        }
         composable(NavDestination.EvolutionTree.route) {
             dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen(
                 onNavigateToAgents = { navController.navigate(NavDestination.AgentNexusGate.route) },

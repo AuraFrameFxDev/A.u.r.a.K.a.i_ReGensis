@@ -63,6 +63,7 @@ sealed class NavDestination(val route: String) {
     data object IconifyPicker : NavDestination("iconify_picker")
     data object CollabCanvas : NavDestination("collab_canvas")
     data object ModuleCreation : NavDestination("module_creation")
+    data object AgentCreation : NavDestination("agent_creation")
 
     // -- Kai Toolset --
     data object Bootloader : NavDestination("bootloader")
@@ -87,6 +88,7 @@ sealed class NavDestination(val route: String) {
     data object CascadeConstellation : NavDestination("cascade_constellation")
     data object AgentMonitoring : NavDestination("agent_monitoring")
     data object SphereGrid : NavDestination("sphere_grid")
+    data object EvolutionTree : NavDestination("evolution_tree")
     data object FusionMode : NavDestination("fusion_mode")
     data object Constellation : NavDestination("constellation")
     data object TaskAssignment : NavDestination("task_assignment")
