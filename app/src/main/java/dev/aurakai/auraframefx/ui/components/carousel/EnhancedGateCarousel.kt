@@ -1,45 +1,61 @@
 package dev.aurakai.auraframefx.ui.components.carousel
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.lerp
-import dev.aurakai.auraframefx.R
-import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.math.absoluteValue
-
 /**
  * 🌍 REGENESIS GATE CAROUSEL - HOLOGRAPHIC EDITION
  */
 
+import androidx.compose.animation.core.EaseInOutSine
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
+import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 
 data class GateItem(
     val gateName: String,
@@ -111,24 +127,57 @@ fun EnhancedGateCarousel(
     )
 
     val currentGate = gates[pagerState.currentPage % gates.size]
-    
+
     LaunchedEffect(pagerState.currentPage) {
         onGateSelection(currentGate)
     }
 
-    Box(modifier = modifier.fillMaxSize()) {
+    BoxWithConstraints(modifier = modifier.fillMaxSize()) {
+        val maxHeight = maxHeight
+        val bottomPadding = maxHeight * 0.15f // 15% from bottom as requested
+
         // 1. HUD & BACKDROP
         dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer(
             title = currentGate.gateName,
             description = currentGate.description,
             glowColor = currentGate.glowColor
         ) {
-            // 2. 3D ROTATING GATE CARDS
+            // 2. THE PEDESTAL (Active Emitter Layer) - Mapped coordinates
+            // This sits BEHIND the cards but ON TOP of the background
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = bottomPadding) // ~15% Up
+                    .size(width = 400.dp, height = 300.dp)
+            ) {
+                // Radial Glow
+                Canvas(Modifier.fillMaxSize()) {
+                    val centerOffset = Offset(size.width / 2, size.height) // Glow radiates from bottom center up
+                    val radius = size.width / 1.5f
+
+                    drawCircle(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                currentGate.glowColor.copy(alpha = 0.6f),
+                                currentGate.glowColor.copy(alpha = 0.2f),
+                                Color.Transparent
+                            ),
+                            center = centerOffset,
+                            radius = radius
+                        )
+                    )
+                }
+
+                // Active Particle Emitter
+                PedestalParticleEmitter(color = currentGate.glowColor)
+            }
+
+            // 3. THE CARDS (Drawable Layer)
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 60.dp)
+                    .padding(bottom = bottomPadding) // Aligned with pedestal
             ) { pageIndex ->
                 val gate = gates[pageIndex % gates.size]
 
@@ -141,24 +190,7 @@ fun EnhancedGateCarousel(
             }
         }
 
-        // Platform glow at bottom
-        Canvas(
-            Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 60.dp)
-                .size(320.dp, 80.dp)
-        ) {
-            drawOval(
-                Brush.radialGradient(
-                    listOf(
-                        currentGate.glowColor.copy(0.4f),
-                        Color.Transparent
-                    )
-                )
-            )
-        }
-
-        // Page indicator dots
+        // Page indicator (keep consistent)
         Row(
             Modifier
                 .align(Alignment.BottomCenter)
@@ -179,6 +211,58 @@ fun EnhancedGateCarousel(
         }
     }
 }
+
+@Composable
+fun PedestalParticleEmitter(color: Color) {
+    val particles = remember { List(40) { ParticleState() } }
+
+    // Animation loop for particles
+    val infiniteTransition = rememberInfiniteTransition(label = "pedestal_particles")
+    val time by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "time"
+    )
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        particles.forEachIndexed { index, particle ->
+            // Update particle position based on time and pseudo-random offsets
+            // Particles rise UP from bottom (y changes from 1.0 to 0.0)
+
+            // Pseudo-random logic using index + time to avoid heavyweight state updates
+            val seed = index * 1337
+            val speed = 0.2f + ((seed % 100) / 200f) // 0.2 to 0.7
+            val startX = (seed % 100) / 100f * size.width // Random X layout
+
+            // Animate Y: rising
+            val currentProgress = (time * speed + (seed % 1000) / 1000f) % 1f
+            val yPos = size.height - (currentProgress * size.height)
+
+            // Animate X: drifting
+            val xDrift = kotlin.math.sin(currentProgress * 10 + index) * 20.dp.toPx()
+            val xPos = startX + xDrift
+
+            // Fade in/out
+            val alpha = when {
+                currentProgress < 0.2f -> currentProgress * 5 // Fade in
+                currentProgress > 0.8f -> (1f - currentProgress) * 5 // Fade out
+                else -> 1f
+            }
+
+            drawCircle(
+                color = color.copy(alpha = alpha * 0.6f),
+                radius = (2.dp.toPx() * (1f - currentProgress * 0.5f)), // Shrink slightly as they rise
+                center = Offset(xPos, yPos)
+            )
+        }
+    }
+}
+
+class ParticleState() // Placeholder for advanced state if needed, using simple math for now
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -216,7 +300,7 @@ fun DoubleTapGateCard(
 ) {
     var tapCount by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
-    
+
     // Floating animation
     val infiniteTransition = rememberInfiniteTransition(label = "float")
     val floatOffset by infiniteTransition.animateFloat(
@@ -256,9 +340,9 @@ fun DoubleTapGateCard(
                 modifier = Modifier
                     .fillMaxSize()
                     .blur(if (tapCount > 0) 4.dp else 0.dp),
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Crop
             )
-            
+
             // Subtle pulse glow
             Box(
                 modifier = Modifier

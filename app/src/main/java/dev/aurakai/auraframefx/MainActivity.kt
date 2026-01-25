@@ -23,7 +23,18 @@ class MainActivity : ComponentActivity() {
         setupFullscreenMode()
 
         // Start the Persistent Assistant Bubble
-        startService(Intent(this, AssistantBubbleService::class.java))
+        // Start the Persistent Assistant Bubble
+        try {
+            val bubbleIntent = Intent(this, AssistantBubbleService::class.java)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                startForegroundService(bubbleIntent)
+            } else {
+                startService(bubbleIntent)
+            }
+        } catch (e: Exception) {
+            // Log and ignore if we simply can't start the bubble (e.g. background restrictions)
+            android.util.Log.w("MainActivity", "Failed to start AssistantBubbleService: ${e.message}")
+        }
 
         setContent {
             AuraFrameFXTheme {

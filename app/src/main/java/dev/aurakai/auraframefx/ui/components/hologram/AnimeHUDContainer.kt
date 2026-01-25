@@ -56,28 +56,35 @@ fun AnimeHUDContainer(
         label = "pulseAlpha"
     )
 
-    Box(modifier = modifier.fillMaxSize()) {
-        // 0. HOLOGRAPHIC BACKDROP (Base layer)
+    BoxWithConstraints(modifier = modifier.fillMaxSize()) {
+        val maxWidth = maxWidth
+        val maxHeight = maxHeight
+        
+        // 0. HOLOGRAPHIC BACKDROP (Stage Base Layer)
         androidx.compose.foundation.Image(
             painter = painterResource(id = R.drawable.holographic_backdrop),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = androidx.compose.ui.layout.ContentScale.FillBounds,
-            alpha = 0.4f
+            contentScale = androidx.compose.ui.layout.ContentScale.Crop, 
+            alpha = 0.78f 
         )
+        
+        // 0.5 TRACED FRAME OVERLAY
+        TracedFrameOverlay(glowColor = glowColor)
 
-        // 0.5 PARTICLE SYSTEM
-        ParticleSystem(glowColor = glowColor)
-
-        // 1. TOP-LEFT HUD BOX
+        // 1. TOP-LEFT HUD BOX (Overlay Layer) - Mapped to 12% Top, 5% Left
+        val topPadding = maxHeight * 0.12f
+        val startPadding = maxWidth * 0.05f
+        val hudWidth = maxWidth * 0.65f
+        
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(top = 40.dp, start = 30.dp)
-                .width(280.dp),
+                .padding(top = topPadding, start = startPadding)
+                .width(hudWidth),
             horizontalAlignment = Alignment.Start
         ) {
-            // THE TITLE (Top line of the box area)
+            // THE TITLE
             Text(
                 text = title.uppercase(),
                 fontSize = 18.sp,
@@ -92,10 +99,9 @@ fun AnimeHUDContainer(
                     .fillMaxWidth()
                     .height(110.dp)
                     .clip(HUDBoxShape)
-                    .background(Color.Black.copy(alpha = 0.7f))
+                    .background(Color.Black.copy(alpha = 0.6f))
                     .border(1.dp, glowColor.copy(alpha = 0.4f * pulseAlpha), HUDBoxShape)
             ) {
-                // Description inside the box
                 Text(
                     text = description,
                     fontSize = 11.sp,
@@ -103,10 +109,11 @@ fun AnimeHUDContainer(
                     color = glowColor.copy(alpha = 0.8f),
                     textAlign = TextAlign.Start,
                     lineHeight = 16.sp,
-                    modifier = Modifier.padding(16.dp).align(Alignment.CenterStart)
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterStart)
                 )
                 
-                // Tech accents
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val dotSize = 2.dp.toPx()
                     drawCircle(glowColor, dotSize, Offset(10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
@@ -114,6 +121,100 @@ fun AnimeHUDContainer(
                 }
             }
         }
+        
+        // MAIN CONTENT AREA (The cards)
+        // Passed content() will encompass the Carousel which handles its own bottom alignment
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+fun TracedFrameOverlay(glowColor: Color) {
+    val infiniteTransition = rememberInfiniteTransition(label = "frame_trace")
+    val traceProgress by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "trace"
+    )
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val strokeWidth = 2.dp.toPx()
+        val w = size.width
+        val h = size.height
+        val corner = 40.dp.toPx()
+        
+        // Path mimicking a high-tech window frame
+        val path = Path().apply {
+            // Top Left
+            moveTo(0f, corner)
+            lineTo(corner, 0f)
+            lineTo(w - corner, 0f)
+            
+            // Top Right
+            lineTo(w, corner)
+            lineTo(w, h - corner)
+            
+            // Bottom Right
+            lineTo(w - corner, h)
+            lineTo(corner, h)
+            
+            // Bottom Left
+            lineTo(0f, h - corner)
+            close()
+        }
+
+        // 1. Static Glow (Base "Light Up")
+        drawPath(
+            path = path,
+            color = glowColor.copy(alpha = 0.3f),
+            style = Stroke(width = strokeWidth * 3, cap = StrokeCap.Round) // Wide faint glow
+        )
+        
+        // 2. Sharp Outline
+        drawPath(
+            path = path,
+            color = glowColor.copy(alpha = 0.8f),
+            style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
+        )
+
+        // 3. "Tracing" Beam Effect (Moving light)
+        // We use path measure to draw a segment of the path based on progress
+        // Note: Simple implementation drawing a gradient along the path borders for effect
+        val pathMeasure = PathMeasure()
+        pathMeasure.setPath(path, false)
+        val pathLength = pathMeasure.length
+        
+        val start = traceProgress * pathLength
+        val end = (traceProgress * pathLength) + 300f // 300px long "beam"
+        
+        val beamPath = Path()
+        // Handle wrap-around logic simplified: just draw 2 segments if needed
+        if (end > pathLength) {
+             pathMeasure.getSegment(start, pathLength, beamPath, true)
+             pathMeasure.getSegment(0f, end - pathLength, beamPath, true)
+        } else {
+             pathMeasure.getSegment(start, end, beamPath, true)
+        }
+
+        drawPath(
+            path = beamPath,
+            color = Color.White,
+            style = Stroke(width = strokeWidth * 2, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        )
+    }
+}
+
+@Composable
+fun ParticleSystem(glowColor: Color) {
 
         // MAIN CONTENT AREA (The "floating alone" cards)
         Box(
