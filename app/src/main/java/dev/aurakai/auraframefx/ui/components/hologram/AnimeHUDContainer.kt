@@ -213,19 +213,6 @@ fun TracedFrameOverlay(glowColor: Color) {
     }
 }
 
-@Composable
-fun ParticleSystem(glowColor: Color) {
-
-        // MAIN CONTENT AREA (The "floating alone" cards)
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            content()
-        }
-    }
-}
 
 @Composable
 fun ParticleSystem(glowColor: Color) {
