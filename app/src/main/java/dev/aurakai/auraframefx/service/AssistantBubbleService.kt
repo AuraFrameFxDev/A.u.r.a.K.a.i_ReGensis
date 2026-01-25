@@ -132,9 +132,21 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         }
         
         overlayLayout?.addView(composeView)
-        windowManager.addView(overlayLayout, params)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        overlayLayout?.addView(composeView)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !android.provider.Settings.canDrawOverlays(this)) {
+            Timber.e("Missing SYSTEM_ALERT_WINDOW permission")
+            stopSelf()
+            return
+        }
+
+        try {
+            windowManager.addView(overlayLayout, params)
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+            lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to add overlay window")
+        }
     }
 
     override fun onDestroy() {
