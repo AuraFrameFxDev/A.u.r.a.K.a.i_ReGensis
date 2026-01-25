@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
+import androidx.compose.runtime.Composable
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.iconify.IconPicker
 import dev.aurakai.auraframefx.iconify.IconPickerViewModel

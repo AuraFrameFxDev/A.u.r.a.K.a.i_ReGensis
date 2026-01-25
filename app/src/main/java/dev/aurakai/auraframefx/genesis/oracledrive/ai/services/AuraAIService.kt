@@ -1,8 +1,5 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.ai.services
 
-/**
- * Genesis AI Service Interface
- */
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
@@ -37,7 +34,6 @@ interface AuraAIService {
 class DefaultAuraAIService @Inject constructor(
     private val iconifyService: IconifyService
 ) : AuraAIService {
- Greenland
 
     override suspend fun initialize() {}
 
@@ -83,8 +79,6 @@ class DefaultAuraAIService @Inject constructor(
     }
 
     override suspend fun discernThemeIntent(query: String): String {
-        // TODO: Implement AI-based theme intent detection
-        // For now, use simple keyword matching
         val lowerQuery = query.lowercase()
         return when {
             lowerQuery.contains("cyber") || lowerQuery.contains("neon") || lowerQuery.contains("matrix") -> "cyberpunk"
@@ -96,7 +90,6 @@ class DefaultAuraAIService @Inject constructor(
     }
 
     override suspend fun suggestThemes(contextQuery: String): List<String> {
-        // ... (existing suggestThemes implementation)
         val lowerQuery = contextQuery.lowercase()
         return when {
             lowerQuery.contains("morning") -> listOf("solar", "nature")
