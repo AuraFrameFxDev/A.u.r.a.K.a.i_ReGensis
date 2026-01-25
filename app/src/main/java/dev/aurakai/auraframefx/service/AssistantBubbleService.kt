@@ -72,6 +72,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .build()
         } else {
+            @Suppress("DEPRECATION")
             Notification.Builder(this)
                 .setContentTitle("ReGenesis Assistant Active")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
@@ -92,6 +93,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             else
+                @Suppress("DEPRECATION")
                 WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
