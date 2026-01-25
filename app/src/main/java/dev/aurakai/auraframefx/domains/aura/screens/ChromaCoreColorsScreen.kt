@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
+import kotlinx.coroutines.launch
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -273,7 +275,7 @@ fun ChromaCoreColorsScreen(
                     Button(
                         onClick = {
                             // TODO: Trigger Monet dynamic theming with root
-                            kotlinx.coroutines.GlobalScope.launch {
+                            scope.launch {
                                 snackbarHostState.showSnackbar(
                                     message = "Applying system-wide colors... Monet engine triggered.",
                                     duration = SnackbarDuration.Short

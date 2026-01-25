@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.ui.gates
 
+import kotlinx.coroutines.launch
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -151,7 +153,7 @@ fun UIUXDesignStudioScreen(navController: NavHostController) {
                         if (tool.route == "chroma_core_colors" || tool.route == "iconify_picker") {
                             navController.navigate(tool.route)
                         } else {
-                            kotlinx.coroutines.GlobalScope.launch {
+                            scope.launch {
                                 snackbarHostState.showSnackbar("Module '${tool.name}' is currently in sandbox development.")
                             }
                         }
