@@ -133,7 +133,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
             }
         }
         
-        overlayLayout?.addView(composeView)
+        
         overlayLayout?.addView(composeView)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !android.provider.Settings.canDrawOverlays(this)) {
