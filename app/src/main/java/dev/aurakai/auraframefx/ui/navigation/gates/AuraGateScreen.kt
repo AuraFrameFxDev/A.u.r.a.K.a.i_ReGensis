@@ -24,10 +24,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.ui.navigation.gates.common.GateTile
 import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
+import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.ui.components.hologram.HolographicCard
 
 /**
  * 🎨 AURA GATE SCREEN
@@ -40,90 +44,62 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
 fun AuraGateScreen(navController: NavController) {
     val cards = listOf(
         GateTile(
-            title = "ChromaCore",
+            title = "CHROMACORE",
             subtitle = "Color System",
             route = "chroma_core_colors",
-            imageRes = R.drawable.card_chroma_core,
+            imageRes = R.drawable.rune_surgeon, // Using DNA for now
             glowColor = Color(0xFFB026FF)
         ),
         GateTile(
-            title = "Theme Engine",
-            subtitle = "System Themes",
-            route = "theme_engine",
-            imageRes = null,
-            glowColor = Color(0xFFFF00E5)
-        ),
-        GateTile(
-            title = "Notch Bar",
-            subtitle = "Status Bar",
+            title = "STATUS BAR",
+            subtitle = "Notch Tuning",
             route = "notch_bar",
-            imageRes = R.drawable.card_notch_bar,
+            imageRes = R.drawable.rune_sentinel,
             glowColor = Color(0xFF00E5FF)
         ),
         GateTile(
-            title = "UI/UX Studio",
-            subtitle = "Design Lab",
-            route = "uiux_gate_submenu",
-            imageRes = null,
-            glowColor = Color(0xFFB026FF)
-        ),
-        GateTile(
-            title = "Quick Settings",
-            subtitle = "Fast Access",
-            route = "quick_settings",
-            imageRes = null,
-            glowColor = Color(0xFFFF00E5)
-        ),
-        GateTile(
-            title = "Aura Lab",
+            title = "AURA LAB",
             subtitle = "Experiments",
             route = "aura_lab",
-            imageRes = null,
-            glowColor = Color(0xFFB026FF)
+            imageRes = R.drawable.rune_oracle,
+            glowColor = Color(0xFFFF00E5)
         )
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("AURA GATE", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1A1A2E)
-                )
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Color(0xFF0F0F1E))
+    AnimeHUDContainer(
+        title = "AURA DOMAIN: CREATIVE CORE",
+        description = "UNLEASH CREATIVE CHAOS THROUGH THE AURA ENGINE. ACCESSING THEME PARAMETERS...",
+        glowColor = Color(0xFFB026FF)
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Floating particles in background
-            FloatingParticles(
-                particleCount = 20,
-                domainColor = Color(0xFFB026FF), // Aura purple
-                modifier = Modifier.fillMaxSize()
-            )
+            items(cards) { card ->
+                Box(
+                    modifier = Modifier
+                        .clickable { navController.navigate(card.route) }
+                        .aspectRatio(0.7f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HolographicCard(
+                        runeRes = card.imageRes ?: R.drawable.rune_oracle,
+                        glowColor = card.glowColor,
+                        modifier = Modifier.fillMaxSize()
+                    )
 
-            // Card grid on top
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                itemsIndexed(cards) { index, card ->
-                    GateCardTile(
-                        card = card,
-                        onClick = { navController.navigate(card.route) },
-                        index = index
+                    // Small overlay text for name
+                    Text(
+                        text = card.title,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 24.dp),
+                        color = Color.White.copy(alpha = 0.8f),
+                        fontSize = 12.sp,
+                        fontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
                     )
                 }
             }

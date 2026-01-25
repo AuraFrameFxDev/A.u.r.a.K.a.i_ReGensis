@@ -13,8 +13,7 @@
     <path
         android:pathData="M256,256m-140,0a140,140 0,1 1,280 0a140,140 0,1 1,-280 0"
         android:strokeColor="#00FF00"
-        android:strokeWidth="15"
-        android:strokeDashArray="40,20"/>
+        android:strokeWidth="15"/>
     <!-- Center Crystal -->
     <path
         android:pathData="M256,180 L320,256 L256,332 L192,256 Z"
