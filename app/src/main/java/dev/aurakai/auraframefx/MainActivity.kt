@@ -6,33 +6,17 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
-import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.services.AuraOverlayService
-import dev.aurakai.auraframefx.ui.overlays.AgentSidebarMenu
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,7 +27,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AuraFrameFXTheme {
-                MainScreenContent { /* processThemeCommand */ }
+                val navController = rememberNavController()
+                AppNavGraph(navController = navController)
             }
         }
     }
@@ -61,68 +46,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun MainScreenContent(
-    processThemeCommand: (String) -> Unit
-) {
-    val navController = rememberNavController()
-    var showSidebar by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = androidx.compose.ui.graphics.Color.Black)
-            .pointerInput(Unit) {
-                // Swipe from left edge to show sidebar
-                detectHorizontalDragGestures(
-                    onDragStart = { offset ->
-                        // Only trigger if starting from left edge (within 50dp from left)
-                        if (offset.x < 50.dp.toPx()) {
-                            showSidebar = true
-                        }
-                    },
-                    onDragEnd = {},
-                    onDragCancel = {},
-                    onHorizontalDrag = { _, _ -> }
-                )
-            }
-    ) {
-        // Main Navigation Graph - 3-Level Gate System (Level1 → Level2 → Level3)
-        AppNavGraph(navController = navController)
-
-        // Sidebar only (NO OVERLAYS - gates are fullscreen)
-        AgentSidebarMenu(
-            isVisible = showSidebar,
-            onDismiss = { showSidebar = false },
-            onAgentAction = { agentName, action ->
-                when (agentName) {
-                    "Aura" -> {
-                        when (action) {
-                            "voice" -> navController.navigate(NavDestination.DirectChat.route)
-                            "connect" -> navController.navigate(NavDestination.AgentHub.route)
-                            "design" -> navController.navigate(NavDestination.UXUIDesignStudio.route)
-                        }
-                    }
-
-                    "Kai" -> {
-                        when (action) {
-                            "voice" -> navController.navigate(NavDestination.DirectChat.route)
-                            "connect" -> navController.navigate(NavDestination.AgentHub.route)
-                            "assign" -> navController.navigate(NavDestination.TaskAssignment.route)
-                        }
-                    }
-
-                    "Genesis" -> {
-                        when (action) {
-                            "voice" -> navController.navigate(NavDestination.DirectChat.route)
-                            "connect" -> navController.navigate(NavDestination.AgentHub.route)
-                            "create" -> navController.navigate(NavDestination.ModuleCreation.route)
-                        }
-                    }
-                }
-                showSidebar = false
-            }
-        )
-    }
-}

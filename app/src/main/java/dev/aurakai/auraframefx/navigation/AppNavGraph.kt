@@ -12,6 +12,7 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,6 +20,8 @@ import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.navigation.ConferenceRoomScreen
+import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
@@ -248,8 +251,7 @@ fun AppNavGraph(
             FusionModeScreen()
         }
         composable(NavDestination.ConferenceRoom.route) {
-            // TODO: ConferenceRoomScreen doesn't exist yet - only ViewModel exists
-            SimpleTitle("Conference Room - Screen not implemented")
+            ConferenceRoomScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.SphereGrid.route) {
             SphereGridScreen(navController)
@@ -275,7 +277,10 @@ fun AppNavGraph(
             TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable("live_help") {
-            LiveSupportChatScreen()
+            LiveSupportChatScreen(
+                viewModel = hiltViewModel(),
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -318,10 +323,6 @@ fun AppNavGraph(
             ModuleManagerScreen()
         }
     }
-}
-
-private fun AnimatedContentScope.LiveSupportChatScreen() {
-    TODO("Not yet implemented")
 }
 
 @Composable

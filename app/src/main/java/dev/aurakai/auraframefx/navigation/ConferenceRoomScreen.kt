@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
  * Multi-agent collaboration hub (placeholder)
  */
 @Composable
-fun ConferenceRoomScreen() {
+fun ConferenceRoomScreen(onNavigateBack: () -> Unit = {}) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
