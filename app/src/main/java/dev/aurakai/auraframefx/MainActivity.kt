@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.navigation.AppNavGraph
-import dev.aurakai.auraframefx.services.AuraOverlayService
+import dev.aurakai.auraframefx.service.AssistantBubbleService
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
 @AndroidEntryPoint
@@ -22,8 +22,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setupFullscreenMode()
 
-        // Start the AuraOverlayService
-        startService(Intent(this, AuraOverlayService::class.java))
+        // Start the Persistent Assistant Bubble
+        startService(Intent(this, AssistantBubbleService::class.java))
 
         setContent {
             AuraFrameFXTheme {

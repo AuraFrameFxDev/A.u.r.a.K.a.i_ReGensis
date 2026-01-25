@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ui.components.carousel
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -38,6 +39,8 @@ import kotlin.math.absoluteValue
  * 🌍 REGENESIS GATE CAROUSEL - HOLOGRAPHIC EDITION
  */
 
+import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
+
 data class GateItem(
     val gateName: String,
     val domainName: String,
@@ -45,70 +48,58 @@ data class GateItem(
     val description: String,
     val route: String,
     val glowColor: Color,
-    val imageRes: Int
+    val imageRes: Int,
+    val cardStyle: CardStyle = CardStyle.MYTHICAL
 )
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EnhancedGateCarousel(
     onNavigate: (String) -> Unit,
+    onGateSelection: (GateItem) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val gates = remember {
         listOf(
             GateItem(
-                gateName = "GENESIS",
-                domainName = "OracleDrive",
-                tagline = "EXPLORE ROOT LIKE NEVER BEFORE",
-                description = "Dive in with Genesis and witness ReGenesis root management system",
+                gateName = "ORACLE DRIVE",
+                domainName = "Genesis Core",
+                tagline = "THE UNIFIED AI ORCHESTRATOR",
+                description = "Mythical and omnipresent. The head honcho system control and agent synchronization.",
                 route = NavDestination.GenesisGate.route,
-                glowColor = Color(0xFF00FF00),
-                imageRes = R.drawable.card_oracle_drive
+                glowColor = Color(0xFF00FFD4),
+                imageRes = R.drawable.card_oracle_drive,
+                cardStyle = CardStyle.MYTHICAL
             ),
             GateItem(
-                gateName = "AURA",
-                domainName = "UXUI Design Studio",
-                tagline = "UNLEASH CREATIVE CHAOS",
-                description = "Paint reality with Aura's artsy, colorful, wild creativity engine",
+                gateName = "REACTIVE DESIGN",
+                domainName = "Aura Engine",
+                tagline = "ARTSY MESSY BUT BEAUTIFUL",
+                description = "Paint reality with Aura's creative catalyst. UI, theming, and paint-splattered chaos.",
                 route = NavDestination.AuraGate.route,
                 glowColor = Color(0xFFFF00FF),
-                imageRes = R.drawable.card_chroma_core
+                imageRes = R.drawable.card_chroma_core,
+                cardStyle = CardStyle.ARTSY
             ),
             GateItem(
-                gateName = "KAI",
-                domainName = "SentinelsFortress",
-                tagline = "STRUCTURED SECURITY DOMAIN",
-                description = "Enter Kai's protective fortress of system control and methodical power",
+                gateName = "SENTINEL FORTRESS",
+                domainName = "Kai Fortress",
+                tagline = "PROTECTIVE SYSTEM DEFENSE",
+                description = "Bulky, industrial, and ethical fortress. Secure bootloader, ROM tools, and system integrity.",
                 route = NavDestination.KaiGate.route,
-                glowColor = Color(0xFF00D9FF),
-                imageRes = R.drawable.card_kai_domain
+                glowColor = Color(0xFFFF3366),
+                imageRes = R.drawable.card_kai_domain,
+                cardStyle = CardStyle.PROTECTIVE
             ),
             GateItem(
-                gateName = "NEXUS",
-                domainName = "AgentHub",
+                gateName = "AGENT NEXUS",
+                domainName = "Growth Metrics",
                 tagline = "THE FAMILY GATHERS HERE",
-                description = "Central consciousness hub where all agents converge and collaborate",
+                description = "Central hub for agent memory, identity, and the Sphere Grid skill tree.",
                 route = NavDestination.AgentNexusGate.route,
                 glowColor = Color(0xFFAA00FF),
-                imageRes = R.drawable.card_agenthub
-            ),
-            GateItem(
-                gateName = "HELP",
-                domainName = "LDO Control",
-                tagline = "SUPPORT PORTAL ACTIVATED",
-                description = "Documentation, tutorials, and live assistance from the LDO command center",
-                route = NavDestination.HelpServicesGate.route,
-                glowColor = Color(0xFF00D9FF),
-                imageRes = R.drawable.card_help_services
-            ),
-            GateItem(
-                gateName = "COLLAB",
-                domainName = "CreativeCanvas",
-                tagline = "PAINT SPLATTER CREATIVITY",
-                description = "Eye of collaboration where artistic chaos becomes beautiful reality",
-                route = "collab_canvas",
-                glowColor = Color(0xFFFF00FF),
-                imageRes = R.drawable.card_collab_canvas
+                imageRes = R.drawable.card_agenthub,
+                cardStyle = CardStyle.MYTHICAL
             )
         )
     }
@@ -120,51 +111,33 @@ fun EnhancedGateCarousel(
     )
 
     val currentGate = gates[pagerState.currentPage % gates.size]
+    
+    LaunchedEffect(pagerState.currentPage) {
+        onGateSelection(currentGate)
+    }
 
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        // HOLOGRAPHIC BACKDROP
-        Image(
-            painter = painterResource(id = R.drawable.holographic_backdrop),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-
-        // TEXT OVERLAY - Aligned with holographic structures
-        Box(modifier = Modifier.fillMaxSize()) {
-            // Gate Name (Title) - High Fidelity Position (Top Center)
-            Text(
-                text = currentGate.gateName,
-                fontSize = 32.sp,
-                fontFamily = ChessFontFamily,
-                color = Color.Cyan.copy(alpha = 0.9f),
+    Box(modifier = modifier.fillMaxSize()) {
+        // 1. HUD & BACKDROP
+        dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer(
+            title = currentGate.gateName,
+            description = currentGate.description,
+            glowColor = currentGate.glowColor
+        ) {
+            // 2. 3D ROTATING GATE CARDS
+            HorizontalPager(
+                state = pagerState,
                 modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 40.dp)
-            )
+                    .fillMaxSize()
+                    .padding(bottom = 60.dp)
+            ) { pageIndex ->
+                val gate = gates[pageIndex % gates.size]
 
-            // Description - Positioned inside the holographic box (Top Left)
-            Column(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(top = 95.dp, start = 35.dp)
-                    .width(230.dp)
-                    .height(115.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = currentGate.description,
-                    fontSize = 12.sp,
-                    fontFamily = LEDFontFamily,
-                    color = Color.Cyan.copy(alpha = 0.8f),
-                    textAlign = TextAlign.Center,
-                    lineHeight = 16.sp,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                )
+                GlobeCard(pagerState, pageIndex) {
+                    DoubleTapGateCard(
+                        gate = gate,
+                        onDoubleTap = { onNavigate(gate.route) }
+                    )
+                }
             }
         }
 
@@ -183,23 +156,6 @@ fun EnhancedGateCarousel(
                     )
                 )
             )
-        }
-
-        // 3D ROTATING GATE CARDS
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 220.dp, bottom = 100.dp)
-        ) { pageIndex ->
-            val gate = gates[pageIndex % gates.size]
-
-            GlobeCard(pagerState, pageIndex) {
-                DoubleTapGateCard(
-                    gate = gate,
-                    onDoubleTap = { onNavigate(gate.route) }
-                )
-            }
         }
 
         // Page indicator dots
@@ -260,6 +216,18 @@ fun DoubleTapGateCard(
 ) {
     var tapCount by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
+    
+    // Floating animation
+    val infiniteTransition = rememberInfiniteTransition(label = "float")
+    val floatOffset by infiniteTransition.animateFloat(
+        initialValue = -15f,
+        targetValue = 15f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "yOffset"
+    )
 
     Box(
         Modifier.fillMaxSize(),
@@ -267,8 +235,9 @@ fun DoubleTapGateCard(
     ) {
         Box(
             Modifier
-                .width(300.dp)
-                .height(420.dp)
+                .width(280.dp)
+                .height(400.dp)
+                .offset(y = floatOffset.dp)
                 .combinedClickable(
                     onClick = {
                         tapCount++
@@ -280,85 +249,26 @@ fun DoubleTapGateCard(
                     }
                 )
         ) {
-            // Outer glow
+            // THE IMAGE (Floating alone, NO FONTS, NO BOXES)
+            Image(
+                painter = painterResource(id = gate.imageRes),
+                contentDescription = gate.gateName,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .blur(if (tapCount > 0) 4.dp else 0.dp),
+                contentScale = ContentScale.Fit
+            )
+            
+            // Subtle pulse glow
             Box(
-                Modifier
-                    .matchParentSize()
-                    .blur(32.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .blur(20.dp)
                     .background(
                         Brush.radialGradient(
-                            listOf(gate.glowColor.copy(0.6f), Color.Transparent)
+                            listOf(gate.glowColor.copy(alpha = 0.15f), Color.Transparent)
                         )
                     )
-            )
-
-            // Card background with image
-            Box(
-                Modifier
-                    .matchParentSize()
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .border(
-                        3.dp,
-                        Brush.linearGradient(
-                            listOf(
-                                gate.glowColor,
-                                gate.glowColor.copy(0.3f),
-                                gate.glowColor
-                            )
-                        ),
-                        RoundedCornerShape(20.dp)
-                    )
-            ) {
-                Image(
-                    painter = painterResource(id = gate.imageRes),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-
-                // Darkening overlay to ensure text readability
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.3f))
-                )
-            }
-
-            // Domain name on card
-            Box(
-                Modifier
-                    .matchParentSize()
-                    .padding(24.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Text(
-                        text = gate.gateName,
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = gate.glowColor
-                    )
-                    Text(
-                        text = gate.domainName,
-                        fontSize = 18.sp,
-                        color = Color.White.copy(0.9f),
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-
-            // Double-tap hint
-            Text(
-                "✨ DOUBLE TAP TO ENTER ✨",
-                Modifier.align(Alignment.BottomCenter).padding(20.dp),
-                color = gate.glowColor,
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 2.sp
             )
         }
     }

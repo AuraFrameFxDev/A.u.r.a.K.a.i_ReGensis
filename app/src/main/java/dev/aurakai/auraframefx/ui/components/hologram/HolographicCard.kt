@@ -26,16 +26,23 @@ import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
+enum class CardStyle {
+    ARTSY,      // Aura: Paint splatter, messy, beautiful
+    PROTECTIVE, // Kai: Heavy, bulky, fortress style
+    MYTHICAL    // Genesis: Boss, head honcho, ornate
+}
+
 /**
- * 🌌 NO-FONT CARD ENGINE
- * Renders a holographic card with a rotating technical rune.
+ * 🌌 THE ARCHITECTURAL CARD ENGINE
+ * Renders a holographic card tailored to the agent's persona.
  */
 @Composable
 fun HolographicCard(
     runeRes: Int,
     glowColor: Color,
     modifier: Modifier = Modifier,
-    dangerLevel: Float = 0f // 0 to 1, affects red tint
+    style: CardStyle = CardStyle.MYTHICAL,
+    dangerLevel: Float = 0f
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "HologramRotation")
     val rotation by infiniteTransition.animateFloat(
@@ -67,133 +74,104 @@ fun HolographicCard(
             .offset(y = bounce.dp),
         contentAlignment = Alignment.Center
     ) {
-        // 1. NEON FRAME
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .border(
-                    2.dp,
-                    Brush.linearGradient(
-                        listOf(finalGlowColor, finalGlowColor.copy(alpha = 0.3f), finalGlowColor)
-                    ),
-                    RoundedCornerShape(12.dp)
+        // 1. STYLE-SPECIFIC FRAME
+        when (style) {
+            CardStyle.ARTSY -> {
+                // AURA: Paint Splatter & Messy Beauty
+                Canvas(modifier = Modifier.fillMaxSize().padding(12.dp)) {
+                    // Draw random "splatter" blobs
+                    val splatterColors = listOf(finalGlowColor, finalGlowColor.copy(alpha = 0.5f), Color.White.copy(alpha = 0.3f))
+                    val random = kotlin.random.Random(42) // Consistent splatter
+                    repeat(12) {
+                        drawCircle(
+                            color = splatterColors.random(random),
+                            radius = random.nextFloat() * 40f + 10f,
+                            center = androidx.compose.ui.geometry.Offset(
+                                random.nextFloat() * size.width,
+                                random.nextFloat() * size.height
+                            ),
+                            alpha = 0.4f
+                        )
+                    }
+                    
+                    // Messy Border
+                    drawRoundRect(
+                        color = finalGlowColor,
+                        size = size,
+                        cornerRadius = androidx.compose.ui.geometry.CornerRadius(24f),
+                        style = androidx.compose.ui.graphics.drawscope.Stroke(width = 3f),
+                        alpha = 0.7f
+                    )
+                }
+            }
+            CardStyle.PROTECTIVE -> {
+                // KAI: Bulky Industrial Frame
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(4.dp)
+                        .border(
+                            width = 6.dp, // THICK
+                            brush = Brush.verticalGradient(listOf(finalGlowColor, finalGlowColor.copy(alpha = 0.4f))),
+                            shape = RoundedCornerShape(8.dp) // BLOCKY
+                        )
+                        .padding(6.dp)
+                        .border(
+                            1.dp,
+                            finalGlowColor.copy(alpha = 0.3f),
+                            RoundedCornerShape(4.dp)
+                        )
                 )
-                .background(finalGlowColor.copy(alpha = 0.05f))
-        )
+            }
+            CardStyle.MYTHICAL -> {
+                // GENESIS: Ornate Boss Frame
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)
+                        .border(
+                            2.dp,
+                            Brush.sweepGradient(listOf(finalGlowColor, Color.White, finalGlowColor)),
+                            RoundedCornerShape(12.dp)
+                        )
+                ) {
+                    // Ornate Corner Accents
+                    Canvas(modifier = Modifier.fillMaxSize()) {
+                        val length = 40f
+                        // Top Left
+                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(0f, 0f), androidx.compose.ui.geometry.Offset(length, 0f), strokeWidth = 8f)
+                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(0f, 0f), androidx.compose.ui.geometry.Offset(0f, length), strokeWidth = 8f)
+                        // Bottom Right
+                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(size.width, size.height), androidx.compose.ui.geometry.Offset(size.width - length, size.height), strokeWidth = 8f)
+                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(size.width, size.height), androidx.compose.ui.geometry.Offset(size.width, size.height - length), strokeWidth = 8f)
+                    }
+                }
+            }
+        }
 
         // 2. OUTER GLOW BLUR
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .blur(20.dp)
+                .blur(30.dp)
                 .background(
                     Brush.radialGradient(
-                        listOf(finalGlowColor.copy(alpha = 0.2f), Color.Transparent)
+                        listOf(finalGlowColor.copy(alpha = 0.15f), Color.Transparent)
                     )
                 )
         )
 
-        // 3. ROTATING RUNE (The Signal)
+        // 3. THE RUNIC SIGNAL
         Icon(
             painter = painterResource(id = runeRes),
             contentDescription = null,
             tint = finalGlowColor,
             modifier = Modifier
-                .size(200.dp)
+                .size(if (style == CardStyle.PROTECTIVE) 160.dp else 200.dp) // Kai is tighter
                 .graphicsLayer {
                     rotationY = rotation
                     cameraDistance = 12f * density
                 }
         )
-    }
-}
-
-/**
- * 📺 ANIME HUD CONTAINER
- * Wraps screens in a high-fidelity holographic HUD overlay.
- */
-@Composable
-fun AnimeHUDContainer(
-    title: String,
-    description: String,
-    glowColor: Color = Color.Cyan,
-    content: @Composable () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
-        // BACKGROUND EMITTER (Holographic Foundation)
-        Canvas(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .height(200.dp)
-        ) {
-            drawOval(
-                brush = Brush.radialGradient(
-                    colors = listOf(glowColor.copy(alpha = 0.3f), Color.Transparent)
-                ),
-                size = size
-            )
-        }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // TOP LAYER: RETRO TITLE
-            Text(
-                text = title.uppercase(),
-                fontFamily = ChessFontFamily,
-                fontSize = 24.sp,
-                color = glowColor.copy(alpha = 0.9f),
-                modifier = Modifier.padding(top = 40.dp),
-                letterSpacing = 4.sp
-            )
-
-            // MIDDLE LAYER: THE MAIN CONTENT (Usually the Card)
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                content()
-            }
-
-            // BOTTOM LAYER: DESCRIPTION & EMITTER BASE
-            Column(
-                modifier = Modifier
-                    .padding(bottom = 60.dp, start = 40.dp, end = 40.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = description,
-                    fontFamily = LEDFontFamily,
-                    fontSize = 14.sp,
-                    color = glowColor.copy(alpha = 0.7f),
-                    textAlign = TextAlign.Center,
-                    lineHeight = 20.sp
-                )
-                
-                Spacer(modifier = Modifier.height(16.dp))
-                
-                // Holographic Pedestal Emitter Line
-                Box(
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(2.dp)
-                        .background(
-                            Brush.horizontalGradient(
-                                listOf(Color.Transparent, glowColor, Color.Transparent)
-                            )
-                        )
-                )
-            }
-        }
     }
 }

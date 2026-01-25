@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.ui.navigation.gates.common.GateTile
 import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
@@ -37,9 +38,9 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
 fun AgentNexusGateScreen(navController: NavController) {
     val cards = listOf(
         GateTile(
-            title = "Agent Hub",
-            subtitle = "AI Management",
-            route = "agent_hub",
+            title = "Agent Nexus Hub",
+            subtitle = "The Social Core",
+            route = NavDestination.ConstellationHub.route,
             imageRes = null,
             glowColor = Color(0xFF7B2FFF)
         ),
@@ -53,7 +54,7 @@ fun AgentNexusGateScreen(navController: NavController) {
         GateTile(
             title = "Constellations",
             subtitle = "AI Network",
-            route = "constellation",
+            route = NavDestination.Constellation.route,
             imageRes = null,
             glowColor = Color(0xFF7B2FFF)
         ),

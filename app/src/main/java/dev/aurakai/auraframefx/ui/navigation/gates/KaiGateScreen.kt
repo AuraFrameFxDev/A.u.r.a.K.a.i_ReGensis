@@ -33,97 +33,61 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
  * Domain: ROM Management, Bootloader, Root Access, System Security
  * Personality: Structured, protective, fortress aesthetic!
  */
-import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
-import dev.aurakai.auraframefx.ui.components.hologram.HolographicCard
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.dp
+import dev.aurakai.auraframefx.ui.components.carousel.DomainGlobeCarousel
+import dev.aurakai.auraframefx.ui.components.carousel.GlobeItem
+
+import dev.aurakai.auraframefx.ui.components.IcyTundraBackground
+
+import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
+
+import androidx.compose.runtime.*
+import dev.aurakai.auraframefx.navigation.NavDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KaiGateScreen(navController: NavController) {
-    val cards = listOf(
-        GateTile(
+    val items = listOf(
+        GlobeItem(
             title = "ROM TOOLS",
-            subtitle = "Flash & Manage",
-            route = "rom_tools_submenu",
-            imageRes = R.drawable.rune_sentinel,
-            glowColor = Color(0xFFFF3366)
+            description = "The Sentinel's custom ROM management suite. Access partition tools, flashing utilities, and low-level system recovery.",
+            route = NavDestination.RomToolsHub.route,
+            runeRes = R.drawable.card_rom_tools,
+            glowColor = Color(0xFFFF3366),
+            style = CardStyle.PROTECTIVE
         ),
-        GateTile(
-            title = "BOOTLOADER",
-            subtitle = "Boot Control",
-            route = "bootloader",
-            imageRes = R.drawable.rune_sentinel,
-            glowColor = Color(0xFFFF0066)
+        GlobeItem(
+            title = "LSPOSED HUB",
+            description = "The core of Kai's technical authority. Manage system-wide hooks, Xposed modules, and secure module configuration.",
+            route = NavDestination.LSPosedHub.route,
+            runeRes = R.drawable.card_vpn,
+            glowColor = Color(0xFFB026FF),
+            style = CardStyle.PROTECTIVE
         ),
-        GateTile(
-            title = "ROOT ACCESS",
-            subtitle = "System Toggles",
-            route = "root_tools",
-            imageRes = R.drawable.rune_sentinel,
-            glowColor = Color(0xFF00FF85)
-        ),
-        GateTile(
-            title = "SECURITY CENTER",
-            subtitle = "Fortress Control",
-            route = "security_center",
-            imageRes = R.drawable.rune_sentinel,
-            glowColor = Color(0xFF00E5FF)
-        ),
-        GateTile(
-            title = "LSPOSED PANEL",
-            subtitle = "Hook Framework",
-            route = "lsposed_panel",
-            imageRes = R.drawable.rune_cortex,
-            glowColor = Color(0xFF00E5FF)
-        ),
-        GateTile(
-            title = "SYSTEM MODS",
-            subtitle = "Override Engine",
-            route = "system_overrides",
-            imageRes = R.drawable.rune_surgeon,
-            glowColor = Color(0xFFFF3366)
+        GlobeItem(
+            title = "SYSTEM TOOLS",
+            description = "Advanced system-level monitoring and troubleshooting. Access logs, system journals, and high-priority overrides.",
+            route = NavDestination.SystemToolsHub.route,
+            runeRes = R.drawable.card_bootloader,
+            glowColor = Color(0xFF00FF85),
+            style = CardStyle.PROTECTIVE
         )
     )
 
-    AnimeHUDContainer(
-        title = "KAI DOMAIN: SENTINEL CORE",
-        description = "SYSTEM INTEGRITY VERIFIED. ACCESSING SECURITY LAYER. ALL MODIFICATIONS SUBJECT TO KAI PROTOCOLS.",
-        glowColor = Color(0xFFFF3366) // Kai red
-    ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(24.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(cards) { card ->
-                Box(
-                    modifier = Modifier
-                        .clickable { navController.navigate(card.route) }
-                        .aspectRatio(0.75f),
-                    contentAlignment = Alignment.Center
-                ) {
-                    HolographicCard(
-                        runeRes = card.imageRes ?: R.drawable.rune_sentinel,
-                        glowColor = card.glowColor,
-                        modifier = Modifier.fillMaxSize()
-                    )
+    var currentItem by remember { mutableStateOf(items[0]) }
 
-                    // Overlay label in LED font
-                    Text(
-                        text = card.title,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 20.dp),
-                        color = Color.White.copy(alpha = 0.9f),
-                        fontSize = 10.sp,
-                        fontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-                    )
-                }
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        IcyTundraBackground()
+        
+        dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer(
+            title = currentItem.title,
+            description = currentItem.description,
+            glowColor = currentItem.glowColor
+        ) {
+            DomainGlobeCarousel(
+                items = items,
+                onNavigate = { route -> navController.navigate(route) },
+                onPageSelection = { currentItem = it }
+            )
         }
     }
 }

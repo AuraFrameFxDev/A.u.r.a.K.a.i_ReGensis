@@ -39,70 +39,53 @@ import dev.aurakai.auraframefx.ui.components.hologram.HolographicCard
  * Domain: Creative UI/UX and Theme Customization
  * Personality: Chaotic, spunky, dive-right-in creative energy!
  */
+import dev.aurakai.auraframefx.ui.components.carousel.DomainGlobeCarousel
+import dev.aurakai.auraframefx.ui.components.carousel.GlobeItem
+
+import dev.aurakai.auraframefx.ui.components.WoodsyPlainsBackground
+
+import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
+
+import androidx.compose.runtime.*
+import dev.aurakai.auraframefx.navigation.NavDestination
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuraGateScreen(navController: NavController) {
-    val cards = listOf(
-        GateTile(
-            title = "CHROMACORE",
-            subtitle = "Color System",
-            route = "chroma_core_colors",
-            imageRes = R.drawable.rune_surgeon, 
-            glowColor = Color(0xFFB026FF)
+    val items = listOf(
+        GlobeItem(
+            title = "UXUI DESIGN STUDIO",
+            description = "The central design hub for ReGenesis. Access the Aura Theming Engine, ChromaCore, and advanced UI overrides.",
+            route = NavDestination.AuraThemingHub.route,
+            runeRes = R.drawable.card_chroma_core,
+            glowColor = Color(0xFFFF00FF),
+            style = CardStyle.ARTSY
         ),
-        GateTile(
-            title = "STATUS BAR",
-            subtitle = "Notch Tuning",
-            route = "notch_bar",
-            imageRes = R.drawable.rune_sentinel,
-            glowColor = Color(0xFF00E5FF)
-        ),
-        GateTile(
+        GlobeItem(
             title = "AURA LAB",
-            subtitle = "Experiments",
-            route = "aura_lab",
-            imageRes = R.drawable.rune_surgeon,
-            glowColor = Color(0xFFFF00E5)
+            description = "Technical sandbox for live UI experimentation, sandbox testing, and collaborative drafting.",
+            route = NavDestination.AuraLab.route,
+            runeRes = R.drawable.card_collab_canvas,
+            glowColor = Color(0xFF00E5FF),
+            style = CardStyle.ARTSY
         )
     )
 
-    AnimeHUDContainer(
-        title = "AURA DOMAIN: CREATIVE CORE",
-        description = "UNLEASH CREATIVE CHAOS THROUGH THE AURA ENGINE. ACCESSING THEME PARAMETERS...",
-        glowColor = Color(0xFFB026FF)
-    ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(24.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(cards) { card ->
-                Box(
-                    modifier = Modifier
-                        .clickable { navController.navigate(card.route) }
-                        .aspectRatio(0.7f),
-                    contentAlignment = Alignment.Center
-                ) {
-                    HolographicCard(
-                        runeRes = card.imageRes ?: R.drawable.rune_oracle,
-                        glowColor = card.glowColor,
-                        modifier = Modifier.fillMaxSize()
-                    )
+    var currentItem by remember { mutableStateOf(items[0]) }
 
-                    // Small overlay text for name
-                    Text(
-                        text = card.title,
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 24.dp),
-                        color = Color.White.copy(alpha = 0.8f),
-                        fontSize = 12.sp,
-                        fontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-                    )
-                }
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        WoodsyPlainsBackground()
+        
+        AnimeHUDContainer(
+            title = currentItem.title,
+            description = currentItem.description,
+            glowColor = currentItem.glowColor
+        ) {
+            DomainGlobeCarousel(
+                items = items,
+                onNavigate = { route -> navController.navigate(route) },
+                onPageSelection = { currentItem = it }
+            )
         }
     }
 }

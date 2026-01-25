@@ -16,89 +16,55 @@ package dev.aurakai.auraframefx.navigation
 sealed class NavDestination(val route: String) {
 
     // ═══════════════════════════════════════════════════════════════
-    // ROOT - 3D Gate Carousel
+    // LEVEL 1: ROOT - 3D Carousel Gateway
     // ═══════════════════════════════════════════════════════════════
     data object HomeGateCarousel : NavDestination("home_gate_carousel")
 
     // ═══════════════════════════════════════════════════════════════
-    // LEVEL 2: MAIN GATES (Card Grid Screens)
+    // LEVEL 2: MAIN GATES (The Card Selection Domain)
     // ═══════════════════════════════════════════════════════════════
-    data object AuraGate : NavDestination("aura_gate")
-    data object KaiGate : NavDestination("kai_gate")
-    data object GenesisGate : NavDestination("genesis_gate")
-    data object AgentNexusGate : NavDestination("agent_nexus_gate")
+    data object AuraGate : NavDestination("aura_gate")           // Reactive Design
+    data object KaiGate : NavDestination("kai_gate")             // Sentinel Fortress
+    data object GenesisGate : NavDestination("genesis_gate")     // Oracle Drive
+    data object AgentNexusGate : NavDestination("agent_nexus_gate") // Nexus Hub
     data object HelpServicesGate : NavDestination("help_services_gate")
 
     // ═══════════════════════════════════════════════════════════════
-    // GATE 1: AURA - Creative/Theming 🎨
-    // Personality: Artsy, colorful, chaotic, out-of-the-box
+    // LEVEL 3: DOMAIN HUBS (The Management Frameworks)
     // ═══════════════════════════════════════════════════════════════
-
-    data object ThemeEngineSubmenu : NavDestination("theme_engine_submenu")
-    data object UIUXGateSubmenu : NavDestination("uiux_gate_submenu")
-    data object UXUIDesignStudio : NavDestination("uiux_gate_submenu") // Alias
-    data object AuraLab : NavDestination("aura_lab")
-    data object CollabCanvas : NavDestination("collab_canvas")
-
-    // ═══════════════════════════════════════════════════════════════
-    // GATE 2: KAI - Security/System Control 🛡️
-    // Personality: Structured, protective, methodical
-    // ═══════════════════════════════════════════════════════════════
-
-    data object ROMToolsSubmenu : NavDestination("rom_tools_submenu")
-    data object LSPosedPanel : NavDestination("lsposed_gate")
-
-    // ═══════════════════════════════════════════════════════════════
-    // GATE 3: GENESIS - OracleDrive/Dev & Storage 🔮
-    // Personality: Godly, mythical, ominous (the manager's office walk)
-    // ═══════════════════════════════════════════════════════════════
-
-    data object CodeAssist : NavDestination("code_assist")
-    data object OracleDriveSubmenu : NavDestination("oracle_drive_submenu")
+    
+    // AURA HUBS (Design & Creativity)
+    data object AuraThemingHub : NavDestination("aura_theming_hub") // The Unified UI Engine
+    data object AuraLab : NavDestination("aura_lab")                // Sandbox & Testing
+    
+    // KAI HUBS (Security & System Control)
+    data object RomToolsHub : NavDestination("rom_tools_hub")      // Flashing & Partitions
+    data object LSPosedHub : NavDestination("lsposed_hub")        // Module Management
+    data object SystemToolsHub : NavDestination("system_tools_hub") // Logs & Journals
+    
+    // GENESIS HUBS (AI & Orchestration)
+    data object OracleDriveHub : NavDestination("oracle_drive_hub") // AI & Storage
+    data object AgentBridgeHub : NavDestination("agent_bridge_hub") // Multi-Agent Datavein
+    
+    // AGENT NEXUS HUBS (Progression & Identity)
+    data object ConstellationHub : NavDestination("constellation_hub") // Skill Trees
+    data object MonitoringHub : NavDestination("monitoring_hub")       // Performance & Stats
 
     // ═══════════════════════════════════════════════════════════════
-    // GATE 4: AGENT NEXUS - Home Base/Monitoring 🌐
+    // LEVEL 4: TOOL SCREENS (Individual Controllers)
     // ═══════════════════════════════════════════════════════════════
 
-    data object PartyScreen : NavDestination("party_screen")
-    data object MonitoringHUDs : NavDestination("monitoring_huds")
-
-    // ═══════════════════════════════════════════════════════════════
-    // GATE 5: HELP SERVICES - LDO Support 💬
-    // ═══════════════════════════════════════════════════════════════
-
-    data object HelpDeskSubmenu : NavDestination("help_desk_submenu")
-
-    // From UIUXGateSubmenuScreen
+    // -- Aura Toolset --
+    data object ThemeEngine : NavDestination("theme_engine") 
     data object ChromaCoreColors : NavDestination("chroma_core_colors")
-    data object IconifyPicker : NavDestination("iconify_picker")
-    data object ThemeEngine : NavDestination("theme_engine")
     data object NotchBar : NavDestination("notch_bar")
     data object StatusBar : NavDestination("status_bar")
     data object QuickSettings : NavDestination("quick_settings")
-    data object OverlayMenus : NavDestination("overlay_menus")
-    data object AgentHub : NavDestination("agent_hub")
-    data object TaskAssignment : NavDestination("task_assignment")
+    data object IconifyPicker : NavDestination("iconify_picker")
+    data object CollabCanvas : NavDestination("collab_canvas")
     data object ModuleCreation : NavDestination("module_creation")
-    data object DirectChat : NavDestination("direct_chat")
-    data object SystemOverrides : NavDestination("system_overrides")
-    data object ModuleManager : NavDestination("module_manager")
-    data object Constellation : NavDestination("constellation")
-    data object GenesisConstellation : NavDestination("genesis_constellation")
-    data object ClaudeConstellation : NavDestination("claude_constellation")
-    data object KaiConstellation : NavDestination("kai_constellation")
-    data object CascadeConstellation : NavDestination("cascade_constellation")
-    data object GrokConstellation : NavDestination("grok_constellation")
-    data object AgentMonitoring : NavDestination("agent_monitoring")
-    data object FusionMode : NavDestination("fusion_mode")
-    data object ConferenceRoom : NavDestination("conference_room")
-    data object ROMTools : NavDestination("rom_tools")
-    data object HelpDesk : NavDestination("help_desk")
-    data object SphereGrid : NavDestination("sphere_grid")
-    data object SphereGrids : NavDestination("sphere_grids") // For Set 4 compatibility
-    data object AgentNexus : NavDestination("agent_nexus")
-    data object Settings : NavDestination("settings")
-    data object NeuralNetwork : NavDestination("neural_network")
+
+    // -- Kai Toolset --
     data object Bootloader : NavDestination("bootloader")
     data object RootTools : NavDestination("root_tools")
     data object ROMFlasher : NavDestination("rom_flasher")
@@ -106,12 +72,46 @@ sealed class NavDestination(val route: String) {
     data object RecoveryTools : NavDestination("recovery_tools")
     data object LSPosedModules : NavDestination("lsposed_modules")
     data object HookManager : NavDestination("hook_manager")
-    data object LogsViewer : NavDestination("logs_viewer")
-    data object SystemJournal : NavDestination("system_journal")
-    data object QuickActions : NavDestination("quick_actions")
+    data object SystemOverrides : NavDestination("system_overrides")
+    data object ModuleManager : NavDestination("module_manager_lsposed")
+
+    // -- Genesis Toolset --
+    data object CodeAssist : NavDestination("code_assist")
+    data object NeuralNetwork : NavDestination("neural_network")
+    
+    // -- Nexus Toolset --
+    data object GenesisConstellation : NavDestination("genesis_constellation")
+    data object ClaudeConstellation : NavDestination("claude_constellation")
+    data object KaiConstellation : NavDestination("kai_constellation")
+    data object GrokConstellation : NavDestination("grok_constellation")
+    data object CascadeConstellation : NavDestination("cascade_constellation")
+    data object AgentMonitoring : NavDestination("agent_monitoring")
+    data object SphereGrid : NavDestination("sphere_grid")
+    data object FusionMode : NavDestination("fusion_mode")
+    data object Constellation : NavDestination("constellation")
+    data object TaskAssignment : NavDestination("task_assignment")
+    data object PartyScreen : NavDestination("party_screen")
+    data object MonitoringHUDs : NavDestination("monitoring_huds")
+
+    // -- Utility & Infrastructure --
+    data object HelpDesk : NavDestination("help_desk")
+    data object HelpDeskSubmenu : NavDestination("help_desk_submenu")
+    data object DirectChat : NavDestination("direct_chat")
     data object Documentation : NavDestination("documentation")
     data object FAQBrowser : NavDestination("faq_browser")
     data object TutorialVideos : NavDestination("tutorial_videos")
-    data object LiveHelp : NavDestination("live_help")
+    data object Settings : NavDestination("settings")
+    data object ConferenceRoom : NavDestination("conference_room")
+
+    // Legacy / To be deprecated
+    data object ThemeEngineSubmenu : NavDestination("theme_engine_submenu")
+    data object UIUXGateSubmenu : NavDestination("uiux_gate_submenu")
+    data object UXUIDesignStudio : NavDestination("uiux_gate_submenu") 
+    data object ROMToolsSubmenu : NavDestination("rom_tools_submenu")
+    data object LSPosedPanel : NavDestination("lsposed_gate")
+    data object OracleDriveSubmenu : NavDestination("oracle_drive_submenu")
     data object LSPosedSubmenu : NavDestination("lsposed_submenu")
+    data object AgentNexus : NavDestination("agent_nexus_gate")
+    data object ROMTools : NavDestination("rom_tools_hub")
+    data object AgentHub : NavDestination("agent_hub")
 }
