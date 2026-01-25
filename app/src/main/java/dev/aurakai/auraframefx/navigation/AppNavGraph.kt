@@ -232,6 +232,12 @@ fun AppNavGraph(
         composable(NavDestination.SphereGrid.route) {
             SphereGridScreen(navController)
         }
+        composable(NavDestination.EvolutionTree.route) {
+            dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen(
+                onNavigateToAgents = { navController.navigate(NavDestination.AgentNexusGate.route) },
+                onNavigateToFusion = { navController.navigate(NavDestination.FusionMode.route) }
+            )
+        }
 
         // Utility & Infrastructure
         composable(NavDestination.HelpDesk.route) {
