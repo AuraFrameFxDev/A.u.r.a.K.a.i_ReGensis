@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
+import dev.aurakai.auraframefx.domains.aura.models.SupportMessage
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -465,9 +466,4 @@ private fun SupportMessageBubble(message: SupportMessage) {
 /**
  * Data class for support messages
  */
-data class SupportMessage(
-    val content: String,
-    val sender: String,
-    val isUser: Boolean,
-    val timestamp: String
-)
+// SupportMessage moved to dev.aurakai.auraframefx.domains.aura.models.SupportMessage

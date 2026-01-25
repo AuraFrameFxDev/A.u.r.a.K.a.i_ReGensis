@@ -13,12 +13,7 @@ import kotlinx.coroutines.delay
 import java.util.UUID
 import javax.inject.Inject
 
-data class SupportMessage(
-    val content: String,
-    val sender: String,
-    val isUser: Boolean,
-    val timestamp: String
-)
+import dev.aurakai.auraframefx.domains.aura.models.SupportMessage
 
 @HiltViewModel
 open class SupportChatViewModel @Inject constructor(
