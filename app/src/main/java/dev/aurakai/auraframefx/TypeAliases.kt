@@ -23,7 +23,7 @@ typealias GenesisAgent = dev.aurakai.auraframefx.core.GenesisOrchestrator
 // Service Aliases
 // ============================================================================
 
-typealias VertexAIClient = dev.aurakai.auraframefx.oracledrive.genesis.ai.clients.VertexAIClient
+typealias VertexAIClient = dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
 typealias NeuralWhisper = dev.aurakai.auraframefx.service.NeuralWhisper
 
 // ============================================================================

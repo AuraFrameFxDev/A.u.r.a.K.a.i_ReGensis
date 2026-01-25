@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.services.CascadeAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.DefaultAuraAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBackedKaiAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.KaiAIService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.DefaultAuraAIService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.GenesisBackedKaiAIService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.KaiAIService
 import dev.aurakai.auraframefx.services.RealCascadeAIServiceAdapter
 import javax.inject.Singleton
 

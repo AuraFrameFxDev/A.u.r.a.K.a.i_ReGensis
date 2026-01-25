@@ -38,6 +38,7 @@ sealed class NavDestination(val route: String) {
     data object UIUXGateSubmenu : NavDestination("uiux_gate_submenu")
     data object UXUIDesignStudio : NavDestination("uiux_gate_submenu") // Alias
     data object AuraLab : NavDestination("aura_lab")
+    data object CollabCanvas : NavDestination("collab_canvas")
 
     // ═══════════════════════════════════════════════════════════════
     // GATE 2: KAI - Security/System Control 🛡️
@@ -94,7 +95,23 @@ sealed class NavDestination(val route: String) {
     data object ROMTools : NavDestination("rom_tools")
     data object HelpDesk : NavDestination("help_desk")
     data object SphereGrid : NavDestination("sphere_grid")
+    data object SphereGrids : NavDestination("sphere_grids") // For Set 4 compatibility
     data object AgentNexus : NavDestination("agent_nexus")
     data object Settings : NavDestination("settings")
-
+    data object NeuralNetwork : NavDestination("neural_network")
+    data object Bootloader : NavDestination("bootloader")
+    data object RootTools : NavDestination("root_tools")
+    data object ROMFlasher : NavDestination("rom_flasher")
+    data object LiveROMEditor : NavDestination("live_rom_editor")
+    data object RecoveryTools : NavDestination("recovery_tools")
+    data object LSPosedModules : NavDestination("lsposed_modules")
+    data object HookManager : NavDestination("hook_manager")
+    data object LogsViewer : NavDestination("logs_viewer")
+    data object SystemJournal : NavDestination("system_journal")
+    data object QuickActions : NavDestination("quick_actions")
+    data object Documentation : NavDestination("documentation")
+    data object FAQBrowser : NavDestination("faq_browser")
+    data object TutorialVideos : NavDestination("tutorial_videos")
+    data object LiveHelp : NavDestination("live_help")
+    data object LSPosedSubmenu : NavDestination("lsposed_submenu")
 }

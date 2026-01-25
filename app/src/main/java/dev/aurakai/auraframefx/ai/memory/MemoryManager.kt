@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.ai.memory
 import dev.aurakai.auraframefx.cascade.memory.MemoryItem
 import dev.aurakai.auraframefx.cascade.memory.MemoryQuery
 import dev.aurakai.auraframefx.cascade.memory.MemoryRetrievalResult
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryStats
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryStats
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.ConcurrentHashMap

@@ -11,7 +11,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.app.ipc.IAuraDriveService
  import dev.aurakai.auraframefx.ipc.IAuraDriveCallback
- import dev.aurakai.auraframefx.oracle.drive.utils.SecureFileManager
+ import dev.aurakai.auraframefx.genesis.security.SecureFileManager
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject

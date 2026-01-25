@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.task.TaskScheduler
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.task.DefaultTaskScheduler
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.task.TaskScheduler
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.task.DefaultTaskScheduler
 import javax.inject.Singleton
 
 @Module

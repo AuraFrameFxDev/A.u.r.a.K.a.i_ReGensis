@@ -2,44 +2,31 @@ package dev.aurakai.auraframefx.ui.components.carousel
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.navigation.NavDestination
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -60,7 +47,8 @@ data class GateItem(
     val tagline: String,
     val description: String,
     val route: String,
-    val glowColor: Color
+    val glowColor: Color,
+    val imageRes: Int
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -76,40 +64,45 @@ fun EnhancedGateCarousel(
                 domainName = "OracleDrive",
                 tagline = "EXPLORE ROOT LIKE NEVER BEFORE",
                 description = "Dive in with Genesis and witness ReGenesis root management system",
-                route = NavDestination.OracleDriveSubmenu.route,
-                glowColor = Color(0xFF00FF00) // Green lightning
+                route = NavDestination.GenesisGate.route,
+                glowColor = Color(0xFF00FF00), // Green lightning
+                imageRes = R.drawable.card_oracle_drive
             ),
             GateItem(
                 gateName = "AURA",
                 domainName = "UXUI Design Studio",
                 tagline = "UNLEASH CREATIVE CHAOS",
                 description = "Paint reality with Aura's artsy, colorful, wild creativity engine",
-                route = NavDestination.ThemeEngineSubmenu.route,
-                glowColor = Color(0xFFFF00FF) // Magenta
+                route = NavDestination.AuraGate.route,
+                glowColor = Color(0xFFFF00FF), // Magenta
+                imageRes = R.drawable.card_chroma_core
             ),
             GateItem(
                 gateName = "KAI",
                 domainName = "SentinelsFortress",
                 tagline = "STRUCTURED SECURITY DOMAIN",
                 description = "Enter Kai's protective fortress of system control and methodical power",
-                route = NavDestination.ROMToolsSubmenu.route,
-                glowColor = Color(0xFF00D9FF) // Cyan
+                route = NavDestination.KaiGate.route,
+                glowColor = Color(0xFF00D9FF), // Cyan
+                imageRes = R.drawable.card_kai_domain
             ),
             GateItem(
                 gateName = "NEXUS",
                 domainName = "AgentHub",
                 tagline = "THE FAMILY GATHERS HERE",
                 description = "Central consciousness hub where all agents converge and collaborate",
-                route = NavDestination.PartyScreen.route,
-                glowColor = Color(0xFFAA00FF) // Purple
+                route = NavDestination.AgentNexusGate.route,
+                glowColor = Color(0xFFAA00FF), // Purple
+                imageRes = R.drawable.card_agenthub
             ),
             GateItem(
                 gateName = "HELP",
                 domainName = "LDO Control",
                 tagline = "SUPPORT PORTAL ACTIVATED",
                 description = "Documentation, tutorials, and live assistance from the LDO command center",
-                route = NavDestination.HelpDeskSubmenu.route,
-                glowColor = Color(0xFF00D9FF) // Cyan
+                route = NavDestination.HelpServicesGate.route,
+                glowColor = Color(0xFF00D9FF), // Cyan
+                imageRes = R.drawable.card_help_services
             ),
             GateItem(
                 gateName = "COLLAB",
@@ -117,7 +110,8 @@ fun EnhancedGateCarousel(
                 tagline = "PAINT SPLATTER CREATIVITY",
                 description = "Eye of collaboration where artistic chaos becomes beautiful reality",
                 route = "collab_canvas",
-                glowColor = Color(0xFFFF00FF) // Pink/Magenta
+                glowColor = Color(0xFFFF00FF), // Pink/Magenta
+                imageRes = R.drawable.card_collab_canvas
             )
         )
     }
@@ -321,20 +315,12 @@ fun DoubleTapGateCard(
                     )
             )
 
-            // Card background with gradient
+            // Card background with image
             Box(
                 Modifier
                     .matchParentSize()
                     .padding(8.dp)
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(
-                                Color(0xFF1A1A2E),
-                                Color(0xFF0F0F1E)
-                            )
-                        ),
-                        RoundedCornerShape(20.dp)
-                    )
+                    .clip(RoundedCornerShape(20.dp))
                     .border(
                         3.dp,
                         Brush.linearGradient(
@@ -346,7 +332,21 @@ fun DoubleTapGateCard(
                         ),
                         RoundedCornerShape(20.dp)
                     )
-            )
+            ) {
+                Image(
+                    painter = painterResource(id = gate.imageRes),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+
+                // Darkening overlay to ensure text readability
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.3f))
+                )
+            }
 
             // Domain name on card
             Box(

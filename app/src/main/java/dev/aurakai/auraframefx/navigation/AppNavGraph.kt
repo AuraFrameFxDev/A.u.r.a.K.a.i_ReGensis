@@ -17,10 +17,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.IconifyPickerScreen
 import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
-import dev.aurakai.auraframefx.navigation.ConferenceRoomScreen
+import dev.aurakai.auraframefx.aura.ui.ConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.gates.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
@@ -62,6 +63,8 @@ import dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen
 import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 import dev.aurakai.auraframefx.ui.gates.TutorialVideosScreen
 import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
+import dev.aurakai.auraframefx.ui.screens.WorkingLabScreen
+import dev.aurakai.auraframefx.ui.gates.UIUXDesignStudioScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.AgentNexusGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.AuraGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
@@ -120,10 +123,13 @@ fun AppNavGraph(
             UIUXGateSubmenuScreen(navController)
         }
         composable(NavDestination.UIUXGateSubmenu.route) {
-            UIUXGateSubmenuScreen(navController)
+            UIUXDesignStudioScreen(navController)
         }
         composable(NavDestination.AuraLab.route) {
              AurasLabScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.CollabCanvas.route) {
+            WorkingLabScreen(onNavigate = { route -> navController.navigate(route) })
         }
 
         // UI/UX Sub-screens
@@ -131,9 +137,7 @@ fun AppNavGraph(
             ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.IconifyPicker.route) {
-            // TODO: Inject IconifyService from Hilt
-            // IconifyPickerScreen(iconifyService, onNavigateBack = { navController.popBackStack() })
-            SimpleTitle("Iconify Picker - Service injection needed")
+            IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.ThemeEngine.route) {
             ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
@@ -160,7 +164,7 @@ fun AppNavGraph(
         composable(NavDestination.CodeAssist.route) {
             CodeAssistScreen(navController) // FIXED! Was OracleDriveSubmenuScreen
         }
-        composable("neural_network") {
+        composable(NavDestination.NeuralNetwork.route) {
             NeuralArchiveScreen(navController)
         }
 
@@ -173,19 +177,19 @@ fun AppNavGraph(
         }
 
         // ROM & Boot Management - ALL REAL SCREENS WIRED!
-        composable("bootloader") {
+        composable(NavDestination.Bootloader.route) {
             BootloaderManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("root_tools") {
+        composable(NavDestination.RootTools.route) {
             RootToolsTogglesScreen(navController)
         }
-        composable("rom_flasher") {
+        composable(NavDestination.ROMFlasher.route) {
             ROMFlasherScreen()
         }
-        composable("live_rom_editor") {
+        composable(NavDestination.LiveROMEditor.route) {
             LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("recovery_tools") {
+        composable(NavDestination.RecoveryTools.route) {
             RecoveryToolsScreen(onNavigateBack = { navController.popBackStack() })
         }
 
@@ -193,21 +197,21 @@ fun AppNavGraph(
         composable(NavDestination.LSPosedPanel.route) {
             LSPosedGateScreen()
         }
-        composable("lsposed_modules") {
+        composable(NavDestination.LSPosedModules.route) {
             LSPosedModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("hook_manager") {
+        composable(NavDestination.HookManager.route) {
             HookManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // System Tools - ALL REAL SCREENS WIRED!
-        composable("logs_viewer") {
-            LogsViewerScreen(onNavigateBack = navController as () -> Unit)
+        composable(NavDestination.LogsViewer.route) {
+            LogsViewerScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("system_journal") {
+        composable(NavDestination.SystemJournal.route) {
             SystemJournalScreen(navController)
         }
-        composable("quick_actions") {
+        composable(NavDestination.QuickActions.route) {
             QuickActionsScreen(onNavigateBack = { navController.popBackStack() })
         }
 
@@ -218,10 +222,10 @@ fun AppNavGraph(
         composable(NavDestination.PartyScreen.route) {
             AgentHubSubmenuScreen(navController)
         }
-        composable("claude_constellation") {
+        composable(NavDestination.ClaudeConstellation.route) {
             ClaudeConstellationScreen(navController)
         }
-        composable("sphere_grids") {
+        composable(NavDestination.SphereGrids.route) {
             SphereGridScreen(navController)
         }
 
@@ -251,7 +255,10 @@ fun AppNavGraph(
             FusionModeScreen()
         }
         composable(NavDestination.ConferenceRoom.route) {
-            ConferenceRoomScreen(onNavigateBack = { navController.popBackStack() })
+            ConferenceRoomScreen(
+                onNavigateToChat = { /* navController.navigate(...) */ },
+                onNavigateToAgents = { /* navController.navigate(...) */ }
+            )
         }
         composable(NavDestination.SphereGrid.route) {
             SphereGridScreen(navController)
@@ -267,16 +274,16 @@ fun AppNavGraph(
         composable(NavDestination.HelpDesk.route) {
             HelpDeskScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("documentation") {
+        composable(NavDestination.Documentation.route) {
             DocumentationScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("faq_browser") {
+        composable(NavDestination.FAQBrowser.route) {
             FAQBrowserScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("tutorial_videos") {
+        composable(NavDestination.TutorialVideos.route) {
             TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("live_help") {
+        composable(NavDestination.LiveHelp.route) {
             LiveSupportChatScreen(
                 viewModel = hiltViewModel(),
                 onNavigateBack = { navController.popBackStack() }
@@ -287,7 +294,7 @@ fun AppNavGraph(
         // LSPOSED SCREENS
         // ═══════════════════════════════════════════════════════════════
 
-        composable("lsposed_panel") {
+        composable(NavDestination.LSPosedSubmenu.route) {
             LSPosedSubmenuScreen(navController)
         }
 

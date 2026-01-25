@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
-import androidx.compose.runtime.Composable
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.iconify.IconPicker
-import dev.aurakai.auraframefx.iconify.IconifyService
+import dev.aurakai.auraframefx.iconify.IconPickerViewModel
 
 /**
  * 🎨 ICONIFY PICKER SCREEN WRAPPER
@@ -11,11 +11,11 @@ import dev.aurakai.auraframefx.iconify.IconifyService
  */
 @Composable
 fun IconifyPickerScreen(
-    iconifyService: IconifyService,
+    viewModel: IconPickerViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {}
 ) {
     IconPicker(
-        iconifyService = iconifyService,
+        iconifyService = viewModel.iconifyService,
         currentIcon = null,
         onIconSelected = { iconId ->
             // TODO: Handle icon selection
