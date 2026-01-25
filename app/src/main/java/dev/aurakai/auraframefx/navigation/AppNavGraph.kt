@@ -1,14 +1,5 @@
 package dev.aurakai.auraframefx.navigation
 
-// Level 1: Gate carousel
-
-// Level 2: Gate screens
-
-// Level 3: Feature screens - ALL REAL SCREENS (no more wildcards)
-// ui/gates screens (NOTE: Some physically in domains/aura/screens but declare package ui.gates)
-
-// domains/aura/screens (those that actually use domains package)
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -128,9 +119,6 @@ fun AppNavGraph(
         composable(NavDestination.AuraLab.route) {
              AurasLabScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(NavDestination.CollabCanvas.route) {
-            WorkingLabScreen(onNavigate = { route -> navController.navigate(route) })
-        }
 
         // UI/UX Sub-screens
         composable(NavDestination.ChromaCoreColors.route) {
@@ -160,9 +148,9 @@ fun AppNavGraph(
             OracleDriveSubmenuScreen(navController)
         }
 
-        // AI & Code - FIXED: CodeAssist now points to correct screen!
+        // AI & Code
         composable(NavDestination.CodeAssist.route) {
-            CodeAssistScreen(navController) // FIXED! Was OracleDriveSubmenuScreen
+            CodeAssistScreen(navController)
         }
         composable(NavDestination.NeuralNetwork.route) {
             NeuralArchiveScreen(navController)
@@ -176,7 +164,7 @@ fun AppNavGraph(
             ROMToolsSubmenuScreen(navController)
         }
 
-        // ROM & Boot Management - ALL REAL SCREENS WIRED!
+        // ROM & Boot Management
         composable(NavDestination.Bootloader.route) {
             BootloaderManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -193,7 +181,7 @@ fun AppNavGraph(
             RecoveryToolsScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        // LSPosed & Hooks - ALL REAL SCREENS WIRED!
+        // LSPosed & Hooks
         composable(NavDestination.LSPosedPanel.route) {
             LSPosedGateScreen()
         }
@@ -204,7 +192,7 @@ fun AppNavGraph(
             HookManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        // System Tools - ALL REAL SCREENS WIRED!
+        // System Tools
         composable(NavDestination.LogsViewer.route) {
             LogsViewerScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -254,18 +242,21 @@ fun AppNavGraph(
         composable(NavDestination.FusionMode.route) {
             FusionModeScreen()
         }
+
         composable(NavDestination.ConferenceRoom.route) {
             ConferenceRoomScreen(
                 onNavigateToChat = { /* navController.navigate(...) */ },
-                onNavigateToAgents = { /* navController.navigate(...) */ }
+                onNavigateToAgents = { /* navController.navigate(...) */ },
+                viewModel = hiltViewModel()
             )
         }
+
         composable(NavDestination.SphereGrid.route) {
             SphereGridScreen(navController)
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // LEVEL 3: HELP SERVICES SCREENS - ALL REAL SCREENS WIRED!
+        // LEVEL 3: HELP SERVICES SCREENS
         // ═══════════════════════════════════════════════════════════════
 
         composable(NavDestination.HelpDeskSubmenu.route) {
@@ -283,6 +274,7 @@ fun AppNavGraph(
         composable(NavDestination.TutorialVideos.route) {
             TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
         }
+
         composable(NavDestination.LiveHelp.route) {
             LiveSupportChatScreen(
                 viewModel = hiltViewModel(),
