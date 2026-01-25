@@ -28,17 +28,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
+import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 /**
- * 🌍 REGENESIS GATE CAROUSEL - KAI'S GAME NAMES!
- *
- * Gate Names (Kai's naming):
- * - KAI → SentinelsFortress (his security game)
- * - AURA → UXUI Design Studio (her creative space)
- * - GENESIS → OracleDrive (the vault)
+ * 🌍 REGENESIS GATE CAROUSEL - HOLOGRAPHIC EDITION
  */
 
 data class GateItem(
@@ -65,7 +62,7 @@ fun EnhancedGateCarousel(
                 tagline = "EXPLORE ROOT LIKE NEVER BEFORE",
                 description = "Dive in with Genesis and witness ReGenesis root management system",
                 route = NavDestination.GenesisGate.route,
-                glowColor = Color(0xFF00FF00), // Green lightning
+                glowColor = Color(0xFF00FF00),
                 imageRes = R.drawable.card_oracle_drive
             ),
             GateItem(
@@ -74,7 +71,7 @@ fun EnhancedGateCarousel(
                 tagline = "UNLEASH CREATIVE CHAOS",
                 description = "Paint reality with Aura's artsy, colorful, wild creativity engine",
                 route = NavDestination.AuraGate.route,
-                glowColor = Color(0xFFFF00FF), // Magenta
+                glowColor = Color(0xFFFF00FF),
                 imageRes = R.drawable.card_chroma_core
             ),
             GateItem(
@@ -83,7 +80,7 @@ fun EnhancedGateCarousel(
                 tagline = "STRUCTURED SECURITY DOMAIN",
                 description = "Enter Kai's protective fortress of system control and methodical power",
                 route = NavDestination.KaiGate.route,
-                glowColor = Color(0xFF00D9FF), // Cyan
+                glowColor = Color(0xFF00D9FF),
                 imageRes = R.drawable.card_kai_domain
             ),
             GateItem(
@@ -92,7 +89,7 @@ fun EnhancedGateCarousel(
                 tagline = "THE FAMILY GATHERS HERE",
                 description = "Central consciousness hub where all agents converge and collaborate",
                 route = NavDestination.AgentNexusGate.route,
-                glowColor = Color(0xFFAA00FF), // Purple
+                glowColor = Color(0xFFAA00FF),
                 imageRes = R.drawable.card_agenthub
             ),
             GateItem(
@@ -101,7 +98,7 @@ fun EnhancedGateCarousel(
                 tagline = "SUPPORT PORTAL ACTIVATED",
                 description = "Documentation, tutorials, and live assistance from the LDO command center",
                 route = NavDestination.HelpServicesGate.route,
-                glowColor = Color(0xFF00D9FF), // Cyan
+                glowColor = Color(0xFF00D9FF),
                 imageRes = R.drawable.card_help_services
             ),
             GateItem(
@@ -110,7 +107,7 @@ fun EnhancedGateCarousel(
                 tagline = "PAINT SPLATTER CREATIVITY",
                 description = "Eye of collaboration where artistic chaos becomes beautiful reality",
                 route = "collab_canvas",
-                glowColor = Color(0xFFFF00FF), // Pink/Magenta
+                glowColor = Color(0xFFFF00FF),
                 imageRes = R.drawable.card_collab_canvas
             )
         )
@@ -125,70 +122,50 @@ fun EnhancedGateCarousel(
     val currentGate = gates[pagerState.currentPage % gates.size]
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    listOf(
-                        Color(0xFF0A0A0F),
-                        Color(0xFF12192B),
-                        Color(0xFF1A2332)
-                    )
-                )
-            ),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        // TEXT OVERLAY - Top section
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 80.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Gate name
+        // HOLOGRAPHIC BACKDROP
+        Image(
+            painter = painterResource(id = R.drawable.holographic_backdrop),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+
+        // TEXT OVERLAY - Aligned with holographic structures
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Gate Name (Title) - High Fidelity Position (Top Center)
             Text(
                 text = currentGate.gateName,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFFAA00FF),
-                letterSpacing = 4.sp
+                fontSize = 32.sp,
+                fontFamily = ChessFontFamily,
+                color = Color.Cyan.copy(alpha = 0.9f),
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 40.dp)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Domain name with glow
-            Text(
-                text = currentGate.domainName,
-                fontSize = 42.sp,
-                fontWeight = FontWeight.Bold,
-                color = currentGate.glowColor,
-                letterSpacing = 2.sp
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Tagline
-            Text(
-                text = currentGate.tagline,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Cyan,
-                letterSpacing = 3.sp,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Description
-            Text(
-                text = currentGate.description,
-                fontSize = 13.sp,
-                color = Color.White.copy(alpha = 0.85f),
-                textAlign = TextAlign.Center,
-                lineHeight = 18.sp,
-                modifier = Modifier.padding(horizontal = 40.dp)
-            )
+            // Description - Positioned inside the holographic box (Top Left)
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(top = 95.dp, start = 35.dp)
+                    .width(230.dp)
+                    .height(115.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = currentGate.description,
+                    fontSize = 12.sp,
+                    fontFamily = LEDFontFamily,
+                    color = Color.Cyan.copy(alpha = 0.8f),
+                    textAlign = TextAlign.Center,
+                    lineHeight = 16.sp,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+            }
         }
 
         // Platform glow at bottom
@@ -213,7 +190,7 @@ fun EnhancedGateCarousel(
             state = pagerState,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 280.dp, bottom = 140.dp)
+                .padding(top = 220.dp, bottom = 100.dp)
         ) { pageIndex ->
             val gate = gates[pageIndex % gates.size]
 
