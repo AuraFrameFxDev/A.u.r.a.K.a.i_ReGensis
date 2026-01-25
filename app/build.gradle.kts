@@ -9,13 +9,13 @@ import com.android.build.api.dsl.ApplicationExtension
 plugins {
     // Core Android and Kotlin plugins
     id("com.android.application")
-
+    id("com.google.dagger.hilt.android")
     // Compose and serialization
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
 
     // Dependency injection and code generation
-    id("com.google.dagger.hilt.android")
+
     id("com.google.devtools.ksp")
 
     // Firebase and analytics
@@ -142,13 +142,7 @@ extensions.configure<ApplicationExtension> {
     // ═══════════════════════════════════════════════════════════════════════════
     sourceSets {
         getByName("main") {
-            java.directories.add("dev/aurakai/auraframefx/ai/agents/BaseAgent.kt")
-        }
-        getByName("release") {
-            java.directories.add("dev/aurakai/auraframefx/logging/TimberInitializer.kt")
-        }
-        getByName("debug") {
-            java.directories.add("dev/aurakai/auraframefx/logging/TimberInitializer.kt")
+            // Correct source sets are automatically handled by AGP
         }
     }
 }

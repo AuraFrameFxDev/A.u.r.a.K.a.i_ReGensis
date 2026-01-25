@@ -33,97 +33,61 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
  * Domain: ROM Management, Bootloader, Root Access, System Security
  * Personality: Structured, protective, fortress aesthetic!
  */
+import dev.aurakai.auraframefx.ui.components.carousel.DomainGlobeCarousel
+import dev.aurakai.auraframefx.ui.components.carousel.GlobeItem
+
+import dev.aurakai.auraframefx.ui.components.IcyTundraBackground
+
+import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
+
+import androidx.compose.runtime.*
+import dev.aurakai.auraframefx.navigation.NavDestination
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KaiGateScreen(navController: NavController) {
-    val cards = listOf(
-        GateTile(
-            title = "ROM Tools",
-            subtitle = "Flash & Manage",
-            route = "rom_tools_submenu",
-            imageRes = R.drawable.card_rom_tools,
-            glowColor = Color(0xFFFF3366)
+    val items = listOf(
+        GlobeItem(
+            title = "ROM TOOLS",
+            description = "The Sentinel's custom ROM management suite. Access partition tools, flashing utilities, and low-level system recovery.",
+            route = NavDestination.RomToolsHub.route,
+            runeRes = R.drawable.card_rom_tools,
+            glowColor = Color(0xFFFF3366),
+            style = CardStyle.PROTECTIVE
         ),
-        GateTile(
-            title = "Bootloader",
-            subtitle = "Boot Control",
-            route = "bootloader",
-            imageRes = R.drawable.card_bootloader,
-            glowColor = Color(0xFFFF0066)
+        GlobeItem(
+            title = "LSPOSED HUB",
+            description = "The core of Kai's technical authority. Manage system-wide hooks, Xposed modules, and secure module configuration.",
+            route = NavDestination.LSPosedHub.route,
+            runeRes = R.drawable.card_vpn,
+            glowColor = Color(0xFFB026FF),
+            style = CardStyle.PROTECTIVE
         ),
-        GateTile(
-            title = "Root Tools",
-            subtitle = "System Access",
-            route = "root_tools",
-            imageRes = R.drawable.card_root_tools,
-            glowColor = Color(0xFF00FF85)
-        ),
-        GateTile(
-            title = "Security",
-            subtitle = "Protection",
-            route = "security_center",
-            imageRes = R.drawable.card_kai_domain,
-            glowColor = Color(0xFF00E5FF)
-        ),
-        GateTile(
-            title = "LSPosed",
-            subtitle = "Framework",
-            route = "lsposed_panel",
-            imageRes = null,
-            glowColor = Color(0xFF00E5FF)
-        ),
-        GateTile(
-            title = "System Mods",
-            subtitle = "Tweaks",
-            route = "system_overrides",
-            imageRes = null,
-            glowColor = Color(0xFFFF3366)
+        GlobeItem(
+            title = "SYSTEM TOOLS",
+            description = "Advanced system-level monitoring and troubleshooting. Access logs, system journals, and high-priority overrides.",
+            route = NavDestination.SystemToolsHub.route,
+            runeRes = R.drawable.card_bootloader,
+            glowColor = Color(0xFF00FF85),
+            style = CardStyle.PROTECTIVE
         )
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("KAI GATE", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1A1A2E)
-                )
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Color(0xFF0F0F1E))
-        ) {
-            // Floating particles in background
-            FloatingParticles(
-                particleCount = 20,
-                domainColor = Color(0xFFFF3366), // Kai red
-                modifier = Modifier.fillMaxSize()
-            )
+    var currentItem by remember { mutableStateOf(items[0]) }
 
-            // Card grid on top
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(cards) { card ->
-                    GateCardTile(
-                        card = card,
-                        onClick = { navController.navigate(card.route) }
-                    )
-                }
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        IcyTundraBackground()
+        
+        dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer(
+            title = currentItem.title,
+            description = currentItem.description,
+            glowColor = currentItem.glowColor
+        ) {
+            DomainGlobeCarousel(
+                items = items,
+                onNavigate = { route -> navController.navigate(route) },
+                onPageSelection = { currentItem = it }
+            )
         }
     }
 }

@@ -140,9 +140,10 @@
 
         <!-- Aura Omnipresent Overlay Service -->
         <service
-            android:name=".services.AuraOverlayService"
+            android:name=".service.AssistantBubbleService"
             android:exported="false"
-            android:foregroundServiceType="mediaProjection" />
+            android:foregroundServiceType="specialUse"
+            tools:ignore="ForegroundServiceType" />
 
         <!-- Receivers -->
         <receiver

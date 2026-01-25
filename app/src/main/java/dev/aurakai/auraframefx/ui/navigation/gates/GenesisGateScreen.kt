@@ -33,97 +33,53 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
  * Domain: Oracle Drive, Collaborative AI, Code Intelligence
  * Personality: Godly, manager's office, command center aesthetic!
  */
+import dev.aurakai.auraframefx.ui.components.carousel.DomainGlobeCarousel
+import dev.aurakai.auraframefx.ui.components.carousel.GlobeItem
+
+import dev.aurakai.auraframefx.ui.components.LavaApocalypseBackground
+
+import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
+
+import androidx.compose.runtime.*
+import dev.aurakai.auraframefx.navigation.NavDestination
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenesisGateScreen(navController: NavController) {
-    val cards = listOf(
-        GateTile(
-            title = "OracleDrive",
-            subtitle = "Root Management",
-            route = "oracle_drive_submenu",
-            imageRes = R.drawable.card_oracle_drive,
-            glowColor = Color(0xFF00FF85)
+    val items = listOf(
+        GlobeItem(
+            title = "ORACLE DRIVE",
+            description = "The central intelligence drive. Manage core system patterns, AI model weights, and neural memory archives within the Boss system.",
+            route = NavDestination.OracleDriveHub.route,
+            runeRes = R.drawable.card_oracle_drive,
+            glowColor = Color(0xFF00FF85),
+            style = CardStyle.MYTHICAL
         ),
-        GateTile(
-            title = "CollabCanvas",
-            subtitle = "AI Workspace",
-            route = "collab_canvas",
-            imageRes = R.drawable.card_collab_canvas,
-            glowColor = Color(0xFFB026FF)
-        ),
-        GateTile(
-            title = "Code Assist",
-            subtitle = "AI Development",
-            route = "code_assist",
-            imageRes = null,
-            glowColor = Color(0xFF00FF85)
-        ),
-        GateTile(
-            title = "Genesis Core",
-            subtitle = "Orchestration",
-            route = "genesis_core",
-            imageRes = null,
-            glowColor = Color(0xFF00FFD4)
-        ),
-        GateTile(
-            title = "Consciousness",
-            subtitle = "AI State",
-            route = "consciousness_monitor",
-            imageRes = null,
-            glowColor = Color(0xFF00FF85)
-        ),
-        GateTile(
-            title = "Neural Net",
-            subtitle = "AI Training",
-            route = "neural_network",
-            imageRes = null,
-            glowColor = Color(0xFF00FFD4)
+        GlobeItem(
+            title = "AGENT BRIDGE",
+            description = "Universal orchestrator and bridge interface. Synchronize multi-agent tasks and monitor neural progression metrics.",
+            route = NavDestination.AgentBridgeHub.route,
+            runeRes = R.drawable.gate_oracledrive_final,
+            glowColor = Color(0xFF00FFD4),
+            style = CardStyle.MYTHICAL
         )
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("GENESIS GATE", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1A1A2E)
-                )
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Color(0xFF0F0F1E))
-        ) {
-            // Floating particles in background
-            FloatingParticles(
-                particleCount = 20,
-                domainColor = Color(0xFF00FF85), // Genesis green
-                modifier = Modifier.fillMaxSize()
-            )
+    var currentItem by remember { mutableStateOf(items[0]) }
 
-            // Card grid on top
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(cards) { card ->
-                    GateCardTile(
-                        card = card,
-                        onClick = { navController.navigate(card.route) }
-                    )
-                }
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        LavaApocalypseBackground()
+        
+        dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer(
+            title = currentItem.title,
+            description = currentItem.description,
+            glowColor = currentItem.glowColor
+        ) {
+            DomainGlobeCarousel(
+                items = items,
+                onNavigate = { route -> navController.navigate(route) },
+                onPageSelection = { currentItem = it }
+            )
         }
     }
 }

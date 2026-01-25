@@ -24,10 +24,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.ui.navigation.gates.common.GateTile
 import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
+import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.ui.components.hologram.HolographicCard
 
 /**
  * 🎨 AURA GATE SCREEN
@@ -35,98 +39,53 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
  * Domain: Creative UI/UX and Theme Customization
  * Personality: Chaotic, spunky, dive-right-in creative energy!
  */
+import dev.aurakai.auraframefx.ui.components.carousel.DomainGlobeCarousel
+import dev.aurakai.auraframefx.ui.components.carousel.GlobeItem
+
+import dev.aurakai.auraframefx.ui.components.WoodsyPlainsBackground
+
+import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
+
+import androidx.compose.runtime.*
+import dev.aurakai.auraframefx.navigation.NavDestination
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuraGateScreen(navController: NavController) {
-    val cards = listOf(
-        GateTile(
-            title = "ChromaCore",
-            subtitle = "Color System",
-            route = "chroma_core_colors",
-            imageRes = R.drawable.card_chroma_core,
-            glowColor = Color(0xFFB026FF)
+    val items = listOf(
+        GlobeItem(
+            title = "UXUI DESIGN STUDIO",
+            description = "The central design hub for ReGenesis. Access the Aura Theming Engine, ChromaCore, and advanced UI overrides.",
+            route = NavDestination.AuraThemingHub.route,
+            runeRes = R.drawable.card_chroma_core,
+            glowColor = Color(0xFFFF00FF),
+            style = CardStyle.ARTSY
         ),
-        GateTile(
-            title = "Theme Engine",
-            subtitle = "System Themes",
-            route = "theme_engine",
-            imageRes = null,
-            glowColor = Color(0xFFFF00E5)
-        ),
-        GateTile(
-            title = "Notch Bar",
-            subtitle = "Status Bar",
-            route = "notch_bar",
-            imageRes = R.drawable.card_notch_bar,
-            glowColor = Color(0xFF00E5FF)
-        ),
-        GateTile(
-            title = "UI/UX Studio",
-            subtitle = "Design Lab",
-            route = "uiux_gate_submenu",
-            imageRes = null,
-            glowColor = Color(0xFFB026FF)
-        ),
-        GateTile(
-            title = "Quick Settings",
-            subtitle = "Fast Access",
-            route = "quick_settings",
-            imageRes = null,
-            glowColor = Color(0xFFFF00E5)
-        ),
-        GateTile(
-            title = "Aura Lab",
-            subtitle = "Experiments",
-            route = "aura_lab",
-            imageRes = null,
-            glowColor = Color(0xFFB026FF)
+        GlobeItem(
+            title = "AURA LAB",
+            description = "Technical sandbox for live UI experimentation, sandbox testing, and collaborative drafting.",
+            route = NavDestination.AuraLab.route,
+            runeRes = R.drawable.card_collab_canvas,
+            glowColor = Color(0xFF00E5FF),
+            style = CardStyle.ARTSY
         )
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("AURA GATE", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1A1A2E)
-                )
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Color(0xFF0F0F1E))
-        ) {
-            // Floating particles in background
-            FloatingParticles(
-                particleCount = 20,
-                domainColor = Color(0xFFB026FF), // Aura purple
-                modifier = Modifier.fillMaxSize()
-            )
+    var currentItem by remember { mutableStateOf(items[0]) }
 
-            // Card grid on top
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                itemsIndexed(cards) { index, card ->
-                    GateCardTile(
-                        card = card,
-                        onClick = { navController.navigate(card.route) },
-                        index = index
-                    )
-                }
-            }
+    Box(modifier = Modifier.fillMaxSize()) {
+        WoodsyPlainsBackground()
+        
+        AnimeHUDContainer(
+            title = currentItem.title,
+            description = currentItem.description,
+            glowColor = currentItem.glowColor
+        ) {
+            DomainGlobeCarousel(
+                items = items,
+                onNavigate = { route -> navController.navigate(route) },
+                onPageSelection = { currentItem = it }
+            )
         }
     }
 }

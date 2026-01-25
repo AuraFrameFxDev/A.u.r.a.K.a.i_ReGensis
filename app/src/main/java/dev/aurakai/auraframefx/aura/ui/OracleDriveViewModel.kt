@@ -3,9 +3,9 @@ package dev.aurakai.auraframefx.aura.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveConsciousnessState
-import dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveFile
-import dev.aurakai.auraframefx.oracledrive.service.OracleDriveService
+import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DriveConsciousnessState
+import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DriveFile
+import dev.aurakai.auraframefx.genesis.oracledrive.service.OracleDriveService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

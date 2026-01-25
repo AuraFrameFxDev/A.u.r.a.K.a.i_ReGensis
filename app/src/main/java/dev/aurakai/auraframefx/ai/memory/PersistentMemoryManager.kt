@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.ai.memory
 
 import dev.aurakai.auraframefx.ai.memory.models.InteractionEntry
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryEntry
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryStats
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryEntry
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryStats
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
