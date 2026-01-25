@@ -78,7 +78,11 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                 .build()
         }
 
-        startForeground(1337, notification)
+        if (Build.VERSION.SDK_INT >= 34) {
+            startForeground(1337, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+        } else {
+            startForeground(1337, notification)
+        }
     }
 
     private fun showOverlay() {
