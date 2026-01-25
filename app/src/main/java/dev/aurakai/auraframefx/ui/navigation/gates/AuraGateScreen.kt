@@ -47,7 +47,7 @@ fun AuraGateScreen(navController: NavController) {
             title = "CHROMACORE",
             subtitle = "Color System",
             route = "chroma_core_colors",
-            imageRes = R.drawable.rune_surgeon, // Using DNA for now
+            imageRes = R.drawable.rune_surgeon, 
             glowColor = Color(0xFFB026FF)
         ),
         GateTile(
@@ -61,7 +61,7 @@ fun AuraGateScreen(navController: NavController) {
             title = "AURA LAB",
             subtitle = "Experiments",
             route = "aura_lab",
-            imageRes = R.drawable.rune_oracle,
+            imageRes = R.drawable.rune_surgeon,
             glowColor = Color(0xFFFF00E5)
         )
     )

@@ -170,6 +170,7 @@ class OracleDriveSandbox @Inject constructor(
             _activeSandboxes.value = currentSandboxes
 
             i("OracleDriveSandbox", "Created new sandbox: $name (ID: $sandboxId)")
+            saveSandboxes()
 
             SandboxResult(
                 success = true,
@@ -435,38 +436,25 @@ class OracleDriveSandbox @Inject constructor(
 
     /**
      * Loads existing sandbox configurations from persistent storage.
-     *
-     * This is a stub implementation and does not currently load any sandboxes.
      */
     private suspend fun loadExistingSandboxes() {
         AuraFxLogger.debug("OracleDriveSandbox", "Loading existing sandboxes from storage")
 
         try {
-            // Load sandbox metadata from persistent storage
-            val sandboxesDir = File("/data/data/${context.packageName}/sandboxes")
+            val sandboxesFile = File(sandboxDirectory, "sandboxes.json")
 
-            if (!sandboxesDir.exists()) {
-                i("OracleDriveSandbox", "No existing sandboxes found - first run")
+            if (!sandboxesFile.exists()) {
+                i("OracleDriveSandbox", "No existing sandboxes found")
                 return
             }
 
-            val sandboxFiles = sandboxesDir.listFiles { file -> file.extension == "json" }
-            if (sandboxFiles.isNullOrEmpty()) {
-                i("OracleDriveSandbox", "No sandbox configuration files found")
-                return
-            }
+            val jsonContent = sandboxesFile.readText()
+            if (jsonContent.isBlank()) return
 
-            val loadedSandboxes = mutableListOf<SandboxEnvironment>()
-
-            sandboxFiles.forEach { file ->
-                try {
-                    // In production: deserialize JSON to SandboxEnvironment
-                    AuraFxLogger.debug("OracleDriveSandbox", "Loading sandbox from: ${file.name}")
-                    // loadedSandboxes.add(parseFromJson(file.readText()))
-                } catch (e: Exception) {
-                    AuraFxLogger.error("OracleDriveSandbox", "Failed to load sandbox ${file.name}", e)
-                }
-            }
+            // Using Gson for simple persistence as it's already in the classpath
+            val gson = com.google.gson.Gson()
+            val type = object : com.google.gson.reflect.TypeToken<List<SandboxEnvironment>>() {}.type
+            val loadedSandboxes: List<SandboxEnvironment> = gson.fromJson(jsonContent, type)
 
             if (loadedSandboxes.isNotEmpty()) {
                 _activeSandboxes.value = loadedSandboxes
@@ -475,6 +463,23 @@ class OracleDriveSandbox @Inject constructor(
 
         } catch (e: Exception) {
             AuraFxLogger.error("OracleDriveSandbox", "Error loading sandboxes", e)
+        }
+    }
+
+    /**
+     * Saves all active sandboxes to persistent storage.
+     */
+    private suspend fun saveSandboxes() {
+        withContext(Dispatchers.IO) {
+            try {
+                val sandboxesFile = File(sandboxDirectory, "sandboxes.json")
+                val gson = com.google.gson.Gson()
+                val jsonContent = gson.toJson(_activeSandboxes.value)
+                sandboxesFile.writeText(jsonContent)
+                i("OracleDriveSandbox", "Saved ${_activeSandboxes.value.size} sandboxes to storage")
+            } catch (e: Exception) {
+                AuraFxLogger.error("OracleDriveSandbox", "Error saving sandboxes", e)
+            }
         }
     }
 

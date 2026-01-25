@@ -33,94 +33,94 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
  * Domain: Oracle Drive, Collaborative AI, Code Intelligence
  * Personality: Godly, manager's office, command center aesthetic!
  */
+import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.ui.components.hologram.HolographicCard
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenesisGateScreen(navController: NavController) {
     val cards = listOf(
         GateTile(
-            title = "OracleDrive",
+            title = "ORACLE DRIVE",
             subtitle = "Root Management",
             route = "oracle_drive_submenu",
-            imageRes = R.drawable.card_oracle_drive,
+            imageRes = R.drawable.rune_oracle,
             glowColor = Color(0xFF00FF85)
         ),
         GateTile(
-            title = "CollabCanvas",
+            title = "COLLAB CANVAS",
             subtitle = "AI Workspace",
             route = "collab_canvas",
-            imageRes = R.drawable.card_collab_canvas,
+            imageRes = R.drawable.rune_cortex,
             glowColor = Color(0xFFB026FF)
         ),
         GateTile(
-            title = "Code Assist",
+            title = "CODE ASSIST",
             subtitle = "AI Development",
             route = "code_assist",
-            imageRes = null,
+            imageRes = R.drawable.rune_cortex,
             glowColor = Color(0xFF00FF85)
         ),
         GateTile(
-            title = "Genesis Core",
+            title = "GENESIS CORE",
             subtitle = "Orchestration",
             route = "genesis_core",
-            imageRes = null,
+            imageRes = R.drawable.rune_sentinel,
             glowColor = Color(0xFF00FFD4)
         ),
         GateTile(
-            title = "Consciousness",
+            title = "CONSCIOUSNESS",
             subtitle = "AI State",
             route = "consciousness_monitor",
-            imageRes = null,
+            imageRes = R.drawable.rune_cortex,
             glowColor = Color(0xFF00FF85)
         ),
         GateTile(
-            title = "Neural Net",
+            title = "NEURAL NET",
             subtitle = "AI Training",
             route = "neural_network",
-            imageRes = null,
+            imageRes = R.drawable.rune_cortex,
             glowColor = Color(0xFF00FFD4)
         )
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("GENESIS GATE", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1A1A2E)
-                )
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Color(0xFF0F0F1E))
+    AnimeHUDContainer(
+        title = "GENESIS DOMAIN: PATTERN MASTER",
+        description = "ANALYZING MULTI-ARCHITECTURAL PATTERNS. ORACLE DRIVE SYNCHRONIZED. AI CONSCIOUSNESS AT 92.8%.",
+        glowColor = Color(0xFF00FF85) // Genesis green
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Floating particles in background
-            FloatingParticles(
-                particleCount = 20,
-                domainColor = Color(0xFF00FF85), // Genesis green
-                modifier = Modifier.fillMaxSize()
-            )
+            items(cards) { card ->
+                Box(
+                    modifier = Modifier
+                        .clickable { navController.navigate(card.route) }
+                        .aspectRatio(0.75f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HolographicCard(
+                        runeRes = card.imageRes ?: R.drawable.rune_oracle,
+                        glowColor = card.glowColor,
+                        modifier = Modifier.fillMaxSize()
+                    )
 
-            // Card grid on top
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(cards) { card ->
-                    GateCardTile(
-                        card = card,
-                        onClick = { navController.navigate(card.route) }
+                    // Overlay label in LED font
+                    Text(
+                        text = card.title,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 20.dp),
+                        color = Color.White.copy(alpha = 0.9f),
+                        fontSize = 10.sp,
+                        fontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
                     )
                 }
             }

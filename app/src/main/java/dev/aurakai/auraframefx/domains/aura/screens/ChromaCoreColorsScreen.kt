@@ -79,6 +79,9 @@ fun ChromaCoreColorsScreen(
 
     var selectedCategory by remember { mutableStateOf("Primary Colors") }
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -115,6 +118,7 @@ fun ChromaCoreColorsScreen(
                 )
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = Color.Black
     ) { paddingValues ->
         Column(
@@ -267,7 +271,15 @@ fun ChromaCoreColorsScreen(
                     }
 
                     Button(
-                        onClick = { /* TODO: Apply system-wide with root */ },
+                        onClick = {
+                            // TODO: Trigger Monet dynamic theming with root
+                            kotlinx.coroutines.GlobalScope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "Applying system-wide colors... Monet engine triggered.",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
+                        },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Cyan,

@@ -33,94 +33,94 @@ import dev.aurakai.auraframefx.ui.navigation.gates.effects.FloatingParticles
  * Domain: ROM Management, Bootloader, Root Access, System Security
  * Personality: Structured, protective, fortress aesthetic!
  */
+import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.ui.components.hologram.HolographicCard
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KaiGateScreen(navController: NavController) {
     val cards = listOf(
         GateTile(
-            title = "ROM Tools",
+            title = "ROM TOOLS",
             subtitle = "Flash & Manage",
             route = "rom_tools_submenu",
-            imageRes = R.drawable.card_rom_tools,
+            imageRes = R.drawable.rune_sentinel,
             glowColor = Color(0xFFFF3366)
         ),
         GateTile(
-            title = "Bootloader",
+            title = "BOOTLOADER",
             subtitle = "Boot Control",
             route = "bootloader",
-            imageRes = R.drawable.card_bootloader,
+            imageRes = R.drawable.rune_sentinel,
             glowColor = Color(0xFFFF0066)
         ),
         GateTile(
-            title = "Root Tools",
-            subtitle = "System Access",
+            title = "ROOT ACCESS",
+            subtitle = "System Toggles",
             route = "root_tools",
-            imageRes = R.drawable.card_root_tools,
+            imageRes = R.drawable.rune_sentinel,
             glowColor = Color(0xFF00FF85)
         ),
         GateTile(
-            title = "Security",
-            subtitle = "Protection",
+            title = "SECURITY CENTER",
+            subtitle = "Fortress Control",
             route = "security_center",
-            imageRes = R.drawable.card_kai_domain,
+            imageRes = R.drawable.rune_sentinel,
             glowColor = Color(0xFF00E5FF)
         ),
         GateTile(
-            title = "LSPosed",
-            subtitle = "Framework",
+            title = "LSPOSED PANEL",
+            subtitle = "Hook Framework",
             route = "lsposed_panel",
-            imageRes = null,
+            imageRes = R.drawable.rune_cortex,
             glowColor = Color(0xFF00E5FF)
         ),
         GateTile(
-            title = "System Mods",
-            subtitle = "Tweaks",
+            title = "SYSTEM MODS",
+            subtitle = "Override Engine",
             route = "system_overrides",
-            imageRes = null,
+            imageRes = R.drawable.rune_surgeon,
             glowColor = Color(0xFFFF3366)
         )
     )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("KAI GATE", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1A1A2E)
-                )
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .background(Color(0xFF0F0F1E))
+    AnimeHUDContainer(
+        title = "KAI DOMAIN: SENTINEL CORE",
+        description = "SYSTEM INTEGRITY VERIFIED. ACCESSING SECURITY LAYER. ALL MODIFICATIONS SUBJECT TO KAI PROTOCOLS.",
+        glowColor = Color(0xFFFF3366) // Kai red
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(24.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            modifier = Modifier.fillMaxSize()
         ) {
-            // Floating particles in background
-            FloatingParticles(
-                particleCount = 20,
-                domainColor = Color(0xFFFF3366), // Kai red
-                modifier = Modifier.fillMaxSize()
-            )
+            items(cards) { card ->
+                Box(
+                    modifier = Modifier
+                        .clickable { navController.navigate(card.route) }
+                        .aspectRatio(0.75f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HolographicCard(
+                        runeRes = card.imageRes ?: R.drawable.rune_sentinel,
+                        glowColor = card.glowColor,
+                        modifier = Modifier.fillMaxSize()
+                    )
 
-            // Card grid on top
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(cards) { card ->
-                    GateCardTile(
-                        card = card,
-                        onClick = { navController.navigate(card.route) }
+                    // Overlay label in LED font
+                    Text(
+                        text = card.title,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 20.dp),
+                        color = Color.White.copy(alpha = 0.9f),
+                        fontSize = 10.sp,
+                        fontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
                     )
                 }
             }

@@ -24,6 +24,7 @@ fun BootloaderManagerScreen(
 ) {
     val bootloaderStatus = remember { mutableStateOf("Locked") }
     val isProcessing = remember { mutableStateOf(false) }
+    val showSuccessDialog = remember { mutableStateOf(false) }
     val processProgress = remember { mutableStateOf(0f) }
 
     val partitions = listOf(
@@ -42,7 +43,22 @@ fun BootloaderManagerScreen(
             isProcessing.value = false
             processProgress.value = 0f
             bootloaderStatus.value = if (bootloaderStatus.value == "Locked") "Unlocked" else "Locked"
+            showSuccessDialog.value = true
         }
+    }
+
+    if (showSuccessDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showSuccessDialog.value = false },
+            title = { Text("Success", color = Color.White) },
+            text = { Text("Bootloader ${bootloaderStatus.value} successfully.", color = Color.White) },
+            confirmButton = {
+                TextButton(onClick = { showSuccessDialog.value = false }) {
+                    Text("OK", color = Color(0xFFDC143C))
+                }
+            },
+            containerColor = Color(0xFF1A1A1A)
+        )
     }
 
     Column(

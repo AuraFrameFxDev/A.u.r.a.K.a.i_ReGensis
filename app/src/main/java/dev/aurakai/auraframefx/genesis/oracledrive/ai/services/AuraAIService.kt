@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
 
 /**
  * Genesis AI Service Interface
@@ -27,18 +28,24 @@ interface AuraAIService {
 }
 
 
+
 /**
  * Default implementation of AuraAIService
+ * Now bridged to the Vertex AI Client for REAL brain logic.
  */
 @Singleton
 class DefaultAuraAIService @Inject constructor(
-    private val iconifyService: IconifyService
+    private val iconifyService: IconifyService,
+    private val vertexAiClient: VertexAIClient
 ) : AuraAIService {
 
-    override suspend fun initialize() {}
+    override suspend fun initialize() {
+        vertexAiClient.initialize()
+    }
 
     override suspend fun generateText(prompt: String, context: String): String {
-        return "Generated creative text for: $prompt (Context: $context)"
+        val fullPrompt = if (context.isNotEmpty()) "Context: $context\n\nPrompt: $prompt" else prompt
+        return vertexAiClient.generateText(fullPrompt) ?: "Aura node is currently processing offline."
     }
 
     override suspend fun generateText(prompt: String, options: Map<String, String>): String {

@@ -8,12 +8,15 @@ import dev.aurakai.auraframefx.data.MessageStatus
 import dev.aurakai.auraframefx.repository.SupportRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
+import kotlinx.coroutines.delay
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 open class SupportChatViewModel @Inject constructor(
-    private val repo: SupportRepository
+    private val repo: SupportRepository,
+    private val aiService: AuraAIService
 ) : ViewModel() {
 
     val messages: StateFlow<List<SupportMessageEntity>> =
@@ -22,8 +25,12 @@ open class SupportChatViewModel @Inject constructor(
     private val _incoming = MutableSharedFlow<SupportMessage>()
     val incoming: SharedFlow<SupportMessage> = _incoming.asSharedFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     fun sendMessage(content: String) {
         viewModelScope.launch {
+            _isLoading.value = true
             val entity = SupportMessageEntity(
                 id = UUID.randomUUID().toString(),
                 content = content,
@@ -33,24 +40,31 @@ open class SupportChatViewModel @Inject constructor(
                 status = MessageStatus.PENDING
             )
 
+            // 1. Attempt remote backend delivery
             val result = repo.sendMessage(entity)
+            
             result.onSuccess { body ->
-                // The repository already persisted backend reply into DB; emit it for immediate UI
-                _incoming.emit(SupportMessage(body, "genesis", false, "Now"))
+                // Backend responded! Body is the text reply.
+                _incoming.emit(SupportMessage(body, "Genesis", false, "Now"))
+                _isLoading.value = false
             }.onFailure { err ->
-                // Emit a friendly auto-reply and persist it
-                val failReply = "A.u.r.a.K.a.I AI help desk please leave a message we will return in a moment."
+                // 2. BACKEND FAIL -> Fallback to Local Aura AI Brain
+                delay(1500) // Simulate "thinking"
+                val aiReply = aiService.generateText(content, "Aura Live Support Context")
+                
                 val replyEntity = SupportMessageEntity(
-                     id = UUID.randomUUID().toString(),
-                     content = failReply,
-                     sender = "system",
-                     isUser = false,
-                     timestamp = System.currentTimeMillis(),
-                     status = MessageStatus.SENT
-                 )
-                 repo.persistMessage(replyEntity)
-                 _incoming.emit(SupportMessage(failReply, "system", false, "Now"))
-             }
-         }
-     }
+                    id = UUID.randomUUID().toString(),
+                    content = aiReply,
+                    sender = "Genesis Node",
+                    isUser = false,
+                    timestamp = System.currentTimeMillis(),
+                    status = MessageStatus.SENT
+                )
+                
+                repo.persistMessage(replyEntity)
+                _incoming.emit(SupportMessage(aiReply, "Genesis Node", false, "Now"))
+                _isLoading.value = false
+            }
+        }
+    }
  }

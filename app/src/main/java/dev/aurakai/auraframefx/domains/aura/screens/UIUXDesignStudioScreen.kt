@@ -29,127 +29,146 @@ import androidx.navigation.NavHostController
 @Composable
 fun UIUXDesignStudioScreen(navController: NavHostController) {
     val tools = listOf(
-        DesignTool("Layout Builder", Icons.Default.Dashboard, Color(0xFFFF00FF)),
-        DesignTool("Typography", Icons.Default.TextFields, Color(0xFF00FFFF)),
-        DesignTool("Color Palette", Icons.Default.Palette, Color(0xFFFFFF00)),
-        DesignTool("Iconography", Icons.Default.Star, Color(0xFFFF1493)),
-        DesignTool("Animations", Icons.Default.PlayCircle, Color(0xFF00FF00)),
-        DesignTool("Components", Icons.Default.Widgets, Color(0xFFA020F0))
+        DesignTool("Layout Builder", Icons.Default.Dashboard, Color(0xFFFF00FF), "layout_builder"),
+        DesignTool("Typography", Icons.Default.TextFields, Color(0xFF00FFFF), "typography"),
+        DesignTool("Color Palette", Icons.Default.Palette, Color(0xFFFFFF00), "chroma_core_colors"),
+        DesignTool("Iconography", Icons.Default.Star, Color(0xFFFF1493), "iconify_picker"),
+        DesignTool("Animations", Icons.Default.PlayCircle, Color(0xFF00FF00), "animations"),
+        DesignTool("Components", Icons.Default.Widgets, Color(0xFFA020F0), "components")
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF2D002D), // Dark Magenta
-                        Color.Black
-                    )
-                )
-            )
-            .padding(16.dp)
-    ) {
-        // Header
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 24.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Brush,
-                contentDescription = "Design Studio",
-                tint = Color(0xFFFF00FF),
-                modifier = Modifier.size(32.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
-                Text(
-                    text = "DESIGN STUDIO",
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = Color(0xFFFF00FF),
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.sp
-                )
-                Text(
-                    text = "Create. Prototype. Innovate.",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color(0xFF00FFFF)
-                )
-            }
-        }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
-        // Canvas Preview Area (Mock)
-        Card(
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        containerColor = Color.Transparent
+    ) { padding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .padding(bottom = 24.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.Black.copy(alpha = 0.5f)
-            ),
-            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF00FF).copy(alpha = 0.5f))
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        imageVector = Icons.Default.TouchApp,
-                        contentDescription = "Preview",
-                        tint = Color.Gray,
-                        modifier = Modifier.size(48.dp)
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color(0xFF2D002D), // Dark Magenta
+                            Color.Black
+                        )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                )
+                .padding(16.dp)
+        ) {
+            // Header
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 24.dp)
+            ) {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+                }
+                Icon(
+                    imageVector = Icons.Default.Brush,
+                    contentDescription = "Design Studio",
+                    tint = Color(0xFFFF00FF),
+                    modifier = Modifier.size(32.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
                     Text(
-                        text = "Interactive Canvas Preview",
-                        color = Color.Gray
+                        text = "DESIGN STUDIO",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = Color(0xFFFF00FF),
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
+                    )
+                    Text(
+                        text = "Create. Prototype. Innovate.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFF00FFFF)
                     )
                 }
+            }
 
-                // Floating Action Button Mock
+            // Canvas Preview Area (Mock)
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .padding(bottom = 24.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Black.copy(alpha = 0.5f)
+                ),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF00FF).copy(alpha = 0.5f))
+            ) {
                 Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp)
-                        .size(56.dp)
-                        .clip(CircleShape)
-                        .background(Color(0xFFFF00FF))
-                        .clickable { },
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Default.Add, "Add", tint = Color.White)
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            imageVector = Icons.Default.TouchApp,
+                            contentDescription = "Preview",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Interactive Canvas Preview",
+                            color = Color.Gray
+                        )
+                    }
+
+                    // Floating Action Button Mock
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(16.dp)
+                            .size(56.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFFF00FF))
+                            .clickable { },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(Icons.Default.Add, "Add", tint = Color.White)
+                    }
                 }
             }
-        }
 
-        // Tools Grid
-        Text(
-            text = "Design Tools",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.White,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+            // Tools Grid
+            Text(
+                text = "Design Tools",
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.White,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(tools) { tool ->
-                DesignToolCard(tool)
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(tools) { tool ->
+                    DesignToolCard(tool) {
+                        if (tool.route == "chroma_core_colors" || tool.route == "iconify_picker") {
+                            navController.navigate(tool.route)
+                        } else {
+                            kotlinx.coroutines.GlobalScope.launch {
+                                snackbarHostState.showSnackbar("Module '${tool.name}' is currently in sandbox development.")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun DesignToolCard(tool: DesignTool) {
+private fun DesignToolCard(tool: DesignTool, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(120.dp)
-            .clickable { },
+            .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF1A1A1A)
         ),
@@ -182,5 +201,6 @@ private fun DesignToolCard(tool: DesignTool) {
 data class DesignTool(
     val name: String,
     val icon: ImageVector,
-    val color: Color
+    val color: Color,
+    val route: String
 )
