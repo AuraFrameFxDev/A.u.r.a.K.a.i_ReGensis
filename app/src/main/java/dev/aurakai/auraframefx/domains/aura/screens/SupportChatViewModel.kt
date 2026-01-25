@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +12,13 @@ import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
 import kotlinx.coroutines.delay
 import java.util.UUID
 import javax.inject.Inject
+
+data class SupportMessage(
+    val content: String,
+    val sender: String,
+    val isUser: Boolean,
+    val timestamp: String
+)
 
 @HiltViewModel
 open class SupportChatViewModel @Inject constructor(
@@ -66,5 +73,9 @@ open class SupportChatViewModel @Inject constructor(
                 _isLoading.value = false
             }
         }
+    }
+
+    fun clearStatusMessage() {
+        // Placeholder if needed
     }
  }

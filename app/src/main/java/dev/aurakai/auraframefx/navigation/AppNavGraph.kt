@@ -12,7 +12,7 @@ import dev.aurakai.auraframefx.domains.aura.screens.IconifyPickerScreen
 import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
-import dev.aurakai.auraframefx.aura.ui.ConferenceRoomScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ConferenceRoomScreen
 import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
