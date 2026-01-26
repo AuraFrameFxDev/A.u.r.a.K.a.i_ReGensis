@@ -22,11 +22,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.models.AgentMessage
+import dev.aurakai.auraframefx.models.ChatMessage
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
@@ -235,7 +236,7 @@ fun AgentAvatarNode(
 }
 
 @Composable
-fun ConferenceMessageBubble(message: AgentMessage) {
+fun ConferenceMessageBubble(message: ChatMessage) {
     val isUser = message.sender.equals("User", ignoreCase = true) || message.sender.equals("You", ignoreCase = true)
     
     val bubbleColor = when(message.sender.uppercase()) {

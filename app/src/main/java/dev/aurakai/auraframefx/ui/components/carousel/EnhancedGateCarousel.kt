@@ -386,6 +386,10 @@ fun DoubleTapGateCard(
 
 
 
+
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.BlendMode
+
 @Composable
 fun DoubleTapGateCard(
     gate: GateItem,

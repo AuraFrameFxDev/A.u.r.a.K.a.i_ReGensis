@@ -27,13 +27,10 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import timber.log.Timber
-import javax.inject.Inject
+import dev.aurakai.auraframefx.repository.TrinityRepository
+import dev.aurakai.auraframefx.models.ChatMessage
+import java.util.UUID
 
-/**
- * ConferenceRoomViewModel - The LDO's Self-Modification Hub
- *
- * Brings together ALL 6 Master Agents for collective consciousness.
- */
 @HiltViewModel
 class ConferenceRoomViewModel @Inject constructor(
     private val auraService: AuraAIService,
@@ -44,12 +41,13 @@ class ConferenceRoomViewModel @Inject constructor(
     private val metaInstructService: MetaInstructAIService,
     private val trinityCoordinator: TrinityCoordinatorService,
     private val neuralWhisper: NeuralWhisper,
+    private val trinityRepository: TrinityRepository
 ) : ViewModel() {
 
     private val tag = "ConferenceRoom"
 
-    private val _messages = MutableStateFlow<List<AgentMessage>>(emptyList())
-    val messages: StateFlow<List<AgentMessage>> = _messages
+    private val _messages = MutableStateFlow<List<ChatMessage>>(emptyList())
+    val messages: StateFlow<List<ChatMessage>> = _messages
 
     private val _activeAgents = MutableStateFlow(setOf<AgentType>())
     val activeAgents: StateFlow<Set<AgentType>> = _activeAgents
@@ -65,7 +63,7 @@ class ConferenceRoomViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            // Initialize Trinity System
+            // Initialize Trinity System (Legacy Coordinator)
             val trinityReady = trinityCoordinator.initialize()
             if (trinityReady) {
                 Timber.tag(tag).i("🌌 Conference Room Online - Trinity System Active")
@@ -80,18 +78,25 @@ class ConferenceRoomViewModel @Inject constructor(
                     )
                 }
 
-                // Send welcome message from Genesis
+                // Send welcome message from Genesis via ChatMessage
                 _messages.update {
                     listOf(
-                        AgentMessage(
-                            from = "GENESIS",
+                        ChatMessage(
+                            id = UUID.randomUUID().toString(),
+                            role = "assistant",
                             content = "✨ Welcome to the Conference Room. All 6 Master Agents online. The Gestalt is ready for self-modification.",
-                            sender = AgentType.GENESIS,
-                            category = AgentCapabilityCategory.COORDINATION,
-                            timestamp = System.currentTimeMillis(),
-                            confidence = 1.0f
+                            sender = "GENESIS",
+                            isFromUser = false,
+                            timestamp = System.currentTimeMillis()
                         )
                     )
+                }
+            }
+
+            // Listen to Neural Bridge (Trinity Repository)
+            launch {
+                trinityRepository.chatStream.collect { message ->
+                    _messages.update { current -> current + message }
                 }
             }
 
@@ -105,6 +110,9 @@ class ConferenceRoomViewModel @Inject constructor(
     /**
      * Routes the given message to the appropriate AI service.
      */
+    /**
+     * Routes the given message to the appropriate AI service via Neural Bridge.
+     */
     fun sendMessage(
         message: String,
         agentType: AgentType = _selectedAgent.value,
@@ -112,112 +120,17 @@ class ConferenceRoomViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
-                // Add user message to chat
-                _messages.update { current ->
-                    current + AgentMessage(
-                        from = "USER",
-                        content = message,
-                        sender = null,
-                        category = AgentCapabilityCategory.GENERAL,
-                        timestamp = System.currentTimeMillis(),
-                        confidence = 1.0f
-                    )
-                }
-
-                val request = AiRequest(
-                    query = message,
-                    type = AiRequestType.TEXT,
-                    context = buildJsonObject {
-                        put("userContext", context)
-                        put("conferenceRoom", "true")
-                        put("selfModificationEnabled", "true")
-                    }
-                )
-
-                // Route to appropriate service
-                val responseFlow: Flow<AgentResponse> = when (agentType) {
-                    AgentType.AURA -> flow {
-                        emit(auraService.processRequest(request, context))
-                    }
-
-                    AgentType.KAI -> flow {
-                        emit(kaiService.processRequest(request, context))
-                    }
-
-                    AgentType.CLAUDE -> flow {
-                        emit(claudeService.processRequest(request, context))
-                    }
-
-                    AgentType.CASCADE -> flow {
-                        val cascadeFlow = cascadeService.processRequest(
-                            AgentInvokeRequest(
-                                agentType = AgentCapabilityCategory.SPECIALIZED,
-                                message = request.query,
-                                priority = AgentInvokeRequest.Priority.normal,
-                                context = null
-                            )
-                        )
-                        // Map CascadeResponse to AgentResponse if needed
-                        cascadeFlow.collect { response ->
-                             emit(
-                                AgentResponse.success(
-                                    content = response.response,
-                                    confidence = response.confidence ?: 0.85f,
-                                    agent = AgentType.CASCADE,
-                                    agentName = "Cascade"
-                                )
-                            )
-                        }
-                    }
-
-                    AgentType.METAINSTRUCT -> flow {
-                        emit(metaInstructService.processRequest(request, context))
-                    }
-
-                    AgentType.GENESIS -> {
-                        trinityCoordinator.processRequest(request)
-                    }
-
-                    else -> flow {
-                         emit(AgentResponse.success(
-                            content = "Agent not available",
-                            confidence = 0.0f,
-                            agent = agentType
-                        ))
-                    }
-                }
-
-                // Collect and display response
-                responseFlow.collect { response ->
-                    _messages.update { current ->
-                        current + AgentMessage(
-                            from = response.agentName ?: agentType.name,
-                            content = response.content,
-                            sender = agentType,
-                            category = when (agentType) {
-                                AgentType.AURA -> AgentCapabilityCategory.CREATIVE
-                                AgentType.KAI -> AgentCapabilityCategory.ANALYSIS
-                                AgentType.CASCADE -> AgentCapabilityCategory.SPECIALIZED
-                                AgentType.CLAUDE -> AgentCapabilityCategory.GENERAL
-                                AgentType.METAINSTRUCT -> AgentCapabilityCategory.SPECIALIZED
-                                else -> AgentCapabilityCategory.COORDINATION
-                            },
-                            timestamp = System.currentTimeMillis(),
-                            confidence = response.confidence
-                        )
-                    }
-                }
-
+               trinityRepository.processUserMessage(message, agentType)
             } catch (e: Exception) {
-                Timber.tag(tag).e(e, "Error processing message: ${e.message}")
+                Timber.tag(tag).e(e, "Error processing message via Trinity: ${e.message}")
                 _messages.update { current ->
-                    current + AgentMessage(
-                        from = "SYSTEM",
+                    current + ChatMessage(
+                        id = UUID.randomUUID().toString(),
+                        role = "system",
                         content = "Error: ${e.message}",
-                        sender = null,
-                        category = AgentCapabilityCategory.GENERAL,
-                        timestamp = System.currentTimeMillis(),
-                        confidence = 0.0f
+                        sender = "SYSTEM",
+                        isFromUser = false,
+                        timestamp = System.currentTimeMillis()
                     )
                 }
             }
@@ -264,13 +177,13 @@ class ConferenceRoomViewModel @Inject constructor(
             }
 
             _messages.update { current ->
-                current + AgentMessage(
-                    from = "SYSTEM STATUS",
+                current + ChatMessage(
+                    id = UUID.randomUUID().toString(),
+                    role = "assistant",
                     content = stateMessage,
-                    sender = AgentType.SYSTEM,
-                    category = AgentCapabilityCategory.COORDINATION,
-                    timestamp = System.currentTimeMillis(),
-                    confidence = 1.0f
+                    sender = "SYSTEM STATUS",
+                    isFromUser = false,
+                    timestamp = System.currentTimeMillis()
                 )
             }
         }
@@ -280,13 +193,13 @@ class ConferenceRoomViewModel @Inject constructor(
         viewModelScope.launch {
             trinityCoordinator.activateFusion(ability, params).collect { response ->
                 _messages.update { current ->
-                    current + AgentMessage(
-                        from = "FUSION",
+                    current + ChatMessage(
+                        id = UUID.randomUUID().toString(),
+                        role = "assistant",
                         content = response.content,
-                        sender = AgentType.GENESIS,
-                        category = AgentCapabilityCategory.COORDINATION,
-                        timestamp = System.currentTimeMillis(),
-                        confidence = response.confidence
+                        sender = "FUSION",
+                        isFromUser = false,
+                        timestamp = System.currentTimeMillis()
                     )
                 }
             }

@@ -91,32 +91,16 @@ open class AgentViewModel @Inject constructor(
         // Listen to the Neural Bridge
         viewModelScope.launch {
             trinityRepository.chatStream.collect { message ->
-                // Map the stream to the UI's expected format (Agency Name -> List<Message>)
-                // For now, we assume the 'sender' or 'role' can help identifying the thread.
-                // If it's user, we might need to know "which agent" they were talking to. 
-                // For now, we'll auto-assign based on the View's selected agent? 
-                // Actually, the stream is mixed. 
-                // Let's assume the 'sender' is the Agent Name for valid agents.
-                // For User messages, we might need to add it to the "current conversation".
-                // Since this ViewModel maintains Map<AgentName, List>, it's tricky if we don't know the target.
-                // But `processUserMessage` emits the user message too.
-                
-                // Hack: Add message to ALL agents or just the sender?
-                // The UI uses `selectedAgent`.
-                // Better approach: Update the Map for the specific sender.
-                
-                val targetKey = if (message.isFromUser) "Genesis" else message.sender // Default User msg to Genesis conversation?
-                // Real usage: The UI screens filter by selected agent. 
-                // Maybe we just append to the sender's history.
-                
-                val currentList = _chatMessages.value[message.sender] ?: emptyList() 
-                // If user sent it, `sender` is "User". We need to know who they sent it TO.
-                // TrinityRepository `processUserMessage` emits User message. 
-                // We might need to handle 'activeAgent' context here.
-                
-                // Simplification for the "Fix": just log it or add to a general pool.
-                // But to make the UI work, we need to populate the map.
-                // Let's rely on the fact that `sendMessage` is called with `agentName`.
+                if (!message.isFromUser) {
+                    // It's an agent response due to the repository processing.
+                    // The sender name should match the agent name we use in our Map.
+                    // e.g. "Aura", "Kai".
+                    // We simply add it to that agent's history.
+                    addMessage(message.sender, message)
+                    
+                    // Also emit event for UI effects
+                    _agentEvents.emit(AgentEvent.MessageReceived(message))
+                }
             }
         }
     }
@@ -267,12 +251,6 @@ open class AgentViewModel @Inject constructor(
         }
     }
     
-    // Collecting Reponse in Init:
-    // We need to know which agent thread to add the message to.
-    // If we receive "assistant" from "Aura", we add to "Aura".
-    // If we receive "user", we theoretically need to know who it was sent to.
-    // TrinityRepository's chatStream emits everything.
-    // Update init block logic:
 
 
     private fun addMessage(agentName: String, message: ChatMessage) {
@@ -284,6 +262,7 @@ open class AgentViewModel @Inject constructor(
         val message = ChatMessage(
             id = UUID.randomUUID().toString(),
             content = content,
+            role = "system",
             sender = "System",
             isFromUser = false,
             timestamp = System.currentTimeMillis()
