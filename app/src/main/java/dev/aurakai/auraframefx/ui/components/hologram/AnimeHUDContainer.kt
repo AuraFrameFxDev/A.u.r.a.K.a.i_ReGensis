@@ -95,8 +95,8 @@ fun AnimeHUDContainer(
         // 0.3 FLOATING ARCANE RUNES (Magic Layer - Uses Dynamic Card Color)
         FloatingArcaneRunes(glowColor = glowColor)
         
-        // 0.5 BOTTOM GLOW EMITTER (Replacing Traced Frame)
-        BottomGlowEmitter(color = interfaceColor)
+        // 0.5 HOLOGRAPHIC STAGE LIGHTS (Bottom + Edge Glow)
+        HolographicStageLights(color = interfaceColor)
 
         // 1. TOP-LEFT HUD BOX (Overlay Layer) - Mapped to 12% Top, 5% Left
         val topPadding = maxHeight * 0.12f
@@ -113,30 +113,31 @@ fun AnimeHUDContainer(
             // THE TITLE (Fixed Blue)
             Text(
                 text = title.uppercase(),
-                fontSize = 18.sp,
+                fontSize = 20.sp, // Slightly bigger
                 fontFamily = ChessFontFamily,
                 color = interfaceColor.copy(alpha = pulseAlpha),
-                modifier = Modifier.padding(bottom = 4.dp, start = 8.dp)
+                modifier = Modifier.padding(bottom = 6.dp, start = 8.dp)
             )
 
             // The Angled HUD Framework (Fixed Blue)
+            // Increased height to prevent truncation
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(110.dp)
+                    .height(150.dp) 
                     .clip(HUDBoxShape)
-                    .background(Color.Black.copy(alpha = 0.6f))
+                    .background(Color.Black.copy(alpha = 0.4f)) // More transparent background
                     .border(1.dp, interfaceColor.copy(alpha = 0.4f * pulseAlpha), HUDBoxShape)
             ) {
                 Text(
                     text = description,
-                    fontSize = 11.sp,
+                    fontSize = 12.sp, // Slightly bigger readability
                     fontFamily = LEDFontFamily,
-                    color = interfaceColor.copy(alpha = 0.8f),
+                    color = interfaceColor.copy(alpha = 0.9f),
                     textAlign = TextAlign.Start,
-                    lineHeight = 16.sp,
+                    lineHeight = 18.sp,
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(20.dp)
                         .align(Alignment.CenterStart)
                 )
                 
@@ -160,13 +161,13 @@ fun AnimeHUDContainer(
 }
 
 @Composable
-fun BottomGlowEmitter(color: Color) {
-    val infiniteTransition = rememberInfiniteTransition(label = "bottom_glow")
+fun HolographicStageLights(color: Color) {
+    val infiniteTransition = rememberInfiniteTransition(label = "stage_lights")
     val breathingAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
-        targetValue = 0.8f,
+        initialValue = 0.5f,
+        targetValue = 0.9f,
         animationSpec = infiniteRepeatable(
-            animation = tween(4000, easing = EaseInOutSine),
+            animation = tween(3000, easing = EaseInOutSine),
             repeatMode = RepeatMode.Reverse
         ),
         label = "alpha"
@@ -175,44 +176,53 @@ fun BottomGlowEmitter(color: Color) {
     Canvas(modifier = Modifier.fillMaxSize()) {
         val w = size.width
         val h = size.height
+        val s = 2.dp.toPx() // Stroke
         
-        // 1. Central Projection Base Glow (Wide & Soft)
+        // 1. SCREEN EDGE GLOW (The missing piece)
+        // A subtle, high-tech border around the viewport
+        drawRect(
+            color = color.copy(alpha = 0.3f),
+            style = Stroke(width = s)
+        )
+        // Corner accents
+        val cL = 20.dp.toPx()
+        drawLine(color.copy(alpha = 0.8f), Offset(0f, cL), Offset(0f, 0f), s * 2) // TL V
+        drawLine(color.copy(alpha = 0.8f), Offset(0f, 0f), Offset(cL, 0f), s * 2) // TL H
+        drawLine(color.copy(alpha = 0.8f), Offset(w, cL), Offset(w, 0f), s * 2)   // TR V
+        drawLine(color.copy(alpha = 0.8f), Offset(w - cL, 0f), Offset(w, 0f), s * 2) // TR H
+        drawLine(color.copy(alpha = 0.8f), Offset(0f, h - cL), Offset(0f, h), s * 2) // BL V
+        drawLine(color.copy(alpha = 0.8f), Offset(0f, h), Offset(cL, h), s * 2) // BL H
+        drawLine(color.copy(alpha = 0.8f), Offset(w, h - cL), Offset(w, h), s * 2)   // BR V
+        drawLine(color.copy(alpha = 0.8f), Offset(w - cL, h), Offset(w, h), s * 2) // BR H
+
+        // 2. BOTTOM PROJECTION LIGHT
         drawCircle(
             brush = Brush.radialGradient(
                 colors = listOf(
-                    color.copy(alpha = 0.3f),
-                    color.copy(alpha = 0.05f),
+                    color.copy(alpha = 0.4f),
+                    color.copy(alpha = 0.1f),
                     Color.Transparent
                 ),
-                center = Offset(w / 2, h), // Centered on bottom edge
-                radius = w * 0.6f
+                center = Offset(w / 2, h), 
+                radius = w * 0.7f
             ),
             center = Offset(w / 2, h),
-            radius = w * 0.6f
+            radius = w * 0.7f
         )
         
-        // 2. Corner Anchors (Breathing)
-        val cornerRadius = w * 0.25f
+        // 3. BOTTOM CORNER ANCHORS (Breathing)
+        val cornerRadius = w * 0.3f
         
-        // Bottom Left
         drawCircle(
             brush = Brush.radialGradient(
-                colors = listOf(
-                    color.copy(alpha = 0.3f * breathingAlpha),
-                    Color.Transparent
-                ),
+                colors = listOf(color.copy(alpha = 0.2f * breathingAlpha), Color.Transparent),
                 center = Offset(0f, h),
                 radius = cornerRadius
             )
         )
-        
-        // Bottom Right
         drawCircle(
             brush = Brush.radialGradient(
-                colors = listOf(
-                    color.copy(alpha = 0.3f * breathingAlpha),
-                    Color.Transparent
-                ),
+                colors = listOf(color.copy(alpha = 0.2f * breathingAlpha), Color.Transparent),
                 center = Offset(w, h),
                 radius = cornerRadius
             )

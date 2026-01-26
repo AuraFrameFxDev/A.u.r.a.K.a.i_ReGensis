@@ -384,6 +384,7 @@ fun DoubleTapGateCard(
         label = "yOffset"
     )
 
+
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -405,24 +406,26 @@ fun DoubleTapGateCard(
                     }
                 )
         ) {
-            // THE IMAGE (Floating alone, NO FONTS, NO BOXES)
+            // THE IMAGE as a HOLOGRAM (Screen Blend Mode)
+            // This turns black pixels transparent and bright pixels into light
             Image(
                 painter = painterResource(id = gate.imageRes),
                 contentDescription = gate.gateName,
                 modifier = Modifier
                     .fillMaxSize()
                     .blur(if (tapCount > 0) 4.dp else 0.dp),
-                contentScale = ContentScale.FillBounds // Fill the fixed box EXACTLY
+                contentScale = ContentScale.FillBounds,
+                colorFilter = ColorFilter.tint(Color.White, BlendMode.Screen), // Magic Hologram Mode
+                alpha = alphaPulse
             )
-
-            // Subtle pulse glow (Removed text overlay as requested "CARDS ARE ENOUGH")
+            
+            // Core Glow (Behind the hologram to give it body)
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .blur(15.dp)
                     .background(
                         Brush.radialGradient(
-                            listOf(gate.glowColor.copy(alpha = 0.2f), Color.Transparent)
+                            listOf(gate.glowColor.copy(alpha = 0.3f), Color.Transparent)
                         )
                     )
             )
