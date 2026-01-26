@@ -385,6 +385,38 @@ fun DoubleTapGateCard(
     )
 
 
+
+@Composable
+fun DoubleTapGateCard(
+    gate: GateItem,
+    onDoubleTap: () -> Unit
+) {
+    var tapCount by remember { mutableStateOf(0) }
+    val scope = rememberCoroutineScope()
+
+    // Floating animation
+    val infiniteTransition = rememberInfiniteTransition(label = "float")
+    val floatOffset by infiniteTransition.animateFloat(
+        initialValue = -8f,
+        targetValue = 8f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2500, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "yOffset"
+    )
+    
+    // Alive/Breathing Opacity for Hologram effect
+    val alphaPulse by infiniteTransition.animateFloat(
+        initialValue = 0.85f,
+        targetValue = 1.0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "alpha"
+    )
+
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

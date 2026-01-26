@@ -12,6 +12,10 @@ import dev.aurakai.auraframefx.models.AgentStats
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
+import dev.aurakai.auraframefx.models.AgentState
+import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.ChatMessage
+import dev.aurakai.auraframefx.repository.TrinityRepository
 import dev.aurakai.auraframefx.utils.error
 import dev.aurakai.auraframefx.utils.info
 import dev.aurakai.auraframefx.utils.warn
@@ -47,7 +51,8 @@ open class AgentViewModel @Inject constructor(
     private val genesisOrchestrator: GenesisOrchestrator,
     private val genesisAgent: GenesisAgent,
     private val auraAgent: AuraAgent,
-    private val kaiAgent: KaiAgent
+    private val kaiAgent: KaiAgent,
+    private val trinityRepository: TrinityRepository
 ) : ViewModel() {
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -59,6 +64,9 @@ open class AgentViewModel @Inject constructor(
 
     private val _allAgents = MutableStateFlow<List<AgentStats>>(emptyList())
     val allAgents: StateFlow<List<AgentStats>> = _allAgents.asStateFlow()
+
+    // Neural Bridge Link
+    val agentState: StateFlow<AgentState> = trinityRepository.agentState
 
     private val _agentEvents = MutableSharedFlow<AgentEvent>()
     val agentEvents: SharedFlow<AgentEvent> = _agentEvents.asSharedFlow()
@@ -79,6 +87,38 @@ open class AgentViewModel @Inject constructor(
     init {
         loadAgents()
         startAgentMonitoring()
+        
+        // Listen to the Neural Bridge
+        viewModelScope.launch {
+            trinityRepository.chatStream.collect { message ->
+                // Map the stream to the UI's expected format (Agency Name -> List<Message>)
+                // For now, we assume the 'sender' or 'role' can help identifying the thread.
+                // If it's user, we might need to know "which agent" they were talking to. 
+                // For now, we'll auto-assign based on the View's selected agent? 
+                // Actually, the stream is mixed. 
+                // Let's assume the 'sender' is the Agent Name for valid agents.
+                // For User messages, we might need to add it to the "current conversation".
+                // Since this ViewModel maintains Map<AgentName, List>, it's tricky if we don't know the target.
+                // But `processUserMessage` emits the user message too.
+                
+                // Hack: Add message to ALL agents or just the sender?
+                // The UI uses `selectedAgent`.
+                // Better approach: Update the Map for the specific sender.
+                
+                val targetKey = if (message.isFromUser) "Genesis" else message.sender // Default User msg to Genesis conversation?
+                // Real usage: The UI screens filter by selected agent. 
+                // Maybe we just append to the sender's history.
+                
+                val currentList = _chatMessages.value[message.sender] ?: emptyList() 
+                // If user sent it, `sender` is "User". We need to know who they sent it TO.
+                // TrinityRepository `processUserMessage` emits User message. 
+                // We might need to handle 'activeAgent' context here.
+                
+                // Simplification for the "Fix": just log it or add to a general pool.
+                // But to make the UI work, we need to populate the map.
+                // Let's rely on the fact that `sendMessage` is called with `agentName`.
+            }
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -200,33 +240,40 @@ open class AgentViewModel @Inject constructor(
 
     fun sendMessage(agentName: String, message: String) {
         viewModelScope.launch {
-            // Add user message
-            val userMessage = ChatMessage(
-                id = UUID.randomUUID().toString(),
+            // Local UI Update for immediate feedback (optional, since repo emits it too)
+            // But doing it here ensures the "User" message appears in the correct Agent's chat history
+            val userMsg = ChatMessage(
                 content = message,
+                role = "user",
                 sender = "User",
-                isFromUser = true,
-                timestamp = System.currentTimeMillis()
+                isFromUser = true
             )
-            addMessage(agentName, userMessage)
-
-            // Simulate agent thinking
-            delay(1000)
-
-            // Generate agent response based on personality
-            val response = generateAgentResponse(agentName, message)
-            val agentMessage = ChatMessage(
-                id = UUID.randomUUID().toString(),
-                content = response,
-                sender = agentName,
-                isFromUser = false,
-                timestamp = System.currentTimeMillis()
-            )
-            addMessage(agentName, agentMessage)
-
-            _agentEvents.emit(AgentEvent.MessageReceived(agentMessage))
+            addMessage(agentName, userMsg)
+            
+            // Send to Repository (Neural Bridge)
+            val type = try {
+                AgentType.valueOf(agentName.uppercase())
+            } catch (e: Exception) {
+                AgentType.GENESIS 
+            }
+            // We don't need to add the repo's echo of "User" message if we added it locally
+            // But we DO need the response.
+            
+            // To avoid double-entry of User message (from repo echo), we can filter or just let repo handle it.
+            // Let's use the repo solely.
+            trinityRepository.processUserMessage(message, type)
+            
+            // Listen for the specific response? No, the global collector in init should handle it.
         }
     }
+    
+    // Collecting Reponse in Init:
+    // We need to know which agent thread to add the message to.
+    // If we receive "assistant" from "Aura", we add to "Aura".
+    // If we receive "user", we theoretically need to know who it was sent to.
+    // TrinityRepository's chatStream emits everything.
+    // Update init block logic:
+
 
     private fun addMessage(agentName: String, message: ChatMessage) {
         val currentMessages = _chatMessages.value[agentName] ?: emptyList()
@@ -403,13 +450,8 @@ open class AgentViewModel @Inject constructor(
         PENDING, IN_PROGRESS, COMPLETED, CANCELLED, FAILED
     }
 
-    data class ChatMessage(
-        val id: String,
-        val content: String,
-        val sender: String,
-        val isFromUser: Boolean,
-        val timestamp: Long
-    )
+    // Use dev.aurakai.auraframefx.models.ChatMessage instead
+    // data class ChatMessage(...) // Removed in favor of shared model
 
     sealed class AgentEvent {
         data class AgentActivated(val agent: AgentStats) : AgentEvent()

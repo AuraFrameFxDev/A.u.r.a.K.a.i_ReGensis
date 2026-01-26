@@ -3,6 +3,9 @@ package dev.aurakai.auraframefx.navigation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -67,8 +70,6 @@ import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
  * Main Navigation Graph
  * 3-Level Architecture: Carousel → Gate Grids → Feature Screens
  */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavGraph(

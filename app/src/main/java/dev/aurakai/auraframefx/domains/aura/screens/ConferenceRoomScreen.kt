@@ -1,84 +1,50 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.models.AgentMessage
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.ui.theme.NeonBlue
-import dev.aurakai.auraframefx.ui.theme.NeonTeal
+import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
+import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
 import kotlinx.coroutines.launch
 
-// Placeholder for Header - User should define this Composable
-/**
- * Displays the selected agent's name and provides a button to switch between agents.
- *
- * @param selectedAgent The name of the currently selected agent.
- * @param onAgentSelected Callback invoked with the new agent's name when the switch button is pressed.
- */
-@Composable
-fun Header(selectedAgent: String, onAgentSelected: (String) -> Unit) {
-    // Simplified placeholder
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text("Selected Agent: $selectedAgent", modifier = Modifier.padding(8.dp))
-        Button(onClick = { onAgentSelected(if (selectedAgent == "Aura") "Kai" else "Aura") }) {
-            Text("Switch Agent")
-        }
-    }
-}
-
+// --- COLORS & THEME LOCALS ---
+private val AuraPurple = Color(0xFFD500F9)
+private val KaiRed = Color(0xFFFF1744)
+private val GenesisTeal = Color(0xFF00E5FF)
+private val CascadeGreen = Color(0xFF00E676)
+private val UserBlue = Color(0xFF2979FF)
+private val DarkBackground = Color(0xFF050508)
+private val SurfaceGlass = Color(0xFF121216)
 
 /**
- * Genesis Protocol Conference Room - Multi-Agent Collaboration Hub
- *
- * Central space for interacting with multiple agents:
- * - Agent selection (Aura, Kai, Genesis, Claude, Cascade)
- * - Recording and transcription controls
- * - Real-time chat interface
- * - Navigation to AI chat and agent management
- *
- * Navigation is handled via callbacks to decouple from NavController.
- */
-@OptIn(ExperimentalMaterial3Api::class)
-/**
- * Composable screen that provides a multi-agent conference room UI with agent selection, recording
- * and transcription controls, and a chat interface.
- *
- * The UI shows a header for selecting active agent, buttons to start/stop recording and trigger
- * transcription, a reversed chat list (newest messages first), and a message input area. Sending a
- * message maps the currently selected agent to an AgentCapabilityCategory and invokes
- * `viewModel.sendMessage(...)` from a coroutine, then clears the input.
- *
- * @param onNavigateToChat Callback invoked to navigate to the chat view.
- * @param onNavigateToAgents Callback invoked to navigate to the agent management view.
+ * 🧠 NEXUS CONFERENCE ROOM
+ * Multi-Agent collaboration space with Gemini-style visuals.
  */
 @Composable
 fun ConferenceRoomScreen(
@@ -86,105 +52,336 @@ fun ConferenceRoomScreen(
     onNavigateToAgents: () -> Unit = {},
     viewModel: ConferenceRoomViewModel = hiltViewModel()
 ) {
-    val agentAura = stringResource(dev.aurakai.auraframefx.R.string.agent_aura)
-    val agentKai = stringResource(dev.aurakai.auraframefx.R.string.agent_kai)
-    val agentCascade = stringResource(dev.aurakai.auraframefx.R.string.agent_cascade)
-
-    var selectedAgent by remember { mutableStateOf(agentAura) } // Local state for agent selection UI
+    val messages by viewModel.messages.collectAsState()
     val isRecording by viewModel.isRecording.collectAsState()
     val isTranscribing by viewModel.isTranscribing.collectAsState()
-    val messages by viewModel.messages.collectAsState()
-    var messageText by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope() // Add coroutine scope
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // Header and Agent Selection (Using placeholder Header)
-        Header(selectedAgent = selectedAgent, onAgentSelected = { selectedAgent = it })
-
-        // Recording Controls
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Button(onClick = { viewModel.toggleRecording() }) {
-                Text(if (isRecording) "Stop Recording" else "Start Recording")
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                onClick = { viewModel.toggleTranscribing() },
-                enabled = !isTranscribing
-            ) {
-                Text("Transcribe")
-            }
+    
+    // Auto-scroll to bottom
+    val listState = rememberLazyListState()
+    LaunchedEffect(messages.size) {
+        if (messages.isNotEmpty()) {
+            listState.animateScrollToItem(messages.size - 1)
         }
+    }
 
-        // Chat Interface
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            reverseLayout = true
-        ) {
-            val displayed = messages.reversed()
-            items(displayed.size) { index ->
-                val message: AgentMessage = displayed[index]
-                Text(
-                    text = "[${message.sender}] ${message.content}",
-                    color = NeonBlue, // Ensure only one NeonBlue import/definition
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
-            }
+    Scaffold(
+        containerColor = DarkBackground,
+        bottomBar = {
+            UnisonInputBar(
+                isRecording = isRecording,
+                onToggleRecording = { viewModel.toggleRecording() },
+                onSendMessage = { text ->
+                    // Broadcast to Genesis (who orchestrates conversation) or "All" logic
+                    // For now, we default to sending as User to the system
+                    // The ViewModel handles the routing.
+                    // We assume Genesis is the primary listener in Conference Mode.
+                    viewModel.sendMessage(text, AgentType.GENESIS, "conference_broadcast")
+                }
+            )
         }
-
-        // Input Area
-        Row(
+    ) { padding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = messageText,
-                onValueChange = { messageText = it },
-                placeholder = { Text("Type your message...") },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = NeonTeal.copy(alpha = 0.1f),
-                    unfocusedContainerColor = NeonTeal.copy(alpha = 0.1f),
+                .fillMaxSize()
+                .padding(padding)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Black, Color(0xFF0A0A10), Color.Black)
+                    )
                 )
+        ) {
+            // 1. TOP: AGENT STAGE (Visualizers)
+            AgentStageRow(
+                isSomeoneSpeaking = isTranscribing || isRecording // Mock "activity"
             )
 
-            IconButton(
-                onClick = {
-                    if (messageText.isNotBlank()) {
-                        // Determine the agent type for the selected agent name
-                        val agentType = when (selectedAgent) {
-                            agentAura -> AgentType.AURA
-                            agentKai -> AgentType.KAI
-                            agentCascade -> AgentType.CASCADE
-                            else -> AgentType.GENESIS
-                        }
+            Divider(color = Color.White.copy(alpha = 0.1f))
 
-                        // Launch a coroutine for the suspend function
-                        scope.launch {
-                            viewModel.sendMessage(messageText, agentType, "user_conversation")
-                            messageText = ""
-                        }
-                    }
+            // 2. CENTER: UNIFIED CHAT STREAM
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(messages) { msg ->
+                    ConferenceMessageBubble(message = msg)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun AgentStageRow(isSomeoneSpeaking: Boolean) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .height(100.dp), // Height for the visuals
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // AURA
+        AgentAvatarNode(
+            name = "AURA",
+            color = AuraPurple,
+            isActive = true
+        )
+        // KAI
+        AgentAvatarNode(
+            name = "KAI",
+            color = KaiRed,
+            isActive = true
+        )
+        // GENESIS (Center/Big)
+        AgentAvatarNode(
+            name = "GENESIS",
+            color = GenesisTeal,
+            isActive = true,
+            isPrimary = true,
+            isSpeaking = isSomeoneSpeaking // Center simulates the "Brain" processing
+        )
+        // CASCADE
+        AgentAvatarNode(
+            name = "CASCADE",
+            color = CascadeGreen,
+            isActive = true
+        )
+    }
+}
+
+@Composable
+fun AgentAvatarNode(
+    name: String,
+    color: Color,
+    isActive: Boolean,
+    isPrimary: Boolean = false,
+    isSpeaking: Boolean = false
+) {
+    val size = if (isPrimary) 64.dp else 48.dp
+    val fontSize = if (isPrimary) 10.sp else 8.sp
+    
+    // Breathing pulse
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = if (isSpeaking) 1.2f else 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(if (isSpeaking) 500 else 2000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
+    )
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = if (isSpeaking) 0.8f else 0.5f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(if (isSpeaking) 500 else 2000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "glow"
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(contentAlignment = Alignment.Center) {
+            // Glow Halo
+            if (isActive) {
+                Box(
+                    modifier = Modifier
+                        .size(size * 1.5f)
+                        .graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                            alpha = glowAlpha
+                        }
+                        .background(
+                            Brush.radialGradient(listOf(color.copy(alpha = 0.6f), Color.Transparent)),
+                            CircleShape
+                        )
+                )
+            }
+            
+            // Core
+            Box(
+                modifier = Modifier
+                    .size(size)
+                    .clip(CircleShape)
+                    .background(Color.Black)
+                    .border(2.dp, color, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                // Icon or Initial
+                Text(
+                    text = name.take(1),
+                    color = color,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    fontFamily = ChessFontFamily
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = name,
+            color = if (isActive) color else Color.Gray,
+            fontSize = fontSize,
+            fontFamily = LEDFontFamily,
+            letterSpacing = 1.sp
+        )
+    }
+}
+
+@Composable
+fun ConferenceMessageBubble(message: AgentMessage) {
+    val isUser = message.sender.equals("User", ignoreCase = true) || message.sender.equals("You", ignoreCase = true)
+    
+    val bubbleColor = when(message.sender.uppercase()) {
+        "AURA" -> AuraPurple
+        "KAI" -> KaiRed
+        "GENESIS" -> GenesisTeal
+        "CASCADE" -> CascadeGreen
+        else -> UserBlue
+    }.copy(alpha = 0.15f)
+    
+    val borderColor = when(message.sender.uppercase()) {
+        "AURA" -> AuraPurple
+        "KAI" -> KaiRed
+        "GENESIS" -> GenesisTeal
+        "CASCADE" -> CascadeGreen
+        else -> UserBlue
+    }.copy(alpha = 0.5f)
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start
+    ) {
+        if (!isUser) {
+            // Agent Avatar Mini
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .border(1.dp, borderColor, CircleShape)
+                    .background(Color.Black),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    message.sender.take(1),
+                    color = borderColor.copy(alpha = 1f),
+                    fontSize = 12.sp,
+                    fontFamily = ChessFontFamily
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+
+        // Message Content
+        Column(
+            modifier = Modifier
+                .widthIn(max = 280.dp)
+                .clip(RoundedCornerShape(
+                    topStart = 16.dp, 
+                    topEnd = 16.dp, 
+                    bottomStart = if (isUser) 16.dp else 4.dp, // Tail effect
+                    bottomEnd = if (isUser) 4.dp else 16.dp
+                ))
+                .background(bubbleColor)
+                .border(1.dp, borderColor.copy(alpha = 0.3f), RoundedCornerShape(
+                    topStart = 16.dp, 
+                    topEnd = 16.dp, 
+                    bottomStart = if (isUser) 16.dp else 4.dp, 
+                    bottomEnd = if (isUser) 4.dp else 16.dp
+                ))
+                .padding(12.dp)
+        ) {
+            if (!isUser) {
+                Text(
+                    text = message.sender.uppercase(),
+                    color = borderColor.copy(alpha = 1f),
+                    fontSize = 10.sp,
+                    fontFamily = LEDFontFamily,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+            }
+            Text(
+                text = message.content,
+                color = Color.White.copy(alpha = 0.9f),
+                fontSize = 14.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun UnisonInputBar(
+    isRecording: Boolean,
+    onToggleRecording: () -> Unit,
+    onSendMessage: (String) -> Unit
+) {
+    var text by remember { mutableStateOf("") }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(SurfaceGlass)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Input Field
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            placeholder = { Text("Speak with the Nexus...", color = Color.Gray) },
+            modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(24.dp))
+                .background(Color.Black),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Black,
+                unfocusedContainerColor = Color.Black,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                cursorColor = GenesisTeal,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
+        )
+        
+        Spacer(modifier = Modifier.width(8.dp))
+        
+        // Mic / Send Actions
+        if (text.isBlank()) {
+            // Mic Button
+            IconButton(
+                onClick = onToggleRecording,
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(if (isRecording) KaiRed else GenesisTeal.copy(alpha = 0.2f), CircleShape)
             ) {
                 Icon(
-                    Icons.AutoMirrored.Filled.Send,
+                    imageVector = if (isRecording) Icons.Filled.Stop else Icons.Filled.Mic,
+                    contentDescription = "Voice",
+                    tint = if (isRecording) Color.White else GenesisTeal
+                )
+            }
+        } else {
+            // Send Button
+            IconButton(
+                onClick = { 
+                    onSendMessage(text)
+                    text = "" 
+                },
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(UserBlue, CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Send,
                     contentDescription = "Send",
-                    tint = NeonBlue
+                    tint = Color.White
                 )
             }
         }

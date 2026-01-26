@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 import java.io.File
 
 /**
@@ -93,6 +94,9 @@ data class IntegrityHealth(
 
 @AndroidEntryPoint
 class IntegrityMonitorService : Service() {
+
+
+    @Inject lateinit var trinityRepository: dev.aurakai.auraframefx.repository.TrinityRepository
 
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
     private var monitoringJob: Job? = null
@@ -179,6 +183,14 @@ class IntegrityMonitorService : Service() {
     private fun startMonitoring() {
         monitoringJob = serviceScope.launch {
             Timber.i("🔍 IntegrityMonitorService: Continuous monitoring started")
+
+            // Wake Up Protocol: Neural Bridge Connected
+            trinityRepository.updateAgentStatus(
+                kai = "Active - Sentinel Mode",
+                aura = "Active - Creative Suite",
+                genesis = "Active - Orchestrator",
+                running = true
+            )
 
             while (isActive) {
                 performIntegrityCheck()
