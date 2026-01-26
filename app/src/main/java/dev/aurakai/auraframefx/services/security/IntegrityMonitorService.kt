@@ -147,7 +147,7 @@ class IntegrityMonitorService : Service() {
                 // If using dataSync or specialized type, specify it here. 
                 // For general monitoring, we might not pass a specific type unless declared in Manifest.
                 // Assuming standard foreground service for now to be safe.
-                startForeground(1338, notification) 
+                startForeground(1338, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC) 
              } catch (e: Exception) {
                  Timber.e(e, "Failed to start foreground with type")
                  startForeground(1338, notification)

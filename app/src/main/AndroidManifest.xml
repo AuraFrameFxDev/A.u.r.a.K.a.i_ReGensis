@@ -117,7 +117,8 @@
             android:exported="false" />
         <service
             android:name=".services.security.IntegrityMonitorService"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
         <service
             android:name=".services.BackupService"
             android:exported="false"

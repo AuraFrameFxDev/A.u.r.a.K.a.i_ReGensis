@@ -62,11 +62,26 @@ fun AnimeHUDContainer(
         
         // 0. HOLOGRAPHIC BACKDROP (Stage Base Layer)
         androidx.compose.foundation.Image(
-            painter = painterResource(id = R.drawable.holographic_backdrop),
+            painter = painterResource(id = R.drawable.gatebackdrop),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = androidx.compose.ui.layout.ContentScale.Crop, 
             alpha = 0.78f 
+        )
+        
+        // 0.2 VOID ATMOSPHERE (Vignette)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.95f)
+                        ),
+                        radius = java.lang.Math.max(maxWidth.value, maxHeight.value) * 0.8f
+                    )
+                )
         )
         
         // 0.5 TRACED FRAME OVERLAY

@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -43,7 +42,6 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -142,7 +140,7 @@ fun EnhancedGateCarousel(
             description = currentGate.description,
             glowColor = currentGate.glowColor
         ) {
-            // 2. THE PEDESTAL (Active Emitter Layer) - Mapped coordinates
+            // 2. THE PEDESTAL (Volumetric Stage) - Mapped coordinates
             // This sits BEHIND the cards but ON TOP of the background
             Box(
                 modifier = Modifier
@@ -150,26 +148,14 @@ fun EnhancedGateCarousel(
                     .padding(bottom = bottomPadding) // ~15% Up
                     .size(width = 400.dp, height = 300.dp)
             ) {
-                // Radial Glow
-                Canvas(Modifier.fillMaxSize()) {
-                    val centerOffset = Offset(size.width / 2, size.height) // Glow radiates from bottom center up
-                    val radius = size.width / 1.5f
+                // Procedural Volumetric Beam
+                VolumetricLightBeam(color = currentGate.glowColor)
 
-                    drawCircle(
-                        brush = Brush.radialGradient(
-                            colors = listOf(
-                                currentGate.glowColor.copy(alpha = 0.6f),
-                                currentGate.glowColor.copy(alpha = 0.2f),
-                                Color.Transparent
-                            ),
-                            center = centerOffset,
-                            radius = radius
-                        )
-                    )
-                }
-
-                // Active Particle Emitter
-                PedestalParticleEmitter(color = currentGate.glowColor)
+                // Active Particle Emitter (Domain Specific)
+                PedestalParticleEmitter(
+                    color = currentGate.glowColor,
+                    domainName = currentGate.domainName
+                )
             }
 
             // 3. THE CARDS (Drawable Layer)
@@ -179,9 +165,15 @@ fun EnhancedGateCarousel(
                     .fillMaxSize()
                     .padding(bottom = bottomPadding) // Aligned with pedestal
             ) { pageIndex ->
+
+                // Calculate offset for physics
+                val pageOffset = (pagerState.currentPage - pageIndex) + pagerState.currentPageOffsetFraction
                 val gate = gates[pageIndex % gates.size]
 
-                GlobeCard(pagerState, pageIndex) {
+                GlobeCard(
+                    offset = pageOffset,
+                    isActive = pageIndex == pagerState.currentPage
+                ) {
                     DoubleTapGateCard(
                         gate = gate,
                         onDoubleTap = { onNavigate(gate.route) }
@@ -213,82 +205,174 @@ fun EnhancedGateCarousel(
 }
 
 @Composable
-fun PedestalParticleEmitter(color: Color) {
+fun VolumetricLightBeam(color: Color) {
+    val infiniteTransition = rememberInfiniteTransition(label = "beam_pulse")
+    val pulseAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.7f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(4000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "alpha"
+    )
+
+    val widthScale by infiniteTransition.animateFloat(
+        initialValue = 0.9f,
+        targetValue = 1.1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(4000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "width"
+    )
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val bottomWidth = size.width * 0.2f
+        val topWidth = size.width * 0.6f * widthScale
+
+        val beamPath = androidx.compose.ui.graphics.Path().apply {
+            moveTo(size.width / 2 - bottomWidth / 2, size.height) // Bottom Left
+            lineTo(size.width / 2 + bottomWidth / 2, size.height) // Bottom Right
+            lineTo(size.width / 2 + topWidth / 2, 0f)             // Top Right
+            lineTo(size.width / 2 - topWidth / 2, 0f)             // Top Left
+            close()
+        }
+
+        drawPath(
+            path = beamPath,
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    color.copy(alpha = 0f),      // Top (Fade)
+                    color.copy(alpha = 0.25f * pulseAlpha), // Center
+                    color.copy(alpha = 0.9f * pulseAlpha)   // Bottom (Source)
+                )
+            )
+        )
+    }
+}
+
+@Composable
+fun PedestalParticleEmitter(color: Color, domainName: String) {
+    val isAuraDomain = domainName.contains("Aura Engine", ignoreCase = true)
+
+    // Aura Chaos Palette
+    val chaosColors = listOf(Color.Magenta, Color.Cyan, Color(0xFFBD00FF)) // Neon Purple
+
     val particles = remember { List(40) { ParticleState() } }
 
-    // Animation loop for particles
-    val infiniteTransition = rememberInfiniteTransition(label = "pedestal_particles")
+    val infiniteTransition = rememberInfiniteTransition(label = "particles")
     val time by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = LinearEasing),
+            animation = tween( if(isAuraDomain) 5000 else 2000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         ),
         label = "time"
     )
 
     Canvas(modifier = Modifier.fillMaxSize()) {
-        particles.forEachIndexed { index, particle ->
-            // Update particle position based on time and pseudo-random offsets
-            // Particles rise UP from bottom (y changes from 1.0 to 0.0)
-
-            // Pseudo-random logic using index + time to avoid heavyweight state updates
+        particles.forEachIndexed { index, _ ->
             val seed = index * 1337
-            val speed = 0.2f + ((seed % 100) / 200f) // 0.2 to 0.7
-            val startX = (seed % 100) / 100f * size.width // Random X layout
 
-            // Animate Y: rising
-            val currentProgress = (time * speed + (seed % 1000) / 1000f) % 1f
-            val yPos = size.height - (currentProgress * size.height)
+            if (isAuraDomain) {
+                // --- AURA CHAOS LOGIC (Brownian-ish) ---
+                // Jittery movement
+                val t = (time + (seed % 100) / 100f) % 1f
 
-            // Animate X: drifting
-            val xDrift = kotlin.math.sin(currentProgress * 10 + index) * 20.dp.toPx()
-            val xPos = startX + xDrift
+                // Random walk approximation using sin/cos interaction
+                val xBase = (seed % 100) / 100f * size.width
+                val yBase = size.height * 0.6f // Float around middle/bottom
 
-            // Fade in/out
-            val alpha = when {
-                currentProgress < 0.2f -> currentProgress * 5 // Fade in
-                currentProgress > 0.8f -> (1f - currentProgress) * 5 // Fade out
-                else -> 1f
+                val xJitter = kotlin.math.sin(t * 20 + index) * 40.dp.toPx()
+                val yJitter = kotlin.math.cos(t * 15 + index * 2) * 40.dp.toPx()
+
+                val xPos = xBase + xJitter
+                val yPos = yBase + yJitter
+
+                val pColor = chaosColors[index % chaosColors.size]
+                val pAlpha = 0.8f * kotlin.math.sin(t * 3.14f).absoluteValue // Pulse fade
+
+                drawCircle(
+                    color = pColor.copy(alpha = pAlpha),
+                    radius = (3.dp.toPx() * (0.5f +  (seed % 50)/50f)),
+                    center = Offset(xPos, yPos)
+                )
+
+            } else {
+                // --- STANDARD LINEAR LOGIC ---
+                val speed = 0.2f + ((seed % 100) / 200f)
+                val startX = (seed % 100) / 100f * size.width
+
+                val currentProgress = (time * speed + (seed % 1000) / 1000f) % 1f
+                val yPos = size.height - (currentProgress * size.height)
+
+                val xDrift = kotlin.math.sin(currentProgress * 10 + index) * 20.dp.toPx()
+                val xPos = startX + xDrift
+
+                val alpha = when {
+                    currentProgress < 0.2f -> currentProgress * 5
+                    currentProgress > 0.8f -> (1f - currentProgress) * 5
+                    else -> 1f
+                }
+
+                drawCircle(
+                    color = color.copy(alpha = alpha * 0.6f),
+                    radius = (2.dp.toPx() * (1f - currentProgress * 0.5f)),
+                    center = Offset(xPos, yPos)
+                )
             }
-
-            drawCircle(
-                color = color.copy(alpha = alpha * 0.6f),
-                radius = (2.dp.toPx() * (1f - currentProgress * 0.5f)), // Shrink slightly as they rise
-                center = Offset(xPos, yPos)
-            )
         }
     }
 }
 
-class ParticleState() // Placeholder for advanced state if needed, using simple math for now
+class ParticleState()
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GlobeCard(
-    pagerState: PagerState,
-    pageIndex: Int,
+    offset: Float, // Pager offset (-Infinity to +Infinity approx)
+    isActive: Boolean, // Explicit active state check
     content: @Composable () -> Unit
 ) {
     val density = LocalDensity.current
+
+    // 3D Idle Physics
+    val infiniteTransition = rememberInfiniteTransition(label = "idle_spin")
+    val idleRotation by infiniteTransition.animateFloat(
+        initialValue = -5f,
+        targetValue = 5f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(10000, easing = EaseInOutSine), // 20s cycle (10s each way)
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "rotation"
+    )
 
     Box(
         Modifier
             .fillMaxSize()
             .graphicsLayer {
-                val offset = ((pagerState.currentPage - pageIndex) +
-                    pagerState.currentPageOffsetFraction).coerceIn(-2f, 2f)
+                val safeOffset = offset.coerceIn(-2f, 2f)
+                val absOffset = safeOffset.absoluteValue
 
-                cameraDistance = 32f * density.density
-                rotationY = offset * -70f
-                transformOrigin = TransformOrigin(0.5f, 0.5f)
+                // Perspective
+                cameraDistance = 16f * density.density
 
-                val abs = offset.absoluteValue
-                alpha = lerp(0.5f, 1f, 1f - abs.coerceAtMost(1f))
-                val depth = 1f - (0.2f * abs.coerceAtMost(1f))
-                scaleX = depth
-                scaleY = depth
+                // Rotation: Page Scroll + Idle Hover
+                // Only apply idle rotation if close to center to save resources/gliches
+                val effectiveIdle = if (absOffset < 0.5f) idleRotation else 0f
+                rotationY = (safeOffset * -40f) + effectiveIdle
+
+                // Focus Dimming
+                // Active: 1.1 Scale, 1.0 Alpha
+                // Idle:   0.8 Scale, 0.35 Alpha
+                val scale = lerp(1.1f, 0.8f, absOffset.coerceAtMost(1f))
+                scaleX = scale
+                scaleY = scale
+
+                alpha = lerp(1.0f, 0.35f, absOffset.coerceAtMost(1f))
             }
     ) { content() }
 }
