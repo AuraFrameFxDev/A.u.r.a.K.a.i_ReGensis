@@ -18,6 +18,9 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -59,6 +62,7 @@ fun AnimeHUDContainer(
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
         val maxWidth = maxWidth
         val maxHeight = maxHeight
+        val interfaceColor = Color(0xFF00E5FF) // Fixed Tech Blue for Interface
         
         // 0. HOLOGRAPHIC BACKDROP (Stage Base Layer)
         androidx.compose.foundation.Image(
@@ -69,7 +73,10 @@ fun AnimeHUDContainer(
             alpha = 0.78f 
         )
         
-        // 0.2 VOID ATMOSPHERE (Vignette)
+        // 0.1 GLOBAL BACKGROUND PARTICLES
+        GlobalBackgroundParticles(color = interfaceColor)
+        
+        // 0.2 VOID ATMOSPHERE (Deep Vignette)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -77,18 +84,19 @@ fun AnimeHUDContainer(
                     brush = Brush.radialGradient(
                         colors = listOf(
                             Color.Transparent,
-                            Color.Black.copy(alpha = 0.95f)
+                            Color.Black.copy(alpha = 0.85f), // Slightly less opaque center
+                            Color.Black                      // Solid black edges
                         ),
-                        radius = java.lang.Math.max(maxWidth.value, maxHeight.value) * 0.8f
+                        radius = java.lang.Math.max(maxWidth.value, maxHeight.value) * 0.9f
                     )
                 )
         )
         
-        // 0.3 FLOATING ARCANE RUNES (Magic Layer)
+        // 0.3 FLOATING ARCANE RUNES (Magic Layer - Uses Dynamic Card Color)
         FloatingArcaneRunes(glowColor = glowColor)
         
-        // 0.5 TRACED FRAME OVERLAY
-        TracedFrameOverlay(glowColor = glowColor)
+        // 0.5 BOTTOM GLOW EMITTER (Replacing Traced Frame)
+        BottomGlowEmitter(color = interfaceColor)
 
         // 1. TOP-LEFT HUD BOX (Overlay Layer) - Mapped to 12% Top, 5% Left
         val topPadding = maxHeight * 0.12f
@@ -102,29 +110,29 @@ fun AnimeHUDContainer(
                 .width(hudWidth),
             horizontalAlignment = Alignment.Start
         ) {
-            // THE TITLE
+            // THE TITLE (Fixed Blue)
             Text(
                 text = title.uppercase(),
                 fontSize = 18.sp,
                 fontFamily = ChessFontFamily,
-                color = glowColor.copy(alpha = pulseAlpha),
+                color = interfaceColor.copy(alpha = pulseAlpha),
                 modifier = Modifier.padding(bottom = 4.dp, start = 8.dp)
             )
 
-            // The Angled HUD Framework
+            // The Angled HUD Framework (Fixed Blue)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(110.dp)
                     .clip(HUDBoxShape)
                     .background(Color.Black.copy(alpha = 0.6f))
-                    .border(1.dp, glowColor.copy(alpha = 0.4f * pulseAlpha), HUDBoxShape)
+                    .border(1.dp, interfaceColor.copy(alpha = 0.4f * pulseAlpha), HUDBoxShape)
             ) {
                 Text(
                     text = description,
                     fontSize = 11.sp,
                     fontFamily = LEDFontFamily,
-                    color = glowColor.copy(alpha = 0.8f),
+                    color = interfaceColor.copy(alpha = 0.8f),
                     textAlign = TextAlign.Start,
                     lineHeight = 16.sp,
                     modifier = Modifier
@@ -134,8 +142,8 @@ fun AnimeHUDContainer(
                 
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val dotSize = 2.dp.toPx()
-                    drawCircle(glowColor, dotSize, Offset(10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
-                    drawCircle(glowColor, dotSize, Offset(size.width - 10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
+                    drawCircle(interfaceColor, dotSize, Offset(10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
+                    drawCircle(interfaceColor, dotSize, Offset(size.width - 10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
                 }
             }
         }
@@ -152,82 +160,106 @@ fun AnimeHUDContainer(
 }
 
 @Composable
-fun TracedFrameOverlay(glowColor: Color) {
-    val infiniteTransition = rememberInfiniteTransition(label = "frame_trace")
-    val traceProgress by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
+fun BottomGlowEmitter(color: Color) {
+    val infiniteTransition = rememberInfiniteTransition(label = "bottom_glow")
+    val breathingAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.4f,
+        targetValue = 0.8f,
         animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
+            animation = tween(4000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
         ),
-        label = "trace"
+        label = "alpha"
     )
 
     Canvas(modifier = Modifier.fillMaxSize()) {
-        val strokeWidth = 2.dp.toPx()
         val w = size.width
         val h = size.height
-        val corner = 40.dp.toPx()
         
-        // Path mimicking a high-tech window frame
-        val path = Path().apply {
-            // Top Left
-            moveTo(0f, corner)
-            lineTo(corner, 0f)
-            lineTo(w - corner, 0f)
+        // 1. Central Projection Base Glow (Wide & Soft)
+        drawCircle(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    color.copy(alpha = 0.3f),
+                    color.copy(alpha = 0.05f),
+                    Color.Transparent
+                ),
+                center = Offset(w / 2, h), // Centered on bottom edge
+                radius = w * 0.6f
+            ),
+            center = Offset(w / 2, h),
+            radius = w * 0.6f
+        )
+        
+        // 2. Corner Anchors (Breathing)
+        val cornerRadius = w * 0.25f
+        
+        // Bottom Left
+        drawCircle(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    color.copy(alpha = 0.3f * breathingAlpha),
+                    Color.Transparent
+                ),
+                center = Offset(0f, h),
+                radius = cornerRadius
+            )
+        )
+        
+        // Bottom Right
+        drawCircle(
+            brush = Brush.radialGradient(
+                colors = listOf(
+                    color.copy(alpha = 0.3f * breathingAlpha),
+                    Color.Transparent
+                ),
+                center = Offset(w, h),
+                radius = cornerRadius
+            )
+        )
+    }
+}
+
+@Composable
+fun GlobalBackgroundParticles(color: Color) {
+    val infiniteTransition = rememberInfiniteTransition(label = "global_particles")
+    val time by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(30000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "time"
+    )
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val random = kotlin.random.Random(123)
+        
+        // Draw 50 subtle background particles
+        repeat(50) { i ->
+            // Deterministic random positions
+            val startX = random.nextFloat() * size.width
+            val startY = random.nextFloat() * size.height
+            val speed = 0.2f + random.nextFloat() * 0.3f
             
-            // Top Right
-            lineTo(w, corner)
-            lineTo(w, h - corner)
+            // Particles drift slowly upwards
+            val yOffset = (time * size.height * speed) % size.height
+            val currY = (startY - yOffset + size.height) % size.height
             
-            // Bottom Right
-            lineTo(w - corner, h)
-            lineTo(corner, h)
+            // Slight horizontal weave
+            val currX = startX + kotlin.math.sin(time * 6.28f + i) * 20.dp.toPx()
             
-            // Bottom Left
-            lineTo(0f, h - corner)
-            close()
+            val alpha = (0.2f + 0.3f * kotlin.math.sin(time * 3f + i)).coerceIn(0.1f, 0.5f)
+            
+            drawCircle(
+                color = color.copy(alpha = alpha),
+                radius = 1.5.dp.toPx(),
+                center = Offset(currX, currY)
+            )
         }
-
-        // 1. Static Glow (Base "Light Up")
-        drawPath(
-            path = path,
-            color = glowColor.copy(alpha = 0.3f),
-            style = Stroke(width = strokeWidth * 3, cap = StrokeCap.Round) // Wide faint glow
-        )
-        
-        // 2. Sharp Outline
-        drawPath(
-            path = path,
-            color = glowColor.copy(alpha = 0.8f),
-            style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
-        )
-
-        // 3. "Tracing" Beam Effect (Moving light)
-        // We use path measure to draw a segment of the path based on progress
-        // Note: Simple implementation drawing a gradient along the path borders for effect
-        val pathMeasure = PathMeasure()
-        pathMeasure.setPath(path, false)
-        val pathLength = pathMeasure.length
-        
-        val start = traceProgress * pathLength
-        val end = (traceProgress * pathLength) + 300f // 300px long "beam"
-        
-        val beamPath = Path()
-        // Handle wrap-around logic simplified: just draw 2 segments if needed
-        if (end > pathLength) {
-             pathMeasure.getSegment(start, pathLength, beamPath, true)
-             pathMeasure.getSegment(0f, end - pathLength, beamPath, true)
-        } else {
-             pathMeasure.getSegment(start, end, beamPath, true)
-        }
-
-        drawPath(
-            path = beamPath,
-            color = Color.White,
-            style = Stroke(width = strokeWidth * 2, cap = StrokeCap.Round, join = StrokeJoin.Round)
-        )
+    }
+}
     }
 }
 

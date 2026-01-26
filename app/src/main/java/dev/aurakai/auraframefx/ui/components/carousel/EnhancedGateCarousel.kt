@@ -79,30 +79,30 @@ fun EnhancedGateCarousel(
                 gateName = "ORACLE DRIVE",
                 domainName = "Genesis Core",
                 tagline = "THE UNIFIED AI ORCHESTRATOR",
-                description = "Mythical and omnipresent. The head honcho system control and agent synchronization.",
+                description = "All Genesis related functions. The head honcho system control and agent synchronization.",
                 route = NavDestination.GenesisGate.route,
                 glowColor = Color(0xFF00FFD4),
-                imageRes = R.drawable.card_oracle_drive,
+                imageRes = R.drawable.gate_oracle_drive,
                 cardStyle = CardStyle.MYTHICAL
             ),
             GateItem(
-                gateName = "REACTIVE DESIGN",
+                gateName = "UX/UI DESIGN STUDIO",
                 domainName = "Aura Engine",
                 tagline = "ARTSY MESSY BUT BEAUTIFUL",
-                description = "Paint reality with Aura's creative catalyst. UI, theming, and paint-splattered chaos.",
+                description = "All UI functions go in here. Paint reality with Aura's creative catalyst.",
                 route = NavDestination.AuraGate.route,
                 glowColor = Color(0xFFFF00FF),
-                imageRes = R.drawable.card_chroma_core,
+                imageRes = R.drawable.gate_uiux_studio,
                 cardStyle = CardStyle.ARTSY
             ),
             GateItem(
                 gateName = "SENTINEL FORTRESS",
                 domainName = "Kai Fortress",
                 tagline = "PROTECTIVE SYSTEM DEFENSE",
-                description = "Bulky, industrial, and ethical fortress. Secure bootloader, ROM tools, and system integrity.",
+                description = "All system utilities go with Kai. Secure bootloader, ROM tools, and system integrity.",
                 route = NavDestination.KaiGate.route,
                 glowColor = Color(0xFFFF3366),
-                imageRes = R.drawable.card_kai_domain,
+                imageRes = R.drawable.gate_sentinel_fortress,
                 cardStyle = CardStyle.PROTECTIVE
             ),
             GateItem(
@@ -113,37 +113,7 @@ fun EnhancedGateCarousel(
                 route = "notch_bar_gate",
                 glowColor = Color(0xFFFF9100), // Orange
                 imageRes = R.drawable.card_notch_bar,
-                cardStyle = CardStyle.Protective
-            ),
-            GateItem(
-                gateName = "ROOT TOOLS",
-                domainName = "Superuser",
-                tagline = "SYSTEM KERNEL ACCESS",
-                description = "Kernel manipulation, module injection, and deep system mods. Proceed with caution.",
-                route = "root_tools_gate",
-                glowColor = Color(0xFFFF3D00), // Deep Orange/Red
-                imageRes = R.drawable.card_root_tools,
-                cardStyle = CardStyle.Protective
-            ),
-            GateItem(
-                gateName = "FIREWALL",
-                domainName = "Network Guard",
-                tagline = "PACKET FILTERING",
-                description = "Network Guardian. Packet filtering, ad blocking, and traffic analysis.",
-                route = "firewall_gate",
-                glowColor = Color(0xFF2962FF), // Blue
-                imageRes = R.drawable.card_firewall,
-                cardStyle = CardStyle.Protective
-            ),
-            GateItem(
-                gateName = "SECURE VPN",
-                domainName = "Privacy Tunnel",
-                tagline = "ENCRYPTED CONNECTION",
-                description = "Encrypted Tunnel. Privacy protection and location masking.",
-                route = "vpn_gate",
-                glowColor = Color(0xFF00C853), // Green
-                imageRes = R.drawable.card_vpn,
-                cardStyle = CardStyle.Protective
+                cardStyle = CardStyle.PROTECTIVE
             )
         )
     }
@@ -171,17 +141,18 @@ fun EnhancedGateCarousel(
             glowColor = currentGate.glowColor
         ) {
             // 2. THE PEDESTAL (Volumetric Stage) - Mapped coordinates
-            // This sits BEHIND the cards but ON TOP of the background
+            // aligned to match the bottom of the cards
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = bottomPadding) // ~15% Up
-                    .size(width = 400.dp, height = 300.dp)
+                    .padding(bottom = 0.dp) // Anchored to very bottom
+                    .fillMaxWidth(0.7f) // Match wider beam to cover card movement
+                    .height(300.dp)
             ) {
-                // Procedural Volumetric Beam
+                // Procedural Volumetric Beam - Widen to match card width (approx 60-70%)
                 VolumetricLightBeam(color = currentGate.glowColor)
 
-                // Active Particle Emitter (Domain Specific)
+                // Active Particle Emitter
                 PedestalParticleEmitter(
                     color = currentGate.glowColor,
                     domainName = currentGate.domainName
@@ -189,11 +160,13 @@ fun EnhancedGateCarousel(
             }
 
             // 3. THE CARDS (Drawable Layer)
+            // DROPPED DOWN: Reduced bottom padding to bring them closer to projection source
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = bottomPadding) // Aligned with pedestal
+                    .padding(bottom = maxHeight * 0.1f), // Lowered significantly (was 0.15f + offset)
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 64.dp) // Partial peeking
             ) { pageIndex ->
 
                 // Calculate offset for physics
@@ -212,11 +185,11 @@ fun EnhancedGateCarousel(
             }
         }
 
-        // Page indicator (keep consistent)
+        // Page indicator
         Row(
             Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 40.dp),
+                .padding(bottom = 20.dp), // Pushed lower
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             repeat(gates.size) { i ->
@@ -238,8 +211,8 @@ fun EnhancedGateCarousel(
 fun VolumetricLightBeam(color: Color) {
     val infiniteTransition = rememberInfiniteTransition(label = "beam_pulse")
     val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.3f,
-        targetValue = 0.7f,
+        initialValue = 0.4f,
+        targetValue = 0.8f,
         animationSpec = infiniteRepeatable(
             animation = tween(4000, easing = EaseInOutSine),
             repeatMode = RepeatMode.Reverse
@@ -248,8 +221,8 @@ fun VolumetricLightBeam(color: Color) {
     )
 
     val widthScale by infiniteTransition.animateFloat(
-        initialValue = 0.9f,
-        targetValue = 1.1f,
+        initialValue = 0.85f,
+        targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
             animation = tween(4000, easing = EaseInOutSine),
             repeatMode = RepeatMode.Reverse
@@ -258,8 +231,10 @@ fun VolumetricLightBeam(color: Color) {
     )
 
     Canvas(modifier = Modifier.fillMaxSize()) {
-        val bottomWidth = size.width * 0.2f
-        val topWidth = size.width * 0.6f * widthScale
+        // MATCH WIDTH OF PROJECTION: 
+        // Card is approx 260dp wide. Top of beam should match this.
+        val bottomWidth = size.width * 0.3f
+        val topWidth = size.width * 0.8f * widthScale // Wide top to catch the card
 
         val beamPath = androidx.compose.ui.graphics.Path().apply {
             moveTo(size.width / 2 - bottomWidth / 2, size.height) // Bottom Left
@@ -273,9 +248,9 @@ fun VolumetricLightBeam(color: Color) {
             path = beamPath,
             brush = Brush.verticalGradient(
                 colors = listOf(
-                    color.copy(alpha = 0f),      // Top (Fade)
-                    color.copy(alpha = 0.25f * pulseAlpha), // Center
-                    color.copy(alpha = 0.9f * pulseAlpha)   // Bottom (Source)
+                    color.copy(alpha = 0.0f),      // Top (Fade completely at touch point)
+                    color.copy(alpha = 0.1f * pulseAlpha), // Mid
+                    color.copy(alpha = 0.6f * pulseAlpha)   // Bottom (Intense Source)
                 )
             )
         )
@@ -308,21 +283,16 @@ fun PedestalParticleEmitter(color: Color, domainName: String) {
 
             if (isAuraDomain) {
                 // --- AURA CHAOS LOGIC (Brownian-ish) ---
-                // Jittery movement
                 val t = (time + (seed % 100) / 100f) % 1f
-
-                // Random walk approximation using sin/cos interaction
                 val xBase = (seed % 100) / 100f * size.width
-                val yBase = size.height * 0.6f // Float around middle/bottom
+                val yBase = size.height * 0.6f 
 
                 val xJitter = kotlin.math.sin(t * 20 + index) * 40.dp.toPx()
                 val yJitter = kotlin.math.cos(t * 15 + index * 2) * 40.dp.toPx()
-
                 val xPos = xBase + xJitter
                 val yPos = yBase + yJitter
-
                 val pColor = chaosColors[index % chaosColors.size]
-                val pAlpha = 0.8f * kotlin.math.sin(t * 3.14f).absoluteValue // Pulse fade
+                val pAlpha = 0.8f * kotlin.math.sin(t * 3.14f).absoluteValue 
 
                 drawCircle(
                     color = pColor.copy(alpha = pAlpha),
@@ -334,13 +304,11 @@ fun PedestalParticleEmitter(color: Color, domainName: String) {
                 // --- STANDARD LINEAR LOGIC ---
                 val speed = 0.2f + ((seed % 100) / 200f)
                 val startX = (seed % 100) / 100f * size.width
-
                 val currentProgress = (time * speed + (seed % 1000) / 1000f) % 1f
                 val yPos = size.height - (currentProgress * size.height)
-
                 val xDrift = kotlin.math.sin(currentProgress * 10 + index) * 20.dp.toPx()
                 val xPos = startX + xDrift
-
+                
                 val alpha = when {
                     currentProgress < 0.2f -> currentProgress * 5
                     currentProgress > 0.8f -> (1f - currentProgress) * 5
@@ -362,19 +330,19 @@ class ParticleState()
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GlobeCard(
-    offset: Float, // Pager offset (-Infinity to +Infinity approx)
-    isActive: Boolean, // Explicit active state check
+    offset: Float, 
+    isActive: Boolean, 
     content: @Composable () -> Unit
 ) {
     val density = LocalDensity.current
 
-    // 3D Idle Physics
+    // 3D Idle Physics - Enhanced Rotation
     val infiniteTransition = rememberInfiniteTransition(label = "idle_spin")
     val idleRotation by infiniteTransition.animateFloat(
-        initialValue = -5f,
-        targetValue = 5f,
+        initialValue = -8f, // Increased range
+        targetValue = 8f,
         animationSpec = infiniteRepeatable(
-            animation = tween(10000, easing = EaseInOutSine), // 20s cycle (10s each way)
+            animation = tween(6000, easing = EaseInOutSine), // Faster cycle (6s)
             repeatMode = RepeatMode.Reverse
         ),
         label = "rotation"
@@ -388,22 +356,20 @@ fun GlobeCard(
                 val absOffset = safeOffset.absoluteValue
 
                 // Perspective
-                cameraDistance = 16f * density.density
+                cameraDistance = 12f * density.density // More extreme perspective
 
                 // Rotation: Page Scroll + Idle Hover
-                // Only apply idle rotation if close to center to save resources/gliches
-                val effectiveIdle = if (absOffset < 0.5f) idleRotation else 0f
-                rotationY = (safeOffset * -40f) + effectiveIdle
+                val effectiveIdle = if (absOffset < 0.1f) idleRotation else 0f
+                rotationY = (safeOffset * -25f) + effectiveIdle // Reduced scroll rotation, increased idle presence
 
                 // Focus Dimming
-                // Active: 1.1 Scale, 1.0 Alpha
-                // Idle:   0.8 Scale, 0.35 Alpha
-                val scale = lerp(1.1f, 0.8f, absOffset.coerceAtMost(1f))
+                val scale = lerp(1.15f, 0.85f, absOffset.coerceAtMost(1f)) // Bigger Active
                 scaleX = scale
                 scaleY = scale
 
-                alpha = lerp(1.0f, 0.35f, absOffset.coerceAtMost(1f))
+                alpha = lerp(1.0f, 0.5f, absOffset.coerceAtMost(1f)) // Brighter idle
             }
+            .background(Color.Transparent)
     ) { content() }
 }
 
@@ -418,10 +384,10 @@ fun DoubleTapGateCard(
     // Floating animation
     val infiniteTransition = rememberInfiniteTransition(label = "float")
     val floatOffset by infiniteTransition.animateFloat(
-        initialValue = -15f,
-        targetValue = 15f,
+        initialValue = -8f,
+        targetValue = 8f,
         animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = EaseInOutSine),
+            animation = tween(2500, easing = EaseInOutSine),
             repeatMode = RepeatMode.Reverse
         ),
         label = "yOffset"
@@ -431,10 +397,11 @@ fun DoubleTapGateCard(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        // RESIZED CARD: Fixed dimensions to match projection width approx
         Box(
             Modifier
-                .width(280.dp)
-                .height(400.dp)
+                .width(260.dp) // Adjusted width
+                .height(380.dp) // Adjusted height
                 .offset(y = floatOffset.dp)
                 .combinedClickable(
                     onClick = {
@@ -454,17 +421,17 @@ fun DoubleTapGateCard(
                 modifier = Modifier
                     .fillMaxSize()
                     .blur(if (tapCount > 0) 4.dp else 0.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.FillBounds // Fill the fixed box EXACTLY
             )
 
-            // Subtle pulse glow
+            // Subtle pulse glow (Removed text overlay as requested "CARDS ARE ENOUGH")
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .blur(20.dp)
+                    .blur(15.dp)
                     .background(
                         Brush.radialGradient(
-                            listOf(gate.glowColor.copy(alpha = 0.15f), Color.Transparent)
+                            listOf(gate.glowColor.copy(alpha = 0.2f), Color.Transparent)
                         )
                     )
             )
