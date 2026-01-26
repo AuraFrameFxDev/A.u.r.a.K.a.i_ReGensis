@@ -106,14 +106,44 @@ fun EnhancedGateCarousel(
                 cardStyle = CardStyle.PROTECTIVE
             ),
             GateItem(
-                gateName = "AGENT NEXUS",
-                domainName = "Growth Metrics",
-                tagline = "THE FAMILY GATHERS HERE",
-                description = "Central hub for agent memory, identity, and the Sphere Grid skill tree.",
-                route = NavDestination.AgentNexusGate.route,
-                glowColor = Color(0xFFAA00FF),
-                imageRes = R.drawable.card_agenthub,
-                cardStyle = CardStyle.MYTHICAL
+                gateName = "NOTCH BAR",
+                domainName = "System UI",
+                tagline = "DYNAMIC STATUS AREA",
+                description = "Control headers, signal icons, and battery styles. Customize your status bar experience.",
+                route = "notch_bar_gate",
+                glowColor = Color(0xFFFF9100), // Orange
+                imageRes = R.drawable.card_notch_bar,
+                cardStyle = CardStyle.Protective
+            ),
+            GateItem(
+                gateName = "ROOT TOOLS",
+                domainName = "Superuser",
+                tagline = "SYSTEM KERNEL ACCESS",
+                description = "Kernel manipulation, module injection, and deep system mods. Proceed with caution.",
+                route = "root_tools_gate",
+                glowColor = Color(0xFFFF3D00), // Deep Orange/Red
+                imageRes = R.drawable.card_root_tools,
+                cardStyle = CardStyle.Protective
+            ),
+            GateItem(
+                gateName = "FIREWALL",
+                domainName = "Network Guard",
+                tagline = "PACKET FILTERING",
+                description = "Network Guardian. Packet filtering, ad blocking, and traffic analysis.",
+                route = "firewall_gate",
+                glowColor = Color(0xFF2962FF), // Blue
+                imageRes = R.drawable.card_firewall,
+                cardStyle = CardStyle.Protective
+            ),
+            GateItem(
+                gateName = "SECURE VPN",
+                domainName = "Privacy Tunnel",
+                tagline = "ENCRYPTED CONNECTION",
+                description = "Encrypted Tunnel. Privacy protection and location masking.",
+                route = "vpn_gate",
+                glowColor = Color(0xFF00C853), // Green
+                imageRes = R.drawable.card_vpn,
+                cardStyle = CardStyle.Protective
             )
         )
     }

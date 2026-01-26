@@ -84,6 +84,9 @@ fun AnimeHUDContainer(
                 )
         )
         
+        // 0.3 FLOATING ARCANE RUNES (Magic Layer)
+        FloatingArcaneRunes(glowColor = glowColor)
+        
         // 0.5 TRACED FRAME OVERLAY
         TracedFrameOverlay(glowColor = glowColor)
 
@@ -228,6 +231,70 @@ fun TracedFrameOverlay(glowColor: Color) {
     }
 }
 
+
+@Composable
+fun FloatingArcaneRunes(glowColor: Color) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val runes = remember {
+        listOf(
+            R.drawable.rune_chronos,
+            R.drawable.rune_cortex,
+            R.drawable.rune_oracle,
+            R.drawable.rune_sentinel,
+            R.drawable.rune_surgeon
+        ).map { 
+            val drawable = androidx.core.content.ContextCompat.getDrawable(context, it)
+            (drawable as? android.graphics.drawable.BitmapDrawable)?.bitmap?.asImageBitmap()
+        }
+    }
+
+    val infiniteTransition = rememberInfiniteTransition(label = "runes")
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(60000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "rotation"
+    )
+    
+    val pulse by infiniteTransition.animateFloat(
+        initialValue = 0.2f,
+        targetValue = 0.5f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(4000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulse"
+    )
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val centerX = size.width / 2
+        val centerY = size.height / 2
+        val radius = size.width * 0.7f // Large circle
+        
+        rotate(rotation, pivot = Offset(centerX, centerY)) {
+            val validRunes = runes.filterNotNull()
+            val angleStep = 360f / validRunes.size.coerceAtLeast(1)
+            
+            validRunes.forEachIndexed { index, image ->
+                val angle = index * angleStep
+                val rad = Math.toRadians(angle.toDouble())
+                val x = centerX + radius * kotlin.math.cos(rad).toFloat()
+                val y = centerY + radius * kotlin.math.sin(rad).toFloat()
+                
+                // Draw rune centered at (x,y)
+                translate(left = x - image.width / 2, top = y - image.height / 2) {
+                    drawImage(
+                        image = image,
+                        colorFilter = ColorFilter.tint(glowColor.copy(alpha = pulse), BlendMode.SrcIn)
+                    )
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun ParticleSystem(glowColor: Color) {
