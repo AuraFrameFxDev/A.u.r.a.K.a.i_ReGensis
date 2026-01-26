@@ -104,16 +104,6 @@ fun EnhancedGateCarousel(
                 glowColor = Color(0xFFFF3366),
                 imageRes = R.drawable.gate_sentinel_fortress,
                 cardStyle = CardStyle.PROTECTIVE
-            ),
-            GateItem(
-                gateName = "NOTCH BAR",
-                domainName = "System UI",
-                tagline = "DYNAMIC STATUS AREA",
-                description = "Control headers, signal icons, and battery styles. Customize your status bar experience.",
-                route = "notch_bar_gate",
-                glowColor = Color(0xFFFF9100), // Orange
-                imageRes = R.drawable.card_notch_bar,
-                cardStyle = CardStyle.PROTECTIVE
             )
         )
     }
