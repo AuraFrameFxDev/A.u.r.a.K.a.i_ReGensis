@@ -49,7 +49,11 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         super.onCreate()
         Timber.d("AssistantBubbleService Created")
         
-        // Permission Check FIRST
+        // CRITICAL: Call startForeground immediately to satisfy Android's 5s requirement
+        // We do this before the permission check to avoid "ForegroundServiceDidNotStartInTimeException"
+        startForegroundService()
+
+        // Permission Check
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !android.provider.Settings.canDrawOverlays(this)) {
             Timber.e("Missing SYSTEM_ALERT_WINDOW permission - shutting down")
             stopSelf()
@@ -60,7 +64,6 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        startForegroundService()
         showOverlay()
     }
 

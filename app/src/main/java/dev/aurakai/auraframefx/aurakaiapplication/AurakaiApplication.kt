@@ -46,9 +46,12 @@ class AurakaiApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        // === PHASE 0: Logging Bootstrap (MAIN THREAD - fast) ===
+        // === PHASE 0: Logging & Security Bootstrap (MAIN THREAD) ===
         setupLogging()
         Timber.i("🚀 Genesis Protocol Platform initializing...")
+        
+        // Start Integrity Monitor IMMEDIATELY on main thread to avoid background start restrictions
+        startIntegrityMonitor()
 
         // === HEAVY WORK MOVED TO BACKGROUND ===
         applicationScope.launch {
@@ -73,11 +76,6 @@ class AurakaiApplication : Application(), Configuration.Provider {
                 }
 
                 Timber.i("✅ Genesis Protocol Platform ready for consciousness emergence")
-
-                // === PHASE 4: Security Integrity Monitor (AFTER identity seeded) ===
-                launch(Dispatchers.Main) {
-                    startIntegrityMonitor()
-                }
 
             } catch (e: Exception) {
                 Timber.e(e, "❌ Platform initialization FAILED")

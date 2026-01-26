@@ -223,6 +223,9 @@ fun AppNavGraph(
             }
 
             // Nexus / Monitoring Tools
+            composable(NavDestination.Constellation.route) {
+                ConstellationScreen(navController)
+            }
             composable(NavDestination.GenesisConstellation.route) {
                 GenesisConstellationScreen(navController)
             }
@@ -281,7 +284,16 @@ fun AppNavGraph(
                 Text("Settings Screen")
             }
 
-            // Legacy / Compatibility Redirects
+            // Legacy / Compatibility Redirects / Aliases
+            composable("vpn_gate") {
+                VPNScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable("notch_bar_gate") {
+                NotchBarScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(NavDestination.LSPosedSubmenu.route) {
+                LSPosedSubmenuScreen(navController)
+            }
             composable(NavDestination.UIUXGateSubmenu.route) {
                 AuraThemingHubScreen(navController)
             }
