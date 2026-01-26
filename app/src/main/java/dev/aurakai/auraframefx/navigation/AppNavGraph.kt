@@ -17,6 +17,8 @@ import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ConferenceRoomScreen
 import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SecurityCenterScreen
+import dev.aurakai.auraframefx.domains.kai.screens.VPNScreen
 import dev.aurakai.auraframefx.ui.components.carousel.EnhancedGateCarousel
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
@@ -204,6 +206,12 @@ fun AppNavGraph(
             }
             composable(NavDestination.SystemOverrides.route) {
                 SystemOverridesScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(NavDestination.SecurityCenter.route) {
+                SecurityCenterScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(NavDestination.VPN.route) {
+                VPNScreen(onNavigateBack = { navController.popBackStack() })
             }
 
             // Genesis Tools

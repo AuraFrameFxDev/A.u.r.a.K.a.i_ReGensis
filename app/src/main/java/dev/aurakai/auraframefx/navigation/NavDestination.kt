@@ -75,6 +75,8 @@ sealed class NavDestination(val route: String) {
     data object HookManager : NavDestination("hook_manager")
     data object SystemOverrides : NavDestination("system_overrides")
     data object ModuleManager : NavDestination("module_manager_lsposed")
+    data object SecurityCenter : NavDestination("security_center")
+    data object VPN : NavDestination("vpn")
 
     // -- Genesis Toolset --
     data object CodeAssist : NavDestination("code_assist")
