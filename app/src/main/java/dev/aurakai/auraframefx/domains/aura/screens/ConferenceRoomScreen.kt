@@ -23,6 +23,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -165,26 +168,34 @@ fun AgentAvatarNode(
     val size = if (isPrimary) 64.dp else 48.dp
     val fontSize = if (isPrimary) 10.sp else 8.sp
     
-    // Breathing pulse
+    // Breathing pulse - Slowed down for better performance
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
-    val scale by infiniteTransition.animateFloat(
+    val scalePulse by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = if (isSpeaking) 1.2f else 1.05f,
+        targetValue = 1.1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(if (isSpeaking) 500 else 2000, easing = EaseInOutSine),
+            animation = tween(if (isSpeaking) 1000 else 3000, easing = EaseInOutSine),
             repeatMode = RepeatMode.Reverse
         ),
         label = "scale"
     )
-    val glowAlpha by infiniteTransition.animateFloat(
+    val glowPulse by infiniteTransition.animateFloat(
         initialValue = 0.3f,
         targetValue = if (isSpeaking) 0.8f else 0.5f,
         animationSpec = infiniteRepeatable(
-            animation = tween(if (isSpeaking) 500 else 2000, easing = EaseInOutSine),
+            animation = tween(if (isSpeaking) 1000 else 3000, easing = EaseInOutSine),
             repeatMode = RepeatMode.Reverse
         ),
         label = "glow"
     )
+
+    // Derived states to skip reading animated values when not necessary
+    val finalScale by remember(isSpeaking) {
+        derivedStateOf { if (isSpeaking) scalePulse else 1.05f }
+    }
+    val finalGlow by remember(isSpeaking) {
+        derivedStateOf { if (isSpeaking) glowPulse else 0.4f }
+    }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(contentAlignment = Alignment.Center) {
@@ -194,9 +205,9 @@ fun AgentAvatarNode(
                     modifier = Modifier
                         .size(size * 1.5f)
                         .graphicsLayer {
-                            scaleX = scale
-                            scaleY = scale
-                            alpha = glowAlpha
+                            scaleX = finalScale
+                            scaleY = finalScale
+                            alpha = finalGlow
                         }
                         .background(
                             Brush.radialGradient(listOf(color.copy(alpha = 0.6f), Color.Transparent)),
@@ -354,12 +365,19 @@ fun UnisonInputBar(
         Spacer(modifier = Modifier.width(8.dp))
         
         // Mic / Send Actions
+        val haptic = LocalHapticFeedback.current
+        val micScale by animateFloatAsState(if (isRecording) 1.15f else 1f, label = "mic_scale")
+
         if (text.isBlank()) {
             // Mic Button
             IconButton(
-                onClick = onToggleRecording,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onToggleRecording()
+                },
                 modifier = Modifier
                     .size(48.dp)
+                    .scale(micScale)
                     .background(if (isRecording) KaiRed else GenesisTeal.copy(alpha = 0.2f), CircleShape)
             ) {
                 Icon(

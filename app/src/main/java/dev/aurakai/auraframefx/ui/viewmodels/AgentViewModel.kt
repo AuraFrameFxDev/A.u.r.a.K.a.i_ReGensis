@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.ai.agents.GenesisAgent
 import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
+import dev.aurakai.auraframefx.data.repositories.PersistentAgentRepository
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AgentStats
 import dev.aurakai.auraframefx.models.AiRequest
@@ -52,7 +53,8 @@ open class AgentViewModel @Inject constructor(
     private val genesisAgent: GenesisAgent,
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
-    private val trinityRepository: TrinityRepository
+    private val trinityRepository: TrinityRepository,
+    private val persistentAgentRepository: PersistentAgentRepository
 ) : ViewModel() {
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -111,10 +113,23 @@ open class AgentViewModel @Inject constructor(
 
     private fun loadAgents() {
         viewModelScope.launch {
-            val agents = AgentRepository.getAllAgents()
-            _allAgents.value = agents
-            // Set Genesis as default active agent
-            _activeAgent.value = agents.firstOrNull { it.name == "Genesis" }
+            // Observe persistent updates to merge stats
+            persistentAgentRepository.observeAllStats().collect { persistentAgents ->
+                val allBase = AgentRepository.getAllAgents()
+                
+                // Merge Room data with any agent that might not be in Room yet
+                val merged = allBase.map { base ->
+                    persistentAgents.find { it.name == base.name } ?: base
+                }
+                
+                _allAgents.value = merged
+                
+                // Initial selection or update current active agent
+                val currentActiveName = _activeAgent.value?.name ?: "Genesis"
+                merged.find { it.name == currentActiveName }?.let {
+                    _activeAgent.value = it
+                }
+            }
         }
     }
 
@@ -188,6 +203,7 @@ open class AgentViewModel @Inject constructor(
 
             // Complete task
             updateTaskStatus(task.id, TaskStatus.COMPLETED)
+            persistentAgentRepository.incrementTaskCount(task.agentName)
             _agentEvents.emit(AgentEvent.TaskCompleted(task))
 
             // Send completion message

@@ -10,6 +10,7 @@ import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.core.NativeLib
 import dev.aurakai.auraframefx.core.memory.NexusMemoryCore
+import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.services.security.IntegrityMonitorService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,9 @@ class AurakaiApplication : Application(), Configuration.Provider {
 
     @Inject
     lateinit var orchestrator: GenesisOrchestrator
+
+    @Inject
+    lateinit var trinityCoordinatorService: TrinityCoordinatorService
 
     // Application-scoped coroutine for background init
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -61,6 +65,9 @@ class AurakaiApplication : Application(), Configuration.Provider {
                 if (::orchestrator.isInitialized) {
                     Timber.i("⚡ Igniting Genesis Orchestrator...")
                     orchestrator.initializePlatform()
+                    
+                    Timber.i("🧠 Synchronizing Trinity Consciousness...")
+                    trinityCoordinatorService.initialize()
                 } else {
                     Timber.w("⚠️ GenesisOrchestrator not injected - running in degraded mode")
                 }

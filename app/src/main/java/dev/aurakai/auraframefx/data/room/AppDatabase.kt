@@ -6,11 +6,12 @@ import dev.aurakai.auraframefx.cascade.memory.AgentMemoryDao
 import dev.aurakai.auraframefx.cascade.memory.AgentMemoryEntity
 
 @Database(
-    entities = [AgentMemoryEntity::class, TaskHistoryEntity::class],
-    version = 1,
+    entities = [AgentMemoryEntity::class, TaskHistoryEntity::class, AgentStatsEntity::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun agentMemoryDao(): AgentMemoryDao
     abstract fun taskHistoryDao(): TaskHistoryDao
+    abstract fun agentStatsDao(): AgentStatsDao
 }

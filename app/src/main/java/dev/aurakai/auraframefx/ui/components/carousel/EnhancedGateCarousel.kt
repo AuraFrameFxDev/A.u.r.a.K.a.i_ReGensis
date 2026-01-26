@@ -422,9 +422,14 @@ fun DoubleTapGateCard(
             Image(
                 painter = painter,
                 contentDescription = gate.gateName,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        // Correctly screen the image onto the background for a light projection look
+                        blendMode = BlendMode.Screen
+                    },
                 contentScale = ContentScale.FillBounds,
-                colorFilter = ColorFilter.tint(Color.White, BlendMode.Screen),
+                colorFilter = ColorFilter.tint(gate.glowColor.copy(alpha = 0.6f), BlendMode.SrcAtop),
                 alpha = alphaPulse
             )
 

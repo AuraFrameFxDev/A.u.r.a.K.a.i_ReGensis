@@ -52,4 +52,9 @@ object DatabaseModule {
     fun provideTaskHistoryDao(database: AppDatabase): TaskHistoryDao {
         return database.taskHistoryDao()
     }
+
+    @Provides
+    fun provideAgentStatsDao(database: AppDatabase): dev.aurakai.auraframefx.data.room.AgentStatsDao {
+        return database.agentStatsDao()
+    }
 }

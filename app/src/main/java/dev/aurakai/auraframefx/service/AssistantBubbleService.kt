@@ -49,6 +49,13 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         super.onCreate()
         Timber.d("AssistantBubbleService Created")
         
+        // Permission Check FIRST
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !android.provider.Settings.canDrawOverlays(this)) {
+            Timber.e("Missing SYSTEM_ALERT_WINDOW permission - shutting down")
+            stopSelf()
+            return
+        }
+
         savedStateRegistryController.performRestore(null)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         
@@ -133,14 +140,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
             }
         }
         
-        
         overlayLayout?.addView(composeView)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !android.provider.Settings.canDrawOverlays(this)) {
-            Timber.e("Missing SYSTEM_ALERT_WINDOW permission")
-            stopSelf()
-            return
-        }
 
         try {
             windowManager.addView(overlayLayout, params)

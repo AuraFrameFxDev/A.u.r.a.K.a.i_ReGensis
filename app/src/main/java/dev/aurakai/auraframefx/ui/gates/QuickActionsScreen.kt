@@ -250,28 +250,14 @@ fun QuickActionsScreen(onNavigateBack: () -> Boolean) {
         // Action Categories
         val categories = actions.groupBy { it.category }
 
-        categories.forEach { (category, categoryActions) ->
-            with(TODO()) {
-                category.text(
-                    modifier = Modifier.padding(vertical = 16.dp),
-                    color = Color.White,
-                    autoSize = TODO(),
-                    fontStyle = TODO(),
-                    fontWeight = TODO(),
-                    fontFamily = TODO(),
-                    letterSpacing = TODO(),
-                    textDecoration = TODO(),
-                    textAlign = TODO(),
-                    lineHeight = TODO(),
-                    overflow = TODO(),
-                    softWrap = TODO(),
-                    maxLines = TODO(),
-                    minLines = TODO(),
-                    inlineContent = TODO(),
-                    onTextLayout = TODO(),
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
+        categories.forEach { (categoryName, categoryActions) ->
+            Text(
+                text = categoryName.uppercase(),
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 16.dp),
+                fontWeight = FontWeight.Bold
+            )
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
@@ -359,27 +345,6 @@ fun QuickActionsScreen(onNavigateBack: () -> Boolean) {
     }
 }
 
-context(fontSize: Nothing) private fun String.text(
-    modifier: Modifier,
-    color: Color,
-    autoSize: Nothing,
-    fontStyle: Nothing,
-    fontWeight: Nothing,
-    fontFamily: Nothing,
-    letterSpacing: Nothing,
-    textDecoration: Nothing,
-    textAlign: Nothing,
-    lineHeight: Nothing,
-    overflow: Nothing,
-    softWrap: Nothing,
-    maxLines: Nothing,
-    minLines: Nothing,
-    inlineContent: Nothing,
-    onTextLayout: Nothing,
-    style: TextStyle
-) {
-    TODO("Not yet implemented")
-}
 
 /**
  * Action card component
