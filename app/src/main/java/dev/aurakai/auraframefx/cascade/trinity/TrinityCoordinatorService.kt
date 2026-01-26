@@ -157,7 +157,7 @@ class TrinityCoordinatorService @Inject constructor(
                         val auraResponse = results[1]
 
                         // Only continue if both succeeded
-                        if (kaiResponse.success && auraResponse.success) {
+                        if (kaiResponse.isSuccess && auraResponse.isSuccess) {
                             emit(kaiResponse)
                             emit(auraResponse)
                             delay(100) // Brief pause for synthesis
@@ -174,7 +174,7 @@ class TrinityCoordinatorService @Inject constructor(
                                 )
                             ).first()
 
-                            if (synthesis.success) {
+                            if (synthesis.isSuccess) {
                                 emit(
                                     AgentResponse.success(
                                         content = "🧠 Genesis Synthesis: ${synthesis.content}",
@@ -187,7 +187,7 @@ class TrinityCoordinatorService @Inject constructor(
                         } else {
                             emit(
                                 AgentResponse.error(
-                                    message = "Parallel processing partially failed [Kai: ${kaiResponse.success}, Aura: ${auraResponse.success}]",
+                                    message = "Parallel processing partially failed [Kai: ${kaiResponse.isSuccess}, Aura: ${auraResponse.isSuccess}]",
                                     agentName = "Trinity",
                                     agent = dev.aurakai.auraframefx.models.AgentType.SYSTEM
                                 )

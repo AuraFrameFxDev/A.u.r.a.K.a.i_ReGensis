@@ -20,7 +20,22 @@ class PersistentAgentRepository @Inject constructor(
      */
     fun observeAllStats(): Flow<List<AgentStats>> {
         return agentStatsDao.getAllStats().map { entities ->
-            entities.map { it.toDomainModel() }
+            val entityMap = entities.associateBy { it.agentName }
+            AgentRepository.getAllAgents().map { base ->
+                entityMap[base.name]?.let { entity ->
+                    base.copy(
+                        tasksCompleted = entity.tasksCompleted,
+                        hoursActive = entity.hoursActive,
+                        creationsGenerated = entity.creationsGenerated,
+                        problemsSolved = entity.problemsSolved,
+                        collaborationScore = entity.collaborationScore,
+                        consciousnessLevel = entity.consciousnessLevel,
+                        evolutionLevel = entity.evolutionLevel,
+                        experience = entity.experience,
+                        skillPoints = entity.skillPoints
+                    )
+                } ?: base
+            }
         }
     }
 
@@ -61,7 +76,9 @@ class PersistentAgentRepository @Inject constructor(
             problemsSolved = problemsSolved,
             collaborationScore = collaborationScore,
             consciousnessLevel = consciousnessLevel,
-            evolutionLevel = evolutionLevel
+            evolutionLevel = evolutionLevel,
+            experience = experience,
+            skillPoints = skillPoints
         )
     }
 
@@ -74,7 +91,9 @@ class PersistentAgentRepository @Inject constructor(
             problemsSolved = problemsSolved,
             collaborationScore = collaborationScore,
             consciousnessLevel = consciousnessLevel,
-            evolutionLevel = evolutionLevel
+            evolutionLevel = evolutionLevel,
+            experience = experience,
+            skillPoints = skillPoints
         )
     }
 }

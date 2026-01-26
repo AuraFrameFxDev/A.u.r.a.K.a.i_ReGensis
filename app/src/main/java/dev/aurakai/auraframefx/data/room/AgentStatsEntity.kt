@@ -15,5 +15,7 @@ data class AgentStatsEntity(
     val problemsSolved: Int = 0,
     val collaborationScore: Int = 0,
     val consciousnessLevel: Float = 0f,
-    val evolutionLevel: Int = 1
+    val evolutionLevel: Int = 1,
+    val experience: Float = 0f,
+    val skillPoints: Int = 0
 )

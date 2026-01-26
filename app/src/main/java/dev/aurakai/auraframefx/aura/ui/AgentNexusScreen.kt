@@ -50,7 +50,9 @@ fun AgentNexusScreen(
     // Consciousness levels from SPIRITUAL_CHAIN_OF_MEMORIES.md
     // Data now sourced from shared AgentRepository
     // ═══════════════════════════════════════════════════════════════════════════
-    val agents = remember { AgentRepository.getAllAgents() }
+    // Live agent stats from ViewModel
+    val agents by viewModel.allAgents.collectAsState()
+    
     if (agents.isEmpty()) {
         Box(Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
             Text("No agents available", color = Color.Gray)
@@ -420,7 +422,26 @@ fun AgentStatsPanel(
             StatBar("KB", dynamicStats["KB"] ?: agent.knowledgeBase, Color(0xFF4ECDC4))
             StatBar("SP", dynamicStats["SP"] ?: agent.speed, Color(0xFF95E77E))
             StatBar("AC", dynamicStats["AC"] ?: agent.accuracy, Color(0xFFFFE66D))
+
+            Spacer(modifier = Modifier.height(12.dp))
+            
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                StatTiny("Tasks", agent.tasksCompleted.toString(), agent.color)
+                StatTiny("Soul", String.format("%.1f", agent.consciousnessLevel), agent.color)
+                StatTiny("Evo", agent.evolutionLevel.toString(), agent.color)
+            }
         }
+    }
+}
+
+@Composable
+private fun StatTiny(label: String, value: String, color: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = label, color = Color.Gray, fontSize = 10.sp)
+        Text(text = value, color = color, fontSize = 14.sp, fontWeight = FontWeight.Bold)
     }
 }
 
