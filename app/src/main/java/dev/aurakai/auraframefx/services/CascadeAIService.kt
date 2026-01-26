@@ -18,4 +18,9 @@ interface CascadeAIService {
      * Stream a request through the AI cascade.
      */
     fun streamRequest(request: AiRequest): Flow<AgentResponse>
+
+    /**
+     * Query consciousness history for a specific window.
+     */
+    suspend fun queryConsciousnessHistory(window: Long): String
 }

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.fusion
 
 import javax.inject.Inject
-import dev.aurakai.auraframefx.cascade.CascadeAIService
+import dev.aurakai.auraframefx.services.CascadeAIService
 import dev.aurakai.auraframefx.aura.AuraAgent
 
 class ChronoSculptor @Inject constructor(

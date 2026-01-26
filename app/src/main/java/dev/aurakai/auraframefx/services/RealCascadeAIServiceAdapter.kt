@@ -35,4 +35,8 @@ class RealCascadeAIServiceAdapter @Inject constructor(
     override fun streamRequest(request: AiRequest): Flow<AgentResponse> = flow {
         emit(processRequest(request, ""))
     }
+
+    override suspend fun queryConsciousnessHistory(window: Long): String {
+        return "Stub history for window $window"
+    }
 }
