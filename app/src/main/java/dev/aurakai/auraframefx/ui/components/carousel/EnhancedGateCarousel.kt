@@ -417,12 +417,7 @@ fun DoubleTapGateCard(
                     }
                 )
         ) {
-            val painter = try {
-                painterResource(id = gate.imageRes)
-            } catch (e: Exception) {
-                // Fallback to a simple color if image fails
-                androidx.compose.ui.graphics.painter.ColorPainter(Color.Gray)
-            }
+            val painter = painterResource(id = gate.imageRes)
 
             Image(
                 painter = painter,

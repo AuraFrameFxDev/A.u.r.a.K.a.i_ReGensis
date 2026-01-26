@@ -11,6 +11,8 @@ import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -63,7 +65,7 @@ class TrinityRepository @Inject constructor(
     }
 
     // UI calls this to SEND a message
-    suspend fun processUserMessage(message: String, targetAgent: AgentType) {
+    suspend fun processUserMessage(message: String, targetAgent: AgentType) = withContext(Dispatchers.IO) {
         // 1. Emit user message to UI immediately so it shows up
         _chatStream.emit(ChatMessage(role = "user", content = message, sender = "User"))
 
