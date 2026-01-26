@@ -61,7 +61,7 @@ class RootOverlayManager @Inject constructor() : SystemOverlayManager {
     /**
      * Applies a system-wide accent color using Fabricated Overlays.
      */
-    fun applyAccent(hex: String): Result<String> {
+    override fun applyAccent(hex: String): Result<String> {
         Timber.i("🎨 Fabricating system accent: $hex")
         
         // Ensure ARGB format for shell
@@ -78,7 +78,7 @@ class RootOverlayManager @Inject constructor() : SystemOverlayManager {
     /**
      * Adjusts system background saturation.
      */
-    fun applyBackgroundSaturation(percent: Int): Result<String> {
+    override fun applyBackgroundSaturation(percent: Int): Result<String> {
         Timber.i("🌈 Setting background saturation to $percent%")
         // Using settings provider for simpler demonstration, can be expanded to overlays
         return runShellCommand("settings put system system_background_saturation $percent")
