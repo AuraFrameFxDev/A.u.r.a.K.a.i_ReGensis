@@ -86,9 +86,7 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Routes the given message to the appropriate AI service.
-     */
+
     /**
      * Routes the given message to the appropriate AI service via Neural Bridge.
      */
@@ -193,10 +191,4 @@ class ConferenceRoomViewModel @Inject constructor(
 }
 
 
-/**
- * Routes the given message to the appropriate AI service.
- */
 
-private fun getSystemState() {
-    TODO("Not yet implemented")
-}

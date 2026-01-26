@@ -43,6 +43,8 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -255,7 +257,7 @@ fun PedestalParticleEmitter(color: Color, domainName: String) {
     // Aura Chaos Palette
     val chaosColors = listOf(Color.Magenta, Color.Cyan, Color(0xFFBD00FF)) // Neon Purple
 
-    val particles = remember { List(40) { ParticleState() } }
+
 
     val infiniteTransition = rememberInfiniteTransition(label = "particles")
     val time by infiniteTransition.animateFloat(
@@ -269,7 +271,7 @@ fun PedestalParticleEmitter(color: Color, domainName: String) {
     )
 
     Canvas(modifier = Modifier.fillMaxSize()) {
-        particles.forEachIndexed { index, _ ->
+        repeat(40) { index ->
             val seed = index * 1337
 
             if (isAuraDomain) {
@@ -316,7 +318,7 @@ fun PedestalParticleEmitter(color: Color, domainName: String) {
     }
 }
 
-class ParticleState()
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -364,15 +366,15 @@ fun GlobeCard(
     ) { content() }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DoubleTapGateCard(
     gate: GateItem,
     onDoubleTap: () -> Unit
 ) {
-    var tapCount by remember { mutableStateOf(0) }
-    val scope = rememberCoroutineScope()
+    var lastTapTime by remember { mutableStateOf(0L) }
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
 
-    // Floating animation
     val infiniteTransition = rememberInfiniteTransition(label = "float")
     val floatOffset by infiniteTransition.animateFloat(
         initialValue = -8f,
@@ -384,33 +386,6 @@ fun DoubleTapGateCard(
         label = "yOffset"
     )
 
-
-
-
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.BlendMode
-
-@Composable
-fun DoubleTapGateCard(
-    gate: GateItem,
-    onDoubleTap: () -> Unit
-) {
-    var tapCount by remember { mutableStateOf(0) }
-    val scope = rememberCoroutineScope()
-
-    // Floating animation
-    val infiniteTransition = rememberInfiniteTransition(label = "float")
-    val floatOffset by infiniteTransition.animateFloat(
-        initialValue = -8f,
-        targetValue = 8f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2500, easing = EaseInOutSine),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "yOffset"
-    )
-    
-    // Alive/Breathing Opacity for Hologram effect
     val alphaPulse by infiniteTransition.animateFloat(
         initialValue = 0.85f,
         targetValue = 1.0f,
@@ -425,37 +400,40 @@ fun DoubleTapGateCard(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        // RESIZED CARD: Fixed dimensions to match projection width approx
         Box(
             Modifier
-                .width(260.dp) // Adjusted width
-                .height(380.dp) // Adjusted height
+                .width(260.dp)
+                .height(380.dp)
                 .offset(y = floatOffset.dp)
                 .combinedClickable(
                     onClick = {
-                        tapCount++
-                        scope.launch {
-                            delay(300)
-                            if (tapCount >= 2) onDoubleTap()
-                            tapCount = 0
+                        val currentTime = System.currentTimeMillis()
+                        // Double tap detection (300ms window)
+                        if (currentTime - lastTapTime < 300) {
+                            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                            onDoubleTap()
                         }
+                        lastTapTime = currentTime
                     }
                 )
         ) {
-            // THE IMAGE as a HOLOGRAM (Screen Blend Mode)
-            // This turns black pixels transparent and bright pixels into light
+            val painter = try {
+                painterResource(id = gate.imageRes)
+            } catch (e: Exception) {
+                // Fallback to a simple color if image fails
+                androidx.compose.ui.graphics.painter.ColorPainter(Color.Gray)
+            }
+
             Image(
-                painter = painterResource(id = gate.imageRes),
+                painter = painter,
                 contentDescription = gate.gateName,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .blur(if (tapCount > 0) 4.dp else 0.dp),
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.FillBounds,
-                colorFilter = ColorFilter.tint(Color.White, BlendMode.Screen), // Magic Hologram Mode
+                colorFilter = ColorFilter.tint(Color.White, BlendMode.Screen),
                 alpha = alphaPulse
             )
-            
-            // Core Glow (Behind the hologram to give it body)
+
+            // Core Glow
             Box(
                 modifier = Modifier
                     .fillMaxSize()
