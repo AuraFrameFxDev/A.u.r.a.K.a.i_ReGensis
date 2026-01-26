@@ -260,8 +260,6 @@ fun GlobalBackgroundParticles(color: Color) {
         }
     }
 }
-    }
-}
 
 
 @Composable
