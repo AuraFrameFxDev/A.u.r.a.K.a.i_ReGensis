@@ -4,41 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
-import dev.aurakai.auraframefx.models.AgentInvokeRequest
-import dev.aurakai.auraframefx.models.AgentMessage
-import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.models.AiRequestType
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.ClaudeAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.MetaInstructAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.CascadeAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.GenesisBridgeService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.KaiAIService
+import dev.aurakai.auraframefx.models.ChatMessage
+import dev.aurakai.auraframefx.repository.TrinityRepository
 import dev.aurakai.auraframefx.service.NeuralWhisper
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import timber.log.Timber
-import dev.aurakai.auraframefx.repository.TrinityRepository
-import dev.aurakai.auraframefx.models.ChatMessage
 import java.util.UUID
+import javax.inject.Inject
 
 @HiltViewModel
 class ConferenceRoomViewModel @Inject constructor(
-    private val auraService: AuraAIService,
-    private val kaiService: KaiAIService,
-    private val cascadeService: CascadeAIService,
-    private val claudeService: ClaudeAIService,
-    private val genesisService: GenesisBridgeService,
-    private val metaInstructService: MetaInstructAIService,
     private val trinityCoordinator: TrinityCoordinatorService,
     private val neuralWhisper: NeuralWhisper,
     private val trinityRepository: TrinityRepository
@@ -120,7 +99,7 @@ class ConferenceRoomViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
-               trinityRepository.processUserMessage(message, agentType)
+                trinityRepository.processUserMessage(message, agentType)
             } catch (e: Exception) {
                 Timber.tag(tag).e(e, "Error processing message via Trinity: ${e.message}")
                 _messages.update { current ->
@@ -206,8 +185,18 @@ class ConferenceRoomViewModel @Inject constructor(
         }
     }
 
+
     override fun onCleared() {
         super.onCleared()
         trinityCoordinator.shutdown()
     }
+}
+
+
+/**
+ * Routes the given message to the appropriate AI service.
+ */
+
+private fun getSystemState() {
+    TODO("Not yet implemented")
 }
