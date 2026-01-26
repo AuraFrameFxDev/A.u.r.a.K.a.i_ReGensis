@@ -56,7 +56,7 @@ fun ReGenesisIntroAnimation(
         
         // 4. Glitch Out / Melt
         stage = IntroStage.GLITCH_OUT
-        glitchAmount = 50f
+        glitchAmount = 25f
         delay(200)
         
         // 5. Finish
