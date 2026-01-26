@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
  * ChromaCore - SYSTEM-WIDE Color Customization
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ChromaCoreColorsScreen(
     onNavigateBack: () -> Unit,
+    viewModel: ChromaCoreColorsViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val colorScheme = MaterialTheme.colorScheme
@@ -265,7 +267,7 @@ fun ChromaCoreColorsScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     OutlinedButton(
-                        onClick = { /* TODO: Reset to defaults */ },
+                        onClick = { viewModel.resetToDefaults() },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Cyan)
                     ) {
@@ -274,10 +276,10 @@ fun ChromaCoreColorsScreen(
 
                     Button(
                         onClick = {
-                            // TODO: Trigger Monet dynamic theming with root
+                            viewModel.applySystemWideAccent(primary)
                             scope.launch {
                                 snackbarHostState.showSnackbar(
-                                    message = "Applying system-wide colors... Monet engine triggered.",
+                                    message = "Applying system-wide accent ($primary)...",
                                     duration = SnackbarDuration.Short
                                 )
                             }
