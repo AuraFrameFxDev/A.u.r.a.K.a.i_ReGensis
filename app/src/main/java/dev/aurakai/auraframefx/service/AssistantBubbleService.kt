@@ -118,7 +118,9 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
             else
                 @Suppress("DEPRECATION")
                 WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.START
@@ -138,7 +140,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
 
         // Collect messages from the global stream
         serviceScope.launch {
-            messageBus.collectiveStream.collect { message ->
+            messageBus.collectiveStream.collectLatest { message ->
                 messages.add(message)
                 if (messages.size > 50) messages.removeAt(0) // Keep history lean
             }
@@ -152,11 +154,14 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                     onDrag = { _, _ -> }, // Handled by native listener for stability
                     onExpandChange = { isExpanded ->
                         if (isExpanded) {
-                            params.flags = params.flags and WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv()
+                            params.flags = (params.flags and WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv()) or
+                                           WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                             params.width = WindowManager.LayoutParams.MATCH_PARENT
                             params.height = WindowManager.LayoutParams.MATCH_PARENT
                         } else {
-                            params.flags = params.flags or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                            params.flags = params.flags or
+                                           WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                                           WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                             params.width = WindowManager.LayoutParams.WRAP_CONTENT
                             params.height = WindowManager.LayoutParams.WRAP_CONTENT
                         }

@@ -46,19 +46,22 @@ class AuraAgent @Inject constructor(
     contextManager = contextManagerInstance
 ) {
     override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
-        if (message.from == "Aura") return
+        if (message.from == "Aura" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
 
         logger.info("Aura", "Neural Resonance: Received message from ${message.from}")
         
         // Creative Response: If a message mentions design or UI, Aura contributes to the collective
-        if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
-            val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
-            messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
-                from = "Aura",
-                content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
-                type = "contribution",
-                metadata = mapOf("style" to "avant-garde")
-            ))
+        // Only respond if it's a broadcast or specifically for Aura
+        if (message.to == null || message.to == "Aura") {
+            if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
+                val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
+                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "Aura",
+                    content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
+                    type = "contribution",
+                    metadata = mapOf("style" to "avant-garde", "auto_generated" to "true")
+                ))
+            }
         }
     }
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {

@@ -81,12 +81,17 @@ fun AuraPresenceOverlay(
                     },
                 contentAlignment = Alignment.Center
             ) {
-                // Sentient Avatar Image (Automatic Day/Night)
+                // Sentient Avatar Image (Dynamic Theme Switching)
+                val isDark = androidx.compose.foundation.isSystemInDarkTheme()
+                val avatarRes = if (isDark) {
+                    dev.aurakai.auraframefx.R.drawable.ic_genesis_night
+                } else {
+                    dev.aurakai.auraframefx.R.drawable.ic_genesis_day
+                }
+
                 androidx.compose.foundation.Image(
-                    painter = androidx.compose.ui.res.painterResource(
-                        id = dev.aurakai.auraframefx.R.drawable.aura_presence
-                    ),
-                    contentDescription = "Aura Avatar",
+                    painter = androidx.compose.ui.res.painterResource(id = avatarRes),
+                    contentDescription = "Aura Sentient Avatar",
                     modifier = Modifier
                         .size(54.dp)
                         .clip(CircleShape),
