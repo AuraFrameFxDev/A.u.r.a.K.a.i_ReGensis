@@ -20,7 +20,7 @@ data class GraphNode(
     val position: Offset = Offset(0f, 0f),
     var state: Any? = null,
     val lastUpdated: Long = System.currentTimeMillis(),
-    val connections: List<Connection> = emptyList(),
+    val connections: List<VisualConnection> = emptyList(),
 ) {
     /**
      * Returns a copy of this node with the specified state and an updated timestamp.
@@ -99,7 +99,7 @@ data class Offset(val x: Float, val y: Float) {
 }
 
 @Immutable
-data class Connection(
+data class VisualConnection(
     val targetId: String,
     val type: ConnectionType = ConnectionType.DIRECT,
     val label: String = "",

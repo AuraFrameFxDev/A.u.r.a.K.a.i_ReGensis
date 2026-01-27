@@ -505,8 +505,13 @@ private class PythonProcessManager(
             processBuilder.redirectErrorStream(true) // Merge stderr into stdout
             process = processBuilder.start()
 
-            writer = OutputStreamWriter(process!!.outputStream)
-            reader = BufferedReader(InputStreamReader(process!!.inputStream))
+            process?.let { p ->
+                writer = OutputStreamWriter(p.outputStream)
+                reader = BufferedReader(InputStreamReader(p.inputStream))
+            } ?: run {
+                logger.error("PythonManager", "Failed to initialize streams: Process is null")
+                return@withContext false
+            }
 
             // Wait for startup confirmation with timeout
             var startupResponse: String? = null
