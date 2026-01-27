@@ -19,6 +19,7 @@ sealed class NavDestination(val route: String) {
     // LEVEL 1: ROOT - 3D Carousel Gateway
     // ═══════════════════════════════════════════════════════════════
     data object HomeGateCarousel : NavDestination("home_gate_carousel")
+    data object HoloProjector : NavDestination("holo_projector")
 
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 2: MAIN GATES (The Card Selection Domain)

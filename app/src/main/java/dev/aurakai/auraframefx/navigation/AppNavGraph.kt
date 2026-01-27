@@ -67,6 +67,10 @@ import dev.aurakai.auraframefx.ui.navigation.gates.AuraGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
+import dev.aurakai.auraframefx.ui.navigation.HoloProjectorScreen
+import dev.aurakai.auraframefx.ui.gates.GateDestination
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 
 /**
  * Main Navigation Graph
@@ -76,7 +80,7 @@ import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    startDestination: String = NavDestination.HomeGateCarousel.route
+    startDestination: String = NavDestination.HoloProjector.route
 ) {
     var showIntro by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(true) }
 
@@ -93,6 +97,19 @@ fun AppNavGraph(
             composable(NavDestination.HomeGateCarousel.route) {
                 EnhancedGateCarousel(
                     onNavigate = { route -> navController.navigate(route) }
+                )
+            }
+
+            composable(NavDestination.HoloProjector.route) {
+                var currentBoardIndex by remember { mutableIntStateOf(0) }
+                HoloProjectorScreen(
+                    currentGateIndex = currentBoardIndex,
+                    onNext = { 
+                        currentBoardIndex = (currentBoardIndex + 1) % GateDestination.DEFAULT_LIST.size 
+                    },
+                    onPrev = {
+                        currentBoardIndex = (currentBoardIndex - 1 + GateDestination.DEFAULT_LIST.size) % GateDestination.DEFAULT_LIST.size
+                    }
                 )
             }
 

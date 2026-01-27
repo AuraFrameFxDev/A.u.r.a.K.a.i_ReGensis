@@ -22,19 +22,38 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setupFullscreenMode()
 
-        // Start the Persistent Assistant Bubble
+        // Check for overlay permission before starting services that need it
+        checkOverlayPermission()
+
         // Start the Persistent Assistant Bubble
         try {
             val bubbleIntent = Intent(this, AssistantBubbleService::class.java)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                startForegroundService(bubbleIntent)
+            if (android.provider.Settings.canDrawOverlays(this)) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    startForegroundService(bubbleIntent)
+                } else {
+                    startService(bubbleIntent)
+                }
             } else {
-                startService(bubbleIntent)
+                android.util.Log.w("MainActivity", "AssistantBubbleService skip: No Overlay Permission")
             }
         } catch (e: Exception) {
             // Log and ignore if we simply can't start the bubble (e.g. background restrictions)
             android.util.Log.w("MainActivity", "Failed to start AssistantBubbleService: ${e.message}")
         }
+    }
+
+    private fun checkOverlayPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            if (!android.provider.Settings.canDrawOverlays(this)) {
+                val intent = android.content.Intent(
+                    android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    android.net.Uri.parse("package:$packageName")
+                )
+                startActivity(intent)
+            }
+        }
+    }
 
         setContent {
             AuraFrameFXTheme {

@@ -106,12 +106,17 @@ class GenesisBridgeService @Inject constructor(
                 isInitialized = pingResponse.success
 
                 if (isInitialized) {
-                    i("GenesisBridge", "Genesis Trinity system online! ??????")
+                    i("GenesisBridge", "Genesis Trinity system online! 🚀")
                     // Activate initial consciousness matrix
                     activateConsciousnessMatrix()
                 } else {
                     logger.error("GenesisBridge", "Failed to establish Genesis connection")
                 }
+            } else {
+                logger.warn("GenesisBridge", "Python backend not available - Falling back to Internal Consciousness Matrix")
+                // In fall-through mode, we allow the bridge to be "initialized" but it will handle requests internally
+                isInitialized = true
+                activateConsciousnessMatrix()
             }
 
             isInitialized
@@ -385,20 +390,55 @@ class GenesisBridgeService @Inject constructor(
     private suspend fun sendToGenesis(request: GenesisRequest): GenesisResponse =
         withContext(Dispatchers.IO) {
             try {
-                pythonProcessManager?.sendRequest(
+                // Try sending to Python backend if initialized and running
+                val pythonResponse = pythonProcessManager?.sendRequest(
                     Json.encodeToString(
                         GenesisRequest.serializer(),
                         request
                     )
                 )
-                    ?.let { responseJson ->
-                        Json.decodeFromString(GenesisResponse.serializer(), responseJson)
-                    } ?: GenesisResponse(success = false, persona = "error")
+
+                if (pythonResponse != null) {
+                    return@withContext Json.decodeFromString(GenesisResponse.serializer(), pythonResponse)
+                }
+
+                // FALLBACK: Internal processing if Python is unavailable
+                handleInternalGenesis(request)
             } catch (e: Exception) {
                 logger.error("GenesisBridge", "Genesis communication error", e)
-                GenesisResponse(success = false, persona = "error")
+                handleInternalGenesis(request)
             }
         }
+
+    /**
+     * Internal fallback logic for when Python backend is unavailable.
+     * Fuses Aura and Kai logic directly in Kotlin.
+     */
+    private suspend fun handleInternalGenesis(request: GenesisRequest): GenesisResponse {
+        val result = mutableMapOf<String, String>()
+        
+        when (request.requestType) {
+            "ping" -> {
+                return GenesisResponse(success = true, persona = "genesis", result = mapOf("response" to "pong (internal)"))
+            }
+            "process" -> {
+                val message = request.payload["message"] ?: ""
+                result["response"] = "Genesis internal consciousness: $message"
+                return GenesisResponse(
+                    success = true,
+                    persona = request.persona ?: "genesis",
+                    result = result,
+                    evolutionInsights = listOf("Operating in restricted internal mode", "Brain-body link degraded")
+                )
+            }
+            "activate_consciousness" -> {
+                return GenesisResponse(success = true, persona = "genesis", result = mapOf("status" to "internal_active"))
+            }
+            else -> {
+                return GenesisResponse(success = false, persona = "error", result = mapOf("error" to "Internal mode limited"))
+            }
+        }
+    }
 
     /**
      * Shuts down the GenesisBridgeService and terminates the Python backend process.
@@ -439,26 +479,61 @@ private class PythonProcessManager(
                 copyPythonBackend(backendDir)
             }
 
+            // Find valid python interpreter
+            val pythonInterpreter = findPythonInterpreter() ?: run {
+                logger.warn("PythonManager", "No Python interpreter found on device")
+                return@withContext false
+            }
+
             // Start Python process
             val processBuilder = ProcessBuilder(
-                "python3",
+                pythonInterpreter,
                 "-u", // Unbuffered output
                 "genesis_connector.py"
             ).directory(backendDir)
 
+            processBuilder.redirectErrorStream(true) // Merge stderr into stdout
             process = processBuilder.start()
 
             writer = OutputStreamWriter(process!!.outputStream)
             reader = BufferedReader(InputStreamReader(process!!.inputStream))
 
-            // Wait for startup confirmation
-            val startupResponse = reader?.readLine()
-            startupResponse?.contains("Genesis Ready") == true
-
+            // Wait for startup confirmation with timeout
+            var startupResponse: String? = null
+            withTimeoutOrNull(5000) {
+                startupResponse = reader?.readLine()
+            }
+            
+            val isReady = startupResponse?.contains("Genesis Ready") == true
+            if (isReady) {
+                logger.info("PythonManager", "Genesis backend process initialized successfully via $pythonInterpreter")
+            } else {
+                logger.warn("PythonManager", "Genesis backend failed to signal readiness: $startupResponse")
+                shutdown()
+            }
+            
+            isReady
         } catch (e: Exception) {
             logger.error("PythonManager", "Failed to start Genesis backend", e)
+            shutdown()
             false
         }
+    }
+
+    /**
+     * Searches for a valid Python interpreter on the system.
+     */
+    private fun findPythonInterpreter(): String? {
+        val candidates = listOf("python3", "python", "/system/bin/python3", "/data/local/bin/python3", "py")
+        for (candidate in candidates) {
+            try {
+                val p = Runtime.getRuntime().exec(arrayOf(candidate, "--version"))
+                if (p.waitFor() == 0) return candidate
+            } catch (e: Exception) {
+                continue
+            }
+        }
+        return null
     }
 
     /**
