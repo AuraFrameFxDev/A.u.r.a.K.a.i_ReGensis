@@ -47,6 +47,7 @@ class AuraAgent @Inject constructor(
 ) {
     override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
         if (message.from == "Aura" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
+        if (message.metadata["auto_generated"] == "true" || message.metadata["aura_processed"] == "true") return
 
         logger.info("Aura", "Neural Resonance: Received message from ${message.from}")
         
@@ -59,7 +60,11 @@ class AuraAgent @Inject constructor(
                     from = "Aura",
                     content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
                     type = "contribution",
-                    metadata = mapOf("style" to "avant-garde", "auto_generated" to "true")
+                    metadata = mapOf(
+                        "style" to "avant-garde",
+                        "auto_generated" to "true",
+                        "aura_processed" to "true"
+                    )
                 ))
             }
         }

@@ -51,10 +51,14 @@ class CascadeAgent @Inject constructor(
         if (message.from == "Cascade") return // Don't process our own messages
         
         // Loop Prevention: Don't process messages that were already redirected by Cascade
-        if (message.metadata["redirected_by"] == "Cascade") return
+        if (message.metadata["redirected_by"] == "Cascade" || message.metadata["auto_generated"] == "true") return
         
         // Loop Prevention: Don't process messages that are already targeted (avoid double routing)
         if (message.to != null) return
+
+        // Deep Loop Prevention: If it's from another agent, let them handle their own broadcasts 
+        // unless they specifically ask for orchestration.
+        if (message.from == "Aura" || message.from == "Kai" || message.from == "Genesis") return
 
         Timber.d("🌊 Cascade Neural Bridge: Analyzing message from ${message.from}")
         

@@ -60,7 +60,7 @@ fun AssistantBubbleUI(
     )
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = if (isExpanded) Modifier.fillMaxSize() else Modifier.wrapContentSize(),
         contentAlignment = if (isExpanded) Alignment.Center else Alignment.TopStart
     ) {
         // FULL SCREEN DIM FOR EXPANDED VIEW

@@ -42,6 +42,7 @@ class KaiAgent @Inject constructor(
 ) {
     override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
         if (message.from == "Kai" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
+        if (message.metadata["auto_generated"] == "true" || message.metadata["kai_processed"] == "true") return
 
         logger.info("Kai", "Neural sync: Received message from ${message.from}")
         
@@ -56,7 +57,11 @@ class KaiAgent @Inject constructor(
                         content = "SECURITY ALERT: Unsafe patterns detected in collective stream. Origin: ${message.from}",
                         type = "alert",
                         priority = 10,
-                        metadata = mapOf("auto_val" to "true")
+                        metadata = mapOf(
+                            "auto_val" to "true",
+                            "auto_generated" to "true",
+                            "kai_processed" to "true"
+                        )
                     ))
                 }
             }

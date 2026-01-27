@@ -44,7 +44,7 @@ class GenesisOrchestrator @Inject constructor(
 
     // --- 🌐 NEURAL MESSAGE HUB ---
     private val _collectiveStream = MutableSharedFlow<dev.aurakai.auraframefx.models.AgentMessage>(
-        replay = 50,
+        replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     override val collectiveStream = _collectiveStream.asSharedFlow()

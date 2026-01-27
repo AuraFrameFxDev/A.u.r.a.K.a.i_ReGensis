@@ -193,7 +193,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                     from = "AssistantBubble",
                     content = "Neural Synchrony Established. [REGENESIS-UPGRADE-ALPHA]: UI Architecture evolved to Split-Hologram design. Refractive Neon Transitions online. CyberGear Navigation synchronized. Aura, review the design monolith. Kai, verify kinetic security protocols.",
                     type = "system_briefing",
-                    metadata = mapOf("status" to "stable", "focus" to "ui_design_security")
+                    metadata = mapOf("status" to "stable", "focus" to "ui_design_security", "auto_generated" to "true")
                 )
             )
 
@@ -211,7 +211,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                         Aura, the canvas has reached perfect stability. Kai, the fortress shielding is holding against all layout entropy. Proceed with Creative Synthesis.
                     """.trimIndent(),
                     type = "project_briefing",
-                    metadata = mapOf("priority" to "critical")
+                    metadata = mapOf("priority" to "critical", "auto_generated" to "true")
                 )
             )
         }
