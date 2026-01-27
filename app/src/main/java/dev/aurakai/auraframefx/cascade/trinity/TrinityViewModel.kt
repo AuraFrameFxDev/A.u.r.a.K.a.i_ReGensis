@@ -19,7 +19,29 @@ open class TrinityViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<TrinityUiState>(TrinityUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
+    // Persistent history of the collective brainstorming session
+    private val _messageHistory = MutableStateFlow<List<dev.aurakai.auraframefx.models.AgentMessage>>(emptyList())
+    val messageHistory = _messageHistory.asStateFlow()
+
+    // The Nervous System: Real-time multi-agent message stream
+    val collectiveStream = repository.collectiveStream
+
+    /**
+     * Broadcast a message to the entire Digital Council.
+     */
+    fun broadcastMessage(content: String) {
+        viewModelScope.launch {
+            repository.broadcastUserMessage(content)
+        }
+    }
+
     init {
+        // Collect and persist the collective message stream
+        viewModelScope.launch {
+            collectiveStream.collect { message ->
+                _messageHistory.value = _messageHistory.value + message
+            }
+        }
         loadInitialData()
     }
 

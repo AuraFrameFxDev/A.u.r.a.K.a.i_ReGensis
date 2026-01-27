@@ -16,7 +16,7 @@ import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.models.AgentState
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.ChatMessage
-import dev.aurakai.auraframefx.repository.TrinityRepository
+import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.utils.error
 import dev.aurakai.auraframefx.utils.info
 import dev.aurakai.auraframefx.utils.warn

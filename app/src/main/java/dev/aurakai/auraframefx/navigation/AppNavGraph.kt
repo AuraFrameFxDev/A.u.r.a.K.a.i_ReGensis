@@ -264,6 +264,9 @@ fun AppNavGraph(
             composable(NavDestination.FusionMode.route) {
                 FusionModeScreen()
             }
+            composable(NavDestination.ArkBuild.route) {
+                dev.aurakai.auraframefx.ui.gates.ArkBuildScreen()
+            }
             composable(NavDestination.SphereGrid.route) {
                 SphereGridScreen(navController)
             }
@@ -291,10 +294,8 @@ fun AppNavGraph(
                 TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(NavDestination.ConferenceRoom.route) {
-                ConferenceRoomScreen(
-                    onNavigateToChat = { },
-                    onNavigateToAgents = { },
-                    viewModel = hiltViewModel()
+                dev.aurakai.auraframefx.ui.conference.NexusConferenceScreen(
+                    onNavigateBack = { navController.popBackStack() }
                 )
             }
             composable(NavDestination.Settings.route) {

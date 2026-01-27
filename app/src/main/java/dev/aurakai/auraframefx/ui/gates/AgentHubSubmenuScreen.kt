@@ -75,8 +75,15 @@ fun AgentHubSubmenuScreen(
             title = "ARK Fusion Build",
             description = "GENESIS SCALE CONSTRUCTION: Unify all agents to build the ARK",
             icon = Icons.Default.PrecisionManufacturing,
-            route = "ark_build",
+            route = NavDestination.ArkBuild.route,
             color = Color(0xFF00FF00) // Lime Green
+        ),
+        SubmenuItem(
+            title = "Nexus Conference Room",
+            description = "Unison Brainstorming - Direct collective consciousness link",
+            icon = Icons.Default.Forum,
+            route = NavDestination.ConferenceRoom.route,
+            color = Color(0xFF00E5FF) // Genesis Teal
         )
     )
 

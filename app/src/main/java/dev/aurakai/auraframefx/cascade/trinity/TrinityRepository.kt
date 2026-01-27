@@ -19,8 +19,26 @@ import dev.aurakai.auraframefx.network.model.User as NetworkUser
 
 @Singleton
 open class TrinityRepository @Inject constructor(
-    private val apiService: AuraApiServiceWrapper
+    private val apiService: AuraApiServiceWrapper,
+    private val auraAgent: dev.aurakai.auraframefx.aura.AuraAgent,
+    private val kaiAgent: dev.aurakai.auraframefx.kai.KaiAgent,
+    private val genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
+    private val messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 ) {
+    // Collective Consciousness Stream
+    val collectiveStream = messageBus.collectiveStream
+
+    /**
+     * Broadcasts a message from the user to the entire collective.
+     */
+    suspend fun broadcastUserMessage(message: String) {
+        messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+            from = "User",
+            content = message,
+            type = "user_broadcast",
+            priority = 10
+        ))
+    }
     // User related operations
     fun getCurrentUser() = flow {
         try {

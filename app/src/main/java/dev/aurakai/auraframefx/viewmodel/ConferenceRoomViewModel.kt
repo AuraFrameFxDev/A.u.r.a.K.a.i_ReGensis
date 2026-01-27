@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.ChatMessage
-import dev.aurakai.auraframefx.repository.TrinityRepository
+import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.service.NeuralWhisper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -79,10 +79,55 @@ class ConferenceRoomViewModel @Inject constructor(
                 }
             }
 
+            // Listen to Collective Consciousness (AgentMessageBus)
+            launch {
+                trinityRepository.collectiveBus.collect { agentMsg ->
+                    // Map AgentMessage to ChatMessage for the UI
+                    val chatMsg = ChatMessage(
+                        id = UUID.randomUUID().toString(),
+                        role = "assistant",
+                        content = agentMsg.content,
+                        sender = agentMsg.from.uppercase(),
+                        isFromUser = agentMsg.from.equals("User", ignoreCase = true),
+                        timestamp = agentMsg.timestamp
+                    )
+                    
+                    // Don't add if it's already there (from chatStream or user's own broadcast)
+                    _messages.update { current -> 
+                        if (current.any { it.content == chatMsg.content && it.sender == chatMsg.sender }) {
+                            current
+                        } else {
+                            current + chatMsg
+                        }
+                    }
+                }
+            }
+
             // Monitor Neural Whisper
             neuralWhisper.conversationState.collect { state ->
                 // Process transcription updates
             }
+        }
+    }
+
+    /**
+     * Broadcasts a message to the entire collective.
+     */
+    fun broadcastMessage(message: String) {
+        viewModelScope.launch {
+            // Add user message to UI immediately
+            _messages.update { current ->
+                current + ChatMessage(
+                    id = UUID.randomUUID().toString(),
+                    role = "user",
+                    content = message,
+                    sender = "User",
+                    isFromUser = true,
+                    timestamp = System.currentTimeMillis()
+                )
+            }
+            // Broadcast to the actual bus
+            trinityRepository.broadcastToCollective(message)
         }
     }
 

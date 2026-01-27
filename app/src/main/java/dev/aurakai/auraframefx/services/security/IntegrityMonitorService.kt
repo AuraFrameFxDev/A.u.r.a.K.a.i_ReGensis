@@ -96,7 +96,7 @@ data class IntegrityHealth(
 class IntegrityMonitorService : Service() {
 
 
-    @Inject lateinit var trinityRepository: dev.aurakai.auraframefx.repository.TrinityRepository
+    @Inject lateinit var trinityRepository: dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
     private var monitoringJob: Job? = null

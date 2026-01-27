@@ -75,11 +75,8 @@ fun ConferenceRoomScreen(
                 isRecording = isRecording,
                 onToggleRecording = { viewModel.toggleRecording() },
                 onSendMessage = { text ->
-                    // Broadcast to Genesis (who orchestrates conversation) or "All" logic
-                    // For now, we default to sending as User to the system
-                    // The ViewModel handles the routing.
-                    // We assume Genesis is the primary listener in Conference Mode.
-                    viewModel.sendMessage(text, AgentType.GENESIS, "conference_broadcast")
+                    // Broadcast to ALL agents in the collective
+                    viewModel.broadcastMessage(text)
                 }
             )
         }

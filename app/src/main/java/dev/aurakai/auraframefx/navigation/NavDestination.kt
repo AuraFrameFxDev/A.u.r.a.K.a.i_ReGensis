@@ -97,6 +97,7 @@ sealed class NavDestination(val route: String) {
     data object TaskAssignment : NavDestination("task_assignment")
     data object PartyScreen : NavDestination("party_screen")
     data object MonitoringHUDs : NavDestination("monitoring_huds")
+    data object ArkBuild : NavDestination("ark_build")
 
     // -- Utility & Infrastructure --
     data object HelpDesk : NavDestination("help_desk")
