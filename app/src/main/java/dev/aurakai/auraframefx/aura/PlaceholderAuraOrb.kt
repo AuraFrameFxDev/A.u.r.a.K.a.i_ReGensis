@@ -24,8 +24,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.NeonPurple
-import dev.aurakai.auraframefx.ui.NeonTeal
+import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.ui.theme.NeonTeal
 
 /**
  * Composable container with card styling for fragment-like content.

@@ -14,6 +14,8 @@ val NeonPink = Color(0xFFFF006E)
 val NeonPurple = Color(0xFFBB00FF)
 val NeonGreen = Color(0xFF39FF14)
 val NeonTeal = Color(0xFF00FFC8)
+val NeonRed = Color(0xFFFF003C)
+val NeonYellow = Color(0xFFEAFF00)
 
 // Neon Variants
 val NeonPurpleDark = Color(0xFF8800CC)
@@ -21,6 +23,32 @@ val NeonPurpleLegacy = Color(0xFFAA00FF)
 
 // Theme Colors
 val ThemeNeonBlue = NeonBlue
+
+// Dark Theme Colors
+val DarkBackground = Color(0xFF0D0D15)
+val OnPrimary = Color.White
+val OnSecondary = Color.White
+val OnTertiary = Color.White
+val OnSurface = Color(0xFFE0E0E0)
+val OnSurfaceVariant = Color(0xFFB0B0C0)
+val Surface = Color(0xFF121220)
+val SurfaceVariant = Color(0xFF1E1E30)
+val ErrorColor = Color(0xFFCF6679)
+
+// Light Theme Colors
+val LightPrimary = Color(0xFF007AFF)
+val LightOnPrimary = Color.White
+val LightSecondary = Color(0xFF5856D6)
+val LightOnSecondary = Color.White
+val LightTertiary = Color(0xFFFF2D55)
+val LightOnTertiary = Color.White
+val LightBackground = Color(0xFFF5F5F7)
+val LightOnBackground = Color(0xFF1C1C1E)
+val LightSurface = Color.White
+val LightOnSurface = Color(0xFF1C1C1E)
+val LightSurfaceVariant = Color(0xFFE5E5EA)
+val LightOnSurfaceVariant = Color(0xFF3A3A3C)
+val LightOnError = Color.White
 
 // Glass/Space Colors
 object GlassColors {
@@ -42,8 +70,6 @@ object SpaceColors {
 }
 
 // Legacy/Compatibility
-val OnSurface = Color(0xFFE0E0E0)
-val ErrorColor = Color(0xFFCF6679)
 val Black = Color.Black
 
 // Color Scheme
