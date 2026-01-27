@@ -64,6 +64,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Path
+import dev.aurakai.auraframefx.kai.ui.KaiShieldMap
 import dev.aurakai.auraframefx.kai.ui.KaiShieldLayout
 import kotlinx.coroutines.delay
 import kotlin.math.abs
@@ -270,12 +272,13 @@ fun FusionModeScreen(
                         enter = slideInHorizontally(initialOffsetX = { it }),
                         exit = slideOutHorizontally(targetOffsetX = { it })
                     ) {
-                        KaiShieldLayout(
-                            securityLevel = kaiPower,
+                        Box(
                             modifier = Modifier
                                 .offset(x = 50.dp * (1f - fusionProgress))
                                 .scale(0.8f - fusionProgress * 0.2f)
-                        )
+                        ) {
+                            KaiShieldMap()
+                        }
                     }
                 }
 

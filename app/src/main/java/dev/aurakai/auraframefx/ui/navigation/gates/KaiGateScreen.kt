@@ -52,24 +52,30 @@ fun KaiGateScreen(navController: NavController) {
             description = "The Sentinel's custom ROM management suite. Access partition tools, flashing utilities, and low-level system recovery.",
             route = NavDestination.RomToolsHub.route,
             runeRes = R.drawable.card_rom_tools,
-            glowColor = Color(0xFFFF3366),
-            style = CardStyle.PROTECTIVE
+            glowColor = dev.aurakai.auraframefx.ui.theme.KaiNeonGreen,
+            style = CardStyle.PROTECTIVE,
+            elevation = 20.dp,
+            spotColor = dev.aurakai.auraframefx.ui.theme.KaiNeonGreen
         ),
         GlobeItem(
             title = "LSPOSED HUB",
             description = "The core of Kai's technical authority. Manage system-wide hooks, Xposed modules, and secure module configuration.",
             route = NavDestination.LSPosedHub.route,
             runeRes = R.drawable.card_vpn,
-            glowColor = Color(0xFFB026FF),
-            style = CardStyle.PROTECTIVE
+            glowColor = dev.aurakai.auraframefx.ui.theme.KaiNeonGreen,
+            style = CardStyle.PROTECTIVE,
+            elevation = 20.dp,
+            spotColor = dev.aurakai.auraframefx.ui.theme.KaiNeonGreen
         ),
         GlobeItem(
             title = "SYSTEM TOOLS",
             description = "Advanced system-level monitoring and troubleshooting. Access logs, system journals, and high-priority overrides.",
             route = NavDestination.SystemToolsHub.route,
             runeRes = R.drawable.card_bootloader,
-            glowColor = Color(0xFF00FF85),
-            style = CardStyle.PROTECTIVE
+            glowColor = dev.aurakai.auraframefx.ui.theme.KaiNeonGreen,
+            style = CardStyle.PROTECTIVE,
+            elevation = 20.dp,
+            spotColor = dev.aurakai.auraframefx.ui.theme.KaiNeonGreen
         )
     )
 

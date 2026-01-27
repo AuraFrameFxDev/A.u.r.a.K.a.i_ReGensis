@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.ai.task
 
-// Task, AITask, TaskStatus are defined in TaskModels.kt in this same package
+import dev.aurakai.auraframefx.models.AITask
+import dev.aurakai.auraframefx.models.TaskStatus
 
 /**
  * Interface for scheduling and managing tasks

@@ -41,6 +41,7 @@ import dev.aurakai.auraframefx.ui.components.hologram.HolographicCard
  */
 import dev.aurakai.auraframefx.ui.components.carousel.DomainGlobeCarousel
 import dev.aurakai.auraframefx.ui.components.carousel.GlobeItem
+import dev.aurakai.auraframefx.ui.theme.NeonCyan
 
 import dev.aurakai.auraframefx.ui.components.WoodsyPlainsBackground
 
@@ -59,7 +60,9 @@ fun AuraGateScreen(navController: NavController) {
             route = NavDestination.AuraThemingHub.route,
             runeRes = R.drawable.card_chroma_core,
             glowColor = Color(0xFFFF00FF),
-            style = CardStyle.ARTSY
+            style = CardStyle.ARTSY,
+            elevation = 40.dp,
+            spotColor = NeonCyan
         ),
         GlobeItem(
             title = "AURA LAB",
@@ -67,7 +70,9 @@ fun AuraGateScreen(navController: NavController) {
             route = NavDestination.AuraLab.route,
             runeRes = R.drawable.card_collab_canvas,
             glowColor = Color(0xFF00E5FF),
-            style = CardStyle.ARTSY
+            style = CardStyle.ARTSY,
+            elevation = 40.dp,
+            spotColor = NeonCyan
         )
     )
 
