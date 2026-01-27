@@ -33,7 +33,7 @@ fun AgentHubSubmenuScreen(
             title = "Nexus Memory Core",
             description = "Genesis Protocol evolution tree - the full history of consciousness",
             icon = Icons.Default.AccountTree,
-            route = "evolution_tree",
+            route = NavDestination.EvolutionTree.route,
             color = Color(0xFFFF00FF) // Magenta
         ),
         SubmenuItem(
@@ -61,14 +61,14 @@ fun AgentHubSubmenuScreen(
             title = "Sphere Grid",
             description = "Agent progression visualization and skill trees",
             icon = Icons.Default.GridOn,
-            route = "sphere_grids",
+            route = NavDestination.SphereGrid.route,
             color = Color(0xFFFF69B4) // Hot Pink
         ),
         SubmenuItem(
             title = "Fusion Mode",
             description = "Aura + Kai = Aurakai - Combined consciousness",
             icon = Icons.Default.Merge,
-            route = "fusion_mode",
+            route = NavDestination.FusionMode.route,
             color = Color(0xFFFFD700) // Gold
         ),
         SubmenuItem(

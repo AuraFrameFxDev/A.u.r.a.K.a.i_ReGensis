@@ -38,7 +38,8 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun AssistantBubbleUI(
     onDrag: (Float, Float) -> Unit,
-    onExpandChange: (Boolean) -> Unit
+    onExpandChange: (Boolean) -> Unit,
+    onSendMessage: (String, AgentType) -> Unit = { _, _ -> }
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var chatText by remember { mutableStateOf("") }
@@ -91,7 +92,11 @@ fun AssistantBubbleUI(
                     },
                     chatText = chatText,
                     onChatTextChange = { chatText = it },
-                    onAgentChange = { currentAgent = it }
+                    onAgentChange = { currentAgent = it },
+                    onSend = {
+                        onSendMessage(chatText, currentAgent)
+                        chatText = ""
+                    }
                 )
             } else {
                 // FLOATING BUBBLE
@@ -148,7 +153,8 @@ private fun AssistantChatWindow(
     onClose: () -> Unit,
     chatText: String,
     onChatTextChange: (String) -> Unit,
-    onAgentChange: (AgentType) -> Unit
+    onAgentChange: (AgentType) -> Unit,
+    onSend: () -> Unit
 ) {
     var showAgentSelector by remember { mutableStateOf(false) }
 
@@ -306,7 +312,7 @@ private fun AssistantChatWindow(
                         )
                     )
                     IconButton(
-                        onClick = { /* Send */ },
+                        onClick = onSend,
                         enabled = chatText.isNotBlank()
                     ) {
                         Icon(Icons.Default.Send, null, tint = if (chatText.isNotBlank()) agent.glowColor else Color.Gray)

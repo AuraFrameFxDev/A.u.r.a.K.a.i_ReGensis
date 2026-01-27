@@ -25,13 +25,26 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import dev.aurakai.auraframefx.ui.components.overlay.AssistantBubbleUI
+import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * 🫧 ASSISTANT BUBBLE SERVICE
  * Creates a persistent floating assistant visible everywhere on the device.
  */
+@AndroidEntryPoint
 class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, SavedStateRegistryOwner {
+
+    @Inject
+    lateinit var messageBus: AgentMessageBus
+
+    private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     private lateinit var windowManager: WindowManager
     private var overlayLayout: FrameLayout? = null
@@ -140,6 +153,18 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                             params.height = WindowManager.LayoutParams.WRAP_CONTENT
                         }
                         windowManager.updateViewLayout(overlayLayout, params)
+                    },
+                    onSendMessage = { text, agent ->
+                        serviceScope.launch {
+                            messageBus.broadcast(
+                                dev.aurakai.auraframefx.models.AgentMessage(
+                                    from = "User",
+                                    content = text,
+                                    to = agent.agentName,
+                                    type = "overlay_broadcast"
+                                )
+                            )
+                        }
                     }
                 )
             }

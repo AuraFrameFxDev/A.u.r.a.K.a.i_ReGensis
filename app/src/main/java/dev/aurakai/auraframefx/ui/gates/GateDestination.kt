@@ -38,11 +38,11 @@ enum class GateDestination(
     AGENT_HUB(
         title = "Agent Nexus",
         description = "The social core of the collective. Manage and sync your AI family.",
-        route = "agent_nexus",
+        route = "agent_nexus_gate",
         color = Color(0xFF7B2FFF), // Deep Purple
         cardImageRes = R.drawable.gate_agenthub_premium
     ),
-    CODE_ASSIST(
+    CODE_FORGE(
         title = "Code Forge",
         description = "Real-time architectural assist and build system optimization.",
         route = "code_assist",
@@ -56,17 +56,17 @@ enum class GateDestination(
         color = Color(0xFFFF1493), // Deep Pink
         cardImageRes = R.drawable.gate_spheregrid_final
     ),
-    APP_BUILDER(
-        title = "App Architect",
+    ARK_BUILDER(
+        title = "Ark Architect",
         description = "Generative application building via natural language intent.",
-        route = "app_builder",
+        route = "ark_build",
         color = Color(0xFF32CD32), // Lime Green
         cardImageRes = R.drawable.gate_appbuilder_final
     ),
-    TERMINAL(
+    SENTIENT_SHELL(
         title = "Sentient Shell",
         description = "Direct access to the Genesis kernel and system-level overrides.",
-        route = "sentient_shell",
+        route = "sentient_shell", // Assuming this will be added/mapped
         color = Color(0xFF00FF00), // Pure Green
         cardImageRes = R.drawable.gate_terminal_final
     );
