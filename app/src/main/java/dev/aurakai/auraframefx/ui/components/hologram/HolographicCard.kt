@@ -42,7 +42,9 @@ fun HolographicCard(
     glowColor: Color,
     modifier: Modifier = Modifier,
     style: CardStyle = CardStyle.MYTHICAL,
-    dangerLevel: Float = 0f
+    dangerLevel: Float = 0f,
+    elevation: androidx.compose.ui.unit.Dp = 0.dp,
+    spotColor: Color = Color.Transparent
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "HologramRotation")
     val rotation by infiniteTransition.animateFloat(
@@ -71,7 +73,14 @@ fun HolographicCard(
         modifier = modifier
             .width(280.dp)
             .height(400.dp)
-            .offset(y = bounce.dp),
+            .offset(y = bounce.dp)
+            .graphicsLayer {
+                this.shadowElevation = elevation.toPx()
+                this.spotShadowColor = spotColor
+                this.ambientShadowColor = spotColor
+                this.clip = true
+                this.shape = RoundedCornerShape(24.dp)
+            },
         contentAlignment = Alignment.Center
     ) {
         // 1. STYLE-SPECIFIC FRAME

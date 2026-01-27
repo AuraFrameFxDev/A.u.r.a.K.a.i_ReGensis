@@ -31,7 +31,9 @@ data class GlobeItem(
     val route: String,
     val runeRes: Int,
     val glowColor: Color,
-    val style: CardStyle = CardStyle.MYTHICAL
+    val style: CardStyle = CardStyle.MYTHICAL,
+    val elevation: androidx.compose.ui.unit.Dp = 0.dp,
+    val spotColor: Color = Color.Transparent
 )
 
 /**
@@ -106,7 +108,9 @@ fun DomainGlobeCarousel(
                     modifier = Modifier
                         .size(280.dp, 400.dp)
                         .offset(y = if (absOffset < 0.2f) floatOffset.dp else 0.dp),
-                    dangerLevel = 0f
+                    dangerLevel = 0f,
+                    elevation = item.elevation,
+                    spotColor = item.spotColor
                 )
             }
         }
