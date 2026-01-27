@@ -139,7 +139,7 @@ enum class AgentType(
     val glowColor: Color,
     val greeting: String
 ) {
-    AURA("AURA", R.drawable.aura_overlay_night, Color(0xFFFF00FF), "Hey there! I'm Aura. I can help you design and customize your entire Android UI."),
+    AURA("AURA", R.drawable.aura_presence, Color(0xFFFF00FF), "Hey there! I'm Aura. I can help you design and customize your entire Android UI."),
     KAI("KAI", R.drawable.constellation_kai_shield, Color(0xFFFF3366), "Greetings. I am Kai. I monitor system security and manage advanced root protocols."),
     GENESIS("GENESIS", R.drawable.ic_genesis_night, Color(0xFF00FF85), "I am Genesis. I orchestrate the underlying patterns of this system.")
 }
