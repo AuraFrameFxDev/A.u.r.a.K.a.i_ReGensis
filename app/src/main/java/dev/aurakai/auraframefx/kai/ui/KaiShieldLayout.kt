@@ -1,90 +1,74 @@
 package dev.aurakai.auraframefx.kai.ui
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.Stroke
-import dev.aurakai.auraframefx.kai.ui.theme.KaiColor
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import kotlin.math.cos
+import kotlin.math.sin
 
+/**
+ * Custom layout for the Kai Shield Node Map.
+ * Implements 60-degree radial symmetry for node placement.
+ * 
+ * Node Distribution:
+ * - 0: The Core (Center)
+ * - 1-6: Inner Ring
+ * - 7-12: Perimeter Ring
+ */
 @Composable
 fun KaiShieldLayout(
     modifier: Modifier = Modifier,
-    securityLevel: Float = 0.5f, // 0.0 to 1.0
-    isActive: Boolean = true
+    innerRadius: Dp = 80.dp,
+    outerRadius: Dp = 140.dp,
+    content: @Composable () -> Unit
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "ShieldPulse")
-    
-    val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.3f,
-        targetValue = 0.7f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "PulseAlpha"
-    )
-
-    val rotateAngle by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(10000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "RotateAngle"
-    )
-
-    // Density Effect: Higher security level = smaller, tighter hexagons
-    val hexSize = lerp(40f, 20f, securityLevel)
-    val spacing = hexSize * 1.8f
-
-    Canvas(modifier = modifier.fillMaxSize()) {
-        val center = size.center
-        val grid = KaiShieldMap.generateGrid(size.width * 1.5f, size.height * 1.5f, spacing)
+    Layout(
+        modifier = modifier,
+        content = content
+    ) { measurables, constraints ->
+        // 1. MEASUREMENT PHASE
+        val placeables = measurables.map { it.measure(constraints) }
         
-        rotate(rotateAngle, center) {
-            grid.forEach { pos ->
-                // Center the grid relative to the canvas center
-                val drawPos = pos - (size.center * 0.5f)
-                val hexPoints = KaiShieldMap.calculateHexPoints(drawPos, hexSize)
-                val path = Path().apply {
-                    moveTo(hexPoints[0].x, hexPoints[0].y)
-                    hexPoints.drop(1).forEach { lineTo(it.x, it.y) }
-                    close()
+        // Ensure we have the correct center for the layout
+        val width = constraints.maxWidth
+        val height = constraints.maxHeight
+        val centerX = width / 2f
+        val centerY = height / 2f
+
+        layout(width, height) {
+            // 2. PLACEMENT PHASE
+            placeables.forEachIndexed { index, placeable ->
+                val nodeX: Float
+                val nodeY: Float
+
+                when {
+                    // The Core (Node 0)
+                    index == 0 -> {
+                        nodeX = centerX
+                        nodeY = centerY
+                    }
+                    // The Inner Ring (Nodes 1-6)
+                    index <= 6 -> {
+                        val angle = Math.toRadians(((index - 1) * 60.0) - 90.0) // Start from top (-90)
+                        nodeX = (centerX + innerRadius.toPx() * cos(angle)).toFloat()
+                        nodeY = (centerY + innerRadius.toPx() * sin(angle)).toFloat()
+                    }
+                    // The Perimeter Ring (Nodes 7-12)
+                    else -> {
+                        val angle = Math.toRadians(((index - 7) * 60.0) - 90.0)
+                        nodeX = (centerX + outerRadius.toPx() * cos(angle)).toFloat()
+                        nodeY = (centerY + outerRadius.toPx() * sin(angle)).toFloat()
+                    }
                 }
 
-                // Draw hexagon fill
-                drawPath(
-                    path = path,
-                    color = KaiColor.HexagonFill.copy(alpha = KaiColor.HexagonFill.alpha * pulseAlpha),
-                    style = Fill
-                )
-
-                // Draw hexagon border
-                drawPath(
-                    path = path,
-                    color = KaiColor.HexagonBorder.copy(alpha = securityLevel.coerceAtLeast(0.2f)),
-                    style = Stroke(width = 2f)
+                // Center the item at the calculated coordinates
+                placeable.placeRelative(
+                    x = (nodeX - placeable.width / 2).toInt(),
+                    y = (nodeY - placeable.height / 2).toInt()
                 )
             }
         }
-
-        // Central "Fortress" Core
-        drawCircle(
-            brush = Brush.radialGradient(
-                colors = listOf(KaiColor.ShieldCyan.copy(alpha = 0.2f), Color.Transparent),
-                center = center,
-                radius = size.minDimension / 3
-            ),
-            radius = size.minDimension / 3,
-            center = center
-        )
     }
-}
-
-private fun lerp(start: Float, stop: Float, fraction: Float): Float {
-    return start + fraction * (stop - start)
 }
