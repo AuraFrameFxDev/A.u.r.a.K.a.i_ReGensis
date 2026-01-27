@@ -8,12 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class ChatMessage(
-    val id: String,
-    val content: String,
-    val isUser: Boolean,
-    val timestamp: Long = System.currentTimeMillis()
-)
+import dev.aurakai.auraframefx.models.ChatMessage
 
 @HiltViewModel
 class SupportChatViewModel @Inject constructor() : ViewModel() {
@@ -29,7 +24,7 @@ class SupportChatViewModel @Inject constructor() : ViewModel() {
             val userMessage = ChatMessage(
                 id = System.currentTimeMillis().toString(),
                 content = content,
-                isUser = true
+                role = "user"
             )
             _messages.value = _messages.value + userMessage
 
@@ -39,7 +34,7 @@ class SupportChatViewModel @Inject constructor() : ViewModel() {
             val aiMessage = ChatMessage(
                 id = (System.currentTimeMillis() + 1).toString(),
                 content = "I'm here to help! How can I assist you?",
-                isUser = false
+                role = "assistant"
             )
             _messages.value = _messages.value + aiMessage
             _isLoading.value = false
