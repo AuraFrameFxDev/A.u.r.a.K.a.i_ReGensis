@@ -53,7 +53,7 @@ open class AgentViewModel @Inject constructor(
     private val genesisAgent: GenesisAgent,
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
-    private val trinityRepository: TrinityRepository,
+    private val trinityRepository: dev.aurakai.auraframefx.cascade.trinity.TrinityRepository,
     private val persistentAgentRepository: PersistentAgentRepository
 ) : ViewModel() {
 
@@ -92,7 +92,7 @@ open class AgentViewModel @Inject constructor(
         
         // Listen to the Neural Bridge
         viewModelScope.launch {
-            trinityRepository.chatStream.collect { message ->
+            trinityRepository.chatStream.collect { message: ChatMessage ->
                 if (!message.isFromUser) {
                     // It's an agent response due to the repository processing.
                     // The sender name should match the agent name we use in our Map.

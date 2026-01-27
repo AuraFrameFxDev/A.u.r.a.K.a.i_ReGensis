@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.fusion.FusionBuildEngine
 import dev.aurakai.auraframefx.models.core.ArkStatus
-import dev.aurakai.auraframefx.ui.components.GlowOrb
 import dev.aurakai.auraframefx.ui.viewmodels.ArkBuildViewModel
 
 @Composable

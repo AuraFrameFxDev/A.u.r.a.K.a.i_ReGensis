@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
+import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Clock
 

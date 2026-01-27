@@ -74,17 +74,17 @@ class ConferenceRoomViewModel @Inject constructor(
 
             // Listen to Neural Bridge (Trinity Repository)
             launch {
-                trinityRepository.chatStream.collect { message ->
+                trinityRepository.chatStream.collect { message: ChatMessage ->
                     _messages.update { current -> current + message }
                 }
             }
 
             // Listen to Collective Consciousness (AgentMessageBus)
             launch {
-                trinityRepository.collectiveBus.collect { agentMsg ->
+                trinityRepository.collectiveStream.collect { agentMsg: dev.aurakai.auraframefx.models.AgentMessage ->
                     // Map AgentMessage to ChatMessage for the UI
                     val chatMsg = ChatMessage(
-                        id = UUID.randomUUID().toString(),
+                        id = java.util.UUID.randomUUID().toString(),
                         role = "assistant",
                         content = agentMsg.content,
                         sender = agentMsg.from.uppercase(),
@@ -127,7 +127,7 @@ class ConferenceRoomViewModel @Inject constructor(
                 )
             }
             // Broadcast to the actual bus
-            trinityRepository.broadcastToCollective(message)
+            trinityRepository.broadcastUserMessage(message)
         }
     }
 

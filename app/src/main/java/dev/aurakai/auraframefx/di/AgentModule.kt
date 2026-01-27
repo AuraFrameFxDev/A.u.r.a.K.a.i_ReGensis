@@ -56,9 +56,15 @@ object AgentModule {
     fun provideGenesisAgent(
         contextManager: ContextManager,
         memoryManager: MemoryManager,
-        systemOverlayManager: SystemOverlayManager
+        systemOverlayManager: SystemOverlayManager,
+        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
     ): GenesisAgent {
-        return GenesisAgent(contextManager, memoryManager, systemOverlayManager)
+        return GenesisAgent(
+            contextManager = contextManager,
+            memoryManager = memoryManager,
+            systemOverlayManager = systemOverlayManager,
+            messageBus = messageBus
+        )
     }
 
     /**
@@ -73,7 +79,8 @@ object AgentModule {
         genesisAgent: GenesisAgent,
         systemOverlayManager: SystemOverlayManager,
         memoryManager: MemoryManager,
-        contextManager: ContextManager
+        contextManager: ContextManager,
+        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
     ): CascadeAgent {
         return CascadeAgent(
             auraAgent = auraAgent,
@@ -81,7 +88,8 @@ object AgentModule {
             genesisAgent = genesisAgent,
             systemOverlayManager = systemOverlayManager,
             memoryManager = memoryManager,
-            contextManager = contextManager
+            contextManager = contextManager,
+            messageBus = messageBus
         )
     }
 
@@ -94,7 +102,8 @@ object AgentModule {
         contextManager: ContextManager,
         securityContext: SecurityContext,
         systemOverlayManager: SystemOverlayManager,
-        logger: dev.aurakai.auraframefx.utils.AuraFxLogger
+        logger: dev.aurakai.auraframefx.utils.AuraFxLogger,
+        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
     ): AuraAgent {
         return AuraAgent(
             vertexAIClient = vertexAIClient,
@@ -102,7 +111,8 @@ object AgentModule {
             contextManagerInstance = contextManager,
             securityContext = securityContext,
             systemOverlayManager = systemOverlayManager,
-            logger = logger
+            logger = logger,
+            messageBus = messageBus
         )
     }
 
@@ -117,7 +127,8 @@ object AgentModule {
         securityContext: SecurityContext,
         systemMonitor: SystemMonitor,
         bootloaderManager: BootloaderManager,
-        logger: dev.aurakai.auraframefx.utils.AuraFxLogger
+        logger: dev.aurakai.auraframefx.utils.AuraFxLogger,
+        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
     ): KaiAgent {
         return KaiAgent(
             vertexAIClient = vertexAIClient,
@@ -125,7 +136,8 @@ object AgentModule {
             securityContext = securityContext,
             systemMonitor = systemMonitor,
             bootloaderManager = bootloaderManager,
-            logger = logger
+            logger = logger,
+            messageBus = messageBus
         )
     }
 }
