@@ -7,5 +7,6 @@ data class AgentState(
     val kaiStatus: String = "Initializing",
     val auraStatus: String = "Initializing",
     val genesisStatus: String = "Initializing",
-    val isRunning: Boolean = false
+    val isRunning: Boolean = false,
+    val diagnosticMode: Boolean = false
 )

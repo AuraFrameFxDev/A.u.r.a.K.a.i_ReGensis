@@ -22,9 +22,23 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SentientGlowOrb(
     modifier: Modifier = Modifier,
-    coreColor: Color = Color(0xFF00E5FF)
+    coreColor: Color = Color(0xFF00E5FF),
+    diagnosticMode: Boolean = false
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "OrbPulse")
+    
+    // Amber Pulse for diagnostic mode
+    val pulseColor by animateColorAsState(
+        targetValue = if (diagnosticMode) Color(0xFFFFBF00) else coreColor,
+        animationSpec = infiniteRepeatable(
+            animation = tween(800, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "DiagnosticPulse"
+    )
+    
+    // Use pulseColor for the rings and core instead of static coreColor
+    val activeColor = if (diagnosticMode) pulseColor else coreColor
     
     // Core expansion pulse
     val pulseScale by infiniteTransition.animateFloat(

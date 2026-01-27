@@ -75,6 +75,10 @@ open class TrinityRepository @Inject constructor(
         }
     }
 
+    fun setDiagnosticMode(enabled: Boolean) {
+        _agentState.update { it.copy(diagnosticMode = enabled) }
+    }
+
     /**
      * Updates the status of one or more agents.
      */
