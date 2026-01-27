@@ -263,7 +263,7 @@ private fun drawNode(node: GraphNode, isSelected: Boolean, textColor: Color, dra
 private fun DrawScope.drawConnection(
     from: GraphNode,
     to: GraphNode,
-    connection: Connection,
+    connection: VisualConnection,
 ) {
     val fromCenter = from.position.toCompose()
     val toCenter = to.position.toCompose()

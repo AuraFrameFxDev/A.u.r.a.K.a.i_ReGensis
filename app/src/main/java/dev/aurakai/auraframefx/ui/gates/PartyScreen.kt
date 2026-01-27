@@ -111,9 +111,9 @@ fun SynergyMeter(level: Float) {
             }
             Spacer(modifier = Modifier.height(12.dp))
             LinearProgressIndicator(
-                progress = level,
+                progress = { level },
                 modifier = Modifier.fillMaxWidth().height(12.dp).clip(RoundedCornerShape(6.dp)),
-                color = Brush.horizontalGradient(listOf(Color.Cyan, Color.Magenta)),
+                color = Color.Cyan,
                 trackColor = Color.Gray.copy(alpha = 0.2f)
             )
             Text(

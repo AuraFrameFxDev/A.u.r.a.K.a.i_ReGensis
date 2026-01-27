@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -94,8 +96,9 @@ fun CodeAssistScreen(navController: NavHostController) {
                         fontSize = 13.sp,
                         color = Color(0xFFABB2BF)
                     ),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         cursorColor = accentCyan
@@ -127,8 +130,9 @@ fun CodeAssistScreen(navController: NavHostController) {
                         onValueChange = { promptInput = it },
                         placeholder = { Text("Fix null safety, Refactor to LDO...", color = Color.Gray) },
                         modifier = Modifier.weight(1f),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.White.copy(alpha = 0.05f),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.White.copy(alpha = 0.05f),
+                            unfocusedContainerColor = Color.White.copy(alpha = 0.05f),
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
                             focusedTextColor = Color.White
