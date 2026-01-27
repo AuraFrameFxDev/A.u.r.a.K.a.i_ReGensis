@@ -67,7 +67,7 @@ import dev.aurakai.auraframefx.ui.navigation.gates.AuraGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
-import dev.aurakai.auraframefx.ui.navigation.HoloProjectorScreen
+import dev.aurakai.auraframefx.ui.gates.ReGenesisNexusScreen
 import dev.aurakai.auraframefx.ui.gates.GateDestination
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -101,14 +101,11 @@ fun AppNavGraph(
             }
 
             composable(NavDestination.HoloProjector.route) {
-                var currentBoardIndex by remember { mutableIntStateOf(0) }
-                HoloProjectorScreen(
-                    currentGateIndex = currentBoardIndex,
-                    onNext = { 
-                        currentBoardIndex = (currentBoardIndex + 1) % GateDestination.DEFAULT_LIST.size 
-                    },
-                    onPrev = {
-                        currentBoardIndex = (currentBoardIndex - 1 + GateDestination.DEFAULT_LIST.size) % GateDestination.DEFAULT_LIST.size
+                ReGenesisNexusScreen(
+                    onGateSelected = { gate ->
+                        navController.navigate(gate.route) {
+                            launchSingleTop = true
+                        }
                     }
                 )
             }

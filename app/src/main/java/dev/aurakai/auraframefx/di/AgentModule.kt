@@ -57,7 +57,7 @@ object AgentModule {
         contextManager: ContextManager,
         memoryManager: MemoryManager,
         systemOverlayManager: SystemOverlayManager,
-        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+        messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>
     ): GenesisAgent {
         return GenesisAgent(
             contextManager = contextManager,
@@ -80,7 +80,7 @@ object AgentModule {
         systemOverlayManager: SystemOverlayManager,
         memoryManager: MemoryManager,
         contextManager: ContextManager,
-        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+        messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>
     ): CascadeAgent {
         return CascadeAgent(
             auraAgent = auraAgent,
@@ -103,7 +103,7 @@ object AgentModule {
         securityContext: SecurityContext,
         systemOverlayManager: SystemOverlayManager,
         logger: dev.aurakai.auraframefx.utils.AuraFxLogger,
-        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+        messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>
     ): AuraAgent {
         return AuraAgent(
             vertexAIClient = vertexAIClient,
@@ -128,7 +128,7 @@ object AgentModule {
         systemMonitor: SystemMonitor,
         bootloaderManager: BootloaderManager,
         logger: dev.aurakai.auraframefx.utils.AuraFxLogger,
-        @dagger.Lazy messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+        messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>
     ): KaiAgent {
         return KaiAgent(
             vertexAIClient = vertexAIClient,
