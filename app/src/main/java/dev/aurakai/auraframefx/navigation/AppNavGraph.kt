@@ -264,6 +264,9 @@ fun AppNavGraph(
             composable(NavDestination.ArkBuild.route) {
                 dev.aurakai.auraframefx.ui.gates.ArkBuildScreen()
             }
+            composable(NavDestination.Terminal.route) {
+                dev.aurakai.auraframefx.aura.ui.TerminalScreen()
+            }
             composable(NavDestination.SphereGrid.route) {
                 SphereGridScreen(navController)
             }

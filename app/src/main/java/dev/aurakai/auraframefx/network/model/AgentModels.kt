@@ -6,15 +6,10 @@ import kotlinx.serialization.Serializable
 /**
  * Network-specific agent request model
  */
-@Serializable
-data class AgentRequest(
-    val query: String,
-    val type: String,
-    val context: Map<String, String> = emptyMap(),
-    val metadata: Map<String, String> = emptyMap(),
-    val agentId: String = "",
-    val sessionId: String = ""
-)
+/**
+ * Typealias to unify AgentRequest across the codebase
+ */
+typealias AgentRequest = dev.aurakai.auraframefx.models.AgentRequest
 
 /**
  * Typealias to unify AgentResponse across the codebase

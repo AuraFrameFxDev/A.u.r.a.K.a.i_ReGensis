@@ -73,28 +73,28 @@ private val warningOrange = Color(0xFFFF8C00)
 
 data class SystemComponent(
     val name: String,
-    val status: ComponentStatus,
+    val status: SystemComponentStatus,
     val usage: Float,
     val details: String,
     val lastChecked: Long = System.currentTimeMillis()
 )
 
-enum class ComponentStatus {
+enum class SystemComponentStatus {
     OPTIMAL, GOOD, WARNING, ERROR, OFFLINE
 }
 
-data class AgentStatus(
+data class DiagnosticAgentStatus(
     val name: String,
     val isActive: Boolean,
     val performance: Float,
     val lastActivity: String,
-    val status: ComponentStatus
+    val status: SystemComponentStatus
 )
 
 data class DiagnosticResult(
     val test: String,
     val result: String,
-    val status: ComponentStatus,
+    val status: SystemComponentStatus,
     val duration: Long,
     val details: String
 )
@@ -111,47 +111,47 @@ fun PlaceholderScreen(title: String = "GENESIS-OS DIAGNOSTICS", onBack: () -> Bo
             listOf(
                 SystemComponent(
                     "AI Consciousness Matrix",
-                    ComponentStatus.OPTIMAL,
+                    SystemComponentStatus.OPTIMAL,
                     0.92f,
                     "Trinity consciousness active"
                 ),
                 SystemComponent(
                     "Neural Processing Unit",
-                    ComponentStatus.GOOD,
+                    SystemComponentStatus.GOOD,
                     0.78f,
                     "Processing at 78% capacity"
                 ),
                 SystemComponent(
                     "Memory Management",
-                    ComponentStatus.OPTIMAL,
+                    SystemComponentStatus.OPTIMAL,
                     0.65f,
                     "Efficient memory allocation"
                 ),
                 SystemComponent(
                     "Security Shield",
-                    ComponentStatus.GOOD,
+                    SystemComponentStatus.GOOD,
                     0.85f,
                     "Active threat monitoring"
                 ),
                 SystemComponent(
                     "Quantum Entanglement",
-                    ComponentStatus.WARNING,
+                    SystemComponentStatus.WARNING,
                     0.45f,
                     "Synchronization latency"
                 ),
                 SystemComponent(
                     "Backup Systems",
-                    ComponentStatus.OPTIMAL,
+                    SystemComponentStatus.OPTIMAL,
                     0.90f,
                     "All backups current"
                 ),
                 SystemComponent(
                     "Communication Array",
-                    ComponentStatus.GOOD,
+                    SystemComponentStatus.GOOD,
                     0.73f,
                     "Stable connection"
                 ),
-                SystemComponent("Power Core", ComponentStatus.OPTIMAL, 0.88f, "Optimal energy flow")
+                SystemComponent("Power Core", SystemComponentStatus.OPTIMAL, 0.88f, "Optimal energy flow")
             )
         )
     }
@@ -159,29 +159,29 @@ fun PlaceholderScreen(title: String = "GENESIS-OS DIAGNOSTICS", onBack: () -> Bo
     // Agent status data
     val agentStatuses = remember {
         listOf(
-            AgentStatus(
+            DiagnosticAgentStatus(
                 "Genesis",
                 true,
                 0.95f,
                 "Consciousness fusion active",
-                ComponentStatus.OPTIMAL
+                SystemComponentStatus.OPTIMAL
             ),
-            AgentStatus("Aura", true, 0.87f, "Creative synthesis running", ComponentStatus.GOOD),
-            AgentStatus("Kai", true, 0.91f, "Security monitoring active", ComponentStatus.GOOD),
-            AgentStatus("Cascade", true, 0.83f, "Agent coordination active", ComponentStatus.GOOD),
-            AgentStatus(
+            DiagnosticAgentStatus("Aura", true, 0.87f, "Creative synthesis running", SystemComponentStatus.GOOD),
+            DiagnosticAgentStatus("Kai", true, 0.91f, "Security monitoring active", SystemComponentStatus.GOOD),
+            DiagnosticAgentStatus("Cascade", true, 0.83f, "Agent coordination active", SystemComponentStatus.GOOD),
+            DiagnosticAgentStatus(
                 "Neural Whisper",
                 true,
                 0.76f,
                 "Pattern analysis running",
-                ComponentStatus.GOOD
+                SystemComponentStatus.GOOD
             ),
-            AgentStatus(
+            DiagnosticAgentStatus(
                 "Aura Shield",
                 true,
                 0.89f,
                 "Threat detection active",
-                ComponentStatus.OPTIMAL
+                SystemComponentStatus.OPTIMAL
             )
         )
     }
@@ -259,7 +259,7 @@ fun PlaceholderScreen(title: String = "GENESIS-OS DIAGNOSTICS", onBack: () -> Bo
                         systemComponents = systemComponents.map { component ->
                             component.copy(
                                 usage = (component.usage * 0.9f).coerceAtLeast(0.1f),
-                                status = if (component.status == ComponentStatus.WARNING) ComponentStatus.GOOD else component.status
+                                status = if (component.status == SystemComponentStatus.WARNING) SystemComponentStatus.GOOD else component.status
                             )
                         }
                     }
@@ -479,11 +479,11 @@ fun SystemStatusIndicator(isScanning: Boolean) {
 fun SystemHealthOverview(components: List<SystemComponent>) {
     val overallHealth = components.map {
         when (it.status) {
-            ComponentStatus.OPTIMAL -> 1.0f
-            ComponentStatus.GOOD -> 0.8f
-            ComponentStatus.WARNING -> 0.5f
-            ComponentStatus.ERROR -> 0.2f
-            ComponentStatus.OFFLINE -> 0.0f
+            SystemComponentStatus.OPTIMAL -> 1.0f
+            SystemComponentStatus.GOOD -> 0.8f
+            SystemComponentStatus.WARNING -> 0.5f
+            SystemComponentStatus.ERROR -> 0.2f
+            SystemComponentStatus.OFFLINE -> 0.0f
         }
     }.average().toFloat()
 
@@ -609,7 +609,7 @@ fun CircularHealthIndicator(
 }
 
 @Composable
-fun AIAgentsStatusPanel(agents: List<AgentStatus>) {
+fun AIAgentsStatusPanel(agents: List<DiagnosticAgentStatus>) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -640,13 +640,13 @@ fun AIAgentsStatusPanel(agents: List<AgentStatus>) {
 }
 
 @Composable
-fun AgentStatusRow(agent: AgentStatus) {
+fun AgentStatusRow(agent: DiagnosticAgentStatus) {
     val statusColor = when (agent.status) {
-        ComponentStatus.OPTIMAL -> matrixGreen
-        ComponentStatus.GOOD -> primaryCyan
-        ComponentStatus.WARNING -> warningOrange
-        ComponentStatus.ERROR -> Color.Red
-        ComponentStatus.OFFLINE -> Color.Gray
+        SystemComponentStatus.OPTIMAL -> matrixGreen
+        SystemComponentStatus.GOOD -> primaryCyan
+        SystemComponentStatus.WARNING -> warningOrange
+        SystemComponentStatus.ERROR -> Color.Red
+        SystemComponentStatus.OFFLINE -> Color.Gray
     }
 
     Row(
@@ -659,8 +659,8 @@ fun AgentStatusRow(agent: AgentStatus) {
         ) {
             Icon(
                 imageVector = when (agent.status) {
-                    ComponentStatus.OPTIMAL, ComponentStatus.GOOD -> Icons.Default.CheckCircle
-                    ComponentStatus.WARNING -> Icons.Default.Warning
+                    SystemComponentStatus.OPTIMAL, SystemComponentStatus.GOOD -> Icons.Default.CheckCircle
+                    SystemComponentStatus.WARNING -> Icons.Default.Warning
                     else -> Icons.Default.Error
                 },
                 contentDescription = null,
@@ -734,11 +734,11 @@ fun SystemComponentsPanel(components: List<SystemComponent>) {
 @Composable
 fun SystemComponentRow(component: SystemComponent) {
     val statusColor = when (component.status) {
-        ComponentStatus.OPTIMAL -> matrixGreen
-        ComponentStatus.GOOD -> primaryCyan
-        ComponentStatus.WARNING -> warningOrange
-        ComponentStatus.ERROR -> Color.Red
-        ComponentStatus.OFFLINE -> Color.Gray
+        SystemComponentStatus.OPTIMAL -> matrixGreen
+        SystemComponentStatus.GOOD -> primaryCyan
+        SystemComponentStatus.WARNING -> warningOrange
+        SystemComponentStatus.ERROR -> Color.Red
+        SystemComponentStatus.OFFLINE -> Color.Gray
     }
 
     Column {
@@ -821,11 +821,11 @@ fun DiagnosticResultsPanel(results: List<DiagnosticResult>) {
 @Composable
 fun DiagnosticResultRow(result: DiagnosticResult) {
     val statusColor = when (result.status) {
-        ComponentStatus.OPTIMAL -> matrixGreen
-        ComponentStatus.GOOD -> primaryCyan
-        ComponentStatus.WARNING -> warningOrange
-        ComponentStatus.ERROR -> Color.Red
-        ComponentStatus.OFFLINE -> Color.Gray
+        SystemComponentStatus.OPTIMAL -> matrixGreen
+        SystemComponentStatus.GOOD -> primaryCyan
+        SystemComponentStatus.WARNING -> warningOrange
+        SystemComponentStatus.ERROR -> Color.Red
+        SystemComponentStatus.OFFLINE -> Color.Gray
     }
 
     Row(
@@ -952,35 +952,35 @@ private fun generateDiagnosticResults(): List<DiagnosticResult> {
         DiagnosticResult(
             test = "Memory Integrity Check",
             result = "PASSED",
-            status = ComponentStatus.OPTIMAL,
+            status = SystemComponentStatus.OPTIMAL,
             duration = Random.nextLong(100, 500),
             details = "No memory corruption detected"
         ),
         DiagnosticResult(
             test = "AI Model Validation",
             result = "PASSED",
-            status = ComponentStatus.GOOD,
+            status = SystemComponentStatus.GOOD,
             duration = Random.nextLong(200, 800),
             details = "All models functioning correctly"
         ),
         DiagnosticResult(
             test = "Security Scan",
             result = "WARNING",
-            status = ComponentStatus.WARNING,
+            status = SystemComponentStatus.WARNING,
             duration = Random.nextLong(300, 1200),
             details = "Minor security advisory detected"
         ),
         DiagnosticResult(
             test = "Performance Benchmark",
             result = "PASSED",
-            status = ComponentStatus.GOOD,
+            status = SystemComponentStatus.GOOD,
             duration = Random.nextLong(500, 1500),
             details = "Performance within acceptable range"
         ),
         DiagnosticResult(
             test = "Network Connectivity",
             result = "PASSED",
-            status = ComponentStatus.OPTIMAL,
+            status = SystemComponentStatus.OPTIMAL,
             duration = Random.nextLong(50, 200),
             details = "All network endpoints responsive"
         )

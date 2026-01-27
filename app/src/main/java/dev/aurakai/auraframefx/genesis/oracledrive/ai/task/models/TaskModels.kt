@@ -1,19 +1,29 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.ai.task.models
 
 import kotlinx.serialization.Serializable
+import java.util.UUID
 
 /**
- * AI Task model for task scheduling
+ * AI Task model for task scheduling and execution
  */
 @Serializable
 data class AITask(
-    val id: String,
-    val type: String,
-    val description: String,
-    val priority: Int = 0,
+    val id: String = UUID.randomUUID().toString(),
+    val name: String,
+    val description: String = "",
+    val prompt: String = "",
+    val priority: TaskPriority = TaskPriority.NORMAL,
     val status: TaskStatus = TaskStatus.PENDING,
+    val assignedAgent: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
-    val completedAt: Long? = null
+    val scheduledAt: Long? = null,
+    val completedAt: Long? = null,
+    val metadata: Map<String, String> = emptyMap(),
+    val result: String? = null,
+    val error: String? = null,
+    val confidenceScore: Float = 0f,
+    val tokensUsed: Int = 0,
+    val modelUsed: String? = null
 )
 
 /**
@@ -23,9 +33,23 @@ data class AITask(
 enum class TaskStatus {
     PENDING,
     RUNNING,
+    IN_PROGRESS,
     COMPLETED,
     FAILED,
-    CANCELLED
+    CANCELLED,
+    TIMEOUT
+}
+
+/**
+ * Task priority levels
+ */
+@Serializable
+enum class TaskPriority {
+    CRITICAL,
+    HIGH,
+    NORMAL,
+    LOW,
+    BACKGROUND
 }
 
 /**
@@ -33,10 +57,8 @@ enum class TaskStatus {
  */
 @Serializable
 data class HistoricalTask(
-    val id: String,
-    val type: String,
-    val description: String,
-    val completedAt: Long,
-    val result: String? = null,
-    val success: Boolean = true
+    val task: AITask,
+    val executionDurationMs: Long = 0,
+    val retryCount: Int = 0,
+    val agentResponses: List<String> = emptyList()
 )

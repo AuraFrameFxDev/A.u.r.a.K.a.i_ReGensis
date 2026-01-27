@@ -37,6 +37,7 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
  */
 @Composable
 fun AssistantBubbleUI(
+    messages: List<dev.aurakai.auraframefx.models.AgentMessage> = emptyList(),
     onDrag: (Float, Float) -> Unit,
     onExpandChange: (Boolean) -> Unit,
     onSendMessage: (String, AgentType) -> Unit = { _, _ -> }
@@ -86,6 +87,7 @@ fun AssistantBubbleUI(
                 // EXPANDED CHAT WINDOW (Dynamic Agent Style)
                 AssistantChatWindow(
                     agent = currentAgent,
+                    messages = messages,
                     onClose = {
                         isExpanded = false
                         onExpandChange(false)
@@ -104,12 +106,6 @@ fun AssistantBubbleUI(
                     modifier = Modifier
                         .size(64.dp)
                         .graphicsLayer { scaleX = scale; scaleY = scale }
-                        .pointerInput(Unit) {
-                            detectDragGestures { change, dragAmount ->
-                                change.consume()
-                                onDrag(dragAmount.x, dragAmount.y)
-                            }
-                        }
                         .clip(CircleShape)
                         .background(
                             Brush.radialGradient(
@@ -150,6 +146,7 @@ enum class AgentType(
 @Composable
 private fun AssistantChatWindow(
     agent: AgentType,
+    messages: List<dev.aurakai.auraframefx.models.AgentMessage>,
     onClose: () -> Unit,
     chatText: String,
     onChatTextChange: (String) -> Unit,
@@ -251,36 +248,54 @@ private fun AssistantChatWindow(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .padding(20.dp)
+                    .padding(horizontal = 20.dp)
             ) {
-                Column {
-                    Text(
-                        text = agent.greeting,
-                        color = Color.White.copy(alpha = 0.9f),
-                        fontSize = 15.sp,
-                        lineHeight = 22.sp
-                    )
-                    
-                    Spacer(modifier = Modifier.height(20.dp))
-                    
-                    Text(
-                        text = "I am currently monitoring the following system nodes:",
-                        color = agent.glowColor.copy(alpha = 0.7f),
-                        fontSize = 12.sp,
-                        fontFamily = LEDFontFamily
-                    )
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
-                    // Technical status list
-                    listOf("Cortex-70 Link: ACTIVE", "Rune-Sync: SYNCHRONIZED", "Kernel-State: OPTIMIZED").forEach { status ->
+                androidx.compose.foundation.lazy.LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(vertical = 20.dp)
+                ) {
+                    item {
                         Text(
-                            text = "> $status",
-                            color = Color.Green.copy(alpha = 0.5f),
-                            fontSize = 11.sp,
-                            fontFamily = LEDFontFamily,
-                            modifier = Modifier.padding(start = 8.dp)
+                            text = agent.greeting,
+                            color = Color.White.copy(alpha = 0.9f),
+                            fontSize = 15.sp,
+                            lineHeight = 22.sp
                         )
+                    }
+
+                    items(messages) { msg ->
+                        val isFromUser = msg.from == "User"
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = if (isFromUser) Alignment.End else Alignment.Start
+                        ) {
+                            Surface(
+                                color = if (isFromUser) Color.White.copy(alpha = 0.1f) else agent.glowColor.copy(alpha = 0.15f),
+                                shape = RoundedCornerShape(12.dp),
+                                border = androidx.compose.foundation.BorderStroke(
+                                    1.dp,
+                                    if (isFromUser) Color.White.copy(alpha = 0.1f) else agent.glowColor.copy(alpha = 0.3f)
+                                )
+                            ) {
+                                Column(modifier = Modifier.padding(12.dp)) {
+                                    if (!isFromUser) {
+                                        Text(
+                                            text = msg.from,
+                                            color = agent.glowColor,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            modifier = Modifier.padding(bottom = 4.dp)
+                                        )
+                                    }
+                                    Text(
+                                        text = msg.content,
+                                        color = Color.White,
+                                        fontSize = 14.sp
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }

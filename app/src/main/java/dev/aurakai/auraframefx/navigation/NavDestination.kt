@@ -82,6 +82,7 @@ sealed class NavDestination(val route: String) {
     // -- Genesis Toolset --
     data object CodeAssist : NavDestination("code_assist")
     data object NeuralNetwork : NavDestination("neural_network")
+    data object Terminal : NavDestination("sentient_shell")
     
     // -- Nexus Toolset --
     data object GenesisConstellation : NavDestination("genesis_constellation")
