@@ -81,12 +81,21 @@ fun AuraPresenceOverlay(
                     },
                 contentAlignment = Alignment.Center
             ) {
-                // Placeholder for Avatar Image
-                Box(
+                // Sentient Avatar Image (Day/Night compatible)
+                val isDark = androidx.compose.foundation.isSystemInDarkTheme()
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(
+                        id = if (isDark) {
+                            dev.aurakai.auraframefx.R.drawable.aura_presence_night
+                        } else {
+                            dev.aurakai.auraframefx.R.drawable.aura_presence_day
+                        }
+                    ),
+                    contentDescription = "Aura Avatar",
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.2f))
+                        .size(54.dp)
+                        .clip(CircleShape),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
                 )
             }
         }
