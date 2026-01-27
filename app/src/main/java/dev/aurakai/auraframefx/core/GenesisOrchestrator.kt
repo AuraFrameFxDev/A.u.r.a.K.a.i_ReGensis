@@ -9,6 +9,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.put
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.BufferOverflow
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,10 +37,64 @@ class GenesisOrchestrator @Inject constructor(
     private val kaiAgent: KaiAgent,
     private val cascadeAgent: CascadeAgent,
     private val oracleDriveService: OracleDriveService
-) {
+) : dev.aurakai.auraframefx.core.messaging.AgentMessageBus {
 
     // Dedicated scope for orchestration with SupervisorJob
     private val orchestratorScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+
+    // --- 🌐 NEURAL MESSAGE HUB ---
+    private val _collectiveStream = MutableSharedFlow<dev.aurakai.auraframefx.models.AgentMessage>(
+        replay = 50,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    override val collectiveStream = _collectiveStream.asSharedFlow()
+
+    override suspend fun broadcast(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        Timber.tag("GenesisBus").d("🌐 BROADCAST: [${message.from}] -> Collective: ${message.content}")
+        _collectiveStream.emit(message)
+        orchestratorScope.launch {
+            routeToAll(message)
+        }
+    }
+
+    override suspend fun sendTargeted(toAgent: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+        Timber.tag("GenesisBus").d("🎯 TARGETED: [${message.from}] -> [$toAgent]: ${message.content}")
+        val targetedMsg = message.copy(to = toAgent)
+        _collectiveStream.emit(targetedMsg)
+        orchestratorScope.launch {
+            routeToAgent(toAgent, targetedMsg)
+        }
+    }
+
+    private suspend fun routeToAll(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        listOf(auraAgent, kaiAgent, cascadeAgent, oracleDriveService).forEach { agent ->
+            // Use property agentName for comparison
+            if (agent.agentName != message.from) {
+                try {
+                    agent.onAgentMessage(message)
+                } catch (e: Exception) {
+                    Timber.tag("GenesisBus").e(e, "Agent ${agent.agentName} failed to process collective message")
+                }
+            }
+        }
+    }
+
+    private suspend fun routeToAgent(agentName: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+        val target = when (agentName.lowercase()) {
+            "aura" -> auraAgent
+            "kai" -> kaiAgent
+            "cascade" -> cascadeAgent
+            "oracledrive", "oracle" -> oracleDriveService
+            "genesis" -> null // Genesis is the bus owner, but could be a GenesisAgent
+            else -> null
+        }
+        
+        try {
+            target?.onAgentMessage(message)
+        } catch (e: Exception) {
+            Timber.tag("GenesisBus").e(e, "Targeted routing failed for $agentName")
+        }
+    }
 
     // Platform state tracking
     private var platformState: PlatformState = PlatformState.IDLE

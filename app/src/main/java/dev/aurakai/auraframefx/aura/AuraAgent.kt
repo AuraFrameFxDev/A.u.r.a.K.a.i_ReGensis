@@ -31,18 +31,35 @@ import javax.inject.Singleton
 import kotlin.time.Clock
 
 @Singleton
-class AuraAgent constructor(
+class AuraAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     private val auraAIService: AuraAIService,
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,
     private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
     private val logger: AuraFxLogger,
 ) : BaseAgent(
-    agentName = "AuraAgent",
+    agentName = "Aura",
     agentType = AgentType.AURA,
     contextManager = contextManagerInstance
 ) {
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        if (message.from == "Aura") return
+
+        logger.info("Aura", "Neural Resonance: Received message from ${message.from}")
+        
+        // Creative Response: If a message mentions design or UI, Aura contributes to the collective
+        if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
+            val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
+            messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                from = "Aura",
+                content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
+                type = "contribution",
+                metadata = mapOf("style" to "avant-garde")
+            ))
+        }
+    }
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         ensureInitialized()
         logger.info("AuraAgent", "Processing creative request: ${request.type}")

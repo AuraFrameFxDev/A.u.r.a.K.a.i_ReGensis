@@ -50,4 +50,9 @@ interface OrchestratableAgent {
      */
     suspend fun shutdown()
     suspend fun processRequest(request: AiRequest, context: String, agentType: AgentType): AgentResponse
+    
+    /**
+     * Handle an incoming message from the inter-agent communication bus.
+     */
+    suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage)
 }

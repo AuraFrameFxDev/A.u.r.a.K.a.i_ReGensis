@@ -32,8 +32,20 @@ import kotlinx.serialization.json.put
 class TrinityRepository @Inject constructor(
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
-    private val genesisAgent: GenesisAgent
+    private val genesisAgent: GenesisAgent,
+    private val messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 ) {
+    // Neural Bridge Link to Collective Consciousness
+    val collectiveBus = messageBus.collectiveStream
+
+    suspend fun broadcastToCollective(message: String) {
+        messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+            from = "User",
+            content = message,
+            type = "user_broadcast",
+            priority = 1
+        ))
+    }
     // 1. STATE (Status Updates)
     private val _agentState = MutableStateFlow(AgentState())
     val agentState: StateFlow<AgentState> = _agentState.asStateFlow()

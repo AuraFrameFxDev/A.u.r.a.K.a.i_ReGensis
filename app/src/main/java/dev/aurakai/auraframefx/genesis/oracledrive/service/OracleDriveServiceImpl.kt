@@ -60,6 +60,11 @@ class OracleDriveServiceImpl @Inject constructor(
         agentScope = null
     }
 
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        Timber.d("🔮 OracleDrive received collective message: ${message.content}")
+        // Oracle Drive can respond to storage requests or state inquiries here
+    }
+
     override suspend fun processRequest(request: AiRequest, context: String, agentType: AgentType): AgentResponse {
         Timber.d("OracleDrive processing request: ${request.query}")
         // Integrate with Genesis core for sentient storage queries

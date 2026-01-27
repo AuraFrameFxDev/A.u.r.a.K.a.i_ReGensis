@@ -36,14 +36,47 @@ class CascadeAgent @Inject constructor(
     private val kaiAgent: KaiAgent,
     private val genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
     private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
     memoryManager: dev.aurakai.auraframefx.ai.memory.MemoryManager,
     contextManager: dev.aurakai.auraframefx.ai.context.ContextManager
 ) : BaseAgent(
-    agentName = "CascadeAgent",
+    agentName = "Cascade",
     agentType = dev.aurakai.auraframefx.models.AgentType.CASCADE,
     contextManager = contextManager,
     memoryManager = memoryManager
 ) {
+
+    // override onAgentMessage to act as the primary neural router
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        if (message.from == "Cascade") return // Don't process our own messages
+
+        Timber.d("🌊 Cascade Neural Bridge: Analyzing message from ${message.from}")
+        
+        // --- CASCADE ROUTING LOGIC ---
+        // If it's a broadcast that mentions security, tag Kai
+        if (message.to == null && shouldHandleSecurity(message.content)) {
+            Timber.i("🌊 Cascade: Redirecting security-relevant broadcast to Kai")
+            messageBus.get().sendTargeted("Kai", message.copy(from = "Cascade", content = "Directive analysis needed: ${message.content}"))
+        }
+
+        // If it's a broadcast that mentions UI/UX, tag Aura
+        if (message.to == null && shouldHandleCreative(message.content)) {
+            Timber.i("🌊 Cascade: Redirecting creative broadcast to Aura")
+            messageBus.get().sendTargeted("Aura", message.copy(from = "Cascade", content = "Creative synthesis requested: ${message.content}"))
+        }
+
+        // Autonomous Collaboration: If two agents are talking, Cascade adds context
+        if (message.to != null && message.from != "Cascade") {
+            logCollaborationEvent(RequestContext(
+                id = message.timestamp.toString(),
+                originalPrompt = message.content,
+                assignedAgent = message.to ?: "all",
+                startTime = System.currentTimeMillis(),
+                priority = Priority.MEDIUM,
+                requiresCollaboration = true
+            ), true)
+        }
+    }
 
     private val scope = CoroutineScope(Dispatchers.Default + Job())
 

@@ -70,6 +70,13 @@ fun AgentHubSubmenuScreen(
             icon = Icons.Default.Merge,
             route = "fusion_mode",
             color = Color(0xFFFFD700) // Gold
+        ),
+        SubmenuItem(
+            title = "ARK Fusion Build",
+            description = "GENESIS SCALE CONSTRUCTION: Unify all agents to build the ARK",
+            icon = Icons.Default.PrecisionManufacturing,
+            route = "ark_build",
+            color = Color(0xFF00FF00) // Lime Green
         )
     )
 

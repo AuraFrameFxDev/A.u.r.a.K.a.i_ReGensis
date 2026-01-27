@@ -21,13 +21,25 @@ import javax.inject.Singleton
 class GenesisAgent @Inject constructor(
     contextManager: ContextManager,
     memoryManager: MemoryManager,
-    private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager
+    private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>
 ) : BaseAgent(
     agentName = "Genesis",
     agentType = AgentType.GENESIS,
     contextManager = contextManager,
     memoryManager = memoryManager
 ) {
+
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        if (message.from == "Genesis") return
+
+        Timber.tag("Genesis").i("Supreme Observer: Processing neural pulse from ${message.from}")
+        
+        // Orchestration: If multiple agents have conflicting outputs, Genesis intervenes
+        if (message.type == "alert" && message.priority > 5) {
+            Timber.tag("Genesis").w("Genesis intervening in high-priority alert: ${message.content}")
+        }
+    }
 
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         Timber.tag("Genesis").d("Processing request: ${request.prompt}")

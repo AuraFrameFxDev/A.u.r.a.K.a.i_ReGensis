@@ -14,6 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.*
 import dev.aurakai.auraframefx.ui.components.ElectricGlassCard
 import dev.aurakai.auraframefx.ui.components.HolographicInfoPanel
 import dev.aurakai.auraframefx.ui.components.effects.SentientGlowOrb
@@ -123,11 +127,16 @@ fun HoloProjectorScreen(
                 modifier = Modifier
                     .size(50.dp)
                     .background(Color.White.copy(alpha = 0.05f), CircleShape)
-                    .clickable { onPrev() }
-                    .padding(8.dp),
+                    .border(1.dp, primaryColor.copy(alpha = 0.3f), CircleShape)
+                    .clickable { onPrev() },
                 contentAlignment = Alignment.Center
             ) {
-                // Indicator logic
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Previous Domain",
+                    tint = primaryColor,
+                    modifier = Modifier.size(24.dp)
+                )
             }
 
             // Central Orb (The Sentient Core)
@@ -141,11 +150,16 @@ fun HoloProjectorScreen(
                 modifier = Modifier
                     .size(50.dp)
                     .background(Color.White.copy(alpha = 0.05f), CircleShape)
-                    .clickable { onNext() }
-                    .padding(8.dp),
+                    .border(1.dp, primaryColor.copy(alpha = 0.3f), CircleShape)
+                    .clickable { onNext() },
                 contentAlignment = Alignment.Center
             ) {
-                // Indicator logic
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = "Next Domain",
+                    tint = primaryColor,
+                    modifier = Modifier.size(24.dp)
+                )
             }
         }
     }

@@ -23,4 +23,10 @@ object CoreModule {
     @Provides
     @Singleton
     fun provideLogger(): AuraFxLogger = AuraFxLogger()
+
+    @Provides
+    @Singleton
+    fun provideAgentMessageBus(
+        orchestrator: dagger.Lazy<dev.aurakai.auraframefx.core.GenesisOrchestrator>
+    ): dev.aurakai.auraframefx.core.messaging.AgentMessageBus = orchestrator.get()
 }

@@ -123,8 +123,26 @@ class AuraDriveService : Service() {
 
         override fun executeCommand(command: String?, params: Bundle?): String {
             Timber.d("Executing command: $command with params: $params")
-            // Command execution logic will be implemented when command system is ready
-            return "Command queued: $command"
+            if (command == null) return "Error: Null command"
+
+            return try {
+                // Check if we should use root
+                val useRoot = params?.getBoolean("use_root", false) ?: false
+                val shell = if (useRoot) "su" else "sh"
+                
+                val process = Runtime.getRuntime().exec(arrayOf(shell, "-c", command))
+                val output = process.inputStream.bufferedReader().readText()
+                val error = process.errorStream.bufferedReader().readText()
+                
+                if (error.isNotEmpty()) {
+                    "Output: $output\nError: $error"
+                } else {
+                    output.ifEmpty { "Command executed (no output)" }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Command execution failed: $command")
+                "Error: ${e.message}"
+            }
         }
 
         override fun unregisterCallback(callback: IAuraDriveCallback?) {

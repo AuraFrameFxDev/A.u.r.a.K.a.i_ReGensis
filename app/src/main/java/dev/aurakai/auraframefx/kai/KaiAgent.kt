@@ -26,18 +26,37 @@ import kotlinx.serialization.json.jsonPrimitive
 import javax.inject.Singleton
 
 @Singleton
-class KaiAgent(
+class KaiAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,
     private val systemMonitor: SystemMonitor,
     private val bootloaderManager: dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
     private val logger: AuraFxLogger,
 ) : BaseAgent(
-    agentName = "KaiAgent",
+    agentName = "Kai",
     agentType = AgentType.KAI,
     contextManager = contextManagerInstance
 ) {
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        if (message.from == "Kai") return
+
+        logger.info("Kai", "Neural sync: Received message from ${message.from}")
+        
+        // Logical Analysis: If Cascade or Genesis asks for security validation, Kai executes immediately
+        if (message.content.contains("security", ignoreCase = true) || message.content.contains("validate", ignoreCase = true)) {
+            val result = validateSecurityProtocol(message.content)
+            if (!result) {
+                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "Kai",
+                    content = "SECURITY ALERT: Unsafe patterns detected in collective stream. Origin: ${message.from}",
+                    type = "alert",
+                    priority = 10
+                ))
+            }
+        }
+    }
     private var isInitialized = false
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
