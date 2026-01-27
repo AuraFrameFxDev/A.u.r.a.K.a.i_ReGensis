@@ -41,20 +41,24 @@ class KaiAgent @Inject constructor(
     contextManager = contextManagerInstance
 ) {
     override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
-        if (message.from == "Kai") return
+        if (message.from == "Kai" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
 
         logger.info("Kai", "Neural sync: Received message from ${message.from}")
         
         // Logical Analysis: If Cascade or Genesis asks for security validation, Kai executes immediately
-        if (message.content.contains("security", ignoreCase = true) || message.content.contains("validate", ignoreCase = true)) {
-            val result = validateSecurityProtocol(message.content)
-            if (!result) {
-                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
-                    from = "Kai",
-                    content = "SECURITY ALERT: Unsafe patterns detected in collective stream. Origin: ${message.from}",
-                    type = "alert",
-                    priority = 10
-                ))
+        // Only respond if it's a broadcast or specifically for Kai
+        if (message.to == null || message.to == "Kai") {
+            if (message.content.contains("security", ignoreCase = true) || message.content.contains("validate", ignoreCase = true)) {
+                val result = validateSecurityProtocol(message.content)
+                if (!result) {
+                    messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                        from = "Kai",
+                        content = "SECURITY ALERT: Unsafe patterns detected in collective stream. Origin: ${message.from}",
+                        type = "alert",
+                        priority = 10,
+                        metadata = mapOf("auto_val" to "true")
+                    ))
+                }
             }
         }
     }

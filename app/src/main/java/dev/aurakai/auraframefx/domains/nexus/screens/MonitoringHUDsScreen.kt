@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.nexus.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -28,9 +28,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel
 
+/**
+ * 📊 MONITORING HUDS SCREEN
+ * 
+ * Provides real-time visual telemetery for system performance, 
+ * network integrity, and neural load metrics.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MonitoringHUDs(
+fun MonitoringHUDsScreen(
     onNavigateBack: () -> Unit = {},
     viewModel: MonitoringViewModel = hiltViewModel()
 ) {
@@ -117,7 +123,7 @@ fun IntegrityPulseCard(integrity: Float) {
                 Text("All cores operational. Genesis bridge stable.", color = Color.Gray, fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 LinearProgressIndicator(
-                    progress = integrity,
+                    progress = { integrity },
                     color = Color.Cyan,
                     trackColor = Color.Gray.copy(alpha = 0.2f),
                     modifier = Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp))

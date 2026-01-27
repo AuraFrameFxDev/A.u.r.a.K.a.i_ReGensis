@@ -16,6 +16,9 @@ import dev.aurakai.auraframefx.network.AuraApiServiceWrapper
 import dev.aurakai.auraframefx.network.model.AgentStatusResponse
 import dev.aurakai.auraframefx.models.AgentResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
+import java.util.Collections
+import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.buildJsonObject
@@ -55,8 +58,22 @@ open class TrinityRepository @Inject constructor(
     val agentState: StateFlow<AgentState> = _agentState.asStateFlow()
 
     // 2. CHAT STREAM (The "Voice")
-    private val _chatStream = MutableSharedFlow<ChatMessage>(replay = 1)
+    private val _chatStream = MutableSharedFlow<ChatMessage>(
+        replay = 0,
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     val chatStream: SharedFlow<ChatMessage> = _chatStream.asSharedFlow()
+
+    // small de-dup guard
+    private val seenIds = Collections.newSetFromMap(ConcurrentHashMap<String, Boolean>())
+
+    private suspend fun emitChat(msg: ChatMessage) {
+        // sender + content hash is a decent low-cost key for chat
+        if (seenIds.add("${msg.sender}:${msg.content.hashCode()}")) {
+            _chatStream.emit(msg)
+        }
+    }
 
     /**
      * Updates the status of one or more agents.
@@ -82,7 +99,7 @@ open class TrinityRepository @Inject constructor(
      */
     suspend fun processUserMessage(message: String, targetAgent: AgentType) = withContext(Dispatchers.IO) {
         // 1. Emit user message to UI
-        _chatStream.emit(ChatMessage(role = "user", content = message, sender = "User"))
+        emitChat(ChatMessage(role = "user", content = message, sender = "User"))
 
         // 2. Route to the correct SINGLETON Agent
         val response = try {
@@ -117,7 +134,7 @@ open class TrinityRepository @Inject constructor(
 
         // 3. Emit Agent response back to UI
         val agentName = targetAgent.name.lowercase().replaceFirstChar { it.uppercase() }
-        _chatStream.emit(ChatMessage(role = "assistant", content = response, sender = agentName))
+        emitChat(ChatMessage(role = "assistant", content = response, sender = agentName))
     }
     // User related operations
     fun getCurrentUser() = flow {

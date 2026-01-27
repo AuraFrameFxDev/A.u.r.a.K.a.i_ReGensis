@@ -26,7 +26,8 @@ import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
 import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.CodeAssistScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.SentientShellScreen
 import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
 import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
@@ -68,9 +69,9 @@ import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
 import dev.aurakai.auraframefx.ui.gates.ReGenesisNexusScreen
-import dev.aurakai.auraframefx.ui.gates.AgentCreationScreen
-import dev.aurakai.auraframefx.ui.gates.PartyScreen
-import dev.aurakai.auraframefx.ui.gates.MonitoringHUDs
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.PartyScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.MonitoringHUDsScreen
 import dev.aurakai.auraframefx.ui.gates.GateDestination
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -83,7 +84,7 @@ import androidx.compose.runtime.remember
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    startDestination: String = NavDestination.HoloProjector.route
+    startDestination: String = NavDestination.HomeGateCarousel.route
 ) {
     var showIntro by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(true) }
 
@@ -268,7 +269,7 @@ fun AppNavGraph(
                 dev.aurakai.auraframefx.ui.gates.ArkBuildScreen()
             }
             composable(NavDestination.Terminal.route) {
-                dev.aurakai.auraframefx.aura.ui.TerminalScreen()
+                SentientShellScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(NavDestination.SphereGrid.route) {
                 SphereGridScreen(navController)
@@ -280,7 +281,7 @@ fun AppNavGraph(
                 PartyScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(NavDestination.MonitoringHUDs.route) {
-                MonitoringHUDs(onNavigateBack = { navController.popBackStack() })
+                MonitoringHUDsScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(NavDestination.EvolutionTree.route) {
                 dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen(

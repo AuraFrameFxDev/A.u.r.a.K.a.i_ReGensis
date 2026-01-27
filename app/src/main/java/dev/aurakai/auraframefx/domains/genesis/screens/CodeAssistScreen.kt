@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.genesis.screens
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
@@ -25,6 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
+/**
+ * 💻 CODE ASSIST SCREEN
+ * 
+ * Genesis-tier neural compiler interface. Provides AI-driven code refactoring, 
+ * architectural analysis, and LDO-compliance modernization.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CodeAssistScreen(navController: NavHostController) {

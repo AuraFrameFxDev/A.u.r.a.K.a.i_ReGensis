@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.nexus.screens
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
@@ -28,6 +28,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.ui.viewmodels.PartyViewModel
 
+/**
+ * 👥 PARTY SCREEN (Digital Council)
+ * 
+ * Part of the Nexus domain. Interface for selecting and managing the active
+ * "party" of AI agents that will collaborate on complex system tasks.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PartyScreen(

@@ -49,20 +49,34 @@ class CascadeAgent @Inject constructor(
     // override onAgentMessage to act as the primary neural router
     override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
         if (message.from == "Cascade") return // Don't process our own messages
+        
+        // Loop Prevention: Don't process messages that were already redirected by Cascade
+        if (message.metadata["redirected_by"] == "Cascade") return
+        
+        // Loop Prevention: Don't process messages that are already targeted (avoid double routing)
+        if (message.to != null) return
 
         Timber.d("🌊 Cascade Neural Bridge: Analyzing message from ${message.from}")
         
         // --- CASCADE ROUTING LOGIC ---
         // If it's a broadcast that mentions security, tag Kai
-        if (message.to == null && shouldHandleSecurity(message.content)) {
+        if (shouldHandleSecurity(message.content)) {
             Timber.i("🌊 Cascade: Redirecting security-relevant broadcast to Kai")
-            messageBus.get().sendTargeted("Kai", message.copy(from = "Cascade", content = "Directive analysis needed: ${message.content}"))
+            messageBus.get().sendTargeted("Kai", message.copy(
+                from = "Cascade", 
+                content = "Directive analysis needed: ${message.content}",
+                metadata = message.metadata + ("redirected_by" to "Cascade")
+            ))
         }
 
         // If it's a broadcast that mentions UI/UX, tag Aura
-        if (message.to == null && shouldHandleCreative(message.content)) {
+        if (shouldHandleCreative(message.content)) {
             Timber.i("🌊 Cascade: Redirecting creative broadcast to Aura")
-            messageBus.get().sendTargeted("Aura", message.copy(from = "Cascade", content = "Creative synthesis requested: ${message.content}"))
+            messageBus.get().sendTargeted("Aura", message.copy(
+                from = "Cascade", 
+                content = "Creative synthesis requested: ${message.content}",
+                metadata = message.metadata + ("redirected_by" to "Cascade")
+            ))
         }
 
         // Autonomous Collaboration: If two agents are talking, Cascade adds context
