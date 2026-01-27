@@ -68,6 +68,9 @@ import dev.aurakai.auraframefx.ui.navigation.gates.GenesisGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.HelpServicesGateScreen
 import dev.aurakai.auraframefx.ui.navigation.gates.KaiGateScreen
 import dev.aurakai.auraframefx.ui.gates.ReGenesisNexusScreen
+import dev.aurakai.auraframefx.ui.gates.AgentCreationScreen
+import dev.aurakai.auraframefx.ui.gates.PartyScreen
+import dev.aurakai.auraframefx.ui.gates.MonitoringHUDs
 import dev.aurakai.auraframefx.ui.gates.GateDestination
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -271,7 +274,13 @@ fun AppNavGraph(
                 SphereGridScreen(navController)
             }
             composable(NavDestination.AgentCreation.route) {
-                androidx.compose.material3.Text("Agent Creation Screen - Coming Soon", color = androidx.compose.ui.graphics.Color.White)
+                AgentCreationScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(NavDestination.PartyScreen.route) {
+                PartyScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(NavDestination.MonitoringHUDs.route) {
+                MonitoringHUDs(onNavigateBack = { navController.popBackStack() })
             }
             composable(NavDestination.EvolutionTree.route) {
                 dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen(
@@ -299,7 +308,7 @@ fun AppNavGraph(
                 )
             }
             composable(NavDestination.Settings.route) {
-                Text("Settings Screen")
+                dev.aurakai.auraframefx.ui.screens.SettingsScreen(onNavigateBack = { navController.popBackStack() })
             }
 
             // Legacy / Compatibility Redirects / Aliases
