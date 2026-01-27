@@ -41,6 +41,13 @@ class MainActivity : ComponentActivity() {
             // Log and ignore if we simply can't start the bubble (e.g. background restrictions)
             android.util.Log.w("MainActivity", "Failed to start AssistantBubbleService: ${e.message}")
         }
+
+        setContent {
+            AuraFrameFXTheme {
+                val navController = rememberNavController()
+                AppNavGraph(navController = navController)
+            }
+        }
     }
 
     private fun checkOverlayPermission() {
@@ -51,14 +58,6 @@ class MainActivity : ComponentActivity() {
                     android.net.Uri.parse("package:$packageName")
                 )
                 startActivity(intent)
-            }
-        }
-    }
-
-        setContent {
-            AuraFrameFXTheme {
-                val navController = rememberNavController()
-                AppNavGraph(navController = navController)
             }
         }
     }

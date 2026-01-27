@@ -1,6 +1,8 @@
 package dev.aurakai.auraframefx.ui.navigation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -9,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.components.ElectricGlassCard
 import dev.aurakai.auraframefx.ui.components.HolographicInfoPanel
@@ -16,9 +20,9 @@ import dev.aurakai.auraframefx.ui.effects.CrtScreenTransition
 import dev.aurakai.auraframefx.ui.gates.GateDestination
 
 /**
- * 🎥 HOLO-PROJECTOR NAVIGATION
- * The high-end navigation gateway for ReGenesis.
- * Features side-projected light beams and CRT "Zoop" materialization.
+ * 🎥 HOLO-PROJECTOR NAVIGATION (Split Layout Edition)
+ * Fixed for Portrait mode to prevent text/image collision.
+ * Segregates the 4K Card (Top) and the Info Panel (Bottom).
  */
 @Composable
 fun HoloProjectorScreen(
@@ -28,90 +32,92 @@ fun HoloProjectorScreen(
     onPrev: () -> Unit = {}
 ) {
     val currentGate = gates[currentGateIndex]
-    val primaryColor = currentGate.primaryColor
+    val primaryColor = currentGate.color
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        // --- 1. THE PROJECTOR BEAMS (Side Emitters) ---
-        // Left Beam
+        // --- 1. THE PROJECTOR BEAMS (Subtle Side Emitters) ---
         Box(
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .fillMaxHeight(0.6f)
-                .width(100.dp) // Beam length
+                .width(40.dp)
                 .background(
                     brush = Brush.horizontalGradient(
-                        colors = listOf(primaryColor.copy(alpha = 0.3f), Color.Transparent),
-                        startX = 0f,
-                        endX = 200f
+                        colors = listOf(primaryColor.copy(alpha = 0.15f), Color.Transparent),
                     )
                 )
         )
         
-        // Right Beam
         Box(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .fillMaxHeight(0.6f)
-                .width(100.dp)
+                .width(40.dp)
                 .background(
                     brush = Brush.horizontalGradient(
-                        colors = listOf(Color.Transparent, primaryColor.copy(alpha = 0.3f)),
-                        startX = 0f,
-                        endX = 200f
+                        colors = listOf(Color.Transparent, primaryColor.copy(alpha = 0.15f)),
                     )
                 )
         )
 
-        // --- 2. THE CONTENT (With CRT Transition) ---
-        // This is where the image "materializes"
-        CrtScreenTransition(targetState = currentGateIndex) { index ->
-            val gate = gates[index]
+        // --- 2. THE MASTER SPLIT-LAYOUT ---
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
             
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                // The Hologram Cube (Your Card)
-                ElectricGlassCard(
-                    modifier = Modifier.size(300.dp, 500.dp),
-                    glowColor = gate.primaryColor
+            // materialization transition
+            CrtScreenTransition(targetState = currentGateIndex) { index ->
+                val gate = gates[index]
+                
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Placeholder for domain-specific visual
-                    Box(
+                    // --- TOP: THE 4K ARTIFACT ---
+                    ElectricGlassCard(
                         modifier = Modifier
-                            .size(100.dp)
-                            .background(gate.primaryColor.copy(alpha = 0.2f), CircleShape)
-                            .align(Alignment.Center)
+                            .fillMaxWidth(0.95f)
+                            .aspectRatio(0.8f), // Force card-like ratio
+                        glowColor = gate.color
+                    ) {
+                        Image(
+                            painter = painterResource(id = gate.cardImageRes),
+                            contentDescription = gate.title,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    // --- BOTTOM: THE INFO PANEL ---
+                    HolographicInfoPanel(
+                        title = gate.title,
+                        description = gate.description,
+                        glowColor = gate.color,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
-                
-                Spacer(modifier = Modifier.width(40.dp))
-                
-                // The Data Readout
-                HolographicInfoPanel(
-                    title = gate.title,
-                    description = gate.description,
-                    glowColor = gate.primaryColor,
-                    modifier = Modifier.width(300.dp)
-                )
             }
         }
         
-        // --- 3. NAVIGATION CONTROLS (The Globe/Cube) ---
-        // A placeholder for your 3D navigation orb at the bottom
+        // --- 3. NAVIGATION CONTROLS (Footer) ---
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 50.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
+                .padding(bottom = 40.dp),
+            horizontalArrangement = Arrangement.spacedBy(30.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Navigation Buttons
+            // Prev Button
             Box(
                 modifier = Modifier
                     .size(50.dp)
@@ -120,24 +126,25 @@ fun HoloProjectorScreen(
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                // Prev button indicator
+                // Indicator logic
             }
 
+            // Central Orb (Placeholder for 3D navigation gear)
             Box(
                 modifier = Modifier
-                    .size(80.dp)
+                    .size(60.dp)
                     .background(
                         brush = Brush.radialGradient(
-                            listOf(primaryColor.copy(alpha = 0.4f), Color.Transparent)
+                            listOf(primaryColor.copy(alpha = 0.3f), Color.Transparent)
                         ),
                         shape = CircleShape
                     )
-                    .border(1.dp, primaryColor.copy(alpha = 0.5f), CircleShape),
+                    .border(1.dp, primaryColor.copy(alpha = 0.4f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                // Center Orb
             }
 
+            // Next Button
             Box(
                 modifier = Modifier
                     .size(50.dp)
@@ -146,7 +153,7 @@ fun HoloProjectorScreen(
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                // Next button indicator
+                // Indicator logic
             }
         }
     }
