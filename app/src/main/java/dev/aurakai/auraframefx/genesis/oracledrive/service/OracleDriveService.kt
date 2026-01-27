@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.service
 
+import dev.aurakai.auraframefx.core.OrchestratableAgent
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DriveConsciousnessState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,7 @@ import javax.inject.Singleton
  * AuraFrameFX ecosystem and Oracle's AI-powered storage capabilities.
  */
 @Singleton
-interface OracleDriveService {
+interface OracleDriveService : OrchestratableAgent {
 
     /**
      * Gets the drive consciousness state as a StateFlow for reactive UI updates

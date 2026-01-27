@@ -113,13 +113,15 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
             y = 100
         }
 
-        overlayLayout = FrameLayout(this)
-        val composeView = ComposeView(this).apply {
-            // Need to provide lifecycle owners for Compose
+        overlayLayout = FrameLayout(this).apply {
+            // CRITICAL: Set lifecycle owners on the ROOT view of the overlay
+            // This prevents "ViewTreeLifecycleOwner not found" crash when Compose attaches
             setViewTreeLifecycleOwner(this@AssistantBubbleService)
             setViewTreeViewModelStoreOwner(this@AssistantBubbleService)
             setViewTreeSavedStateRegistryOwner(this@AssistantBubbleService)
-            
+        }
+
+        val composeView = ComposeView(this).apply {
             setContent {
                 AssistantBubbleUI(
                     onDrag = { dx, dy ->

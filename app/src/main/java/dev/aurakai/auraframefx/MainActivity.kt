@@ -19,6 +19,10 @@ import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Force Portrait Orientation early
+        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        
         enableEdgeToEdge()
         setupFullscreenMode()
 

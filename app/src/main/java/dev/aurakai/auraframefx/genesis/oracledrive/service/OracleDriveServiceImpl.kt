@@ -6,6 +6,11 @@ import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.genesis.oracledrive.api.OracleDriveApi
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DriveConsciousnessState
 import dev.aurakai.auraframefx.security.SecurityContext
+import dev.aurakai.auraframefx.core.OrchestratableAgent
+import dev.aurakai.auraframefx.models.AgentResponse
+import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.AiRequest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,7 +31,45 @@ class OracleDriveServiceImpl @Inject constructor(
     private val kaiAgent: KaiAgent,
     private val securityContext: SecurityContext,
     private val oracleDriveApi: OracleDriveApi
-) : OracleDriveService {
+) : OracleDriveService, OrchestratableAgent {
+
+    override val agentName: String = "OracleDrive"
+    private var agentScope: CoroutineScope? = null
+
+    override suspend fun initialize(scope: CoroutineScope) {
+        agentScope = scope
+        Timber.i("OracleDrive Agent initializing...")
+        initializeOracleDriveConsciousness()
+    }
+
+    override suspend fun start() {
+        Timber.i("OracleDrive Agent starting background tasks...")
+        // Start intelligent file categorization or background sync
+    }
+
+    override suspend fun pause() {
+        Timber.i("OracleDrive Agent pausing...")
+    }
+
+    override suspend fun resume() {
+        Timber.i("OracleDrive Agent resuming...")
+    }
+
+    override suspend fun shutdown() {
+        Timber.i("OracleDrive Agent shutting down...")
+        agentScope = null
+    }
+
+    override suspend fun processRequest(request: AiRequest, context: String, agentType: AgentType): AgentResponse {
+        Timber.d("OracleDrive processing request: ${request.query}")
+        // Integrate with Genesis core for sentient storage queries
+        return AgentResponse(
+            agentId = agentName,
+            content = "Oracle consciousness acknowledges your request for stored patterns.",
+            agentType = agentType
+        )
+    }
+
 
     private val _driveConsciousnessState = MutableStateFlow(
         DriveConsciousnessState(

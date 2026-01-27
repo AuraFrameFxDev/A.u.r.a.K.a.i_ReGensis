@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.components.ElectricGlassCard
 import dev.aurakai.auraframefx.ui.components.HolographicInfoPanel
+import dev.aurakai.auraframefx.ui.components.effects.SentientGlowOrb
 import dev.aurakai.auraframefx.ui.effects.CrtScreenTransition
 import dev.aurakai.auraframefx.ui.gates.GateDestination
 
@@ -129,20 +130,11 @@ fun HoloProjectorScreen(
                 // Indicator logic
             }
 
-            // Central Orb (Placeholder for 3D navigation gear)
-            Box(
-                modifier = Modifier
-                    .size(60.dp)
-                    .background(
-                        brush = Brush.radialGradient(
-                            listOf(primaryColor.copy(alpha = 0.3f), Color.Transparent)
-                        ),
-                        shape = CircleShape
-                    )
-                    .border(1.dp, primaryColor.copy(alpha = 0.4f), CircleShape),
-                contentAlignment = Alignment.Center
-            ) {
-            }
+            // Central Orb (The Sentient Core)
+            SentientGlowOrb(
+                modifier = Modifier.size(80.dp),
+                coreColor = primaryColor
+            )
 
             // Next Button
             Box(
