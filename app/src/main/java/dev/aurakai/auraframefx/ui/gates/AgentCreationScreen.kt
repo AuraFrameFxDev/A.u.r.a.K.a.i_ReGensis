@@ -116,7 +116,7 @@ fun AgentCreationScreen(
                 label = { Text("Agent Identifier", color = Color.White.copy(alpha = 0.5f)) },
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = LocalTextStyle.current.copy(color = Color.White),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
+                colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = domainColor(selectedDomain),
                     unfocusedBorderColor = Color.White.copy(alpha = 0.2f),
                     cursorColor = domainColor(selectedDomain)
@@ -175,10 +175,10 @@ fun AgentCreationScreen(
                         progress = progress,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(8.dp)
-                            .clip(RoundedCornerShape(4.dp)),
-                        color = domainColor(selectedDomain),
-                        trackColor = Color.White.copy(alpha = 0.1f)
+                            .height(12.dp)
+                            .clip(RoundedCornerShape(6.dp)),
+                        color = Color.Cyan,
+                        trackColor = Color.Gray.copy(alpha = 0.2f)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -193,7 +193,7 @@ fun AgentCreationScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(64.dp)
-                        .shadow(20.dp, domainColor(selectedDomain).copy(alpha = 0.5f)),
+                        .shadow(20.dp, spotColor = domainColor(selectedDomain).copy(alpha = 0.5f)),
                     colors = ButtonDefaults.buttonColors(containerColor = domainColor(selectedDomain)),
                     shape = RoundedCornerShape(16.dp),
                     enabled = agentName.isNotBlank()
