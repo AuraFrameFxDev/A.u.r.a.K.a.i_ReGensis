@@ -227,11 +227,21 @@ dependencies {
     implementation(libs.shizuku.provider)
     implementation(libs.rikkax.core)
     implementation(libs.rikkax.core.ktx)
-    implementation(libs.rikkax.material)
+    implementation(libs.rikkax.material) {
+        exclude(group = "dev.rikka.rikkax.appcompat", module = "appcompat")
+    }
 
     // YukiHook API
     compileOnly(libs.yukihookapi.api)
     ksp(libs.yukihookapi.ksp)
+
+    // Force resolution of conflicting dependencies
+    configurations.all {
+         resolutionStrategy {
+             force("androidx.appcompat:appcompat:1.7.1")
+             force("com.google.android.material:material:1.12.0")
+         }
+    }
 
     // Firebase BOM (Bill of Materials) for version management
     implementation(platform(libs.firebase.bom))

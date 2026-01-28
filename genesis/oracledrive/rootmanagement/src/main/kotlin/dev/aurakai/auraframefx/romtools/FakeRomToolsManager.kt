@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.romtools
 
 import android.annotation.SuppressLint
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
+import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
 import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
 import dev.aurakai.auraframefx.romtools.retention.RetentionMechanism
 import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
@@ -13,14 +14,14 @@ import java.io.File
  * Fake implementation of RomToolsManager for Jetpack Compose previews.
  * Provides a pre-initialized state for UI rendering in previews.
  */
-open class FakeRomToolsManager : RomToolsManager(
+open class FakeRomToolsManager(safetyManager: BootloaderSafetyManager) : RomToolsManager(
     bootloaderManager = FakeBootloaderManager(),
     recoveryManager = FakeRecoveryManager(),
     systemModificationManager = FakeSystemModificationManager(),
     flashManager = FakeFlashManager(),
     verificationManager = FakeRomVerificationManager(),
     backupManager = FakeBackupManager(),
-    retentionManager = FakeRetentionManager()
+    retentionManager = FakeRetentionManager(), safetyManager
 ) {
     // Pre-configured fake state for previews
     private val previewState: RomToolsState = RomToolsState(
@@ -203,5 +204,49 @@ class FakeRetentionManager : AurakaiRetentionManager {
 
     override suspend fun restoreAurakaiAfterRomFlash(): Result<Unit> {
         return Result.success(Unit)
+    }
+}
+
+class FakeBootloaderSafetyManager : dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager {
+    private val _safetyStatus = kotlinx.coroutines.flow.MutableStateFlow(
+        dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyStatus(
+            isBootloaderUnlocked = true,
+            oemUnlockEnabled = true,
+            batteryLevel = 100,
+            availableStorageSpace = 10000,
+            verifiedBootState = dev.aurakai.auraframefx.romtools.bootloader.BootState.VERIFIED,
+            selinuxMode = dev.aurakai.auraframefx.romtools.bootloader.SELinuxMode.ENFORCING,
+            deviceCompatible = true,
+            lastCheckTimestamp = System.currentTimeMillis()
+        )
+    )
+    override val safetyStatus: kotlinx.coroutines.flow.StateFlow<dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyStatus> = _safetyStatus
+
+    override suspend fun performPreFlightChecks(operation: dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation): dev.aurakai.auraframefx.romtools.bootloader.SafetyCheckResult {
+        return dev.aurakai.auraframefx.romtools.bootloader.SafetyCheckResult(
+            passed = true,
+            warnings = emptyList(),
+            criticalIssues = emptyList(),
+            canProceedWithWarning = false
+        )
+    }
+
+    override suspend fun monitorOperationState(): dev.aurakai.auraframefx.romtools.bootloader.StateMonitoringResult {
+        return dev.aurakai.auraframefx.romtools.bootloader.StateMonitoringResult(
+            systemResponsive = true,
+            partitionsHealthy = true,
+            bootEnvironmentStable = true,
+            kernelPanicDetected = false
+        )
+    }
+
+    override suspend fun createSafetyCheckpoint(): String = "fake_checkpoint"
+
+    override suspend fun validatePostOperationState(operation: dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation): dev.aurakai.auraframefx.romtools.bootloader.ValidationResult {
+        return dev.aurakai.auraframefx.romtools.bootloader.ValidationResult(
+            success = true,
+            issues = emptyList(),
+            requiresRecovery = false
+        )
     }
 }
