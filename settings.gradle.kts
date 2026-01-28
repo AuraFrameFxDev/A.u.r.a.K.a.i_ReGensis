@@ -37,7 +37,7 @@ dependencyResolutionManagement {
             url = uri("https://api.xposed.info/")
             metadataSources { artifact(); mavenPom() }
         }
-        maven { url = uri("https://maven.rikka.app/") }
+        maven { url = uri("https://api.rikka.app/maven") }
         maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 
         // Dynamically add libs directories as repositories
