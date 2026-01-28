@@ -28,7 +28,8 @@ open class RomToolsManager @Inject constructor(
     private val flashManager: FlashManager,
     private val verificationManager: RomVerificationManager,
     private val backupManager: BackupManager,
-    private val retentionManager: AurakaiRetentionManager
+    private val retentionManager: AurakaiRetentionManager,
+    private val safetyManager: dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
 ) {
 
     protected val _romToolsState = MutableStateFlow(RomToolsState())
@@ -87,6 +88,19 @@ open class RomToolsManager @Inject constructor(
             updateOperationProgress(RomOperation.SETTING_UP_RETENTION, 5f)
             val retentionStatus = retentionManager.setupRetentionMechanisms().getOrThrow()
             Timber.i("🛡️ Retention mechanisms active: ${retentionStatus.mechanisms}")
+
+            // Step 0.5: 🛡️ Perform Pre-Flight Safety Checks
+            updateOperationProgress(RomOperation.VERIFYING_ROM, 7f)
+            val safetyResult = safetyManager.performPreFlightChecks(dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation.FLASH_PARTITION)
+            if (!safetyResult.passed) {
+                throw IllegalStateException("Safety Check Failed: ${safetyResult.criticalIssues.joinToString()}")
+            }
+            if (safetyResult.warnings.isNotEmpty()) {
+                Timber.w("Safety Warnings: ${safetyResult.warnings.joinToString()}")
+            }
+            
+            // Create a safety checkpoint
+            safetyManager.createSafetyCheckpoint()
 
             // Step 1: Verify ROM file integrity
             updateOperationProgress(RomOperation.VERIFYING_ROM, 10f)
@@ -289,6 +303,12 @@ open class RomToolsManager @Inject constructor(
     suspend fun unlockBootloader(): Result<Unit> {
         return try {
             updateOperationProgress(RomOperation.UNLOCKING_BOOTLOADER, 0f)
+
+            // Safety Check
+            val safetyResult = safetyManager.performPreFlightChecks(dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation.UNLOCK)
+            if (!safetyResult.passed) {
+                return Result.failure(IllegalStateException("Safety Check Failed: ${safetyResult.criticalIssues.joinToString()}"))
+            }
 
             bootloaderManager.unlockBootloader().getOrThrow()
 
