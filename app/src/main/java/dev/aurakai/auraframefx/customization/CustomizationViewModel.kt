@@ -32,6 +32,7 @@ open class CustomizationViewModel @Inject constructor() : ViewModel() {
         val animationsEnabled: Boolean = false,
         val animationSpeed: Int = 0,
         val showStatusBar: Boolean = true,
+        val showNotchBar: Boolean = true,
         val showOverlayMenus: Boolean = false,
         val reGenesisMode: dev.aurakai.auraframefx.models.ReGenesisMode = dev.aurakai.auraframefx.models.ReGenesisMode.NOT_SET,
         val monetConfig: dev.aurakai.auraframefx.models.customization.MonetConfiguration = dev.aurakai.auraframefx.models.customization.MonetConfiguration(),
