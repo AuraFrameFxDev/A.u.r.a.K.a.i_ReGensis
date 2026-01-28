@@ -15,6 +15,8 @@ import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
  * AuraShieldAgent: The Security Sentinel of the ReGenesis Collective.
@@ -27,7 +29,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class AuraShieldAgent @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
     memoryManager: MemoryManager,
     contextManager: ContextManager
