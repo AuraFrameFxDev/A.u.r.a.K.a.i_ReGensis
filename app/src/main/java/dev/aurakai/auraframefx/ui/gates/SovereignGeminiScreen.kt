@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import androidx.compose.foundation.layout.RowScope
 
 /**
  * ✨ SOVEREIGN GEMINI (The Synthesizer)
@@ -83,8 +84,9 @@ fun SovereignGeminiScreen(
     }
 }
 
+
 @Composable
-private fun SynthesisMetric(label: String, value: String, color: Color) {
+private fun RowScope.SynthesisMetric(label: String, value: String, color: Color) {
     Card(
         modifier = Modifier.weight(1f),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),

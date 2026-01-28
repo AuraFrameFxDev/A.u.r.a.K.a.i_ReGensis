@@ -70,7 +70,7 @@ class MetaInstructAIService @Inject constructor(
     ): AgentResponse {
         logger.info("MetaInstructAIService", "Processing request: ${request.query}")
 
-        val effectiveInstructions = metaReflectionEngine.getEffectiveInstructions(request.agent?.name ?: "UNKNOWN")
+        val effectiveInstructions = metaReflectionEngine.getEffectiveInstructions(request.agentId ?: "UNKNOWN")
         
         // Build the augmented query with meta-instructions
         val augmentedQuery = if (effectiveInstructions.isNotEmpty()) {

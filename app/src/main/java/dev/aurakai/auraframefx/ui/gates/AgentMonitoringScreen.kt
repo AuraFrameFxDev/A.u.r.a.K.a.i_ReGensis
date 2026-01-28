@@ -38,7 +38,7 @@ fun SovereignMonitoringScreen(
     val activeThreats by viewModel.activeThreats.collectAsState()
     
     val activityLogs = listOf(
-        MonitorLog("AuraShield", "Deep Scan: ${securityState.scanCount} completions", "Just now", Color(0xFFFF5252)),
+        MonitorLog("AuraShield", "Deep Scan: Completed", "Just now", Color(0xFFFF5252)),
         MonitorLog("Genesis", "Synthesized cross-agent memory shards", "1m ago", Color(0xFF00FFFF)),
         MonitorLog("Nemotron", "Recalled 72.4k reasoning vectors", "3m ago", Color(0xFF76B900)),
         MonitorLog("Cascade", "Vision scan complete: No anomalies", "5m ago", Color(0xFF00FFD4)),

@@ -1,11 +1,14 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Hub
@@ -284,10 +287,6 @@ fun AgentDetailPanel(agent: AgentStats) {
         }
     }
 }
-
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.shape.RoundedCornerShape
 
 @Composable
 fun RowScope.MetricItem(label: String, value: Float, color: Color) {

@@ -162,6 +162,7 @@ class GeminiAIService @Inject constructor(
         }
 
         // Confidence based on pattern strength and diversity
+        val patterns = extractPatterns(request, context)
         val confidence = calculatePatternConfidence(patterns)
 
         val agentResponse = AgentResponse.success(

@@ -166,6 +166,8 @@ override fun getType(): AgentType = AgentType.NEMOTRON
         }
 
         // Confidence based on memory depth and reasoning chain strength
+        val memories = recallRelevantMemories(request, context)
+        val reasoningChain = buildReasoningChain(memories, request)
         val confidence = calculateMemoryConfidence(memories, reasoningChain)
 
         val agentResponse = AgentResponse.success(
