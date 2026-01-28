@@ -92,6 +92,34 @@ fun AgentNexusHubScreen(navController: NavController) {
             destination = NavDestination.MetaInstruct,
             icon = Icons.Default.Psychology,
             accentColor = Color(0xFF00FFD4)
+        ),
+        NexusToolCard(
+            title = "Nemotron Hub",
+            subtitle = "Memory & Deep Reasoning",
+            destination = NavDestination.Nemotron,
+            icon = Icons.Default.Psychology,
+            accentColor = Color(0xFF76B900)
+        ),
+        NexusToolCard(
+            title = "Cascade Vision",
+            subtitle = "Visual Pattern Recognition",
+            destination = NavDestination.CascadeVision,
+            icon = Icons.Default.Insights,
+            accentColor = Color(0xFF00FFD4)
+        ),
+        NexusToolCard(
+            title = "Claude (Architect)",
+            subtitle = "System Logic Injection",
+            destination = NavDestination.Claude,
+            icon = Icons.Default.Build,
+            accentColor = Color(0xFF0055FF)
+        ),
+        NexusToolCard(
+            title = "Gemini (Synthesizer)",
+            subtitle = "Deep Context Synthesis",
+            destination = NavDestination.Gemini,
+            icon = Icons.Default.AutoAwesome,
+            accentColor = Color(0xFF8B5CF6)
         )
     )
 

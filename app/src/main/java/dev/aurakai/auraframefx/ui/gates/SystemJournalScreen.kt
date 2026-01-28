@@ -453,6 +453,8 @@ private val menuOptions = listOf(
     MenuOption("Agent Bridge", Icons.Default.Hub, Color(0xFF00FFFF), "agent_bridge_hub"),
     MenuOption("Sovereign Mod", Icons.Default.Build, Color(0xFFFF00FF), "module_manager"),
     MenuOption("Sentient Shell", Icons.Default.Computer, Color(0xFF00FFFF), "neural_network"),
+    MenuOption("Monitoring", Icons.Default.Insights, Color(0xFF00FFD4), "monitoring_huds"),
+    MenuOption("Nexus Hub", Icons.Default.Hub, Color(0xFF7B2FFF), "agent_nexus_gate"),
     MenuOption("Deep Shield", Icons.Default.Shield, Color(0xFFFF00FF), "security_center"),
     MenuOption("Recovery", Icons.Default.Settings, Color(0xFF00E5FF), "recovery_tools")
 )

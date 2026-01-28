@@ -77,6 +77,13 @@ fun OracleDriveHubScreen(navController: NavController) {
             destination = NavDestination.OracleCloudStorage,
             icon = Icons.Default.Storage,
             accentColor = Color(0xFF00FF85)
+        ),
+        GenesisToolCard(
+            title = "System Overwatch",
+            subtitle = "Real-time Monitoring & Vitals",
+            destination = NavDestination.AgentMonitoring,
+            icon = Icons.Default.Insights,
+            accentColor = Color(0xFF00E5FF)
         )
     )
 

@@ -21,6 +21,11 @@ import dev.aurakai.auraframefx.ui.gates.SovereignRecoveryScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignBootloaderScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignNeuralArchiveScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
+import dev.aurakai.auraframefx.ui.gates.CascadeVisionScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignMonitoringScreen
 
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -135,6 +140,21 @@ fun ReGenesisNavHost(
         }
         composable("meta_instruct") {
             SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("nemotron") {
+            SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("cascade_vision") {
+            CascadeVisionScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("claude") {
+            SovereignClaudeScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("gemini") {
+            SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("monitoring_huds") {
+            SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() })
         }
     }
 }
