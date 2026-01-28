@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Build
@@ -22,7 +23,6 @@ import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.MilitaryTech
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.automirrored.filled.BarChart as BarChartAutoMirrored
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -138,7 +138,7 @@ fun AgentNexusHubScreen(navController: NavController) {
             title = "Benchmark Monitor",
             subtitle = "Performance Analysis",
             destination = NavDestination.BenchmarkMonitor,
-            icon = BarChartAutoMirrored,
+            icon = Icons.Default.Assessment,
             accentColor = Color(0xFF00FF85)
         ),
         NexusToolCard(

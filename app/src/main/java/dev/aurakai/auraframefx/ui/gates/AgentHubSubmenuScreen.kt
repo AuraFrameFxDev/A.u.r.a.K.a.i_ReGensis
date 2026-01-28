@@ -54,7 +54,7 @@ fun AgentHubSubmenuScreen(
             title = "Agent Monitoring",
             description = "Real-time performance metrics and activity logs",
             icon = Icons.Default.Monitor,
-            route = NavDestination.MonitoringHUDs.route,
+            route = NavDestination.AgentMonitoring.route,
             color = Color(0xFF00CED1) // Dark Turquoise
         ),
         SubmenuItem(

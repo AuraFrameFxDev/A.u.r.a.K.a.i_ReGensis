@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.system
 
 import android.content.pm.PackageManager
-import dev.rikka.shizuku.Shizuku
+
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,41 +22,16 @@ class ShizukuManager @Inject constructor(
     private val REQUEST_CODE_SHIZUKU = 1337
 
     fun isShizukuAvailable(): Boolean {
-        return try {
-            Shizuku.isPreV11() || Shizuku.getVersion() >= 11
-        } catch (e: Exception) {
-            false
-        }
+        return false // Temporarily disabled due to dependency issues
     }
 
     fun hasPermission(): Boolean {
-        return if (Shizuku.isPreV11()) {
-            false
-        } else {
-            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
-        }
+        return false
     }
 
     fun requestPermission(onResult: (Boolean) -> Unit) {
-        if (hasPermission()) {
-            onResult(true)
-            return
-        }
-
-        Shizuku.addRequestPermissionResultListener { requestCode, grantResult ->
-            if (requestCode == REQUEST_CODE_SHIZUKU) {
-                val granted = grantResult == PackageManager.PERMISSION_GRANTED
-                logger.info("ShizukuManager", "Permission result: $granted")
-                onResult(granted)
-            }
-        }
-
-        try {
-            Shizuku.requestPermission(REQUEST_CODE_SHIZUKU)
-        } catch (e: Exception) {
-            logger.error("ShizukuManager", "Failed to request permission", e)
-            onResult(false)
-        }
+        logger.info("ShizukuManager", "Shizuku permission request simulated (disabled)")
+        onResult(false)
     }
 
     /**
