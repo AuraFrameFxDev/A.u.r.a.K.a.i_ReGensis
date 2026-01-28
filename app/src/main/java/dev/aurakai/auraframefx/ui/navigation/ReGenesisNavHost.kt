@@ -162,5 +162,14 @@ fun ReGenesisNavHost(
         composable("agent_creation") {
             dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen(onNavigateBack = { navController.popBackStack() })
         }
+        composable("swarm_monitor") {
+            dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("benchmark_monitor") {
+            dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("interface_forge") {
+            dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+        }
     }
 }

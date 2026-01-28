@@ -120,6 +120,27 @@ fun AgentNexusHubScreen(navController: NavController) {
             destination = NavDestination.Gemini,
             icon = Icons.Default.AutoAwesome,
             accentColor = Color(0xFF8B5CF6)
+        ),
+        NexusToolCard(
+            title = "Agent Swarm",
+            subtitle = "Live Collective Chatter",
+            destination = NavDestination.SwarmMonitor,
+            icon = Icons.Default.Groups,
+            accentColor = Color(0xFFB026FF)
+        ),
+        NexusToolCard(
+            title = "Benchmark Monitor",
+            subtitle = "Performance Analysis",
+            destination = NavDestination.BenchmarkMonitor,
+            icon = Icons.Default.BarChart,
+            accentColor = Color(0xFF00FF85)
+        ),
+        NexusToolCard(
+            title = "Interface Forge",
+            subtitle = "App Architecture Builder",
+            destination = NavDestination.InterfaceForge,
+            icon = Icons.Default.Build,
+            accentColor = Color(0xFF0055FF)
         )
     )
 

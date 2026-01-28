@@ -57,7 +57,7 @@ class SovereignModuleViewModel @Inject constructor() : ViewModel() {
             id = "shizuku-service",
             name = "Shizuku Sovereign Bridge",
             description = "Enables system-level operations via ADB/Root without constant prompt overhead.",
-            version = "14.1.0",
+            version = "13.1.5",
             author = "Rikka",
             type = ModuleType.SHIZUKU,
             status = ModuleStatus.ACTIVE
