@@ -33,8 +33,9 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun SovereignNemotronScreen(
     onNavigateBack: () -> Unit,
-    nemotronService: NemotronAIService = hiltViewModel()
+    viewModel: SovereignNemotronViewModel = hiltViewModel()
 ) {
+    val nemotronService = viewModel.nemotronService
     val stats = remember { nemotronService.getMemoryStats() }
     val hitRate = stats["hit_rate_percent"] as? Int ?: 0
     val cacheSize = stats["cache_size"] as? Int ?: 0

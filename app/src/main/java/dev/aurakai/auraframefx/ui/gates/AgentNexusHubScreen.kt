@@ -138,7 +138,7 @@ fun AgentNexusHubScreen(navController: NavController) {
             title = "Benchmark Monitor",
             subtitle = "Performance Analysis",
             destination = NavDestination.BenchmarkMonitor,
-            icon = Icons.Default.BarChart,
+            icon = BarChartAutoMirrored,
             accentColor = Color(0xFF00FF85)
         ),
         NexusToolCard(
