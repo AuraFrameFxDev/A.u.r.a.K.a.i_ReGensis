@@ -219,7 +219,7 @@ dependencies {
 
     // Root/System Utils
     implementation(libs.libsu.core)
-    implementation(libs.libsu.io)
+    implementation(libs.libsu.nio)
     implementation(libs.libsu.service)
     
     // Shizuku & Rikka
