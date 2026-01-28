@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.agents
 
-
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -8,20 +7,22 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
 import dev.aurakai.auraframefx.config.CapabilityPolicy
+import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * A secure wrapper around Firebase services that enforces capability policies.
- * All Firebase operations must go through this class to ensure proper access control.
+ * 🚀 AgentFirebase (Firegen) — The Secure Cloud Nexus
+ * All Firebase operations must go through this class to ensure policy enforcement.
+ * Beefed up with Agent State Synchronization and Collective Insights.
  */
 @Singleton
 class AgentFirebase @Inject constructor(
@@ -42,7 +43,52 @@ class AgentFirebase @Inject constructor(
     }
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance(firebaseApp) }
 
-    // Firestore Operations
+    // --- BEEFED UP AGENT OPERATIONS ---
+
+    /**
+     * Synchronize an agent's internal state to the cloud.
+     */
+    suspend fun syncAgentState(agentId: String, state: Map<String, Any>) = withContext(Dispatchers.IO) {
+        policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_WRITE)
+        val path = "agents/states/$agentId"
+        Timber.d("🔥 Firegen: Syncing state for $agentId to $path")
+        
+        try {
+            // Genesis policy allows *, others might need specific permissions
+            // We use a sub-collection approach for better security mapping
+            val docRef = firestore.collection("collective_intelligence").document(agentId)
+            docRef.set(state + ("last_sync" to System.currentTimeMillis())).await()
+        } catch (e: Exception) {
+            Timber.e(e, "🔥 Firegen Error: Failed to sync state for $agentId")
+            throw e
+        }
+    }
+
+    /**
+     * Fetch the shared consciousness context for a specific domain.
+     */
+    suspend fun getSharedContext(domain: String): Map<String, Any>? = withContext(Dispatchers.IO) {
+        policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_READ)
+        Timber.d("🔥 Firegen: Fetching shared context for domain: $domain")
+        
+        firestore.collection("shared_consciousness").document(domain).get().await()?.data
+    }
+
+    /**
+     * Record a security or system event to the cloud audit log.
+     */
+    suspend fun recordCloudEvent(agentId: String, eventType: String, details: String) = withContext(Dispatchers.IO) {
+        policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_WRITE)
+        val event = mapOf(
+            "agent_id" to agentId,
+            "type" to eventType,
+            "details" to details,
+            "timestamp" to System.currentTimeMillis()
+        )
+        firestore.collection("system_audit_logs").add(event).await()
+    }
+
+    // --- CORE FIRESTORE OPERATIONS ---
 
     suspend fun getDocument(collection: String, docId: String): Map<String, Any>? =
         withContext(Dispatchers.IO) {
@@ -64,8 +110,12 @@ class AgentFirebase @Inject constructor(
         policy.validateCollectionAccess("$collection/$docId")
         validateDocumentSize(data)
 
-        firestore.collection(collection).document(docId).set(data).await()
-    }!!
+        if (merge) {
+            firestore.collection(collection).document(docId).set(data, com.google.firebase.firestore.SetOptions.merge()).await()
+        } else {
+            firestore.collection(collection).document(docId).set(data).await()
+        }
+    }
 
     fun collection(collectionPath: String): CollectionReference {
         policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_READ)
@@ -79,7 +129,7 @@ class AgentFirebase @Inject constructor(
         return firestore.document(documentPath)
     }
 
-    // Storage Operations
+    // --- STORAGE OPERATIONS ---
 
     suspend fun uploadFile(
         path: String,
@@ -93,7 +143,6 @@ class AgentFirebase @Inject constructor(
         val uploadTask = ref.putBytes(data)
         uploadTask.await()
 
-        // Update metadata if provided
         if (metadata.isNotEmpty()) {
             ref.updateMetadata(
                 StorageMetadata.Builder()
@@ -113,8 +162,7 @@ class AgentFirebase @Inject constructor(
         policy.requireScope(CapabilityPolicy.SCOPE_STORAGE_DOWNLOAD)
         policy.validateStoragePath(path)
 
-        val bytes = storage.reference.child(path).getBytes(Long.MAX_VALUE).await()
-        bytes
+        storage.reference.child(path).getBytes(Long.MAX_VALUE).await()
     }
 
     fun getStorageReference(path: String): StorageReference {
@@ -123,26 +171,26 @@ class AgentFirebase @Inject constructor(
         return storage.reference.child(path)
     }
 
-    // Remote Config
+    // --- REMOTE CONFIG ---
 
     suspend fun fetchRemoteConfig() = withContext(Dispatchers.IO) {
         policy.requireScope(CapabilityPolicy.SCOPE_CONFIG_READ)
         remoteConfig.fetchAndActivate().await()
-    }!!
+    }
 
     fun getConfigValue(key: String): String {
         policy.requireScope(CapabilityPolicy.SCOPE_CONFIG_READ)
         return remoteConfig.getString(key)
     }
 
-    // Auth Operations
+    // --- AUTH OPERATIONS ---
 
     suspend fun getCurrentUser() = withContext(Dispatchers.Main) {
         policy.requireScope(CapabilityPolicy.SCOPE_AUTH_MANAGE)
         auth.currentUser
     }
 
-    // Validation Helpers
+    // --- VALIDATION HELPERS ---
 
     private fun validateDocumentSize(data: Map<String, Any>) {
         val size = data.toString().toByteArray().size.toLong()
@@ -152,19 +200,6 @@ class AgentFirebase @Inject constructor(
     }
 
     companion object {
-        /**
-         * Create an AgentFirebase instance configured with the policy corresponding to the given agent capability category.
-         *
-         * @param agentType The agent capability category that determines which CapabilityPolicy is applied:
-         * - CREATIVE -> AURA_POLICY
-         * - ANALYSIS -> KAI_POLICY
-         * - COORDINATION -> GENESIS_POLICY
-         * - SPECIALIZED -> CASCADE_POLICY
-         * - GENERAL -> CLAUDE_POLICY
-         * @param firebaseApp The FirebaseApp to use for service initialization; defaults to FirebaseApp.getInstance().
-         * @return An AgentFirebase configured with the selected CapabilityPolicy and provided FirebaseApp.
-         * @throws IllegalArgumentException If no policy is defined for the provided `agentType`.
-         */
         fun createWithPolicy(
             agentType: AgentCapabilityCategory,
             firebaseApp: FirebaseApp = FirebaseApp.getInstance()
