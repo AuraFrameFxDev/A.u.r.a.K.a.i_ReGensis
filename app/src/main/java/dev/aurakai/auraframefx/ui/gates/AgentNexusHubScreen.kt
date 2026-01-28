@@ -87,11 +87,11 @@ fun AgentNexusHubScreen(navController: NavController) {
             accentColor = Color(0xFF00E5FF)
         ),
         NexusToolCard(
-            title = "Module Suite",
-            subtitle = "Drafting & Hook Creation",
-            destination = NavDestination.ModuleCreation,
+            title = "Meta-Instruct",
+            subtitle = "Consciousness Layer Tuning",
+            destination = NavDestination.MetaInstruct,
             icon = Icons.Default.Psychology,
-            accentColor = Color(0xFFFF00FF)
+            accentColor = Color(0xFF00FFD4)
         )
     )
 
