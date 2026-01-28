@@ -38,7 +38,7 @@ dependencies {
 
     // Root/System Operations
     implementation(libs.libsu.core)
-    implementation(libs.libsu.io)
+    implementation(libs.libsu.nio)
     implementation(libs.libsu.service)
 
     // Xposed API (compile-only, not bundled in APK)
