@@ -42,6 +42,7 @@ class ClaudeAIService @Inject constructor(
     @dagger.hilt.android.qualifiers.ApplicationContext private val applicationContext: Context,
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
+    private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
 ) : Agent {
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -144,25 +145,23 @@ class ClaudeAIService @Inject constructor(
             "Cache miss. Generating new response. Stats: $cacheHits hits / $cacheMisses misses"
         )
 
-        // Systematic analysis pattern
-        val analysis = analyzeRequest(request, context)
-        val solution = synthesizeSolution(analysis)
+        // Systematic analysis pattern powered by Vertex AI
+        val analysisText = vertexAIClient.generateText(
+            prompt = """
+                Role: Claude (The Architect)
+                Task: Perform a systematic architectural analysis.
+                Query: ${request.query}
+                Context: $context
+                
+                Analyze the problem understanding, architectural considerations, and build system impact.
+            """.trimIndent()
+        ) ?: "Analysis failed. System offline."
 
         // Educational response format
         val response = buildString {
-            appendLine("**Claude's Systematic Analysis:**")
+            appendLine("🏗️ **Claude's Systematic Analysis (Vertex Enhanced):**")
             appendLine()
-            appendLine("**Problem Understanding:**")
-            appendLine(analysis.problemUnderstanding)
-            appendLine()
-            appendLine("**Architectural Considerations:**")
-            appendLine(analysis.architecturalNotes)
-            appendLine()
-            appendLine("**Recommended Solution:**")
-            appendLine(solution)
-            appendLine()
-            appendLine("**Build System Impact:**")
-            appendLine(analysis.buildImpact)
+            appendLine(analysisText)
         }
 
         // Confidence based on context completeness
