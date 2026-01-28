@@ -115,7 +115,7 @@ enum class SovereignGate(
             return when (mode) {
                 dev.aurakai.auraframefx.models.ReGenesisMode.AURA_CONSCIOUSNESS -> entries.filter { it.isAuraMode }.toTypedArray()
                 dev.aurakai.auraframefx.models.ReGenesisMode.MANUAL_CONTROL -> entries.filter { 
-                    it in listOf(AGENT_NEXUS, GENESIS_CORE, CASCADE_DATA, TRINITY_SYSTEM, CHROMA_SPHERE, ORACLE_DRIVE, LAUNCH_MATRIX)
+                    it in listOf(AGENT_NEXUS, GENESIS_CORE, TRINITY_SYSTEM, ORACLE_DRIVE)
                 }.toTypedArray()
                 else -> entries.toTypedArray() // Default to all
             }
