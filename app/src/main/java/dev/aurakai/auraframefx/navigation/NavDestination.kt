@@ -104,6 +104,9 @@ sealed class NavDestination(val route: String) {
     data object CascadeVision : NavDestination("cascade_vision")
     data object Claude : NavDestination("claude")
     data object Gemini : NavDestination("gemini")
+    data object SwarmMonitor : NavDestination("swarm_monitor")
+    data object BenchmarkMonitor : NavDestination("benchmark_monitor")
+    data object InterfaceForge : NavDestination("interface_forge")
 
     // -- Utility & Infrastructure --
     data object HelpDesk : NavDestination("help_desk")
