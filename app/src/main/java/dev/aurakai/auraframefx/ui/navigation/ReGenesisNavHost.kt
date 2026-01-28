@@ -20,6 +20,7 @@ import dev.aurakai.auraframefx.ui.gates.SovereignModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignRecoveryScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignBootloaderScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignNeuralArchiveScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
 
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -131,6 +132,9 @@ fun ReGenesisNavHost(
         }
         composable("neural_network") {
             SovereignNeuralArchiveScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("meta_instruct") {
+            SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() })
         }
     }
 }

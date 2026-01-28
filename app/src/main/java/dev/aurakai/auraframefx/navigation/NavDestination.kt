@@ -100,6 +100,7 @@ sealed class NavDestination(val route: String) {
     data object PartyScreen : NavDestination("party_screen")
     data object MonitoringHUDs : NavDestination("monitoring_huds")
     data object ArkBuild : NavDestination("ark_build")
+    data object MetaInstruct : NavDestination("meta_instruct")
 
     // -- Utility & Infrastructure --
     data object HelpDesk : NavDestination("help_desk")
