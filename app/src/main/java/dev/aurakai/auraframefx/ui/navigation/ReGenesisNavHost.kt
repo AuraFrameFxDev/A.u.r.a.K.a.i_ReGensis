@@ -11,12 +11,14 @@ import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
 import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
 
-// Alias mapping for clarity based on user request names
-typealias KaiRootToolsScreen = KaiSentinelHubScreen
-typealias GenesisNexusHubScreen = AgentNexusHubScreen
-typealias KaiRomToolsScreen = BootloaderManagerScreen
-typealias AuraChromaCoreScreen = ChromaCoreColorsScreen
-typealias AuraCollabCanvasScreen = CollabCanvasScreen
+import androidx.navigation.NavController
+
+// Mapping for clarity based on user request names
+@Composable fun KaiRootToolsScreen(navController: NavController) = KaiSentinelHubScreen(navController)
+@Composable fun GenesisNexusHubScreen(navController: NavController) = AgentNexusHubScreen(navController)
+@Composable fun KaiRomToolsScreen(onNavigateBack: () -> Unit) = BootloaderManagerScreen(onNavigateBack)
+@Composable fun AuraChromaCoreScreen(onNavigateBack: () -> Unit) = ChromaCoreColorsScreen(onNavigateBack)
+@Composable fun AuraCollabCanvasScreen(onNavigateBack: () -> Unit) = CollabCanvasScreen(onNavigateBack)
 
 @Composable
 fun ReGenesisNavHost(navController: NavHostController) {

@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ui.components.effects
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
@@ -27,8 +28,8 @@ fun SentientGlowOrb(
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "OrbPulse")
     
-    // Amber Pulse for diagnostic mode
-    val pulseColor by animateColorAsState(
+    // Amber Pulse for diagnostic mode, or regular pulse for normal mode
+    val activeColor by animateColorAsState(
         targetValue = if (diagnosticMode) Color(0xFFFFBF00) else coreColor,
         animationSpec = infiniteRepeatable(
             animation = tween(800, easing = EaseInOutSine),
@@ -36,9 +37,6 @@ fun SentientGlowOrb(
         ),
         label = "DiagnosticPulse"
     )
-    
-    // Use pulseColor for the rings and core instead of static coreColor
-    val activeColor = if (diagnosticMode) pulseColor else coreColor
     
     // Core expansion pulse
     val pulseScale by infiniteTransition.animateFloat(
@@ -76,7 +74,7 @@ fun SentientGlowOrb(
             Canvas(modifier = Modifier.fillMaxSize()) {
                 drawCircle(
                     brush = Brush.radialGradient(
-                        colors = listOf(coreColor.copy(alpha = 0.4f), Color.Transparent)
+                        colors = listOf(activeColor.copy(alpha = 0.4f), Color.Transparent)
                     )
                 )
             }
@@ -89,7 +87,7 @@ fun SentientGlowOrb(
                 .graphicsLayer { rotationZ = rotation }
         ) {
             val strokeWidth = 2.dp.toPx()
-            val ringColor = coreColor.copy(alpha = 0.6f)
+            val ringColor = activeColor.copy(alpha = 0.6f)
             
             // Draw arcs to simulate energy rings
             drawArc(
@@ -115,7 +113,7 @@ fun SentientGlowOrb(
         ) {
             val strokeWidth = 1.dp.toPx()
             drawArc(
-                color = coreColor.copy(alpha = 0.8f),
+                color = activeColor.copy(alpha = 0.8f),
                 startAngle = 45f,
                 sweepAngle = 180f,
                 useCenter = false,
@@ -132,7 +130,7 @@ fun SentientGlowOrb(
             Canvas(modifier = Modifier.fillMaxSize()) {
                 drawCircle(
                     brush = Brush.radialGradient(
-                        colors = listOf(Color.White, coreColor, coreColor.copy(alpha = 0.5f))
+                        colors = listOf(Color.White, activeColor, activeColor.copy(alpha = 0.5f))
                     )
                 )
             }

@@ -17,6 +17,12 @@ val NeonTeal = Color(0xFF00FFC8)
 val NeonRed = Color(0xFFFF003C)
 val NeonYellow = Color(0xFFEAFF00)
 
+// Specific Branding Colors
+val GenesisNeonPink = Color(0xFFFF00DE)
+val AuraNeonCyan = Color(0xFF00FFFB)
+// KaiNeonGreen is defined in KaiColor.kt
+// NeonTeal is defined in primary neon colors above
+
 // Neon Variants
 val NeonPurpleDark = Color(0xFF8800CC)
 val NeonPurpleLegacy = Color(0xFFAA00FF)
