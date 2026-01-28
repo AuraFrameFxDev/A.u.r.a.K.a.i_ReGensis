@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.navigation.AppNavGraph
+import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavHost // Updated NavHost
 import dev.aurakai.auraframefx.service.AssistantBubbleService
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AuraFrameFXTheme {
                 val navController = rememberNavController()
-                AppNavGraph(navController = navController)
+                ReGenesisNavHost(navController = navController)
             }
         }
     }
