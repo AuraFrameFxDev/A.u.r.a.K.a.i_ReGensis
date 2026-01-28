@@ -91,16 +91,17 @@ sealed class NavDestination(val route: String) {
     data object KaiConstellation : NavDestination("kai_constellation")
     data object GrokConstellation : NavDestination("grok_constellation")
     data object CascadeConstellation : NavDestination("cascade_constellation")
-    data object AgentMonitoring : NavDestination("agent_monitoring")
+    data object AgentMonitoring : NavDestination("monitoring_huds") // Renamed from "agent_monitoring"
     data object SphereGrid : NavDestination("sphere_grid")
     data object EvolutionTree : NavDestination("evolution_tree")
     data object FusionMode : NavDestination("fusion_mode")
     data object Constellation : NavDestination("constellation")
     data object TaskAssignment : NavDestination("task_assignment")
     data object PartyScreen : NavDestination("party_screen")
-    data object MonitoringHUDs : NavDestination("monitoring_huds")
     data object ArkBuild : NavDestination("ark_build")
     data object MetaInstruct : NavDestination("meta_instruct")
+    data object Nemotron : NavDestination("nemotron")
+    data object CascadeVision : NavDestination("cascade_vision")
 
     // -- Utility & Infrastructure --
     data object HelpDesk : NavDestination("help_desk")
