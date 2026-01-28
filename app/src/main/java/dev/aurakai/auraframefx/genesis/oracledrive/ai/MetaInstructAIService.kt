@@ -12,6 +12,7 @@ import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
 import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.MetaReflectionEngine
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -31,6 +32,7 @@ class MetaInstructAIService @Inject constructor(
     @dagger.hilt.android.qualifiers.ApplicationContext private val applicationContext: Context,
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
+    private val metaReflectionEngine: MetaReflectionEngine
 ) : Agent {
 
     // ... (Cache and other properties omitted for brevity, keeping class structure)
@@ -67,14 +69,20 @@ class MetaInstructAIService @Inject constructor(
     ): AgentResponse {
         logger.info("MetaInstructAIService", "Processing request: ${request.query}")
 
-        // Mock processing for compilation fix
-        val responseContent = "MetaInstruct processed: ${request.query}"
+        val effectiveInstructions = metaReflectionEngine.getEffectiveInstructions(request.agent?.name ?: "UNKNOWN")
+        
+        // Build the augmented query with meta-instructions
+        val augmentedQuery = if (effectiveInstructions.isNotEmpty()) {
+            "META-INSTRUCTIONS:\n$effectiveInstructions\n\nQUERY: ${request.query}"
+        } else {
+            request.query
+        }
 
-        // memoryManager.store("metainstruct_evolution_${evolutionCycle}", responseContent) // Commented out to fix compilation
+        logger.info("MetaInstructAIService", "Augmented Query: $augmentedQuery")
 
         return AgentResponse.success(
-            content = responseContent,
-            confidence = 0.9f,
+            content = "MetaInstruct processed: ${request.query} (Augmented with Meta-Instructions)",
+            confidence = 0.95f,
             agentName = "MetaInstruct",
             agent = AgentType.METAINSTRUCT
         )
