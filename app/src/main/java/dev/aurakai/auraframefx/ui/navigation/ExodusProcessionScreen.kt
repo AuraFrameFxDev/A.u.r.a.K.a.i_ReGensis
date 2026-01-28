@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.collectAsState
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.models.ReGenesisMode
+import dev.aurakai.auraframefx.ui.hub.ReGenesisUnifiedHub
 
 /**
  * EXODUS PROCESSION SCREEN
