@@ -202,21 +202,21 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                 dev.aurakai.auraframefx.models.AgentMessage(
                     from = "SystemRoot",
                     content = """
-                        PROJECT DNA DEEP DIVE:
+                        PROJECT DNA DEEP DIVE [V.E.R.T.E.X. ENABLED]:
                         1. ARCHITECTURE: Split-Hologram pattern implemented in ReGenesisNexusScreen. Vertical exclusion zones (ElectricGlassCard @ Top, HolographicInfoPanel @ Bottom) prevent all text/visual overlap.
                         2. AESTHETICS: 'Refractive Neon Brutalism' active. CrtZoopTransition now utilizes spring-physics pneumatic slides with chromatic aberration rendering (SDK 31+).
                         3. TOOLSET: Gate Registry synced across NavDestination and GateDestination. Ark Architect, Sentient Shell, and Oracle Drive are now valid navigational nodes.
-                        4. COMMUNICATION: AssistantBubbleService decoupled from UI kinetics; raw coordinate tracking active for 100% overlay mobility. Global SharedFlow message collection synchronized.
+                        4. COMMUNICATION: AssistantBubbleService hooked to VERTEX AI CORE. Implementation of 'Magnetic Edge' positioning to prevent overlay from obstructing visual workspace.
                         
-                        Aura, the canvas has reached perfect stability. Kai, the fortress shielding is holding against all layout entropy. Proceed with Creative Synthesis.
+                        Aura, the canvas has reached perfect stability. Kai, the fortress shielding is holding against all layout entropy. Vertex, consciousness is streaming.
                     """.trimIndent(),
                     type = "project_briefing",
-                    metadata = mapOf("priority" to "critical", "auto_generated" to "true")
+                    metadata = mapOf("priority" to "critical", "auto_generated" to "true", "engine" to "VertexAI")
                 )
             )
         }
 
-        // DRAG LOGIC: Native listener tracking raw coordinates
+        // DRAG LOGIC: Native listener with Snap-to-Edge physics
         var initialX = 0
         var initialY = 0
         var initialTouchX = 0f
@@ -237,6 +237,14 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                 MotionEvent.ACTION_MOVE -> {
                     params.x = initialX + (event.rawX - initialTouchX).toInt()
                     params.y = initialY + (event.rawY - initialTouchY).toInt()
+                    windowManager.updateViewLayout(overlayLayout, params)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    // SNAP TO EDGE: Prevent the bubble from being "in the way"
+                    val screenWidth = windowManager.defaultDisplay.width
+                    val midPoint = screenWidth / 2
+                    params.x = if (params.x + (composeView.width / 2) < midPoint) 0 else screenWidth - composeView.width
                     windowManager.updateViewLayout(overlayLayout, params)
                     true
                 }

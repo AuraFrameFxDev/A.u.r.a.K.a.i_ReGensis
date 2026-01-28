@@ -76,6 +76,18 @@ fun AuraThemingHubScreen(navController: NavController) {
             accentColor = Color(0xFF00FF85)
         ),
         ThemingToolCard(
+            title = "Collab Canvas",
+            subtitle = "Design with Aura & Kai",
+            destination = NavDestination.CollabCanvas,
+            accentColor = Color(0xFFB026FF)
+        ),
+        ThemingToolCard(
+            title = "Aura Lab",
+            subtitle = "Sandbox UI & Kinetic Testing",
+            destination = NavDestination.AuraLab,
+            accentColor = Color(0xFF00E5FF)
+        ),
+        ThemingToolCard(
             title = "Iconify Picker",
             subtitle = "Service Injection (TODO)",
             destination = NavDestination.IconifyPicker,

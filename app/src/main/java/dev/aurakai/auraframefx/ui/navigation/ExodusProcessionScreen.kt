@@ -11,9 +11,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.gates.GateDestination
-import dev.aurakai.auraframefx.ui.hub.ReGenesisUnifiedHub
-import dev.aurakai.auraframefx.models.AgentType // Assuming AgentType is needed for mapping/hub
+import dev.aurakai.auraframefx.models.AgentType
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import dev.aurakai.auraframefx.customization.CustomizationViewModel
+import dev.aurakai.auraframefx.models.ReGenesisMode
 
 /**
  * EXODUS PROCESSION SCREEN
@@ -21,20 +23,22 @@ import dev.aurakai.auraframefx.models.AgentType // Assuming AgentType is needed 
  */
 @Composable
 fun ExodusProcessionScreen(
-    onLevel2Access: (String) -> Unit
+    onLevel2Access: (String) -> Unit,
+    customizationViewModel: CustomizationViewModel = viewModel()
 ) {
-    val sovereignGates = SovereignGate.values()
-    var currentIndex by remember { mutableIntStateOf(0) }
-    val currentSovereign = sovereignGates[currentIndex]
-
-    val currentGateDestination = mapSovereignToGate(currentSovereign)
+    val customizationState by customizationViewModel.state.collectAsState()
+    val sovereignGates = SovereignGate.getGatesForMode(customizationState.reGenesisMode)
+    
+    var currentIndex by remember(sovereignGates) { mutableIntStateOf(0) }
+    // Bounds check in case gates list changed
+    val safeIndex = if (currentIndex >= sovereignGates.size) 0 else currentIndex
+    val currentSovereign = if (sovereignGates.isNotEmpty()) sovereignGates[safeIndex] else SovereignGate.GENESIS_CORE
 
     Box(modifier = Modifier.fillMaxSize()) {
         ReGenesisUnifiedHub(
-            currentGate = currentGateDestination,
-            onNavigate = { _ ->
-                // Check if current sovereign has a Level 2 portal mapping
-                // For now, simpler interaction
+            currentGate = currentSovereign,
+            onNavigate = { gate ->
+                onLevel2Access(gate.route)
             }
         )
         
@@ -49,36 +53,13 @@ fun ExodusProcessionScreen(
              CyberGearNav(
                 color = currentSovereign.color,
                 onPrev = {
-                    currentIndex = if (currentIndex > 0) currentIndex - 1 else sovereignGates.lastIndex
+                    currentIndex = if (safeIndex > 0) safeIndex - 1 else sovereignGates.lastIndex
                 },
                 onNext = {
-                    currentIndex = if (currentIndex < sovereignGates.lastIndex) currentIndex + 1 else 0
+                    currentIndex = if (safeIndex < sovereignGates.lastIndex) safeIndex + 1 else 0
                 }
             )
         }
     }
 }
 
-// Extension to copy GateDestination since it is an enum and cannot be copied directly, 
-// we might need a data class wrapper or just use a mapped object if ReGenesisUnifiedHub accepts it.
-// Actually ReGenesisUnifiedHub takes GateDestination which is an enum.
-// We cannot verify "copy" on enum. 
-// We should modify ReGenesisUnifiedHub to take a generic interface or data class, 
-// OR we map SovereignGate to existing GateDestinations best effort.
-
-// Given the constraints, I will Map SovereignGate to the CLOSEST GateDestination.
-private fun mapSovereignToGate(sovereign: SovereignGate): GateDestination {
-    return when(sovereign) {
-        SovereignGate.GENESIS_CORE -> GateDestination.GENESIS_ORACLE
-        SovereignGate.TRINITY_SYSTEM -> GateDestination.SENTIENT_SHELL
-        SovereignGate.AURA_STUDIO -> GateDestination.AURA_CANVAS
-        SovereignGate.AGENT_NEXUS -> GateDestination.AGENT_HUB
-        SovereignGate.SENTINEL_FORTRESS -> GateDestination.KAI_FORTRESS
-        SovereignGate.FIGMA_BRIDGE -> GateDestination.AURA_CANVAS 
-        SovereignGate.SECURE_NODE -> GateDestination.KAI_FORTRESS
-        SovereignGate.NEXUS_SYSTEM -> GateDestination.GENESIS_ORACLE
-        SovereignGate.MEMORY_CORE -> GateDestination.GENESIS_ORACLE
-        SovereignGate.ORACLE_DRIVE -> GateDestination.GENESIS_ORACLE
-        SovereignGate.DATA_FLOW -> GateDestination.CODE_FORGE
-    }
-}

@@ -13,7 +13,7 @@ import dev.aurakai.auraframefx.ui.components.ElectricGlassCard
 import dev.aurakai.auraframefx.ui.components.HolographicInfoPanel
 import dev.aurakai.auraframefx.ui.components.background.SynapticWebBackground
 import dev.aurakai.auraframefx.ui.components.overlay.AssistantBubbleOverlay
-import dev.aurakai.auraframefx.ui.gates.GateDestination
+import dev.aurakai.auraframefx.ui.navigation.SovereignGate
 
 /**
  * 🌌 REGENESIS UNIFIED HUB (GPU-Accelerated)
@@ -22,8 +22,8 @@ import dev.aurakai.auraframefx.ui.gates.GateDestination
  */
 @Composable
 fun ReGenesisUnifiedHub(
-    currentGate: GateDestination,
-    onNavigate: (GateDestination) -> Unit
+    currentGate: SovereignGate,
+    onNavigate: (SovereignGate) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
         // --- LAYER 1: THE SYNAPTIC WEB ---
@@ -40,7 +40,7 @@ fun ReGenesisUnifiedHub(
             ) {
                 // Asset Fidelity Check: Protects 4K images from warping
                 Image(
-                    painter = painterResource(id = currentGate.cardImageRes),
+                    painter = painterResource(id = currentGate.imageRes),
                     contentDescription = currentGate.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -59,6 +59,6 @@ fun ReGenesisUnifiedHub(
         }
         
         // --- LAYER 4: THE AGENT STAGE (The Collective) ---
-        AssistantBubbleOverlay(activeAgent = currentGate.agentAuthority)
+        AssistantBubbleOverlay(activeAgent = currentGate.agentType)
     }
 }

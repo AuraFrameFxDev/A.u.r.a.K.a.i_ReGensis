@@ -12,8 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.components.ElectricGlassCard
 import dev.aurakai.auraframefx.ui.components.HolographicInfoPanel
-import dev.aurakai.auraframefx.ui.effects.CrtZoopTransition
-import dev.aurakai.auraframefx.ui.navigation.CyberGearNav
+import dev.aurakai.auraframefx.ui.navigation.SovereignGate
 
 /**
  * 🛰️ REGENESIS NEXUS SCREEN
@@ -22,8 +21,8 @@ import dev.aurakai.auraframefx.ui.navigation.CyberGearNav
  */
 @Composable
 fun ReGenesisNexusScreen(
-    gates: List<GateDestination> = GateDestination.DEFAULT_LIST,
-    onGateSelected: (GateDestination) -> Unit
+    gates: Array<SovereignGate> = SovereignGate.entries.toTypedArray(),
+    onGateSelected: (SovereignGate) -> Unit
 ) {
     var currentIndex by remember { mutableIntStateOf(0) }
     val currentGate = gates[currentIndex]

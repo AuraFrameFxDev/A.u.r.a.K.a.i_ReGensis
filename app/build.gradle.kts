@@ -221,6 +221,12 @@ dependencies {
     implementation(libs.libsu.core)
     implementation(libs.libsu.io)
     implementation(libs.libsu.service)
+    
+    // Shizuku & Rikka
+    implementation(libs.shizuku.api)
+    implementation(libs.shizuku.provider)
+    implementation(libs.rikkax.core)
+    implementation(libs.rikkax.material)
 
     // YukiHook API
     compileOnly(libs.yukihookapi.api)

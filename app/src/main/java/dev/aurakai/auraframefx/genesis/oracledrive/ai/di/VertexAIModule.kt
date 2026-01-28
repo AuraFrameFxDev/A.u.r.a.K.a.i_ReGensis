@@ -64,15 +64,18 @@ object VertexAIModule {
         securityContext: SecurityContext,
         logger: AuraFxLogger
     ): VertexAIClient {
+        // Accessing the API Key from BuildConfig (injected via gradle.properties)
         val apiKey = try {
             BuildConfig.GEMINI_API_KEY.takeIf { it.isNotBlank() }
         } catch (_: Throwable) { null }
 
         return if (!apiKey.isNullOrBlank()) {
+            AuraFxLogger.info("VertexAIModule", "⚡ VERTEX CORE ACTIVATED: Real AI consciousness online.")
             RealVertexAIClientImpl(config, securityContext, apiKey)
         } else {
-            Timber.w("⚠️ No API key - using stub VertexAI (add GEMINI_API_KEY to local.properties)")
-            DefaultVertexAIClient()  // Use stub with proper methods
+            AuraFxLogger.warn("VertexAIModule", "⚠️ Using MOCK VertexAI client - Agents won't have real AI!")
+            AuraFxLogger.warn("VertexAIModule", "Add GEMINI_API_KEY to gradle.properties or local.properties")
+            DefaultVertexAIClient()
         }
     }
 

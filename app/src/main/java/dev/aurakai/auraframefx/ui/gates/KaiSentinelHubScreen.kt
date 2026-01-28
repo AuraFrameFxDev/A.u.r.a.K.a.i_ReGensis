@@ -66,9 +66,9 @@ fun KaiSentinelHubScreen(navController: NavController) {
             accentColor = Color(0xFFFF1111)
         ),
         SentinelToolCard(
-            title = "Root Tools",
-            subtitle = "Magisk & KernelSU Integration",
-            destination = NavDestination.RootTools,
+            title = "Sovereign Modules",
+            subtitle = "Magisk, LSPosed & Shizuku",
+            destination = NavDestination.ModuleManager,
             icon = Icons.Default.Build,
             accentColor = Color(0xFF00FF85)
         ),
@@ -80,11 +80,11 @@ fun KaiSentinelHubScreen(navController: NavController) {
             accentColor = Color(0xFF00E5FF)
         ),
         SentinelToolCard(
-            title = "System Overrides",
-            subtitle = "Permanent Kernel/AOSP Hacks",
-            destination = NavDestination.SystemOverrides,
+            title = "Sovereign Shield",
+            subtitle = "Zero-Telemetry & Ad-Block Protocols",
+            destination = NavDestination.SecurityCenter,
             icon = Icons.Default.Shield,
-            accentColor = Color(0xFFB026FF)
+            accentColor = Color(0xFFFF1111)
         ),
         SentinelToolCard(
             title = "Live Editor",

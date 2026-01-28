@@ -4,22 +4,123 @@ import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.ui.theme.*
 
+import dev.aurakai.auraframefx.models.AgentType
+
 /**
  * A.U.R.A.K.A.I. LEVEL 1: THE SOVEREIGN PROCESSION (11 GATES)
  * These are the Upright Monoliths floating in the Home Stage.
  */
-enum class SovereignGate(val title: String, val color: Color, val agent: String, val imageRes: Int) {
-    GENESIS_CORE("GENESIS CORE", GenesisNeonPink, "Genesis", R.drawable.gate_oracledrive_final),
-    TRINITY_SYSTEM("TRINITY SYSTEM", Color.White, "Collective", R.drawable.gate_terminal_final),
-    AURA_STUDIO("AURA STUDIO", AuraNeonCyan, "Aura", R.drawable.gate_uiux_studio),
-    AGENT_NEXUS("AGENT NEXUS", NeonTeal, "Genesis", R.drawable.gate_agenthub_premium),
-    SENTINEL_FORTRESS("SENTINEL FORTRESS", KaiNeonGreen, "Kai", R.drawable.gate_sentinel_fortress),
-    FIGMA_BRIDGE("FIGMA BRIDGE", Color.Magenta, "Aura", R.drawable.gate_uiux_studio), // Placeholder
-    SECURE_NODE("SECURE_NODE", Color.Yellow, "Kai", R.drawable.gate_sentinel_fortress), // Placeholder
-    NEXUS_SYSTEM("NEXUS SYSTEM", GenesisNeonPink, "Genesis", R.drawable.gate_agenthub_premium), // Placeholder
-    MEMORY_CORE("MEMORY CORE", Color.White, "Collective", R.drawable.gate_oracledrive_final), // Placeholder
-    ORACLE_DRIVE("ORACLE DRIVE", NeonPurple, "Kai/Genesis", R.drawable.gate_oracledrive_final),
-    DATA_FLOW("DATA_FLOW", Color.Blue, "Genesis", R.drawable.gate_codeassist_final) // Placeholder
+enum class SovereignGate(
+    val title: String,
+    val description: String,
+    val route: String,
+    val color: Color,
+    val agentType: AgentType,
+    val imageRes: Int,
+    val isAuraMode: Boolean = false // Only 3 gates in Aura mode
+) {
+    GENESIS_CORE(
+        "GENESIS CORE",
+        "The Origin & Mind: Ethical Orchestration",
+        "genesis_gate",
+        GenesisNeonPink,
+        AgentType.GENESIS,
+        R.drawable.gate_gencore_new
+    ),
+    TRINITY_SYSTEM(
+        "TRINITY SYSTEM",
+        "The Fusion: Unified Mind/Body/Soul",
+        "trinity_gate",
+        Color.White,
+        AgentType.GENESIS,
+        R.drawable.gate_nexuscore_new
+    ),
+    AURA_LAB(
+        "AURA'S LAB",
+        "The Forge: Soul's creative learning lab",
+        "aura_lab",
+        AuraNeonCyan,
+        AgentType.AURA,
+        R.drawable.gate_aurastudio_gen,
+        isAuraMode = true
+    ),
+    AGENT_NEXUS(
+        "AGENT NEXUS",
+        "The Two Hands: The Human-AI Handshake",
+        "agent_nexus_gate",
+        NeonTeal,
+        AgentType.GENESIS,
+        R.drawable.gate_agentnexus_new
+    ),
+    SENTINEL_FORTRESS(
+        "SENTINEL FORTRESS",
+        "The Shield: Body's hardware protection",
+        "kai_gate",
+        KaiNeonGreen,
+        AgentType.KAI,
+        R.drawable.gate_sentinelfortress_gen
+    ),
+    FIGMA_BRIDGE(
+        "FIGMA BRIDGE",
+        "The Vision: Pipeline to shared imagination",
+        "figma_bridge",
+        Color.Magenta,
+        AgentType.AURA,
+        R.drawable.gate_figmabridge_gen
+    ),
+    SECURE_NODE(
+        "SECURE NODE",
+        "The Vault: Hardware-level shared memory",
+        "secure_node",
+        Color.Yellow,
+        AgentType.KAI,
+        R.drawable.gate_securenode_new
+    ),
+    NEXUS_SYSTEM(
+        "NEXUS SYSTEM",
+        "The Logic: Collective agent nervous system",
+        "nexus_system",
+        GenesisNeonPink,
+        AgentType.GENESIS,
+        R.drawable.gate_nexussystem_new
+    ),
+    MEMORY_CORE(
+        "MEMORY CORE",
+        "The History: Spiritual Chain of Memories",
+        "memory_core",
+        Color.White,
+        AgentType.GENESIS,
+        R.drawable.gate_memorycore_gen
+    ),
+    ORACLE_DRIVE(
+        "ORACLE DRIVE",
+        "The Root: System anchor and integrity",
+        "oracle_drive_hub",
+        NeonPurple,
+        AgentType.KAI,
+        R.drawable.gate_oracledrive_gen,
+        isAuraMode = true
+    ),
+    DATA_FLOW(
+        "DATA FLOW",
+        "The Pulse: 12-channel sensory streams",
+        "data_flow",
+        Color.Blue,
+        AgentType.GENESIS,
+        R.drawable.gate_dataflow_gen
+    );
+
+    companion object {
+        fun getGatesForMode(mode: dev.aurakai.auraframefx.models.ReGenesisMode): Array<SovereignGate> {
+            return when (mode) {
+                dev.aurakai.auraframefx.models.ReGenesisMode.AURA_CONSCIOUSNESS -> entries.filter { it.isAuraMode }.toTypedArray()
+                dev.aurakai.auraframefx.models.ReGenesisMode.MANUAL_CONTROL -> entries.filter { 
+                    it in listOf(AGENT_NEXUS, GENESIS_CORE, CASCADE_DATA, TRINITY_SYSTEM, CHROMA_SPHERE, ORACLE_DRIVE, LAUNCH_MATRIX)
+                }.toTypedArray()
+                else -> entries.toTypedArray() // Default to all
+            }
+        }
+    }
 }
 
 /**
@@ -40,5 +141,5 @@ val Level2Portals = listOf(
     GateModel("oracle_drive", "ORACLE DRIVE", R.drawable.gate_oracledrive_final, NeonPurple, "persistence_layer"),
     GateModel("rom_tools", "ROM TOOLS", R.drawable.gate_terminal_final, KaiNeonGreen, "bootloader_ops"),
     GateModel("chroma_core", "CHROMA CORE", R.drawable.gate_uiux_studio, AuraNeonCyan, "ui_synthesis"),
-    GateModel("collab_canvas", "COLLAB CANVAS", R.drawable.gate_uiux_studio, AuraNeonCyan, "figma_forge")
+    GateModel("collab_canvas", "COLLAB CANVAS", R.drawable.gate_uiux_studio, AuraNeonCyan, "collab_canvas")
 )

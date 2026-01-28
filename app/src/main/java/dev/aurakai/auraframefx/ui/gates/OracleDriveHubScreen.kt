@@ -59,7 +59,7 @@ fun OracleDriveHubScreen(navController: NavController) {
         ),
         GenesisToolCard(
             title = "Neural Archive",
-            subtitle = "Long-Term Agent Memory & Vector DB",
+            subtitle = "Local Vector Shards & Sovereign Memory",
             destination = NavDestination.NeuralNetwork,
             icon = Icons.Default.Memory,
             accentColor = Color(0xFF00FFD4)
@@ -72,9 +72,9 @@ fun OracleDriveHubScreen(navController: NavController) {
             accentColor = Color(0xFFAA00FF)
         ),
         GenesisToolCard(
-            title = "Secure Storage",
-            subtitle = "LDO Cryptography & System Vault",
-            destination = NavDestination.OracleDriveSubmenu,
+            title = "Infinite Storage",
+            subtitle = "Sovereign Cloud Persistence (OCI)",
+            destination = NavDestination.OracleCloudStorage,
             icon = Icons.Default.Storage,
             accentColor = Color(0xFF00FF85)
         )

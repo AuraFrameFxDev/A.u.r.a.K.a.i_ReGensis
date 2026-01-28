@@ -27,8 +27,8 @@ fun ElectricGlassCard(
     glowColor: Color = Color(0xFF00E5FF),
     content: @Composable BoxScope.() -> Unit
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "ElectricGlow")
-    val glowAnimation by infiniteTransition.animateFloat(
+    val sineWaveTransition = rememberInfiniteTransition(label = "AntiGravity")
+    val glowAnimation by sineWaveTransition.animateFloat(
         initialValue = 0.5f,
         targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
@@ -38,9 +38,24 @@ fun ElectricGlassCard(
         label = "Pulse"
     )
 
+    val translationY by sineWaveTransition.animateFloat(
+        initialValue = -10f,
+        targetValue = 10f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "Float"
+    )
+
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(24.dp))
+            .graphicsLayer {
+                translationY = this@graphicsLayer.translationY + translationY
+                shadowElevation = 32f
+                shape = RoundedCornerShape(24.dp)
+                clip = true
+            }
             .background(Color.White.copy(alpha = 0.05f))
     ) {
         // --- 1. THE GLASS LAYER ---

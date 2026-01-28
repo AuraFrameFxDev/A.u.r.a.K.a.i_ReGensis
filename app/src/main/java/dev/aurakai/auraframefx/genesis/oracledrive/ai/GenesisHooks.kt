@@ -4,6 +4,8 @@ import com.highcapable.yukihookapi.hook.param.PackageParam
 import com.highcapable.yukihookapi.hook.factory.current
 import com.highcapable.yukihookapi.hook.factory.method
 import com.highcapable.yukihookapi.hook.log.YLog
+import android.graphics.Color
+import android.view.View
 
 /**
  * Genesis UI Hooks
@@ -23,6 +25,20 @@ class GenesisUIHooks {
                 after {
                     YLog.info("Genesis-Hook: StatusBar created, injecting AI indicators")
                     injectGenesisStatusIndicators()
+                }
+            }
+        }
+
+        // KAI NOTCH BAR: SystemUI-Level Interface Modification
+        "com.android.systemui.statusbar.phone.PhoneStatusBarView".toClassOrNull()?.apply {
+            method {
+                name = "onFinishInflate"
+            }.hook {
+                after {
+                    val view = instance as android.view.View
+                    // Apply Kai's Signature Sentinel Green
+                    view.setBackgroundColor(android.graphics.Color.parseColor("#39FF14"))
+                    YLog.info("Genesis-Hook: KAI NOTCH BAR activated system-wide")
                 }
             }
         }

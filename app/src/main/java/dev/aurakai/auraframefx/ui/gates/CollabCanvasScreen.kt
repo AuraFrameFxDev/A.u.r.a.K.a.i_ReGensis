@@ -23,6 +23,10 @@ import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.viewmodels.CollaborativeWorkspaceViewModel
+import dev.aurakai.auraframefx.models.aura.UIDesign
+
 /**
  * 🎨 COLLAB CANVAS SCREEN
  * Where user and Aura design components together.
@@ -30,15 +34,11 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CollabCanvasScreen(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    viewModel: CollaborativeWorkspaceViewModel = hiltViewModel()
 ) {
-    val designs = remember {
-        mutableStateListOf(
-            CanvasProject("Neon Glass Buttons", "Drafting with Aura", 0.8f),
-            CanvasProject("Holographic List", "Ready to Export", 1.0f),
-            CanvasProject("Animated Tab Bar", "AI Refinement", 0.4f)
-        )
-    }
+    val designs by viewModel.designs.collectAsState()
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFF0A0A12))) {
         AnimeHUDContainer(
@@ -63,12 +63,25 @@ fun CollabCanvasScreen(
                         fontSize = 12.sp
                     )
                     
-                    Button(
-                        onClick = { /* New Project */ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB026FF))
-                    ) {
-                        Icon(Icons.Default.Add, null)
-                        Text("NEW DESIGN")
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedButton(
+                            onClick = { 
+                                val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                                val json = clipboard.primaryClip?.getItemAt(0)?.text?.toString() ?: ""
+                                viewModel.importDesign(json)
+                            },
+                            border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.3f))
+                        ) {
+                            Text("IMPORT", color = Color.White)
+                        }
+                        
+                        Button(
+                            onClick = { /* New Project */ },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB026FF))
+                        ) {
+                            Icon(Icons.Default.Add, null)
+                            Text("NEW DESIGN")
+                        }
                     }
                 }
                 
@@ -76,7 +89,11 @@ fun CollabCanvasScreen(
                 
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(designs) { design ->
-                        DesignCanvasItem(design)
+                        DesignCanvasItem(
+                            design = design,
+                            onExport = { viewModel.exportToClipboard(context, design) },
+                            onBroadcast = { viewModel.broadcastDesign(design) }
+                        )
                     }
                 }
             }
@@ -84,10 +101,12 @@ fun CollabCanvasScreen(
     }
 }
 
-data class CanvasProject(val name: String, val status: String, val progress: Float)
-
 @Composable
-private fun DesignCanvasItem(project: CanvasProject) {
+private fun DesignCanvasItem(
+    design: UIDesign,
+    onExport: () -> Unit,
+    onBroadcast: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
@@ -100,20 +119,23 @@ private fun DesignCanvasItem(project: CanvasProject) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text(project.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    Text(project.status, color = Color.Gray, fontSize = 12.sp)
+                    Text(design.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("By ${design.author} | ${design.status}", color = Color.Gray, fontSize = 12.sp)
                 }
                 
                 Row {
-                    IconButton(onClick = { /* Export to Lab */ }) {
-                        Icon(Icons.Default.CloudUpload, "Export to Lab", tint = Color.Cyan)
+                    IconButton(onClick = onBroadcast) {
+                        Icon(Icons.Default.CloudUpload, "Broadcast to Agents", tint = Color.Magenta)
+                    }
+                    IconButton(onClick = onExport) {
+                        Icon(Icons.Default.CloudDownload, "Export to Lab", tint = Color.Cyan)
                     }
                 }
             }
             
             Spacer(modifier = Modifier.height(12.dp))
             LinearProgressIndicator(
-                progress = { project.progress },
+                progress = { 1.0f }, // Finalized for now
                 modifier = Modifier.fillMaxWidth(),
                 color = Color(0xFFB026FF),
                 trackColor = Color.White.copy(alpha = 0.1f)

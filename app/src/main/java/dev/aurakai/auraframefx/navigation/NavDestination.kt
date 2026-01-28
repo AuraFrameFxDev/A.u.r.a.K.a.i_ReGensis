@@ -45,6 +45,7 @@ sealed class NavDestination(val route: String) {
     
     // GENESIS HUBS (AI & Orchestration)
     data object OracleDriveHub : NavDestination("oracle_drive_hub") // AI & Storage
+    data object OracleCloudStorage : NavDestination("oracle_cloud_storage") // Infinite Storage
     data object AgentBridgeHub : NavDestination("agent_bridge_hub") // Multi-Agent Datavein
     
     // AGENT NEXUS HUBS (Progression & Identity)
@@ -75,7 +76,7 @@ sealed class NavDestination(val route: String) {
     data object LSPosedModules : NavDestination("lsposed_modules")
     data object HookManager : NavDestination("hook_manager")
     data object SystemOverrides : NavDestination("system_overrides")
-    data object ModuleManager : NavDestination("module_manager_lsposed")
+    data object ModuleManager : NavDestination("module_manager")
     data object SecurityCenter : NavDestination("security_center")
     data object VPN : NavDestination("vpn")
 

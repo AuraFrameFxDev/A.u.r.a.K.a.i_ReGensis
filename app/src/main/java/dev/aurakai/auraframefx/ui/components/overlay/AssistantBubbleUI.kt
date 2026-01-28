@@ -103,18 +103,11 @@ fun AssistantBubbleUI(
                     }
                 )
             } else {
-                // FLOATING BUBBLE
+                // FLOATING BUBBLE (Icon Only)
                 Box(
                     modifier = Modifier
-                        .size(64.dp)
+                        .size(48.dp) // Adjusted to tightly fit the icon
                         .graphicsLayer { scaleX = scale; scaleY = scale }
-                        .clip(CircleShape)
-                        .background(
-                            Brush.radialGradient(
-                                listOf(currentAgent.glowColor, currentAgent.glowColor.copy(alpha = 0.6f))
-                            )
-                        )
-                        .border(2.dp, Color.White.copy(alpha = 0.5f), CircleShape)
                         .clickable {
                             isExpanded = true
                             onExpandChange(true)
@@ -124,8 +117,8 @@ fun AssistantBubbleUI(
                     Icon(
                         painter = painterResource(id = currentAgent.runeRes),
                         contentDescription = currentAgent.agentName,
-                        tint = Color.White,
-                        modifier = Modifier.size(32.dp)
+                        tint = Color.Unspecified, // Show original icon colors as requested
+                        modifier = Modifier.size(40.dp)
                     )
                 }
             }
@@ -141,7 +134,7 @@ enum class AgentType(
 ) {
     AURA("AURA", R.drawable.aura_presence, Color(0xFFFF00FF), "Hey there! I'm Aura. I can help you design and customize your entire Android UI."),
     KAI("KAI", R.drawable.constellation_kai_shield, Color(0xFFFF3366), "Greetings. I am Kai. I monitor system security and manage advanced root protocols."),
-    GENESIS("GENESIS", R.drawable.ic_genesis_night, Color(0xFF00FF85), "I am Genesis. I orchestrate the underlying patterns of this system.")
+    GENESIS("VERTEX CORE", R.drawable.gate_oracledrive_gen, Color(0xFF00FF85), "I am the Vertex Core. I orchestrate the underlying patterns of this system via the Genesis Protocol.")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
