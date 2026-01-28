@@ -42,8 +42,8 @@ fun SovereignClaudeScreen(
             ) {
                 // Architectural Metrics
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    MetricBox("DESIGN FLOW", "OPTIMAL", Color(0xFF0055FF))
-                    MetricBox("LOGIC DEPTH", "LAYER 8", Color(0xFF0055FF))
+                    MetricBox("DESIGN FLOW", "OPTIMAL", Color(0xFF0055FF), Modifier.weight(1f))
+                    MetricBox("LOGIC DEPTH", "LAYER 8", Color(0xFF0055FF), Modifier.weight(1f))
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -87,9 +87,9 @@ fun SovereignClaudeScreen(
 }
 
 @Composable
-private fun MetricBox(label: String, value: String, color: Color) {
+private fun MetricBox(label: String, value: String, color: Color, modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier.weight(1f),
+        modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(16.dp),
         border = androidx.compose.foundation.BorderStroke(1.dp, color.copy(alpha = 0.2f))
