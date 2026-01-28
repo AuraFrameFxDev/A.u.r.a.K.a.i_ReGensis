@@ -226,6 +226,7 @@ dependencies {
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
     implementation(libs.rikkax.core)
+    implementation(libs.rikkax.core.ktx)
     implementation(libs.rikkax.material)
 
     // YukiHook API

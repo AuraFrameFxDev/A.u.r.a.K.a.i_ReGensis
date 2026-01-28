@@ -228,7 +228,31 @@ fun SwarmChatItem(msg: SwarmMessage) {
 
 @Composable
 fun SwarmParticles() {
-    // A canvas with drifting dots could go here for high-fidelity
+    val infiniteTransition = rememberInfiniteTransition(label = "particles")
+    val time by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(10000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "time"
+    )
+
+    androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+        val particles = 30
+        repeat(particles) { i ->
+            val seed = i.toFloat() / particles
+            val x = (seed * size.width + time * 100f) % size.width
+            val y = (kotlin.math.sin(time * 2 * kotlin.math.PI + i) * 100f + (size.height / particles * i)).toFloat()
+            
+            drawCircle(
+                color = Color(0xFFB026FF).copy(alpha = 0.1f),
+                radius = 4f,
+                center = androidx.compose.ui.geometry.Offset(x, y)
+            )
+        }
+    }
 }
 
 data class SwarmMessage(

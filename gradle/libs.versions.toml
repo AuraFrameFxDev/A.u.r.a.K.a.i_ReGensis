@@ -304,6 +304,7 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizuku" }
 shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizuku" }
 rikkax-core = { group = "dev.rikka.rikkax.core", name = "core", version.ref = "rikkax" }
+rikkax-core-ktx = { group = "dev.rikka.rikkax.core", name = "core-ktx", version.ref = "rikkax" }
 rikkax-material = { group = "dev.rikka.rikkax.material", name = "material", version.ref = "rikkax" }
 rikkax-layoutinflater = { group = "dev.rikka.rikkax.layoutinflater", name = "layoutinflater", version.ref = "rikkax" }
 

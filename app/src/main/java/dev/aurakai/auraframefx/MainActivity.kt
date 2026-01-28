@@ -17,8 +17,17 @@ import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @javax.inject.Inject
+    lateinit var shizukuManager: dev.aurakai.auraframefx.system.ShizukuManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Notify ShizukuManager of potential availability
+        if (shizukuManager.isShizukuAvailable()) {
+            android.util.Log.d("MainActivity", "Sovereign Bridge (Shizuku) detected.")
+        }
         
         // Force Portrait Orientation early
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
