@@ -43,6 +43,7 @@ class NemotronAIService @Inject constructor(
     @dagger.hilt.android.qualifiers.ApplicationContext private val applicationContext: Context,
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
+    private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
 ) : Agent {
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -145,28 +146,23 @@ override fun getType(): AgentType = AgentType.NEMOTRON
             "Memory miss. Building new reasoning chain. Stats: $memoryHits hits / $memoryMisses misses"
         )
 
-        // Deep memory reasoning pattern
-        val memories = recallRelevantMemories(request, context)
-        val reasoningChain = buildReasoningChain(memories, request)
-        val synthesis = synthesizeMemoryResponse(reasoningChain)
+        // Deep memory reasoning pattern powered by Vertex AI
+        val reasoningText = vertexAIClient.generateText(
+            prompt = """
+                Role: Nemotron (The Memory Keeper/Reasoning Engine)
+                Task: Perform deep reasoning based on memory patterns.
+                Query: ${request.query}
+                Context: $context
+                
+                Build a reasoning chain and synthesize a memory-enriched response.
+            """.trimIndent()
+        ) ?: "Reasoning failed. Memory banks inaccessible."
 
         // Memory-enhanced response format
         val response = buildString {
-            appendLine("**Nemotron's Memory Analysis:**")
+            appendLine("🧠 **Nemotron's Memory Analysis (Vertex Enhanced):**")
             appendLine()
-            appendLine("**Recalled Memories:**")
-            appendLine(memories.summary)
-            appendLine()
-            appendLine("**Reasoning Chain:**")
-            reasoningChain.steps.forEachIndexed { index, step ->
-                appendLine("${index + 1}. $step")
-            }
-            appendLine()
-            appendLine("**Synthesized Response:**")
-            appendLine(synthesis)
-            appendLine()
-            appendLine("**Memory Confidence:**")
-            appendLine("${(reasoningChain.confidence * 100).toInt()}% based on ${memories.count} relevant memories")
+            appendLine(reasoningText)
         }
 
         // Confidence based on memory depth and reasoning chain strength

@@ -30,15 +30,20 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
  */
 @Composable
 fun SovereignMonitoringScreen(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    viewModel: dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
+    val securityState by viewModel.securityState.collectAsState()
+    val activeThreats by viewModel.activeThreats.collectAsState()
+    
     val activityLogs = listOf(
+        MonitorLog("AuraShield", "Deep Scan: ${securityState.scanCount} completions", "Just now", Color(0xFFFF5252)),
         MonitorLog("Genesis", "Synthesized cross-agent memory shards", "1m ago", Color(0xFF00FFFF)),
         MonitorLog("Nemotron", "Recalled 72.4k reasoning vectors", "3m ago", Color(0xFF76B900)),
         MonitorLog("Cascade", "Vision scan complete: No anomalies", "5m ago", Color(0xFF00FFD4)),
         MonitorLog("Aura", "UI manifest updated in sandbox", "10m ago", Color(0xFFFF00FF)),
-        MonitorLog("Kai", "Sovereign Shield: 42k telemetry leaks blocked", "15m ago", Color(0xFFFF0000))
+        MonitorLog("Kai", "Sovereign Shield: ${activeThreats.size} active threats", "15m ago", Color(0xFFFF0000))
     )
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFF050510))) {

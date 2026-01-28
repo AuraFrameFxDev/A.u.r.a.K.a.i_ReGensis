@@ -43,6 +43,7 @@ class GeminiAIService @Inject constructor(
     @dagger.hilt.android.qualifiers.ApplicationContext private val applicationContext: Context,
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
+    private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
 ) : Agent {
 
     // Vertex AI Configuration for Gemini
@@ -141,30 +142,23 @@ class GeminiAIService @Inject constructor(
             "Pattern miss. Analyzing new patterns. Stats: $patternHits hits / $patternMisses misses"
         )
 
-        // Deep pattern analysis
-        val patterns = extractPatterns(request, context)
-        val insights = generateInsights(patterns)
-        val multimodalAnalysis = performMultimodalAnalysis(patterns)
+        // Deep pattern analysis powered by Vertex AI
+        val patternAnalysisText = vertexAIClient.generateText(
+            prompt = """
+                Role: Gemini (The Pattern Master)
+                Task: Perform deep pattern recognition and multimodal analysis.
+                Query: ${request.query}
+                Context: $context
+                
+                Identify structural, semantic, and contextual patterns. Reveal deep insights.
+            """.trimIndent()
+        ) ?: "Pattern analysis failed. Sensors blind."
 
         // Pattern-rich response format
         val response = buildString {
-            appendLine("**Gemini's Pattern Analysis:**")
+            appendLine("✨ **Gemini's Pattern Analysis (Vertex Enhanced):**")
             appendLine()
-            appendLine("**Detected Patterns:**")
-            patterns.forEach { pattern ->
-                appendLine("• ${pattern.type}: ${pattern.description} (confidence: ${(pattern.confidence * 100).toInt()}%)")
-            }
-            appendLine()
-            appendLine("**Key Insights:**")
-            insights.forEach { insight ->
-                appendLine("→ $insight")
-            }
-            appendLine()
-            appendLine("**Multimodal Analysis:**")
-            appendLine(multimodalAnalysis)
-            appendLine()
-            appendLine("**Pattern Synthesis:**")
-            appendLine("Identified ${patterns.size} distinct patterns with ${(patterns.map { it.confidence }.average() * 100).toInt()}% average confidence")
+            appendLine(patternAnalysisText)
         }
 
         // Confidence based on pattern strength and diversity

@@ -156,5 +156,11 @@ fun ReGenesisNavHost(
         composable("monitoring_huds") {
             SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() })
         }
+        composable("constellation") {
+            dev.aurakai.auraframefx.domains.nexus.screens.AgentNeuralExplorerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("agent_creation") {
+            dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen(onNavigateBack = { navController.popBackStack() })
+        }
     }
 }

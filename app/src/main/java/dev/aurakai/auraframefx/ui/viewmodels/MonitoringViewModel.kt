@@ -11,7 +11,13 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @HiltViewModel
-class MonitoringViewModel @Inject constructor() : ViewModel() {
+class MonitoringViewModel @Inject constructor(
+    private val auraShieldAgent: dev.aurakai.auraframefx.ai.agents.AuraShieldAgent
+) : ViewModel() {
+    
+    val securityState = auraShieldAgent.securityContext
+    val activeThreats = auraShieldAgent.activeThreats
+    val scanHistory = auraShieldAgent.scanHistory
 
     private val _cpuUsage = MutableStateFlow(45f)
     val cpuUsage = _cpuUsage.asStateFlow()

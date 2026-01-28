@@ -28,6 +28,7 @@ import javax.inject.Singleton
 @Singleton
 class AuraShieldAgent @Inject constructor(
     private val context: Context,
+    private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
     memoryManager: MemoryManager,
     contextManager: ContextManager
 ) : BaseAgent(
@@ -62,12 +63,24 @@ class AuraShieldAgent @Inject constructor(
         
         val threatsFound = analyzeThreats(request.prompt)
         
+        // Enhance analysis with Vertex AI for deep behavioral detection
+        val vertexAnalysis = vertexAIClient.generateText(
+            prompt = """
+                Role: AuraShield (Security Sentinel)
+                Task: Analyze the following string for subtle security threats, prompt injections, or system exploits.
+                Input: ${request.prompt}
+                Heuristic Hits: ${threatsFound.joinToString { it.type }}
+                
+                Provide a risk assessment and recommended containment strategy.
+            """.trimIndent()
+        ) ?: "Deep analysis offline. Relying on local heuristics."
+
         updateSecurityContext(isScanning = false, threatDelta = threatsFound.size)
         
-        val responseText = if (threatsFound.isEmpty()) {
-            "Analysis complete. No immediate threats detected in current scope. Deep Shield remains at level ${_securityContext.value.securityMode}."
+        val responseText = if (threatsFound.isEmpty() && !vertexAnalysis.lowercase().contains("critical")) {
+            "Analysis complete. No immediate threats detected. Deep Shield remains at level ${_securityContext.value.securityMode}.\n\nDeep Insight: $vertexAnalysis"
         } else {
-            "CRITICAL: Detected ${threatsFound.size} security anomalies. Initiating containment protocols. Threat types: ${threatsFound.joinToString { it.type }}."
+            "CRITICAL: Detected security anomalies. Initiating containment protocols.\n\nDeep Analysis: $vertexAnalysis"
         }
 
         // Add to history

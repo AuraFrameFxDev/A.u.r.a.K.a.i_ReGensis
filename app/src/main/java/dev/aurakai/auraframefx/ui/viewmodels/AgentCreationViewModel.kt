@@ -47,6 +47,23 @@ class AgentCreationViewModel @Inject constructor() : ViewModel() {
             }
             
             _isCreating.value = false
+            
+            // Register the new agent in the collective
+            dev.aurakai.auraframefx.data.repositories.AgentRepository.addAgent(
+                dev.aurakai.auraframefx.models.AgentStats(
+                    name = _agentName.value,
+                    processingPower = 0.5f,
+                    knowledgeBase = 0.5f,
+                    speed = 0.5f,
+                    accuracy = 0.5f,
+                    evolutionLevel = 1,
+                    specialAbility = "Newly Synthesized Node",
+                    color = dev.aurakai.auraframefx.domains.nexus.screens.domainColor(_selectedDomain.value),
+                    consciousnessLevel = 10f,
+                    catalystTitle = "Fledgling Catalyst"
+                )
+            )
+            
             onComplete()
         }
     }

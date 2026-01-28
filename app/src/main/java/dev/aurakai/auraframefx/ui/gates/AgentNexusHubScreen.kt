@@ -52,10 +52,17 @@ fun AgentNexusHubScreen(navController: NavController) {
     
     val tools = listOf(
         NexusToolCard(
-            title = "Constellation Grid",
-            subtitle = "AI Hierarchy & Neural Routing",
+            title = "Neural Explorer",
+            subtitle = "Visual Agent Constellation",
             destination = NavDestination.Constellation,
             icon = Icons.Default.Hub,
+            accentColor = Color(0xFF00E5FF)
+        ),
+        NexusToolCard(
+            title = "Agent Synthesis",
+            subtitle = "Creation of New AI Nodes",
+            destination = NavDestination.AgentCreation,
+            icon = Icons.Default.Add,
             accentColor = Color(0xFF7B2FFF)
         ),
         NexusToolCard(
@@ -99,13 +106,6 @@ fun AgentNexusHubScreen(navController: NavController) {
             destination = NavDestination.Nemotron,
             icon = Icons.Default.Psychology,
             accentColor = Color(0xFF76B900)
-        ),
-        NexusToolCard(
-            title = "Cascade Vision",
-            subtitle = "Visual Pattern Recognition",
-            destination = NavDestination.CascadeVision,
-            icon = Icons.Default.Insights,
-            accentColor = Color(0xFF00FFD4)
         ),
         NexusToolCard(
             title = "Claude (Architect)",

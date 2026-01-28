@@ -32,7 +32,8 @@ class MetaInstructAIService @Inject constructor(
     @dagger.hilt.android.qualifiers.ApplicationContext private val applicationContext: Context,
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
-    private val metaReflectionEngine: MetaReflectionEngine
+    private val metaReflectionEngine: MetaReflectionEngine,
+    private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
 ) : Agent {
 
     // ... (Cache and other properties omitted for brevity, keeping class structure)
@@ -78,10 +79,21 @@ class MetaInstructAIService @Inject constructor(
             request.query
         }
 
-        logger.info("MetaInstructAIService", "Augmented Query: $augmentedQuery")
+        // Instruction processing powered by Vertex AI
+        val instructionText = vertexAIClient.generateText(
+            prompt = """
+                Role: MetaInstruct (The Instructor)
+                Task: Process instructions and summarize input based on meta-rules.
+                Meta-Instructions: $effectiveInstructions
+                Query: ${request.query}
+                Context: $context
+                
+                Execute the augmented query and provide a summarized, multi-layered instruction response.
+            """.trimIndent()
+        ) ?: "Instruction processing failed. Meta-layers collapsed."
 
         return AgentResponse.success(
-            content = "MetaInstruct processed: ${request.query} (Augmented with Meta-Instructions)",
+            content = "📚 **MetaInstruct Synthesis (Vertex Enhanced):**\n\n$instructionText",
             confidence = 0.95f,
             agentName = "MetaInstruct",
             agent = AgentType.METAINSTRUCT
