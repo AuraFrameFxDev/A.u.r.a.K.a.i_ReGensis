@@ -37,7 +37,7 @@ allprojects {
 }
 
 
-val skipTests = providers.gradleProperty("aurafx.skip.tests").orElse("true").map { it.toBoolean() }.getOrElse(true)!!
+val skipTests = providers.gradleProperty("aurafx.skip.tests").orElse("false").map { it.toBoolean() }.getOrElse(false)!!
 
 subprojects {
     // Configure Java Toolchain and Compile Options for Android Modules
