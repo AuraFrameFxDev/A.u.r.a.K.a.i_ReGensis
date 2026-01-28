@@ -12,9 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.graphicsLayer
 
 /**
  * ⚡ ELECTRIC GLASS CARD
@@ -38,7 +36,7 @@ fun ElectricGlassCard(
         label = "Pulse"
     )
 
-    val translationY by sineWaveTransition.animateFloat(
+    val animatedTranslationY by sineWaveTransition.animateFloat(
         initialValue = -10f,
         targetValue = 10f,
         animationSpec = infiniteRepeatable(
@@ -51,7 +49,7 @@ fun ElectricGlassCard(
     Box(
         modifier = modifier
             .graphicsLayer {
-                translationY = this@graphicsLayer.translationY + translationY
+                translationY = animatedTranslationY
                 shadowElevation = 32f
                 shape = RoundedCornerShape(24.dp)
                 clip = true

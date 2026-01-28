@@ -285,12 +285,16 @@ fun AgentDetailPanel(agent: AgentStats) {
     }
 }
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.shape.RoundedCornerShape
+
 @Composable
-fun MetricItem(label: String, value: Float, color: Color) {
+fun RowScope.MetricItem(label: String, value: Float, color: Color) {
     Column(modifier = Modifier.weight(1f)) {
         Text(label, color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp, fontWeight = FontWeight.Bold)
         LinearProgressIndicator(
-            progress = { value },
+            progress = value,
             modifier = Modifier.fillMaxWidth().height(4.dp).padding(vertical = 4.dp).clip(CircleShape),
             color = color,
             trackColor = Color.White.copy(alpha = 0.1f)
