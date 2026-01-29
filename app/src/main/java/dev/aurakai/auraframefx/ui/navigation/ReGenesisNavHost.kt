@@ -10,27 +10,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen
-import dev.aurakai.auraframefx.domains.aura.screens.IconifyPickerScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.*
+import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
-import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
-import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
-import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
-import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
-import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
+import dev.aurakai.auraframefx.ui.gates.*
 
 // Mapping for clarity - strictly Sovereign architecture
 
 /**
- * Hosts the app's navigation graph and wires screen routes used across the ReGenesis flow.
+ * 🌐 REGENESIS NAVIGATION HOST
+ * The neural backbone of the Sovereign Architecture.
  *
- * Sets up the start destination and composable routes (mode selection, exodus home, pixel workspaces,
- * various workspace screens, Aura lab, and interface forge), and provides navigation actions for each route.
- *
- * @param navController Controller used to navigate between destinations in this NavHost.
- * @param customizationViewModel ViewModel providing customization state and actions used by routes; defaults to a scoped view model.
+ * Wired Layers:
+ * - Level 1: Exodus Home (Monolith Carousel)
+ * - Level 2: Pixel Workspaces (Detailed Monolith Views)
+ * - Level 3: Domain Hubs (Aura, Kai, Genesis, Nexus)
+ * - Level 4: Sovereign Tools (74+ specialized system screens)
  */
 @Composable
 fun ReGenesisNavHost(
@@ -48,23 +43,21 @@ fun ReGenesisNavHost(
 
     NavHost(navController = navController, startDestination = startDest) {
 
-        // --- THE HOME: THE 11 SOVEREIGN MONOLITHS ---
+        // --- LEVEL 1: THE HOME (THE 11 SOVEREIGN MONOLITHS) ---
         composable(NavDestination.HomeGateCarousel.route) {
             ExodusHUD(navController = navController)
         }
 
         // Legacy support/alias
-        composable("exodus_home") {
-            ExodusHUD(navController = navController)
-        }
+        composable("exodus_home") { ExodusHUD(navController = navController) }
 
-        // --- LEVEL 2 PIXEL WORKSPACES (The Gallery Detour) ---
+        // --- LEVEL 2: PIXEL WORKSPACES (Detailed Monolith Gallery) ---
         composable(
             "pixel_domain/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id") ?: "01"
-            val gateInfo = SovereignRegistry.getGate(id)
+            val gateInfo = dev.aurakai.auraframefx.customization.SovereignRegistry.getGate(id)
 
             PixelWorkspaceScreen(
                 title = gateInfo.title,
@@ -73,61 +66,56 @@ fun ReGenesisNavHost(
             )
         }
 
-        // --- LEVEL 3: THE SOVEREIGN HUBS (The Control Centers) ---
+        // --- LEVEL 3: THE SOVEREIGN HUBS (Control Centers) ---
 
         // AURA: THE DESIGN STUDIO HUB
-        composable(NavDestination.AuraThemingHub.route) {
-            AuraThemingHubScreen(navController = navController)
-        }
+        composable(NavDestination.AuraThemingHub.route) { AuraThemingHubScreen(navController = navController) }
 
         // KAI: THE SENTINEL FORTRESS HUB
-        composable(NavDestination.RomToolsHub.route) {
-            KaiSentinelHubScreen(navController = navController)
-        }
+        composable(NavDestination.RomToolsHub.route) { KaiSentinelHubScreen(navController = navController) }
 
         // GENESIS: THE ORACLE DRIVE HUB
-        composable(NavDestination.OracleDriveHub.route) {
-            OracleDriveHubScreen(navController = navController)
-        }
+        composable(NavDestination.OracleDriveHub.route) { OracleDriveHubScreen(navController = navController) }
 
         // NEXUS: THE AGENT COORDINATION HUB
-        composable(NavDestination.AgentNexusGate.route) {
-            AgentNexusHubScreen(navController = navController)
-        }
+        composable(NavDestination.AgentNexusGate.route) { AgentNexusHubScreen(navController = navController) }
+        composable(NavDestination.AgentBridgeHub.route) { AgentBridgeHubScreen(onNavigateBack = { navController.popBackStack() }) }
 
-        // --- LEVEL 4: THE CORE TOOLS (The Functional Screens) ---
+        // --- LEVEL 4: THE CORE TOOLS (Functional Engines) ---
 
-        // COLORBLENDR & SYSTEM THEME
-        composable(NavDestination.ThemeEngine.route) {
-            ThemeEngineScreen(
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+        // -- Aura & Design Studio --
+        composable(NavDestination.ThemeEngine.route) { ThemeEngineScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.IconifyPicker.route) { IconifyPickerScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.ChromaCoreColors.route) { ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.AuraLab.route) { AuraLabScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.CollabCanvas.route) { CollabCanvasScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.NotchBar.route) { NotchBarScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.StatusBar.route) { StatusBarScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.QuickSettings.route) { QuickActionsScreen() }
+        composable(NavDestination.InterfaceForge.route) { AppBuilderScreen(onNavigateBack = { navController.popBackStack() }) }
 
-        // ICONIFY PICKER
-        composable(NavDestination.IconifyPicker.route) {
-            IconifyPickerScreen(
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+        // -- Kai Sentinel Security --
+        composable(NavDestination.ROMFlasher.route) { ROMFlasherScreen() }
+        composable(NavDestination.Bootloader.route) { SovereignBootloaderScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.ModuleManager.route) { SovereignModuleManagerScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.RecoveryTools.route) { RecoveryToolsScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.SecurityCenter.route) { SovereignShieldScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.LiveROMEditor.route) { LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() }) }
 
-        // AURA LAB (Sandbox)
-        composable(NavDestination.AuraLab.route) {
-            AuraLabScreen(
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+        // -- Genesis Oracle & AI --
+        composable(NavDestination.CodeAssist.route) { CodeAssistScreen(navController = navController) }
+        composable(NavDestination.NeuralNetwork.route) { NeuralArchiveScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.OracleCloudStorage.route) { OracleCloudInfiniteStorageScreen(onNavigateBack = { navController.popBackStack() }) }
 
-        // INTERFACE FORGE (App Builder)
-        composable(NavDestination.InterfaceForge.route) {
-            AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
-        }
-
-        // COLLAB CANVAS
-        composable(NavDestination.CollabCanvas.route) {
-            CollabCanvasScreen(
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
+        // -- Agent Nexus Hub Tools --
+        composable(NavDestination.Constellation.route) { ConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.AgentMonitoring.route) { AgentMonitoringScreen() }
+        composable(NavDestination.SphereGrid.route) { SphereGridScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.TaskAssignment.route) { TaskAssignmentScreen() }
+        composable(NavDestination.FusionMode.route) { FusionModeScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.MetaInstruct.route) { SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.Nemotron.route) { SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.Claude.route) { SovereignClaudeScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.Gemini.route) { SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() }) }
     }
 }
