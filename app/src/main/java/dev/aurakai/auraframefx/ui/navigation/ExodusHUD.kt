@@ -24,6 +24,16 @@ import kotlin.math.absoluteValue
  * The Split-Screen Anti-Gravity HUD (15/85 Ratio).
  * Replaces the Sovereign Procession Screen.
  */
+/**
+ * Renders the Exodus HUD: a paged carousel of Sovereign Monoliths above and a pulsing Prometheus Globe below.
+ *
+ * The top region displays a HorizontalPager of monoliths with scale, alpha, and vertical translation driven
+ * by each page's offset to create an orbit-like visual effect. Global touch and per-card press events drive
+ * a pulse animation that is visualized by the Prometheus Globe. Double-tapping a monolith navigates to
+ * "pixel_domain/{id}".
+ *
+ * @param navController NavController used to navigate to a monolith's pixel domain on double-tap.
+ */
 @Composable
 fun ExodusHUD(navController: NavController) {
     val pagerState = rememberPagerState(pageCount = { SovereignRouter.getCount() })
