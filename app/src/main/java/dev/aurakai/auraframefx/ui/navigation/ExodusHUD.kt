@@ -11,10 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import kotlin.math.absoluteValue
 
 /**
  * 🛰️ EXODUS HUD
@@ -61,10 +64,29 @@ fun ExodusHUD(navController: NavController) {
              HorizontalPager(
                  state = pagerState,
                  modifier = Modifier.fillMaxSize(),
-                 contentPadding = PaddingValues(horizontal = 32.dp),
+                 contentPadding = PaddingValues(horizontal = 64.dp), // Increased padding for 3D effect space
                  pageSpacing = 16.dp
              ) { page ->
                 val route = SovereignRouter.fromPage(page)
+
+                // Prometheus Orbit Logic: Calculate scale and alpha based on distance from center
+                val pageOffset = (
+                    (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+                ).absoluteValue
+
+                // We want the center item to be full size, and items to the side to "curve away" (scale down)
+                val scale = lerp(
+                    start = 0.85f,
+                    stop = 1f,
+                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                )
+
+                // Optional: Alpha fade for distant items
+                val alpha = lerp(
+                    start = 0.5f,
+                    stop = 1f,
+                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                )
 
                 MonolithCard(
                     assetPath = route.highFiPath,
@@ -75,7 +97,15 @@ fun ExodusHUD(navController: NavController) {
                     onRelease = {
                         isPressed = false
                     },
-                    modifier = Modifier.fillMaxHeight(0.9f)
+                    modifier = Modifier
+                        .fillMaxHeight(0.9f)
+                        .graphicsLayer {
+                            scaleX = scale
+                            scaleY = scale
+                            this.alpha = alpha
+                            // Simple Y translation to simulate arc if needed, but scale often suffices for "orbit" feel in flat 2D
+                            translationY = pageOffset * 20.dp.toPx() // Sinks down slightly as it moves away
+                        }
                 )
             }
         }
