@@ -136,7 +136,7 @@ class DefaultContextManager(
                     "key" to entry.key,
                     "creative_mode" to isCreativeModeEnabled,
                     "unified_mode" to isUnifiedModeEnabled
-                ) as Map<String, Any>
+                )
             )
         }
     }

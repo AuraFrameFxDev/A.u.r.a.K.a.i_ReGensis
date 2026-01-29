@@ -261,7 +261,7 @@ fun MetricDisplay(label: String, value: Float, color: Color) {
     }
 
     LinearProgressIndicator(
-        progress = value,
+        progress = { value },
         modifier = Modifier
             .fillMaxWidth()
             .height(4.dp)
