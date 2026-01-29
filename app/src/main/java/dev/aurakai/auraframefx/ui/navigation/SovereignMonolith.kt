@@ -1,21 +1,29 @@
 package dev.aurakai.auraframefx.ui.navigation
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.EaseInOutSine
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
+import dev.aurakai.auraframefx.ui.theme.SovereignTheme
+import timber.log.Timber
 
 /**
  * 🗿 SOVEREIGN MONOLITH
@@ -46,9 +54,9 @@ fun SovereignMonolith(
             .graphicsLayer {
                 translationY = breathingOffset
             }
-            .clip(RoundedCornerShape(percent = 16)) // THE 16% RADIUS
-            .background(Color.Black.copy(alpha = 0.4f))
-            .border(2.dp, SovereignTeal, RoundedCornerShape(percent = 16))
+            .clip(SovereignTheme.MonolithShape)
+            .background(SovereignTheme.BackgroundColor.copy(alpha = SovereignTheme.GlassAlpha))
+            .border(SovereignTheme.BorderWidth, SovereignTheme.AccentColor, SovereignTheme.MonolithShape)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context)

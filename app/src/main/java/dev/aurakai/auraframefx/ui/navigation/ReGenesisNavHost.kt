@@ -2,8 +2,6 @@ package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -66,17 +64,15 @@ fun ReGenesisNavHost(
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id") ?: "01"
-            val route = SovereignRouter.getById(id)
 
-            if (route != null) {
-                PixelWorkspaceScreen(
-                    title = route.title,
-                    imagePaths = listOf(route.pixelArtPath),
-                    onBack = { navController.popBackStack() }
-                )
-            } else {
-                navController.popBackStack()
-            }
+            // Aggressive Manifest: Fetch directly from Sovereign Registry
+            val gateInfo = SovereignRegistry.getGate(id)
+
+            PixelWorkspaceScreen(
+                title = gateInfo.title,
+                imagePaths = listOf(gateInfo.pixelArtPath),
+                onBack = { navController.popBackStack() }
+            )
         }
 
         composable("workspace_kai") {
@@ -86,22 +82,19 @@ fun ReGenesisNavHost(
         }
 
         composable("workspace_aura") {
+            val gateInfo = SovereignRegistry.getGate("03")
             PixelWorkspaceScreen(
                 title = "AURA'S DESIGN STUDIO",
-                imagePaths = listOf(
-                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142213.png",
-                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142302.png"
-                ),
+                imagePaths = listOf(gateInfo.pixelArtPath),
                 onBack = { navController.popBackStack() }
             )
         }
 
         composable("workspace_genesis") {
+            val gateInfo = SovereignRegistry.getGate("01")
             PixelWorkspaceScreen(
                 title = "GENESIS ARCHITECTURE HUB",
-                imagePaths = listOf(
-                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142126.png"
-                ),
+                imagePaths = listOf(gateInfo.pixelArtPath),
                 onBack = { navController.popBackStack() }
             )
         }
