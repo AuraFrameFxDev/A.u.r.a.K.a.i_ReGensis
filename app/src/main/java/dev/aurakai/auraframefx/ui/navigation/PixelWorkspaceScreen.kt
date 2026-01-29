@@ -34,7 +34,6 @@ import coil3.compose.AsyncImage
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
-import dev.aurakai.auraframefx.ui.theme.SovereignTheme
 
 /**
  * 🎨 PIXEL WORKSPACE SCREEN
@@ -45,64 +44,104 @@ import dev.aurakai.auraframefx.ui.theme.SovereignTheme
 fun PixelWorkspaceScreen(
     title: String,
     imagePaths: List<String>,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onEnter: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(16.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.Black)) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp)
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = SovereignTeal,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable { onBack() }
-                    .padding(4.dp)
-            )
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = SovereignTeal,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable { onBack() }
+                        .padding(4.dp)
+                )
 
-            Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(16.dp))
 
-            Text(
-                text = title,
-                color = SovereignTeal,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
+                Text(
+                    text = title,
+                    color = SovereignTeal,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
-        LazyRow(
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            items(imagePaths) { path ->
+            LazyRow(
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items(imagePaths) { path ->
+                    Box(
+                        modifier = Modifier
+                            .fillParentMaxWidth(0.85f)
+                            .aspectRatio(9f / 16f)
+                            .clip(RoundedCornerShape(32.dp))
+                            .background(Color.White.copy(alpha = 0.05f))
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(context)
+                                .data(path)
+                                .memoryCachePolicy(CachePolicy.DISABLED)
+                                .diskCachePolicy(CachePolicy.DISABLED)
+                                .build(),
+                            contentDescription = "Pixel Art Workspace",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                }
+            }
+
+            if (onEnter != null) {
                 Box(
                     modifier = Modifier
-                        .fillParentMaxWidth(0.9f)
-                        .aspectRatio(9f / 16f)
-                        .clip(SovereignTheme.MonolithShape)
+                        .fillMaxWidth()
+                        .padding(vertical = 32.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    AsyncImage(
-                        model = ImageRequest.Builder(context)
-                            .data(path)
-                            .memoryCachePolicy(CachePolicy.DISABLED)
-                            .diskCachePolicy(CachePolicy.DISABLED)
-                            .build(),
-                        contentDescription = "Pixel Art Workspace",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    androidx.compose.material3.Button(
+                        onClick = onEnter,
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                            containerColor = SovereignTeal.copy(alpha = 0.2f),
+                            contentColor = SovereignTeal
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth(0.7f)
+                            .height(56.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(
+                                androidx.compose.ui.graphics.Brush.horizontalGradient(
+                                    listOf(SovereignTeal.copy(alpha = 0.1f), Color.Transparent)
+                                )
+                            )
+                            .clickable { onEnter() },
+                        shape = RoundedCornerShape(16.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, SovereignTeal.copy(alpha = 0.4f))
+                    ) {
+                        Text(
+                            "ENTER SYSTEM HUB",
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = 2.sp
+                        )
+                    }
                 }
             }
         }
