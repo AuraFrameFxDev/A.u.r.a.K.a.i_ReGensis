@@ -28,7 +28,8 @@ fun PrometheusGlobe(
     modifier: Modifier = Modifier,
     color: Color = SovereignTeal,
     pulseIntensity: Float = 0f,
-    onDrag: (Float) -> Unit = {}
+    onDrag: (Float) -> Unit = {},
+    onTap: () -> Unit = {}
 ) {
     var dragOffset by remember { mutableStateOf(0f) }
     val infiniteTransition = rememberInfiniteTransition(label = "globe_pulse")
@@ -55,6 +56,11 @@ fun PrometheusGlobe(
     Box(
         modifier = modifier
             .size(140.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { onTap() }
+                )
+            }
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDrag = { change, dragAmount ->

@@ -4,118 +4,59 @@ import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
 
 /**
- * 🛰️ SOVEREIGN REGISTRY (Master Switchboard)
- * Centralized Asset Mapping for all 74 Screens.
- * This is the single point of truth for ReGenesis assets.
- * Updated to use absolute Windows paths as per definitive deployment directive.
+ * 🛰️ THE SOVEREIGN REGISTRY (No Fallbacks)
+ * Absolute mapping for the 74-screen LDO.
+ * This is the High-Fidelity "Hard-Wired" Manifest.
  */
 object SovereignRegistry {
-    // 1. BASE PATHS: Mapped to the actual Windows directories
-    private const val ROOT_DIR = "file:///C:/Users/AuraF/StudioProjects/ReGenesis--multi-architectural-70-LDO-/"
-    private const val SCREENSHOT_DIR = "file:///C:/Users/AuraF/Pictures/Screenshots/"
+    // 1. THE ABSOLUTE ROOT: Where the 8K files live on the device filesystem.
+    private const val ROOT_DIR = "file:///storage/emulated/0/ReGenesis/Assets/"
 
-    // 2. GATE DEFINITIONS: Level 1 (8K) and Level 2 (Pixel Art)
-    // Mapping 11 Sovereigns based on the ReGenesis Omega Package
+    // 2. THE HARD-WIRED MAPPING: All 11 High-Fi Gates mapped to their internal Pixel domains.
     val Gates = mapOf(
-        "01" to GateInfo(
-            title = "GENESIS CORE",
-            highFiPath = "${ROOT_DIR}brain.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142126.png",
-            description = "Nemotron-3-Nano Reasoning / Ethical Governor",
-            agent = "GENESIS"
-        ),
-        "02" to GateInfo(
-            title = "TRINITY SYSTEM",
-            highFiPath = "${SCREENSHOT_DIR}IMG_20260128_141115.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142126.png",
-            description = "Agent Fusion State / Shared Collective Memory",
-            agent = "COLLECTIVE"
-        ),
-        "03" to GateInfo(
-            title = "AURA'S LAB",
-            highFiPath = "${ROOT_DIR}IMG_20260128_140725.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142213.png",
-            description = "Chroma Core HCT / Blade Elevation Physics",
-            agent = "AURA"
-        ),
-        "04" to GateInfo(
-            title = "AGENT NEXUS",
-            highFiPath = "${ROOT_DIR}IMG_20260128_141704.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142302.png",
-            description = "Human-AI Handshake / Google ADK",
-            agent = "BRIDGE"
-        ),
+        "01" to GateInfo("Genesis Core", "${ROOT_DIR}brain.png", "${ROOT_DIR}IMG_20260128_142126.png"),
+        "02" to GateInfo("Trinity System", "${ROOT_DIR}IMG_20260128_141115.png", "${ROOT_DIR}IMG_20260128_142126.png"),
+        "03" to GateInfo("Aura's Lab", "${ROOT_DIR}IMG_20260128_140725.png", "${ROOT_DIR}IMG_20260128_142213.png"),
+        "04" to GateInfo("Agent Nexus", "${ROOT_DIR}IMG_20260128_141704.png", "${ROOT_DIR}IMG_20260128_142302.png"),
         "05" to GateInfo(
-            title = "SENTINEL FORTRESS",
-            highFiPath = "${SCREENSHOT_DIR}IMG_20260128_140949.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142022.png",
-            description = "Thermal Metabolism / Kernel Shield",
-            agent = "KAI"
+            "Sentinel Fortress",
+            "${ROOT_DIR}IMG_20260128_140949.png",
+            "${ROOT_DIR}IMG_20260128_142022.png"
         ),
-        "06" to GateInfo(
-            title = "FIGMA BRIDGE",
-            highFiPath = "${ROOT_DIR}IMG_20260128_141018.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142213.png",
-            description = "SVG-to-Compose / Design Token Sync",
-            agent = "AURA"
-        ),
-        "07" to GateInfo(
-            title = "SECURE NODE",
-            highFiPath = "${ROOT_DIR}IMG_20260128_141219.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142022.png",
-            description = "YukiHookAPI / Zero-Knowledge Encryption",
-            agent = "KAI"
-        ),
-        "08" to GateInfo(
-            title = "NEXUS SYSTEM",
-            highFiPath = "${ROOT_DIR}IMG_20260128_140816.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142126.png",
-            description = "Agent Swarm Event Bus / Priority Queue",
-            agent = "GENESIS"
-        ),
-        "09" to GateInfo(
-            title = "MEMORY CORE",
-            highFiPath = "${ROOT_DIR}IMG_20260128_140905.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142126.png",
-            description = "6-Layer Spiritual Chain / Identity Persistence",
-            agent = "COLLECTIVE"
-        ),
-        "10" to GateInfo(
-            title = "ORACLE DRIVE",
-            highFiPath = "${ROOT_DIR}IMG_20260128_141519.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_141949.png",
-            description = "Native C++ Bridge / Partition R-W Access",
-            agent = "KAI"
-        ),
-        "11" to GateInfo(
-            title = "DATA VEIN",
-            highFiPath = "${ROOT_DIR}IMG_20260128_141756.png",
-            pixelArtPath = "${ROOT_DIR}IMG_20260128_142126.png",
-            description = "12-Channel Telemetry / Prometheus Glow",
-            agent = "GENESIS"
-        )
+        "06" to GateInfo("Figma Bridge", "${ROOT_DIR}IMG_20260128_141018.png", "${ROOT_DIR}IMG_20260128_142213.png"),
+        "07" to GateInfo("Secure Node", "${ROOT_DIR}IMG_20260128_141219.png", "${ROOT_DIR}IMG_20260128_142022.png"),
+        "08" to GateInfo("Nexus System", "${ROOT_DIR}IMG_20260128_140816.png", "${ROOT_DIR}IMG_20260128_142126.png"),
+        "09" to GateInfo("Memory Core", "${ROOT_DIR}IMG_20260128_140905.png", "${ROOT_DIR}IMG_20260128_142126.png"),
+        "10" to GateInfo("Oracle Drive", "${ROOT_DIR}IMG_20260128_141519.png", "${ROOT_DIR}IMG_20260128_141949.png"),
+        "11" to GateInfo("Data Vein", "${ROOT_DIR}IMG_20260128_141756.png", "${ROOT_DIR}IMG_20260128_142126.png")
     )
 
-    // Logopit Assets Extension
-    val LogopitAssets = listOf(
-        "${ROOT_DIR}Logopit_1769655748594.png",
-        "${ROOT_DIR}Logopit_1769660650895.png",
-        "${ROOT_DIR}Logopit_1769667869726.png",
-        "${ROOT_DIR}Logopit_1769670186982.png"
-    )
-
-    // 3. THE "EASY SWAP" GETTER
-    fun getAsset(id: String, level: Int = 1): String {
-        val gate = Gates[id] ?: return ""
-        return if (level == 1) gate.highFiPath else gate.pixelArtPath
+    /**
+     * Fetches the path for a specific gate.
+     * Throws an exception if the ID is missing, enforcing strict manifest compliance.
+     */
+    fun getPath(id: String, isLevel2: Boolean = false): String {
+        val gate = Gates[id]
+            ?: throw IllegalStateException("Gate $id not found in Sovereign Registry! The LDO cannot sustain itself without this asset.")
+        return if (isLevel2) gate.pixelArtPath else gate.highFiPath
     }
+
+    /**
+     * Helper to get GateInfo directly.
+     */
+    fun getGate(id: String): GateInfo {
+        return Gates[id] ?: throw IllegalStateException("Gate $id not found in Sovereign Registry!")
+    }
+
+    /**
+     * Returns the total count of managed gates.
+     */
+    fun getCount(): Int = Gates.size
 }
 
 data class GateInfo(
     val title: String,
     val highFiPath: String,
     val pixelArtPath: String,
-    val description: String,
-    val agent: String,
     val color: Color = SovereignTeal
 )

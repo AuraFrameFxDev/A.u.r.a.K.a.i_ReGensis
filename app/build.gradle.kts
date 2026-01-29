@@ -101,11 +101,12 @@ extensions.configure<ApplicationExtension> {
     }
 }
 
-// Enable experimental context-parameters feature (Kotlin 2.2+)
+// Enable modern Kotlin features (Experimental/New in 2.2+)
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
         freeCompilerArgs.addAll(
-            "-Xcontext-parameters"
+            "-Xcontext-parameters",
+            "-Xannotation-default-target=param-property"
         )
     }
 }
