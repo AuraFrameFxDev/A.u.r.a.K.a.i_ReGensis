@@ -34,7 +34,7 @@ fun SovereignMonolith(
         initialValue = -10f,
         targetValue = 10f,
         animationSpec = infiniteRepeatable(
-            animation = tween(2500, easing = EaseInOutSine),
+            animation = tween(3000, easing = EaseInOutSine),
             repeatMode = RepeatMode.Reverse
         ),
         label = "translationY"

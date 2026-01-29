@@ -41,11 +41,11 @@ fun KaiRootWorkspaceScreen(
     onBack: () -> Unit
 ) {
     val rootTools = listOf(
-        RootTool("VPN", "Secure encrypted tunnel", Icons.Default.VpnLock, "file:///sdcard/Pictures/Screenshots/kai_root_vpn.jpg"),
-        RootTool("ADBLOCK", "DNS-level ad filtration", Icons.Default.Block, "file:///sdcard/Pictures/Screenshots/kai_root_adblock.jpg"),
-        RootTool("GATE SYSTEM", "Inbound/Outbound traffic gates", Icons.Default.SettingsSystemDaydream, "file:///sdcard/Pictures/Screenshots/kai_root_gatesystem.jpg"),
-        RootTool("SCAN", "Neural integrity & file scan", Icons.Default.Radar, "file:///sdcard/Pictures/Screenshots/kai_gate_sentinel.jpg"),
-        RootTool("MONITORING", "Real-time substrate performance", Icons.Default.MonitorHeart, "file:///sdcard/Pictures/Screenshots/IMG_20260128_141756.png")
+        RootTool("VPN", "Secure encrypted tunnel", Icons.Default.VpnLock, "file:///sdcard/Pictures/Screenshots/IMG_20260128_141949.png"),
+        RootTool("ADBLOCK", "DNS-level ad filtration", Icons.Default.Block, "file:///sdcard/Pictures/Screenshots/IMG_20260128_141949.png"),
+        RootTool("GATE SYSTEM", "Inbound/Outbound traffic gates", Icons.Default.SettingsSystemDaydream, "file:///sdcard/Pictures/Screenshots/IMG_20260128_141949.png"),
+        RootTool("SCAN", "Neural integrity & file scan", Icons.Default.Radar, "file:///sdcard/Pictures/Screenshots/IMG_20260128_142022.png"),
+        RootTool("MONITORING", "Real-time substrate performance", Icons.Default.MonitorHeart, "file:///sdcard/Pictures/Screenshots/IMG_20260128_142022.png")
     )
 
     Scaffold(

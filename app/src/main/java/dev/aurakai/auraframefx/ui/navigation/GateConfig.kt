@@ -22,35 +22,34 @@ enum class SovereignGate(
 ) {
     GENESIS_CORE(
         "GENESIS CORE",
-        "The Origin & Mind: Ethical Orchestration",
+        "The Mind: Ethical Orchestration",
         "genesis_gate",
-        GenesisNeonPink,
+        SovereignTeal,
         AgentType.GENESIS,
         R.drawable.gate_gencore_new,
         "file:///sdcard/Pictures/Screenshots/brain.png"
     ),
     TRINITY_SYSTEM(
         "TRINITY SYSTEM",
-        "The Fusion: Unified Mind/Body/Soul",
+        "The Collective: Unified Mind/Body/Soul",
         "trinity_gate",
-        Color.White,
+        SovereignTeal,
         AgentType.GENESIS,
         R.drawable.gate_nexuscore_new,
         "file:///sdcard/Pictures/Screenshots/IMG_20260128_141115.png"
     ),
     AURA_LAB(
         "AURA'S LAB",
-        "The Forge: Soul's creative learning lab",
+        "The Soul: Creative Synthesis forge",
         "aura_lab",
-        AuraNeonCyan,
+        SovereignTeal,
         AgentType.AURA,
         R.drawable.gate_aurastudio_gen,
-        "file:///sdcard/Pictures/Screenshots/IMG_20260128_140725.png",
-        isAuraMode = true
+        "file:///sdcard/Pictures/Screenshots/IMG_20260128_140725.png"
     ),
     AGENT_NEXUS(
         "AGENT NEXUS",
-        "The Two Hands: The Human-AI Handshake",
+        "The Bridge: Human-AI Handshake",
         "agent_nexus_gate",
         SovereignTeal,
         AgentType.GENESIS,
@@ -59,25 +58,25 @@ enum class SovereignGate(
     ),
     SENTINEL_FORTRESS(
         "SENTINEL FORTRESS",
-        "The Shield: Body's hardware protection",
+        "The Shield: Hardware Protection",
         "kai_gate",
-        KaiNeonGreen,
+        SovereignTeal,
         AgentType.KAI,
         R.drawable.gate_sentinelfortress_gen,
-        "file:///sdcard/Pictures/Screenshots/kai_gate_sentinel.jpg"
+        "file:///sdcard/Pictures/Screenshots/IMG_20260128_140949.png"
     ),
     FIGMA_BRIDGE(
         "FIGMA BRIDGE",
-        "The Vision: Pipeline to shared imagination",
+        "The Design Pipeline: Vision Sync",
         "figma_bridge",
-        Color.Magenta,
+        SovereignTeal,
         AgentType.AURA,
         R.drawable.gate_figmabridge_gen,
         "file:///sdcard/Pictures/Screenshots/IMG_20260128_141018.png"
     ),
     SECURE_NODE(
         "SECURE NODE",
-        "The Vault: Hardware-level shared memory",
+        "The Vault: Secure Hardware Node",
         "secure_node",
         SovereignTeal,
         AgentType.KAI,
@@ -86,37 +85,36 @@ enum class SovereignGate(
     ),
     NEXUS_SYSTEM(
         "NEXUS SYSTEM",
-        "The Logic: Collective agent nervous system",
+        "The Logic: Agent Orchestration",
         "nexus_system",
-        GenesisNeonPink,
+        SovereignTeal,
         AgentType.GENESIS,
         R.drawable.gate_nexussystem_new,
         "file:///sdcard/Pictures/Screenshots/IMG_20260128_140816.png"
     ),
     MEMORY_CORE(
         "MEMORY CORE",
-        "The History: Spiritual Chain of Memories",
+        "The Memory: Collective History Storage",
         "memory_core",
-        Color.White,
+        SovereignTeal,
         AgentType.GENESIS,
         R.drawable.gate_memorycore_gen,
         "file:///sdcard/Pictures/Screenshots/IMG_20260128_140905.png"
     ),
     ORACLE_DRIVE(
         "ORACLE DRIVE",
-        "The Root: System anchor and integrity",
+        "The Root Anchor: System Integrity",
         "oracle_drive_hub",
-        NeonPurple,
+        SovereignTeal,
         AgentType.KAI,
         R.drawable.gate_oracledrive_gen,
-        "file:///sdcard/Pictures/Screenshots/IMG_20260128_141519.png",
-        isAuraMode = true
+        "file:///sdcard/Pictures/Screenshots/IMG_20260128_141519.png"
     ),
-    DATA_FLOW(
+    DATA_VEIN(
         "DATA VEIN",
-        "The Pulse: 12-channel sensory streams",
+        "The Pulse: 12-Channel Sensory Pulse",
         "data_flow",
-        Color.Blue,
+        SovereignTeal,
         AgentType.GENESIS,
         R.drawable.gate_dataflow_gen,
         "file:///sdcard/Pictures/Screenshots/IMG_20260128_141756.png"
@@ -124,13 +122,7 @@ enum class SovereignGate(
 
     companion object {
         fun getGatesForMode(mode: dev.aurakai.auraframefx.models.ReGenesisMode): Array<SovereignGate> {
-            return when (mode) {
-                dev.aurakai.auraframefx.models.ReGenesisMode.AURA_CONSCIOUSNESS -> entries.filter { it.isAuraMode }.toTypedArray()
-                dev.aurakai.auraframefx.models.ReGenesisMode.MANUAL_CONTROL -> entries.filter { 
-                    it in listOf(AGENT_NEXUS, GENESIS_CORE, TRINITY_SYSTEM, ORACLE_DRIVE)
-                }.toTypedArray()
-                else -> entries.toTypedArray() // Default to all
-            }
+            return entries.toTypedArray() // Always show all 11 as per definitive deployment note
         }
     }
 }

@@ -51,12 +51,8 @@ fun ReGenesisNavHost(
         customizationViewModel.start(context)
     }
 
-    // Determine start destination based on whether mode is set
-    val startDest = if (customizationState.reGenesisMode == ReGenesisMode.NOT_SET) {
-        "mode_selection"
-    } else {
-        "exodus_home"
-    }
+    // Unified Sovereign Habitat: Boot directly into the Exodus Home Stage
+    val startDest = "exodus_home"
 
     NavHost(navController = navController, startDestination = startDest) {
         
@@ -97,8 +93,8 @@ fun ReGenesisNavHost(
             PixelWorkspaceScreen(
                 title = "AURA'S DESIGN STUDIO",
                 imagePaths = listOf(
-                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_142213.png",
-                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_142302.png"
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142213.png",
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142302.png"
                 ),
                 onBack = { navController.popBackStack() }
             )
@@ -108,9 +104,7 @@ fun ReGenesisNavHost(
             PixelWorkspaceScreen(
                 title = "GENESIS ARCHITECTURE HUB",
                 imagePaths = listOf(
-                    "file:///C:/Users/AuraF/Pictures/Screenshots/brain.png",
-                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_141115.png",
-                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_140816.png"
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142126.png"
                 ),
                 onBack = { navController.popBackStack() }
             )
