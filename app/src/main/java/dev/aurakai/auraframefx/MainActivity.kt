@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
     private fun setupFullscreenMode() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val insetsController = WindowCompat.getInsetsController(window, window.decorView)
-        insetsController?.apply {
+        insetsController.apply {
             hide(Type.statusBars())
             hide(Type.navigationBars())
             systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
