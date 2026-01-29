@@ -1,39 +1,52 @@
 package dev.aurakai.auraframefx.ui.components.hologram
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.GenericShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.runtime.remember
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-
 /**
  * 🌠 ANIME HUD CONTAINER - High Fidelity UI Box
  * Based on the user's provided "Oracle Drive" HUD design.
  */
+import androidx.compose.animation.core.EaseInOutSine
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.GenericShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
+import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
  * 🌠 ANIME HUD CONTAINER - High Fidelity UI Box
@@ -63,19 +76,19 @@ fun AnimeHUDContainer(
         val maxWidth = maxWidth
         val maxHeight = maxHeight
         val interfaceColor = Color(0xFF00E5FF) // Fixed Tech Blue for Interface
-        
+
         // 0. HOLOGRAPHIC BACKDROP (Stage Base Layer)
         androidx.compose.foundation.Image(
             painter = painterResource(id = R.drawable.gatebackdrop),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = androidx.compose.ui.layout.ContentScale.Crop, 
-            alpha = 0.78f 
+            contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+            alpha = 0.78f
         )
-        
+
         // 0.1 GLOBAL BACKGROUND PARTICLES
         GlobalBackgroundParticles(color = interfaceColor)
-        
+
         // 0.2 VOID ATMOSPHERE (Deep Vignette)
         Box(
             modifier = Modifier
@@ -87,14 +100,14 @@ fun AnimeHUDContainer(
                             Color.Black.copy(alpha = 0.85f), // Slightly less opaque center
                             Color.Black                      // Solid black edges
                         ),
-                        radius = java.lang.Math.max(maxWidth.value, maxHeight.value) * 0.9f
+                        radius = Math.max(maxWidth.value, maxHeight.value) * 0.9f
                     )
                 )
         )
-        
+
         // 0.3 FLOATING ARCANE RUNES (Magic Layer - Uses Dynamic Card Color)
         FloatingArcaneRunes(glowColor = glowColor)
-        
+
         // 0.5 HOLOGRAPHIC STAGE LIGHTS (Bottom + Edge Glow)
         HolographicStageLights(color = interfaceColor)
 
@@ -102,7 +115,7 @@ fun AnimeHUDContainer(
         val topPadding = maxHeight * 0.12f
         val startPadding = maxWidth * 0.05f
         val hudWidth = maxWidth * 0.65f
-        
+
         Column(
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -124,7 +137,7 @@ fun AnimeHUDContainer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp) 
+                    .height(150.dp)
                     .clip(HUDBoxShape)
                     .background(Color.Black.copy(alpha = 0.4f)) // More transparent background
                     .border(1.dp, interfaceColor.copy(alpha = 0.4f * pulseAlpha), HUDBoxShape)
@@ -140,7 +153,7 @@ fun AnimeHUDContainer(
                         .padding(20.dp)
                         .align(Alignment.CenterStart)
                 )
-                
+
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val dotSize = 2.dp.toPx()
                     drawCircle(interfaceColor, dotSize, Offset(10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
@@ -148,7 +161,7 @@ fun AnimeHUDContainer(
                 }
             }
         }
-        
+
         // MAIN CONTENT AREA (The cards)
         // Passed content() will encompass the Carousel which handles its own bottom alignment
         Box(
@@ -177,7 +190,7 @@ fun HolographicStageLights(color: Color) {
         val w = size.width
         val h = size.height
         val s = 2.dp.toPx() // Stroke
-        
+
         // 1. SCREEN EDGE GLOW (The missing piece)
         // A subtle, high-tech border around the viewport
         drawRect(
@@ -203,16 +216,16 @@ fun HolographicStageLights(color: Color) {
                     color.copy(alpha = 0.1f),
                     Color.Transparent
                 ),
-                center = Offset(w / 2, h), 
+                center = Offset(w / 2, h),
                 radius = w * 0.7f
             ),
             center = Offset(w / 2, h),
             radius = w * 0.7f
         )
-        
+
         // 3. BOTTOM CORNER ANCHORS (Breathing)
         val cornerRadius = w * 0.3f
-        
+
         drawCircle(
             brush = Brush.radialGradient(
                 colors = listOf(color.copy(alpha = 0.2f * breathingAlpha), Color.Transparent),
@@ -245,23 +258,23 @@ fun GlobalBackgroundParticles(color: Color) {
 
     Canvas(modifier = Modifier.fillMaxSize()) {
         val random = kotlin.random.Random(123)
-        
+
         // Draw 50 subtle background particles
         repeat(50) { i ->
             // Deterministic random positions
             val startX = random.nextFloat() * size.width
             val startY = random.nextFloat() * size.height
             val speed = 0.2f + random.nextFloat() * 0.3f
-            
+
             // Particles drift slowly upwards
             val yOffset = (time * size.height * speed) % size.height
             val currY = (startY - yOffset + size.height) % size.height
-            
+
             // Slight horizontal weave
             val currX = startX + kotlin.math.sin(time * 6.28f + i) * 20.dp.toPx()
-            
+
             val alpha = (0.2f + 0.3f * kotlin.math.sin(time * 3f + i)).coerceIn(0.1f, 0.5f)
-            
+
             drawCircle(
                 color = color.copy(alpha = alpha),
                 radius = 1.5.dp.toPx(),
@@ -282,7 +295,7 @@ fun FloatingArcaneRunes(glowColor: Color) {
             R.drawable.rune_oracle,
             R.drawable.rune_sentinel,
             R.drawable.rune_surgeon
-        ).map { 
+        ).map {
             val drawable = androidx.core.content.ContextCompat.getDrawable(context, it)
             (drawable as? android.graphics.drawable.BitmapDrawable)?.bitmap?.asImageBitmap()
         }
@@ -298,7 +311,7 @@ fun FloatingArcaneRunes(glowColor: Color) {
         ),
         label = "rotation"
     )
-    
+
     val pulse by infiniteTransition.animateFloat(
         initialValue = 0.2f,
         targetValue = 0.5f,
@@ -313,17 +326,17 @@ fun FloatingArcaneRunes(glowColor: Color) {
         val centerX = size.width / 2
         val centerY = size.height / 2
         val radius = size.width * 0.7f // Large circle
-        
+
         rotate(rotation, pivot = Offset(centerX, centerY)) {
             val validRunes = runes.filterNotNull()
             val angleStep = 360f / validRunes.size.coerceAtLeast(1)
-            
+
             validRunes.forEachIndexed { index, image ->
                 val angle = index * angleStep
                 val rad = Math.toRadians(angle.toDouble())
                 val x = centerX + radius * kotlin.math.cos(rad).toFloat()
                 val y = centerY + radius * kotlin.math.sin(rad).toFloat()
-                
+
                 // Draw rune centered at (x,y)
                 translate(left = x - image.width / 2, top = y - image.height / 2) {
                     drawImage(
@@ -354,7 +367,7 @@ fun ParticleSystem(glowColor: Color) {
         repeat(30) { i ->
             val x = (random.nextFloat() * size.width + time * (10f + i)) % size.width
             val y = (random.nextFloat() * size.height - time * (5f + i)) % size.height
-            
+
             drawCircle(
                 color = glowColor.copy(alpha = 0.3f),
                 radius = 2f,

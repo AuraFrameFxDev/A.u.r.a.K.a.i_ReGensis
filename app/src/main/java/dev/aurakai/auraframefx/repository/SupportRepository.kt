@@ -1,14 +1,18 @@
 package dev.aurakai.auraframefx.repository
 
+import dev.aurakai.auraframefx.data.DataStoreManager
+import dev.aurakai.auraframefx.data.MessageStatus
 import dev.aurakai.auraframefx.data.SupportMessageDao
 import dev.aurakai.auraframefx.data.SupportMessageEntity
-import dev.aurakai.auraframefx.data.MessageStatus
 import dev.aurakai.auraframefx.network.SupportApi
-import dev.aurakai.auraframefx.data.DataStoreManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.*
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import java.util.UUID
-import kotlin.math.min
 
 class SupportRepository(
     private val dao: SupportMessageDao,
@@ -93,7 +97,7 @@ class SupportRepository(
         val failed = dao.getFailedMessages()
         for (msg in failed) {
             try {
-                val result = sendMessage(msg)
+                sendMessage(msg)
                 // if successful, sendMessage will persist reply and mark as SENT
             } catch (t: Throwable) {
                 // backoff is handled by cycle delay; do nothing per-message

@@ -1,40 +1,19 @@
 package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.OracleDriveScreen
-import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
-import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
-import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
-import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
-import dev.aurakai.auraframefx.ui.screens.manual.ChromaSphereManualScreen
-import dev.aurakai.auraframefx.ui.screens.manual.OracleDriveManualScreen
-import dev.aurakai.auraframefx.ui.screens.manual.LaunchMatrixManualScreen
-import dev.aurakai.auraframefx.ui.gates.AgentBridgeHubScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignShieldScreen
-import dev.aurakai.auraframefx.ui.gates.OracleCloudInfiniteStorageScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignModuleManagerScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignRecoveryScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignBootloaderScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignNeuralArchiveScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
-import dev.aurakai.auraframefx.ui.gates.CascadeVisionScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignMonitoringScreen
-
-import androidx.navigation.NavController
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.models.ReGenesisMode
+import dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen
+import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
 import dev.aurakai.auraframefx.ui.screens.ModeSelectionScreen
 
 // Mapping for clarity - strictly Sovereign architecture
@@ -54,7 +33,6 @@ fun ReGenesisNavHost(
     customizationViewModel: CustomizationViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val customizationState by customizationViewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         customizationViewModel.start(context)
@@ -64,7 +42,7 @@ fun ReGenesisNavHost(
     val startDest = "exodus_home"
 
     NavHost(navController = navController, startDestination = startDest) {
-        
+
         // --- THE MODE SELECTOR ---
         composable("mode_selection") {
             ModeSelectionScreen(
@@ -85,7 +63,7 @@ fun ReGenesisNavHost(
         // --- LEVEL 2 PIXEL WORKSPACES ---
         composable(
             "pixel_domain/{id}",
-            arguments = listOf(androidx.navigation.navArgument("id") { type = androidx.navigation.NavType.StringType })
+            arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id") ?: "01"
             val route = SovereignRouter.getById(id)
@@ -129,11 +107,11 @@ fun ReGenesisNavHost(
         }
 
         composable("aura_lab") {
-            dev.aurakai.auraframefx.ui.gates.AuraLabScreen(onNavigateBack = { navController.popBackStack() })
+            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable("interface_forge") {
-            dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+            AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
         }
     }
 }

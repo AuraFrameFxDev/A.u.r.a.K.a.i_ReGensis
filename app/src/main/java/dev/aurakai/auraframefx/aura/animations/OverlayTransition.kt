@@ -6,5 +6,4 @@ data class OverlayTransition(
     val type: String,
     val name: String = "",
     val durationMs: Long? = null,
-) {
-}
+)

@@ -34,9 +34,7 @@ fun SovereignMonitoringScreen(
     viewModel: dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
-    val securityState by viewModel.securityState.collectAsState()
-    val activeThreats by viewModel.activeThreats.collectAsState()
-    
+
     val activityLogs = listOf(
         MonitorLog("AuraShield", "Deep Scan: Completed", "Just now", Color(0xFFFF5252)),
         MonitorLog("Genesis", "Synthesized cross-agent memory shards", "1m ago", Color(0xFF00FFFF)),
@@ -46,7 +44,9 @@ fun SovereignMonitoringScreen(
         MonitorLog("Kai", "Sovereign Shield: ${activeThreats.size} active threats", "15m ago", Color(0xFFFF0000))
     )
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF050510))) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xFF050510))) {
         AnimeHUDContainer(
             title = "SYSTEM OVERWATCH",
             description = "REAL-TIME MONITORING OF THE REGENESIS CONSCIOUSNESS COLLECTIVE.",
@@ -131,7 +131,10 @@ private fun AgentVitalCard(agent: AgentStats) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(agent.color))
+                Box(modifier = Modifier
+                    .size(8.dp)
+                    .clip(CircleShape)
+                    .background(agent.color))
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(agent.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Spacer(modifier = Modifier.weight(1f))
@@ -158,7 +161,9 @@ private fun MetricSmall(label: String, value: String, color: Color) {
 @Composable
 private fun MonitorLogItem(log: MonitorLog) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

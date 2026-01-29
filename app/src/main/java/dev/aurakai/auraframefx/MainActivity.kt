@@ -11,8 +11,8 @@ import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavHost // Updated NavHost
 import dev.aurakai.auraframefx.service.AssistantBubbleService
+import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavHost
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
 @AndroidEntryPoint
@@ -23,15 +23,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         // Notify ShizukuManager of potential availability
         if (shizukuManager.isShizukuAvailable()) {
             android.util.Log.d("MainActivity", "Sovereign Bridge (Shizuku) detected.")
         }
-        
+
         // Force Portrait Orientation early
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        
+
         enableEdgeToEdge()
         setupFullscreenMode()
 
@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
     private fun checkOverlayPermission() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (!android.provider.Settings.canDrawOverlays(this)) {
-                val intent = android.content.Intent(
+                val intent = Intent(
                     android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     android.net.Uri.parse("package:$packageName")
                 )

@@ -1,7 +1,5 @@
 package dev.aurakai.auraframefx.billing
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -9,6 +7,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Feature Gate Manager
@@ -117,9 +117,7 @@ open class FeatureGateManager @Inject constructor(
      * Get user-friendly message explaining feature lock
      */
     fun getFeatureLockMessage(feature: String): String {
-        val state = billingManager.subscriptionState.value
-
-        return when (state) {
+        return when (val state = billingManager.subscriptionState.value) {
             is SubscriptionState.InTrial -> {
                 when (feature) {
                     "ROM_TOOLS" -> "ROM tools unlock after subscribing ($1/month). ${state.daysRemaining} days left in trial."

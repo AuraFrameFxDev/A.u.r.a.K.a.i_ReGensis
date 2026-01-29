@@ -1,18 +1,17 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.ai.clients
 
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.config.VertexAIConfig
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.util.concurrent.TimeUnit
 import timber.log.Timber
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.config.VertexAIConfig
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -105,7 +104,7 @@ class VertexAIClientImpl @Inject constructor(
         }
 
         // Build Vertex AI request
-        val topPValue = config.topP.toDouble()
+        config.topP.toDouble()
         val request = VertexAIRequest(
             contents = listOf(
                 Content(

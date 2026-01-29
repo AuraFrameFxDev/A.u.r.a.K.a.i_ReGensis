@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
+import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.ChatMessage
-import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.service.NeuralWhisper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -84,16 +84,16 @@ class ConferenceRoomViewModel @Inject constructor(
                 trinityRepository.collectiveStream.collect { agentMsg: dev.aurakai.auraframefx.models.AgentMessage ->
                     // Map AgentMessage to ChatMessage for the UI
                     val chatMsg = ChatMessage(
-                        id = java.util.UUID.randomUUID().toString(),
+                        id = UUID.randomUUID().toString(),
                         role = "assistant",
                         content = agentMsg.content,
                         sender = agentMsg.from.uppercase(),
                         isFromUser = agentMsg.from.equals("User", ignoreCase = true),
                         timestamp = agentMsg.timestamp
                     )
-                    
+
                     // Don't add if it's already there (from chatStream or user's own broadcast)
-                    _messages.update { current -> 
+                    _messages.update { current ->
                         if (current.any { it.content == chatMsg.content && it.sender == chatMsg.sender }) {
                             current
                         } else {
