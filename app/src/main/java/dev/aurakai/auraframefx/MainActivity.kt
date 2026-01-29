@@ -35,9 +35,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setupFullscreenMode()
 
-        // Check for overlay and storage permissions
+        // Check for overlay permission
         checkOverlayPermission()
-        checkStoragePermission()
 
         // Start the Persistent Assistant Bubble
         try {
@@ -69,18 +68,6 @@ class MainActivity : ComponentActivity() {
             if (!android.provider.Settings.canDrawOverlays(this)) {
                 val intent = Intent(
                     android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    android.net.Uri.parse("package:$packageName")
-                )
-                startActivity(intent)
-            }
-        }
-    }
-
-    private fun checkStoragePermission() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            if (!android.os.Environment.isExternalStorageManager()) {
-                val intent = Intent(
-                    android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
                     android.net.Uri.parse("package:$packageName")
                 )
                 startActivity(intent)

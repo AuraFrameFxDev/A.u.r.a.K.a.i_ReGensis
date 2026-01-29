@@ -9,18 +9,18 @@ import dev.aurakai.auraframefx.ui.theme.SovereignTeal
  * This is the High-Fidelity "Hard-Wired" Manifest.
  */
 object SovereignRegistry {
-    // 1. THE ABSOLUTE ROOT: Where the 8K files live on the device filesystem.
-    private const val ROOT_DIR = "file:///storage/emulated/0/ReGenesis/Assets/"
+    // 1. THE BUNDLED ROOT: Using the android_asset protocol to load from the project.
+    private const val ROOT_DIR = "file:///android_asset/"
 
     // 2. THE HARD-WIRED MAPPING: All 11 High-Fi Gates mapped to their internal Pixel domains.
     val Gates = mapOf(
         "01" to GateInfo("Genesis Core", "${ROOT_DIR}brain.png", "${ROOT_DIR}IMG_20260128_142126.png"),
-        "02" to GateInfo("Trinity System", "${ROOT_DIR}IMG_20260128_141115.png", "${ROOT_DIR}IMG_20260128_142126.png"),
+        "02" to GateInfo("Trinity System", "${ROOT_DIR}IMG_20260128_141219.png", "${ROOT_DIR}IMG_20260128_142126.png"),
         "03" to GateInfo("Aura's Lab", "${ROOT_DIR}IMG_20260128_140725.png", "${ROOT_DIR}IMG_20260128_142213.png"),
         "04" to GateInfo("Agent Nexus", "${ROOT_DIR}IMG_20260128_141704.png", "${ROOT_DIR}IMG_20260128_142302.png"),
         "05" to GateInfo(
             "Sentinel Fortress",
-            "${ROOT_DIR}IMG_20260128_140949.png",
+            "${ROOT_DIR}IMG_20260128_141018.png",
             "${ROOT_DIR}IMG_20260128_142022.png"
         ),
         "06" to GateInfo("Figma Bridge", "${ROOT_DIR}IMG_20260128_141018.png", "${ROOT_DIR}IMG_20260128_142213.png"),
@@ -52,6 +52,14 @@ object SovereignRegistry {
      * Returns the total count of managed gates.
      */
     fun getCount(): Int = Gates.size
+
+    /**
+     * Diagnostic: Integrity verification for the internal assets.
+     */
+    fun checkAssets() {
+        // Assets are managed by AssetManager at runtime; logging internal mapping instead.
+        timber.log.Timber.i("SovereignRegistry: Internal mapping active: $ROOT_DIR")
+    }
 }
 
 data class GateInfo(

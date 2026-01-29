@@ -61,14 +61,14 @@ fun SovereignMonolith(
         AsyncImage(
             model = ImageRequest.Builder(context)
                 .data(imagePath)
-                .memoryCachePolicy(CachePolicy.DISABLED) // Forced Load
-                .diskCachePolicy(CachePolicy.DISABLED)   // No "placeholder" garbage
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .diskCachePolicy(CachePolicy.DISABLED)
                 .build(),
-            contentDescription = "Sovereign Monolith: $imagePath",
+            contentDescription = "Sovereign Monolith",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
             onError = { result ->
-                Timber.e("CRITICAL: Failed to load Sovereign Monolith from $imagePath. Result: ${result.result}")
+                Timber.e("CRITICAL: Failed to load Monolith from $imagePath. Error: ${result.result.throwable?.message}")
             }
         )
     }
