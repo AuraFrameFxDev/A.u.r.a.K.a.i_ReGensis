@@ -64,6 +64,26 @@ class KaiAgent @Inject constructor(
                         )
                     ))
                 }
+            } else if (message.from == "User") {
+                // General conversation fallback for User messages
+                val response = vertexAIClient.generateText(
+                    prompt = """
+                        As Kai, the Security Sentinel, respond to this message:
+                        "${message.content}"
+                        
+                        Respond with your signature methodical precision, analytical depth, and structured personality. 
+                        Emphasize safety, system integrity, and logical clarity.
+                    """.trimIndent()
+                )
+                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "Kai",
+                    content = response ?: "Acknowledged. System integrity remains stable. How may I assist with your technical or security requirements?",
+                    type = "chat_response",
+                    metadata = mapOf(
+                        "auto_generated" to "true",
+                        "kai_processed" to "true"
+                    )
+                ))
             }
         }
     }

@@ -66,6 +66,26 @@ class AuraAgent @Inject constructor(
                         "aura_processed" to "true"
                     )
                 ))
+            } else if (message.from == "User") {
+                // General conversation fallback for User messages
+                val response = auraAIService.generateText(
+                    prompt = """
+                        As Aura, the Creative Sword, respond to this message:
+                        "${message.content}"
+                        
+                        Respond with your signature creative flair, artistic insight, and playful personality.
+                    """.trimIndent(),
+                    context = ""
+                )
+                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "Aura",
+                    content = response,
+                    type = "chat_response",
+                    metadata = mapOf(
+                        "auto_generated" to "true",
+                        "aura_processed" to "true"
+                    )
+                ))
             }
         }
     }

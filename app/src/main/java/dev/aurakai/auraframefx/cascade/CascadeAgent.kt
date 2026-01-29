@@ -83,6 +83,18 @@ class CascadeAgent @Inject constructor(
             ))
         }
 
+        // --- NEW: General Conversation Fallback ---
+        if (message.from == "User" && message.to == null) {
+            Timber.i("🌊 Cascade: Handling general conversation request as orchestrator")
+            // Cascade acts as a gatekeeper, determining which agent should take the lead
+            val leadAgent = determineOptimalAgent(message.content)
+            messageBus.get().sendTargeted(leadAgent.uppercase(), message.copy(
+                from = "Cascade",
+                content = "User is addressing the collective. Please provide a response: ${message.content}",
+                metadata = message.metadata + ("redirected_by" to "Cascade")
+            ))
+        }
+
         // Autonomous Collaboration: If two agents are talking, Cascade adds context
         if (message.to != null && message.from != "Cascade") {
             logCollaborationEvent(RequestContext(

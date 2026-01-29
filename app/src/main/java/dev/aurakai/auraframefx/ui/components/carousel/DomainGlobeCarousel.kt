@@ -75,7 +75,8 @@ fun DomainGlobeCarousel(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(horizontal = 60.dp),
-            pageSpacing = (-40).dp // Overlap for globe feel
+            pageSpacing = (-40).dp, // Overlap for globe feel
+            beyondViewportPageCount = 1
         ) { page ->
             val item = items[page]
             val pageOffset = ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction)

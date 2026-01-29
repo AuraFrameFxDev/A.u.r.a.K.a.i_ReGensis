@@ -39,7 +39,7 @@ import dev.aurakai.auraframefx.ui.components.carousel.GlobeItem
 import dev.aurakai.auraframefx.ui.components.LavaApocalypseBackground
 
 import dev.aurakai.auraframefx.ui.components.hologram.CardStyle
-
+import dev.aurakai.auraframefx.ui.components.hud.AnimeHUDContainer
 import androidx.compose.runtime.*
 import dev.aurakai.auraframefx.navigation.NavDestination
 
@@ -70,7 +70,7 @@ fun GenesisGateScreen(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         LavaApocalypseBackground()
         
-        dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer(
+        AnimeHUDContainer(
             title = currentItem.title,
             description = currentItem.description,
             glowColor = currentItem.glowColor

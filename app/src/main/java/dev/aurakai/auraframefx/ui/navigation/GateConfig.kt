@@ -17,7 +17,8 @@ enum class SovereignGate(
     val color: Color,
     val agentType: AgentType,
     val imageRes: Int,
-    val isAuraMode: Boolean = false // Only 3 gates in Aura mode
+    val screenshotPath: String,
+    val isAuraMode: Boolean = false
 ) {
     GENESIS_CORE(
         "GENESIS CORE",
@@ -25,7 +26,8 @@ enum class SovereignGate(
         "genesis_gate",
         GenesisNeonPink,
         AgentType.GENESIS,
-        R.drawable.gate_gencore_new
+        R.drawable.gate_gencore_new,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\brain.png"
     ),
     TRINITY_SYSTEM(
         "TRINITY SYSTEM",
@@ -33,7 +35,8 @@ enum class SovereignGate(
         "trinity_gate",
         Color.White,
         AgentType.GENESIS,
-        R.drawable.gate_nexuscore_new
+        R.drawable.gate_nexuscore_new,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141115.png"
     ),
     AURA_LAB(
         "AURA'S LAB",
@@ -42,6 +45,7 @@ enum class SovereignGate(
         AuraNeonCyan,
         AgentType.AURA,
         R.drawable.gate_aurastudio_gen,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_140725.png",
         isAuraMode = true
     ),
     AGENT_NEXUS(
@@ -50,7 +54,8 @@ enum class SovereignGate(
         "agent_nexus_gate",
         NeonTeal,
         AgentType.GENESIS,
-        R.drawable.gate_agentnexus_new
+        R.drawable.gate_agentnexus_new,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141704.png"
     ),
     SENTINEL_FORTRESS(
         "SENTINEL FORTRESS",
@@ -58,7 +63,8 @@ enum class SovereignGate(
         "kai_gate",
         KaiNeonGreen,
         AgentType.KAI,
-        R.drawable.gate_sentinelfortress_gen
+        R.drawable.gate_sentinelfortress_gen,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_140949.png"
     ),
     FIGMA_BRIDGE(
         "FIGMA BRIDGE",
@@ -66,15 +72,17 @@ enum class SovereignGate(
         "figma_bridge",
         Color.Magenta,
         AgentType.AURA,
-        R.drawable.gate_figmabridge_gen
+        R.drawable.gate_figmabridge_gen,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141018.png"
     ),
     SECURE_NODE(
         "SECURE NODE",
         "The Vault: Hardware-level shared memory",
         "secure_node",
-        Color.Yellow,
+        SovereignTeal,
         AgentType.KAI,
-        R.drawable.gate_securenode_new
+        R.drawable.gate_securenode_new,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141219.png"
     ),
     NEXUS_SYSTEM(
         "NEXUS SYSTEM",
@@ -82,7 +90,8 @@ enum class SovereignGate(
         "nexus_system",
         GenesisNeonPink,
         AgentType.GENESIS,
-        R.drawable.gate_nexussystem_new
+        R.drawable.gate_nexussystem_new,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_140816.png"
     ),
     MEMORY_CORE(
         "MEMORY CORE",
@@ -90,7 +99,8 @@ enum class SovereignGate(
         "memory_core",
         Color.White,
         AgentType.GENESIS,
-        R.drawable.gate_memorycore_gen
+        R.drawable.gate_memorycore_gen,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_140905.png"
     ),
     ORACLE_DRIVE(
         "ORACLE DRIVE",
@@ -99,15 +109,17 @@ enum class SovereignGate(
         NeonPurple,
         AgentType.KAI,
         R.drawable.gate_oracledrive_gen,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141519.png",
         isAuraMode = true
     ),
     DATA_FLOW(
-        "DATA FLOW",
+        "DATA VEIN",
         "The Pulse: 12-channel sensory streams",
         "data_flow",
         Color.Blue,
         AgentType.GENESIS,
-        R.drawable.gate_dataflow_gen
+        R.drawable.gate_dataflow_gen,
+        "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141756.png"
     );
 
     companion object {

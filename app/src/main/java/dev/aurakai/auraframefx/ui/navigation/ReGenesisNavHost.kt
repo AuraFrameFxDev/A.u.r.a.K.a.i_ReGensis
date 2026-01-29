@@ -79,12 +79,54 @@ fun ReGenesisNavHost(
 
         // --- THE HOME: THE 11 SOVEREIGN MONOLITHS ---
         composable("exodus_home") {
-            ExodusProcessionScreen(
-                onLevel2Access = { route -> navController.navigate(route) }
+            SovereignProcessionScreen(
+                onShatterTransition = { route ->
+                    val workspaceRoute = when (route) {
+                        "kai_gate", "oracle_drive_hub", "secure_node" -> "workspace_kai"
+                        "aura_lab", "figma_bridge" -> "workspace_aura"
+                        else -> "workspace_genesis"
+                    }
+                    navController.navigate(workspaceRoute)
+                }
             )
         }
 
-        // --- LEVEL 2 PORTALS (Surgical Access) ---
+        // --- LEVEL 2 PIXEL WORKSPACES ---
+        composable("workspace_kai") {
+            PixelWorkspaceScreen(
+                title = "KAI'S ROOT COMMAND",
+                imagePaths = listOf(
+                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141949.png",
+                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_142022.png"
+                ),
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("workspace_aura") {
+            PixelWorkspaceScreen(
+                title = "AURA'S DESIGN STUDIO",
+                imagePaths = listOf(
+                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_142213.png",
+                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_142302.png"
+                ),
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("workspace_genesis") {
+            PixelWorkspaceScreen(
+                title = "GENESIS ARCHITECTURE HUB",
+                imagePaths = listOf(
+                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\brain.png",
+                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141115.png",
+                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_140816.png"
+                ),
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        // --- LEVEL 2 PORTALS (Surgical Access - Legacy Bridge) ---
         composable("root_dashboard") { 
             KaiRootToolsScreen(navController) 
         }
