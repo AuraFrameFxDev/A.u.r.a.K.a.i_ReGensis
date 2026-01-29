@@ -28,6 +28,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -366,7 +367,7 @@ private fun ModuleCard(module: GateXposedModule) {
 
             if (expanded) {
                 Spacer(modifier = Modifier.height(12.dp))
-                Divider(color = Color.Gray.copy(alpha = 0.3f))
+                HorizontalDivider(color = Color.Gray.copy(alpha = 0.3f))
                 Spacer(modifier = Modifier.height(12.dp))
 
                 ModuleDetailRow("Version", value = module.version)
@@ -401,10 +402,6 @@ private fun ModuleCard(module: GateXposedModule) {
     }
 }
 
-@Composable
-fun Divider(color: Color) {
-    TODO("Not yet implemented")
-}
 
 /**
  * Displays a single horizontal detail row with a left-aligned label and a right-aligned value.

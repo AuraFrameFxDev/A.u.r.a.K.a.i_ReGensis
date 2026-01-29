@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,11 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import androidx.compose.ui.res.painterResource
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import timber.log.Timber
 
 /**
  * 🗿 SOVEREIGN MONOLITH
@@ -22,6 +26,7 @@ import dev.aurakai.auraframefx.ui.theme.SovereignTeal
 @Composable
 fun SovereignMonolith(
     imagePath: String,
+    fallbackRes: Int = 0,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "breathing")
@@ -43,13 +48,17 @@ fun SovereignMonolith(
                 translationY = breathingOffset
             }
             .clip(RoundedCornerShape(percent = 16))
+            .background(Color.DarkGray.copy(alpha = 0.2f))
             .border(1.5.dp, SovereignTeal, RoundedCornerShape(percent = 16))
     ) {
         AsyncImage(
             model = imagePath,
             contentDescription = "Sovereign Monolith Asset",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            error = if (fallbackRes != 0) painterResource(fallbackRes) else null,
+            onLoading = { /* Potential shimmer effect */ },
+            onError = { Timber.e("Failed to load monolith image from: $imagePath") }
         )
     }
 }

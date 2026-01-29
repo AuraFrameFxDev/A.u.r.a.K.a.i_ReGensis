@@ -119,7 +119,11 @@
         <service
             android:name=".services.security.IntegrityMonitorService"
             android:exported="false"
-            android:foregroundServiceType="dataSync" />
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="integrity_monitoring" />
+        </service>
         <service
             android:name=".services.BackupService"
             android:exported="false"

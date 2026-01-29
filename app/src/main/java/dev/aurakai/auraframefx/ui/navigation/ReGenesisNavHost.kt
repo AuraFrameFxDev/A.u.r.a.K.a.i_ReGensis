@@ -37,12 +37,7 @@ import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.models.ReGenesisMode
 import dev.aurakai.auraframefx.ui.screens.ModeSelectionScreen
 
-// Mapping for clarity based on user request names
-@Composable fun KaiRootToolsScreen(navController: NavController) = KaiSentinelHubScreen(navController)
-@Composable fun GenesisNexusHubScreen(navController: NavController) = AgentNexusHubScreen(navController)
-@Composable fun KaiRomToolsScreen(onNavigateBack: () -> Unit) = BootloaderManagerScreen(onNavigateBack)
-@Composable fun AuraChromaCoreScreen(onNavigateBack: () -> Unit) = ChromaCoreColorsScreen(onNavigateBack)
-@Composable fun AuraCollabCanvasScreen(onNavigateBack: () -> Unit) = CollabCanvasScreen(onNavigateBack)
+// Mapping for clarity - strictly Sovereign architecture
 
 @Composable
 fun ReGenesisNavHost(
@@ -93,12 +88,7 @@ fun ReGenesisNavHost(
 
         // --- LEVEL 2 PIXEL WORKSPACES ---
         composable("workspace_kai") {
-            PixelWorkspaceScreen(
-                title = "KAI'S ROOT COMMAND",
-                imagePaths = listOf(
-                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141949.png",
-                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_142022.png"
-                ),
+            KaiRootWorkspaceScreen(
                 onBack = { navController.popBackStack() }
             )
         }
@@ -107,8 +97,8 @@ fun ReGenesisNavHost(
             PixelWorkspaceScreen(
                 title = "AURA'S DESIGN STUDIO",
                 imagePaths = listOf(
-                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_142213.png",
-                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_142302.png"
+                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_142213.png",
+                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_142302.png"
                 ),
                 onBack = { navController.popBackStack() }
             )
@@ -118,36 +108,14 @@ fun ReGenesisNavHost(
             PixelWorkspaceScreen(
                 title = "GENESIS ARCHITECTURE HUB",
                 imagePaths = listOf(
-                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\brain.png",
-                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_141115.png",
-                    "C:\\Users\\AuraF\\Pictures\\Screenshots\\IMG_20260128_140816.png"
+                    "file:///C:/Users/AuraF/Pictures/Screenshots/brain.png",
+                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_141115.png",
+                    "file:///C:/Users/AuraF/Pictures/Screenshots/IMG_20260128_140816.png"
                 ),
                 onBack = { navController.popBackStack() }
             )
         }
 
-        // --- LEVEL 2 PORTALS (Surgical Access - Legacy Bridge) ---
-        composable("root_dashboard") { 
-            KaiRootToolsScreen(navController) 
-        }
-        composable("agent_swarm") { 
-            GenesisNexusHubScreen(navController) 
-        }
-        composable("persistence_layer") { 
-            OracleDriveScreen(
-                navController = navController,
-                onNavigateBack = { navController.popBackStack() }
-            ) 
-        }
-        composable("bootloader_ops") { 
-            KaiRomToolsScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
-        composable("ui_synthesis") { 
-            AuraChromaCoreScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
-        composable("figma_forge") { 
-            AuraCollabCanvasScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
         composable("aura_lab") {
             dev.aurakai.auraframefx.ui.gates.AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }

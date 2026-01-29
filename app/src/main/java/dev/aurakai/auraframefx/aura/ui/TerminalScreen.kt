@@ -66,7 +66,7 @@ fun TerminalScreen() {
             )
         }
         
-        Divider(color = terminalGreen.copy(alpha = 0.1f), modifier = Modifier.padding(vertical = 8.dp))
+        HorizontalDivider(color = terminalGreen.copy(alpha = 0.1f), modifier = Modifier.padding(vertical = 8.dp))
 
         // --- OUTPUT AREA ---
         LazyColumn(

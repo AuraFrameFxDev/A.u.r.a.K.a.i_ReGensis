@@ -541,7 +541,7 @@ private fun MemoryDetailDialog(
                 Text(text = "Type: ${memory.type.name}", color = primaryColor.copy(alpha = 0.8f))
                 Text(text = "Created: ${formatFullTimestamp(memory.timestamp)}", color = primaryColor.copy(alpha = 0.6f))
 
-                Divider(color = primaryColor.copy(alpha = 0.2f))
+                HorizontalDivider(color = primaryColor.copy(alpha = 0.2f))
 
                 Text(
                     text = memory.content,
@@ -550,7 +550,7 @@ private fun MemoryDetailDialog(
                 )
 
                 if (memory.tags.isNotEmpty()) {
-                    Divider(color = primaryColor.copy(alpha = 0.2f))
+                    HorizontalDivider(color = primaryColor.copy(alpha = 0.2f))
                     Text("Tags:", color = primaryColor.copy(alpha = 0.7f), fontSize = 12.sp)
                     Text(
                         text = memory.tags.joinToString(", ") { "#$it" },
@@ -559,7 +559,7 @@ private fun MemoryDetailDialog(
                     )
                 }
 
-                Divider(color = primaryColor.copy(alpha = 0.2f))
+                HorizontalDivider(color = primaryColor.copy(alpha = 0.2f))
                 Text("Importance: ${(memory.importance * 100).toInt()}%", color = primaryColor.copy(alpha = 0.7f))
                 ImportanceIndicator(importance = memory.importance, color = primaryColor)
             }

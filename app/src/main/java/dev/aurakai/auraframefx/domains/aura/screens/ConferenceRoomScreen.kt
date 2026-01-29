@@ -96,7 +96,7 @@ fun ConferenceRoomScreen(
                 isSomeoneSpeaking = isTranscribing || isRecording // Mock "activity"
             )
 
-            Divider(color = Color.White.copy(alpha = 0.1f))
+            HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
 
             // 2. CENTER: UNIFIED CHAT STREAM
             LazyColumn(

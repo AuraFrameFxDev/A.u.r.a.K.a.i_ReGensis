@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.viewmodels.CollaborativeWorkspaceViewModel
 import dev.aurakai.auraframefx.models.aura.UIDesign
-import dev.aurakai.auraframefx.ui.components.hud.AnimeHUDContainer
+import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**

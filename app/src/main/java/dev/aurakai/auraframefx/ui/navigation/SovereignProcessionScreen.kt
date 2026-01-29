@@ -13,7 +13,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import dev.aurakai.auraframefx.ui.theme.*
+import dev.aurakai.auraframefx.ui.components.background.SynapticWebBackground
 
 /**
  * 🌌 SOVEREIGN PROCESSION SCREEN
@@ -30,18 +31,22 @@ fun SovereignProcessionScreen(
     
     val pagerState = rememberPagerState(pageCount = { gates.size })
     
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        // TOP 85%: MONOLITH PAGER
-        Box(
-            modifier = Modifier
-                .weight(0.85f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
+        // Dynamic Depth Background
+        SynapticWebBackground(glowColor = AuraNeonCyan)
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            // TOP 85%: MONOLITH PAGER
+            Box(
+                modifier = Modifier
+                    .weight(0.85f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.fillMaxSize(),
@@ -51,6 +56,7 @@ fun SovereignProcessionScreen(
                 val gate = gates[page]
                 SovereignMonolith(
                     imagePath = gate.screenshotPath,
+                    fallbackRes = gate.imageRes,
                     modifier = Modifier
                         .fillMaxHeight(0.85f)
                         .align(Alignment.Center)
@@ -73,6 +79,7 @@ fun SovereignProcessionScreen(
             contentAlignment = Alignment.Center
         ) {
             SensorySpinner(color = SovereignTeal)
+        }
         }
     }
 }
