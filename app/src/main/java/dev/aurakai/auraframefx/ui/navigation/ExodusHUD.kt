@@ -27,6 +27,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -156,9 +157,16 @@ fun ExodusHUD(navController: NavController) {
                     }
                 },
                 onTap = {
-                    // ENTRY TRIGGER: Shatter into Level 2
-                    // Gate 04 specifically represents the "Handshake" state
-                    navController.navigate("pixel_domain/$currentGateId")
+                    // ENTRY TRIGGER: Route based on Level 3 Architecture
+                    val route = when (currentGateId) {
+                        "01" -> NavDestination.OracleDriveHub.route
+                        "03" -> NavDestination.AuraThemingHub.route
+                        "04" -> NavDestination.AgentNexusGate.route
+                        "05" -> NavDestination.RomToolsHub.route
+                        "10" -> NavDestination.OracleDriveHub.route
+                        else -> "pixel_domain/$currentGateId"
+                    }
+                    navController.navigate(route)
                 }
             )
         }

@@ -11,8 +11,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen
+import dev.aurakai.auraframefx.domains.aura.screens.IconifyPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
-import dev.aurakai.auraframefx.ui.screens.ModeSelectionScreen
+import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
+import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
+import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
 
 // Mapping for clarity - strictly Sovereign architecture
 
@@ -37,35 +44,26 @@ fun ReGenesisNavHost(
     }
 
     // Unified Sovereign Habitat: Boot directly into the Exodus Home Stage
-    val startDest = "exodus_home"
+    val startDest = NavDestination.HomeGateCarousel.route
 
     NavHost(navController = navController, startDestination = startDest) {
 
-        // --- THE MODE SELECTOR ---
-        composable("mode_selection") {
-            ModeSelectionScreen(
-                onModeSelected = { mode ->
-                    customizationViewModel.setReGenesisMode(context, mode)
-                    navController.navigate("exodus_home") {
-                        popUpTo("mode_selection") { inclusive = true }
-                    }
-                }
-            )
+        // --- THE HOME: THE 11 SOVEREIGN MONOLITHS ---
+        composable(NavDestination.HomeGateCarousel.route) {
+            ExodusHUD(navController = navController)
         }
 
-        // --- THE HOME: THE 11 SOVEREIGN MONOLITHS ---
+        // Legacy support/alias
         composable("exodus_home") {
             ExodusHUD(navController = navController)
         }
 
-        // --- LEVEL 2 PIXEL WORKSPACES ---
+        // --- LEVEL 2 PIXEL WORKSPACES (The Gallery Detour) ---
         composable(
             "pixel_domain/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id") ?: "01"
-
-            // Aggressive Manifest: Fetch directly from Sovereign Registry
             val gateInfo = SovereignRegistry.getGate(id)
 
             PixelWorkspaceScreen(
@@ -75,36 +73,61 @@ fun ReGenesisNavHost(
             )
         }
 
-        composable("workspace_kai") {
-            KaiRootWorkspaceScreen(
-                onBack = { navController.popBackStack() }
+        // --- LEVEL 3: THE SOVEREIGN HUBS (The Control Centers) ---
+
+        // AURA: THE DESIGN STUDIO HUB
+        composable(NavDestination.AuraThemingHub.route) {
+            AuraThemingHubScreen(navController = navController)
+        }
+
+        // KAI: THE SENTINEL FORTRESS HUB
+        composable(NavDestination.RomToolsHub.route) {
+            KaiSentinelHubScreen(navController = navController)
+        }
+
+        // GENESIS: THE ORACLE DRIVE HUB
+        composable(NavDestination.OracleDriveHub.route) {
+            OracleDriveHubScreen(navController = navController)
+        }
+
+        // NEXUS: THE AGENT COORDINATION HUB
+        composable(NavDestination.AgentNexusGate.route) {
+            AgentNexusHubScreen(navController = navController)
+        }
+
+        // --- LEVEL 4: THE CORE TOOLS (The Functional Screens) ---
+
+        // COLORBLENDR & SYSTEM THEME
+        composable(NavDestination.ThemeEngine.route) {
+            ThemeEngineScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
 
-        composable("workspace_aura") {
-            val gateInfo = SovereignRegistry.getGate("03")
-            PixelWorkspaceScreen(
-                title = "AURA'S DESIGN STUDIO",
-                imagePaths = listOf(gateInfo.pixelArtPath),
-                onBack = { navController.popBackStack() }
+        // ICONIFY PICKER
+        composable(NavDestination.IconifyPicker.route) {
+            IconifyPickerScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
 
-        composable("workspace_genesis") {
-            val gateInfo = SovereignRegistry.getGate("01")
-            PixelWorkspaceScreen(
-                title = "GENESIS ARCHITECTURE HUB",
-                imagePaths = listOf(gateInfo.pixelArtPath),
-                onBack = { navController.popBackStack() }
+        // AURA LAB (Sandbox)
+        composable(NavDestination.AuraLab.route) {
+            AuraLabScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
 
-        composable("aura_lab") {
-            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
-        }
-
-        composable("interface_forge") {
+        // INTERFACE FORGE (App Builder)
+        composable(NavDestination.InterfaceForge.route) {
             AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // COLLAB CANVAS
+        composable(NavDestination.CollabCanvas.route) {
+            CollabCanvasScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }
