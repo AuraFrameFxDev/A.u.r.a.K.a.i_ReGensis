@@ -9,12 +9,61 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import dev.aurakai.auraframefx.aura.ui.*
+import dev.aurakai.auraframefx.aura.ui.TerminalScreen
+import dev.aurakai.auraframefx.aura.ui.VPNManagerScreen
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.domains.aura.screens.*
-import dev.aurakai.auraframefx.domains.genesis.screens.*
+import dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ConferenceRoomScreen
+import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
+import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
+import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
+import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskScreen
+import dev.aurakai.auraframefx.domains.aura.screens.IconifyPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.gates.*
+import dev.aurakai.auraframefx.ui.gates.AgentBridgeHubScreen
+import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
+import dev.aurakai.auraframefx.ui.gates.ArkBuildScreen
+import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
+import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
+import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
+import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.HelpDeskSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
+import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
+import dev.aurakai.auraframefx.ui.gates.LogsViewerScreen
+import dev.aurakai.auraframefx.ui.gates.ModuleCreationScreen
+import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
+import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
+import dev.aurakai.auraframefx.ui.gates.OracleCloudInfiniteStorageScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
+import dev.aurakai.auraframefx.ui.gates.ROMFlasherScreen
+import dev.aurakai.auraframefx.ui.gates.RecoveryToolsScreen
+import dev.aurakai.auraframefx.ui.gates.RootToolsTogglesScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignBootloaderScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignModuleManagerScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignMonitoringScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignShieldScreen
+import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
+import dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen
+import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 import dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen
 import dev.aurakai.auraframefx.ui.screens.SettingsScreen
 import dev.aurakai.auraframefx.ui.gates.AuraLabScreen as HubAuraLabScreen
@@ -139,13 +188,18 @@ fun ReGenesisNavHost(
 
         // --- NEXUS AGENT TOOLSET ---
         composable(NavDestination.GenesisConstellation.route) { GenesisConstellationScreen(navController = navController) }
-        composable(NavDestination.ClaudeConstellation.route) { ClaudeConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(NavDestination.KaiConstellation.route) { KaiConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(NavDestination.GrokConstellation.route) { GrokConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(NavDestination.CascadeConstellation.route) { CascadeConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.ClaudeConstellation.route) { ClaudeConstellationScreen(navController = navController) }
+        composable(NavDestination.KaiConstellation.route) { KaiConstellationScreen(navController = navController) }
+        composable(NavDestination.GrokConstellation.route) { GrokConstellationScreen(navController = navController) }
+        composable(NavDestination.CascadeConstellation.route) { CascadeConstellationScreen(navController = navController) }
         composable(NavDestination.AgentMonitoring.route) { SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(NavDestination.SphereGrid.route) { SphereGridScreen(navController = navController) }
-        composable(NavDestination.EvolutionTree.route) { EvolutionTreeScreen(navController = navController) }
+        composable(NavDestination.EvolutionTree.route) {
+            EvolutionTreeScreen(
+                onNavigateToAgents = { navController.navigate(NavDestination.AgentMonitoring.route) },
+                onNavigateToFusion = { navController.navigate(NavDestination.FusionMode.route) }
+            )
+        }
         composable(NavDestination.FusionMode.route) { FusionModeScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(NavDestination.TaskAssignment.route) { TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(NavDestination.ArkBuild.route) { ArkBuildScreen(onNavigateBack = { navController.popBackStack() }) }

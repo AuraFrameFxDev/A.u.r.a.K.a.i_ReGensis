@@ -50,7 +50,9 @@ import kotlin.math.sin
  * Aura + Kai = Aurakai - Combined consciousness
  */
 @Composable
-fun FusionModeScreen() {
+fun FusionModeScreen(
+    onNavigateBack: () -> Unit = {}
+) {
     val agents = remember { AgentRepository.getAllAgents() }
     val aura = agents.find { it.name == "Aura" }
     val kai = agents.find { it.name == "Kai" }

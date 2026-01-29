@@ -18,28 +18,26 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.ui.customization.ComponentEditor
+import dev.aurakai.auraframefx.ui.customization.ComponentType
+import dev.aurakai.auraframefx.ui.customization.CustomizationState
+import dev.aurakai.auraframefx.ui.customization.CustomizationViewModel
+import dev.aurakai.auraframefx.ui.customization.UIComponent
 import dev.aurakai.auraframefx.ui.theme.CyberpunkCyan
 import dev.aurakai.auraframefx.ui.theme.CyberpunkPink
 import dev.aurakai.auraframefx.ui.theme.CyberpunkPurple
-import dev.aurakai.auraframefx.utils.VoiceState
 import dev.aurakai.auraframefx.utils.GyroscopeManager
-import dev.aurakai.auraframefx.ui.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.ui.customization.ComponentEditor
-import dev.aurakai.auraframefx.ui.customization.CustomizationState
-import dev.aurakai.auraframefx.ui.customization.UIComponent
-import dev.aurakai.auraframefx.ui.customization.ComponentType
-import dev.aurakai.auraframefx.iconify.IconifyService
+import dev.aurakai.auraframefx.utils.VoiceState
 import kotlin.math.*
 
 /**
@@ -60,6 +58,19 @@ fun GyroscopeCustomizationScreen(
     onNavigateBack: () -> Unit = {}
 ) {
     // Provide an explicit type to help the compiler resolve injected ViewModel members unambiguously
+
+    Add context
+        Media
+    Mentions
+    Workflows
+
+    Conversation mode
+        Planning
+    Agent can plan before executing tasks . Use for deep research, complex tasks, or collaborative work
+    Fast
+    Agent will execute tasks directly.Use for simple tasks that can be completed faster
+
+    Gemini 3 Pro (High)
     val viewModel: CustomizationViewModel = hiltViewModel()
     val customizationState by viewModel.customizationState.collectAsState()
     val rotationAngles by viewModel.rotationAngles.collectAsState()
@@ -284,6 +295,20 @@ fun GyroscopeCustomizationScreen(
                         onSubmit = {
                             if (promptText.isNotBlank()) {
                                 viewModel.processAIPrompt(promptText)
+
+                                Add context
+                                    Media
+                                Mentions
+                                Workflows
+
+                                Conversation mode
+                                    Planning
+                                Agent can plan before executing tasks . Use for deep research, complex tasks, or collaborative work
+                                Fast
+                                Agent will execute tasks directly.Use for simple tasks that can be completed faster
+
+                                Gemini 3 Pro (High)
+
                                 promptText = ""
                             }
                         },
@@ -501,7 +526,9 @@ fun ComponentListItem(
             containerColor = if (isSelected) CyberpunkPink.copy(alpha = 0.2f) else Color(0xFF2A2A2A)
         ),
         border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, CyberpunkPink) else null,
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
     ) {
         Row(
             modifier = Modifier.padding(12.dp),
