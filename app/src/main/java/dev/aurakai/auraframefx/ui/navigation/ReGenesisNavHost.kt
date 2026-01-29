@@ -39,6 +39,15 @@ import dev.aurakai.auraframefx.ui.screens.ModeSelectionScreen
 
 // Mapping for clarity - strictly Sovereign architecture
 
+/**
+ * Hosts the app's navigation graph and wires screen routes used across the ReGenesis flow.
+ *
+ * Sets up the start destination and composable routes (mode selection, exodus home, pixel workspaces,
+ * various workspace screens, Aura lab, and interface forge), and provides navigation actions for each route.
+ *
+ * @param navController Controller used to navigate between destinations in this NavHost.
+ * @param customizationViewModel ViewModel providing customization state and actions used by routes; defaults to a scoped view model.
+ */
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
