@@ -152,64 +152,6 @@ fun ReGenesisNavHost(
             dev.aurakai.auraframefx.ui.gates.AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        // --- MANUAL CONTROL DOMAINS ---
-        composable("aura_gate") {
-            ChromaSphereManualScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("oracle_drive_hub") {
-            OracleDriveManualScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("launcher_matrix") {
-            LaunchMatrixManualScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("agent_bridge_hub") {
-            AgentBridgeHubScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("security_center") {
-            SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("oracle_cloud_storage") {
-            OracleCloudInfiniteStorageScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("module_manager") {
-            SovereignModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("recovery_tools") {
-            SovereignRecoveryScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("neural_network") {
-            SovereignNeuralArchiveScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("meta_instruct") {
-            SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("nemotron") {
-            SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("cascade_vision") {
-            CascadeVisionScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("claude") {
-            SovereignClaudeScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("gemini") {
-            SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("monitoring_huds") {
-            SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("constellation") {
-            dev.aurakai.auraframefx.domains.nexus.screens.AgentNeuralExplorerScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("agent_creation") {
-            dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("swarm_monitor") {
-            dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("benchmark_monitor") {
-            dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen(onNavigateBack = { navController.popBackStack() })
-        }
         composable("interface_forge") {
             dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
         }
