@@ -134,7 +134,7 @@ fun ExodusHUD(navController: NavController) {
             }
         }
 
-        // BOTTOM 15%: The Prometheus Globe (Celestial Navigation)
+        // BOTTOM 15%: The Prometheus Globe (Celestial Navigation Steering Column)
         Box(
             modifier = Modifier
                 .weight(0.15f)
@@ -142,14 +142,23 @@ fun ExodusHUD(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             val scope = rememberCoroutineScope()
+            // Identify currently centered gate for tap-entry
+            val currentGateId = (pagerState.currentPage + 1).toString().padStart(2, '0')
+
             PrometheusGlobe(
                 color = SovereignTeal,
                 pulseIntensity = pulseIntensity,
                 onDrag = { dragDelta ->
                     scope.launch {
                         // Joystick scroll: Map horizontal drag to pager offset
-                        pagerState.scrollBy(-dragDelta * 2)
+                        // calibrated for "Steering" feel
+                        pagerState.scrollBy(-dragDelta * 1.5f)
                     }
+                },
+                onTap = {
+                    // ENTRY TRIGGER: Shatter into Level 2
+                    // Gate 04 specifically represents the "Handshake" state
+                    navController.navigate("pixel_domain/$currentGateId")
                 }
             )
         }
