@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.DefaultMemoryManage
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryManager
 import kotlinx.coroutines.delay
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.mapOf as mapOf1
 
 /**
  * Genesis Context Manager Implementation
@@ -79,7 +80,7 @@ class DefaultContextManager(
 
         recordContextOperation(
             "enhance",
-            mapOf("original_length" to context.length, "enhanced_length" to enhanced.length)
+            mapOf1("original_length" to context.length, "enhanced_length" to enhanced.length)
         )
 
         return enhanced.toString()
@@ -90,7 +91,7 @@ class DefaultContextManager(
         updateContext("creative_mode", true)
         recordContextOperation(
             "enable_creative_mode",
-            mapOf("timestamp" to System.currentTimeMillis())
+            mapOf1("timestamp" to System.currentTimeMillis())
         )
     }
 
@@ -99,7 +100,7 @@ class DefaultContextManager(
         updateContext("unified_mode", true)
         recordContextOperation(
             "enable_unified_mode",
-            mapOf("timestamp" to System.currentTimeMillis())
+            mapOf1("timestamp" to System.currentTimeMillis())
         )
     }
 
@@ -116,7 +117,7 @@ class DefaultContextManager(
         memoryManager.storeMemory("insight_$timestamp", insight)
 
         recordContextOperation(
-            "record_insight", mapOf(
+            "record_insight", mapOf1(
                 "complexity" to complexity,
                 "request_length" to request.length,
                 "response_length" to response.length
@@ -136,7 +137,7 @@ class DefaultContextManager(
                     "key" to entry.key,
                     "creative_mode" to isCreativeModeEnabled,
                     "unified_mode" to isUnifiedModeEnabled
-                )
+                ) as Map<String, Any>
             )
         }
     }
@@ -145,7 +146,7 @@ class DefaultContextManager(
         contextData[key] = value
         recordContextOperation(
             "update",
-            mapOf("key" to key, "value_type" to value.javaClass.simpleName)
+            mapOf1("key" to key, "value_type" to value.javaClass.simpleName)
         )
     }
 
@@ -162,7 +163,7 @@ class DefaultContextManager(
         }
         isCreativeModeEnabled = false
         isUnifiedModeEnabled = false
-        recordContextOperation("clear", mapOf("timestamp" to System.currentTimeMillis()))
+        recordContextOperation("clear", mapOf1("timestamp" to System.currentTimeMillis()))
     }
 
     /**
