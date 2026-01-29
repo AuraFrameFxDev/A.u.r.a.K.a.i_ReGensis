@@ -28,6 +28,15 @@ import androidx.compose.ui.unit.sp
  *
  * @param onNavigateBack Callback invoked to navigate back from this screen.
  */
+/**
+ * Renders a customizable Quick Settings configuration screen with a live preview and controls.
+ *
+ * The screen provides layout style selection, tile size selection, display toggles (tile labels and auto-collapse),
+ * and a list of available quick setting tiles that can be enabled or disabled. Changes update the on-screen preview;
+ * the "Apply Changes" button is provided for applying or persisting settings outside this composable.
+ *
+ * @param onNavigateBack Callback invoked when the UI should navigate back; default is a no-op.
+ */
 @Composable
 fun QuickSettingsScreen(
     onNavigateBack: () -> Unit = {}
