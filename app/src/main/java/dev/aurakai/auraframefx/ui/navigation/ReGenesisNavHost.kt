@@ -57,7 +57,7 @@ fun ReGenesisNavHost(
             arguments = listOf(navArgument("id") { type = NavType.StringType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id") ?: "01"
-            val gateInfo = dev.aurakai.auraframefx.customization.SovereignRegistry.getGate(id)
+            val gateInfo = SovereignRegistry.getGate(id)
 
             PixelWorkspaceScreen(
                 title = gateInfo.title,
@@ -89,7 +89,10 @@ fun ReGenesisNavHost(
 
         // AURA: REACTIVE DESIGN HUB
         composable(NavDestination.AuraThemingHub.route) { AuraThemingHubScreen(navController = navController) }
-        composable(NavDestination.AuraLab.route) { AuraLabScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.AuraLab.route) {
+            dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen(
+                onNavigateBack = { navController.popBackStack() })
+        }
 
         // KAI: SENTINEL FORTRESS HUBS
         composable(NavDestination.RomToolsHub.route) { KaiSentinelHubScreen(navController = navController) }
@@ -103,8 +106,8 @@ fun ReGenesisNavHost(
 
         // NEXUS: AGENT COORDINATION HUBS
         composable(NavDestination.AgentNexusGate.route) { AgentNexusHubScreen(navController = navController) }
-        composable(NavDestination.ConstellationHub.route) { ConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(NavDestination.MonitoringHub.route) { AgentMonitoringScreen() }
+        composable(NavDestination.ConstellationHub.route) { ConstellationScreen(navController = navController) }
+        composable(NavDestination.MonitoringHub.route) { SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() }) }
 
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 4: SOVEREIGN TOOLS (FUNCTIONAL ENGINES)
@@ -136,7 +139,7 @@ fun ReGenesisNavHost(
 
         // --- GENESIS ORACLE TOOLSET ---
         composable(NavDestination.CodeAssist.route) { CodeAssistScreen(navController = navController) }
-        composable(NavDestination.NeuralNetwork.route) { NeuralArchiveScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.NeuralNetwork.route) { NeuralArchiveScreen(navController = navController) }
         composable(NavDestination.Terminal.route) { TerminalScreen() }
 
         // --- NEXUS AGENT TOOLSET ---
@@ -145,10 +148,10 @@ fun ReGenesisNavHost(
         composable(NavDestination.KaiConstellation.route) { KaiConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(NavDestination.GrokConstellation.route) { GrokConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(NavDestination.CascadeConstellation.route) { CascadeConstellationScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(NavDestination.AgentMonitoring.route) { AgentMonitoringScreen() }
-        composable(NavDestination.SphereGrid.route) { SphereGridScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(NavDestination.EvolutionTree.route) { EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(NavDestination.FusionMode.route) { FusionModeScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.AgentMonitoring.route) { SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(NavDestination.SphereGrid.route) { SphereGridScreen(navController = navController) }
+        composable(NavDestination.EvolutionTree.route) { EvolutionTreeScreen(onNavigateToAgents = { navController.popBackStack() }) }
+        composable(NavDestination.FusionMode.route) { FusionModeScreen() }
         composable(NavDestination.TaskAssignment.route) { TaskAssignmentScreen() }
         composable(NavDestination.ArkBuild.route) { ArkBuildScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(NavDestination.MetaInstruct.route) { SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() }) }
