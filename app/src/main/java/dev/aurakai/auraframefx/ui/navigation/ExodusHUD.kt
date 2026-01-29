@@ -24,25 +24,6 @@ import kotlin.math.absoluteValue
  * The Split-Screen Anti-Gravity HUD (15/85 Ratio).
  * Replaces the Sovereign Procession Screen.
  */
-/**
- * Renders the Exodus HUD: a paged carousel of Sovereign Monoliths above and a pulsing Prometheus Globe below.
- *
- * The top region displays a HorizontalPager of monoliths with scale, alpha, and vertical translation driven
- * by each page's offset to create an orbit-like visual effect. Global touch and per-card press events drive
- * a pulse animation that is visualized by the Prometheus Globe. Double-tapping a monolith navigates to
- * "pixel_domain/{id}".
- *
- * @param navController NavController used to navigate to a monolith's pixel domain on double-tap.
- */
-/**
- * Renders the main Exodus HUD: a horizontally-paged carousel of sovereign monoliths above a pulsing Prometheus Globe.
- *
- * The top region displays a pager of high-fidelity monoliths that visually scale/alpha based on their proximity to center and accept per-card interactions:
- * double-tapping a monolith navigates to its pixel domain, and pressing a monolith contributes to a global pulse. The bottom region shows a globe whose pulse intensity
- * is driven by global touch/press state.
- *
- * @param navController Used to navigate to a monolith's pixel domain on double-tap (navigates to "pixel_domain/{id}").
- */
 @Composable
 fun ExodusHUD(navController: NavController) {
     val pagerState = rememberPagerState(pageCount = { SovereignRouter.getCount() })
@@ -145,13 +126,8 @@ fun ExodusHUD(navController: NavController) {
 }
 
 /**
- * Renders a SovereignMonolith with built-in touch handlers for double-tap navigation and press-driven pulse feedback.
- *
- * @param assetPath Path to the image asset displayed by the monolith.
- * @param onDoubleTap Callback invoked when the monolith is double-tapped.
- * @param onPress Callback invoked when a press begins.
- * @param onRelease Callback invoked when the press ends or is released.
- * @param modifier Modifier applied to the monolith; touch handling is appended to this modifier.
+ * Wrapper for SovereignMonolith to match the "MonolithCard" specification
+ * and handle touch events for navigation and pulse feedback.
  */
 @Composable
 fun MonolithCard(
