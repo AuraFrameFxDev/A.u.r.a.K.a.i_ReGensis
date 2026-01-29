@@ -70,19 +70,26 @@ fun ReGenesisNavHost(
 
         // --- THE HOME: THE 11 SOVEREIGN MONOLITHS ---
         composable("exodus_home") {
-            SovereignProcessionScreen(
-                onShatterTransition = { route ->
-                    val workspaceRoute = when (route) {
-                        "kai_gate", "oracle_drive_hub", "secure_node" -> "workspace_kai"
-                        "aura_lab", "figma_bridge" -> "workspace_aura"
-                        else -> "workspace_genesis"
-                    }
-                    navController.navigate(workspaceRoute)
-                }
-            )
+            ExodusHUD(navController = navController)
         }
 
         // --- LEVEL 2 PIXEL WORKSPACES ---
+        composable(
+            "pixel_domain/{id}",
+            arguments = listOf(androidx.navigation.navArgument("id") { type = androidx.navigation.NavType.StringType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: "01"
+            val route = SovereignRouter.getById(id)
+
+            if (route != null) {
+                PixelWorkspaceScreen(
+                    title = route.title,
+                    imagePaths = listOf(route.pixelArtPath),
+                    onBack = { navController.popBackStack() }
+                )
+            }
+        }
+
         composable("workspace_kai") {
             KaiRootWorkspaceScreen(
                 onBack = { navController.popBackStack() }
