@@ -2,7 +2,17 @@ package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,22 +26,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import dev.aurakai.auraframefx.ui.theme.SovereignTheme
 
 /**
  * 🎨 PIXEL WORKSPACE SCREEN
  * Level 2 Internal Workspaces with specific pixel art screenshots.
- */
-/**
- * Renders a pixel workspace gallery screen with a back control and a horizontally scrollable list of images.
- *
- * @param title The header title displayed next to the back control.
- * @param imagePaths A list of image URIs or file paths to display in the gallery.
- * @param onBack Callback invoked when the back control is pressed.
+ * No fallbacks. Forced load from filesystem.
  */
 @Composable
 fun PixelWorkspaceScreen(
@@ -39,6 +47,7 @@ fun PixelWorkspaceScreen(
     imagePaths: List<String>,
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,10 +91,14 @@ fun PixelWorkspaceScreen(
                     modifier = Modifier
                         .fillParentMaxWidth(0.9f)
                         .aspectRatio(9f / 16f)
-                        .clip(RoundedCornerShape(percent = 16))
+                        .clip(SovereignTheme.MonolithShape)
                 ) {
                     AsyncImage(
-                        model = path,
+                        model = ImageRequest.Builder(context)
+                            .data(path)
+                            .memoryCachePolicy(CachePolicy.DISABLED)
+                            .diskCachePolicy(CachePolicy.DISABLED)
+                            .build(),
                         contentDescription = "Pixel Art Workspace",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()

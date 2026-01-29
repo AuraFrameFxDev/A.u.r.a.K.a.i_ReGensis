@@ -48,7 +48,7 @@ import kotlin.math.absoluteValue
  */
 @Composable
 fun ExodusHUD(navController: NavController) {
-    val pagerState = rememberPagerState(pageCount = { SovereignRouter.getCount() })
+    val pagerState = rememberPagerState(pageCount = { SovereignRegistry.getCount() })
 
     // Pulse State driven by touch
     var isPressed by remember { mutableStateOf(false) }
