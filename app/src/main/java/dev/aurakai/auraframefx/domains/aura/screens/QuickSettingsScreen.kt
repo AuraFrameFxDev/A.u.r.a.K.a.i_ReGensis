@@ -21,6 +21,13 @@ import androidx.compose.ui.unit.sp
  * Quick Settings Customization Screen
  * Modify quick settings tiles and layout
  */
+/**
+ * Renders the Quick Settings customization screen with a live preview and controls for layout, tile size, display options, and tile availability.
+ *
+ * The UI shows a preview of enabled tiles and provides controls to select layout style, choose tile size, toggle tile labels and auto-collapse behavior, and enable or disable individual quick setting tiles.
+ *
+ * @param onNavigateBack Callback invoked to navigate back from this screen.
+ */
 @Composable
 fun QuickSettingsScreen(
     onNavigateBack: () -> Unit = {}

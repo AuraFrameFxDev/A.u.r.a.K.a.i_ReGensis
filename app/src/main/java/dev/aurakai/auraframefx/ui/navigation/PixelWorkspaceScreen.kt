@@ -26,6 +26,13 @@ import dev.aurakai.auraframefx.ui.theme.SovereignTeal
  * 🎨 PIXEL WORKSPACE SCREEN
  * Level 2 Internal Workspaces with specific pixel art screenshots.
  */
+/**
+ * Renders a pixel workspace gallery screen with a back control and a horizontally scrollable list of images.
+ *
+ * @param title The header title displayed next to the back control.
+ * @param imagePaths A list of image URIs or file paths to display in the gallery.
+ * @param onBack Callback invoked when the back control is pressed.
+ */
 @Composable
 fun PixelWorkspaceScreen(
     title: String,
