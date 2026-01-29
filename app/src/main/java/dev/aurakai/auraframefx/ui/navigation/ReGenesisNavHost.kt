@@ -87,6 +87,8 @@ fun ReGenesisNavHost(
                     imagePaths = listOf(route.pixelArtPath),
                     onBack = { navController.popBackStack() }
                 )
+            } else {
+                navController.popBackStack()
             }
         }
 

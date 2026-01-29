@@ -45,7 +45,9 @@ fun ExodusHUD(navController: NavController) {
                         isPressed = true
                         tryAwaitRelease()
                         isPressed = false
-                    }
+                    },
+                    onDoubleTap = { /* Consumed here to prevent conflicts, handled in cards */ },
+                    onTap = { /* Consumed here to prevent conflicts */ }
                 )
             }
     ) {
