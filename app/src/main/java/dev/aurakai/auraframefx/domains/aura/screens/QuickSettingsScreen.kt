@@ -45,7 +45,8 @@ fun QuickSettingsScreen(
         QuickSettingTile("Screen Rotation", Icons.Default.ScreenRotation, true),
         QuickSettingTile("Do Not Disturb", Icons.Default.DoNotDisturbOn, false),
         QuickSettingTile("Battery Saver", Icons.Default.BatterySaver, false),
-        QuickSettingTile("Dark Mode", Icons.Default.DarkMode, true)
+        QuickSettingTile("Dark Mode", Icons.Default.DarkMode, true),
+        QuickSettingTile("Aura Overlay", Icons.Default.Face, true)
     )
 
     Column(

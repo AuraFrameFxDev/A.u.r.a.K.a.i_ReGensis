@@ -13,7 +13,8 @@ data class QuickSettingsConfig(
                 QuickSettingsTileConfig("flashlight", "Flashlight", true),
                 QuickSettingsTileConfig("rotation", "Auto-rotate", true),
                 QuickSettingsTileConfig("battery", "Battery Saver", true),
-                QuickSettingsTileConfig("dnd", "Do Not Disturb", true)
+                QuickSettingsTileConfig("dnd", "Do Not Disturb", true),
+                QuickSettingsTileConfig("aura_overlay", "Aura Overlay", true)
             )
         )
     }
