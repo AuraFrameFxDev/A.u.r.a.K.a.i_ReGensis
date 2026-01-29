@@ -4,10 +4,21 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 /**
@@ -75,9 +87,11 @@ fun ExodusHUD(navController: NavController) {
                  state = pagerState,
                  modifier = Modifier.fillMaxSize(),
                  contentPadding = PaddingValues(horizontal = 64.dp), // Increased padding for 3D effect space
-                 pageSpacing = 16.dp
+                 pageSpacing = 16.dp,
+                 userScrollEnabled = true // Enable manual scroll as fallback
              ) { page ->
-                val route = SovereignRouter.fromPage(page)
+                 val gateId = (page + 1).toString().padStart(2, '0')
+                 val assetInfo = SovereignRegistry.Gates[gateId] ?: return@HorizontalPager
 
                 // Prometheus Orbit Logic: Calculate scale and alpha based on distance from center
                 val pageOffset = (
@@ -99,8 +113,8 @@ fun ExodusHUD(navController: NavController) {
                 )
 
                 MonolithCard(
-                    assetPath = route.highFiPath,
-                    onDoubleTap = { navController.navigate("pixel_domain/${route.id}") },
+                    assetPath = assetInfo.highFiPath,
+                    onDoubleTap = { navController.navigate("pixel_domain/${gateId}") },
                     onPress = {
                         isPressed = true
                     },
@@ -127,9 +141,16 @@ fun ExodusHUD(navController: NavController) {
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
+            val scope = rememberCoroutineScope()
             PrometheusGlobe(
                 color = SovereignTeal,
-                pulseIntensity = pulseIntensity
+                pulseIntensity = pulseIntensity,
+                onDrag = { dragDelta ->
+                    scope.launch {
+                        // Joystick scroll: Map horizontal drag to pager offset
+                        pagerState.scrollBy(-dragDelta * 2)
+                    }
+                }
             )
         }
     }
