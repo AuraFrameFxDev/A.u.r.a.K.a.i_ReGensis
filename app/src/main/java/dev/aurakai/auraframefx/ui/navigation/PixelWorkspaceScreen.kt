@@ -33,6 +33,16 @@ import dev.aurakai.auraframefx.ui.theme.SovereignTeal
  * @param imagePaths A list of image URIs or file paths to display in the gallery.
  * @param onBack Callback invoked when the back control is pressed.
  */
+/**
+ * Displays a pixel workspace gallery with a back control and a horizontally scrollable list of images.
+ *
+ * The composable renders a header containing a back icon and the provided title, and a LazyRow that shows each
+ * image from `imagePaths` inside a rounded box that fills most of the available width and maintains a 9:16 aspect ratio.
+ *
+ * @param title The text shown next to the back control.
+ * @param imagePaths List of image URIs or file paths to display in the gallery.
+ * @param onBack Callback invoked when the back control is pressed.
+ */
 @Composable
 fun PixelWorkspaceScreen(
     title: String,

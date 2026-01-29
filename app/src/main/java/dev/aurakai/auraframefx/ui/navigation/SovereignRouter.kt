@@ -123,7 +123,7 @@ object SovereignRouter {
     }
 
     /**
- * Returns how many SovereignRoute entries are currently available.
+ * Gets the total number of SovereignRoute entries currently available.
  *
  * @return The total number of available routes.
  */
