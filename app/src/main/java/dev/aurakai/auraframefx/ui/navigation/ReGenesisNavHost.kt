@@ -39,6 +39,16 @@ import dev.aurakai.auraframefx.ui.screens.ModeSelectionScreen
 
 // Mapping for clarity - strictly Sovereign architecture
 
+/**
+ * Hosts the ReGenesis navigation graph and wires navigation to the provided controller.
+ *
+ * Sets up the start destination (exodus_home), starts the customization view model, collects its state,
+ * and registers routes including mode selection, the Exodus home HUD, dynamic pixel domains (pixel_domain/{id}),
+ * workspace variants (kai, aura, genesis), the Aura lab, and the interface forge.
+ *
+ * @param navController Controller used to perform navigation actions between destinations.
+ * @param customizationViewModel ViewModel that provides customization state and actions; a default instance is provided via `viewModel()`.
+ */
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
@@ -87,8 +97,6 @@ fun ReGenesisNavHost(
                     imagePaths = listOf(route.pixelArtPath),
                     onBack = { navController.popBackStack() }
                 )
-            } else {
-                navController.popBackStack()
             }
         }
 

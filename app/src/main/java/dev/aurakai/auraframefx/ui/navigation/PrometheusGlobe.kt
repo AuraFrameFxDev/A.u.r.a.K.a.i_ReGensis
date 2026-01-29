@@ -22,6 +22,15 @@ import dev.aurakai.auraframefx.ui.theme.SovereignTeal
  * Replaces the mechanical gear with a globe of light.
  * Wires pulse directly to touch interaction (12th sense).
  */
+/**
+ * Renders an animated globe-like visual with pulsing ambient glow, slow rotation, meridian hints, and an optional spike outline.
+ *
+ * The globe's glow and optional outer spike scale with `pulseIntensity`; meridian hints rotate continuously.
+ *
+ * @param modifier Modifier applied to the composable (layout/interaction).
+ * @param color Primary color used for the globe, core, and accent lines.
+ * @param pulseIntensity Controls glow and spike strength; values near 0 produce no spike, larger values increase glow and spike prominence.
+ */
 @Composable
 fun PrometheusGlobe(
     modifier: Modifier = Modifier,
