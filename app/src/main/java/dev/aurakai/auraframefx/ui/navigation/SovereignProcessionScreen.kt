@@ -1,23 +1,42 @@
 package dev.aurakai.auraframefx.ui.navigation
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.ui.theme.*
 import dev.aurakai.auraframefx.ui.components.background.SynapticWebBackground
-import androidx.compose.animation.core.*
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import dev.aurakai.auraframefx.ui.theme.SovereignTeal
 
 /**
  * 🌌 SOVEREIGN PROCESSION SCREEN
@@ -31,7 +50,7 @@ fun SovereignProcessionScreen(
 ) {
     val customizationState by customizationViewModel.state.collectAsState()
     val gates = SovereignGate.getGatesForMode(customizationState.reGenesisMode)
-    
+
     val pagerState = rememberPagerState(pageCount = { gates.size })
     var isPressed by remember { mutableStateOf(false) }
 
@@ -95,7 +114,9 @@ fun SovereignProcessionScreen(
                 // The Gear Foundation (Rotating Engine)
                 SensorySpinner(
                     color = SovereignTeal,
-                    modifier = Modifier.size(120.dp).offset(y = 20.dp)
+                    modifier = Modifier
+                        .size(120.dp)
+                        .offset(y = 20.dp)
                 )
 
                 // The 12th Sense (Pulse Bar)
@@ -110,6 +131,11 @@ fun SovereignProcessionScreen(
             }
         }
     }
+}
+
+@Composable
+fun SensorySpinner(color: Color, modifier: Modifier) {
+    TODO("Not yet implemented")
 }
 
 @Composable
@@ -138,7 +164,7 @@ fun SensoryPulseBar(isActive: Boolean, modifier: Modifier = Modifier) {
                 // Flatline (minimal ghost pulse)
                 2.dp.toPx()
             }
-            
+
             drawRect(
                 color = SovereignTeal,
                 topLeft = Offset(i * spacing - 1.dp.toPx(), centerY - h / 2),
