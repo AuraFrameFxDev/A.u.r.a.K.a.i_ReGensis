@@ -1,9 +1,15 @@
 package dev.aurakai.auraframefx.aura.ui
 
-import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,12 +18,19 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
@@ -26,16 +39,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun TerminalScreen() {
+fun TerminalScreen(navController: NavHostController) {
     var input by remember { mutableStateOf("") }
     val history = remember { mutableStateListOf<TerminalLine>() }
     val scope = rememberCoroutineScope()
-    
+
     val terminalGreen = Color(0xFF00FF41)
     val darkBg = Color(0xFF0D0D0D)
 
@@ -65,7 +78,7 @@ fun TerminalScreen() {
                 fontSize = 12.sp
             )
         }
-        
+
         HorizontalDivider(color = terminalGreen.copy(alpha = 0.1f), modifier = Modifier.padding(vertical = 8.dp))
 
         // --- OUTPUT AREA ---
@@ -124,7 +137,7 @@ fun TerminalScreen() {
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold
             )
-            
+
             BasicTextField(
                 value = input,
                 onValueChange = { input = it },
@@ -142,7 +155,7 @@ fun TerminalScreen() {
                             val cmd = input
                             history.add(TerminalLine(cmd, TerminalType.COMMAND))
                             input = ""
-                            
+
                             // Process local commands
                             scope.launch {
                                 delay(300)

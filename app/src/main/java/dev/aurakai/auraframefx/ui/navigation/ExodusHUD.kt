@@ -5,14 +5,26 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,7 +40,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.theme.*
+import dev.aurakai.auraframefx.ui.theme.AuraNeonCyan
+import dev.aurakai.auraframefx.ui.theme.GenesisNeonPink
+import dev.aurakai.auraframefx.ui.theme.KaiNeonGreen
+import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.ui.theme.SovereignTeal
 
 /**
  * 🛰️ EXODUS HUD - CORRECTED VERSION
@@ -59,7 +76,7 @@ private val domainGates = listOf(
         id = "aura",
         title = "AURA'S REALM",
         subtitle = "UX/UI Design Studio",
-        imageRes = R.drawable.gate_aurastudio_gen,
+        imageRes = R.drawable.img_20260125_230956,
         destination = NavDestination.AuraThemingHub,
         accentColor = AuraNeonCyan
     ),
@@ -67,7 +84,7 @@ private val domainGates = listOf(
         id = "kai",
         title = "SENTINEL FORTRESS",
         subtitle = "System Security & Root Tools",
-        imageRes = R.drawable.gate_sentinelfortress_gen,
+        imageRes = R.drawable.kai_root_vpn,
         destination = NavDestination.RomToolsHub,
         accentColor = KaiNeonGreen
     ),
@@ -84,14 +101,14 @@ private val domainGates = listOf(
         title = "AGENT NEXUS",
         subtitle = "Multi-Agent Coordination",
         imageRes = R.drawable.gate_agentnexus_new,
-        destination = NavDestination.AgentNexusHub,
+        destination = NavDestination.AgentNexus,
         accentColor = NeonPurple
     ),
     DomainGate(
         id = "help",
         title = "HELP SERVICES",
         subtitle = "Documentation & Support",
-        imageRes = R.drawable.helpservices,
+        imageRes = R.drawable.gate_helpdesk_final,
         destination = NavDestination.HelpDesk,
         accentColor = SovereignTeal
     )

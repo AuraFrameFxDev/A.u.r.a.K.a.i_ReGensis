@@ -70,14 +70,12 @@ import dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen
 import dev.aurakai.auraframefx.ui.screens.SettingsScreen
 
 /**
- * 🌐 REGENESIS NAVIGATION HOST - CORRECT VERSION
+ * 🌐 REGENESIS NAVIGATION HOST
  *
  * Clean 3-Level Architecture:
  * - Level 1: ExodusHUD (5 Gate Carousel)
  * - Level 2: Domain Hubs (5 main hubs)
  * - Level 3: Tool Screens (functional screens)
- *
- * DO NOT LET GEMINI CHANGE THIS!
  */
 @Composable
 fun ReGenesisNavHost(
@@ -122,7 +120,7 @@ fun ReGenesisNavHost(
         }
 
         // AGENT NEXUS: Multi-Agent Hub
-        composable(NavDestination.AgentNexusHub.route) {
+        composable(NavDestination.AgentNexus.route) {
             AgentNexusHubScreen(navController = navController)
         }
 
@@ -256,25 +254,25 @@ fun ReGenesisNavHost(
         }
 
         // Individual Agent Constellation Screens
-        composable(NavDestination.GenesisAgent.route) {
+        composable(NavDestination.GenesisConstellation.route) {
             GenesisConstellationScreen(navController = navController)
         }
-        composable(NavDestination.ClaudeAgent.route) {
+        composable(NavDestination.ClaudeConstellation.route) {
             ClaudeConstellationScreen(navController = navController)
         }
-        composable(NavDestination.KaiAgent.route) {
+        composable(NavDestination.KaiConstellation.route) {
             KaiConstellationScreen(navController = navController)
         }
-        composable(NavDestination.CascadeAgent.route) {
+        composable(NavDestination.CascadeConstellation.route) {
             CascadeConstellationScreen(navController = navController)
         }
-        composable(NavDestination.GrokAgent.route) {
+        composable(NavDestination.GrokConstellation.route) {
             GrokConstellationScreen(navController = navController)
         }
-        composable(NavDestination.NemotronAgent.route) {
+        composable(NavDestination.Nemotron.route) {
             SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(NavDestination.GeminiAgent.route) {
+        composable(NavDestination.Gemini.route) {
             SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() })
         }
 

@@ -53,7 +53,8 @@ import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
  */
 @Composable
 fun TaskAssignmentScreen(
-    viewModel: AgentViewModel = hiltViewModel()
+    viewModel: AgentViewModel = hiltViewModel(),
+    onNavigateBack: () -> Boolean
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
     val selectedAgent = remember { mutableStateOf<String?>(null) }

@@ -1,9 +1,27 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.EaseInOutSine
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -13,29 +31,38 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Stop
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.models.ChatMessage
-import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
-import kotlinx.coroutines.launch
 
 // --- COLORS & THEME LOCALS ---
 private val AuraPurple = Color(0xFFD500F9)
@@ -54,12 +81,13 @@ private val SurfaceGlass = Color(0xFF121216)
 fun ConferenceRoomScreen(
     onNavigateToChat: () -> Unit = {},
     onNavigateToAgents: () -> Unit = {},
-    viewModel: ConferenceRoomViewModel = hiltViewModel()
+    viewModel: ConferenceRoomViewModel = hiltViewModel(),
+    onNavigateBack: () -> Boolean
 ) {
     val messages by viewModel.messages.collectAsState()
     val isRecording by viewModel.isRecording.collectAsState()
     val isTranscribing by viewModel.isTranscribing.collectAsState()
-    
+
     // Auto-scroll to bottom
     val listState = rememberLazyListState()
     LaunchedEffect(messages.size) {
@@ -164,7 +192,7 @@ fun AgentAvatarNode(
 ) {
     val size = if (isPrimary) 64.dp else 48.dp
     val fontSize = if (isPrimary) 10.sp else 8.sp
-    
+
     // Breathing pulse - Slowed down for better performance
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val scalePulse by infiniteTransition.animateFloat(
@@ -212,7 +240,7 @@ fun AgentAvatarNode(
                         )
                 )
             }
-            
+
             // Core
             Box(
                 modifier = Modifier
@@ -246,7 +274,7 @@ fun AgentAvatarNode(
 @Composable
 fun ConferenceMessageBubble(message: ChatMessage) {
     val isUser = message.sender.equals("User", ignoreCase = true) || message.sender.equals("You", ignoreCase = true)
-    
+
     val bubbleColor = when(message.sender.uppercase()) {
         "AURA" -> AuraPurple
         "KAI" -> KaiRed
@@ -254,7 +282,7 @@ fun ConferenceMessageBubble(message: ChatMessage) {
         "CASCADE" -> CascadeGreen
         else -> UserBlue
     }.copy(alpha = 0.15f)
-    
+
     val borderColor = when(message.sender.uppercase()) {
         "AURA" -> AuraPurple
         "KAI" -> KaiRed
@@ -291,19 +319,23 @@ fun ConferenceMessageBubble(message: ChatMessage) {
         Column(
             modifier = Modifier
                 .widthIn(max = 280.dp)
-                .clip(RoundedCornerShape(
-                    topStart = 16.dp, 
-                    topEnd = 16.dp, 
-                    bottomStart = if (isUser) 16.dp else 4.dp, // Tail effect
-                    bottomEnd = if (isUser) 4.dp else 16.dp
-                ))
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 16.dp,
+                        topEnd = 16.dp,
+                        bottomStart = if (isUser) 16.dp else 4.dp, // Tail effect
+                        bottomEnd = if (isUser) 4.dp else 16.dp
+                    )
+                )
                 .background(bubbleColor)
-                .border(1.dp, borderColor.copy(alpha = 0.3f), RoundedCornerShape(
-                    topStart = 16.dp, 
-                    topEnd = 16.dp, 
-                    bottomStart = if (isUser) 16.dp else 4.dp, 
-                    bottomEnd = if (isUser) 4.dp else 16.dp
-                ))
+                .border(
+                    1.dp, borderColor.copy(alpha = 0.3f), RoundedCornerShape(
+                        topStart = 16.dp,
+                        topEnd = 16.dp,
+                        bottomStart = if (isUser) 16.dp else 4.dp,
+                        bottomEnd = if (isUser) 4.dp else 16.dp
+                    )
+                )
                 .padding(12.dp)
         ) {
             if (!isUser) {
@@ -358,9 +390,9 @@ fun UnisonInputBar(
                 unfocusedTextColor = Color.White
             )
         )
-        
+
         Spacer(modifier = Modifier.width(8.dp))
-        
+
         // Mic / Send Actions
         val haptic = LocalHapticFeedback.current
         val micScale by animateFloatAsState(if (isRecording) 1.15f else 1f, label = "mic_scale")
@@ -386,9 +418,9 @@ fun UnisonInputBar(
         } else {
             // Send Button
             IconButton(
-                onClick = { 
+                onClick = {
                     onSendMessage(text)
-                    text = "" 
+                    text = ""
                 },
                 modifier = Modifier
                     .size(48.dp)

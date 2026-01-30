@@ -129,7 +129,5 @@ sealed class NavDestination(val route: String) {
     data object AgentNexus : NavDestination("agent_nexus_gate")
     data object ROMTools : NavDestination("rom_tools_hub")
     data object AgentHub : NavDestination("agent_hub")
-    companion object {
-        val AgentNexusHub: NavDestination
-    }
+    companion object
 }
