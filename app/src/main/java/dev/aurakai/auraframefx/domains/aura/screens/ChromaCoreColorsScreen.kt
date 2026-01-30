@@ -1,24 +1,25 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.ColorLens
-import androidx.compose.material.icons.filled.FormatPaint
-import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.SettingsSystemDaydream
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Wallpaper
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.ui.components.ColorWaveBackground
 import dev.aurakai.auraframefx.ui.components.GridMenuItem
 import dev.aurakai.auraframefx.ui.components.Level3GridMenu
 
 /**
  * 🎨 CHROMACORE - LVL 3 GRID MENU
  *
- * Aura's Color Engine - Full separate menu with colorful abstract background
+ * Aura's Color Engine - Full separate menu
+ *
+ * ANIMATION: ColorWaveBackground
+ * - Flowing rainbow color waves
+ * - Perfect for a color engine!
  *
  * Features:
  * - Monet/Material You color extraction
@@ -100,22 +101,21 @@ fun ChromaCoreColorsScreen(
         )
     )
 
-    Level3GridMenu(
-        title = "CHROMACORE",
-        subtitle = "AURA'S COLOR ENGINE",
-        menuItems = menuItems,
-        onItemClick = { item ->
-            // Navigate to specific tool
-            navController?.navigate(item.route)
-        },
-        onBackClick = onNavigateBack,
-        // Colorful abstract background for ChromaCore
-        backgroundDrawable = "bg_chromacore_abstract",
-        fallbackGradient = listOf(
-            Color(0xFF1A0A2E),
-            Color(0xFF2D1B4E),
-            Color(0xFF0A1A2E)
-        ),
-        accentColor = Color(0xFFB026FF)
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 🌈 ANIMATED BACKGROUND - Color waves for ChromaCore!
+        ColorWaveBackground()
+
+        Level3GridMenu(
+            title = "CHROMACORE",
+            subtitle = "AURA'S COLOR ENGINE",
+            menuItems = menuItems,
+            onItemClick = { item ->
+                navController?.navigate(item.route)
+            },
+            onBackClick = onNavigateBack,
+            backgroundDrawable = null, // Using animated background instead
+            fallbackGradient = listOf(Color.Transparent), // Already have background
+            accentColor = Color(0xFFB026FF)
+        )
+    }
 }

@@ -1,31 +1,24 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.config.GateAssetConfig
+import dev.aurakai.auraframefx.ui.components.CircuitPhoenixBackground
 import dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel
 import dev.aurakai.auraframefx.ui.components.LavaApocalypseBackground
 import dev.aurakai.auraframefx.ui.components.getGenesisSubGates
@@ -34,8 +27,13 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 /**
  * 🔮 GENESIS'S ORACLEDRIVE (Level 2 Hub)
  *
- * Features a carousel of sub-gates with phoenix/circuit aesthetic.
- * Ethereal, mystical, all-seeing - the Orchestrator's domain!
+ * ANIMATIONS:
+ * Style A (Phoenix): CircuitPhoenixBackground - Glowing circuits, phoenix wings
+ * Style B (Sprite): LavaApocalypseBackground - Lava streams, divine fire
+ *
+ * TWO VISUAL STYLES:
+ * Style A: "Phoenix" - Ethereal wings, circuit traces, green glow
+ * Style B: "Sprite" - Pixel circuit creature, powerful fire
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,23 +41,19 @@ fun OracleDriveHubScreen(navController: NavController) {
 
     val subGates = getGenesisSubGates()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Ethereal Background
-        LavaApocalypseBackground()
+    var useStyleB by remember {
+        mutableStateOf(GateAssetConfig.StyleMode.genesisStyle == GateAssetConfig.GateStyle.STYLE_B)
+    }
 
-        // Purple/teal mystical overlay
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(
-                            Color(0xFF0A0A20).copy(alpha = 0.6f),
-                            Color.Black.copy(alpha = 0.85f)
-                        )
-                    )
-                )
-        )
+    val styleName = if (useStyleB) "SPRITE" else "PHOENIX"
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 🔮 GENESIS'S ANIMATED BACKGROUND - Changes with style!
+        if (useStyleB) {
+            LavaApocalypseBackground()
+        } else {
+            CircuitPhoenixBackground()
+        }
 
         Scaffold(
             containerColor = Color.Transparent,
@@ -75,15 +69,27 @@ fun OracleDriveHubScreen(navController: NavController) {
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "GENESIS ORCHESTRATION",
+                                "GENESIS ORCHESTRATION • $styleName",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = Color(0xFFB026FF)
+                                color = Color(0xFF00FF85)
                             )
                         }
                     },
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            useStyleB = !useStyleB
+                            GateAssetConfig.toggleGenesisStyle()
+                        }) {
+                            Icon(
+                                Icons.Default.SwapHoriz,
+                                "Toggle Style",
+                                tint = Color(0xFF00FF85)
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -100,7 +106,6 @@ fun OracleDriveHubScreen(navController: NavController) {
             ) {
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Domain Description
                 Text(
                     text = "AI orchestration, code assistance, and neural networks",
                     style = MaterialTheme.typography.bodyMedium,
@@ -110,22 +115,22 @@ fun OracleDriveHubScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // 🎠 SUB-GATE CAROUSEL - Phoenix/Circuit Style!
+                // 🎠 SUB-GATE CAROUSEL
                 DomainSubGateCarousel(
                     subGates = subGates,
                     onGateSelected = { gate ->
                         navController.navigate(gate.route)
                     },
+                    useStyleB = useStyleB,
                     cardHeight = 280.dp,
-                    domainColor = Color(0xFFB026FF),
+                    domainColor = Color(0xFF00FF85),
                     modifier = Modifier.weight(1f)
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Hint text
                 Text(
-                    text = "← SWIPE TO BROWSE • TAP TO ENTER →",
+                    text = "← SWIPE TO BROWSE • TAP ⇆ TO CHANGE STYLE →",
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White.copy(alpha = 0.4f),
                     letterSpacing = 2.sp

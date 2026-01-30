@@ -1,16 +1,14 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,14 +18,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.config.GateAssetConfig
+import dev.aurakai.auraframefx.ui.components.ConstellationBackground
+import dev.aurakai.auraframefx.ui.components.DigitalLandscapeBackground
 import dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel
 import dev.aurakai.auraframefx.ui.components.getNexusSubGates
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
@@ -35,8 +39,13 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 /**
  * 🤖 AGENT NEXUS HUB (Level 2)
  *
- * Features a carousel of sub-gates with constellation aesthetic.
- * Multi-agent coordination, monitoring, and fusion!
+ * ANIMATIONS:
+ * Style A (Constellation): ConstellationBackground - Star map, agent nodes, twinkling
+ * Style B (Control Room): DigitalLandscapeBackground - Futuristic horizon, HUD style
+ *
+ * TWO VISUAL STYLES:
+ * Style A: "Constellation" - Star maps, connected agents, cosmic
+ * Style B: "Control Room" - HUD panels, monitoring screens
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,30 +53,19 @@ fun AgentNexusHubScreen(navController: NavController) {
 
     val subGates = getNexusSubGates()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Neural constellation background
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(Color(0xFF0F0F1E), Color(0xFF1A1A32))
-                    )
-                )
-        )
+    var useStyleB by remember {
+        mutableStateOf(GateAssetConfig.StyleMode.nexusStyle == GateAssetConfig.GateStyle.STYLE_B)
+    }
 
-        // Radial glow effect
-        Box(
-            modifier = Modifier
-                .size(400.dp)
-                .align(Alignment.TopEnd)
-                .offset(x = 100.dp, y = (-100).dp)
-                .background(
-                    Brush.radialGradient(
-                        listOf(Color(0xFF7B2FFF).copy(alpha = 0.15f), Color.Transparent)
-                    )
-                )
-        )
+    val styleName = if (useStyleB) "CONTROL ROOM" else "CONSTELLATION"
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 🤖 NEXUS ANIMATED BACKGROUND - Changes with style!
+        if (useStyleB) {
+            DigitalLandscapeBackground()
+        } else {
+            ConstellationBackground()
+        }
 
         Scaffold(
             containerColor = Color.Transparent,
@@ -83,7 +81,7 @@ fun AgentNexusHubScreen(navController: NavController) {
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "MULTI-AGENT CONVERGENCE",
+                                "MULTI-AGENT CONVERGENCE • $styleName",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFF7B2FFF)
                             )
@@ -92,6 +90,18 @@ fun AgentNexusHubScreen(navController: NavController) {
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            useStyleB = !useStyleB
+                            GateAssetConfig.toggleNexusStyle()
+                        }) {
+                            Icon(
+                                Icons.Default.SwapHoriz,
+                                "Toggle Style",
+                                tint = Color(0xFF7B2FFF)
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -108,7 +118,6 @@ fun AgentNexusHubScreen(navController: NavController) {
             ) {
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Domain Description
                 Text(
                     text = "Agent coordination, monitoring, and fusion protocols",
                     style = MaterialTheme.typography.bodyMedium,
@@ -118,12 +127,13 @@ fun AgentNexusHubScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // 🎠 SUB-GATE CAROUSEL - Constellation Style!
+                // 🎠 SUB-GATE CAROUSEL
                 DomainSubGateCarousel(
                     subGates = subGates,
                     onGateSelected = { gate ->
                         navController.navigate(gate.route)
                     },
+                    useStyleB = useStyleB,
                     cardHeight = 280.dp,
                     domainColor = Color(0xFF7B2FFF),
                     modifier = Modifier.weight(1f)
@@ -131,9 +141,8 @@ fun AgentNexusHubScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Hint text
                 Text(
-                    text = "← SWIPE TO BROWSE • TAP TO ENTER →",
+                    text = "← SWIPE TO BROWSE • TAP ⇆ TO CHANGE STYLE →",
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White.copy(alpha = 0.4f),
                     letterSpacing = 2.sp

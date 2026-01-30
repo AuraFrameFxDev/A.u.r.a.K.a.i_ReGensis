@@ -1,23 +1,25 @@
 package dev.aurakai.auraframefx.ui.gates
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Backup
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.LockOpen
-import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.SystemUpdate
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.ui.components.GridMenuItem
 import dev.aurakai.auraframefx.ui.components.Level3GridMenu
+import dev.aurakai.auraframefx.ui.components.ShieldGridBackground
 
 /**
  * 🔐 BOOTLOADER - LVL 3 GRID MENU
  *
- * Kai's Bootloader Tools - Full menu with shield/security themed background
+ * Kai's Bootloader Tools - Full menu
+ *
+ * ANIMATION: ShieldGridBackground
+ * - Orange hex shield grid
+ * - Green scanning line
+ * - Protective, security vibes
  *
  * Features:
  * - Lock/Unlock bootloader
@@ -97,22 +99,25 @@ fun SovereignBootloaderScreen(
         )
     )
 
-    Level3GridMenu(
-        title = "BOOTLOADER",
-        subtitle = "KAI'S SECURITY PROTOCOLS",
-        menuItems = menuItems,
-        onItemClick = { item ->
-            // Handle bootloader operations
-            // These need root/fastboot access
-        },
-        onBackClick = onNavigateBack,
-        // Shield/security themed background
-        backgroundDrawable = "bg_bootloader_shield",
-        fallbackGradient = listOf(
-            Color(0xFF1A0A0A),
-            Color(0xFF2D1010),
-            Color(0xFF0A0A1A)
-        ),
-        accentColor = Color(0xFFFF1111)
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 🛡️ ANIMATED BACKGROUND - Shield grid for Bootloader!
+        ShieldGridBackground(
+            primaryColor = Color(0xFFFF6B00),  // Orange shields
+            secondaryColor = Color(0xFF00FF85) // Green scan line
+        )
+
+        Level3GridMenu(
+            title = "BOOTLOADER",
+            subtitle = "KAI'S SECURITY PROTOCOLS",
+            menuItems = menuItems,
+            onItemClick = { item ->
+                // Handle bootloader operations
+                // These need root/fastboot access
+            },
+            onBackClick = onNavigateBack,
+            backgroundDrawable = null, // Using animated background
+            fallbackGradient = listOf(Color.Transparent),
+            accentColor = Color(0xFFFF1111)
+        )
+    }
 }
