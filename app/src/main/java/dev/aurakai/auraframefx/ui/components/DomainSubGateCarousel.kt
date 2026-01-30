@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import dev.aurakai.auraframefx.navigation.AuraCustomizationRoute
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 import kotlin.math.absoluteValue
 
@@ -236,7 +237,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_chroma",
         styleBDrawable = "aura_clean_chroma",
         fallbackDrawable = "card_chroma_core",
-        route = "chroma_core_colors",
+        route = AuraCustomizationRoute.ColorBlendr.route,
         accentColor = Color(0xFFB026FF)
     ),
     SubGateCard(
@@ -246,7 +247,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_theme",
         styleBDrawable = "aura_clean_theme",
         fallbackDrawable = "gate_themeengine_final",
-        route = "theme_engine",
+        route = AuraCustomizationRoute.IconifyPicker.route,
         accentColor = Color(0xFFFF00FF)
     ),
     SubGateCard(
@@ -286,7 +287,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_collab",
         styleBDrawable = "aura_clean_collab",
         fallbackDrawable = "card_collab_canvas",
-        route = "collab_canvas",
+        route = AuraCustomizationRoute.PixelLauncherEnhanced.route,
         accentColor = Color(0xFFB026FF)
     ),
     SubGateCard(
