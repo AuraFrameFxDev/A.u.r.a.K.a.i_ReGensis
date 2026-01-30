@@ -33,21 +33,21 @@ sealed class NavDestination(val route: String) {
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 3: DOMAIN HUBS (The Management Frameworks)
     // ═══════════════════════════════════════════════════════════════
-    
+
     // AURA HUBS (Design & Creativity)
     data object AuraThemingHub : NavDestination("aura_theming_hub") // The Unified UI Engine
     data object AuraLab : NavDestination("aura_lab")                // Sandbox & Testing
-    
+
     // KAI HUBS (Security & System Control)
     data object RomToolsHub : NavDestination("rom_tools_hub")      // Flashing & Partitions
     data object LSPosedHub : NavDestination("lsposed_hub")        // Module Management
     data object SystemToolsHub : NavDestination("system_tools_hub") // Logs & Journals
-    
+
     // GENESIS HUBS (AI & Orchestration)
     data object OracleDriveHub : NavDestination("oracle_drive_hub") // AI & Storage
     data object OracleCloudStorage : NavDestination("oracle_cloud_storage") // Infinite Storage
     data object AgentBridgeHub : NavDestination("agent_bridge_hub") // Multi-Agent Datavein
-    
+
     // AGENT NEXUS HUBS (Progression & Identity)
     data object ConstellationHub : NavDestination("constellation_hub") // Skill Trees
     data object MonitoringHub : NavDestination("monitoring_hub")       // Performance & Stats
@@ -57,7 +57,7 @@ sealed class NavDestination(val route: String) {
     // ═══════════════════════════════════════════════════════════════
 
     // -- Aura Toolset --
-    data object ThemeEngine : NavDestination("theme_engine") 
+    data object ThemeEngine : NavDestination("theme_engine")
     data object ChromaCoreColors : NavDestination("chroma_core_colors")
     data object NotchBar : NavDestination("notch_bar")
     data object StatusBar : NavDestination("status_bar")
@@ -84,7 +84,7 @@ sealed class NavDestination(val route: String) {
     data object CodeAssist : NavDestination("code_assist")
     data object NeuralNetwork : NavDestination("neural_network")
     data object Terminal : NavDestination("sentient_shell")
-    
+
     // -- Nexus Toolset --
     data object GenesisConstellation : NavDestination("genesis_constellation")
     data object ClaudeConstellation : NavDestination("claude_constellation")
@@ -121,7 +121,7 @@ sealed class NavDestination(val route: String) {
     // Legacy / To be deprecated
     data object ThemeEngineSubmenu : NavDestination("theme_engine_submenu")
     data object UIUXGateSubmenu : NavDestination("uiux_gate_submenu")
-    data object UXUIDesignStudio : NavDestination("uiux_gate_submenu") 
+    data object UXUIDesignStudio : NavDestination("uiux_gate_submenu")
     data object ROMToolsSubmenu : NavDestination("rom_tools_submenu")
     data object LSPosedPanel : NavDestination("lsposed_gate")
     data object OracleDriveSubmenu : NavDestination("oracle_drive_submenu")
@@ -129,4 +129,7 @@ sealed class NavDestination(val route: String) {
     data object AgentNexus : NavDestination("agent_nexus_gate")
     data object ROMTools : NavDestination("rom_tools_hub")
     data object AgentHub : NavDestination("agent_hub")
+    companion object {
+        val AgentNexusHub: NavDestination
+    }
 }

@@ -3,7 +3,18 @@ package dev.aurakai.auraframefx.ui.gates
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -12,7 +23,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Build
@@ -23,7 +33,16 @@ import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.MilitaryTech
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,7 +74,7 @@ data class NexusToolCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgentNexusHubScreen(navController: NavController) {
-    
+
     val tools = listOf(
         NexusToolCard(
             title = "Neural Explorer",
@@ -138,7 +157,7 @@ fun AgentNexusHubScreen(navController: NavController) {
             title = "Benchmark Monitor",
             subtitle = "Performance Analysis",
             destination = NavDestination.BenchmarkMonitor,
-            icon = Icons.Default.Assessment,
+            icon = Icons.Default.BarChart,
             accentColor = Color(0xFF00FF85)
         ),
         NexusToolCard(
@@ -161,7 +180,7 @@ fun AgentNexusHubScreen(navController: NavController) {
                     )
                 )
         )
-        
+
         // Circular Glow Effect
         Box(
             modifier = Modifier
@@ -179,17 +198,17 @@ fun AgentNexusHubScreen(navController: NavController) {
             containerColor = Color.Transparent,
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { 
+                    title = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                "AGENT NEXUS", 
-                                fontFamily = LEDFontFamily, 
+                                "AGENT NEXUS",
+                                fontFamily = LEDFontFamily,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White,
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "AI CONVERGENCE HUB", 
+                                "AI CONVERGENCE HUB",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFF7B2FFF)
                             )
@@ -291,7 +310,7 @@ fun NexusCard(tool: NexusToolCard, onClick: () -> Unit) {
                     modifier = Modifier.size(24.dp)
                 )
             }
-            
+
             Column {
                 Text(
                     text = tool.title,

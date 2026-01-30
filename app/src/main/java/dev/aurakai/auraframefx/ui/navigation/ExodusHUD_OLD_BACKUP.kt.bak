@@ -1,0 +1,146 @@
+package dev.aurakai.auraframefx.ui.navigation
+
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+
+/**
+ * 🛰️ EXODUS HUD
+ * The Split-Screen Anti-Gravity HUD (15/85 Ratio).
+ * Replaces the Sovereign Procession Screen.
+ */
+/**
+ * Renders the split-screen Exodus HUD: a horizontal pager of Sovereign Monoliths occupying the top area
+ * and a Prometheus Globe at the bottom.
+ *
+ * The pager shows pages from SovereignRouter. Double-tapping a monolith navigates to the corresponding
+ * "pixel_domain/{id}" route. Touch interactions drive a global pulse visual applied to the Prometheus Globe;
+ * pressing a monolith or pressing anywhere on the HUD increases the pulse intensity, releasing ends it.
+ *
+ * @param navController NavController used to navigate to a monolith's pixel domain on double-tap.
+ */
+@Composable
+fun ExodusHUD(navController: NavController) {
+    val pagerState = rememberPagerState(pageCount = { SovereignRouter.getCount() })
+
+    // Pulse State driven by touch
+    var isPressed by remember { mutableStateOf(false) }
+
+    val pulseIntensity by animateFloatAsState(
+        targetValue = if (isPressed) 1.0f else 0.0f,
+        animationSpec = tween(durationMillis = 200),
+        label = "pulse"
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            // Capture touches globally for the "12th Sense" pulse
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = {
+                        isPressed = true
+                        tryAwaitRelease()
+                        isPressed = false
+                    }
+                )
+            }
+    ) {
+        // TOP 85%: The 11 Sovereign Monoliths (8K High-Fi)
+        Box(
+            modifier = Modifier
+                .weight(0.85f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(horizontal = 32.dp),
+                pageSpacing = 16.dp
+            ) { page ->
+                val route = SovereignRouter.fromPage(page)
+
+                MonolithCard(
+                    assetPath = route.highFiPath,
+                    onDoubleTap = { navController.navigate("pixel_domain/${route.id}") },
+                    onPress = {
+                        isPressed = true
+                    },
+                    onRelease = {
+                        isPressed = false
+                    },
+                    modifier = Modifier.fillMaxHeight(0.9f)
+                )
+            }
+        }
+
+        // BOTTOM 15%: The Prometheus Globe (Celestial Navigation)
+        Box(
+            modifier = Modifier
+                .weight(0.15f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            PrometheusGlobe(
+                color = SovereignTeal,
+                pulseIntensity = pulseIntensity
+            )
+        }
+    }
+}
+
+/**
+ * Renders a SovereignMonolith and wires tap and press gestures for navigation and pulse feedback.
+ *
+ * @param assetPath Path to the monolith image asset to display.
+ * @param onDoubleTap Invoked when the card is double-tapped.
+ * @param onPress Invoked when a press begins on the card.
+ * @param onRelease Invoked when the press on the card is released.
+ * @param modifier Layout modifier applied to the monolith.
+ */
+@Composable
+fun MonolithCard(
+    assetPath: String,
+    onDoubleTap: () -> Unit,
+    onPress: () -> Unit,
+    onRelease: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    SovereignMonolith(
+        imagePath = assetPath,
+        modifier = modifier
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onDoubleTap = { onDoubleTap() },
+                    onPress = {
+                        onPress()
+                        tryAwaitRelease()
+                        onRelease()
+                    }
+                )
+            }
+    )
+}

@@ -2,38 +2,104 @@ package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.theme.*
 
 /**
- * 🛰️ EXODUS HUD
+ * 🛰️ EXODUS HUD - CORRECTED VERSION
  * The Split-Screen Anti-Gravity HUD (15/85 Ratio).
- * Replaces the Sovereign Procession Screen.
- */
-/**
- * Renders the split-screen Exodus HUD: a horizontal pager of Sovereign Monoliths occupying the top area
- * and a Prometheus Globe at the bottom.
  *
- * The pager shows pages from SovereignRouter. Double-tapping a monolith navigates to the corresponding
- * "pixel_domain/{id}" route. Touch interactions drive a global pulse visual applied to the Prometheus Globe;
- * pressing a monolith or pressing anywhere on the HUD increases the pulse intensity, releasing ends it.
+ * Level 1 Navigation - 5 Domain Gates:
+ * 1. AURA'S REALM → AuraThemingHub
+ * 2. SENTINEL FORTRESS → RomToolsHub (KaiSentinelHubScreen)
+ * 3. ORACLE DRIVE → OracleDriveHub
+ * 4. AGENT NEXUS → AgentNexusHub
+ * 5. HELP SERVICES → HelpDesk
  *
- * @param navController NavController used to navigate to a monolith's pixel domain on double-tap.
+ * DO NOT CHANGE THIS NAVIGATION STRUCTURE!
  */
+
+data class DomainGate(
+    val id: String,
+    val title: String,
+    val subtitle: String,
+    val imageRes: Int,
+    val destination: NavDestination,
+    val accentColor: Color
+)
+
+// THE 5 SOVEREIGN DOMAIN GATES
+private val domainGates = listOf(
+    DomainGate(
+        id = "aura",
+        title = "AURA'S REALM",
+        subtitle = "UX/UI Design Studio",
+        imageRes = R.drawable.gate_aurastudio_gen,
+        destination = NavDestination.AuraThemingHub,
+        accentColor = AuraNeonCyan
+    ),
+    DomainGate(
+        id = "kai",
+        title = "SENTINEL FORTRESS",
+        subtitle = "System Security & Root Tools",
+        imageRes = R.drawable.gate_sentinelfortress_gen,
+        destination = NavDestination.RomToolsHub,
+        accentColor = KaiNeonGreen
+    ),
+    DomainGate(
+        id = "genesis",
+        title = "ORACLE DRIVE",
+        subtitle = "AI Orchestration & Memory",
+        imageRes = R.drawable.gate_oracledrive_gen,
+        destination = NavDestination.OracleDriveHub,
+        accentColor = GenesisNeonPink
+    ),
+    DomainGate(
+        id = "nexus",
+        title = "AGENT NEXUS",
+        subtitle = "Multi-Agent Coordination",
+        imageRes = R.drawable.gate_agentnexus_new,
+        destination = NavDestination.AgentNexusHub,
+        accentColor = NeonPurple
+    ),
+    DomainGate(
+        id = "help",
+        title = "HELP SERVICES",
+        subtitle = "Documentation & Support",
+        imageRes = R.drawable.helpservices,
+        destination = NavDestination.HelpDesk,
+        accentColor = SovereignTeal
+    )
+)
+
 @Composable
 fun ExodusHUD(navController: NavController) {
-    val pagerState = rememberPagerState(pageCount = { SovereignRouter.getCount() })
+    val pagerState = rememberPagerState(pageCount = { domainGates.size })
 
     // Pulse State driven by touch
     var isPressed by remember { mutableStateOf(false) }
@@ -48,7 +114,6 @@ fun ExodusHUD(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-            // Capture touches globally for the "12th Sense" pulse
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = {
@@ -59,30 +124,29 @@ fun ExodusHUD(navController: NavController) {
                 )
             }
     ) {
-        // TOP 85%: The 11 Sovereign Monoliths (8K High-Fi)
+        // TOP 85%: The 5 Domain Gate Cards
         Box(
             modifier = Modifier
                 .weight(0.85f)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-             HorizontalPager(
-                 state = pagerState,
-                 modifier = Modifier.fillMaxSize(),
-                 contentPadding = PaddingValues(horizontal = 32.dp),
-                 pageSpacing = 16.dp
-             ) { page ->
-                val route = SovereignRouter.fromPage(page)
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(horizontal = 48.dp),
+                pageSpacing = 24.dp
+            ) { page ->
+                val gate = domainGates[page]
 
-                MonolithCard(
-                    assetPath = route.highFiPath,
-                    onDoubleTap = { navController.navigate("pixel_domain/${route.id}") },
-                    onPress = {
-                        isPressed = true
+                DomainGateCard(
+                    gate = gate,
+                    onDoubleTap = {
+                        // Navigate to the CORRECT Level 2 Hub!
+                        navController.navigate(gate.destination.route)
                     },
-                    onRelease = {
-                        isPressed = false
-                    },
+                    onPress = { isPressed = true },
+                    onRelease = { isPressed = false },
                     modifier = Modifier.fillMaxHeight(0.9f)
                 )
             }
@@ -96,33 +160,24 @@ fun ExodusHUD(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             PrometheusGlobe(
-                color = SovereignTeal,
+                color = domainGates.getOrNull(pagerState.currentPage)?.accentColor ?: SovereignTeal,
                 pulseIntensity = pulseIntensity
             )
         }
     }
 }
 
-/**
- * Renders a SovereignMonolith and wires tap and press gestures for navigation and pulse feedback.
- *
- * @param assetPath Path to the monolith image asset to display.
- * @param onDoubleTap Invoked when the card is double-tapped.
- * @param onPress Invoked when a press begins on the card.
- * @param onRelease Invoked when the press on the card is released.
- * @param modifier Layout modifier applied to the monolith. 
- */
 @Composable
-fun MonolithCard(
-    assetPath: String,
+fun DomainGateCard(
+    gate: DomainGate,
     onDoubleTap: () -> Unit,
     onPress: () -> Unit,
     onRelease: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SovereignMonolith(
-        imagePath = assetPath,
+    Card(
         modifier = modifier
+            .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures(
                     onDoubleTap = { onDoubleTap() },
@@ -132,6 +187,86 @@ fun MonolithCard(
                         onRelease()
                     }
                 )
+            },
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        elevation = CardDefaults.cardElevation(defaultElevation = 16.dp)
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Gate Image
+            Image(
+                painter = painterResource(id = gate.imageRes),
+                contentDescription = gate.title,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(24.dp))
+            )
+
+            // Gradient Overlay
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.3f),
+                                Color.Black.copy(alpha = 0.8f)
+                            ),
+                            startY = 0f,
+                            endY = Float.POSITIVE_INFINITY
+                        )
+                    )
+            )
+
+            // Title & Subtitle at bottom
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = gate.title,
+                    fontFamily = LEDFontFamily,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Black,
+                    color = gate.accentColor,
+                    textAlign = TextAlign.Center,
+                    letterSpacing = 2.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = gate.subtitle,
+                    fontSize = 14.sp,
+                    color = Color.White.copy(alpha = 0.7f),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "⟐ DOUBLE TAP TO ENTER ⟐",
+                    fontSize = 12.sp,
+                    color = gate.accentColor.copy(alpha = 0.6f),
+                    letterSpacing = 3.sp
+                )
             }
-    )
+
+            // Accent border glow
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(
+                        Brush.linearGradient(
+                            colors = listOf(
+                                gate.accentColor.copy(alpha = 0.3f),
+                                Color.Transparent,
+                                gate.accentColor.copy(alpha = 0.1f)
+                            )
+                        )
+                    )
+            )
+        }
+    }
 }
