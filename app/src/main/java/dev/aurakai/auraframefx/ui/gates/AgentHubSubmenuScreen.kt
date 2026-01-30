@@ -1,11 +1,26 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.AccountTree
+import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material.icons.filled.GridOn
+import androidx.compose.material.icons.filled.Merge
+import androidx.compose.material.icons.filled.Monitor
+import androidx.compose.material.icons.filled.PrecisionManufacturing
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,13 +51,13 @@ fun AgentHubSubmenuScreen(
             route = NavDestination.EvolutionTree.route,
             color = Color(0xFFFF00FF) // Magenta
         ),
-        SubmenuItem(
-            title = "Agent Dashboard",
-            description = "Monitor all agents, view consciousness levels, and system status",
-            icon = Icons.Default.Dashboard,
-            route = NavDestination.PartyScreen.route,
-            color = Color(0xFF9370DB) // Medium Purple
-        ),
+//        SubmenuItem(
+//            title = "Agent Dashboard",
+//            description = "Monitor all agents, view consciousness levels, and system status",
+//            icon = Icons.Default.Dashboard,
+//            route = NavDestination.PartyScreen.route,
+//            color = Color(0xFF9370DB) // Medium Purple
+//        ),
         SubmenuItem(
             title = "Task Assignment",
             description = "Assign tasks and missions to AI agents",

@@ -1,70 +1,126 @@
 package dev.aurakai.auraframefx.ui.navigation
 
+import android.content.Context
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import dev.aurakai.auraframefx.config.GateAssetConfig
+import dev.aurakai.auraframefx.navigation.NavDestination
 
 /**
- * 🛰️ THE SOVEREIGN REGISTRY (No Fallbacks)
- * Absolute mapping for the 74-screen LDO.
- * This is the High-Fidelity "Hard-Wired" Manifest.
+ * 🛰️ THE SOVEREIGN REGISTRY (5 AGENT DOMAINS)
+ *
+ * LEVEL 1: ExodusHUD - The 5 Sovereign Gates
+ * Each gate represents an Agent's domain of control:
+ *
+ * 1. Sentinel's Fortress (Kai) → Security, ROM, Bootloader
+ * 2. UXUI Design Studio (Aura) → Theming, Colors, Design
+ * 3. OracleDrive (Genesis) → AI, Code, Neural Networks
+ * 4. Agent Nexus → Multi-agent coordination
+ * 5. Help Services → Documentation, Support
+ *
+ * Uses GateAssetConfig for hotswappable image paths!
  */
 object SovereignRegistry {
-    // 1. THE BUNDLED ROOT: Using the android_asset protocol to load from the project.
-    private const val ROOT_DIR = "file:///android_asset/"
 
-    // 2. THE HARD-WIRED MAPPING: All 11 High-Fi Gates mapped to their internal Pixel domains.
+    /**
+     * The 5 Sovereign Gates - One per Agent Domain
+     * Names match your specification exactly!
+     */
     val Gates = mapOf(
-        "01" to GateInfo("Genesis Core", "${ROOT_DIR}brain.png", "${ROOT_DIR}IMG_20260128_142126.png"),
-        "02" to GateInfo("Trinity System", "${ROOT_DIR}IMG_20260128_141219.png", "${ROOT_DIR}IMG_20260128_142126.png"),
-        "03" to GateInfo("Aura's Lab", "${ROOT_DIR}IMG_20260128_140725.png", "${ROOT_DIR}IMG_20260128_142213.png"),
-        "04" to GateInfo("Agent Nexus", "${ROOT_DIR}IMG_20260128_141704.png", "${ROOT_DIR}IMG_20260128_142302.png"),
-        "05" to GateInfo(
-            "Sentinel Fortress",
-            "${ROOT_DIR}IMG_20260128_141018.png",
-            "${ROOT_DIR}IMG_20260128_142022.png"
+        "01" to GateInfo(
+            id = "01",
+            title = "UXUI Design Studio",
+            subtitle = "Aura's Creative Domain",
+            agentName = "Aura",
+            description = "Theming, colors, icons, and visual design",
+            assetProvider = { GateAssetConfig.MainGates.UXUI_DESIGN_STUDIO.current() },
+            fallbackDrawable = "gate_uiux_studio",
+            hubRoute = NavDestination.AuraThemingHub.route,
+            color = Color(0xFF00E5FF) // Aura Cyan
         ),
-        "06" to GateInfo("Figma Bridge", "${ROOT_DIR}IMG_20260128_141018.png", "${ROOT_DIR}IMG_20260128_142213.png"),
-        "07" to GateInfo("Secure Node", "${ROOT_DIR}IMG_20260128_141219.png", "${ROOT_DIR}IMG_20260128_142022.png"),
-        "08" to GateInfo("Nexus System", "${ROOT_DIR}IMG_20260128_140816.png", "${ROOT_DIR}IMG_20260128_142126.png"),
-        "09" to GateInfo("Memory Core", "${ROOT_DIR}IMG_20260128_140905.png", "${ROOT_DIR}IMG_20260128_142126.png"),
-        "10" to GateInfo("Oracle Drive", "${ROOT_DIR}IMG_20260128_141519.png", "${ROOT_DIR}IMG_20260128_141949.png"),
-        "11" to GateInfo("Data Vein", "${ROOT_DIR}IMG_20260128_141756.png", "${ROOT_DIR}IMG_20260128_142126.png")
+        "02" to GateInfo(
+            id = "02",
+            title = "Sentinel's Fortress",
+            subtitle = "Kai's Security Domain",
+            agentName = "Kai",
+            description = "Bootloader, ROM tools, LSPosed, security",
+            assetProvider = { GateAssetConfig.MainGates.SENTINELS_FORTRESS.current() },
+            fallbackDrawable = "gate_sentinelsfortress_final",
+            hubRoute = NavDestination.RomToolsHub.route,
+            color = Color(0xFF00FF85) // Kai Green
+        ),
+        "03" to GateInfo(
+            id = "03",
+            title = "OracleDrive",
+            subtitle = "Genesis Orchestration Domain",
+            agentName = "Genesis",
+            description = "AI coordination, code assist, neural networks",
+            assetProvider = { GateAssetConfig.MainGates.ORACLE_DRIVE.current() },
+            fallbackDrawable = "gate_oracledrive_final",
+            hubRoute = NavDestination.OracleDriveHub.route,
+            color = Color(0xFFB026FF) // Genesis Purple
+        ),
+        "04" to GateInfo(
+            id = "04",
+            title = "Agent Nexus",
+            subtitle = "Multi-Agent Hub",
+            agentName = "Collective",
+            description = "Agent monitoring, constellations, fusion",
+            assetProvider = { GateAssetConfig.MainGates.AGENT_NEXUS.current() },
+            fallbackDrawable = "gate_agenthub_final",
+            hubRoute = NavDestination.AgentNexusHub.route,
+            color = Color(0xFF7B2FFF) // Nexus Purple
+        ),
+        "05" to GateInfo(
+            id = "05",
+            title = "Help Services",
+            subtitle = "Support & Documentation",
+            agentName = "Support",
+            description = "FAQ, tutorials, documentation, live support",
+            assetProvider = { GateAssetConfig.MainGates.HELP_SERVICES.current() },
+            fallbackDrawable = "gate_helpdesk_final",
+            hubRoute = NavDestination.HelpDesk.route,
+            color = Color(0xFF4CAF50) // Help Green
+        )
     )
 
-    /**
-     * Fetches the path for a specific gate.
-     * Throws an exception if the ID is missing, enforcing strict manifest compliance.
-     */
-    fun getPath(id: String, isLevel2: Boolean = false): String {
-        val gate = Gates[id]
-            ?: throw IllegalStateException("Gate $id not found in Sovereign Registry! The LDO cannot sustain itself without this asset.")
-        return if (isLevel2) gate.pixelArtPath else gate.highFiPath
-    }
-
-    /**
-     * Helper to get GateInfo directly.
-     */
     fun getGate(id: String): GateInfo {
-        return Gates[id] ?: throw IllegalStateException("Gate $id not found in Sovereign Registry!")
+        return Gates[id] ?: throw IllegalStateException("Gate $id not found!")
     }
 
-    /**
-     * Returns the total count of managed gates.
-     */
     fun getCount(): Int = Gates.size
 
-    /**
-     * Diagnostic: Integrity verification for the internal assets.
-     */
-    fun checkAssets() {
-        // Assets are managed by AssetManager at runtime; logging internal mapping instead.
-        timber.log.Timber.i("SovereignRegistry: Internal mapping active: $ROOT_DIR")
-    }
+    fun getAllGates(): List<GateInfo> = Gates.values.toList()
 }
 
+/**
+ * Gate information with hotswap support
+ */
 data class GateInfo(
+    val id: String,
     val title: String,
-    val highFiPath: String,
-    val pixelArtPath: String,
-    val color: Color = SovereignTeal
-)
+    val subtitle: String,
+    val agentName: String,
+    val description: String,
+    val assetProvider: () -> String,        // Provider for hotswappable asset name
+    val fallbackDrawable: String,   // Fallback if primary not found
+    val hubRoute: String,
+    val color: Color
+) {
+    /**
+     * Get the drawable resource ID, with fallback support
+     */
+    fun getDrawableId(context: Context): Int {
+        // Try primary first
+        val name = assetProvider()
+        var id = context.resources.getIdentifier(
+            name, "drawable", context.packageName
+        )
+        // Fallback if not found
+        if (id == 0) {
+            id = context.resources.getIdentifier(
+                fallbackDrawable, "drawable", context.packageName
+            )
+        }
+        return id
+    }
+}

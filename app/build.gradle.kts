@@ -85,6 +85,8 @@ extensions.configure<ApplicationExtension> {
             excludes += "/META-INF/DEPENDENCIES"
             excludes += "/META-INF/LICENSE.txt"
             excludes += "/META-INF/NOTICE.txt"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/NOTICE.md"
             excludes += "**/kotlin/**"
             excludes += "**/*.txt"
         }
@@ -170,6 +172,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.animation)
+    implementation(libs.androidx.databinding.compiler)
     ksp(libs.hilt.compiler)
 
     // Core Android
@@ -222,7 +225,7 @@ dependencies {
     implementation(libs.libsu.core)
     implementation(libs.libsu.nio)
     implementation(libs.libsu.service)
-    
+
     // Shizuku & Rikka
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
