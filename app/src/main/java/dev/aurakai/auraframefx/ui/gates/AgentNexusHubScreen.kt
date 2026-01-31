@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -183,7 +184,7 @@ fun AgentNexusHubScreen(navController: NavController) {
                 .align(Alignment.TopEnd)
                 .offset(x = 100.dp, y = (-100).dp)
                 .background(
-                    Brush.radialGradient(
+                    radialGradient(
                         listOf(Color(0xFF7B2FFF).copy(alpha = 0.15f), Color.Transparent)
                     )
                 )

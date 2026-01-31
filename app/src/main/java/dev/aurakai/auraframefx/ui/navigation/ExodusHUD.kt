@@ -1,12 +1,26 @@
 package dev.aurakai.auraframefx.ui.navigation
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +31,7 @@ import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.ui.components.PrometheusGlobe
 import dev.aurakai.auraframefx.ui.gates.GateCard
+import dev.aurakai.auraframefx.ui.gates.GateConfig
 import kotlin.math.absoluteValue
 
 /**
@@ -106,7 +121,7 @@ fun ExodusHUD(navController: NavController) {
                          // We might need to map it or use a different card.
                          // For now, let's assume we can map or use the GateCard adapted.
                          // Actually, I'll update GateCard to use GateInfo in a moment or map it here.
-                         config = dev.aurakai.auraframefx.ui.gates.GateConfig(
+                         config = GateConfig(
                              id = gateInfo.id,
                              title = gateInfo.title,
                              subtitle = gateInfo.subtitle,

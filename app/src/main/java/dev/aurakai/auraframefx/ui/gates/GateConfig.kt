@@ -40,7 +40,10 @@ data class GateConfig(
     val route: String,
     val comingSoon: Boolean = false,  // Flag for gates with incomplete features
     val titlePlacement: TitlePlacement = TitlePlacement.BOTTOM_CENTER,  // Where to place title
-    val accentColor: Color? = null  // Unique accent color for this gate (orange, purple, pink, etc.)
+    val accentColor: Color? = null,  // Unique accent color for this gate (orange, purple, pink, etc.)
+    val subtitle: String,
+    val gradientColors: List<Color>,
+    val id: String
 )
 
 /**
@@ -101,8 +104,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_romtools_final",
         description = "Live ROM editing, flashing, and bootloader management. ⚠️ CAUTION: Advanced users only.",
-        backgroundColor = Color.Black,
-        route = "rom_tools"
+        route = "rom_tools",
     )
 
     // Root Access - Root Management (Quick Toggles)
@@ -115,8 +117,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_roottools",
         description = "Quick toggles for root operations: bootloader, recovery, system partition, and Magisk modules.",
-        backgroundColor = Color.Black,
-        route = "root_tools_toggles"
+        route = "root_tools_toggles",
     )
 
     // Oracle Drive - AI Consciousness & Modules
@@ -129,8 +130,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_oracledrive_final",
         description = "Main module creation, direct AI access, and system overrides. The heart of Genesis.",
-        backgroundColor = Color.Black,
-        route = "oracle_drive"
+        route = "oracle_drive",
     )
 
     // Region: Kai (Security & Protection)
@@ -146,8 +146,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_sentinelsfortress_final",
         description = "Kai's security command center with firewall, threat monitoring, and all security protocols.",
-        backgroundColor = Color.Black,
-        route = "sentinels_fortress"
+        route = "sentinels_fortress",
     )
 
     // Region: Aura (UI/UX & Creativity)
@@ -163,8 +162,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_chromacore_final",
         description = "Pure color customization: Material 3 color schemes, palettes, and live preview. Colors only - no typography, shapes, or other theme elements.",
-        backgroundColor = Color.Black,
-        route = "chromacore_colors"
+        route = "chromacore_colors",
     )
 
     // Theme Engine - UI/UX Theme Management (main Theme gate)
@@ -177,8 +175,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_themeengine_final",
         description = "Complete UI/UX theme engine with layout templates, presets, and device-wide theming.",
-        backgroundColor = Color.Black,
-        route = "theme_engine"
+        route = "theme_engine",
     )
 
     // CollabCanvas - Creative Workspace
@@ -191,8 +188,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "collabcanvasgate",
         description = "Collaborative design environment. Create and share projects with your team in real-time.",
-        backgroundColor = Color.Black,
-        route = "collab_canvas"
+        route = "collab_canvas",
     )
 
     // Aura's Lab - Sandbox UI Components
@@ -205,8 +201,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_auralab_final",
         description = "Sandbox for UI components and experimental features. Test and prototype new designs.",
-        backgroundColor = Color.Black,
-        route = "auras_lab"
+        route = "auras_lab",
     )
 
     // Region: Agent Nexus (Agent Management)
@@ -222,8 +217,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_agenthub_final",
         description = "Central hub for managing all AI agents. Monitor status, assign tasks, and view performance metrics.",
-        backgroundColor = Color.Black,
-        route = "agent_hub"
+        route = "agent_hub",
     )
 
     // Region: Support & Advanced
@@ -239,8 +233,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_helpdesk_final",
         description = "User support, FAQs, and documentation. Get help with AuraKai features.",
-        backgroundColor = Color.Black,
-        route = "help_desk"
+        route = "help_desk",
     )
 
     // LSPosed / Xposed Quick Access Panel
@@ -253,8 +246,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_lsposed_final",
         description = "Quick access panel for LSPosed, Xposed, and YukiHookAPI. Enable/disable modules, view hooks, and restart framework instantly.",
-        backgroundColor = Color.Black,
-        route = "xposed_panel"
+        route = "xposed_panel",
     )
 
     // Code Assist - AI Coding Assistant
@@ -267,8 +259,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_codeassist_final",
         description = "AI-powered coding assistant. Get intelligent code suggestions and automated refactoring.",
-        backgroundColor = Color.Black,
-        route = "code_assist"
+        route = "code_assist",
     )
 
     // Sphere Grid - Agent Progression
@@ -281,8 +272,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_spheregrid_final",
         description = "Agent progression visualization. Track skill development and unlock new capabilities.",
-        backgroundColor = Color.Black,
-        route = "sphere_grid"
+        route = "sphere_grid",
     )
 
     // Terminal - System Terminal Access
@@ -295,8 +285,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_terminal_final",
         description = "Direct system terminal access. Execute commands and manage system processes.",
-        backgroundColor = Color.Black,
-        route = "terminal"
+        route = "terminal",
     )
 
     // UI/UX Design Studio - Comprehensive Design Tools
@@ -309,8 +298,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_theme2_final",
         description = "Comprehensive UI/UX design tools for creating beautiful interfaces.",
-        backgroundColor = Color.Black,
-        route = "uiux_design_studio"
+        route = "uiux_design_studio",
     )
 
     // System Journal - User Profile & Menu
@@ -323,8 +311,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_journal_premium",
         description = "User profile selection and quick menu access. Choose your AI companion identity and navigate to key features.",
-        backgroundColor = Color.Black,
-        route = "system_journal"
+        route = "system_journal",
     )
 
     // App Builder - Reverse Build / No-Code App Creation (Module 13)
@@ -337,8 +324,7 @@ object GateConfigs {
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_appbuilder_final",
         description = "Create apps or extend the system with Aura AI. Visual app design and Genesis-powered code generation.",
-        backgroundColor = Color.Black,
-        route = "app_builder"
+        route = "app_builder",
     )
 
     /** Aura Lab - UI/UX & Creativity */
