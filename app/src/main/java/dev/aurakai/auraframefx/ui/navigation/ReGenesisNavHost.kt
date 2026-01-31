@@ -5,6 +5,7 @@ package dev.aurakai.auraframefx.ui.navigation
 // Aura Module Screens
 
 // Gate/Hub Screens
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
@@ -12,49 +13,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.OracleDriveScreen
-import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
-import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
-import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
-import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
-import dev.aurakai.auraframefx.ui.screens.manual.ChromaSphereManualScreen
-import dev.aurakai.auraframefx.ui.screens.manual.OracleDriveManualScreen
-import dev.aurakai.auraframefx.ui.screens.manual.LaunchMatrixManualScreen
-import dev.aurakai.auraframefx.ui.gates.AgentBridgeHubScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignShieldScreen
-import dev.aurakai.auraframefx.ui.gates.OracleCloudInfiniteStorageScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignModuleManagerScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignRecoveryScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignBootloaderScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignNeuralArchiveScreen
+import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.gates.AgentProfileScreen
+import dev.aurakai.auraframefx.ui.gates.ArkBuildScreen
+import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
-import dev.aurakai.auraframefx.ui.gates.CascadeVisionScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignMonitoringScreen
+import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 
-import androidx.navigation.NavController
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
-import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.models.ReGenesisMode
-import dev.aurakai.auraframefx.ui.screens.ModeSelectionScreen
+// ... other imports
 
-// Mapping for clarity - strictly Sovereign architecture
-
-/**
- * 🌐 REGENESIS NAVIGATION HOST
- *
- * Clean 3-Level Architecture:
- * - Level 1: ExodusHUD (5 Gate Carousel)
- * - Level 2: Domain Hubs (5 main hubs)
- * - Level 3: Tool Screens (functional screens)
- */
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
@@ -98,7 +65,12 @@ fun ReGenesisNavHost(
         }
 
         composable("workspace_kai") {
-            KaiRootWorkspaceScreen(
+            // KaiRootWorkspaceScreen not found - redirecting to PixelWorkspace for now
+            PixelWorkspaceScreen(
+                title = "KAI'S SENTINEL FORTRESS",
+                imagePaths = listOf(
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142431.png"
+                ),
                 onBack = { navController.popBackStack() }
             )
         }
@@ -113,18 +85,6 @@ fun ReGenesisNavHost(
                 onBack = { navController.popBackStack() }
             )
         }
-        composable(NavDestination.FusionMode.route) {
-            FusionModeScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable(NavDestination.TaskAssignment.route) {
-            TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable(NavDestination.ArkBuild.route) {
-            ArkBuildScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable(NavDestination.MetaInstruct.route) {
-            SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() })
-        }
 
         composable("workspace_genesis") {
             PixelWorkspaceScreen(
@@ -135,6 +95,7 @@ fun ReGenesisNavHost(
                 onBack = { navController.popBackStack() }
             )
         }
+
         composable(NavDestination.FusionMode.route) {
             FusionModeScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -147,7 +108,7 @@ fun ReGenesisNavHost(
         composable(NavDestination.MetaInstruct.route) {
             SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(NavDestination.AgentProfile.route) {
+        composable(NavDestination.AgentMonitoring.route) {
             AgentProfileScreen(onNavigateBack = { navController.popBackStack() })
         }
 

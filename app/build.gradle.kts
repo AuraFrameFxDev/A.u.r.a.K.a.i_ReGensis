@@ -173,6 +173,7 @@ dependencies {
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.animation)
     implementation(libs.androidx.compose.ui.geometry)
+    implementation(libs.androidx.compose.material3)
     ksp(libs.hilt.compiler)
 
     // Core Android

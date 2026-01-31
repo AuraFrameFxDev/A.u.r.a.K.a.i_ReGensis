@@ -74,7 +74,6 @@ sealed class NavDestination(val route: String) {
     data object ROMFlasher : NavDestination("rom_flasher")
     data object LiveROMEditor : NavDestination("live_rom_editor")
     data object RecoveryTools : NavDestination("recovery_tools")
-    data object LSPosedHub : NavDestination("lsposed_hub")
     data object LSPosedModules : NavDestination("lsposed_modules")
     data object HookManager : NavDestination("hook_manager")
     data object SystemOverrides : NavDestination("system_overrides")
@@ -88,8 +87,6 @@ sealed class NavDestination(val route: String) {
     data object CodeAssist : NavDestination("code_assist")
     data object NeuralNetwork : NavDestination("neural_network")
     data object Terminal : NavDestination("terminal")
-    data object OracleCloudStorage : NavDestination("oracle_cloud_storage")
-    data object AgentBridgeHub : NavDestination("agent_bridge_hub")
     data object ConferenceRoom : NavDestination("conference_room")
 
     // ═══════════════════════════════════════════════════════════════
@@ -119,7 +116,4 @@ sealed class NavDestination(val route: String) {
     data object FAQBrowser : NavDestination("faq_browser")
     data object TutorialVideos : NavDestination("tutorial_videos")
     data object Settings : NavDestination("settings")
-    data object InterfaceForge : NavDestination("interface_forge")
-    data object ModuleCreation : NavDestination("module_creation")
-    data object AgentCreation : NavDestination("agent_creation")
 }

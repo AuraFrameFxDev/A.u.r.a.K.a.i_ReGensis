@@ -9,7 +9,6 @@ package dev.aurakai.auraframefx.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.composable
 
 // ============================================================================
 // NAVIGATION DESTINATIONS FOR CUSTOMIZATION
@@ -69,6 +68,7 @@ fun NavGraphBuilder.auraCustomizationNavigation(
     // ICONIFY ROUTES
     // ========================================
 
+    /*
     composable(AuraCustomizationRoute.IconifyPicker.route) {
         IconifyPickerScreen(
             onNavigateBack = onNavigateBack,
@@ -114,6 +114,7 @@ fun NavGraphBuilder.auraCustomizationNavigation(
             onNavigateBack = { navController.popBackStack() }
         )
     }
+    */
 }
 
 

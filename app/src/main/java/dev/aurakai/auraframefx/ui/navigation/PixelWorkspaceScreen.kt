@@ -71,75 +71,74 @@ fun PixelWorkspaceScreen(
                     .padding(4.dp)
             )
 
-                Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
-                Text(
-                    text = title,
-                    color = SovereignTeal,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            Text(
+                text = title,
+                color = SovereignTeal,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
-            LazyRow(
-                modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(24.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                items(imagePaths) { path ->
-                    Box(
-                        modifier = Modifier
-                            .fillParentMaxWidth(0.85f)
-                            .aspectRatio(9f / 16f)
-                            .clip(RoundedCornerShape(32.dp))
-                            .background(Color.White.copy(alpha = 0.05f))
-                    ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(context)
-                                .data(path)
-                                .memoryCachePolicy(CachePolicy.DISABLED)
-                                .diskCachePolicy(CachePolicy.DISABLED)
-                                .build(),
-                            contentDescription = "Pixel Art Workspace",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-                }
-            }
-
-            if (onEnter != null) {
+        LazyRow(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items(imagePaths) { path ->
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 32.dp),
-                    contentAlignment = Alignment.Center
+                        .fillParentMaxWidth(0.85f)
+                        .aspectRatio(9f / 16f)
+                        .clip(RoundedCornerShape(32.dp))
+                        .background(Color.White.copy(alpha = 0.05f))
                 ) {
-                    androidx.compose.material3.Button(
-                        onClick = onEnter,
-                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                            containerColor = SovereignTeal.copy(alpha = 0.2f),
-                            contentColor = SovereignTeal
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth(0.7f)
-                            .height(56.dp)
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(
-                                androidx.compose.ui.graphics.Brush.horizontalGradient(
-                                    listOf(SovereignTeal.copy(alpha = 0.1f), Color.Transparent)
-                                )
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(path)
+                            .memoryCachePolicy(CachePolicy.DISABLED)
+                            .diskCachePolicy(CachePolicy.DISABLED)
+                            .build(),
+                        contentDescription = "Pixel Art Workspace",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+        }
+
+        if (onEnter != null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                androidx.compose.material3.Button(
+                    onClick = onEnter,
+                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                        containerColor = SovereignTeal.copy(alpha = 0.2f),
+                        contentColor = SovereignTeal
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth(0.7f)
+                        .height(56.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(
+                            androidx.compose.ui.graphics.Brush.horizontalGradient(
+                                listOf(SovereignTeal.copy(alpha = 0.1f), Color.Transparent)
                             )
-                            .clickable { onEnter() },
-                        shape = RoundedCornerShape(16.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, SovereignTeal.copy(alpha = 0.4f))
-                    ) {
-                        Text(
-                            "ENTER SYSTEM HUB",
-                            fontWeight = FontWeight.Black,
-                            letterSpacing = 2.sp
                         )
-                    }
+                        .clickable { onEnter() },
+                    shape = RoundedCornerShape(16.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, SovereignTeal.copy(alpha = 0.4f))
+                ) {
+                    Text(
+                        "ENTER SYSTEM HUB",
+                        fontWeight = FontWeight.Black,
+                        letterSpacing = 2.sp
+                    )
                 }
             }
         }

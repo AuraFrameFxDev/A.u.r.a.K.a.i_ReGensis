@@ -4,23 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,9 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.config.GateAssetConfig
-import dev.aurakai.auraframefx.config.GateAssetConfig
-import dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel
 import dev.aurakai.auraframefx.ui.components.IcyTundraBackground
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
@@ -45,14 +31,18 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun KaiSentinelHubScreen(navController: NavController) {
 
-    val subGates = getKaiSubGates()
+    getKaiSubGates()
 
     Box(modifier = Modifier.fillMaxSize()) {
         // High-Fidelity Background
         IcyTundraBackground()
 
         // Semi-transparent Overlay for "Fortress" feel
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.5f)))
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+        )
 
         Scaffold(
             containerColor = Color.Transparent,
@@ -172,3 +162,4 @@ fun SentinelCard(tool: SentinelToolCard, onClick: () -> Unit) {
         }
     }
 }
+            }

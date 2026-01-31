@@ -1,0 +1,37 @@
+package dev.aurakai.auraframefx.ui.gates
+
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+
+// Data classes for Domain Hub Tool Cards
+
+data class GenesisToolCard(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector,
+    val accentColor: Color,
+    val isWired: Boolean = true
+)
+
+data class SentinelToolCard(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector,
+    val accentColor: Color,
+    val isWired: Boolean = true
+)
+
+data class ThemingToolCard(
+    val title: String,
+    val subtitle: String,
+    val accentColor: Color,
+    val isWired: Boolean = true
+)
+
+data class NexusToolCard(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector,
+    val accentColor: Color,
+    val isWired: Boolean = true
+)

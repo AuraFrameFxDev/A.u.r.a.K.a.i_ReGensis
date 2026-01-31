@@ -82,8 +82,7 @@ fun ConferenceRoomScreen(
     onNavigateBack: () -> Unit = {},
     onNavigateToChat: () -> Unit = {},
     onNavigateToAgents: () -> Unit = {},
-    viewModel: ConferenceRoomViewModel = hiltViewModel(),
-    onNavigateBack: () -> Boolean
+    viewModel: ConferenceRoomViewModel = hiltViewModel()
 ) {
     val messages by viewModel.messages.collectAsState()
     val isRecording by viewModel.isRecording.collectAsState()
