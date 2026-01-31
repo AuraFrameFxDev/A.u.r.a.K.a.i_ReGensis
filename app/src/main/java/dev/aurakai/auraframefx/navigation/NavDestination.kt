@@ -50,6 +50,7 @@ sealed class NavDestination(val route: String) {
     data object OracleDriveHub : NavDestination("oracle_drive_hub") // AI & Storage
     data object OracleCloudStorage : NavDestination("oracle_cloud_storage") // Infinite Storage
     data object AgentBridgeHub : NavDestination("agent_bridge_hub") // Multi-Agent Datavein
+    data object AgentNexusHub : NavDestination("agent_nexus_hub") // Central Agent Hub
 
     // AGENT NEXUS HUBS (Progression & Identity)
     data object ConstellationHub : NavDestination("constellation_hub") // Skill Trees

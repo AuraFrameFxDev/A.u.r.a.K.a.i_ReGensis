@@ -44,7 +44,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,14 +61,6 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
  * Multi-agent coordination, monitoring, and fusion!
  */
 
-data class NexusToolCard(
-    val title: String,
-    val subtitle: String,
-    val destination: NavDestination,
-    val icon: ImageVector,
-    val isWired: Boolean = true,
-    val accentColor: Color = Color(0xFF7B2FFF)
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

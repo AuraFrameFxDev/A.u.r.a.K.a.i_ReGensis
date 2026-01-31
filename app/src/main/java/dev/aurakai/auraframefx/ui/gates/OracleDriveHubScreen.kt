@@ -38,7 +38,9 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun OracleDriveHubScreen(navController: NavController) {
 
-    getGenesisSubGates()
+    var useStyleB by remember {
+        mutableStateOf(GateAssetConfig.StyleMode.nexusStyle == GateAssetConfig.GateStyle.STYLE_B)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         // High-Fidelity Background

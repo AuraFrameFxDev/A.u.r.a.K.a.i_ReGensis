@@ -11,9 +11,22 @@
 
 package dev.aurakai.auraframefx.ui.screens.aura
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -23,9 +36,48 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.BatteryFull
+import androidx.compose.material.icons.filled.Brush
+import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LinearScale
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.RoundedCorner
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.SignalCellular4Bar
+import androidx.compose.material.icons.filled.Style
+import androidx.compose.material.icons.filled.SwipeDown
+import androidx.compose.material.icons.filled.ToggleOn
+import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -211,6 +263,67 @@ private fun getCategoryIcon(category: String): ImageVector {
     }
 }
 
+enum class SettingType {
+    TOGGLE, SLIDER, SELECTION, COLOR_PICKER, LIST, IMAGE
+}
+
+object IconifySettingsCatalog {
+    data class SettingType(
+        val name: String,
+        val description: String,
+        val type: dev.aurakai.auraframefx.ui.screens.aura.SettingType,
+        val requiresRoot: Boolean,
+        val requiresXposed: Boolean = false
+    )
+
+    val allCategories: Map<String, List<SettingType>> = mapOf(
+        "Status Bar" to listOf(
+            SettingType(
+                "Clock Position",
+                "Left, Center, or Right",
+                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
+                false
+            ),
+            SettingType(
+                "Battery Style",
+                "Portrait, Circle, or Dotted",
+                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
+                false
+            )
+        ),
+        "Quick Settings" to listOf(
+            SettingType(
+                "Header Image",
+                "Custom header in QS panel",
+                dev.aurakai.auraframefx.ui.screens.aura.SettingType.IMAGE,
+                false
+            ),
+            SettingType(
+                "Tile Shape",
+                "Change QS tile shapes",
+                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
+                false
+            )
+        ),
+        "Lock Screen" to listOf(
+            SettingType(
+                "Clock Font",
+                "Custom font for lock clock",
+                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
+                false
+            ),
+            SettingType(
+                "Media Art Blur",
+                "Blur level for media art",
+                dev.aurakai.auraframefx.ui.screens.aura.SettingType.SLIDER,
+                false
+            )
+        )
+    )
+
+    val totalSettingsCount: Int = allCategories.values.sumOf { it.size }
+}
+
 // ============================================================================
 // ICONIFY CATEGORY DETAIL SCREEN
 // ============================================================================
@@ -263,6 +376,7 @@ fun IconifyCategoryDetailScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(settings) { setting ->
+                    SettingItem(setting = setting)
                 }
             }
         }
@@ -270,6 +384,10 @@ fun IconifyCategoryDetailScreen(
 }
 
 @Composable
+fun SettingItem(
+    setting: IconifySettingsCatalog.SettingType,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember { mutableStateOf(false) }
     var toggleState by remember { mutableStateOf(false) }
     var sliderValue by remember { mutableStateOf(0.5f) }
@@ -1053,7 +1171,7 @@ private fun PLESettingItem(setting: SettingItem) {
                         checkedThumbColor = Color(0xFF4CAF50),
                         checkedTrackColor = Color(0xFF4CAF50).copy(alpha = 0.5f)
                     ),
-                    modifier = Modifier.scale(0.9f)
+                    modifier = Modifier
                 )
             }
 
@@ -1078,7 +1196,48 @@ private fun PLESettingItem(setting: SettingItem) {
 }
 
 // Helper extension
-private fun Modifier.scale(scale: Float): Modifier = this
+private fun Modifier.scale(scale: Float): Modifier = this // Simplified for now as real scaling might need graphicsLayer
+
+object MonetSettings {
+    enum class MonetStyle(val displayName: String) {
+        TONAL_SPOT("Tonal Spot"),
+        VIBRANT("Vibrant"),
+        EXPRESSIVE("Expressive"),
+        SPRITZ("Spritz"),
+        RAINBOW("Rainbow"),
+        FRUIT_SALAD("Fruit Salad") // ColorBlendr specific
+    }
+}
+
+data class SettingItem(
+    val name: String,
+    val description: String,
+    val type: SettingType,
+    val requiresRoot: Boolean = false
+)
+
+object PLESettingsCatalog {
+    val iconSettings = listOf(
+        SettingItem("Icon Pack", "Apply custom icon packs from Play Store", SettingType.SELECTION),
+        SettingItem("Icon Size", "Adjust home screen icon scale", SettingType.SLIDER),
+        SettingItem("Force Themed Icons", "Force all icons to be themed", SettingType.TOGGLE, requiresRoot = true)
+    )
+    val homescreenSettings = listOf(
+        SettingItem("Double Tap to Sleep", "Double tap empty space to lock", SettingType.TOGGLE),
+        SettingItem("Hide At A Glance", "Remove the top widget", SettingType.TOGGLE, requiresRoot = true)
+    )
+    val appDrawerSettings = listOf(
+        SettingItem("Hidden Apps", "Hide specific apps from drawer", SettingType.SELECTION),
+        SettingItem("Drawer Opacity", "Background transparency", SettingType.SLIDER)
+    )
+    val recentsSettings = listOf(
+        SettingItem("Wrap TaskBar", "Allow taskbar to wrap on tablets", SettingType.TOGGLE),
+        SettingItem("Clear All Button", "Move clear all to bottom", SettingType.TOGGLE)
+    )
+    val miscSettings = listOf(
+        SettingItem("Dev Options", "Unlock developer settings", SettingType.TOGGLE)
+    )
+}
 
 
 // ============================================================================

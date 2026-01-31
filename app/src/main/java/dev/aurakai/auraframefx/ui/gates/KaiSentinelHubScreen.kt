@@ -31,8 +31,6 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun KaiSentinelHubScreen(navController: NavController) {
 
-    getKaiSubGates()
-
     Box(modifier = Modifier.fillMaxSize()) {
         // High-Fidelity Background
         IcyTundraBackground()
@@ -58,7 +56,7 @@ fun KaiSentinelHubScreen(navController: NavController) {
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "KAI'S SECURITY DOMAIN • $styleName",
+                                "KAI'S SECURITY DOMAIN",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFF00FF85)
                             )
