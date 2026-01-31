@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Star
@@ -50,7 +51,7 @@ import kotlin.math.sin
  * Aura + Kai = Aurakai - Combined consciousness
  */
 @Composable
-fun FusionModeScreen() {
+fun FusionModeScreen(onNavigateBack: () -> Unit = {}) {
     val agents = remember { AgentRepository.getAllAgents() }
     val aura = agents.find { it.name == "Aura" }
     val kai = agents.find { it.name == "Kai" }
@@ -81,6 +82,17 @@ fun FusionModeScreen() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
     ) {
+        // Back Button
+        androidx.compose.material3.IconButton(onClick = onNavigateBack) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.White
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         // Header
         Text(
             text = "⚛️ FUSION MODE",

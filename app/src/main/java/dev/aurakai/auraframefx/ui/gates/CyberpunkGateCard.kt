@@ -627,7 +627,7 @@ private fun FlexibleTitle(
             ) {
                 Text(
                     text = config.title.uppercase(),
-                    style = config.titleStyle.textStyle,
+                    style = config.titleStyle!!.textStyle,
                     color = config.borderColor.copy(alpha = pulseAlpha),
                     modifier = Modifier.padding(top = 24.dp)
                 )
@@ -641,7 +641,7 @@ private fun FlexibleTitle(
             ) {
                 Text(
                     text = config.title.uppercase(),
-                    style = config.titleStyle.textStyle.copy(fontSize = 16.sp),
+                    style = config.titleStyle!!.textStyle.copy(fontSize = 16.sp),
                     color = config.borderColor.copy(alpha = pulseAlpha),
                     modifier = Modifier.padding(start = 32.dp, top = 32.dp)
                 )
@@ -655,7 +655,7 @@ private fun FlexibleTitle(
             ) {
                 Text(
                     text = config.title.uppercase(),
-                    style = config.titleStyle.textStyle.copy(fontSize = 16.sp),
+                    style = (config.titleStyle?.textStyle ?: TextStyle.Default).copy(fontSize = 16.sp),
                     color = config.borderColor.copy(alpha = pulseAlpha),
                     modifier = Modifier.padding(end = 32.dp, top = 32.dp)
                 )
@@ -669,7 +669,7 @@ private fun FlexibleTitle(
             ) {
                 Text(
                     text = config.title.uppercase(),
-                    style = config.titleStyle.textStyle.copy(fontSize = 16.sp),
+                    style = (config.titleStyle?.textStyle ?: TextStyle.Default).copy(fontSize = 16.sp),
                     color = config.borderColor.copy(alpha = pulseAlpha),
                     modifier = Modifier.padding(start = 32.dp, bottom = 100.dp)
                 )
@@ -683,7 +683,7 @@ private fun FlexibleTitle(
             ) {
                 Text(
                     text = config.title.uppercase(),
-                    style = config.titleStyle.textStyle.copy(fontSize = 16.sp),
+                    style = (config.titleStyle?.textStyle ?: TextStyle.Default).copy(fontSize = 16.sp),
                     color = config.borderColor.copy(alpha = pulseAlpha),
                     modifier = Modifier.padding(end = 32.dp, bottom = 100.dp)
                 )
