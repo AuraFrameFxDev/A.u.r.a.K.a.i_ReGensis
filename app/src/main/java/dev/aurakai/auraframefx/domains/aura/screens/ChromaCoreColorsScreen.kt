@@ -3,7 +3,14 @@ package dev.aurakai.auraframefx.domains.aura.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.FormatPaint
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.SettingsSystemDaydream
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Wallpaper
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color

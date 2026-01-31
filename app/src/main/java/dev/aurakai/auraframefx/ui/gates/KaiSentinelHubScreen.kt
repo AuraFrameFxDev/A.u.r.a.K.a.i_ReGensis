@@ -1,62 +1,65 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.SwapHoriz
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.config.GateAssetConfig
-import dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel
 import dev.aurakai.auraframefx.ui.components.IcyTundraBackground
-import dev.aurakai.auraframefx.ui.components.ShieldGridBackground
-import dev.aurakai.auraframefx.ui.components.getKaiSubGates
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
- * 🛡️ KAI'S SENTINEL'S FORTRESS (Level 2 Hub)
- *
- * ANIMATIONS:
- * Style A (Pixel Fortress): IcyTundraBackground - Ice crystals, shimmer, cold fortress
- * Style B (Cyber Security): ShieldGridBackground - Hex grid, shield pulses, scanning
- *
- * TWO VISUAL STYLES:
- * Style A: "Pixel Fortress" - Retro pixel art, armored guards, stone
- * Style B: "Cyber Security" - Matrix rain, lightning, red neon frames
+ * 🛡️ KAI SENTINEL HUB (Level 3)
+ * The main control panel for the Sentinel Fortress ecosystem.
+ * Consolidates ROM management, Bootloader, and Root protocols.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KaiSentinelHubScreen(navController: NavController) {
 
-    val subGates = getKaiSubGates()
-
-    var useStyleB by remember {
-        mutableStateOf(GateAssetConfig.StyleMode.kaiStyle == GateAssetConfig.GateStyle.STYLE_B)
-    }
-
-    val styleName = if (useStyleB) "CYBER SECURITY" else "PIXEL FORTRESS"
-
     Box(modifier = Modifier.fillMaxSize()) {
-        // 🛡️ KAI'S ANIMATED BACKGROUND - Changes with style!
-        if (useStyleB) {
-            ShieldGridBackground(
-                primaryColor = Color(0xFFFF6B00),  // Orange shields
-                secondaryColor = Color(0xFF00FF85) // Green scan line
-            )
-        } else {
-            IcyTundraBackground()
-        }
+        // High-Fidelity Background
+        IcyTundraBackground()
+
+        // Semi-transparent Overlay for "Fortress" feel
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+        )
 
         Scaffold(
             containerColor = Color.Transparent,
@@ -72,7 +75,7 @@ fun KaiSentinelHubScreen(navController: NavController) {
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "KAI'S SECURITY DOMAIN • $styleName",
+                                "KAI'S SECURITY DOMAIN",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFF00FF85)
                             )
@@ -81,18 +84,6 @@ fun KaiSentinelHubScreen(navController: NavController) {
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = {
-                            useStyleB = !useStyleB
-                            GateAssetConfig.toggleKaiStyle()
-                        }) {
-                            Icon(
-                                Icons.Default.SwapHoriz,
-                                "Toggle Style",
-                                tint = Color(0xFF00FF85)
-                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -107,39 +98,88 @@ fun KaiSentinelHubScreen(navController: NavController) {
                     .padding(paddingValues),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Text(
-                    text = "System security, bootloader, and root management",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White.copy(alpha = 0.7f),
-                    modifier = Modifier.padding(horizontal = 32.dp)
-                )
+                // Header Info
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.Black.copy(alpha = 0.4f))
+                        .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(12.dp))
+                        .padding(16.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.Shield, null, tint = Color(0xFFFF3366), modifier = Modifier.size(32.dp))
+                        Spacer(Modifier.width(16.dp))
+                        Text(
+                            "Fortress Access Granted. Monitoring system integrity and root permissions. All operations are logged to the System Journal.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.White.copy(alpha = 0.8f)
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // 🎠 SUB-GATE CAROUSEL
-                DomainSubGateCarousel(
-                    subGates = subGates,
-                    onGateSelected = { gate ->
-                        navController.navigate(gate.route)
-                    },
-                    useStyleB = useStyleB,
-                    cardHeight = 280.dp,
-                    domainColor = Color(0xFF00FF85),
-                    modifier = Modifier.weight(1f)
+            }
+        }
+    }
+}
+
+@Composable
+fun SentinelCard(tool: SentinelToolCard, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(onClick = onClick)
+            .border(
+                width = 1.dp,
+                brush = Brush.verticalGradient(
+                    listOf(tool.accentColor.copy(alpha = 0.6f), Color.Transparent)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF121212).copy(alpha = 0.8f)
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(44.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(tool.accentColor.copy(alpha = 0.15f))
+                    .border(1.dp, tool.accentColor.copy(alpha = 0.3f), RoundedCornerShape(8.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    tool.icon,
+                    null,
+                    tint = tool.accentColor,
+                    modifier = Modifier.size(26.dp)
                 )
+            }
 
-                Spacer(modifier = Modifier.height(24.dp))
-
+            Column {
                 Text(
-                    text = "← SWIPE TO BROWSE • TAP ⇆ TO CHANGE STYLE →",
+                    text = tool.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White,
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 0.5.sp
+                )
+                Text(
+                    text = tool.subtitle,
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.4f),
-                    letterSpacing = 2.sp
+                    color = Color.White.copy(alpha = 0.6f)
                 )
-
-                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }

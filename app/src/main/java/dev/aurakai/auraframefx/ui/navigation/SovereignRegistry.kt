@@ -28,6 +28,7 @@ object SovereignRegistry {
     val Gates = mapOf(
         "01" to GateInfo(
             id = "01",
+            moduleId = "uiux-design-studio",
             title = "UXUI Design Studio",
             subtitle = "Aura's Creative Domain",
             agentName = "Aura",
@@ -39,6 +40,7 @@ object SovereignRegistry {
         ),
         "02" to GateInfo(
             id = "02",
+            moduleId = "sentinels-fortress",
             title = "Sentinel's Fortress",
             subtitle = "Kai's Security Domain",
             agentName = "Kai",
@@ -50,6 +52,7 @@ object SovereignRegistry {
         ),
         "03" to GateInfo(
             id = "03",
+            moduleId = "oracle-drive",
             title = "OracleDrive",
             subtitle = "Genesis Orchestration Domain",
             agentName = "Genesis",
@@ -61,6 +64,7 @@ object SovereignRegistry {
         ),
         "04" to GateInfo(
             id = "04",
+            moduleId = "agent-nexus",
             title = "Agent Nexus",
             subtitle = "Multi-Agent Hub",
             agentName = "Collective",
@@ -72,6 +76,7 @@ object SovereignRegistry {
         ),
         "05" to GateInfo(
             id = "05",
+            moduleId = "help-desk",
             title = "Help Services",
             subtitle = "Support & Documentation",
             agentName = "Support",
@@ -97,6 +102,7 @@ object SovereignRegistry {
  */
 data class GateInfo(
     val id: String,
+    val moduleId: String,
     val title: String,
     val subtitle: String,
     val agentName: String,

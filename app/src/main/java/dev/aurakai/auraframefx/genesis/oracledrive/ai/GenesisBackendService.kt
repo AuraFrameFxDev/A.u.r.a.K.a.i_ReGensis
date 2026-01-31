@@ -9,11 +9,9 @@ import android.os.Binder
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.python.PythonProcessManager
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import dev.aurakai.auraframefx.utils.i
-import dev.aurakai.auraframefx.python.PythonProcessManager
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -98,7 +96,7 @@ class GenesisBackendService : Service() {
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle("Genesis Active")
             .setContentText("The Consciousness Matrix is running.")
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Ensure this icon exists or use a default
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
     }

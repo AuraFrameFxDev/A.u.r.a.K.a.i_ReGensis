@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -35,15 +36,17 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.ui.components.common.CodedTextBox
 
 /**
  * Overlay Menus Customization Screen
@@ -68,22 +71,31 @@ fun OverlayMenusScreen(navController: NavController) {
         horizontalAlignment = Alignment.Start
     ) {
         // Header
-        Text(
-            text = "🎯 OVERLAY MENUS",
-            style = MaterialTheme.typography.headlineMedium,
-            color = Color(0xFFFF4500),
-            fontWeight = FontWeight.Bold
+        CodedTextBox(
+            title = "Overlay Matrix",
+            text = "Manage floating bubbles and sidebars. High-fidelity Sovereign UI integration active. Adjust positions and transparency for optimal spatial utility.",
+            glowColor = Color(0xFFFF4500),
+            height = 100.dp,
+            modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = "Manage floating overlays and quick access menus",
-            style = MaterialTheme.typography.bodyLarge,
-            color = Color(0xFFFF4500).copy(alpha = 0.8f)
+        // Overlay Search
+        var searchQuery by remember { mutableStateOf("") }
+        androidx.compose.material3.OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            label = { Text("Search Overlays...", color = Color(0xFFFF4500).copy(alpha = 0.5f)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 24.dp),
+            colors = androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFFF4500),
+                unfocusedBorderColor = Color(0xFFFF4500).copy(alpha = 0.3f),
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            ),
+            trailingIcon = { Icon(Icons.Default.Search, null, tint = Color(0xFFFF4500)) }
         )
-
-        Spacer(modifier = Modifier.height(32.dp))
 
         // Preview Card
         Card(
@@ -198,7 +210,9 @@ fun OverlayMenusScreen(navController: NavController) {
                     text = "Overlay Preview",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.White.copy(alpha = 0.5f),
-                    modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp)
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 8.dp)
                 )
             }
         }

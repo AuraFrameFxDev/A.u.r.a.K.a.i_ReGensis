@@ -6,6 +6,7 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.service.AssistantBubbleService
 import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavHost
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,12 +28,11 @@ class MainActivity : ComponentActivity() {
 
         // Notify ShizukuManager of potential availability
         if (shizukuManager.isShizukuAvailable()) {
-            android.util.Log.d("MainActivity", "Sovereign Bridge (Shizuku) detected.")
+            Timber.tag("MainActivity").d("Sovereign Bridge (Shizuku) detected.")
         }
 
         // Force Portrait Orientation early
-        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
+        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         enableEdgeToEdge()
         setupFullscreenMode()
 
@@ -42,36 +43,31 @@ class MainActivity : ComponentActivity() {
         try {
             val bubbleIntent = Intent(this, AssistantBubbleService::class.java)
             if (android.provider.Settings.canDrawOverlays(this)) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    startForegroundService(bubbleIntent)
-                } else {
-                    startService(bubbleIntent)
-                }
+                startForegroundService(bubbleIntent)
             } else {
-                android.util.Log.w("MainActivity", "AssistantBubbleService skip: No Overlay Permission")
+                Timber.tag("MainActivity").w("AssistantBubbleService skip: No Overlay Permission")
             }
         } catch (e: Exception) {
             // Log and ignore if we simply can't start the bubble (e.g. background restrictions)
-            android.util.Log.w("MainActivity", "Failed to start AssistantBubbleService: ${e.message}")
+            Timber.tag("MainActivity").w("Failed to start AssistantBubbleService: ${e.message}")
         }
 
         setContent {
             AuraFrameFXTheme {
                 val navController = rememberNavController()
+                // 🚀 THE FIX: Actually display the navigation!
                 ReGenesisNavHost(navController = navController)
             }
         }
     }
 
     private fun checkOverlayPermission() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            if (!android.provider.Settings.canDrawOverlays(this)) {
-                val intent = Intent(
-                    android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    android.net.Uri.parse("package:$packageName")
-                )
-                startActivity(intent)
-            }
+        if (!android.provider.Settings.canDrawOverlays(this)) {
+            val intent = Intent(
+                android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                "package:$packageName".toUri()
+            )
+            startActivity(intent)
         }
     }
 
@@ -87,4 +83,3 @@ class MainActivity : ComponentActivity() {
             WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
     }
 }
-
