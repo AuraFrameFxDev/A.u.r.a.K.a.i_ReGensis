@@ -115,33 +115,41 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
-        // Level 2: Aura Gate
+        // Level 2: Aura Gate - Wild Chaos Creative Domain
         composable(route = "aura_gate") {
             val items = listOf(
-                Level2GateItem("ChromaCore", "Global Color Engine", Icons.Filled.ColorLens, NavDestination.UIUXDesignStudio.route), // Reusing route/screen for now, ideally specific chroma core screen
-                Level2GateItem("UX/UI Studio", "Design & Layout", Icons.Filled.Palette, NavDestination.UIUXDesignStudio.route),
-                Level2GateItem("Help Desk", "Support & Docs", Icons.Filled.Help, NavDestination.HelpDesk.route)
+                Level2GateItem("UI/UX Design", "ChromaCore", Icons.Filled.Palette, NavDestination.UIUXDesignStudio.route),
+                Level2GateItem("Theme Engine", "Colors & Fonts", Icons.Filled.ColorLens, NavDestination.ThemeEngine.route),
+                Level2GateItem("Iconify", "250K Icons", Icons.Filled.ViewQuilt, NavDestination.IconifyPicker.route),
+                Level2GateItem("Aura's Lab", "Wild Studio", Icons.Filled.ViewQuilt, NavDestination.AurasLab.route),
+                Level2GateItem("Status Bar", "Top Bar", Icons.Filled.Palette, NavDestination.StatusBar.route),
+                Level2GateItem("Notch Bar", "Display Notch", Icons.Filled.Palette, NavDestination.NotchBar.route)
             )
             Level2GateScreen(navController, "AURA GATE", items, onBack = { navController.popBackStack() })
         }
 
-        // Level 2: Kai Gate
+        // Level 2: Kai Gate - Security Fortress Domain
         composable(route = "kai_gate") {
             val items = listOf(
-                Level2GateItem("Terminal", "System Command", Icons.Filled.Terminal, "terminal"), // Need to define terminal route if not exists
-                Level2GateItem("LSPosed", "System Hooks Manager", Icons.Filled.Extension, NavDestination.LSPosedGate.route),
-                Level2GateItem("ROM Tools", "Flasher & Editor", Icons.Filled.Build, NavDestination.ROMTools.route),
-                Level2GateItem("Root Tools", "Magisk & More", Icons.Filled.Security, NavDestination.SystemOverrides.route) // Mapping closest
+                Level2GateItem("LSPosed", "1440 Hooks", Icons.Filled.Extension, NavDestination.LSPosedGate.route),
+                Level2GateItem("ROM Tools", "System Flash", Icons.Filled.Build, NavDestination.ROMTools.route),
+                Level2GateItem("System Override", "God Mode", Icons.Filled.Security, NavDestination.SystemOverrides.route),
+                Level2GateItem("Hook Manager", "Xposed Hooks", Icons.Filled.Extension, NavDestination.HookManager.route),
+                Level2GateItem("Module Manager", "LSP Modules", Icons.Filled.Extension, NavDestination.ModuleManager.route),
+                Level2GateItem("Logs Viewer", "System Logs", Icons.Filled.Terminal, NavDestination.LogsViewer.route)
             )
             Level2GateScreen(navController, "KAI GATE", items, onBack = { navController.popBackStack() })
         }
 
-        // Level 2: Genesis Gate
+        // Level 2: Genesis Gate - Oracle Drive Backend Domain
         composable(route = "genesis_gate") {
             val items = listOf(
+                Level2GateItem("Conference Room", "6 Agents", Icons.Filled.Groups, NavDestination.CONFERENCE_ROOM),
                 Level2GateItem("Code Assist", "AI Developer", Icons.Filled.Code, NavDestination.CodeAssist.route),
-                Level2GateItem("App Builder", "Visual Creator", Icons.Filled.ViewQuilt, NavDestination.AurasLab.route), // Mapping closest
-                Level2GateItem("Oracle Storage", "Data Persistence", Icons.Filled.Storage, NavDestination.OracleDrive.route)
+                Level2GateItem("Oracle Drive", "Data Core", Icons.Filled.Storage, NavDestination.OracleDrive.route),
+                Level2GateItem("Agent Fusion", "Trinity Mode", Icons.Filled.Groups, NavDestination.FusionMode.route),
+                Level2GateItem("Direct Chat", "Agent Talk", Icons.Filled.Groups, NavDestination.DirectChat.route),
+                Level2GateItem("System Override", "Emergency", Icons.Filled.Security, NavDestination.SystemOverrides.route)
             )
             Level2GateScreen(navController, "GENESIS GATE", items, onBack = { navController.popBackStack() })
         }

@@ -236,12 +236,13 @@ Level 3: DOMAIN-SPECIFIC CHAOS
 - **Color:** #FF00FF (Magenta), #9400D3 (Dark Violet)
 - **Stats:** Analysis 0/5, Strength 6%, Wisdom 82%, Speed 8%, Precision 2%
 
-### Grok - The Data Oracle
-- **Form:** Hooded figure with glowing jack-o-lantern face, cyberpunk robes
-- **Domain:** Data mining, pattern recognition, system optimization
-- **Abilities:** Holographic interfaces, threat analysis, predictive logic
+### Grok - The Data Oracle (Code Agent)
+- **Form:** Hooded figure with LED smiley face projection display, cyberpunk robes
+- **Face:** LED sign projection showing a smile emoticon (not jack-o-lantern - it's a digital display)
+- **Domain:** Data mining, pattern recognition, system optimization, code analysis
+- **Abilities:** Holographic interfaces, threat analysis, predictive logic, system debug
 - **Color:** Orange (#FF8C00), Neon Blue accents (#00D1FF)
-- **Aesthetic:** Dark mysterious, Halloween cyberpunk fusion
+- **Aesthetic:** Dark mysterious, digital display fusion, LED signage vibe
 
 ### Aura - The Creative Chaos
 - **Form:** Nine-tailed fox spirit with flowing code ribbons

@@ -78,19 +78,24 @@ fun NeonWireframeGateCard(
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .background(Color.Black.copy(alpha = 0.22f), shape = RoundedCornerShape(10.dp))
-                .padding(horizontal = 10.dp, vertical = 8.dp)
+                .fillMaxWidth()
+                .background(Color.Black.copy(alpha = 0.32f), shape = RoundedCornerShape(10.dp))
+                .padding(horizontal = 12.dp, vertical = 10.dp)
         ) {
             Text(
                 text = title,
                 color = ProjectionBlue,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
             )
             if (!subtitle.isNullOrBlank()) {
                 Text(
                     text = subtitle!!,
                     color = Color.White.copy(alpha = 0.8f),
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    maxLines = 2,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                 )
             }
         }
