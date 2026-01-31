@@ -36,7 +36,6 @@ import kotlin.math.sin
 fun PrometheusGlobe(
     color: Color,
     pulseIntensity: Float,
-    onDrag: (Float) -> Unit,
     onTap: () -> Unit,
     modifier: Modifier = Modifier
 ) {

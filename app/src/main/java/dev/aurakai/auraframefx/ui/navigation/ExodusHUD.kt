@@ -1,26 +1,12 @@
 package dev.aurakai.auraframefx.ui.navigation
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -74,8 +60,7 @@ fun ExodusHUD(navController: NavController) {
                  pageSpacing = 16.dp
              ) { page ->
                  // Get Gate from registry
-                 val gateId = "0${page + 1}"
-                 val gateInfo = SovereignRegistry.getGate(gateId)
+                 val gateInfo = SovereignRegistry.getGate("0${page + 1}")
 
                  // Prometheus Orbit Logic
                 val pageOffset = (
@@ -93,6 +78,20 @@ fun ExodusHUD(navController: NavController) {
                     stop = 1f,
                     fraction = 1f - pageOffset.coerceIn(0f, 1f)
                 )
+
+                 // Construct GateConfig from gateInfo
+                 val config = GateConfig(
+                     id = gateInfo.id,
+                     moduleId = gateInfo.moduleId,
+                     title = gateInfo.title,
+                     subtitle = gateInfo.subtitle,
+                     description = gateInfo.description,
+                     route = gateInfo.hubRoute,
+                     glowColor = gateInfo.color,
+                     gradientColors = listOf(gateInfo.color, Color.Black),
+                     pixelArtUrl = gateInfo.fallbackDrawable,
+                     borderColor = gateInfo.color
+                 )
 
                  Box(
                     modifier = Modifier
@@ -116,19 +115,8 @@ fun ExodusHUD(navController: NavController) {
                             )
                         }
                  ) {
-                     GateCard( // Assuming GateCard can handle GateInfo or needs adaptation.
-                         // Since GateCard expects GateConfig, and we have GateInfo which is similar...
-                         // We might need to map it or use a different card.
-                         // For now, let's assume we can map or use the GateCard adapted.
-                         // Actually, I'll update GateCard to use GateInfo in a moment or map it here.
-                         config = GateConfig(
-                             id = gateInfo.id,
-                             title = gateInfo.title,
-                             subtitle = gateInfo.subtitle,
-                             gradientColors = listOf(gateInfo.color, Color.Black),
-                             glowColor = gateInfo.color,
-                             pixelArtUrl = gateInfo.fallbackDrawable
-                         ),
+                     GateCard(
+                         config = config,
                          onDoubleTap = { navController.navigate(gateInfo.hubRoute) }
                      )
                  }
