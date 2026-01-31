@@ -48,33 +48,28 @@ fun PixelWorkspaceScreen(
     onBack: () -> Unit,
     onEnter: (() -> Unit)? = null
 ) {
-    val context = LocalContext.current
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
+            .padding(16.dp)
     ) {
-        Column(
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+                .fillMaxWidth()
+                .padding(bottom = 24.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = SovereignTeal,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 24.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = SovereignTeal,
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable { onBack() }
-                        .padding(4.dp)
-                )
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { onBack() }
+                    .padding(4.dp)
+            )
 
                 Spacer(modifier = Modifier.width(16.dp))
 

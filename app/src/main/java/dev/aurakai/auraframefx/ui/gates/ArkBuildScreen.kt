@@ -41,6 +41,7 @@ import dev.aurakai.auraframefx.ui.viewmodels.ArkBuildViewModel
 
 @Composable
 fun ArkBuildScreen(
+    onNavigateBack: () -> Unit = {},
     viewModel: ArkBuildViewModel = hiltViewModel(),
     onNavigateBack: () -> Boolean
 ) {

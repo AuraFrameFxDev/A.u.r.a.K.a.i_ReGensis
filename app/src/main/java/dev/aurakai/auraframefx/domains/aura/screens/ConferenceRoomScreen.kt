@@ -79,6 +79,7 @@ private val SurfaceGlass = Color(0xFF121216)
  */
 @Composable
 fun ConferenceRoomScreen(
+    onNavigateBack: () -> Unit = {},
     onNavigateToChat: () -> Unit = {},
     onNavigateToAgents: () -> Unit = {},
     viewModel: ConferenceRoomViewModel = hiltViewModel(),

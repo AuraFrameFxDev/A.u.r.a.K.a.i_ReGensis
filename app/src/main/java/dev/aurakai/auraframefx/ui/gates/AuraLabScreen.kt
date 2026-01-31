@@ -2,17 +2,32 @@ package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.CloudUpload
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +54,9 @@ fun AuraLabScreen(
     val designs by viewModel.designs.collectAsState()
     val context = LocalContext.current
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF050510))) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xFF050510))) {
         AnimeHUDContainer(
             title = "AURA LAB: SANDBOX",
             description = "UI COMPILER & INTERACTION TESTBED. SYNCED WITH COLLAB CANVAS.",
@@ -61,9 +78,9 @@ fun AuraLabScreen(
                         color = Color.White.copy(alpha = 0.6f),
                         fontSize = 12.sp
                     )
-                    
+
                     OutlinedButton(
-                        onClick = { 
+                        onClick = {
                             val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                             val json = clipboard.primaryClip?.getItemAt(0)?.text?.toString() ?: ""
                             viewModel.importDesign(json)
@@ -73,9 +90,9 @@ fun AuraLabScreen(
                         Text("IMPORT ASSET", color = Color.White, fontSize = 10.sp)
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(20.dp))
-                
+
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(designs) { design ->
                         SandboxAssetItem(
@@ -114,10 +131,10 @@ private fun SandboxAssetItem(
                     Text(design.name, color = Color.White, fontWeight = FontWeight.Bold)
                     Text("Source: ${design.author} | Status: ${design.status}", color = Color.Gray, fontSize = 10.sp)
                 }
-                
+
                 Row {
                     IconButton(onClick = { onBroadcast(design) }) {
-                        Icon(androidx.compose.material.icons.Icons.Default.CloudUpload, "Broadcast", tint = Color.Magenta)
+                        Icon(Icons.Default.CloudUpload, "Broadcast", tint = Color.Magenta)
                     }
                     IconButton(onClick = { onTest(design) }) {
                         Icon(Icons.Default.PlayArrow, "Test", tint = Color(0xFF00FF85))
@@ -127,9 +144,9 @@ private fun SandboxAssetItem(
                     }
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             // Interaction Preview Box
             Box(
                 modifier = Modifier

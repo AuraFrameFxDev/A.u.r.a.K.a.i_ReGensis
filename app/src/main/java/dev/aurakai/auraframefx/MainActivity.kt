@@ -33,11 +33,10 @@ class MainActivity : ComponentActivity() {
 
         // Force Portrait Orientation early
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-
         enableEdgeToEdge()
         setupFullscreenMode()
 
-        // Check for overlay permission before starting services that need it
+        // Check for overlay permission
         checkOverlayPermission()
 
         // Start the Persistent Assistant Bubble

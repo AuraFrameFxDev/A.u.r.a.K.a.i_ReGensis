@@ -1,34 +1,21 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -133,17 +120,180 @@ private fun AuraSwordCanvas(
         label = "pulse"
     )
 
-    Canvas(
-        modifier = Modifier
-            .size(300.dp, 500.dp)
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) { onNodeClick() }
-    ) {
-        val width = size.width
-        val height = size.height
-        val centerX = width / 2
+    // Rotation for energy flow
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(8000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "rotation"
+    )
+
+    // Scale pulsing for centerpiece
+    val centerScale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "center_scale"
+    )
+
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        // Background Canvas for nodes and connections
+        Canvas(modifier = Modifier.fillMaxSize()) {
+        val centerX = size.width / 2
+        val centerY = size.height / 2
+
+        val cyanColor = Color(0xFF00FFFF)
+        val glowColor = Color(0xFF00BFFF)
+
+        // Define constellation nodes (positions relative to center)
+        val nodes = listOf(
+            // Top nodes
+            Offset(centerX - 100f, centerY - 200f),
+            Offset(centerX + 50f, centerY - 180f),
+
+            // Middle-top nodes
+            Offset(centerX - 150f, centerY - 100f),
+            Offset(centerX, centerY - 120f),
+            Offset(centerX + 150f, centerY - 80f),
+
+            // Center nodes (around sword)
+            Offset(centerX - 80f, centerY),
+            Offset(centerX + 80f, centerY),
+
+            // Middle-bottom nodes
+            Offset(centerX - 120f, centerY + 100f),
+            Offset(centerX + 60f, centerY + 120f),
+
+            // Bottom nodes
+            Offset(centerX - 50f, centerY + 200f),
+            Offset(centerX + 100f, centerY + 180f)
+        )
+
+        // Draw connecting lines between nodes
+        drawLine(
+            color = cyanColor.copy(alpha = 0.3f),
+            start = nodes[0],
+            end = nodes[3],
+            strokeWidth = 2f
+        )
+        drawLine(
+            color = cyanColor.copy(alpha = 0.3f),
+            start = nodes[3],
+            end = nodes[5],
+            strokeWidth = 2f
+        )
+        drawLine(
+            color = cyanColor.copy(alpha = 0.3f),
+            start = nodes[5],
+            end = nodes[7],
+            strokeWidth = 2f
+        )
+        drawLine(
+            color = cyanColor.copy(alpha = 0.3f),
+            start = nodes[1],
+            end = nodes[4],
+            strokeWidth = 2f
+        )
+        drawLine(
+            color = cyanColor.copy(alpha = 0.3f),
+            start = nodes[4],
+            end = nodes[6],
+            strokeWidth = 2f
+        )
+        drawLine(
+            color = cyanColor.copy(alpha = 0.3f),
+            start = nodes[6],
+            end = nodes[8],
+            strokeWidth = 2f
+        )
+
+        // Sword centerpiece will be overlaid as PNG image below
+
+        // Draw constellation nodes with pulse effect
+        nodes.forEach { nodePos ->
+            // Outer glow
+            drawCircle(
+                color = cyanColor.copy(alpha = pulseAlpha * 0.3f),
+                radius = 16f,
+                center = nodePos
+            )
+
+            // Middle ring
+            drawCircle(
+                color = cyanColor.copy(alpha = pulseAlpha * 0.6f),
+                radius = 10f,
+                center = nodePos
+            )
+
+            // Core node
+            drawCircle(
+                color = cyanColor.copy(alpha = pulseAlpha),
+                radius = 6f,
+                center = nodePos
+            )
+
+            // Inner bright core
+            drawCircle(
+                color = Color.White.copy(alpha = pulseAlpha * 0.8f),
+                radius = 3f,
+                center = nodePos
+            )
+        }
+
+        // Draw floating particles
+        for (i in 0..15) {
+            val angle = (rotation + i * 24f) * (Math.PI / 180).toFloat()
+            val radius = 150f + (i % 3) * 30f
+            val particleX = centerX + cos(angle) * radius
+            val particleY = centerY + sin(angle) * radius
+            val particleAlpha = ((sin(rotation * 0.02f + i) + 1f) * 0.3f) * pulseAlpha
+
+            drawCircle(
+                color = cyanColor.copy(alpha = particleAlpha),
+                radius = 2f,
+                center = Offset(particleX, particleY)
+            )
+        }
+    }
+
+        // PNG Centerpiece Image Overlay
+        Image(
+            painter = painterResource(id = R.drawable.constellation_aura_sword),
+            contentDescription = "Aura Sword Constellation",
+            modifier = Modifier
+                .size(400.dp)
+                .scale(centerScale)
+                .alpha(pulseAlpha)
+        )
+    }
+}
+
+/**
+ * Renders the sword centerpiece with an energy blade, guard, handle, pommel, glow layers, and surrounding energy particles.
+ *
+ * @param centerX X coordinate of the sword's center in the drawing coordinate space.
+ * @param centerY Y coordinate of the sword's center in the drawing coordinate space.
+ * @param rotation Rotation in degrees used to offset and animate the surrounding energy particles.
+ * @param color Primary color for the blade, guard, handle, and core elements.
+ * @param glowColor Accent color used for glow layers and highlights around the sword.
+ */
+private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
+    centerX: Float,
+    centerY: Float,
+    rotation: Float,
+    color: Color,
+    glowColor: Color
+) {
+    val swordLength = 250f
+    val swordWidth = 8f
+    val handleLength = 60f
+    val guardWidth = 50f
 
         // Draw the Blade Core (Visual Metaphor for becoming 'crisper')
         val bladePath = androidx.compose.ui.graphics.Path().apply {

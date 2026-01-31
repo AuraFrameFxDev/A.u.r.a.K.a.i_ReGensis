@@ -85,6 +85,8 @@ extensions.configure<ApplicationExtension> {
             excludes += "/META-INF/DEPENDENCIES"
             excludes += "/META-INF/LICENSE.txt"
             excludes += "/META-INF/NOTICE.txt"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/NOTICE.md"
             excludes += "**/kotlin/**"
             excludes += "**/*.txt"
         }
@@ -101,11 +103,12 @@ extensions.configure<ApplicationExtension> {
     }
 }
 
-// Enable experimental context-parameters feature (Kotlin 2.2+)
+// Enable modern Kotlin features (Experimental/New in 2.2+)
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
         freeCompilerArgs.addAll(
-            "-Xcontext-parameters"
+            "-Xcontext-parameters",
+            "-Xannotation-default-target=param-property"
         )
     }
 }
@@ -169,9 +172,6 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.animation)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.ink.strokes)
-    implementation(libs.androidx.compose.ui.graphics)
     ksp(libs.hilt.compiler)
 
     // Core Android

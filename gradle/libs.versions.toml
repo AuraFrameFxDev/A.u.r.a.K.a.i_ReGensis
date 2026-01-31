@@ -107,8 +107,6 @@ rikkax = "1.4.1"
 rikkax-material = "2.7.2"
 rikkax-layoutinflater = "1.0.1"
 shizuku = "13.1.5"
-inkStrokes = "1.0.0"
-uiGraphics = "1.10.1"
 
 [libraries]
 # ============================================================================
@@ -347,8 +345,6 @@ androidx-navigation-common-ktx = { group = "androidx.navigation", name = "naviga
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4" }
 androidx-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animationVersion" }
-androidx-ink-strokes = { group = "androidx.ink", name = "ink-strokes", version.ref = "inkStrokes" }
-androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
 [plugins]
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinVersion" }
 # NOTE: Firebase Analytics is NOT a plugin - just use implementation(libs.firebase.analytics)

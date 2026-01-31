@@ -2,10 +2,9 @@ package dev.aurakai.auraframefx.data
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.aurakai.auraframefx.config.AIConfig
 import javax.inject.Inject
 import javax.inject.Singleton
-
-import dev.aurakai.auraframefx.config.AIConfig
 
 // TODO: Implement offline data management logic
 @Singleton
@@ -22,7 +21,7 @@ class OfflineDataManager @Inject constructor(
      *
      * @return The loaded offline data, or null if no data is available.
      */
-    suspend fun loadCriticalOfflineData(): OfflineSystemData? {
+    suspend fun loadCriticalOfflineData(): OfflineSystemData {
         // Replace with actual data loading logic
         println("Attempting to load critical offline data...")
         // Return dummy data for now to fix build

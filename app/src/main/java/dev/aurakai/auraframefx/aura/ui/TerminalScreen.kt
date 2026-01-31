@@ -39,12 +39,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun TerminalScreen(navController: NavHostController) {
+fun TerminalScreen() {
     var input by remember { mutableStateOf("") }
     val history = remember { mutableStateListOf<TerminalLine>() }
     val scope = rememberCoroutineScope()

@@ -1,18 +1,13 @@
 package dev.aurakai.auraframefx.ui.navigation
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,8 +15,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -34,13 +27,16 @@ import kotlin.math.absoluteValue
 /**
  * 🛰️ EXODUS HUD - THE 5 SOVEREIGN GATES
  *
- * Level 1 Entry Point - Carousel of 5 Domain Gates.
+ * The top region displays a HorizontalPager of monoliths with scale, alpha, and vertical translation driven
+ * by each page's offset to create an orbit-like visual effect. Global touch and per-card press events drive
+ * a pulse animation that is visualized by the Prometheus Globe. Double-tapping a monolith navigates to
+ * "pixel_domain/{id}".
+ *
+ * @param navController NavController used to navigate to a monolith's pixel domain on double-tap.
  */
 @Composable
 fun ExodusHUD(navController: NavController) {
-    val gates = remember { SovereignRegistry.getAllGates() }
-    val pagerState = rememberPagerState(pageCount = { gates.size })
-    val scope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(pageCount = { SovereignRouter.getCount() })
 
     // Pulse animation for the Prometheus Globe
     val infiniteTransition = rememberInfiniteTransition(label = "Pulse")
@@ -54,68 +50,84 @@ fun ExodusHUD(navController: NavController) {
         label = "PulseIntensity"
     )
 
+    // Current gate info for display
+    val currentGate = gates.getOrNull(pagerState.currentPage) ?: gates[0]
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
+            // Capture touches globally for the "12th Sense" pulse
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = {
+                        isPressed = true
+                        tryAwaitRelease()
+                        isPressed = false
+                    },
+                    onDoubleTap = { /* Consumed here to prevent conflicts, handled in cards */ },
+                    onTap = { /* Consumed here to prevent conflicts */ }
+                )
+            }
     ) {
-        // TOP 70%: The 3D Orbital Pager
+        // TOP 85%: The 11 Sovereign Monoliths (8K High-Fi)
         Box(
             modifier = Modifier
-                .weight(0.7f)
-                .fillMaxWidth()
+                .weight(0.85f)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            HorizontalPager(
-                state = pagerState,
-                contentPadding = PaddingValues(horizontal = 64.dp),
-                modifier = Modifier.fillMaxSize()
-            ) { page ->
-                val pageOffset = ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
+             HorizontalPager(
+                 state = pagerState,
+                 modifier = Modifier.fillMaxSize(),
+                 contentPadding = PaddingValues(horizontal = 64.dp), // Increased padding for 3D effect space
+                 pageSpacing = 16.dp
+             ) { page ->
+                val route = SovereignRouter.fromPage(page)
 
-                SovereignGateCard(
-                    gateInfo = gates[page],
+                // Prometheus Orbit Logic: Calculate scale and alpha based on distance from center
+                val pageOffset = (
+                    (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+                ).absoluteValue
+
+                // We want the center item to be full size, and items to the side to "curve away" (scale down)
+                val scale = lerp(
+                    start = 0.85f,
+                    stop = 1f,
+                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                )
+
+                // Optional: Alpha fade for distant items
+                val alpha = lerp(
+                    start = 0.5f,
+                    stop = 1f,
+                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                )
+
+                MonolithCard(
+                    assetPath = route.highFiPath,
+                    onDoubleTap = { navController.navigate("pixel_domain/${route.id}") },
+                    onPress = {
+                        isPressed = true
+                    },
+                    onRelease = {
+                        isPressed = false
+                    },
                     modifier = Modifier
+                        .fillMaxHeight(0.9f)
                         .graphicsLayer {
                             val scale = lerp(1f, 0.75f, pageOffset)
                             scaleX = scale
                             scaleY = scale
-                            alpha = lerp(1f, 0.3f, pageOffset)
-                            rotationY = lerp(0f, 45f, pageOffset) * (if (page > pagerState.currentPage) -1 else 1)
-                        },
-                    onDoubleTap = {
-                        navController.navigate(gates[page].hubRoute)
-                    }
+                            this.alpha = alpha
+                            // Simple Y translation to simulate arc if needed, but scale often suffices for "orbit" feel in flat 2D
+                            translationY = pageOffset * 20.dp.toPx() // Sinks down slightly as it moves away
+                        }
                 )
             }
         }
 
-        // MIDDLE 15%: Gate Identity
-        val currentGate = gates[pagerState.currentPage]
-        Box(
-            modifier = Modifier
-                .weight(0.15f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = currentGate.title,
-                    fontFamily = LEDFontFamily,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = currentGate.color,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = currentGate.subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.7f),
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-
-        // BOTTOM 15%: Prometheus Globe (Navigation Orb)
+        // BOTTOM 15%: The Prometheus Globe (Celestial Navigation)
         Box(
             modifier = Modifier
                 .weight(0.15f)
@@ -123,74 +135,37 @@ fun ExodusHUD(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             PrometheusGlobe(
-                color = currentGate.color,
-                pulseIntensity = pulseIntensity,
-                onDrag = { dragDelta: Float ->
-                    scope.launch {
-                        pagerState.scrollBy(-dragDelta * 1.5f)
-                    }
-                },
-                onTap = {
-                    navController.navigate(currentGate.hubRoute)
-                }
+                color = SovereignTeal,
+                pulseIntensity = pulseIntensity
             )
         }
     }
 }
 
+/**
+ * Wrapper for SovereignMonolith to match the "MonolithCard" specification
+ * and handle touch events for navigation and pulse feedback.
+ */
 @Composable
 fun SovereignGateCard(
     gateInfo: GateInfo,
     onDoubleTap: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val drawableId = remember(gateInfo) { gateInfo.getDrawableId(context) }
-
-    Box(
+    SovereignMonolith(
+        imagePath = assetPath,
         modifier = modifier
             .fillMaxHeight()
             .padding(16.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
-                    onDoubleTap = { onDoubleTap() }
-                )
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(gateInfo.color.copy(alpha = 0.2f), Color.Black)
-                    ),
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
-                )
-                .border(
-                    width = 2.dp,
-                    color = gateInfo.color.copy(alpha = 0.5f),
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            if (drawableId != 0) {
-                androidx.compose.foundation.Image(
-                    painter = androidx.compose.ui.res.painterResource(id = drawableId),
-                    contentDescription = gateInfo.title,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    contentScale = androidx.compose.ui.layout.ContentScale.Fit
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Default.AutoAwesome,
-                    contentDescription = null,
-                    tint = gateInfo.color,
-                    modifier = Modifier.size(64.dp)
+                    onDoubleTap = { onDoubleTap() },
+                    onPress = {
+                        onPress()
+                        tryAwaitRelease()
+                        onRelease()
+                    }
                 )
             }
-        }
-    }
+    )
 }

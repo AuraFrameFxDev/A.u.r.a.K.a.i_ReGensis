@@ -5,18 +5,18 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.ai.agents.GenesisAgent
 import dev.aurakai.auraframefx.aura.AuraAgent
+import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
 import dev.aurakai.auraframefx.data.repositories.PersistentAgentRepository
 import dev.aurakai.auraframefx.kai.KaiAgent
+import dev.aurakai.auraframefx.models.AgentState
 import dev.aurakai.auraframefx.models.AgentStats
+import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AiRequestType
-import dev.aurakai.auraframefx.models.EnhancedInteractionData
-import dev.aurakai.auraframefx.models.AgentState
-import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.ChatMessage
-import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
+import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.utils.error
 import dev.aurakai.auraframefx.utils.info
 import dev.aurakai.auraframefx.utils.warn
@@ -53,7 +53,7 @@ open class AgentViewModel @Inject constructor(
     private val genesisAgent: GenesisAgent,
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
-    private val trinityRepository: dev.aurakai.auraframefx.cascade.trinity.TrinityRepository,
+    private val trinityRepository: TrinityRepository,
     private val persistentAgentRepository: PersistentAgentRepository
 ) : ViewModel() {
 
@@ -89,7 +89,7 @@ open class AgentViewModel @Inject constructor(
     init {
         loadAgents()
         startAgentMonitoring()
-        
+
         // Listen to the Neural Bridge
         viewModelScope.launch {
             trinityRepository.chatStream.collect { message: ChatMessage ->
@@ -99,7 +99,7 @@ open class AgentViewModel @Inject constructor(
                     // e.g. "Aura", "Kai".
                     // We simply add it to that agent's history.
                     addMessage(message.sender, message)
-                    
+
                     // Also emit event for UI effects
                     _agentEvents.emit(AgentEvent.MessageReceived(message))
                 }
@@ -116,14 +116,14 @@ open class AgentViewModel @Inject constructor(
             // Observe persistent updates to merge stats
             persistentAgentRepository.observeAllStats().collect { persistentAgents ->
                 val allBase = AgentRepository.getAllAgents()
-                
+
                 // Merge Room data with any agent that might not be in Room yet
                 val merged = allBase.map { base ->
                     persistentAgents.find { it.name == base.name } ?: base
                 }
-                
+
                 _allAgents.value = merged
-                
+
                 // Initial selection or update current active agent
                 val currentActiveName = _activeAgent.value?.name ?: "Genesis"
                 merged.find { it.name == currentActiveName }?.let {
@@ -249,24 +249,23 @@ open class AgentViewModel @Inject constructor(
                 isFromUser = true
             )
             addMessage(agentName, userMsg)
-            
+
             // Send to Repository (Neural Bridge)
             val type = try {
                 AgentType.valueOf(agentName.uppercase())
             } catch (e: Exception) {
-                AgentType.GENESIS 
+                AgentType.GENESIS
             }
             // We don't need to add the repo's echo of "User" message if we added it locally
             // But we DO need the response.
-            
+
             // To avoid double-entry of User message (from repo echo), we can filter or just let repo handle it.
             // Let's use the repo solely.
             trinityRepository.processUserMessage(message, type)
-            
+
             // Listen for the specific response? No, the global collector in init should handle it.
         }
     }
-    
 
 
     private fun addMessage(agentName: String, message: ChatMessage) {

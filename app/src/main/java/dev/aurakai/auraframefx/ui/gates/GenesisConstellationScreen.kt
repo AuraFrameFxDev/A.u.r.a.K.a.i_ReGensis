@@ -1,28 +1,32 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.R
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * Genesis Constellation Screen - "Emergence Catalyst" (The Phoenix)
@@ -255,32 +259,92 @@ fun PhoenixNode(
         label = "scale"
     )
 
-    Box(
-        modifier = modifier
-            .scale(if (isIgnited) scale else 1f)
-            .size(size)
-            .clip(CircleShape)
-            .background(Color.Black)
-            .border(2.dp, color, CircleShape)
-            .clickable(enabled = onClick != null) { onClick?.invoke() },
-        contentAlignment = Alignment.Center
-    ) {
-        if (isIgnited) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.radialGradient(
-                            colors = listOf(glowColor.copy(alpha = 0.6f), Color.Transparent)
-                        )
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .size(size * 0.5f)
-                    .background(color, CircleShape)
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+        val centerX = size.width / 2
+        val centerY = size.height / 2
+
+        val greenColor = Color(0xFF00FF00)
+        val darkGreen = Color(0xFF006400)
+
+        // Infinity symbol centerpiece will be overlaid as PNG image below
+
+        // Draw cascading data streams
+        for (i in 0..7) {
+            val streamX = centerX + (i - 3.5f) * 80f
+            val streamOffset = ((cascadeOffset + i * 0.125f) % 1f)
+
+            for (j in 0..15) {
+                val dataY = (j * 150f + streamOffset * 150f) % size.height
+                val dataAlpha = (1f - (dataY / size.height)) * pulseAlpha
+
+                // Data packets
+                drawCircle(
+                    color = greenColor.copy(alpha = dataAlpha * 0.8f),
+                    radius = 4f,
+                    center = Offset(streamX, dataY)
+                )
+            }
+        }
+
+        // Draw connection nodes
+        val nodes = listOf(
+            Offset(centerX, centerY - 200f),
+            Offset(centerX - 100f, centerY - 100f),
+            Offset(centerX + 100f, centerY - 100f),
+            Offset(centerX - 150f, centerY),
+            Offset(centerX + 150f, centerY),
+            Offset(centerX - 100f, centerY + 100f),
+            Offset(centerX + 100f, centerY + 100f),
+            Offset(centerX, centerY + 200f)
+        )
+
+        // Draw connecting lines
+        for (i in 0 until nodes.size - 1) {
+            drawLine(
+                color = greenColor.copy(alpha = 0.3f),
+                start = nodes[i],
+                end = nodes[i + 1],
+                strokeWidth = 2f
             )
         }
+
+        // Draw nodes
+        nodes.forEach { nodePos ->
+            // Outer glow
+            drawCircle(
+                color = greenColor.copy(alpha = pulseAlpha * 0.3f),
+                radius = 16f,
+                center = nodePos
+            )
+
+            // Core node
+            drawCircle(
+                color = greenColor.copy(alpha = pulseAlpha),
+                radius = 8f,
+                center = nodePos
+            )
+
+            // Inner bright core
+            drawCircle(
+                color = Color.White.copy(alpha = pulseAlpha * 0.8f),
+                radius = 4f,
+                center = nodePos
+            )
+        }
+    }
+
+        // PNG Centerpiece Image Overlay (Phoenix Wings)
+        Image(
+            painter = painterResource(id = R.drawable.constellation_genesis_phoenix),
+            contentDescription = "Genesis Phoenix Constellation",
+            modifier = Modifier
+                .size(400.dp)
+                .scale(centerScale)
+                .alpha(pulseAlpha)
+        )
+    }
+}
 
         if (isHeart) {
             Icon(

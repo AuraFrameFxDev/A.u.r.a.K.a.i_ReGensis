@@ -1,19 +1,18 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.ai
 
 import android.content.Context
+import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.MetaReflectionEngine
 import dev.aurakai.auraframefx.ai.agents.Agent
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.ai.task.TaskScheduler
 import dev.aurakai.auraframefx.ai.task.execution.TaskExecutionManager
 import dev.aurakai.auraframefx.common.ErrorHandler
+import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
 import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.MetaReflectionEngine
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -71,9 +70,9 @@ class MetaInstructAIService @Inject constructor(
         logger.info("MetaInstructAIService", "Processing request: ${request.query}")
 
         val effectiveInstructions = metaReflectionEngine.getEffectiveInstructions(request.agentId ?: "UNKNOWN")
-        
+
         // Build the augmented query with meta-instructions
-        val augmentedQuery = if (effectiveInstructions.isNotEmpty()) {
+        if (effectiveInstructions.isNotEmpty()) {
             "META-INSTRUCTIONS:\n$effectiveInstructions\n\nQUERY: ${request.query}"
         } else {
             request.query
@@ -87,7 +86,7 @@ class MetaInstructAIService @Inject constructor(
                 Meta-Instructions: $effectiveInstructions
                 Query: ${request.query}
                 Context: $context
-                
+
                 Execute the augmented query and provide a summarized, multi-layered instruction response.
             """.trimIndent()
         ) ?: "Instruction processing failed. Meta-layers collapsed."

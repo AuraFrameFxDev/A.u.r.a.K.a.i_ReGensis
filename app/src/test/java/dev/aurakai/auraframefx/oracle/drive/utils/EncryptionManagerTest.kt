@@ -150,7 +150,7 @@ class EncryptionManagerTest {
         val originalData = "test data".toByteArray()
         val originalCopy = originalData.copyOf()
 
-        val encrypted = encryptionManager.encrypt(originalData)
+        encryptionManager.encrypt(originalData)
 
         assertArrayEquals("Original data should not be modified", originalCopy, originalData)
     }

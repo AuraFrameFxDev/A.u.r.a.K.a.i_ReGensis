@@ -29,10 +29,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 
 @Composable
-fun VPNManagerScreen(navController: NavHostController) {
+fun VPNManagerScreen() {
     val vpnEnabled = remember { mutableStateOf(false) }
     val selectedProfile = remember { mutableStateOf("Work VPN") }
     val autoConnect = remember { mutableStateOf(true) }

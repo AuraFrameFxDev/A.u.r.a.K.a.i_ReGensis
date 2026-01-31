@@ -12,6 +12,9 @@
 
 package dev.aurakai.auraframefx.data.customization
 
+import androidx.annotation.DrawableRes
+import androidx.compose.ui.graphics.Color
+
 // ============================================================================
 // ICONIFY SETTINGS (from Mahmud0808/Iconify)
 // Total: ~200+ individual settings across categories
@@ -591,12 +594,6 @@ object IconifySettingsCatalog {
         SettingItem("battery_ios16", "iOS 16 Battery", "Apple iOS 16 style", SettingType.SELECTION),
         SettingItem("battery_filled", "Filled Battery", "Solid filled style", SettingType.SELECTION),
         SettingItem("battery_landscape", "Landscape Battery", "Horizontal battery icon", SettingType.SELECTION),
-        SettingItem(
-            "battery_custom_colors",
-            "Custom Battery Colors",
-            "Customize battery icon colors",
-            SettingType.COLOR_PICKER
-        ),
         SettingItem("battery_hide_percentage", "Hide Battery Percentage", "Remove percentage text", SettingType.TOGGLE),
         SettingItem("battery_percentage_inside", "Percentage Inside Icon", "Show % inside battery", SettingType.TOGGLE),
         SettingItem("battery_charging_icon", "Custom Charging Icon", "Custom icon when charging", SettingType.SELECTION)
@@ -607,12 +604,6 @@ object IconifySettingsCatalog {
         SettingItem("brightness_rounded", "Rounded Brightness Bar", "Rounded end caps", SettingType.SELECTION),
         SettingItem("brightness_gradient", "Gradient Brightness Bar", "Gradient fill style", SettingType.SELECTION),
         SettingItem("brightness_outlined", "Outlined Brightness Bar", "Outline only style", SettingType.SELECTION),
-        SettingItem(
-            "brightness_translucent",
-            "Translucent Brightness Bar",
-            "Semi-transparent style",
-            SettingType.SELECTION
-        ),
         SettingItem("brightness_lighty", "Lighty Brightness Bar", "Light airy style", SettingType.SELECTION),
         SettingItem("brightness_fluid", "Fluid Brightness Bar", "Fluid theme style", SettingType.SELECTION)
     )
@@ -654,12 +645,6 @@ object IconifySettingsCatalog {
         SettingItem("corner_radius", "UI Corner Radius", "System-wide corner roundness", SettingType.SLIDER),
         SettingItem("volume_roundness", "Volume Panel Roundness", "Volume panel corners", SettingType.SLIDER),
         SettingItem("media_roundness", "Media Player Roundness", "Media controls corners", SettingType.SLIDER),
-        SettingItem(
-            "notification_roundness",
-            "Notification Roundness",
-            "Notification card corners",
-            SettingType.SLIDER
-        ),
         SettingItem("qs_tile_roundness", "QS Tile Roundness", "Quick settings tile corners", SettingType.SLIDER)
     )
 
@@ -689,12 +674,6 @@ object IconifySettingsCatalog {
         SettingItem("header_image", "Header Image", "Custom QS header background", SettingType.IMAGE_PICKER),
         SettingItem("depth_wallpaper", "Depth Wallpaper", "iOS-style depth effect", SettingType.TOGGLE),
         SettingItem("hide_carrier_lockscreen", "Hide Carrier", "Remove carrier text on lockscreen", SettingType.TOGGLE),
-        SettingItem(
-            "hide_statusbar_lockscreen",
-            "Hide Statusbar on Lock",
-            "Remove statusbar on lockscreen",
-            SettingType.TOGGLE
-        ),
         SettingItem("hide_lock_icon", "Hide Lock Icon", "Remove lock icon on lockscreen", SettingType.TOGGLE),
         SettingItem("compact_media_player", "Compact Media Player", "Smaller media controls", SettingType.TOGGLE),
         SettingItem("album_art_qs", "Album Art in QS", "Show album art in quick settings", SettingType.TOGGLE)

@@ -10,11 +10,6 @@ package dev.aurakai.auraframefx.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.ui.screens.aura.ColorBlendrScreen
-import dev.aurakai.auraframefx.ui.screens.aura.IconPickerScreen
-import dev.aurakai.auraframefx.ui.screens.aura.IconifyCategoryDetailScreen
-import dev.aurakai.auraframefx.ui.screens.aura.IconifyPickerScreen
-import dev.aurakai.auraframefx.ui.screens.aura.PixelLauncherEnhancedScreen
 
 // ============================================================================
 // NAVIGATION DESTINATIONS FOR CUSTOMIZATION
@@ -89,10 +84,6 @@ fun NavGraphBuilder.auraCustomizationNavigation(
         val category = backStackEntry.arguments?.getString("category") ?: "Icon Packs"
         IconifyCategoryDetailScreen(
             categoryName = category,
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToPicker = { settingId ->
-                navController.navigate(AuraCustomizationRoute.IconPicker.createRoute(settingId))
-            }
         )
     }
 

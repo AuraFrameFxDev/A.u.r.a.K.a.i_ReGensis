@@ -53,6 +53,7 @@ import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
  */
 @Composable
 fun TaskAssignmentScreen(
+    onNavigateBack: () -> Unit = {},
     viewModel: AgentViewModel = hiltViewModel(),
     onNavigateBack: () -> Boolean
 ) {
