@@ -184,4 +184,3 @@ fun GenesisCard(tool: GenesisToolCard, onClick: () -> Unit) {
         }
     }
 }
-            }
