@@ -103,6 +103,7 @@ sealed class NavDestination(val route: String) {
     data object MetaInstruct : NavDestination("meta_instruct")
     data object Nemotron : NavDestination("nemotron")
     data object CascadeVision : NavDestination("cascade_vision")
+    data object DataStreamMonitoring : NavDestination("data_monitor")
     data object Claude : NavDestination("claude")
     data object Gemini : NavDestination("gemini")
     data object SwarmMonitor : NavDestination("swarm_monitor")

@@ -121,6 +121,11 @@ fun KaiSentinelHubScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(32.dp))
 
+            }
+        }
+    }
+}
+
 @Composable
 fun SentinelCard(tool: SentinelToolCard, onClick: () -> Unit) {
     Card(

@@ -94,7 +94,7 @@ fun OverlayMenusScreen(navController: NavController) {
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White
             ),
-            trailingIcon = { Icon(androidx.compose.material.icons.filled.Search, null, tint = Color(0xFFFF4500)) }
+            trailingIcon = { Icon(Icons.Default.Search, null, tint = Color(0xFFFF4500)) }
         )
 
         // Preview Card
