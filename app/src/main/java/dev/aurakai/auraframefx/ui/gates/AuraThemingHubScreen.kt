@@ -68,18 +68,6 @@ fun AuraThemingHubScreen(navController: NavController) {
 
     val tools = listOf(
         ThemingToolCard(
-            title = "ChromaCore Colors",
-            subtitle = "System Color Engine & Monet",
-            destination = NavDestination.ChromaCoreColors,
-            accentColor = Color(0xFFB026FF)
-        ),
-        ThemingToolCard(
-            title = "Theme Engine",
-            subtitle = "Visual Style & Theming Control",
-            destination = NavDestination.ThemeEngine,
-            accentColor = Color(0xFFFF00FF)
-        ),
-        ThemingToolCard(
             title = "Notch Bar Manager",
             subtitle = "Dynamic Edge/Notch Customization",
             destination = NavDestination.NotchBar,
@@ -98,22 +86,10 @@ fun AuraThemingHubScreen(navController: NavController) {
             accentColor = Color(0xFF00FF85)
         ),
         ThemingToolCard(
-            title = "Collab Canvas",
-            subtitle = "Design with Aura & Kai",
-            destination = NavDestination.CollabCanvas,
-            accentColor = Color(0xFFB026FF)
-        ),
-        ThemingToolCard(
             title = "Aura Lab",
             subtitle = "Sandbox UI & Kinetic Testing",
             destination = NavDestination.AuraLab,
             accentColor = Color(0xFF00E5FF)
-        ),
-        ThemingToolCard(
-            title = "Iconify Hub",
-            subtitle = "Custom Icon Engine & Injection",
-            destination = NavDestination.IconifyPicker,
-            accentColor = Color(0xFFB026FF)
         ),
         ThemingToolCard(
             title = "Overlay Systems",
@@ -121,6 +97,7 @@ fun AuraThemingHubScreen(navController: NavController) {
             destination = NavDestination.OverlayMenus,
             accentColor = Color(0xFFFF4500)
         ),
+
         ThemingToolCard(
             title = "Kinetic Engine",
             subtitle = "3D Gyroscope Calibration",

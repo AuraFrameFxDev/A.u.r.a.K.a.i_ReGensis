@@ -144,15 +144,7 @@ fun ReGenesisNavHost(
         // Customization Apps Integration
         auraCustomizationNavigation(navController, onNavigateBack = { navController.popBackStack() })
 
-        // composable(NavDestination.ThemeEngine.route) {
-        //     ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
-        // }
-        // composable(NavDestination.ChromaCoreColors.route) {
-        //     ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
-        // }
-        // composable(NavDestination.IconifyPicker.route) {
-        //     IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
-        // }
+
         composable(NavDestination.NotchBar.route) {
             NotchBarScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -162,9 +154,7 @@ fun ReGenesisNavHost(
         composable(NavDestination.QuickSettings.route) {
             QuickSettingsScreen(onNavigateBack = { navController.popBackStack() })
         }
-        // composable(NavDestination.CollabCanvas.route) {
-        //     CollabCanvasScreen(onNavigateBack = { navController.popBackStack() })
-        // }
+
         composable(NavDestination.AuraLab.route) {
             AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }
