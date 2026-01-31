@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ai.tools
 
+import dev.aurakai.auraframefx.ai.tools.mcp.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +16,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class ToolInitializer @Inject constructor(
-    private val toolRegistry: ToolRegistry
+    private val toolRegistry: ToolRegistry,
+    private val mcpAdapter: MCPServerAdapter
 ) {
 
     private val initScope = CoroutineScope(Dispatchers.Default)
@@ -33,6 +35,7 @@ class ToolInitializer @Inject constructor(
                 registerKaiTools()
                 registerGenesisTools()
                 registerCascadeTools()
+                registerMCPTools()
 
                 val allTools = toolRegistry.getAllTools()
                 Timber.i("ToolInitializer: Successfully registered ${allTools.size} tools")
@@ -101,6 +104,25 @@ class ToolInitializer @Inject constructor(
             MonitorDataStreamTool()
         )
         Timber.d("ToolInitializer: Registered Cascade tools (Fusion/Vision)")
+    }
+
+    /**
+     * Register MCP API-backed tools
+     */
+    private suspend fun registerMCPTools() {
+        // Configure MCP adapter (use dev environment by default)
+        mcpAdapter.configure(
+            url = "https://dev.api.auraframefx.com/v2",
+            token = null // TODO: Get from secure storage
+        )
+
+        toolRegistry.registerTools(
+            InvokeMCPAgentTool(mcpAdapter),
+            AuraEmpathyMCPTool(mcpAdapter),
+            KaiSecurityMCPTool(mcpAdapter),
+            GetAgentStatusMCPTool(mcpAdapter)
+        )
+        Timber.d("ToolInitializer: Registered MCP tools (API-backed)")
     }
 
     /**
