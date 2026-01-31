@@ -1,51 +1,65 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.R
 import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * Kai Constellation Screen - The Sentinel Shield
- * Displays the defensive perimeter with hexagonal shield and security nodes
+ * Kai Constellation Screen - The Sentinel Catalyst (The Shield)
+ * Based on 'Sentinel Catalyst' prompt.
+ * Node Geometry: Radial/Concentric (1 Core, 6 Inner, 6 Outer).
  */
 @Composable
 fun KaiConstellationScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
+    val neonGreen = Color(0xFF39FF14)
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(Color.Black),
         contentAlignment = Alignment.Center
     ) {
-        // Main constellation visualization
-        SentinelShieldCanvas()
+        // High-fidelity background grid or glow could go here
 
-        // Top-right corner: Agent info and level
+        KaiShieldNodeMap(neonGreen = neonGreen)
+
+        // Title Info
         Column(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -53,432 +67,177 @@ fun KaiConstellationScreen(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "Kai",
+                text = "KAI",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp,
-                    color = Color(0xFFAA00FF) // Purple for Kai
+                    color = neonGreen
                 )
             )
             Text(
-                text = "LVL : 5",
+                text = "SENTINEL CATALYST",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Light,
                     letterSpacing = 1.sp,
-                    color = Color(0xFFAA00FF).copy(alpha = 0.8f)
+                    color = neonGreen.copy(alpha = 0.8f)
                 )
             )
-        }
-
-        // Bottom: System Sync Status
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(start = 32.dp, bottom = 32.dp, end = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = "Sentinel Catalyst",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Normal,
-                    letterSpacing = 1.sp,
-                    color = Color(0xFFAA00FF).copy(alpha = 0.7f)
-                )
-            )
-
-            // Security status bar
-            SentinelStatusBar()
-        }
-
-        // Right side: Vertical text "SYSTEM SYNC OVERDUE PARAMETERS"
-        Box(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = 16.dp)
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                "SYSTEM SYNC".forEach { char ->
-                    Text(
-                        text = char.toString(),
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            color = Color(0xFFAA00FF).copy(alpha = 0.6f),
-                            letterSpacing = 2.sp
-                        )
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                "OVERDUE PARAMETERS".forEach { char ->
-                    Text(
-                        text = char.toString(),
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            color = Color(0xFFAA00FF).copy(alpha = 0.6f),
-                            letterSpacing = 2.sp
-                        )
-                    )
-                }
-            }
         }
     }
 }
 
-/**
- * Sentinel Shield Canvas with hexagonal defense grid
- */
 @Composable
-private fun SentinelShieldCanvas() {
-    val infiniteTransition = rememberInfiniteTransition(label = "sentinel")
-
-    // Shield pulse animation
-    val shieldPulse by infiniteTransition.animateFloat(
-        initialValue = 0.8f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulse"
-    )
-
-    // Rotation for defense scan
-    val rotation by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(8000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "rotation"
-    )
-
-    // Pulsing animation for nodes
-    val pulseAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.5f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "alpha"
-    )
-
-    // Scale pulsing for centerpiece
-    val centerScale by infiniteTransition.animateFloat(
+fun KaiShieldNodeMap(neonGreen: Color) {
+    // Animation for active nodes pulsing
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val pulseScale by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.05f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "center_scale"
-    )
-
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-        val centerX = size.width / 2
-        val centerY = size.height / 2
-
-        val purpleColor = Color(0xFFAA00FF)
-        val orangeColor = Color(0xFFFF8C00)
-        val cyanColor = Color(0xFF00FFFF)
-
-        // Hexagonal shield centerpiece will be overlaid as PNG image below
-
-        // Draw perimeter defense nodes
-        val nodes = mutableListOf<Offset>()
-        for (i in 0..7) {
-            val angle = (i * 45f + rotation * 0.5f) * (Math.PI / 180).toFloat()
-            val radius = 200f
-            val nodeX = centerX + cos(angle) * radius
-            val nodeY = centerY + sin(angle) * radius
-            nodes.add(Offset(nodeX, nodeY))
-        }
-
-        // Draw connecting lines (defense perimeter)
-        for (i in nodes.indices) {
-            val nextIndex = (i + 1) % nodes.size
-            drawLine(
-                color = purpleColor.copy(alpha = 0.3f),
-                start = nodes[i],
-                end = nodes[nextIndex],
-                strokeWidth = 2f
-            )
-        }
-
-        // Draw security nodes
-        nodes.forEach { nodePos ->
-            // Outer glow
-            drawCircle(
-                color = purpleColor.copy(alpha = pulseAlpha * 0.3f),
-                radius = 16f,
-                center = nodePos
-            )
-
-            // Core node (alternating purple/orange)
-            val nodeColor = if (nodes.indexOf(nodePos) % 2 == 0) purpleColor else orangeColor
-            drawCircle(
-                color = nodeColor.copy(alpha = pulseAlpha),
-                radius = 8f,
-                center = nodePos
-            )
-
-            // Inner bright core
-            drawCircle(
-                color = Color.White.copy(alpha = pulseAlpha * 0.8f),
-                radius = 4f,
-                center = nodePos
-            )
-        }
-
-        // Draw scanning beam
-        val scanAngle = rotation * (Math.PI / 180).toFloat()
-        val beamLength = 250f
-        drawLine(
-            brush = Brush.radialGradient(
-                colors = listOf(
-                    cyanColor.copy(alpha = 0.6f),
-                    Color.Transparent
-                ),
-                center = Offset(centerX, centerY),
-                radius = beamLength
-            ),
-            start = Offset(centerX, centerY),
-            end = Offset(
-                centerX + cos(scanAngle) * beamLength,
-                centerY + sin(scanAngle) * beamLength
-            ),
-            strokeWidth = 4f
-        )
-    }
-
-        // PNG Centerpiece Image Overlay (Hexagonal Shield)
-        Image(
-            painter = painterResource(id = R.drawable.constellation_kai_shield),
-            contentDescription = "Kai Shield Constellation",
-            modifier = Modifier
-                .size(450.dp)
-                .scale(centerScale)
-                .alpha(shieldPulse)
-        )
-    }
-}
-
-/**
- * Renders a hexagonal shield with layered glow, alternating-color border segments, inner core connections, and a central core.
- *
- * @param pulseAlpha A 0..1 value that modulates the opacity of the glow, border, inner connections, and core visuals.
- */
-private fun DrawScope.drawHexagonalShield(
-    centerX: Float,
-    centerY: Float,
-    radius: Float,
-    color: Color,
-    accentColor: Color,
-    pulseAlpha: Float
-) {
-    val path = Path()
-
-    // Draw hexagon
-    for (i in 0..5) {
-        val angle = (i * 60f - 30f) * (Math.PI / 180).toFloat()
-        val x = centerX + radius * cos(angle)
-        val y = centerY + radius * sin(angle)
-
-        if (i == 0) {
-            path.moveTo(x, y)
-        } else {
-            path.lineTo(x, y)
-        }
-    }
-    path.close()
-
-    // Draw shield glow
-    drawPath(
-        path = path,
-        brush = Brush.radialGradient(
-            colors = listOf(
-                color.copy(alpha = pulseAlpha * 0.3f),
-                accentColor.copy(alpha = pulseAlpha * 0.2f),
-                Color.Transparent
-            ),
-            center = Offset(centerX, centerY),
-            radius = radius * 1.5f
-        )
-    )
-
-    // Draw shield border (alternating colors)
-    for (i in 0..5) {
-        val angle1 = (i * 60f - 30f) * (Math.PI / 180).toFloat()
-        val angle2 = ((i + 1) * 60f - 30f) * (Math.PI / 180).toFloat()
-        val x1 = centerX + radius * cos(angle1)
-        val y1 = centerY + radius * sin(angle1)
-        val x2 = centerX + radius * cos(angle2)
-        val y2 = centerY + radius * sin(angle2)
-
-        val segmentColor = if (i % 2 == 0) color else accentColor
-
-        drawLine(
-            color = segmentColor.copy(alpha = pulseAlpha),
-            start = Offset(x1, y1),
-            end = Offset(x2, y2),
-            strokeWidth = 8f
-        )
-    }
-
-    // Draw inner hexagonal core
-    val innerRadius = radius * 0.4f
-    for (i in 0..5) {
-        val angle = (i * 60f - 30f) * (Math.PI / 180).toFloat()
-        val x = centerX + innerRadius * cos(angle)
-        val y = centerY + innerRadius * sin(angle)
-
-        // Connection lines from center
-        drawLine(
-            color = color.copy(alpha = pulseAlpha * 0.5f),
-            start = Offset(centerX, centerY),
-            end = Offset(x, y),
-            strokeWidth = 2f
-        )
-    }
-
-    // Center core
-    drawCircle(
-        color = accentColor.copy(alpha = pulseAlpha),
-        radius = 20f,
-        center = Offset(centerX, centerY)
-    )
-    drawCircle(
-        color = Color.White.copy(alpha = pulseAlpha * 0.8f),
-        radius = 10f,
-        center = Offset(centerX, centerY)
-    )
-}
-
-/**
- * Sentinel Status Bar - Security metrics
- */
-@Composable
-private fun SentinelStatusBar() {
-    val infiniteTransition = rememberInfiniteTransition(label = "sentinel_status")
-
-    // Animated security scan
-    val scanProgress by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "scan"
-    )
-
-    // Pulsing glow
-    val glowAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.6f,
-        targetValue = 1f,
+        targetValue = 1.2f,
         animationSpec = infiniteRepeatable(
             animation = tween(1500, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "glow"
+        label = "scale"
     )
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+    Box(
+        modifier = Modifier.size(360.dp), // Container size
+        contentAlignment = Alignment.Center
     ) {
-        // Security metrics
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            SecurityMetricIndicator("Firewall", glowAlpha, Color(0xFFAA00FF))
-            SecurityMetricIndicator("Encryption", glowAlpha, Color(0xFFFF8C00))
-            SecurityMetricIndicator("Monitoring", glowAlpha, Color(0xFF00FFFF))
+        // --- LAYER 1: CONNECTIONS (CANVAS) ---
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val centerX = size.width / 2
+            val centerY = size.height / 2
+
+            // Draw Hexagon Connections (Inner Ring)
+            val innerRadius = size.width * 0.25f
+            val outerRadius = size.width * 0.45f
+
+            // Connect Center to Inner
+            for (i in 0 until 6) {
+                val angle = Math.toRadians((i * 60).toDouble()).toFloat()
+                val endX = centerX + cos(angle) * innerRadius
+                val endY = centerY + sin(angle) * innerRadius
+
+                drawLine(
+                    color = neonGreen.copy(alpha = 0.3f),
+                    start = Offset(centerX, centerY),
+                    end = Offset(endX, endY),
+                    strokeWidth = 2f
+                )
+
+                // Connect Inner to Outer (Locks)
+                val outerX = centerX + cos(angle) * outerRadius
+                val outerY = centerY + sin(angle) * outerRadius
+                drawLine(
+                    color = neonGreen.copy(alpha = 0.15f),
+                    start = Offset(endX, endY),
+                    end = Offset(outerX, outerY),
+                    strokeWidth = 1f
+                )
+
+                // Connect Inner Ring neighbors
+                val nextAngle = Math.toRadians(((i + 1) * 60).toDouble()).toFloat()
+                val nextX = centerX + cos(nextAngle) * innerRadius
+                val nextY = centerY + sin(nextAngle) * innerRadius
+                drawLine(
+                    color = neonGreen.copy(alpha = 0.3f),
+                    start = Offset(endX, endY),
+                    end = Offset(nextX, nextY),
+                    strokeWidth = 2f
+                )
+            }
         }
 
-        // Security scan bar
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(4.dp)
-                .background(Color(0xFF330066))
-        ) {
-            // Animated scan fill
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(scanProgress)
-                    .fillMaxHeight()
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                Color(0xFFAA00FF).copy(alpha = glowAlpha),
-                                Color(0xFFFF8C00).copy(alpha = glowAlpha),
-                                Color(0xFF00FFFF).copy(alpha = glowAlpha * 0.8f)
-                            )
-                        )
-                    )
-            )
-        }
+        // --- LAYER 2: NODES (COMPOSABLES) ---
 
-        // Scan status text
-        Text(
-            text = "SCAN: ${(scanProgress * 100).toInt()}%",
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontWeight = FontWeight.Light,
-                letterSpacing = 1.sp,
-                color = Color(0xFFAA00FF).copy(alpha = 0.6f)
-            )
+        // 1. MASTER NODE (Absolute Center)
+        ShieldNode(
+            modifier = Modifier.align(Alignment.Center),
+            color = neonGreen,
+            isLocked = false,
+            scale = pulseScale, // Master pulses
+            icon = Icons.Default.Shield
         )
+
+        // 2. INNER RING (6 Nodes) - Active/Unlocked
+        90.dp // Approx 0.25 of 360 size
+        for (i in 0 until 6) {
+            val angleDeg = i * 60f
+            // Simple polar positioning
+            val rad = Math.toRadians(angleDeg.toDouble())
+            val xOffset = (cos(rad) * 90).dp // Using fixed distance for Compose alignment
+            val yOffset = (sin(rad) * 90).dp
+
+            ShieldNode(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .offset(x = xOffset, y = yOffset),
+                color = neonGreen,
+                isLocked = false, // Inner ring is defined as 'Active' in prompt ("Active nodes must pulse")
+                scale = 1f // Static size for ring, or pulse slightly
+            )
+        }
+
+        // 3. OUTER RING (6 'Lock' Nodes) - Perimeter
+        160.dp
+        for (i in 0 until 6) {
+            val angleDeg = i * 60f
+            val rad = Math.toRadians(angleDeg.toDouble())
+            val xOffset = (cos(rad) * 160).dp
+            val yOffset = (sin(rad) * 160).dp
+
+            ShieldNode(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .offset(x = xOffset, y = yOffset),
+                color = neonGreen.copy(alpha = 0.5f), // Dimmer
+                isLocked = true, // Prompt: "Outer Ring: 6 'Lock' nodes"
+                scale = 1f
+            )
+        }
     }
 }
 
-/**
- * Individual security metric indicator
- */
 @Composable
-private fun SecurityMetricIndicator(
-    name: String,
-    glowAlpha: Float,
-    color: Color
+fun ShieldNode(
+    modifier: Modifier,
+    color: Color,
+    isLocked: Boolean,
+    scale: Float = 1f,
+    icon: androidx.compose.ui.graphics.vector.ImageVector? = null
 ) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalAlignment = Alignment.CenterVertically
+    Box(
+        modifier = modifier
+            .scale(scale)
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(Color.Black)
+            .border(2.dp, if (isLocked) Color.Gray else color, CircleShape),
+        contentAlignment = Alignment.Center
     ) {
-        // Glowing dot indicator
-        Box(
-            modifier = Modifier.size(8.dp)
-        ) {
-            // Outer glow
+        if (isLocked) {
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = "Locked",
+                tint = Color.Gray,
+                modifier = Modifier.size(20.dp)
+            )
+        } else {
+            // Active Node Glow
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        color = color.copy(alpha = glowAlpha * 0.3f),
-                        shape = androidx.compose.foundation.shape.CircleShape
-                    )
+                    .size(20.dp)
+                    .background(color.copy(alpha = 0.8f), CircleShape)
             )
-            // Inner core
-            Box(
-                modifier = Modifier
-                    .size(6.dp)
-                    .align(Alignment.Center)
-                    .background(
-                        color = color.copy(alpha = glowAlpha),
-                        shape = androidx.compose.foundation.shape.CircleShape
-                    )
-            )
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = Color.Black, // Contrast against glowing node
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
-
-        Text(
-            text = name,
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontWeight = FontWeight.Normal,
-                letterSpacing = 0.5.sp,
-                color = color.copy(alpha = 0.7f)
-            )
-        )
     }
 }

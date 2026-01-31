@@ -1,54 +1,8 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CompassCalibration
-import androidx.compose.material.icons.filled.MotionPhotosAuto
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-import kotlin.math.cos
-import kotlin.math.sin
-
-.3dRotation
-import androidx.compose.material.icons.filled.CompassCalibration
-import androidx.compose.material.icons.filled.MotionPhotosAuto
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-import kotlin.math.cos
-import kotlin.math.sin
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material.icons.filled.ThreeDRotation
+import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
  * 🌀 3D GYROSCOPE CUSTOMIZATION SCREEN
@@ -140,8 +94,8 @@ fun GyroscopeCustomizationScreen(navController: NavController) {
                     Canvas(modifier = Modifier
                         .size(200.dp)
                         .graphicsLayer {
-                            rotationX = if (isEnabled) this@Column.rotationX else 0f
-                            rotationY = if (isEnabled) this@Column.rotationY else 0f
+                            rotationX = if (isEnabled) rotationX else 0f
+                            rotationY = if (isEnabled) rotationY else 0f
                         }) {
                         val centerX = size.width / 2
                         val centerY = size.height / 2
@@ -240,7 +194,7 @@ fun GyroscopeCustomizationScreen(navController: NavController) {
                 // Feature Cards
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     FeatureMiniCard(
-                        icon = Icons.Default.3 dRotation,
+                        icon = Icons.Default.ThreeDRotation,
                         title = "3D Shadows",
                         isEnabled = true,
                         modifier = Modifier.weight(1f)

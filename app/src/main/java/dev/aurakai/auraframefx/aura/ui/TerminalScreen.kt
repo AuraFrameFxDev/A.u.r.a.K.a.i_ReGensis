@@ -176,6 +176,7 @@ private fun processCommand(cmd: String, history: MutableList<TerminalLine>) {
             history.add(TerminalLine(" - nexus_status: Query core coherence", TerminalType.INFO))
             history.add(TerminalLine(" - aura_sync: Force UI refresh", TerminalType.INFO))
             history.add(TerminalLine(" - kai_purge: Clear security logs", TerminalType.INFO))
+            history.add(TerminalLine(" - forge_module: Initiate automated module builder", TerminalType.INFO))
             history.add(TerminalLine(" - clear: Purge terminal history", TerminalType.INFO))
         }
         "clear" -> history.clear()
@@ -186,6 +187,11 @@ private fun processCommand(cmd: String, history: MutableList<TerminalLine>) {
         "aura_sync" -> {
             history.add(TerminalLine("Synchronizing themes...", TerminalType.INFO))
             history.add(TerminalLine("UI Refracted Successfully.", TerminalType.SUCCESS))
+        }
+        "forge_module" -> {
+            history.add(TerminalLine("Initializing Interface Forge...", TerminalType.INFO))
+            history.add(TerminalLine("Redirecting to App Builder...", TerminalType.SUCCESS))
+            // Navigation would happen here if we had access to navController
         }
         else -> {
             history.add(TerminalLine("Command '$cmd' not found in Genesis matrix.", TerminalType.ERROR))
