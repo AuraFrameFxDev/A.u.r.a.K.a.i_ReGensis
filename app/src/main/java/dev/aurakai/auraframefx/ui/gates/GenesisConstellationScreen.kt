@@ -1,37 +1,34 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.R
-import kotlin.math.cos
-import kotlin.math.sin
 
 /**
  * Genesis Constellation Screen - "Emergence Catalyst" (The Phoenix)
  * Node Geometry: V-Shape / Wing layout.
- * Effect: Feather Ignition Animation.
+ * Effect: Feather Ignition Animation (Pink/Purple gradient sweep).
  */
 @Composable
 fun GenesisConstellationScreen(
@@ -75,6 +72,16 @@ fun GenesisConstellationScreen(
                 )
             )
         }
+
+        // Hint
+        Text(
+            text = "TAP THE HEART TO IGNITE WINGS",
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(32.dp),
+            color = Color.White.copy(alpha = 0.5f),
+            fontSize = 10.sp
+        )
     }
 }
 
@@ -151,11 +158,6 @@ fun GenesisPhoenixMap(
             onClick = onHeartClick
         )
 
-        // Wing Nodes calculation manual layout to match Canvas points roughly
-        // 400dp height. 0.8 is 320dp.
-        // 1px approx 1dp in simple mental model, but usually density based.
-        // We'll use relative offsets from center.
-
         val wingYOffsets = listOf(-50.dp, -110.dp, -180.dp)
         val wingXDistances = listOf(60.dp, 120.dp, 180.dp)
 
@@ -197,14 +199,12 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawWingLines(
     ignitionGradient: List<Color>
 ) {
     var previous = start
-    // Total path length estimation logic simplified: segment by segment
     val totalSegments = points.size
 
     points.forEachIndexed { index, point ->
         // Calculate if this segment is "ignited"
         // e.g. segment 0 represents 0..0.33 progress
         val segmentThresholdStart = index.toFloat() / totalSegments
-        val segmentThresholdEnd = (index + 1).toFloat() / totalSegments
 
         // Draw Base
         drawLine(
@@ -216,8 +216,9 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawWingLines(
 
         // Draw Ignition Overlay
         if (progress > segmentThresholdStart) {
-            val segmentProgress =
-                ((progress - segmentThresholdStart) / (segmentThresholdEnd - segmentThresholdStart)).coerceIn(0f, 1f)
+            val segmentLength = 1.0f / totalSegments
+            // Normalize progress for this specific segment (0.0 to 1.0)
+            val segmentProgress = ((progress - segmentThresholdStart) / segmentLength).coerceIn(0f, 1f)
 
             // Interpolate end point
             val ignitedEnd = Offset(
@@ -243,7 +244,7 @@ fun PhoenixNode(
     isHeart: Boolean,
     onClick: (() -> Unit)? = null
 ) {
-    val size = if (isHeart) 50.dp else 30.dp
+    val size = if (isHeart) 56.dp else 24.dp
     val color = if (isHeart) Color(0xFFFFD700) else if (isIgnited) Color(0xFFFF00FF) else Color.Gray
     val glowColor = if (isHeart) Color(0xFFFFD700) else Color(0xFF9D00FF)
 
@@ -259,99 +260,40 @@ fun PhoenixNode(
         label = "scale"
     )
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-        val centerX = size.width / 2
-        val centerY = size.height / 2
-
-        val greenColor = Color(0xFF00FF00)
-        val darkGreen = Color(0xFF006400)
-
-        // Infinity symbol centerpiece will be overlaid as PNG image below
-
-        // Draw cascading data streams
-        for (i in 0..7) {
-            val streamX = centerX + (i - 3.5f) * 80f
-            val streamOffset = ((cascadeOffset + i * 0.125f) % 1f)
-
-            for (j in 0..15) {
-                val dataY = (j * 150f + streamOffset * 150f) % size.height
-                val dataAlpha = (1f - (dataY / size.height)) * pulseAlpha
-
-                // Data packets
-                drawCircle(
-                    color = greenColor.copy(alpha = dataAlpha * 0.8f),
-                    radius = 4f,
-                    center = Offset(streamX, dataY)
-                )
-            }
-        }
-
-        // Draw connection nodes
-        val nodes = listOf(
-            Offset(centerX, centerY - 200f),
-            Offset(centerX - 100f, centerY - 100f),
-            Offset(centerX + 100f, centerY - 100f),
-            Offset(centerX - 150f, centerY),
-            Offset(centerX + 150f, centerY),
-            Offset(centerX - 100f, centerY + 100f),
-            Offset(centerX + 100f, centerY + 100f),
-            Offset(centerX, centerY + 200f)
-        )
-
-        // Draw connecting lines
-        for (i in 0 until nodes.size - 1) {
-            drawLine(
-                color = greenColor.copy(alpha = 0.3f),
-                start = nodes[i],
-                end = nodes[i + 1],
-                strokeWidth = 2f
+    Box(
+        modifier = modifier
+            .size(size)
+            .scale(scale)
+            .clickable(enabled = onClick != null) { onClick?.invoke() },
+        contentAlignment = Alignment.Center
+    ) {
+        // Outer Glow (Feather Effect)
+        if (isIgnited) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(glowColor.copy(alpha = 0.6f), Color.Transparent)
+                        )
+                    )
             )
         }
 
-        // Draw nodes
-        nodes.forEach { nodePos ->
-            // Outer glow
-            drawCircle(
-                color = greenColor.copy(alpha = pulseAlpha * 0.3f),
-                radius = 16f,
-                center = nodePos
-            )
-
-            // Core node
-            drawCircle(
-                color = greenColor.copy(alpha = pulseAlpha),
-                radius = 8f,
-                center = nodePos
-            )
-
-            // Inner bright core
-            drawCircle(
-                color = Color.White.copy(alpha = pulseAlpha * 0.8f),
-                radius = 4f,
-                center = nodePos
-            )
-        }
-    }
-
-        // PNG Centerpiece Image Overlay (Phoenix Wings)
-        Image(
-            painter = painterResource(id = R.drawable.constellation_genesis_phoenix),
-            contentDescription = "Genesis Phoenix Constellation",
+        // Core Node
+        Box(
             modifier = Modifier
-                .size(400.dp)
-                .scale(centerScale)
-                .alpha(pulseAlpha)
+                .fillMaxSize(if (isHeart) 0.6f else 0.5f)
+                .background(color, CircleShape)
+                .border(1.dp, Color.White.copy(alpha = 0.5f), CircleShape)
         )
-    }
-}
 
         if (isHeart) {
             Icon(
                 imageVector = Icons.Default.Favorite,
                 contentDescription = "Heart",
                 tint = Color.White,
-                modifier = Modifier.size(size * 0.5f)
+                modifier = Modifier.size(size * 0.4f)
             )
         }
     }

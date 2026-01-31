@@ -172,6 +172,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.animation)
+    implementation(libs.androidx.compose.ui.geometry)
     ksp(libs.hilt.compiler)
 
     // Core Android

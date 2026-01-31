@@ -1,31 +1,24 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
@@ -41,6 +34,7 @@ import kotlin.math.sin
  * Kai Constellation Screen - The Sentinel Catalyst (The Shield)
  * Based on 'Sentinel Catalyst' prompt.
  * Node Geometry: Radial/Concentric (1 Core, 6 Inner, 6 Outer).
+ * Mechanic: Density (Opacity increases with Security Level).
  */
 @Composable
 fun KaiConstellationScreen(
@@ -49,15 +43,26 @@ fun KaiConstellationScreen(
 ) {
     val neonGreen = Color(0xFF39FF14)
 
+    // Mock Security Level State (0f to 1f)
+    var securityLevel by remember { mutableFloatStateOf(0.3f) }
+
+    // "Density" Mechanic: Opacity of the shield container is directly bound to Security Level
+    val shieldDensity = 0.2f + (0.8f * securityLevel)
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(Color.Black),
         contentAlignment = Alignment.Center
     ) {
-        // High-fidelity background grid or glow could go here
-
-        KaiShieldNodeMap(neonGreen = neonGreen)
+        // Main Shield Container with Density Alpha
+        Box(
+            modifier = Modifier
+                .alpha(shieldDensity)
+                .scale(0.8f + (0.2f * securityLevel)) // Also grow slightly with level
+        ) {
+            KaiShieldNodeMap(neonGreen = neonGreen)
+        }
 
         // Title Info
         Column(
@@ -80,6 +85,30 @@ fun KaiConstellationScreen(
                     fontWeight = FontWeight.Light,
                     letterSpacing = 1.sp,
                     color = neonGreen.copy(alpha = 0.8f)
+                )
+            )
+        }
+
+        // Mock Control for "Security Level" to demonstrate Density mechanic
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(32.dp)
+                .fillMaxWidth(0.8f),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "SECURITY DENSITY: ${(securityLevel * 100).toInt()}%",
+                color = neonGreen,
+                fontWeight = FontWeight.Bold
+            )
+            Slider(
+                value = securityLevel,
+                onValueChange = { securityLevel = it },
+                colors = SliderDefaults.colors(
+                    thumbColor = neonGreen,
+                    activeTrackColor = neonGreen,
+                    inactiveTrackColor = Color.DarkGray
                 )
             )
         }
@@ -113,12 +142,13 @@ fun KaiShieldNodeMap(neonGreen: Color) {
             val innerRadius = size.width * 0.25f
             val outerRadius = size.width * 0.45f
 
-            // Connect Center to Inner
+            // Connect Center to Inner and Inner to Outer
             for (i in 0 until 6) {
                 val angle = Math.toRadians((i * 60).toDouble()).toFloat()
                 val endX = centerX + cos(angle) * innerRadius
                 val endY = centerY + sin(angle) * innerRadius
 
+                // Center to Inner
                 drawLine(
                     color = neonGreen.copy(alpha = 0.3f),
                     start = Offset(centerX, centerY),
@@ -136,7 +166,7 @@ fun KaiShieldNodeMap(neonGreen: Color) {
                     strokeWidth = 1f
                 )
 
-                // Connect Inner Ring neighbors
+                // Connect Inner Ring neighbors (Hexagon)
                 val nextAngle = Math.toRadians(((i + 1) * 60).toDouble()).toFloat()
                 val nextX = centerX + cos(nextAngle) * innerRadius
                 val nextY = centerY + sin(nextAngle) * innerRadius
@@ -152,8 +182,11 @@ fun KaiShieldNodeMap(neonGreen: Color) {
         // --- LAYER 2: NODES (COMPOSABLES) ---
 
         // 1. MASTER NODE (Absolute Center)
+        val masterSize = 56.dp
         ShieldNode(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(masterSize),
             color = neonGreen,
             isLocked = false,
             scale = pulseScale, // Master pulses
@@ -161,26 +194,26 @@ fun KaiShieldNodeMap(neonGreen: Color) {
         )
 
         // 2. INNER RING (6 Nodes) - Active/Unlocked
-        90.dp // Approx 0.25 of 360 size
+        val innerDistance = 90.dp
         for (i in 0 until 6) {
             val angleDeg = i * 60f
-            // Simple polar positioning
             val rad = Math.toRadians(angleDeg.toDouble())
-            val xOffset = (cos(rad) * 90).dp // Using fixed distance for Compose alignment
+            val xOffset = (cos(rad) * 90).dp
             val yOffset = (sin(rad) * 90).dp
 
             ShieldNode(
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .offset(x = xOffset, y = yOffset),
+                    .offset(x = xOffset, y = yOffset)
+                    .size(40.dp),
                 color = neonGreen,
-                isLocked = false, // Inner ring is defined as 'Active' in prompt ("Active nodes must pulse")
-                scale = 1f // Static size for ring, or pulse slightly
+                isLocked = false, // Inner ring is defined as 'Active' in prompt
+                scale = 1f
             )
         }
 
         // 3. OUTER RING (6 'Lock' Nodes) - Perimeter
-        160.dp
+        val outerDistance = 160.dp
         for (i in 0 until 6) {
             val angleDeg = i * 60f
             val rad = Math.toRadians(angleDeg.toDouble())
@@ -190,7 +223,8 @@ fun KaiShieldNodeMap(neonGreen: Color) {
             ShieldNode(
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .offset(x = xOffset, y = yOffset),
+                    .offset(x = xOffset, y = yOffset)
+                    .size(40.dp),
                 color = neonGreen.copy(alpha = 0.5f), // Dimmer
                 isLocked = true, // Prompt: "Outer Ring: 6 'Lock' nodes"
                 scale = 1f
@@ -210,10 +244,10 @@ fun ShieldNode(
     Box(
         modifier = modifier
             .scale(scale)
-            .size(40.dp)
             .clip(CircleShape)
             .background(Color.Black)
-            .border(2.dp, if (isLocked) Color.Gray else color, CircleShape),
+            .border(2.dp, if (isLocked) Color.Gray else color, CircleShape)
+            .clickable { /* Unlock Logic trigger */ },
         contentAlignment = Alignment.Center
     ) {
         if (isLocked) {
@@ -227,7 +261,7 @@ fun ShieldNode(
             // Active Node Glow
             Box(
                 modifier = Modifier
-                    .size(20.dp)
+                    .fillMaxSize(0.6f)
                     .background(color.copy(alpha = 0.8f), CircleShape)
             )
             if (icon != null) {

@@ -58,15 +58,11 @@ sealed class NavDestination(val route: String) {
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 4: TOOL SCREENS (Individual Controllers)
     // ═══════════════════════════════════════════════════════════════
-
-    // -- Aura Toolset --
     data object ThemeEngine : NavDestination("theme_engine")
     data object ChromaCoreColors : NavDestination("chroma_core_colors")
     data object NotchBar : NavDestination("notch_bar")
     data object StatusBar : NavDestination("status_bar")
     data object QuickSettings : NavDestination("quick_settings")
-    data object IconifyPicker : NavDestination("iconify_picker")
-    data object CollabCanvas : NavDestination("collab_canvas")
     data object ModuleCreation : NavDestination("module_creation")
     data object AgentCreation : NavDestination("agent_creation")
 

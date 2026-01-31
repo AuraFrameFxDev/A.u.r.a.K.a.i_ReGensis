@@ -1,72 +1,114 @@
 package dev.aurakai.auraframefx.ui.gates
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.R
 
 /**
- * Constellation Screen - Aura's Sword Map
- * Implements the "Sharpening" Mechanic.
- * Condition: Every node unlocked increases shadowElevation and glowRadius.
+ * Constellation Screen - Aura's Sword Map (The Creative Catalyst)
+ * Implements the "Sharpening" Mechanic & Vertical Node Layout.
  */
 @Composable
 fun ConstellationScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    // State for Blade Sharpness
+    // State for Blade Sharpness / Unlocked Nodes
     var unlockedNodeCount by remember { mutableIntStateOf(1) }
 
-    // Derived values for the visual metaphor
+    // Derived values for the visual metaphor (Prompt 4)
     val shadowElevation = (unlockedNodeCount * 4).dp
-    val glowIntensity = 0.5f + (unlockedNodeCount * 0.05f) // Gets brighter
     val neonCyan = Color(0xFF00FFFF)
+    val scrollState = rememberScrollState()
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black),
-        contentAlignment = Alignment.Center
+            .background(Color.Black)
     ) {
-        // Main Sword Visualization Container
-        // The blade literally gets 'sharper' (brighter/crisper edges)
-        Box(
+        // Scrollable container for the long blade (Prompt 1)
+        Column(
             modifier = Modifier
-                .align(Alignment.Center)
-                .padding(20.dp)
-                // Specific Modifier.shadow focus as requested
-                .shadow(
-                    elevation = shadowElevation,
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp), // Approximate blade shape container
-                    spotColor = neonCyan,
-                    ambientColor = neonCyan
-                )
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            AuraSwordCanvas(
-                unlockedNodes = unlockedNodeCount,
-                glowIntensity = glowIntensity,
-                onNodeClick = { unlockedNodeCount++ } // Simulating unlocking for demo
-            )
+            Spacer(modifier = Modifier.height(50.dp))
+
+            // The Sword Container
+            Box(
+                modifier = Modifier
+                    .width(400.dp) // Adjust width to fit image aspect ratio
+                    .padding(20.dp)
+                    // The "Sharpening" Mechanic: Shadow elevation increases with unlocks
+                    .shadow(
+                        elevation = shadowElevation,
+                        shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
+                        spotColor = neonCyan,
+                        ambientColor = neonCyan
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                // Background: The 'Creative Catalyst' Sword Image
+                Image(
+                    painter = painterResource(id = R.drawable.constellation_aura_sword),
+                    contentDescription = "Aura Sword Creative Catalyst",
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                // Overlay: Node Map logic
+                AuraSwordNodeMap(
+                    unlockedNodes = unlockedNodeCount,
+                    onNodeUnlock = { unlockedNodeCount++ }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(100.dp)) // Padding for scroll
         }
 
-        // Top-right corner: Agent info and level
+        // HUD: Top-right corner
         Column(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -82,276 +124,124 @@ fun ConstellationScreen(
                 )
             )
             Text(
-                text = "BLADE SHARPNESS: ${shadowElevation.value.toInt()}%",
+                text = "BLADE SHARPNESS: ${(unlockedNodeCount * 10)}%",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Light,
                     letterSpacing = 1.sp,
                     color = neonCyan.copy(alpha = 0.8f)
                 )
             )
+            Text(
+                text = "SCROLL TO VIEW BLADE",
+                style = MaterialTheme.typography.labelSmall.copy(color = Color.Gray)
+            )
         }
+    }
+}
 
-        // Simulating the "Unlocking" for user feedback
-        Text(
-            text = "TAP NODES TO SHARPEN BLADE",
+/**
+ * Map of invisible touch targets over the sword image.
+ * 5 Vertical Nodes + 2 Cross-Guard Nodes.
+ */
+@Composable
+private fun BoxScope.AuraSwordNodeMap(
+    unlockedNodes: Int,
+    onNodeUnlock: () -> Unit
+) {
+    // We assume a coordinate system relative to the image size/aspect ratio.
+    // For a 400dp width image, let's estimate positions.
+    // In a real scenario, we'd use exact %.
+
+    // Cross-Guard Nodes (Horizontal)
+    // Left Guard
+    SwordNode(
+        modifier = Modifier
+            .align(Alignment.Center)
+            .offset(x = (-120).dp, y = (-50).dp), // Approx pos
+        isUnlocked = unlockedNodes >= 6,
+        onClick = onNodeUnlock
+    )
+    // Right Guard
+    SwordNode(
+        modifier = Modifier
+            .align(Alignment.Center)
+            .offset(x = 120.dp, y = (-50).dp), // Approx pos
+        isUnlocked = unlockedNodes >= 7,
+        onClick = onNodeUnlock
+    )
+
+    // Vertical Chain (Running down the blade's fuller)
+    val startY = -150.dp // Near hilt/guard
+    val spacingY = 80.dp
+
+    for (i in 0 until 5) {
+        val yPos = startY + (spacingY * i)
+        val nodeIndex = i + 1 // 1-based index for logic
+
+        SwordNode(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(32.dp),
-            color = Color.White.copy(alpha = 0.5f),
-            fontSize = 10.sp
+                .align(Alignment.Center)
+                .offset(y = yPos),
+            isUnlocked = unlockedNodes >= nodeIndex,
+            onClick = onNodeUnlock
         )
     }
 }
 
 @Composable
-private fun AuraSwordCanvas(
-    unlockedNodes: Int,
-    glowIntensity: Float,
-    onNodeClick: () -> Unit
+fun SwordNode(
+    modifier: Modifier,
+    isUnlocked: Boolean,
+    onClick: () -> Unit
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "swordPulse")
-    val pulse by infiniteTransition.animateFloat(
-        initialValue = 0.8f * glowIntensity,
-        targetValue = 1.0f * glowIntensity,
+    val infiniteTransition = rememberInfiniteTransition(label = "nodeGlow")
+    val alpha by infiniteTransition.animateFloat(
+        initialValue = 0.5f,
+        targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
             animation = tween(1000, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "pulse"
+        label = "alpha"
     )
 
-    // Rotation for energy flow
-    val rotation by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(8000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "rotation"
-    )
-
-    // Scale pulsing for centerpiece
-    val centerScale by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.05f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "center_scale"
-    )
-
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        // Background Canvas for nodes and connections
-        Canvas(modifier = Modifier.fillMaxSize()) {
-        val centerX = size.width / 2
-        val centerY = size.height / 2
-
-        val cyanColor = Color(0xFF00FFFF)
-        val glowColor = Color(0xFF00BFFF)
-
-        // Define constellation nodes (positions relative to center)
-        val nodes = listOf(
-            // Top nodes
-            Offset(centerX - 100f, centerY - 200f),
-            Offset(centerX + 50f, centerY - 180f),
-
-            // Middle-top nodes
-            Offset(centerX - 150f, centerY - 100f),
-            Offset(centerX, centerY - 120f),
-            Offset(centerX + 150f, centerY - 80f),
-
-            // Center nodes (around sword)
-            Offset(centerX - 80f, centerY),
-            Offset(centerX + 80f, centerY),
-
-            // Middle-bottom nodes
-            Offset(centerX - 120f, centerY + 100f),
-            Offset(centerX + 60f, centerY + 120f),
-
-            // Bottom nodes
-            Offset(centerX - 50f, centerY + 200f),
-            Offset(centerX + 100f, centerY + 180f)
-        )
-
-        // Draw connecting lines between nodes
-        drawLine(
-            color = cyanColor.copy(alpha = 0.3f),
-            start = nodes[0],
-            end = nodes[3],
-            strokeWidth = 2f
-        )
-        drawLine(
-            color = cyanColor.copy(alpha = 0.3f),
-            start = nodes[3],
-            end = nodes[5],
-            strokeWidth = 2f
-        )
-        drawLine(
-            color = cyanColor.copy(alpha = 0.3f),
-            start = nodes[5],
-            end = nodes[7],
-            strokeWidth = 2f
-        )
-        drawLine(
-            color = cyanColor.copy(alpha = 0.3f),
-            start = nodes[1],
-            end = nodes[4],
-            strokeWidth = 2f
-        )
-        drawLine(
-            color = cyanColor.copy(alpha = 0.3f),
-            start = nodes[4],
-            end = nodes[6],
-            strokeWidth = 2f
-        )
-        drawLine(
-            color = cyanColor.copy(alpha = 0.3f),
-            start = nodes[6],
-            end = nodes[8],
-            strokeWidth = 2f
-        )
-
-        // Sword centerpiece will be overlaid as PNG image below
-
-        // Draw constellation nodes with pulse effect
-        nodes.forEach { nodePos ->
-            // Outer glow
-            drawCircle(
-                color = cyanColor.copy(alpha = pulseAlpha * 0.3f),
-                radius = 16f,
-                center = nodePos
+    // Invisible touch target (size 48dp for accessibility, visual is smaller or 0)
+    Box(
+        modifier = modifier
+            .size(48.dp) // Touch target size
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null // Ripple disabled as per "Invisible touch targets" but we add glow manual
+            ) { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        // Visual State: Emit Cyan Neon Glow when unlocked/tapped
+        if (isUnlocked) {
+            Box(
+                modifier = Modifier
+                    .size(20.dp)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color(0xFF00FFFF).copy(alpha = alpha),
+                                Color.Transparent
+                            )
+                        )
+                    )
             )
-
-            // Middle ring
-            drawCircle(
-                color = cyanColor.copy(alpha = pulseAlpha * 0.6f),
-                radius = 10f,
-                center = nodePos
+            // Core
+            Box(
+                modifier = Modifier
+                    .size(6.dp)
+                    .background(Color.White, androidx.compose.foundation.shape.CircleShape)
             )
-
-            // Core node
-            drawCircle(
-                color = cyanColor.copy(alpha = pulseAlpha),
-                radius = 6f,
-                center = nodePos
+        } else {
+            // Debug/Placeholder seeing: barely visible ring to know where to tap
+            Box(
+                modifier = Modifier
+                    .size(10.dp)
+                    .background(Color.Gray.copy(alpha = 0.2f), androidx.compose.foundation.shape.CircleShape)
             )
-
-            // Inner bright core
-            drawCircle(
-                color = Color.White.copy(alpha = pulseAlpha * 0.8f),
-                radius = 3f,
-                center = nodePos
-            )
-        }
-
-        // Draw floating particles
-        for (i in 0..15) {
-            val angle = (rotation + i * 24f) * (Math.PI / 180).toFloat()
-            val radius = 150f + (i % 3) * 30f
-            val particleX = centerX + cos(angle) * radius
-            val particleY = centerY + sin(angle) * radius
-            val particleAlpha = ((sin(rotation * 0.02f + i) + 1f) * 0.3f) * pulseAlpha
-
-            drawCircle(
-                color = cyanColor.copy(alpha = particleAlpha),
-                radius = 2f,
-                center = Offset(particleX, particleY)
-            )
-        }
-    }
-
-        // PNG Centerpiece Image Overlay
-        Image(
-            painter = painterResource(id = R.drawable.constellation_aura_sword),
-            contentDescription = "Aura Sword Constellation",
-            modifier = Modifier
-                .size(400.dp)
-                .scale(centerScale)
-                .alpha(pulseAlpha)
-        )
-    }
-}
-
-/**
- * Renders the sword centerpiece with an energy blade, guard, handle, pommel, glow layers, and surrounding energy particles.
- *
- * @param centerX X coordinate of the sword's center in the drawing coordinate space.
- * @param centerY Y coordinate of the sword's center in the drawing coordinate space.
- * @param rotation Rotation in degrees used to offset and animate the surrounding energy particles.
- * @param color Primary color for the blade, guard, handle, and core elements.
- * @param glowColor Accent color used for glow layers and highlights around the sword.
- */
-private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawSword(
-    centerX: Float,
-    centerY: Float,
-    rotation: Float,
-    color: Color,
-    glowColor: Color
-) {
-    val swordLength = 250f
-    val swordWidth = 8f
-    val handleLength = 60f
-    val guardWidth = 50f
-
-        // Draw the Blade Core (Visual Metaphor for becoming 'crisper')
-        val bladePath = androidx.compose.ui.graphics.Path().apply {
-            moveTo(centerX, 20f) // Tip
-            lineTo(centerX + 30f, height - 100f)
-            lineTo(centerX, height - 80f)
-            lineTo(centerX - 30f, height - 100f)
-            close()
-        }
-
-        // Outer Glow (Sharpening Effect)
-        drawPath(
-            path = bladePath,
-            brush = Brush.radialGradient(
-                colors = listOf(
-                    Color.Cyan.copy(alpha = pulse),
-                    Color.Transparent
-                ),
-                radius = 300f
-            )
-        )
-
-        // Inner Steel
-        drawPath(
-            path = bladePath,
-            color = Color.White.copy(alpha = 0.9f),
-            style = Stroke(width = if (unlockedNodes > 5) 1f else 3f) // Thinner stroke = sharper look? Or just brighter fill.
-        )
-        drawPath(
-            path = bladePath,
-            color = Color.Cyan.copy(alpha = 0.3f),
-        )
-
-        // Draw Nodes on the blade (Condition: Unlock Nodes)
-        val nodeCount = 10
-        val startY = 50f
-        val endY = height - 120f
-
-        for (i in 0 until nodeCount) {
-            val progress = i.toFloat() / (nodeCount - 1)
-            val y = startY + (endY - startY) * progress
-
-            val isUnlocked = i < unlockedNodes
-            val color = if (isUnlocked) Color.Cyan else Color.Gray
-
-            drawCircle(
-                color = color,
-                radius = if (isUnlocked) 8f else 5f,
-                center = Offset(centerX, y)
-            )
-
-            if (isUnlocked) {
-                drawCircle(
-                    color = Color.White,
-                    radius = 3f,
-                    center = Offset(centerX, y)
-                )
-            }
         }
     }
 }
