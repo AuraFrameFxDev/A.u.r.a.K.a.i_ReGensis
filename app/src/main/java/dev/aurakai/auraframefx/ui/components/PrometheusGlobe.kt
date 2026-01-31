@@ -36,7 +36,6 @@ import kotlin.math.sin
 fun PrometheusGlobe(
     color: Color,
     pulseIntensity: Float,
-    onTap: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "GlobeRotation")
