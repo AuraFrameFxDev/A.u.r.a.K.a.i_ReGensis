@@ -77,6 +77,7 @@ import dev.aurakai.auraframefx.ui.gates.TutorialVideosScreen
 import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
 import dev.aurakai.auraframefx.domains.aura.screens.InstantColorPickerScreen
 import dev.aurakai.auraframefx.domains.aura.screens.GyroscopeCustomizationScreen
+import dev.aurakai.auraframefx.hotswap.HotSwapScreen
 import dev.aurakai.auraframefx.ui.identity.GenderSelectionNavigator
 import dev.aurakai.auraframefx.ui.screens.AgentProfileScreen
 import dev.aurakai.auraframefx.ui.screens.EcosystemMenuScreen
@@ -190,6 +191,7 @@ fun AppNavGraph(navController: NavHostController) {
         // Level 2: Help Services
         composable(route = "help_gate") {
              val items = listOf(
+                Level2GateItem("Hot Swap", "Edit Gates/Assets", Icons.Filled.SwapHoriz, NavDestination.HotSwap.route),
                 Level2GateItem("Live Help", "Chat Support", Icons.Filled.Support, NavDestination.LiveSupport.route),
                 Level2GateItem("Documentation", "User Guides", Icons.Filled.Description, NavDestination.Documentation.route),
                 Level2GateItem("Wiki/GitHub", "Community Knowledge", Icons.Filled.Groups, NavDestination.FAQBrowser.route),
@@ -238,6 +240,10 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = NavDestination.UISettings.route) {
             UISettingsScreen(navController = navController)
+        }
+
+        composable(route = NavDestination.HotSwap.route) {
+            HotSwapScreen(navController = navController)
         }
 
         // ==================== AGENT HUB ====================

@@ -29,6 +29,9 @@ sealed class NavDestination(val route: String, val title: String, val icon: Imag
     object UISettings : NavDestination("ui_settings", "UI Settings", null)
     object JournalPDA : NavDestination("journal_pda", "Journal", null)
 
+    // Hot Swap System - Runtime Configuration Editor
+    object HotSwap : NavDestination("hotswap", "Hot Swap Control", null)
+
     // Agent Hub
     object AgentHub : NavDestination("agent_hub", "Agent Hub", null)
     object DirectChat : NavDestination("direct_chat", "Direct Chat", null)
