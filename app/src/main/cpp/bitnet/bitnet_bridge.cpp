@@ -9,7 +9,8 @@
 // Static instance for the session
 static BitNetModel* model = nullptr;
 
-extern "C" JNIEXPORT jstring JNICALL
+extern "C" {
+JNIEXPORT jstring JNICALL
 Java_dev_aurakai_auraframefx_services_BitNetLocalService_generateLocalResponse(
     JNIEnv* env,
     jobject /* this */,
@@ -47,4 +48,5 @@ Java_dev_aurakai_auraframefx_services_BitNetLocalService_generateLocalResponse(
     env->ReleaseStringUTFChars(j_prompt, prompt_cstr);
 
     return env->NewStringUTF(response.c_str());
+}
 }
