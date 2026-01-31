@@ -225,9 +225,12 @@ private fun SubGateCardView(
 // ═══════════════════════════════════════════════════════════════════════════
 
 /**
- * 🎨 AURA'S SUB-GATES
- * Style A: "CollabCanvas" - Paint splashes, neon drips, artistic chaos
- * Style B: "Clean Studio" - Sleek gradients, minimalist design tools
+ * Provide the list of Aura-domain sub-gate cards used by the UI carousel.
+ *
+ * Each entry describes a sub-gate with dual-style drawable names (style A and style B),
+ * an optional legacy fallback drawable name, a navigation route, and an accent color.
+ *
+ * @return A list of SubGateCard objects representing Aura's sub-gates.
  */
 fun getAuraSubGates() = listOf(
     SubGateCard(
