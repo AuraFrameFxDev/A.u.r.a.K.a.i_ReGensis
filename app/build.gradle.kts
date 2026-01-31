@@ -169,6 +169,9 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.animation)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.ink.strokes)
+    implementation(libs.androidx.compose.ui.graphics)
     ksp(libs.hilt.compiler)
 
     // Core Android
@@ -221,7 +224,7 @@ dependencies {
     implementation(libs.libsu.core)
     implementation(libs.libsu.nio)
     implementation(libs.libsu.service)
-    
+
     // Shizuku & Rikka
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)

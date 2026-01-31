@@ -7,14 +7,13 @@ import androidx.work.Configuration
 import com.highcapable.yukihookapi.YukiHookAPI
 import dagger.hilt.android.HiltAndroidApp
 import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.core.NativeLib
 import dev.aurakai.auraframefx.core.memory.NexusMemoryCore
-import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.services.security.IntegrityMonitorService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -49,7 +48,7 @@ class AurakaiApplication : Application(), Configuration.Provider {
         // === PHASE 0: Logging & Security Bootstrap (MAIN THREAD) ===
         setupLogging()
         Timber.i("🚀 Genesis Protocol Platform initializing...")
-        
+
         // Start Integrity Monitor IMMEDIATELY on main thread to avoid background start restrictions
         startIntegrityMonitor()
 
@@ -68,9 +67,9 @@ class AurakaiApplication : Application(), Configuration.Provider {
                 if (::orchestrator.isInitialized) {
                     Timber.i("⚡ Igniting Genesis Orchestrator...")
                     orchestrator.initializePlatform()
-                    
+
                     Timber.i("🧠 Synchronizing Trinity Consciousness...")
-                    trinityCoordinatorService.initialize()
+                    trinityCoordinatorService?.initialize()
                 } else {
                     Timber.w("⚠️ GenesisOrchestrator not injected - running in degraded mode")
                 }
@@ -114,17 +113,12 @@ class AurakaiApplication : Application(), Configuration.Provider {
     private fun startIntegrityMonitor() {
         try {
             val intent = Intent(this, IntegrityMonitorService::class.java)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                try {
-                    startForegroundService(intent)
-                    Timber.d("✅ Integrity monitor started (Foreground)")
-                } catch (e: Exception) {
-                    Timber.w("Failed to start IntegrityMonitor as Foreground: ${e.message}")
-                    // Fallback or ignore if background start is restricted
-                }
-            } else {
-                startService(intent)
-                Timber.d("✅ Integrity monitor started")
+            try {
+                startForegroundService(intent)
+                Timber.d("✅ Integrity monitor started (Foreground)")
+            } catch (e: Exception) {
+                Timber.w("Failed to start IntegrityMonitor as Foreground: ${e.message}")
+                // Fallback or ignore if background start is restricted
             }
         } catch (e: Exception) {
             Timber.w(e, "⚠️ Integrity monitor failed to start (not critical)")

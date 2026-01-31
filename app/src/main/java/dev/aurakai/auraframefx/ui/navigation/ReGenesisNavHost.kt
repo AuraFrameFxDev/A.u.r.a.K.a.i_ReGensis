@@ -2,9 +2,9 @@ package dev.aurakai.auraframefx.ui.navigation
 
 // Domain Screens
 
-// Gate/Hub Screens
+// Aura Module Screens
 
-// Aura Domain Screens
+// Gate/Hub Screens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
@@ -15,20 +15,23 @@ import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.aura.ui.TerminalScreen
 import dev.aurakai.auraframefx.aura.ui.VPNManagerScreen
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
+import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ConferenceRoomScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
+import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
 import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskScreen
-import dev.aurakai.auraframefx.domains.aura.screens.IconifyPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.InstantColorPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
 import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
 import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
+import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
 import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
 import dev.aurakai.auraframefx.ui.gates.AgentBridgeHubScreen
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.ArkBuildScreen
@@ -36,14 +39,15 @@ import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
 import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
 import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
+import dev.aurakai.auraframefx.ui.gates.GyroscopeCustomizationScreen
 import dev.aurakai.auraframefx.ui.gates.HookManagerScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.ui.gates.LSPosedGateScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedModuleManagerScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.LiveROMEditorScreen
@@ -53,10 +57,13 @@ import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
 import dev.aurakai.auraframefx.ui.gates.OracleCloudInfiniteStorageScreen
 import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
+import dev.aurakai.auraframefx.ui.gates.OverlayMenusScreen
+import dev.aurakai.auraframefx.ui.gates.QuickActionsScreen
 import dev.aurakai.auraframefx.ui.gates.ROMFlasherScreen
 import dev.aurakai.auraframefx.ui.gates.RecoveryToolsScreen
 import dev.aurakai.auraframefx.ui.gates.RootToolsTogglesScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignBootloaderScreen
+import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignModuleManagerScreen
@@ -64,6 +71,7 @@ import dev.aurakai.auraframefx.ui.gates.SovereignMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignShieldScreen
 import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
+import dev.aurakai.auraframefx.ui.gates.SystemJournalScreen
 import dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen
 import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 import dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen
@@ -120,7 +128,7 @@ fun ReGenesisNavHost(
         }
 
         // AGENT NEXUS: Multi-Agent Hub
-        composable(NavDestination.AgentNexus.route) {
+        composable(NavDestination.AgentNexusHub.route) {
             AgentNexusHubScreen(navController = navController)
         }
 
@@ -132,15 +140,19 @@ fun ReGenesisNavHost(
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 3: AURA'S TOOLS (Design & Creativity)
         // ═══════════════════════════════════════════════════════════════
-        composable(NavDestination.ThemeEngine.route) {
-            ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable(NavDestination.ChromaCoreColors.route) {
-            ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable(NavDestination.IconifyPicker.route) {
-            IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
-        }
+
+        // Customization Apps Integration
+        auraCustomizationNavigation(navController, onNavigateBack = { navController.popBackStack() })
+
+        // composable(NavDestination.ThemeEngine.route) {
+        //     ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
+        // }
+        // composable(NavDestination.ChromaCoreColors.route) {
+        //     ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
+        // }
+        // composable(NavDestination.IconifyPicker.route) {
+        //     IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
+        // }
         composable(NavDestination.NotchBar.route) {
             NotchBarScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -150,11 +162,26 @@ fun ReGenesisNavHost(
         composable(NavDestination.QuickSettings.route) {
             QuickSettingsScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(NavDestination.CollabCanvas.route) {
-            CollabCanvasScreen(onNavigateBack = { navController.popBackStack() })
-        }
+        // composable(NavDestination.CollabCanvas.route) {
+        //     CollabCanvasScreen(onNavigateBack = { navController.popBackStack() })
+        // }
         composable(NavDestination.AuraLab.route) {
             AuraLabScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.OverlayMenus.route) {
+            OverlayMenusScreen(navController = navController)
+        }
+        composable(NavDestination.Gyroscope.route) {
+            GyroscopeCustomizationScreen(navController = navController)
+        }
+        composable(NavDestination.GenderSelection.route) {
+            GenderSelectionScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.UserPreferences.route) {
+            UserPreferencesScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.InstantColorPicker.route) {
+            InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -198,6 +225,15 @@ fun ReGenesisNavHost(
         }
         composable(NavDestination.SystemToolsHub.route) {
             LogsViewerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.QuickActions.route) {
+            QuickActionsScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.SystemJournal.route) {
+            SystemJournalScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.LSPosedPanel.route) {
+            LSPosedGateScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -252,28 +288,49 @@ fun ReGenesisNavHost(
         composable(NavDestination.MetaInstruct.route) {
             SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() })
         }
+        composable(NavDestination.AgentProfile.route) {
+            AgentProfileScreen(onNavigateBack = { navController.popBackStack() })
+        }
 
         // Individual Agent Constellation Screens
-        composable(NavDestination.GenesisConstellation.route) {
+        composable(NavDestination.GenesisAgent.route) {
             GenesisConstellationScreen(navController = navController)
         }
-        composable(NavDestination.ClaudeConstellation.route) {
+        composable(NavDestination.ClaudeAgent.route) {
             ClaudeConstellationScreen(navController = navController)
         }
-        composable(NavDestination.KaiConstellation.route) {
+        composable(NavDestination.KaiAgent.route) {
             KaiConstellationScreen(navController = navController)
         }
-        composable(NavDestination.CascadeConstellation.route) {
+        composable(NavDestination.CascadeAgent.route) {
             CascadeConstellationScreen(navController = navController)
         }
-        composable(NavDestination.GrokConstellation.route) {
+        composable(NavDestination.GrokAgent.route) {
             GrokConstellationScreen(navController = navController)
+        }
+        composable(NavDestination.NemotronAgent.route) {
+            SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.GeminiAgent.route) {
+            SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.Gemini.route) {
+            SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.Nemotron.route) {
             SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(NavDestination.Gemini.route) {
-            SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.Claude.route) {
+            SovereignClaudeScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.SwarmMonitor.route) {
+            SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.BenchmarkMonitor.route) {
+            SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.AgentCreation.route) {
+            ModuleCreationScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -291,6 +348,9 @@ fun ReGenesisNavHost(
         composable(NavDestination.TutorialVideos.route) {
             TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
         }
+        composable(NavDestination.LiveSupport.route) {
+            LiveSupportChatScreen(onNavigateBack = { navController.popBackStack() })
+        }
 
         // ═══════════════════════════════════════════════════════════════
         // UTILITY SCREENS
@@ -306,3 +366,4 @@ fun ReGenesisNavHost(
         }
     }
 }
+

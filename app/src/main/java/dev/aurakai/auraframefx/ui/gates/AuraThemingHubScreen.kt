@@ -2,8 +2,16 @@ package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -11,8 +19,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Brush
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,14 +42,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.config.GateAssetConfig
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.components.WoodsyPlainsBackground
+import dev.aurakai.auraframefx.ui.components.ThemingCard
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
- * 🎨 AURA THEME ENGINE HUB (Level 3)
- * The main control panel for the entire theming and UI customization suite.
- * High-fidelity, framework-style consolidated entry point.
+ * 🎨 AURA'S UXUI DESIGN STUDIO (Level 2 Hub)
+ *
+ * Features a grid of design tools.
+ * Control all system-level design parameters from this centralized hub.
  */
 
 data class ThemingToolCard(
@@ -43,7 +65,7 @@ data class ThemingToolCard(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AuraThemingHubScreen(navController: NavController) {
-    
+
     val tools = listOf(
         ThemingToolCard(
             title = "ChromaCore Colors",
@@ -88,36 +110,62 @@ fun AuraThemingHubScreen(navController: NavController) {
             accentColor = Color(0xFF00E5FF)
         ),
         ThemingToolCard(
-            title = "Iconify Picker",
-            subtitle = "Service Injection (TODO)",
+            title = "Iconify Hub",
+            subtitle = "Custom Icon Engine & Injection",
             destination = NavDestination.IconifyPicker,
-            isWired = false,
-            accentColor = Color.Gray
+            accentColor = Color(0xFFB026FF)
+        ),
+        ThemingToolCard(
+            title = "Overlay Systems",
+            subtitle = "Floating Bubbles & Sidebars",
+            destination = NavDestination.OverlayMenus,
+            accentColor = Color(0xFFFF4500)
+        ),
+        ThemingToolCard(
+            title = "Kinetic Engine",
+            subtitle = "3D Gyroscope Calibration",
+            destination = NavDestination.Gyroscope,
+            accentColor = Color(0xFF00E5FF)
         )
     )
 
+    var useStyleB by remember {
+        mutableStateOf(GateAssetConfig.StyleMode.auraStyle == GateAssetConfig.GateStyle.STYLE_B)
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
-        // High-Fidelity Background
-        WoodsyPlainsBackground()
-        
-        // Semi-transparent Overlay for "Studio" feel
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.4f)))
+        // Artistic Background
+        dev.aurakai.auraframefx.ui.components.PaintSplashBackground()
+
+        // Overlay for depth
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color.Black.copy(alpha = 0.3f),
+                            Color.Black.copy(alpha = 0.7f)
+                        )
+                    )
+                )
+        )
 
         Scaffold(
             containerColor = Color.Transparent,
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { 
+                    title = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                "UI DESIGN STUDIO", 
-                                fontFamily = LEDFontFamily, 
+                                "UI DESIGN STUDIO",
+                                fontFamily = LEDFontFamily,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White,
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "THEMING ENGINE SUITE", 
+                                "AURA'S CREATIVE DOMAIN",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFFFF00FF)
                             )
@@ -126,6 +174,18 @@ fun AuraThemingHubScreen(navController: NavController) {
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            useStyleB = !useStyleB
+                            GateAssetConfig.toggleAuraStyle()
+                        }) {
+                            Icon(
+                                Icons.Default.SwapHoriz,
+                                "Toggle Style",
+                                tint = Color(0xFF00E5FF)
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -175,64 +235,6 @@ fun AuraThemingHubScreen(navController: NavController) {
                         }
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun ThemingCard(tool: ThemingToolCard, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(140.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .clickable(onClick = onClick)
-            .border(
-                width = 1.dp,
-                brush = Brush.verticalGradient(
-                    listOf(tool.accentColor.copy(alpha = 0.5f), Color.Transparent)
-                ),
-                shape = RoundedCornerShape(20.dp)
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Black.copy(alpha = 0.6f)
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(tool.accentColor.copy(alpha = 0.2f))
-                    .border(1.dp, tool.accentColor.copy(alpha = 0.4f), RoundedCornerShape(10.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    Icons.Default.Brush, // Generic icon for now
-                    null,
-                    tint = tool.accentColor,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            
-            Column {
-                Text(
-                    text = tool.title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = tool.subtitle,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = if (tool.isWired) Color.White.copy(alpha = 0.6f) else Color.Red.copy(alpha = 0.6f)
-                )
             }
         }
     }

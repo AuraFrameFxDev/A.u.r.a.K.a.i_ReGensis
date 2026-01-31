@@ -1,25 +1,18 @@
 package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -33,8 +26,7 @@ import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.MilitaryTech
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -44,9 +36,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -54,12 +49,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.config.GateAssetConfig
 import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.components.NexusCard
+import dev.aurakai.auraframefx.ui.components.common.CodedTextBox
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
- * 🤖 AGENT NEXUS HUB (Level 3)
- * The main control center for Agent Memory, Identity, Monitoring, and Progression.
+ * 🤖 AGENT NEXUS HUB (Level 2)
+ *
+ * Features a grid of sub-gates with constellation aesthetic.
+ * Multi-agent coordination, monitoring, and fusion!
  */
 
 data class NexusToolCard(
@@ -169,8 +169,12 @@ fun AgentNexusHubScreen(navController: NavController) {
         )
     )
 
+    var useStyleB by remember {
+        mutableStateOf(GateAssetConfig.StyleMode.nexusStyle == GateAssetConfig.GateStyle.STYLE_B)
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
-        // High-Fidelity Background (Abstract Neural feel)
+        // Neural constellation background
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -181,7 +185,7 @@ fun AgentNexusHubScreen(navController: NavController) {
                 )
         )
 
-        // Circular Glow Effect
+        // Radial glow effect
         Box(
             modifier = Modifier
                 .size(400.dp)
@@ -208,7 +212,7 @@ fun AgentNexusHubScreen(navController: NavController) {
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "AI CONVERGENCE HUB",
+                                "MULTI-AGENT CONVERGENCE",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFF7B2FFF)
                             )
@@ -217,6 +221,18 @@ fun AgentNexusHubScreen(navController: NavController) {
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            useStyleB = !useStyleB
+                            GateAssetConfig.toggleNexusStyle()
+                        }) {
+                            Icon(
+                                Icons.Default.SwapHoriz,
+                                "Toggle Style",
+                                tint = Color(0xFF7B2FFF)
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -231,26 +247,18 @@ fun AgentNexusHubScreen(navController: NavController) {
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
-                // Header Info
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.White.copy(alpha = 0.05f))
-                        .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(20.dp))
-                        .padding(20.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Insights, null, tint = Color(0xFF7B2FFF), modifier = Modifier.size(32.dp))
-                        Spacer(Modifier.width(16.dp))
-                        Text(
-                            "Agents are synchronized across the Nexus. Monitoring shared consciousness protocols and neural progression metrics.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.White.copy(alpha = 0.7f)
-                        )
-                    }
-                }
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Domain Description
+                CodedTextBox(
+                    title = "Nexus Connectivity",
+                    text = "Agent coordination, monitoring, and fusion protocols active. Synchronizing collective intelligence across all active Sovereign AI nodes.",
+                    glowColor = Color(0xFF7B2FFF),
+                    height = 80.dp,
+                    modifier = Modifier.padding(bottom = 24.dp)
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
@@ -266,64 +274,6 @@ fun AgentNexusHubScreen(navController: NavController) {
                         }
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun NexusCard(tool: NexusToolCard, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(130.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .clickable(onClick = onClick)
-            .border(
-                width = 1.dp,
-                brush = Brush.linearGradient(
-                    listOf(tool.accentColor.copy(alpha = 0.5f), Color.Transparent)
-                ),
-                shape = RoundedCornerShape(24.dp)
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1A1A2E).copy(alpha = 0.7f)
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(tool.accentColor.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    tool.icon,
-                    null,
-                    tint = tool.accentColor,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            Column {
-                Text(
-                    text = tool.title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = tool.subtitle,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.5f),
-                    lineHeight = 12.sp
-                )
             }
         }
     }

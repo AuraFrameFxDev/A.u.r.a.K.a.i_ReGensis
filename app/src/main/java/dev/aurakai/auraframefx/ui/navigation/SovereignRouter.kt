@@ -1,7 +1,15 @@
 package dev.aurakai.auraframefx.ui.navigation
 
-import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+import android.annotation.SuppressLint
 import androidx.compose.ui.graphics.Color
+import dev.aurakai.auraframefx.ui.theme.SovereignTeal
+
+/**
+ * 🗺️ SOVEREIGN ROUTER
+ *
+ * Dynamically defines the 11 main routes for the ExodusHUD.
+ * Connects page indices to metadata, assets, and colors.
+ */
 
 data class SovereignRoute(
     val id: String,
@@ -12,6 +20,7 @@ data class SovereignRoute(
 )
 
 object SovereignRouter {
+    @SuppressLint("SdCardPath")
     private const val BASE_PATH = "file:///sdcard/Pictures/Screenshots/"
 
     private val routes = listOf(
@@ -83,30 +92,13 @@ object SovereignRouter {
         )
     )
 
-    /**
-     * Retrieves the route corresponding to the given page index.
-     *
-     * @param page Zero-based index of the desired route.
-     * @return The route at the given index, or the first route if the index is out of bounds.
-     */
     fun fromPage(page: Int): SovereignRoute {
         return routes.getOrElse(page) { routes.first() }
     }
 
-    /**
-     * Finds the SovereignRoute with the given id.
-     *
-     * @param id The route identifier to match.
-     * @return The SovereignRoute with the matching id, or `null` if none is found.
-     */
     fun getById(id: String): SovereignRoute? {
         return routes.find { it.id == id }
     }
 
-    /**
- * Gets the number of available sovereign routes.
- *
- * @return The total number of routes.
- */
-fun getCount(): Int = routes.size
+    fun getCount(): Int = routes.size
 }
