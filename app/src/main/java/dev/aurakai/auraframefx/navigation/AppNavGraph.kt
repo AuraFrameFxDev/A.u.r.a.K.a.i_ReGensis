@@ -115,49 +115,72 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
-        // Level 2: Aura Gate - Wild Chaos Creative Domain
+        // Level 2: AURA GATE - THE FACE (All UI/UX, Visual Design, Customization)
         composable(route = "aura_gate") {
             val items = listOf(
-                Level2GateItem("UI/UX Design", "ChromaCore", Icons.Filled.Palette, NavDestination.UIUXDesignStudio.route),
-                Level2GateItem("Theme Engine", "Colors & Fonts", Icons.Filled.ColorLens, NavDestination.ThemeEngine.route),
-                Level2GateItem("Iconify", "250K Icons", Icons.Filled.ViewQuilt, NavDestination.IconifyPicker.route),
-                Level2GateItem("Aura's Lab", "Wild Studio", Icons.Filled.ViewQuilt, NavDestination.AurasLab.route),
-                Level2GateItem("Status Bar", "Top Bar", Icons.Filled.Palette, NavDestination.StatusBar.route),
-                Level2GateItem("Notch Bar", "Display Notch", Icons.Filled.Palette, NavDestination.NotchBar.route)
+                Level2GateItem("ChromaCore", "System Colors", Icons.Filled.ColorLens, NavDestination.ChromaCoreColors.route),
+                Level2GateItem("UI/UX Studio", "Design Hub", Icons.Filled.Palette, NavDestination.UIUXDesignStudio.route),
+                Level2GateItem("Theme Engine", "Styles & Fonts", Icons.Filled.Palette, NavDestination.ThemeEngine.route),
+                Level2GateItem("Iconify", "250K+ Icons", Icons.Filled.ViewQuilt, NavDestination.IconifyPicker.route),
+                Level2GateItem("Status Bar", "Top Bar Style", Icons.Filled.Palette, NavDestination.StatusBar.route),
+                Level2GateItem("Notch Bar", "Display Notch", Icons.Filled.Palette, NavDestination.NotchBar.route),
+                Level2GateItem("Quick Settings", "QS Tiles", Icons.Filled.Palette, NavDestination.QuickSettings.route),
+                Level2GateItem("Overlay Menus", "Floating UI", Icons.Filled.ViewQuilt, NavDestination.OverlayMenus.route),
+                Level2GateItem("3D Lab", "Gyro Editor", Icons.Filled.ViewQuilt, "gyroscope_customization"),
+                Level2GateItem("Aura's Lab", "Wild Studio", Icons.Filled.Palette, NavDestination.AurasLab.route),
+                Level2GateItem("Component Edit", "UI Editor", Icons.Filled.Palette, NavDestination.ComponentEditor.route),
+                Level2GateItem("Z-Order Edit", "Layer Control", Icons.Filled.ViewQuilt, NavDestination.ZOrderEditor.route)
             )
             Level2GateScreen(navController, "AURA GATE", items, onBack = { navController.popBackStack() })
         }
 
-        // Level 2: Kai Gate - Security Fortress Domain
+        // Level 2: KAI GATE - ROOT TOOLS (Bootloader, ROM, Security, Hooks)
         composable(route = "kai_gate") {
             val items = listOf(
                 Level2GateItem("LSPosed", "1440 Hooks", Icons.Filled.Extension, NavDestination.LSPosedGate.route),
-                Level2GateItem("ROM Tools", "System Flash", Icons.Filled.Build, NavDestination.ROMTools.route),
-                Level2GateItem("System Override", "God Mode", Icons.Filled.Security, NavDestination.SystemOverrides.route),
-                Level2GateItem("Hook Manager", "Xposed Hooks", Icons.Filled.Extension, NavDestination.HookManager.route),
+                Level2GateItem("Hook Manager", "Xposed Mgmt", Icons.Filled.Extension, NavDestination.HookManager.route),
                 Level2GateItem("Module Manager", "LSP Modules", Icons.Filled.Extension, NavDestination.ModuleManager.route),
+                Level2GateItem("Module Create", "New Module", Icons.Filled.Extension, NavDestination.ModuleCreation.route),
+                Level2GateItem("ROM Tools", "ROM Editor", Icons.Filled.Build, NavDestination.ROMTools.route),
+                Level2GateItem("ROM Flasher", "System Flash", Icons.Filled.Build, NavDestination.ROMFlasher.route),
+                Level2GateItem("Bootloader", "Boot Mgmt", Icons.Filled.Build, NavDestination.BootloaderManager.route),
+                Level2GateItem("Recovery", "TWRP Tools", Icons.Filled.Build, NavDestination.RecoveryTools.route),
+                Level2GateItem("System Override", "God Mode", Icons.Filled.Security, NavDestination.SystemOverrides.route),
                 Level2GateItem("Logs Viewer", "System Logs", Icons.Filled.Terminal, NavDestination.LogsViewer.route)
             )
             Level2GateScreen(navController, "KAI GATE", items, onBack = { navController.popBackStack() })
         }
 
-        // Level 2: Genesis Gate - Oracle Drive Backend Domain
+        // Level 2: GENESIS GATE - ORCHESTRATION (Agent Creation, Module Creator, Backend)
         composable(route = "genesis_gate") {
             val items = listOf(
-                Level2GateItem("Conference Room", "6 Agents", Icons.Filled.Groups, NavDestination.CONFERENCE_ROOM),
-                Level2GateItem("Code Assist", "AI Developer", Icons.Filled.Code, NavDestination.CodeAssist.route),
-                Level2GateItem("Oracle Drive", "Data Core", Icons.Filled.Storage, NavDestination.OracleDrive.route),
+                Level2GateItem("Conference", "6 Agents", Icons.Filled.Groups, NavDestination.CONFERENCE_ROOM),
                 Level2GateItem("Agent Fusion", "Trinity Mode", Icons.Filled.Groups, NavDestination.FusionMode.route),
                 Level2GateItem("Direct Chat", "Agent Talk", Icons.Filled.Groups, NavDestination.DirectChat.route),
-                Level2GateItem("System Override", "Emergency", Icons.Filled.Security, NavDestination.SystemOverrides.route)
+                Level2GateItem("Code Assist", "AI Dev", Icons.Filled.Code, NavDestination.CodeAssist.route),
+                Level2GateItem("Oracle Drive", "Data Core", Icons.Filled.Storage, NavDestination.OracleDrive.route),
+                Level2GateItem("Module Create", "Gen Module", Icons.Filled.Extension, NavDestination.ModuleCreation.route)
             )
             Level2GateScreen(navController, "GENESIS GATE", items, onBack = { navController.popBackStack() })
         }
 
-        // Level 2: Agent Nexus (Direct Features)
+        // Level 2: CASCADE HUB - SPECIAL FUSION TOOLS
+        composable(route = "cascade_gate") {
+            val items = listOf(
+                Level2GateItem("Cascade Vision", "Dashboard", Icons.Filled.ViewQuilt, NavDestination.CascadeConstellation.route),
+                Level2GateItem("Agent Fusion", "Trinity Mode", Icons.Filled.Groups, NavDestination.FusionMode.route),
+                Level2GateItem("Consensus", "Vote System", Icons.Filled.Groups, NavDestination.FusionMode.route),
+                Level2GateItem("Trait Editor", "Personalities", Icons.Filled.Palette, NavDestination.AurasLab.route),
+                Level2GateItem("Learning Models", "Evolution", Icons.Filled.Groups, NavDestination.Evolution.route),
+                Level2GateItem("Blueprint", "Agent Factory", Icons.Filled.Groups, NavDestination.AgentNexus.route)
+            )
+            Level2GateScreen(navController, "CASCADE HUB", items, onBack = { navController.popBackStack() })
+        }
+
+        // Level 2: AGENT NEXUS - MONITORING & PROGRESSION
         composable(route = "agent_nexus") {
-            // "Features (Level 2 - no cards, direct access)" -> Direct to AgentHub for now as it aggregates them
-             AgentHubSubmenuScreen(navController = navController)
+            // Direct to Agent Nexus screen with stats, monitoring, progression
+             AgentNexusScreen()
         }
 
         // Level 2: Help Services

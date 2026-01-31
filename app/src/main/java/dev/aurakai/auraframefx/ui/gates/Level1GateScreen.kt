@@ -68,13 +68,14 @@ fun Level1GateScreen(
                 modifier = Modifier.padding(vertical = 32.dp)
             )
 
-            // 5 Main Gates List (CORRECT ORDER: Help Services at TOP)
+            // 6 Main Gates List (CORRECT ORDER: Help Services at TOP)
             val gates = listOf(
                 Level1GateItem("HELP SERVICES", "LDO Control Center", Color.Cyan, "help_gate"),
-                Level1GateItem("AURA GATE", "Wild Chaos", AgentColors.Aura, "aura_gate"),
-                Level1GateItem("KAI GATE", "Sentinels Fortress", AgentColors.Kai, "kai_gate"),
-                Level1GateItem("GENESIS GATE", "OracleDrive", AgentColors.Genesis, "genesis_gate"),
-                Level1GateItem("AGENT NEXUS", "Home Base", AgentColors.AgentNexus, "agent_nexus")
+                Level1GateItem("AURA GATE", "The Face - UI/UX", AgentColors.Aura, "aura_gate"),
+                Level1GateItem("KAI GATE", "Root Fortress", AgentColors.Kai, "kai_gate"),
+                Level1GateItem("GENESIS GATE", "Orchestration", AgentColors.Genesis, "genesis_gate"),
+                Level1GateItem("CASCADE HUB", "Fusion Tools", AgentColors.Cascade, "cascade_gate"),
+                Level1GateItem("AGENT NEXUS", "Monitoring", AgentColors.AgentNexus, "agent_nexus")
             )
 
             LazyVerticalGrid(
