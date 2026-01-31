@@ -75,6 +75,8 @@ import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 import dev.aurakai.auraframefx.ui.gates.ThemeEngineScreen
 import dev.aurakai.auraframefx.ui.gates.TutorialVideosScreen
 import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
+import dev.aurakai.auraframefx.domains.aura.screens.InstantColorPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.GyroscopeCustomizationScreen
 import dev.aurakai.auraframefx.ui.identity.GenderSelectionNavigator
 import dev.aurakai.auraframefx.ui.screens.AgentProfileScreen
 import dev.aurakai.auraframefx.ui.screens.EcosystemMenuScreen
@@ -122,14 +124,16 @@ fun AppNavGraph(navController: NavHostController) {
                 Level2GateItem("UI/UX Studio", "Design Hub", Icons.Filled.Palette, NavDestination.UIUXDesignStudio.route),
                 Level2GateItem("Theme Engine", "Styles & Fonts", Icons.Filled.Palette, NavDestination.ThemeEngine.route),
                 Level2GateItem("Iconify", "250K+ Icons", Icons.Filled.ViewQuilt, NavDestination.IconifyPicker.route),
-                Level2GateItem("Status Bar", "Top Bar Style", Icons.Filled.Palette, NavDestination.StatusBar.route),
-                Level2GateItem("Notch Bar", "Display Notch", Icons.Filled.Palette, NavDestination.NotchBar.route),
+                Level2GateItem("Color Picker", "Instant Switch", Icons.Filled.Palette, "instant_color_picker"),
+                Level2GateItem("Status Bar", "Top Bar", Icons.Filled.Palette, NavDestination.StatusBar.route),
+                Level2GateItem("Notch Bar", "Notch Style", Icons.Filled.Palette, NavDestination.NotchBar.route),
                 Level2GateItem("Quick Settings", "QS Tiles", Icons.Filled.Palette, NavDestination.QuickSettings.route),
+                Level2GateItem("UI Settings", "Preferences", Icons.Filled.Palette, NavDestination.UISettings.route),
                 Level2GateItem("Overlay Menus", "Floating UI", Icons.Filled.ViewQuilt, NavDestination.OverlayMenus.route),
                 Level2GateItem("3D Lab", "Gyro Editor", Icons.Filled.ViewQuilt, "gyroscope_customization"),
-                Level2GateItem("Aura's Lab", "Wild Studio", Icons.Filled.Palette, NavDestination.AurasLab.route),
                 Level2GateItem("Component Edit", "UI Editor", Icons.Filled.Palette, NavDestination.ComponentEditor.route),
-                Level2GateItem("Z-Order Edit", "Layer Control", Icons.Filled.ViewQuilt, NavDestination.ZOrderEditor.route)
+                Level2GateItem("Z-Order Edit", "Layers", Icons.Filled.ViewQuilt, NavDestination.ZOrderEditor.route),
+                Level2GateItem("Aura's Lab", "Wild Studio", Icons.Filled.Palette, NavDestination.AurasLab.route)
             )
             Level2GateScreen(navController, "AURA GATE", items, onBack = { navController.popBackStack() })
         }
@@ -383,6 +387,14 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(route = NavDestination.QuickActions.route) {
             QuickActionsScreen()
+        }
+
+        composable(route = "instant_color_picker") {
+            InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(route = "gyroscope_customization") {
+            GyroscopeCustomizationScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(route = NavDestination.SystemOverrides.route) {
