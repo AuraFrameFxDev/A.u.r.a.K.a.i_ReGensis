@@ -225,12 +225,12 @@ private fun SubGateCardView(
 // ═══════════════════════════════════════════════════════════════════════════
 
 /**
- * Provide the list of Aura-domain sub-gate cards used by the UI carousel.
+ * Provides the list of Aura-domain sub-gate cards for the UI carousel.
  *
- * Each entry describes a sub-gate with dual-style drawable names (style A and style B),
- * an optional legacy fallback drawable name, a navigation route, and an accent color.
+ * Each entry contains dual-style drawable names (`styleADrawable`, `styleBDrawable`),
+ * an optional legacy `fallbackDrawable`, a navigation `route`, and an `accentColor`.
  *
- * @return A list of SubGateCard objects representing Aura's sub-gates.
+ * @return A list of `SubGateCard` instances representing Aura's sub-gates.
  */
 fun getAuraSubGates() = listOf(
     SubGateCard(
@@ -452,9 +452,11 @@ fun getGenesisSubGates() = listOf(
 )
 
 /**
- * 🤖 NEXUS SUB-GATES
- * Style A: "Constellation" - Star maps, cosmic connections, space aesthetic
- * Style B: "Control Room" - HUD panels, monitoring screens, tech aesthetic
+ * Provides the predefined list of Nexus domain sub-gate cards used by the carousel.
+ *
+ * Each entry describes a sub-gate with dual-style drawable names (Style A and Style B), an optional legacy fallback drawable name, a navigation route, and an accent color for styling.
+ *
+ * @return A list of SubGateCard instances representing Nexus sub-gates.
  */
 fun getNexusSubGates() = listOf(
     SubGateCard(
