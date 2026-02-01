@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class ToolInitializer @Inject constructor(
     private val toolRegistry: ToolRegistry,
-    private val mcpAdapter: MCPServerAdapter
+    private val mcpAdapter: MCPServerAdapter?
 ) {
 
     private val initScope = CoroutineScope(Dispatchers.Default)
@@ -110,6 +110,11 @@ class ToolInitializer @Inject constructor(
      * Register MCP API-backed tools
      */
     private suspend fun registerMCPTools() {
+        if (mcpAdapter == null) {
+            Timber.w("ToolInitializer: MCPServerAdapter not available, skipping MCP tools")
+            return
+        }
+
         // Configure MCP adapter (use dev environment by default)
         mcpAdapter.configure(
             url = "https://dev.api.auraframefx.com/v2",
