@@ -1,19 +1,21 @@
 package dev.aurakai.auraframefx.ai.tools.mcp
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
+
 /**
  * MCPServerAdapter - Model Context Protocol Server Integration
  *
  * Bridges the OpenAPI-defined AuraFrameFX API endpoints with the AgentTool system.
  * Converts API endpoints into callable tools that agents can invoke through prompts.
- *
- * API Location: /app/api/ai.yml (OpenAPI 3.1.0 spec)
- * Fragments: /app/api/_fragments/*.yml
- *
- * Supports:
- * - Agent invocation endpoints (/agents/{agentType}/invoke)
- * - Specialized agent operations (Aura empathy, Kai security, etc.)
- * - Tool calling through HTTP REST API
- * - OAuth2 authentication
  */
 @Singleton
 class MCPServerAdapter @Inject constructor() {
@@ -29,22 +31,15 @@ class MCPServerAdapter @Inject constructor() {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
-    // API base URL (configurable per environment)
     private var baseUrl = "https://api.auraframefx.com/v2"
     private var authToken: String? = null
 
-    /**
-     * Configure API endpoint
-     */
     fun configure(url: String, token: String?) {
         baseUrl = url
         authToken = token
         Timber.i("MCPServerAdapter: Configured with base URL: $baseUrl")
     }
 
-    /**
-     * Invoke an agent through the MCP API
-     */
     suspend fun invokeAgent(
         agentType: String,
         prompt: String,
@@ -57,7 +52,7 @@ class MCPServerAdapter @Inject constructor() {
             MCPAgentInvokeRequest.serializer(),
             MCPAgentInvokeRequest(
                 prompt = prompt,
-context = context.mapValues { it.value.toString() },
+                context = context.mapValues { it.value.toString() },
                 temperature = temperature
             )
         )
@@ -96,9 +91,6 @@ context = context.mapValues { it.value.toString() },
         }
     }
 
-    /**
-     * Call Aura empathy analysis endpoint
-     */
     suspend fun callAuraEmpathy(
         input: String,
         context: String? = null,
@@ -115,7 +107,7 @@ context = context.mapValues { it.value.toString() },
         return try {
             val request = Request.Builder()
                 .url(endpoint)
-.post(json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
+                .post(json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
                 .apply {
                     if (authToken != null) {
                         header("Authorization", "Bearer $authToken")
@@ -137,9 +129,6 @@ context = context.mapValues { it.value.toString() },
         }
     }
 
-    /**
-     * Call Kai security analysis endpoint
-     */
     suspend fun callKaiSecurity(
         target: String,
         scanType: String,
@@ -156,7 +145,7 @@ context = context.mapValues { it.value.toString() },
         return try {
             val request = Request.Builder()
                 .url(endpoint)
-.post(json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
+                .post(json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
                 .apply {
                     if (authToken != null) {
                         header("Authorization", "Bearer $authToken")
@@ -178,9 +167,6 @@ context = context.mapValues { it.value.toString() },
         }
     }
 
-    /**
-     * Get status of all agents
-     */
     suspend fun getAgentStatus(): List<MCPAgentStatus> {
         val endpoint = "$baseUrl/agents/status"
 
@@ -210,14 +196,10 @@ context = context.mapValues { it.value.toString() },
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// MCP DATA MODELS
-// ═══════════════════════════════════════════════════════════════════════════
-
 @Serializable
 data class MCPAgentInvokeRequest(
     val prompt: String,
-val context: Map<String, String> = emptyMap(),
+    val context: Map<String, String> = emptyMap(),
     val temperature: Float = 0.7f,
     val maxTokens: Int? = null,
     val stream: Boolean = false
@@ -237,7 +219,7 @@ data class MCPAgentResponse(
 data class MCPEmpathyResponse(
     val empathyScore: Float,
     val recommendations: List<String>,
-val emotionalAnalysis: Map<String, String> = emptyMap()
+    val emotionalAnalysis: Map<String, String> = emptyMap()
 )
 
 @Serializable
@@ -263,5 +245,3 @@ data class MCPAgentStatus(
     val tasksCompleted: Int = 0,
     val load: Float = 0f
 )
-
-

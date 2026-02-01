@@ -132,7 +132,7 @@ fun AgentHubSubmenuScreen(
         color = Color(0xFF9370DB),
         onNavigateBack = { navController.popBackStack() },
         menuItems = menuItems,
-        onItemClick = { item ->
+        onMenuItemClick = { item ->
             navController.navigate(item.route)
         },
         headerContent = {

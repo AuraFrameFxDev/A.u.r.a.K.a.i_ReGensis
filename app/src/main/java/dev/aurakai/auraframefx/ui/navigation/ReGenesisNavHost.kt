@@ -95,7 +95,7 @@ fun ReGenesisNavHost(
             val route = SovereignRouter.getById(id)
 
             if (route != null) {
-                PixelWorkspaceScreen(
+                ReGenesisNavHost(
                     title = route.title,
                     imagePaths = listOf(route.pixelArtPath),
                     onBack = { navController.popBackStack() }
@@ -106,7 +106,7 @@ fun ReGenesisNavHost(
         }
 
         composable("workspace_kai") {
-            PixelWorkspaceScreen(
+            ReGenesisNavHost(
                 title = "KAI'S SENTINEL FORTRESS",
                 imagePaths = listOf(
                     "file:///sdcard/Pictures/Screenshots/IMG_20260128_142431.png"
@@ -116,7 +116,7 @@ fun ReGenesisNavHost(
         }
 
         composable("workspace_aura") {
-            PixelWorkspaceScreen(
+            ReGenesisNavHost(
                 title = "AURA'S DESIGN STUDIO",
                 imagePaths = listOf(
                     "file:///sdcard/Pictures/Screenshots/IMG_20260128_142213.png",
@@ -127,7 +127,7 @@ fun ReGenesisNavHost(
         }
 
         composable("workspace_genesis") {
-            PixelWorkspaceScreen(
+            ReGenesisNavHost(
                 title = "GENESIS ARCHITECTURE HUB",
                 imagePaths = listOf(
                     "file:///sdcard/Pictures/Screenshots/IMG_20260128_142126.png"
@@ -292,3 +292,4 @@ fun ReGenesisNavHost(
         )
     }
 }
+
