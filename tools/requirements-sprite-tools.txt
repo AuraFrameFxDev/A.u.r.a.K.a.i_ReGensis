@@ -7,10 +7,15 @@ rembg==2.0.57
 Pillow==10.3.0
 numpy==1.26.4
 
-# Optional: GPU acceleration (MUCH faster if you have CUDA)
+# GPU Acceleration Options:
+#
+# FOR NVIDIA GPUs (CUDA):
 # onnxruntime-gpu==1.17.1
-
-# Optional: CPU-only (fallback)
+#
+# FOR AMD GPUs (DirectML) - Radeon RX 580, etc:
+# onnxruntime-directml==1.17.1
+#
+# FOR CPU-ONLY (No GPU acceleration):
 onnxruntime==1.17.1
 
 # Progress bars (optional but nice)

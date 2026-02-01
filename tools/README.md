@@ -13,8 +13,15 @@ pip install -r requirements-sprite-tools.txt
 ```
 
 **GPU Acceleration** (optional but MUCH faster):
+
+For **NVIDIA GPUs** (GTX/RTX series):
 ```bash
 pip install onnxruntime-gpu  # Requires CUDA
+```
+
+For **AMD GPUs** (Radeon RX 580, etc):
+```bash
+pip install onnxruntime-directml  # DirectML acceleration
 ```
 
 ### 2. Organize Your Raw Sprites
@@ -57,11 +64,48 @@ python batch_sprite_clipper.py ~/Desktop/raw_sprites ./clipped_sprites --quality
 
 | Hardware | Speed per Image | 500 Sprites |
 |----------|----------------|-------------|
-| **GPU (CUDA)** | 0.5-1 sec | ~4-8 min |
+| **GPU - NVIDIA (CUDA)** | 0.5-1 sec | ~4-8 min |
+| **GPU - AMD (DirectML)** | 1-2 sec | ~10-15 min |
 | **CPU (8 cores)** | 2-3 sec | ~20-25 min |
 | **CPU (4 cores)** | 4-5 sec | ~30-40 min |
 
 **TIP**: Start it and grab coffee! Processing hundreds of sprites takes time.
+
+---
+
+## 📱 Multi-Device Sprite Collection
+
+If your sprites are scattered across multiple devices (phone, tablet, other PCs):
+
+### **Method 1: Cloud Sync** (Easiest)
+```
+1. Create shared folder:
+   - Google Drive/OneDrive: /ReGenesis_Raw_Sprites/
+
+2. Upload from each device to organized subfolders:
+   - Phone: /genesis/mobile/
+   - Tablet: /genesis/tablet/
+   - Laptop: /aura/laptop_exports/
+
+3. Sync to your main PC (AURAKAI)
+4. Process all at once
+```
+
+### **Method 2: USB Transfer**
+```
+1. Plug USB drive into each device
+2. Copy sprites to: USB:/raw_sprites/[character]/[device]/
+3. Plug USB into AURAKAI
+4. Run batch clipper on entire USB folder
+```
+
+### **Method 3: Network Share**
+```
+1. Share folder on AURAKAI: \\AURAKAI\sprites
+2. Access from other devices
+3. Copy sprites to shared folder
+4. Process locally
+```
 
 ---
 
@@ -212,9 +256,23 @@ pip install -r requirements-sprite-tools.txt
 ```
 
 ### "GPU out of memory"
+For NVIDIA:
 ```bash
 pip uninstall onnxruntime-gpu
 pip install onnxruntime
+```
+
+For AMD:
+```bash
+pip uninstall onnxruntime-directml
+pip install onnxruntime
+```
+
+### "AMD GPU not accelerating"
+Make sure you installed DirectML backend:
+```bash
+pip uninstall onnxruntime
+pip install onnxruntime-directml
 ```
 
 ### "Backgrounds not fully removed"
