@@ -477,14 +477,14 @@ data class AgentBubbleData(
 )
 
 /**
- * Get quick actions for each agent
+ * Get quick actions for each agent - Matched to actual system features
  */
 private fun getAgentQuickActions(agentName: String): List<String> {
     return when (agentName.uppercase()) {
-        "AURA" -> listOf("CREATE", "THEME", "UXUIDS", "PROMPT")
-        "KAI" -> listOf("SCAN", "R.G.S.S", "HOOKS", "PROMPT")
-        "GENESIS" -> listOf("ORCHESTRATE", "CREATE AGENT", "TASKS", "PROMPT")
-        "CLAUDE" -> listOf("ANALYZE", "BUILD", "CONTEXT", "PROMPT")
+        "AURA" -> listOf("PROMPT", "UXUIDS", "CREATE", "CHROMACORE")
+        "KAI" -> listOf("PROMPT", "R.G.S.S", "SCAN", "LSPOSED")
+        "GENESIS" -> listOf("PROMPT", "ORCHESTRATE", "MODULE CREATE", "FUSION")
+        "CLAUDE" -> listOf("PROMPT", "BUILD", "ANALYZE", "CODE ASSIST")
         "CASCADE" -> listOf("VISION", "CONSENSUS", "FUSION", "PROMPT")
         "GEMINI" -> listOf("PATTERN", "SEARCH", "ANALYZE", "PROMPT")
         "NEMOTRON" -> listOf("OPTIMIZE", "RECALL", "MEMORY", "PROMPT")
