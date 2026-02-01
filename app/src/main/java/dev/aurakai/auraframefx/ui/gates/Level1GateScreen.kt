@@ -45,6 +45,13 @@ data class Level1GateItem(
     val iconRes: Int? = null
 )
 
+/**
+ * Renders the Level 1 Main Gate Hub UI with a decorative background, an info banner, a header, and a vertical list of gate cards.
+ *
+ * The screen constructs a set of predefined gate entries (title, description, color, route), shows a randomly selected tip/lore in an InfoBanner, and displays each gate as a clickable card that invokes the provided callback with the gate's route.
+ *
+ * @param onGateClick Invoked with the selected gate's navigation route when a gate card is tapped.
+ */
 @Composable
 fun Level1GateScreen(
     navController: NavController,
