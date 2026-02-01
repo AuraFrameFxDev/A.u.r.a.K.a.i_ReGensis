@@ -174,7 +174,6 @@ dependencies {
     implementation(libs.androidx.animation)
     implementation(libs.androidx.compose.ui.geometry)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.animation)
     ksp(libs.hilt.compiler)
 
     // Core Android
