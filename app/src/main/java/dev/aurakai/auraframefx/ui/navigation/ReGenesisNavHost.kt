@@ -46,6 +46,23 @@ import dev.aurakai.auraframefx.ui.gates.SovereignShieldScreen
 import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
 import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 
+/**
+ * 🌐 REGENESIS NAVIGATION HOST
+ *
+ * Clean 3-Level Architecture:
+ * - Level 1: ExodusHUD (5 Gate Carousel)
+ * - Level 2: Domain Hubs (5 main hubs)
+ * - Level 3: Tool Screens (functional screens)
+ */
+/**
+ * Hosts the application's navigation graph and initializes customization behavior when composed.
+ *
+ * Sets up routes for the app's main hubs, tool screens, agent constellation screens, help services,
+ * and utility screens, using the provided NavHostController as the navigation host.
+ *
+ * @param navController Controller used to manage navigation within this NavHost.
+ * @param customizationViewModel ViewModel that will be started with the current Context when this composable enters composition to initialize customization features.
+ */
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
