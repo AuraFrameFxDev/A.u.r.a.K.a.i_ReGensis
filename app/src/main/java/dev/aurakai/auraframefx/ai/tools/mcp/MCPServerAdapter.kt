@@ -129,7 +129,7 @@ class MCPServerAdapter @Inject constructor() {
         return try {
             val request = Request.Builder()
                 .url(endpoint)
-                .post(json.encodeToString(mapOf<String, Any>(), requestBody).toRequestBody("application/json".toMediaType()))
+                .post(Json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
                 .apply {
                     if (authToken != null) {
                         header("Authorization", "Bearer $authToken")
@@ -170,7 +170,7 @@ class MCPServerAdapter @Inject constructor() {
         return try {
             val request = Request.Builder()
                 .url(endpoint)
-                .post(json.encodeToString(mapOf<String, Any>(), requestBody).toRequestBody("application/json".toMediaType()))
+                .post(Json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
                 .apply {
                     if (authToken != null) {
                         header("Authorization", "Bearer $authToken")
