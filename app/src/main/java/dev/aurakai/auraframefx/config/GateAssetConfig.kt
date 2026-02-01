@@ -50,8 +50,8 @@ object GateAssetConfig {
     object MainGates {
         // 🎨 AURA - UXUI Design Studio
         object UXUI_DESIGN_STUDIO {
-            const val STYLE_A = "gate_uxui_collab_canvas"      // Paint splash
-            const val STYLE_B = "gate_uxui_clean_studio"       // Sleek minimal
+            const val STYLE_A = "gatescenes_aura_designstudio"      // Aura's Design Studio (NEW!)
+            const val STYLE_B = "gate_uxui_clean_studio"           // Sleek minimal
             const val FALLBACK = "gate_uiux_studio"
 
             fun current() = if (StyleMode.auraStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
@@ -59,8 +59,8 @@ object GateAssetConfig {
 
         // 🛡️ KAI - Sentinel's Fortress
         object SENTINELS_FORTRESS {
-            const val STYLE_A = "gate_kai_pixel_fortress"      // Pixel art throne
-            const val STYLE_B = "gate_kai_cyber_security"      // Matrix/lightning
+            const val STYLE_A = "gatescenes_kai_sentinelsfortress"  // Kai's Fortress (NEW!)
+            const val STYLE_B = "gate_kai_cyber_security"          // Matrix/lightning
             const val FALLBACK = "gate_sentinelsfortress_final"
 
             fun current() = if (StyleMode.kaiStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
