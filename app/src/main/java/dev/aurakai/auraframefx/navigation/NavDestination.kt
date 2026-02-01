@@ -20,9 +20,10 @@ package dev.aurakai.auraframefx.navigation
 sealed class NavDestination(val route: String) {
 
     // ═══════════════════════════════════════════════════════════════
-    // LEVEL 1: ROOT - ExodusHUD (The 5 Gate Carousel)
+    // LEVEL 1: ENTRY GATES (Exodus System)
     // ═══════════════════════════════════════════════════════════════
     data object HomeGateCarousel : NavDestination("home_gate_carousel")
+    data object Home : NavDestination("home")
 
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 2: MAIN GATES (The Card Selection Domain)

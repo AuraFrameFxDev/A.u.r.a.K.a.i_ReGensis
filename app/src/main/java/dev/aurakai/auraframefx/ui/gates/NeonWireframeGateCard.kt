@@ -47,23 +47,20 @@ fun NeonWireframeGateCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(3f / 4f) // Portrait lock
+            .aspectRatio(2.2f / 1f) // Wide rectangular (like the pixel frame reference)
             .background(
                 brush = Brush.verticalGradient(
                     listOf(Color(0xFF05070F), Color(0xFF0A0F1C), Color(0xFF05070F))
                 ),
                 shape = shape
             )
-            .blur(6.dp)
             .border(
-                width = borderWidth,
-                brush = Brush.linearGradient(
-                    listOf(ProjectionBlue.copy(alpha = .85f), ProjectionBlue.copy(alpha = .35f))
-                ),
+                width = 3.dp, // Thicker pixel-style border
+                color = ProjectionBlue.copy(alpha = 0.9f),
                 shape = shape
             )
             .clickable(onClick = onClick)
-            .padding(12.dp)
+            .padding(16.dp)
     ) {
         // Neon wireframe grid
         WireframeGrid(accent = ProjectionBlue, gridStep = gridStep)
@@ -74,23 +71,33 @@ fun NeonWireframeGateCard(
         // Holographic projection pad
         ProjectionPad(accent = ProjectionBlue, depth = projectionDepth)
 
-        // Title/subtitle overlay
+        // Title/subtitle overlay - pixel-bordered box
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .background(Color.Black.copy(alpha = 0.22f), shape = RoundedCornerShape(10.dp))
-                .padding(horizontal = 10.dp, vertical = 8.dp)
+                .fillMaxWidth()
+                .background(Color.Black.copy(alpha = 0.85f), shape = RoundedCornerShape(4.dp)) // Sharp corners
+                .border(2.dp, ProjectionBlue.copy(alpha = 0.7f), RoundedCornerShape(4.dp)) // Pixel border
+                .padding(horizontal = 14.dp, vertical = 12.dp)
         ) {
             Text(
-                text = title,
+                text = title.uppercase(), // Uppercase for pixel aesthetic
                 color = ProjectionBlue,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium.copy(
+                    letterSpacing = androidx.compose.ui.unit.sp(1.5) // Spaced lettering
+                ),
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
             )
             if (!subtitle.isNullOrBlank()) {
                 Text(
                     text = subtitle!!,
-                    color = Color.White.copy(alpha = 0.8f),
-                    style = MaterialTheme.typography.bodySmall
+                    color = Color(0xFFFFB000).copy(alpha = 0.9f), // Yellow accent like reference
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        letterSpacing = androidx.compose.ui.unit.sp(0.8)
+                    ),
+                    maxLines = 2,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                 )
             }
         }
