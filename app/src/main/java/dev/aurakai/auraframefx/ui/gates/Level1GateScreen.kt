@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.components.InfoBanner
 import dev.aurakai.auraframefx.ui.components.backgrounds.DigitalLandscapeBackground
 import dev.aurakai.auraframefx.ui.theme.AgentColors
@@ -88,12 +89,12 @@ fun Level1GateScreen(
 
             // 6 Main Gates List (CORRECT ORDER: Help Services at TOP)
             val gates = listOf(
-                Level1GateItem("HELP SERVICES", "LDO Control Center", Color.Cyan, "help_gate"),
-                Level1GateItem("AURA GATE", "The Face - UI/UX", AgentColors.Aura, "aura_gate"),
-                Level1GateItem("KAI GATE", "Root Fortress", AgentColors.Kai, "kai_gate"),
-                Level1GateItem("GENESIS GATE", "Orchestration", AgentColors.Genesis, "genesis_gate"),
+                Level1GateItem("HELP SERVICES", "LDO Control Center", Color.Cyan, NavDestination.HelpDesk.route),
+                Level1GateItem("AURA GATE", "The Face - UI/UX", AgentColors.Aura, NavDestination.AuraThemingHub.route),
+                Level1GateItem("KAI GATE", "Root Fortress", AgentColors.Kai, NavDestination.RomToolsHub.route),
+                Level1GateItem("GENESIS GATE", "Orchestration", AgentColors.Genesis, NavDestination.OracleDriveHub.route),
                 Level1GateItem("CASCADE HUB", "Fusion Tools", AgentColors.Cascade, "cascade_gate"),
-                Level1GateItem("AGENT NEXUS", "Monitoring", AgentColors.AgentNexus, "agent_nexus")
+                Level1GateItem("AGENT NEXUS", "Monitoring", AgentColors.AgentNexus, NavDestination.AgentNexusHub.route)
             )
 
             LazyVerticalGrid(
