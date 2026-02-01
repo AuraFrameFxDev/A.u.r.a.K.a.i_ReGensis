@@ -1,0 +1,17 @@
+# Sprite Processing Tools Dependencies
+
+# Core background removal
+rembg==2.0.57
+
+# Image processing
+Pillow==10.3.0
+numpy==1.26.4
+
+# Optional: GPU acceleration (MUCH faster if you have CUDA)
+# onnxruntime-gpu==1.17.1
+
+# Optional: CPU-only (fallback)
+onnxruntime==1.17.1
+
+# Progress bars (optional but nice)
+tqdm==4.66.2
