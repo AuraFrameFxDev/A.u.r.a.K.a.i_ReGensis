@@ -1,18 +1,5 @@
 package dev.aurakai.auraframefx.ai.tools.mcp
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.MediaType.Companion.toMediaType
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Singleton
-import dev.aurakai.auraframefx.ai.tools.*
 
 /**
  * MCPServerAdapter - Model Context Protocol Server Integration
@@ -129,7 +116,7 @@ class MCPServerAdapter @Inject constructor() {
         return try {
             val request = Request.Builder()
                 .url(endpoint)
-                .post(json.encodeToString(mapOf<String, Any>(), requestBody).toRequestBody("application/json".toMediaType()))
+.post(json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
                 .apply {
                     if (authToken != null) {
                         header("Authorization", "Bearer $authToken")
@@ -170,7 +157,7 @@ class MCPServerAdapter @Inject constructor() {
         return try {
             val request = Request.Builder()
                 .url(endpoint)
-                .post(json.encodeToString(mapOf<String, Any>(), requestBody).toRequestBody("application/json".toMediaType()))
+.post(json.encodeToString(requestBody).toRequestBody("application/json".toMediaType()))
                 .apply {
                     if (authToken != null) {
                         header("Authorization", "Bearer $authToken")

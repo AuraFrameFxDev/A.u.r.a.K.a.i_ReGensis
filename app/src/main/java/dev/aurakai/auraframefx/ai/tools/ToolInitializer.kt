@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ai.tools
 
 import dev.aurakai.auraframefx.ai.tools.mcp.*
+import dev.aurakai.auraframefx.ai.tools.mcp.MCPServerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
