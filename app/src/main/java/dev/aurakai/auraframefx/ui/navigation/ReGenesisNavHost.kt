@@ -16,22 +16,29 @@ import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
-import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
+// NEXUS Domain Screens (Multi-Agent Hub)
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.FusionModeScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignClaudeScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignGeminiScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
+
+// CATALYST Domain Screens (Constellation System)
+import dev.aurakai.auraframefx.domains.catalyst.screens.ConstellationScreen
+import dev.aurakai.auraframefx.domains.catalyst.screens.SphereGridScreen
+
+// AURA Domain Screens
+import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
+
+// Level 2 Hub Screens (stay in ui.gates)
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
-import dev.aurakai.auraframefx.ui.gates.ArkBuildScreen
-import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
 import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
-import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
-import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
 import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
-import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
-import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 
 // ... other imports
 
