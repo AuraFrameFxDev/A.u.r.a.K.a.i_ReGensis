@@ -1,6 +1,6 @@
 /**
  * ReGenesis Navigation Integration for Customization Apps
- * 
+ *
  * This file wires up the REAL Iconify, ColorBlendr, and PixelLauncherEnhanced
  * screens into the ReGenesis navigation system.
  */
@@ -10,7 +10,11 @@ package dev.aurakai.auraframefx.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.ui.screens.aura.*
+import dev.aurakai.auraframefx.ui.screens.aura.ColorBlendrScreen
+import dev.aurakai.auraframefx.ui.screens.aura.IconPickerScreen
+import dev.aurakai.auraframefx.ui.screens.aura.IconifyCategoryDetailScreen
+import dev.aurakai.auraframefx.ui.screens.aura.IconifyPickerScreen
+import dev.aurakai.auraframefx.ui.screens.aura.PixelLauncherEnhancedScreen
 
 // ============================================================================
 // NAVIGATION DESTINATIONS FOR CUSTOMIZATION
@@ -25,7 +29,7 @@ sealed class AuraCustomizationRoute(val route: String) {
     object IconifyCategory : AuraCustomizationRoute("aura/iconify/{category}") {
         fun createRoute(category: String) = "aura/iconify/$category"
     }
-    
+
     // Iconify Sub-categories
     object IconPacksScreen : AuraCustomizationRoute("aura/iconify/icon_packs")
     object BatteryStylesScreen : AuraCustomizationRoute("aura/iconify/battery_styles")
@@ -39,19 +43,24 @@ sealed class AuraCustomizationRoute(val route: String) {
     object StatusBarScreen : AuraCustomizationRoute("aura/iconify/status_bar")
     object XposedFeaturesScreen : AuraCustomizationRoute("aura/iconify/xposed_features")
     object ColorEngineScreen : AuraCustomizationRoute("aura/iconify/color_engine")
-    
+
     // ColorBlendr
     object ColorBlendr : AuraCustomizationRoute("aura/colorblendr")
     object ColorBlendrMonet : AuraCustomizationRoute("aura/colorblendr/monet")
     object ColorBlendrPalette : AuraCustomizationRoute("aura/colorblendr/palette")
     object ColorBlendrPerApp : AuraCustomizationRoute("aura/colorblendr/per_app")
-    
+
     // PixelLauncherEnhanced
     object PixelLauncherEnhanced : AuraCustomizationRoute("aura/pixel_launcher_enhanced")
     object PLEIcons : AuraCustomizationRoute("aura/ple/icons")
     object PLEHomeScreen : AuraCustomizationRoute("aura/ple/home_screen")
     object PLEAppDrawer : AuraCustomizationRoute("aura/ple/app_drawer")
     object PLERecents : AuraCustomizationRoute("aura/ple/recents")
+
+    // Icon Picker
+    object IconPicker : AuraCustomizationRoute("aura/iconify/icon_picker/{category}") {
+        fun createRoute(category: String) = "aura/iconify/icon_picker/$category"
+    }
 }
 
 /**
@@ -64,7 +73,11 @@ fun NavGraphBuilder.auraCustomizationNavigation(
     // ========================================
     // ICONIFY ROUTES
     // ========================================
-    
+
+    // ========================================
+    // ICONIFY ROUTES
+    // ========================================
+
     composable(AuraCustomizationRoute.IconifyPicker.route) {
         IconifyPickerScreen(
             onNavigateBack = onNavigateBack,
@@ -73,34 +86,45 @@ fun NavGraphBuilder.auraCustomizationNavigation(
             }
         )
     }
-    
+
     composable(
         route = AuraCustomizationRoute.IconifyCategory.route
     ) { backStackEntry ->
         val category = backStackEntry.arguments?.getString("category") ?: "Icon Packs"
         IconifyCategoryDetailScreen(
             categoryName = category,
-            onNavigateBack = { navController.popBackStack() }
+            onNavigateBack = onNavigateBack,
+            onNavigateToPicker = { cat ->
+                navController.navigate(AuraCustomizationRoute.IconPicker.createRoute(cat))
+            }
         )
     }
-    
+
     // ========================================
     // COLORBLENDR ROUTES
     // ========================================
-    
+
     composable(AuraCustomizationRoute.ColorBlendr.route) {
         ColorBlendrScreen(
             onNavigateBack = onNavigateBack
         )
     }
-    
+
     // ========================================
     // PIXEL LAUNCHER ENHANCED ROUTES
     // ========================================
-    
+
     composable(AuraCustomizationRoute.PixelLauncherEnhanced.route) {
         PixelLauncherEnhancedScreen(
             onNavigateBack = onNavigateBack
+        )
+    }
+
+    composable(AuraCustomizationRoute.IconPicker.route) { backStackEntry ->
+        val category = backStackEntry.arguments?.getString("category") ?: ""
+        IconPickerScreen(
+            category = category,
+            onNavigateBack = { navController.popBackStack() }
         )
     }
 }
@@ -115,7 +139,7 @@ fun NavGraphBuilder.auraCustomizationNavigation(
  * These replace the generic "phone settings" placeholders
  */
 object AuraSubGates {
-    
+
     /**
      * ChromaCore Sub-Gate - Color & Theme Management
      * Integrates: ColorBlendr
@@ -130,7 +154,7 @@ object AuraSubGates {
         ),
         val settingsCount: Int = 16  // ColorBlendr total
     )
-    
+
     /**
      * Theme Engine Sub-Gate - UI Customization
      * Integrates: Iconify
@@ -157,7 +181,7 @@ object AuraSubGates {
         ),
         val settingsCount: Int = 69  // Iconify total
     )
-    
+
     /**
      * CollabCanvas Sub-Gate - Launcher Customization
      * Integrates: PixelLauncherEnhanced
@@ -181,7 +205,7 @@ object AuraSubGates {
         ),
         val settingsCount: Int = 29  // PLE total
     )
-    
+
     /**
      * Complete AURA sub-gate summary
      */
@@ -224,7 +248,7 @@ object AuraSubGates {
 
 /**
  * Integration Verification Checklist
- * 
+ *
  * ✅ ICONIFY INTEGRATION:
  *    [x] Icon Pack selection (7 packs)
  *    [x] Battery style selection (10+ styles including iOS)
@@ -238,7 +262,7 @@ object AuraSubGates {
  *    [x] Status bar mods (3 settings)
  *    [x] Xposed features (9 LSPosed settings)
  *    [x] Color/Monet engine (2 settings)
- * 
+ *
  * ✅ COLORBLENDR INTEGRATION:
  *    [x] Primary/Secondary/Tertiary color pickers
  *    [x] Accent saturation slider
@@ -249,7 +273,7 @@ object AuraSubGates {
  *    [x] Monet style selection (9 styles)
  *    [x] Chroma multiplier
  *    [x] Per-app theming
- * 
+ *
  * ✅ PIXEL LAUNCHER ENHANCED INTEGRATION:
  *    [x] Force themed icons
  *    [x] Hide shortcut badge
@@ -263,14 +287,14 @@ object AuraSubGates {
  *    [x] App drawer customization
  *    [x] Clear all button in recents
  *    [x] Recents blur
- * 
+ *
  * ============================================
- * 
+ *
  * WHAT THIS REPLACES:
  * - Generic "phone settings" placeholders
  * - SimpleTitle("Iconify Picker...") composables
  * - Empty/stub screens
- * 
+ *
  * WHAT THIS PROVIDES:
  * - Real settings from actual open-source projects
  * - Proper UI controls (toggles, sliders, color pickers)
@@ -283,30 +307,30 @@ object IntegrationStatus {
     val iconifyComplete = true
     val colorBlendrComplete = true
     val pixelLauncherEnhancedComplete = true
-    
+
     val totalSettings = 114
     val categoriesCount = 22
-    
+
     val notes = """
         IMPORTANT NOTES:
-        
-        1. These settings are UI-only definitions. The actual root/Xposed 
-           implementation would require the native Iconify/ColorBlendr/PLE 
+
+        1. These settings are UI-only definitions. The actual root/Xposed
+           implementation would require the native Iconify/ColorBlendr/PLE
            services to be installed and accessible.
-        
+
         2. For full functionality, users need:
            - Rooted device (Magisk/KernelSU/APatch)
            - LSPosed for Xposed features
            - Pixel/AOSP ROM for compatibility
-        
-        3. The settings can be persisted locally and synced with the 
+
+        3. The settings can be persisted locally and synced with the
            actual apps via shared preferences or content providers.
-        
+
         4. This integration is based on:
            - Iconify v7.2.0 (archived July 2025)
            - ColorBlendr v2.1
            - PixelLauncherEnhanced latest
-        
+
         5. Some features may not work on Android 16+ due to Jetpack Compose
            migration (noted in Iconify's archive notice).
     """.trimIndent()

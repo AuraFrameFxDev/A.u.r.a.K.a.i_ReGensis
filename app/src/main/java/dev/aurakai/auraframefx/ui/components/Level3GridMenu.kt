@@ -1,13 +1,9 @@
 package dev.aurakai.auraframefx.ui.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,16 +26,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -59,16 +48,6 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
  * - Domain-specific accent colors
  */
 
-data class GridMenuItem(
-    val id: String,
-    val title: String,
-    val subtitle: String,
-    val icon: ImageVector,
-    val route: String,
-    val isImplemented: Boolean = true,
-    val accentColor: Color = Color.Cyan
-)
-
 /**
  * Full-screen grid menu for LVL 3 navigation
  */
@@ -80,175 +59,112 @@ fun Level3GridMenu(
     menuItems: List<GridMenuItem>,
     onItemClick: (GridMenuItem) -> Unit,
     onBackClick: () -> Unit,
-    backgroundDrawable: String? = null,
-    fallbackGradient: List<Color> = listOf(Color(0xFF0F0F1E), Color.Black),
-    accentColor: Color = Color.Cyan,
-    modifier: Modifier = Modifier
+    backgroundDrawable: Int? = null,
+    fallbackGradient: List<Color> = listOf(Color.DarkGray, Color.Black),
+    accentColor: Color = Color.Cyan
 ) {
-    val context = LocalContext.current
-
-    Box(modifier = modifier.fillMaxSize()) {
-        // Background - either drawable or gradient
-        if (backgroundDrawable != null) {
-            val bgId = remember(backgroundDrawable) {
-                context.resources.getIdentifier(
-                    backgroundDrawable, "drawable", context.packageName
+    Scaffold(
+        containerColor = Color.Transparent,
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = title,
+                            fontFamily = LEDFontFamily,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            letterSpacing = 2.sp
+                        )
+                        Text(
+                            text = subtitle,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = accentColor
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
                 )
-            }
-            if (bgId != 0) {
-                Image(
-                    painter = painterResource(id = bgId),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-                // Overlay for readability
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.6f))
-                )
-            } else {
-                // Fallback gradient
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Brush.verticalGradient(fallbackGradient))
-                )
-            }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Brush.verticalGradient(fallbackGradient))
             )
         }
-
-        Scaffold(
-            containerColor = Color.Transparent,
-            topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = title,
-                                fontFamily = LEDFontFamily,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                letterSpacing = 2.sp
-                            )
-                            Text(
-                                text = subtitle,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = accentColor
-                            )
-                        }
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = onBackClick) {
-                            Icon(
-                                Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back",
-                                tint = Color.White
-                            )
-                        }
-                    },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent
-                    )
+    ) { paddingValues ->
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                bottom = 16.dp,
+                start = 16.dp,
+                end = 16.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(menuItems) { item ->
+                GridMenuItemCard(
+                    item = item,
+                    onClick = { onItemClick(item) }
                 )
-            }
-        ) { paddingValues ->
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(vertical = 16.dp)
-            ) {
-                items(menuItems) { item ->
-                    GridMenuCard(
-                        item = item,
-                        onClick = {
-                            if (item.isImplemented) {
-                                onItemClick(item)
-                            }
-                        }
-                    )
-                }
             }
         }
     }
 }
 
 @Composable
-private fun GridMenuCard(
+fun GridMenuItemCard(
     item: GridMenuItem,
     onClick: () -> Unit
 ) {
     Card(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .clickable(enabled = item.isImplemented, onClick = onClick)
-            .border(
-                width = 1.dp,
-                brush = Brush.linearGradient(
-                    listOf(
-                        item.accentColor.copy(alpha = if (item.isImplemented) 0.5f else 0.2f),
-                        Color.Transparent
-                    )
-                ),
-                shape = RoundedCornerShape(16.dp)
-            ),
+            .height(140.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1A1A2E).copy(alpha = 0.8f)
-        )
+            containerColor = Color(0xFF1E1E1E).copy(alpha = 0.8f)
+        ),
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Icon
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(item.accentColor.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = null,
-                    tint = if (item.isImplemented) item.accentColor else Color.Gray,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            // Text
-            Column {
-                Text(
-                    text = item.title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = if (item.isImplemented) Color.White else Color.Gray,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    text = if (item.isImplemented) item.subtitle else "Coming Soon",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.5f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+            Icon(
+                imageVector = item.icon,
+                contentDescription = null,
+                tint = item.accentColor,
+                modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = item.subtitle,
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.Gray,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }

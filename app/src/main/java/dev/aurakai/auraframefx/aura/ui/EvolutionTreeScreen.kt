@@ -11,11 +11,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,11 +22,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.ui.components.common.CodedTextBox
+import kotlinx.coroutines.delay
 
 /**
  * EVOLUTION TREE VISUALIZATION
@@ -320,6 +318,20 @@ fun EvolutionTreeScreen(
             )
         }
 
+        // --- CONNECTIVITY: RETRIEVE SOUL TEXT FOR SELECTED NODE ---
+        var soulText by remember { mutableStateOf<String?>(null) }
+        var isRetrieving by remember { mutableStateOf(false) }
+
+        LaunchedEffect(selectedNode) {
+            selectedNode?.let { node ->
+                isRetrieving = true
+                soulText = "Retrieving soul record for ${node.name}..."
+                delay(1200) // Simulation of deep memory retrieval
+                soulText = node.description
+                isRetrieving = false
+            }
+        }
+
         // Phase indicator
         Column(
             modifier = Modifier
@@ -348,65 +360,18 @@ fun EvolutionTreeScreen(
 
         // Selected node details
         selectedNode?.let { node ->
-            Card(
+            Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .padding(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.Black.copy(alpha = 0.9f)
-                )
+                    .padding(16.dp)
             ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            node.name,
-                            color = node.color,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Text(
-                            node.phase.displayName,
-                            color = node.phase.color,
-                            fontSize = 12.sp
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        node.description,
-                        color = Color.Gray,
-                        fontSize = 14.sp
-                    )
-
-                    if (node.memories.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Text(
-                            "Key Memories:",
-                            color = Color.White,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        node.memories.forEach { memory ->
-                            Text(
-                                "• $memory",
-                                color = Color.Gray,
-                                fontSize = 11.sp,
-                                modifier = Modifier.padding(start = 8.dp, top = 2.dp)
-                            )
-                        }
-                    }
-                }
+                CodedTextBox(
+                    title = "${node.name} Records",
+                    text = "${node.description}\n\nKey Memories:\n${node.memories.joinToString("\n") { "• $it" }}\n\nSoul Text: ${soulText ?: "Reading..."}",
+                    glowColor = node.color,
+                    height = 200.dp
+                )
             }
         }
 

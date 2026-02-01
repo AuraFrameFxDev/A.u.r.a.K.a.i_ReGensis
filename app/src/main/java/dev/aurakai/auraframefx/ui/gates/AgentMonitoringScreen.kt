@@ -58,7 +58,7 @@ fun SovereignMonitoringScreen(
         MonitorLog("Nemotron", "Recalled 72.4k reasoning vectors", "3m ago", Color(0xFF76B900)),
         MonitorLog("Cascade", "Vision scan complete: No anomalies", "5m ago", Color(0xFF00FFD4)),
         MonitorLog("Aura", "UI manifest updated in sandbox", "10m ago", Color(0xFFFF00FF)),
-        MonitorLog("Kai", $$"Sovereign Shield: $$activeThreats active threats", "15m ago", Color(0xFFFF0000))
+        MonitorLog("Kai", "Sovereign Shield: $activeThreats active threats", "15m ago", Color(0xFFFF0000))
     )
 
     Box(modifier = Modifier

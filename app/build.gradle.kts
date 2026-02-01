@@ -172,7 +172,9 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.animation)
-    implementation(libs.androidx.databinding.compiler)
+    implementation(libs.androidx.compose.ui.geometry)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.animation)
     ksp(libs.hilt.compiler)
 
     // Core Android

@@ -18,12 +18,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.GenericShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -132,27 +140,54 @@ fun AnimeHUDContainer(
                 modifier = Modifier.padding(bottom = 6.dp, start = 8.dp)
             )
 
+            val scrollState = rememberScrollState()
+
             // The Angled HUD Framework (Fixed Blue)
-            // Increased height to prevent truncation
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
                     .clip(HUDBoxShape)
-                    .background(Color.Black.copy(alpha = 0.4f)) // More transparent background
+                    .background(Color.Black.copy(alpha = 0.6f))
                     .border(1.dp, interfaceColor.copy(alpha = 0.4f * pulseAlpha), HUDBoxShape)
             ) {
-                Text(
-                    text = description,
-                    fontSize = 12.sp, // Slightly bigger readability
-                    fontFamily = LEDFontFamily,
-                    color = interfaceColor.copy(alpha = 0.9f),
-                    textAlign = TextAlign.Start,
-                    lineHeight = 18.sp,
+                Column(
                     modifier = Modifier
                         .padding(20.dp)
+                        .verticalScroll(scrollState)
                         .align(Alignment.CenterStart)
-                )
+                ) {
+                    Text(
+                        text = description,
+                        fontSize = 11.sp,
+                        fontFamily = LEDFontFamily,
+                        color = interfaceColor.copy(alpha = 0.9f),
+                        textAlign = TextAlign.Start,
+                        lineHeight = 16.sp,
+                    )
+                }
+
+                // UP/DOWN INDICATORS
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        Icons.Default.KeyboardArrowUp,
+                        contentDescription = null,
+                        tint = interfaceColor.copy(alpha = if (scrollState.value > 0) 0.8f else 0.1f),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.height(40.dp))
+                    Icon(
+                        Icons.Default.KeyboardArrowDown,
+                        contentDescription = null,
+                        tint = interfaceColor.copy(alpha = if (scrollState.value < scrollState.maxValue) 0.8f else 0.1f),
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
 
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val dotSize = 2.dp.toPx()
