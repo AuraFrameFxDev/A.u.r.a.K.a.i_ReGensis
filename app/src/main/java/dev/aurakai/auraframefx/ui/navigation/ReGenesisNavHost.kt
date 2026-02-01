@@ -63,6 +63,15 @@ import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
  * @param navController Controller used to manage navigation within this NavHost.
  * @param customizationViewModel ViewModel that will be started with the current Context when this composable enters composition to initialize customization features.
  */
+/**
+ * Hosts the application's navigation graph and initializes customization on first composition.
+ *
+ * Calls `customizationViewModel.start(context)` once when first composed and provides destinations
+ * for the app's gate carousel, workspaces, hubs, tools, help screens, and integrated sub-graphs.
+ *
+ * @param navController The NavHostController used to perform navigation within this NavHost.
+ * @param customizationViewModel The view model used to initialize customization state (defaults to a ViewModel obtained via `viewModel()`).
+ */
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
