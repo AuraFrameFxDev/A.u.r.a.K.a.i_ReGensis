@@ -67,8 +67,9 @@ class OverlayManager @Inject constructor() {
 
     /**
      * Start floating agent overlay
+     * Now supports 4-agent pager: AURA, KAI, GENESIS, CLAUDE
      */
-    fun startOverlay(context: Context, agentName: String = "KAI") {
+    fun startOverlay(context: Context) {
         if (!hasOverlayPermission(context)) {
             Timber.w("OverlayManager: Cannot start overlay - permission not granted")
             return
@@ -79,13 +80,10 @@ class OverlayManager @Inject constructor() {
             return
         }
 
-        val intent = Intent(context, FloatingAgentOverlay::class.java).apply {
-            putExtra("AGENT_NAME", agentName)
-        }
-
+        val intent = Intent(context, FloatingAgentOverlay::class.java)
         context.startService(intent)
         overlayActive = true
-        Timber.i("OverlayManager: Started overlay for agent: $agentName")
+        Timber.i("OverlayManager: Started 4-agent overlay pager (AURA, KAI, GENESIS, CLAUDE)")
     }
 
     /**
@@ -101,11 +99,11 @@ class OverlayManager @Inject constructor() {
     /**
      * Toggle overlay on/off
      */
-    fun toggleOverlay(context: Context, agentName: String = "KAI") {
+    fun toggleOverlay(context: Context) {
         if (overlayActive) {
             stopOverlay(context)
         } else {
-            startOverlay(context, agentName)
+            startOverlay(context)
         }
     }
 

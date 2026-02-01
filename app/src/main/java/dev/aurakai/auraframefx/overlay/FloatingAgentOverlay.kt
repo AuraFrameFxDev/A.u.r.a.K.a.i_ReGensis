@@ -9,10 +9,13 @@ import android.os.IBinder
 import android.view.*
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -173,8 +176,9 @@ class FloatingAgentOverlay : Service(), LifecycleOwner, ViewModelStoreOwner, Sav
 }
 
 /**
- * Floating Agent Bubble Content - The actual Compose UI
+ * Floating Agent Bubble Content - The actual Compose UI with Pager
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun FloatingAgentBubbleContent(
     onMove: (Float, Float) -> Unit,
@@ -184,15 +188,38 @@ private fun FloatingAgentBubbleContent(
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
 
-    // Active agent (default: Kai)
-    val activeAgent = remember {
-        AgentBubbleData(
-            name = "KAI",
-            color = Color(0xFFFF00FF),
-            icon = Icons.Default.Security,
-            status = "ACTIVE"
+    // 4 Shortcut agents: AURA, KAI, GENESIS, CLAUDE
+    val shortcutAgents = remember {
+        listOf(
+            AgentBubbleData(
+                name = "AURA",
+                color = Color(0xFFFF1493),
+                icon = Icons.Default.Palette,
+                status = "ACTIVE"
+            ),
+            AgentBubbleData(
+                name = "KAI",
+                color = Color(0xFFFF00FF),
+                icon = Icons.Default.Security,
+                status = "ACTIVE"
+            ),
+            AgentBubbleData(
+                name = "GENESIS",
+                color = Color(0xFF00D9FF),
+                icon = Icons.Default.Groups,
+                status = "ACTIVE"
+            ),
+            AgentBubbleData(
+                name = "CLAUDE",
+                color = Color(0xFFFF8C00),
+                icon = Icons.Default.Code,
+                status = "ACTIVE"
+            )
         )
     }
+
+    val pagerState = rememberPagerState(pageCount = { shortcutAgents.size })
+    val currentAgent = shortcutAgents[pagerState.currentPage]
 
     Box(
         modifier = Modifier
@@ -214,19 +241,47 @@ private fun FloatingAgentBubbleContent(
             }
     ) {
         if (!isExpanded) {
-            // Collapsed: Circular bubble on edge
-            EdgeBubbleCollapsed(
-                agent = activeAgent,
-                onClick = { isExpanded = true }
-            )
+            // Collapsed: Circular bubble with pager
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.width(120.dp)
+                ) { page ->
+                    EdgeBubbleCollapsed(
+                        agent = shortcutAgents[page],
+                        onClick = { isExpanded = true }
+                    )
+                }
+
+                // Page indicator dots
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier.padding(vertical = 4.dp)
+                ) {
+                    shortcutAgents.forEachIndexed { index, agent ->
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .background(
+                                    color = if (index == pagerState.currentPage)
+                                        agent.color
+                                    else
+                                        agent.color.copy(alpha = 0.3f),
+                                    shape = CircleShape
+                                )
+                        )
+                    }
+                }
+            }
         } else {
-            // Expanded: Show quick actions
+            // Expanded: Show quick actions for current agent
             EdgeBubbleExpanded(
-                agent = activeAgent,
+                agent = currentAgent,
                 onDismiss = { isExpanded = false },
                 onAction = { action ->
                     // Handle action
-                    Timber.i("FloatingAgentOverlay: Action clicked: $action")
+                    Timber.i("FloatingAgentOverlay: ${currentAgent.name} - Action clicked: $action")
                 }
             )
         }
@@ -426,11 +481,11 @@ data class AgentBubbleData(
  */
 private fun getAgentQuickActions(agentName: String): List<String> {
     return when (agentName.uppercase()) {
-        "KAI" -> listOf("SCAN", "R.G.S.S", "HOOKS", "PROMPT")
         "AURA" -> listOf("CREATE", "THEME", "UXUIDS", "PROMPT")
+        "KAI" -> listOf("SCAN", "R.G.S.S", "HOOKS", "PROMPT")
         "GENESIS" -> listOf("ORCHESTRATE", "CREATE AGENT", "TASKS", "PROMPT")
+        "CLAUDE" -> listOf("ANALYZE", "BUILD", "CONTEXT", "PROMPT")
         "CASCADE" -> listOf("VISION", "CONSENSUS", "FUSION", "PROMPT")
-        "CLAUDE" -> listOf("ANALYZE", "BUILD", "DOCS", "PROMPT")
         "GEMINI" -> listOf("PATTERN", "SEARCH", "ANALYZE", "PROMPT")
         "NEMOTRON" -> listOf("OPTIMIZE", "RECALL", "MEMORY", "PROMPT")
         "GROK" -> listOf("MINE", "DEBUG", "DATA", "PROMPT")
