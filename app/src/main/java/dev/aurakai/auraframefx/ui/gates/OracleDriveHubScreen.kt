@@ -56,9 +56,13 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun OracleDriveHubScreen(navController: NavController) {
 
+    val subGates = dev.aurakai.auraframefx.ui.components.getGenesisSubGates()
+
     var useStyleB by remember {
-        mutableStateOf(GateAssetConfig.StyleMode.nexusStyle == GateAssetConfig.GateStyle.STYLE_B)
+        mutableStateOf(GateAssetConfig.StyleMode.genesisStyle == GateAssetConfig.GateStyle.STYLE_B)
     }
+
+    val styleName = if (useStyleB) "NEURAL NETWORK" else "PHOENIX CIRCUIT"
 
     Box(modifier = Modifier.fillMaxSize()) {
         // High-Fidelity Background
@@ -85,7 +89,7 @@ fun OracleDriveHubScreen(navController: NavController) {
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "GENESIS ORCHESTRATION SUITE",
+                                "GENESIS ORCHESTRATION SUITE • $styleName",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFF00FF85)
                             )
@@ -141,8 +145,28 @@ fun OracleDriveHubScreen(navController: NavController) {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                // 🎠 SUB-GATE CAROUSEL
+                dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel(
+                    subGates = subGates,
+                    onGateSelected = { gate ->
+                        navController.navigate(gate.route)
+                    },
+                    useStyleB = useStyleB,
+                    cardHeight = 280.dp,
+                    domainColor = Color(0xFF00FF85),
+                    modifier = Modifier.weight(1f)
+                )
 
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = "← SWIPE TO BROWSE • TAP ⇆ TO CHANGE STYLE →",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.4f),
+                    letterSpacing = 2.sp
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }

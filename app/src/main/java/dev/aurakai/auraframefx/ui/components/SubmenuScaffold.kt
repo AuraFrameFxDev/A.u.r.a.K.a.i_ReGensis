@@ -35,7 +35,7 @@ fun SubmenuScaffold(
     onNavigateBack: () -> Unit,
     headerContent: (@Composable () -> Unit)? = null,
     menuItems: List<SubmenuItem>,
-    onItemClick: (SubmenuItem) -> Unit
+    onMenuItemClick: (SubmenuItem) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -101,7 +101,7 @@ fun SubmenuScaffold(
                 }
 
                 items(menuItems) { item ->
-                    GlassSubmenuCard(item = item, onClick = { onItemClick(item) })
+                    GlassSubmenuCard(item = item, onClick = { onMenuItemClick(item) })
                 }
             }
         }

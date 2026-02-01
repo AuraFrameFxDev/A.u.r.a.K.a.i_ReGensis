@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -29,6 +30,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.config.GateAssetConfig
 import dev.aurakai.auraframefx.ui.components.IcyTundraBackground
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
@@ -49,6 +55,14 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KaiSentinelHubScreen(navController: NavController) {
+
+    val subGates = dev.aurakai.auraframefx.ui.components.getKaiSubGates()
+
+    var useStyleB by remember {
+        mutableStateOf(GateAssetConfig.StyleMode.kaiStyle == GateAssetConfig.GateStyle.STYLE_B)
+    }
+
+    val styleName = if (useStyleB) "CYBER SECURITY" else "PIXEL FORTRESS"
 
     Box(modifier = Modifier.fillMaxSize()) {
         // High-Fidelity Background
@@ -75,7 +89,7 @@ fun KaiSentinelHubScreen(navController: NavController) {
                                 letterSpacing = 2.sp
                             )
                             Text(
-                                "KAI'S SECURITY DOMAIN",
+                                "KAI'S SECURITY DOMAIN • $styleName",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color(0xFF00FF85)
                             )
@@ -84,6 +98,18 @@ fun KaiSentinelHubScreen(navController: NavController) {
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            useStyleB = !useStyleB
+                            GateAssetConfig.toggleKaiStyle()
+                        }) {
+                            Icon(
+                                Icons.Default.SwapHoriz,
+                                "Toggle Style",
+                                tint = Color(0xFF00FF85)
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -119,8 +145,28 @@ fun KaiSentinelHubScreen(navController: NavController) {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(32.dp))
+                // 🎠 SUB-GATE CAROUSEL
+                dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel(
+                    subGates = subGates,
+                    onGateSelected = { gate ->
+                        navController.navigate(gate.route)
+                    },
+                    useStyleB = useStyleB,
+                    cardHeight = 280.dp,
+                    domainColor = Color(0xFF00FF85),
+                    modifier = Modifier.weight(1f)
+                )
 
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = "← SWIPE TO BROWSE • TAP ⇆ TO CHANGE STYLE →",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.4f),
+                    letterSpacing = 2.sp
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
