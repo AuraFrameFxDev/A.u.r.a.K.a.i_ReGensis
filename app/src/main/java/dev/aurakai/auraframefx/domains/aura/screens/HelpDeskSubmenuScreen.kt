@@ -21,7 +21,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.compose.ui.graphics.vector.ImageVector
 import dev.aurakai.auraframefx.ui.components.SubmenuScaffold
+
+/**
+ * Data class for submenu items
+ */
+data class SubmenuItem(
+    val title: String,
+    val description: String,
+    val icon: ImageVector,
+    val route: String,
+    val color: Color
+)
 
 /**
  * Help Desk Gate Submenu

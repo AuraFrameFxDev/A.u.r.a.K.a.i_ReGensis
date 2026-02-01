@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.theme.AgentColors
+import import dev.aurakai.auraframefx.ui.theme.AgentColors
 
 private val ProjectionBlue = Color(0xFF00D1FF)
 
@@ -84,7 +84,7 @@ fun NeonWireframeGateCard(
                 text = title.uppercase(), // Uppercase for pixel aesthetic
                 color = ProjectionBlue,
                 style = MaterialTheme.typography.titleMedium.copy(
-                    letterSpacing = androidx.compose.ui.unit.sp(1.5) // Spaced lettering
+                    letterSpacing = 1.5.sp // Spaced lettering
                 ),
                 maxLines = 1,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
@@ -94,7 +94,7 @@ fun NeonWireframeGateCard(
                     text = subtitle!!,
                     color = Color(0xFFFFB000).copy(alpha = 0.9f), // Yellow accent like reference
                     style = MaterialTheme.typography.bodySmall.copy(
-                        letterSpacing = androidx.compose.ui.unit.sp(0.8)
+                        letterSpacing = 0.8.sp
                     ),
                     maxLines = 2,
                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
