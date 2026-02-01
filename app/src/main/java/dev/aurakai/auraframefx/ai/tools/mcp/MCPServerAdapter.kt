@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.ai.tools.mcp
 
-
 /**
  * MCPServerAdapter - Model Context Protocol Server Integration
  *
@@ -58,7 +57,7 @@ class MCPServerAdapter @Inject constructor() {
             MCPAgentInvokeRequest.serializer(),
             MCPAgentInvokeRequest(
                 prompt = prompt,
-                context = context,
+context = context.mapValues { it.value.toString() },
                 temperature = temperature
             )
         )
@@ -218,7 +217,7 @@ class MCPServerAdapter @Inject constructor() {
 @Serializable
 data class MCPAgentInvokeRequest(
     val prompt: String,
-    val context: Map<String, @Serializable(with = AnySerializer::class) Any> = emptyMap(),
+val context: Map<String, String> = emptyMap(),
     val temperature: Float = 0.7f,
     val maxTokens: Int? = null,
     val stream: Boolean = false
@@ -238,7 +237,7 @@ data class MCPAgentResponse(
 data class MCPEmpathyResponse(
     val empathyScore: Float,
     val recommendations: List<String>,
-    val emotionalAnalysis: Map<String, @Serializable(with = AnySerializer::class) Any> = emptyMap()
+val emotionalAnalysis: Map<String, String> = emptyMap()
 )
 
 @Serializable
@@ -265,13 +264,4 @@ data class MCPAgentStatus(
     val load: Float = 0f
 )
 
-// Simple serializer for Any type (converts to string)
-object AnySerializer : kotlinx.serialization.KSerializer<Any> {
-    override val descriptor = kotlinx.serialization.descriptors.PrimitiveSerialDescriptor("Any", kotlinx.serialization.descriptors.PrimitiveKind.STRING)
-    override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: Any) {
-        encoder.encodeString(value.toString())
-    }
-    override fun deserialize(decoder: kotlinx.serialization.encoding.Decoder): Any {
-        return decoder.decodeString()
-    }
-}
+
