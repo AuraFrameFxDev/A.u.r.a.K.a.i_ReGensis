@@ -245,7 +245,7 @@ dependencies {
     configurations.all {
          resolutionStrategy {
              force("androidx.appcompat:appcompat:1.7.1")
-             force("com.google.android.material:material:1.12.0")
+             force("com.google.android.material:material:1.13.0")
          }
     }
 

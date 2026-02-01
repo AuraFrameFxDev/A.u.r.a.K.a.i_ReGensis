@@ -34,11 +34,17 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
+    // Sync overlay state when screen becomes visible (in case user returned from permission settings)
+    LaunchedEffect(Unit) {
+        viewModel.syncOverlayState()
+    }
+
     val hapticEnabled by viewModel.hapticEnabled.collectAsState()
     val ethicsSensitivity by viewModel.ethicsSensitivity.collectAsState()
     val syncInterval by viewModel.nexusSyncInterval.collectAsState()
     val transparency by viewModel.overlayTransparency.collectAsState()
     val bioLock by viewModel.isBioLockEnabled.collectAsState()
+    val floatingOverlayEnabled by viewModel.floatingAgentOverlayEnabled.collectAsState()
 
     val bgGradient = Brush.verticalGradient(
         colors = listOf(
@@ -137,6 +143,17 @@ fun SettingsScreen(
                         value = transparency,
                         onValueChange = { viewModel.setOverlayTransparency(it) },
                         accentColor = Color(0xFFA020F0)
+                    )
+                }
+
+                item {
+                    SettingsToggleCard(
+                        title = "Floating Agent Shortcuts",
+                        subtitle = "System-wide draggable agent bubbles (AURA, KAI, GENESIS, CLAUDE)",
+                        icon = Icons.Default.Widgets,
+                        checked = floatingOverlayEnabled,
+                        onCheckedChange = { viewModel.toggleFloatingAgentOverlay(it) },
+                        accentColor = Color(0xFF00D9FF)
                     )
                 }
 

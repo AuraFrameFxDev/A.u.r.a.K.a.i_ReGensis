@@ -131,6 +131,11 @@
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="integrity_monitoring" />
         </service>
+
+        <!-- Floating Agent Overlay - System-wide draggable agent shortcut -->
+        <service
+            android:name=".overlay.FloatingAgentOverlay"
+            android:exported="false" />
         <service
             android:name=".services.BackupService"
             android:exported="false"
