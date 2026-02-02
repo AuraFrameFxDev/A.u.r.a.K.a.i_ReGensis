@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.nexus.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,11 +41,11 @@ import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
- * 📊 SOVEREIGN MONITORING (The All-Seeing Eye)
+ * 📊 AGENT MONITORING (The All-Seeing Eye)
  * Unified performance metrics and behavioral logs for all agents.
  */
 @Composable
-fun SovereignMonitoringScreen(
+fun AgentMonitoringScreen(
     onNavigateBack: () -> Unit,
     viewModel: dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
