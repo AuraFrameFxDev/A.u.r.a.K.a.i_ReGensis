@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import dev.aurakai.auraframefx.navigation.NavDestination
 
 /**
  * Displays the home screen with app titles, status messages, and navigation buttons.

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.screens.GenderIdentity
+import dev.aurakai.auraframefx.navigation.NavDestination
 
 /**
  * 🎮 System Journal - User Profile & Menu
