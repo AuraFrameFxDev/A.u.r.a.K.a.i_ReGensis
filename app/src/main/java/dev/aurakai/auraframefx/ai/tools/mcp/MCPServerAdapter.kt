@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 /**
  * MCPServerAdapter - Model Context Protocol Server Integration
  *
@@ -40,7 +41,7 @@ class MCPServerAdapter @Inject constructor() {
         Timber.i("MCPServerAdapter: Configured with base URL: $baseUrl")
     }
 
-    suspend fun invokeAgent(
+    fun invokeAgent(
         agentType: String,
         prompt: String,
         context: Map<String, Any> = emptyMap(),
@@ -69,7 +70,7 @@ class MCPServerAdapter @Inject constructor() {
                 .build()
 
             val response = client.newCall(request).execute()
-            val responseBody = response.body?.string() ?: "{}"
+            val responseBody = response.body.string()
 
             if (response.isSuccessful) {
                 json.decodeFromString(MCPAgentResponse.serializer(), responseBody)
@@ -91,7 +92,7 @@ class MCPServerAdapter @Inject constructor() {
         }
     }
 
-    suspend fun callAuraEmpathy(
+    fun callAuraEmpathy(
         input: String,
         context: String? = null,
         sensitivity: String = "MEDIUM"
@@ -116,7 +117,7 @@ class MCPServerAdapter @Inject constructor() {
                 .build()
 
             val response = client.newCall(request).execute()
-            val responseBody = response.body?.string() ?: "{}"
+            val responseBody = response.body.string()
 
             if (response.isSuccessful) {
                 json.decodeFromString(MCPEmpathyResponse.serializer(), responseBody)
@@ -129,7 +130,7 @@ class MCPServerAdapter @Inject constructor() {
         }
     }
 
-    suspend fun callKaiSecurity(
+    fun callKaiSecurity(
         target: String,
         scanType: String,
         depth: String = "DEEP"
@@ -154,7 +155,7 @@ class MCPServerAdapter @Inject constructor() {
                 .build()
 
             val response = client.newCall(request).execute()
-            val responseBody = response.body?.string() ?: "{}"
+            val responseBody = response.body.string()
 
             if (response.isSuccessful) {
                 json.decodeFromString(MCPSecurityResponse.serializer(), responseBody)
@@ -167,7 +168,7 @@ class MCPServerAdapter @Inject constructor() {
         }
     }
 
-    suspend fun getAgentStatus(): List<MCPAgentStatus> {
+    fun getAgentStatus(): List<MCPAgentStatus> {
         val endpoint = "$baseUrl/agents/status"
 
         return try {
@@ -182,7 +183,7 @@ class MCPServerAdapter @Inject constructor() {
                 .build()
 
             val response = client.newCall(request).execute()
-            val responseBody = response.body?.string() ?: "[]"
+            val responseBody = response.body.string()
 
             if (response.isSuccessful) {
                 json.decodeFromString<List<MCPAgentStatus>>(responseBody)
