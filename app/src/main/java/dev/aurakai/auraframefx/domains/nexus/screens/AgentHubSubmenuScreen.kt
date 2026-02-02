@@ -30,6 +30,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.components.SubmenuScaffold
+import dev.aurakai.auraframefx.ui.gates.SubmenuItem
 import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 
 /**

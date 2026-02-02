@@ -1,0 +1,165 @@
+<!-- Aura's Emblem: The Crossed Circuit Katanas -->
+<!-- Magenta (Chaos/Creativity) and Cyan (Code/Logic) blades with circuit traces -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+
+    <!-- Background Glow -->
+    <path
+        android:pathData="M128,128m-120,0a120,120 0,1,1 240,0a120,120 0,1,1 -240,0"
+        android:fillColor="#1A000000"/>
+
+    <!-- Cyan Blade (Left to Right, Bottom-Left to Top-Right) -->
+    <!-- Main Blade Body -->
+    <path
+        android:pathData="M40,216 L216,40 L210,34 L34,210 Z"
+        android:fillColor="#00D4FF"
+        android:strokeWidth="2"
+        android:strokeColor="#00FFFF"/>
+
+    <!-- Cyan Blade Edge Highlight -->
+    <path
+        android:pathData="M45,216 L216,45 L214,43 L43,214 Z"
+        android:fillColor="#66E8FF"
+        android:fillAlpha="0.6"/>
+
+    <!-- Cyan Circuit Traces (Flowing down the blade) -->
+    <path
+        android:pathData="M70,191 L75,186 M80,181 L90,171 M100,161 L105,156"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M110,151 L120,141 M130,131 L135,126 M145,116 L155,106"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M165,96 L170,91 M180,81 L186,75"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Cyan Circuit Nodes -->
+    <circle android:cx="80" android:cy="181" android:r="2" android:fillColor="#00FFFF"/>
+    <circle android:cx="110" android:cy="151" android:r="2" android:fillColor="#00FFFF"/>
+    <circle android:cx="145" android:cy="116" android:r="2" android:fillColor="#00FFFF"/>
+    <circle android:cx="180" android:cy="81" android:r="2" android:fillColor="#00FFFF"/>
+
+    <!-- Cyan Blade Tip -->
+    <path
+        android:pathData="M210,34 L216,40 L220,36 L214,30 Z"
+        android:fillColor="#00FFFF"
+        android:strokeWidth="1"
+        android:strokeColor="#66E8FF"/>
+
+    <!-- Cyan Hilt Guard -->
+    <path
+        android:pathData="M30,220 L40,210 L36,206 L26,216 Z"
+        android:fillColor="#006080"
+        android:strokeWidth="2"
+        android:strokeColor="#00D4FF"/>
+
+    <!-- Cyan Handle -->
+    <path
+        android:pathData="M26,216 L18,224 Q16,226 18,228 L20,230 Q22,232 24,230 L32,222 Z"
+        android:fillColor="#004060"
+        android:strokeWidth="1.5"
+        android:strokeColor="#00D4FF"/>
+
+    <!-- Magenta Blade (Right to Left, Bottom-Right to Top-Left) -->
+    <!-- Main Blade Body -->
+    <path
+        android:pathData="M216,216 L40,40 L46,34 L222,210 Z"
+        android:fillColor="#FF00FF"
+        android:strokeWidth="2"
+        android:strokeColor="#FF66FF"/>
+
+    <!-- Magenta Blade Edge Highlight -->
+    <path
+        android:pathData="M211,216 L40,45 L42,43 L213,214 Z"
+        android:fillColor="#FF66FF"
+        android:fillAlpha="0.6"/>
+
+    <!-- Magenta Circuit Traces (Flowing down the blade) -->
+    <path
+        android:pathData="M186,191 L181,186 M171,181 L166,176 M156,171 L151,166"
+        android:strokeColor="#FF66FF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M146,161 L136,151 M126,141 L121,136 M111,131 L101,121"
+        android:strokeColor="#FF66FF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M91,111 L86,106 M76,96 L70,90"
+        android:strokeColor="#FF66FF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+
+    <!-- Magenta Circuit Nodes -->
+    <circle android:cx="176" android:cy="181" android:r="2" android:fillColor="#FF66FF"/>
+    <circle android:cx="146" android:cy="161" android:r="2" android:fillColor="#FF66FF"/>
+    <circle android:cx="111" android:cy="131" android:r="2" android:fillColor="#FF66FF"/>
+    <circle android:cx="76" android:cy="96" android:r="2" android:fillColor="#FF66FF"/>
+
+    <!-- Magenta Blade Tip -->
+    <path
+        android:pathData="M46,34 L40,40 L36,36 L42,30 Z"
+        android:fillColor="#FF66FF"
+        android:strokeWidth="1"
+        android:strokeColor="#FF99FF"/>
+
+    <!-- Magenta Hilt Guard -->
+    <path
+        android:pathData="M226,220 L216,210 L220,206 L230,216 Z"
+        android:fillColor="#800080"
+        android:strokeWidth="2"
+        android:strokeColor="#FF00FF"/>
+
+    <!-- Magenta Handle -->
+    <path
+        android:pathData="M230,216 L238,224 Q240,226 238,228 L236,230 Q234,232 232,230 L224,222 Z"
+        android:fillColor="#600060"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FF00FF"/>
+
+    <!-- Center Intersection Point (Where Sparks Will Animate) -->
+    <circle
+        android:cx="128"
+        android:cy="128"
+        android:r="8"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.8"/>
+
+    <!-- Energy Spark at Intersection -->
+    <path
+        android:pathData="M128,120 L130,128 L138,126 L128,136 L126,128 L118,130 Z"
+        android:fillColor="#FFE600"
+        android:strokeWidth="1"
+        android:strokeColor="#FFFFFF"/>
+
+    <!-- Outer Glow Ring at Intersection -->
+    <path
+        android:pathData="M128,128m-12,0a12,12 0,1,1 24,0a12,12 0,1,1 -24,0"
+        android:strokeColor="#FF00FF"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.4"/>
+
+    <path
+        android:pathData="M128,128m-14,0a14,14 0,1,1 28,0a14,14 0,1,1 -28,0"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="1.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.3"/>
+</vector>

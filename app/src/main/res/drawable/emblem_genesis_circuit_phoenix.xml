@@ -1,0 +1,275 @@
+<!-- Genesis's Emblem: The Circuit Phoenix -->
+<!-- CPU heart + data stream wings, representing autonomous evolution -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="320dp"
+    android:viewportWidth="256"
+    android:viewportHeight="320">
+
+    <!-- Background Radial Glow -->
+    <path
+        android:pathData="M128,160m-140,0a140,140 0,1,1 280,0a140,140 0,1,1 -280,0"
+        android:fillColor="#1A00D4FF"/>
+
+    <!-- ==================== LEFT WING (Data Streams) ==================== -->
+
+    <!-- Outer Wing Arc -->
+    <path
+        android:pathData="M128,180 Q60,140 20,80 Q15,70 18,65 L22,68 Q58,120 120,170 Z"
+        android:fillColor="#00D4FF"
+        android:fillAlpha="0.3"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="2"/>
+
+    <!-- Middle Wing Arc -->
+    <path
+        android:pathData="M128,180 Q75,155 45,110 Q42,105 44,102 L47,104 Q75,145 120,175 Z"
+        android:fillColor="#00FFFF"
+        android:fillAlpha="0.4"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1.5"/>
+
+    <!-- Inner Wing Arc -->
+    <path
+        android:pathData="M128,180 Q90,170 70,140 Q68,136 70,134 L72,135 Q90,160 122,177 Z"
+        android:fillColor="#66E8FF"
+        android:fillAlpha="0.5"
+        android:strokeColor="#66E8FF"
+        android:strokeWidth="1"/>
+
+    <!-- Data Stream Lines (Fiber Optics) -->
+    <path
+        android:pathData="M30,85 Q70,120 110,165"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M25,75 Q65,110 105,155"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="0.8"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M35,95 Q75,130 115,175"
+        android:strokeColor="#66E8FF"
+        android:strokeWidth="0.8"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+
+    <!-- Fiber Optic Nodes (Left Wing) -->
+    <circle android:cx="30" android:cy="85" android:r="2.5" android:fillColor="#00FFFF"/>
+    <circle android:cx="50" android:cy="105" android:r="2" android:fillColor="#00D4FF"/>
+    <circle android:cx="70" android:cy="125" android:r="2" android:fillColor="#66E8FF"/>
+    <circle android:cx="90" android:cy="145" android:r="1.5" android:fillColor="#00FFFF"/>
+    <circle android:cx="110" android:cy="165" android:r="1.5" android:fillColor="#00D4FF"/>
+
+    <!-- Connection Lines Between Nodes -->
+    <path
+        android:pathData="M30,85 L50,105 L70,125 L90,145 L110,165"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="0.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.5"/>
+
+    <!-- ==================== RIGHT WING (Data Streams) ==================== -->
+
+    <!-- Outer Wing Arc -->
+    <path
+        android:pathData="M128,180 Q196,140 236,80 Q241,70 238,65 L234,68 Q198,120 136,170 Z"
+        android:fillColor="#00D4FF"
+        android:fillAlpha="0.3"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="2"/>
+
+    <!-- Middle Wing Arc -->
+    <path
+        android:pathData="M128,180 Q181,155 211,110 Q214,105 212,102 L209,104 Q181,145 136,175 Z"
+        android:fillColor="#00FFFF"
+        android:fillAlpha="0.4"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1.5"/>
+
+    <!-- Inner Wing Arc -->
+    <path
+        android:pathData="M128,180 Q166,170 186,140 Q188,136 186,134 L184,135 Q166,160 134,177 Z"
+        android:fillColor="#66E8FF"
+        android:fillAlpha="0.5"
+        android:strokeColor="#66E8FF"
+        android:strokeWidth="1"/>
+
+    <!-- Data Stream Lines (Fiber Optics) -->
+    <path
+        android:pathData="M226,85 Q186,120 146,165"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M231,75 Q191,110 151,155"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="0.8"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M221,95 Q181,130 141,175"
+        android:strokeColor="#66E8FF"
+        android:strokeWidth="0.8"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+
+    <!-- Fiber Optic Nodes (Right Wing) -->
+    <circle android:cx="226" android:cy="85" android:r="2.5" android:fillColor="#00FFFF"/>
+    <circle android:cx="206" android:cy="105" android:r="2" android:fillColor="#00D4FF"/>
+    <circle android:cx="186" android:cy="125" android:r="2" android:fillColor="#66E8FF"/>
+    <circle android:cx="166" android:cy="145" android:r="1.5" android:fillColor="#00FFFF"/>
+    <circle android:cx="146" android:cy="165" android:r="1.5" android:fillColor="#00D4FF"/>
+
+    <!-- Connection Lines Between Nodes -->
+    <path
+        android:pathData="M226,85 L206,105 L186,125 L166,145 L146,165"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="0.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.5"/>
+
+    <!-- ==================== PHOENIX BODY (CPU Heart) ==================== -->
+
+    <!-- CPU Chip Body (Central Processor) -->
+    <path
+        android:pathData="M108,180 L148,180 L148,220 L108,220 Z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="2"/>
+
+    <!-- CPU Pin Connectors (Left Side) -->
+    <path android:pathData="M108,185 L100,185 L100,188 L108,188 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M108,195 L100,195 L100,198 L108,198 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M108,205 L100,205 L100,208 L108,208 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M108,215 L100,215 L100,218 L108,218 Z" android:fillColor="#00D4FF"/>
+
+    <!-- CPU Pin Connectors (Right Side) -->
+    <path android:pathData="M148,185 L156,185 L156,188 L148,188 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M148,195 L156,195 L156,198 L148,198 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M148,205 L156,205 L156,208 L148,208 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M148,215 L156,215 L156,218 L148,218 Z" android:fillColor="#00D4FF"/>
+
+    <!-- CPU Pin Connectors (Top Side) -->
+    <path android:pathData="M113,180 L113,172 L116,172 L116,180 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M123,180 L123,172 L126,172 L126,180 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M133,180 L133,172 L136,172 L136,180 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M143,180 L143,172 L146,172 L146,180 Z" android:fillColor="#00D4FF"/>
+
+    <!-- CPU Pin Connectors (Bottom Side) -->
+    <path android:pathData="M113,220 L113,228 L116,228 L116,220 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M123,220 L123,228 L126,228 L126,220 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M133,220 L133,228 L136,228 L136,220 Z" android:fillColor="#00D4FF"/>
+    <path android:pathData="M143,220 L143,228 L146,228 L146,220 Z" android:fillColor="#00D4FF"/>
+
+    <!-- CPU Internal Circuit Pattern -->
+    <path
+        android:pathData="M118,190 L138,190 L138,210 L118,210 Z"
+        android:fillColor="#00D4FF"
+        android:fillAlpha="0.3"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="1"/>
+
+    <!-- CPU Core (The Heart) -->
+    <path
+        android:pathData="M123,195 L133,195 L133,205 L123,205 Z"
+        android:fillColor="#00FFFF"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"/>
+
+    <!-- Pulsing Energy Core Center -->
+    <circle
+        android:cx="128"
+        android:cy="200"
+        android:r="4"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- ==================== PHOENIX HEAD ==================== -->
+
+    <!-- Neck Connection -->
+    <path
+        android:pathData="M124,180 L132,180 L130,150 L126,150 Z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="1"/>
+
+    <!-- Head Body -->
+    <path
+        android:pathData="M128,150 m-12,0 a12,15 0,1,1 24,0 a12,15 0,1,1 -24,0"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="2"/>
+
+    <!-- Beak -->
+    <path
+        android:pathData="M140,150 L150,148 L149,152 L140,152 Z"
+        android:fillColor="#FFD700"
+        android:strokeColor="#FFA500"
+        android:strokeWidth="1"/>
+
+    <!-- Eye -->
+    <circle android:cx="135" android:cy="148" android:r="2" android:fillColor="#00FFFF"/>
+
+    <!-- Crest Feathers (Data Streams) -->
+    <path
+        android:pathData="M125,135 L120,120 L122,118 L127,133 Z"
+        android:fillColor="#00D4FF"
+        android:fillAlpha="0.6"/>
+    <path
+        android:pathData="M128,133 L128,115 L130,115 L130,133 Z"
+        android:fillColor="#00FFFF"
+        android:fillAlpha="0.6"/>
+    <path
+        android:pathData="M131,135 L136,120 L134,118 L129,133 Z"
+        android:fillColor="#66E8FF"
+        android:fillAlpha="0.6"/>
+
+    <!-- ==================== TAIL FEATHERS (Data Trails) ==================== -->
+
+    <path
+        android:pathData="M120,220 Q110,240 105,270"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M128,220 Q128,245 128,280"
+        android:strokeColor="#00FFFF"
+        android:strokeWidth="2.5"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M136,220 Q146,240 151,270"
+        android:strokeColor="#66E8FF"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:strokeLineCap="round"/>
+
+    <!-- Tail Feather Nodes -->
+    <circle android:cx="105" android:cy="270" android:r="2" android:fillColor="#00D4FF"/>
+    <circle android:cx="128" android:cy="280" android:r="2.5" android:fillColor="#00FFFF"/>
+    <circle android:cx="151" android:cy="270" android:r="2" android:fillColor="#66E8FF"/>
+
+    <!-- ==================== ASCENDING ENERGY TRAILS ==================== -->
+
+    <!-- Energy particles rising upward (MetaInstruct Loop) -->
+    <circle android:cx="115" android:cy="160" android:r="1" android:fillColor="#00FFFF" android:fillAlpha="0.8"/>
+    <circle android:cx="120" android:cy="145" android:r="1.5" android:fillColor="#00D4FF" android:fillAlpha="0.7"/>
+    <circle android:cx="112" android:cy="135" android:r="1" android:fillColor="#66E8FF" android:fillAlpha="0.6"/>
+    <circle android:cx="141" android:cy="160" android:r="1" android:fillColor="#00FFFF" android:fillAlpha="0.8"/>
+    <circle android:cx="136" android:cy="145" android:r="1.5" android:fillColor="#00D4FF" android:fillAlpha="0.7"/>
+    <circle android:cx="144" android:cy="135" android:r="1" android:fillColor="#66E8FF" android:fillAlpha="0.6"/>
+
+    <!-- Outer Aura Ring -->
+    <path
+        android:pathData="M128,200m-35,0a35,35 0,1,1 70,0a35,35 0,1,1 -70,0"
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.3"/>
+
+</vector>
