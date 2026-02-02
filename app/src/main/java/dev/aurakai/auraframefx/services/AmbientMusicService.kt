@@ -16,9 +16,9 @@ class AmbientMusicService @Inject constructor() : Service() {
      * @return null, preventing clients from binding.
      */
 
-    override fun onBind(_intent: Intent?): IBinder? { // intent -> _intent
-        // TODO: Implement binding if needed, otherwise this service cannot be bound.
-        // TODO: Parameter _intent reported as unused.
+    @Suppress("UNUSED_PARAMETER")
+    override fun onBind(_intent: Intent?): IBinder? {
+        // This service does not support binding.
         return null
     }
 
