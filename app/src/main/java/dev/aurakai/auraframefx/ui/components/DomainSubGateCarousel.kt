@@ -260,7 +260,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_notch",
         styleBDrawable = "aura_clean_notch",
         fallbackDrawable = "card_notch_bar",
-        route = "notch_bar",
+        route = NavDestination.NotchBar.route,
         accentColor = Color(0xFFFF1493)
     ),
     SubGateCard(
@@ -270,7 +270,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_status",
         styleBDrawable = "aura_clean_status",
         fallbackDrawable = null,
-        route = "status_bar",
+        route = NavDestination.StatusBar.route,
         accentColor = Color(0xFF00E5FF)
     ),
     SubGateCard(
@@ -280,7 +280,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_qs",
         styleBDrawable = "aura_clean_qs",
         fallbackDrawable = null,
-        route = "quick_settings",
+        route = NavDestination.QuickSettings.route,
         accentColor = Color(0xFF00FF85)
     ),
     SubGateCard(
@@ -300,7 +300,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_lab",
         styleBDrawable = "aura_clean_lab",
         fallbackDrawable = "gate_auralab_final",
-        route = "aura_lab",
+        route = NavDestination.AuraLab.route,
         accentColor = Color(0xFF00E5FF)
     )
 )
@@ -318,7 +318,7 @@ fun getKaiSubGates() = listOf(
         styleADrawable = "kai_pixel_rom",
         styleBDrawable = "kai_cyber_rom",
         fallbackDrawable = "gate_romtools_final",
-        route = "rom_flasher",
+        route = NavDestination.ROMFlasher.route,
         accentColor = Color(0xFFFF3366)
     ),
     SubGateCard(
@@ -328,7 +328,7 @@ fun getKaiSubGates() = listOf(
         styleADrawable = "kai_pixel_bootloader",
         styleBDrawable = "kai_cyber_bootloader",
         fallbackDrawable = "card_bootloader",
-        route = "bootloader",
+        route = NavDestination.Bootloader.route,
         accentColor = Color(0xFFFF1111)
     ),
     SubGateCard(
@@ -338,7 +338,7 @@ fun getKaiSubGates() = listOf(
         styleADrawable = "kai_pixel_modules",
         styleBDrawable = "kai_cyber_modules",
         fallbackDrawable = null,
-        route = "module_manager",
+        route = NavDestination.ModuleManager.route,
         accentColor = Color(0xFF00FF85)
     ),
     SubGateCard(
@@ -348,7 +348,7 @@ fun getKaiSubGates() = listOf(
         styleADrawable = "kai_pixel_recovery",
         styleBDrawable = "kai_cyber_recovery",
         fallbackDrawable = null,
-        route = "recovery_tools",
+        route = NavDestination.RecoveryTools.route,
         accentColor = Color(0xFF00E5FF)
     ),
     SubGateCard(
@@ -358,7 +358,7 @@ fun getKaiSubGates() = listOf(
         styleADrawable = "kai_pixel_security",
         styleBDrawable = "kai_cyber_security",
         fallbackDrawable = "card_firewall",
-        route = "security_center",
+        route = NavDestination.SecurityCenter.route,
         accentColor = Color(0xFFFF1111)
     ),
     SubGateCard(
@@ -368,7 +368,7 @@ fun getKaiSubGates() = listOf(
         styleADrawable = "kai_pixel_vpn",
         styleBDrawable = "kai_cyber_vpn",
         fallbackDrawable = "card_vpn",
-        route = "vpn",
+        route = NavDestination.VPN.route,
         accentColor = Color(0xFF00FF85)
     ),
     SubGateCard(
@@ -378,7 +378,7 @@ fun getKaiSubGates() = listOf(
         styleADrawable = "kai_pixel_lsposed",
         styleBDrawable = "kai_cyber_lsposed",
         fallbackDrawable = "gate_lsposed_final",
-        route = "lsposed_hub",
+        route = NavDestination.LSPosedHub.route,
         accentColor = Color(0xFFFFCC00)
     )
 )
@@ -396,7 +396,7 @@ fun getGenesisSubGates() = listOf(
         styleADrawable = "genesis_phoenix_code",
         styleBDrawable = "genesis_neural_code",
         fallbackDrawable = "gate_codeassist_final",
-        route = "code_assist",
+        route = NavDestination.CodeAssist.route,
         accentColor = Color(0xFF00FF85)
     ),
     SubGateCard(
@@ -406,7 +406,7 @@ fun getGenesisSubGates() = listOf(
         styleADrawable = "genesis_phoenix_archive",
         styleBDrawable = "genesis_neural_archive",
         fallbackDrawable = null,
-        route = "neural_network",
+        route = NavDestination.NeuralNetwork.route,
         accentColor = Color(0xFF00FFD4)
     ),
     SubGateCard(
@@ -416,7 +416,7 @@ fun getGenesisSubGates() = listOf(
         styleADrawable = "genesis_phoenix_bridge",
         styleBDrawable = "genesis_neural_bridge",
         fallbackDrawable = null,
-        route = "agent_bridge_hub",
+        route = NavDestination.AgentBridgeHub.route,
         accentColor = Color(0xFFAA00FF)
     ),
     SubGateCard(
@@ -426,7 +426,7 @@ fun getGenesisSubGates() = listOf(
         styleADrawable = "genesis_phoenix_cloud",
         styleBDrawable = "genesis_neural_cloud",
         fallbackDrawable = null,
-        route = "oracle_cloud_storage",
+        route = NavDestination.OracleCloudStorage.route,
         accentColor = Color(0xFF00FF85)
     ),
     SubGateCard(
@@ -436,7 +436,7 @@ fun getGenesisSubGates() = listOf(
         styleADrawable = "genesis_phoenix_terminal",
         styleBDrawable = "genesis_neural_terminal",
         fallbackDrawable = "gate_terminal_final",
-        route = "terminal",
+        route = NavDestination.Terminal.route,
         accentColor = Color(0xFF00E5FF)
     ),
     SubGateCard(
@@ -446,7 +446,7 @@ fun getGenesisSubGates() = listOf(
         styleADrawable = "genesis_phoenix_conference",
         styleBDrawable = "genesis_neural_conference",
         fallbackDrawable = null,
-        route = "conference_room",
+        route = NavDestination.ConferenceRoom.route,
         accentColor = Color(0xFFB026FF)
     )
 )
@@ -466,7 +466,7 @@ fun getNexusSubGates() = listOf(
         styleADrawable = "gatescenes_nexus_constellation_cosmic",      // NEW! Geometric constellation
         styleBDrawable = "gatescenes_nexus_constellation_variant",     // NEW! Variant constellation
         fallbackDrawable = null,
-        route = "constellation",
+        route = NavDestination.EvolutionTree.route,
         accentColor = Color(0xFF00E5FF)
     ),
     SubGateCard(
@@ -476,7 +476,7 @@ fun getNexusSubGates() = listOf(
         styleADrawable = "gatescenes_nexus_circuit_tree",              // NEW! Circuit tree pattern
         styleBDrawable = "gatescenes_nexus_constellation_variant",     // NEW! Monitoring constellation
         fallbackDrawable = null,
-        route = "agent_monitoring",
+        route = NavDestination.AgentMonitoring.route,
         accentColor = Color(0xFF00FFD4)
     ),
     SubGateCard(
@@ -486,7 +486,7 @@ fun getNexusSubGates() = listOf(
         styleADrawable = "gatescenes_nexus_hive_structure",            // NEW! Hexagonal agent hive
         styleBDrawable = "gatescenes_nexus_circuit_tree",              // NEW! Tech circuit style
         fallbackDrawable = "gate_spheregrid_final",
-        route = "sphere_grid",
+        route = NavDestination.LdoCatalystDevelopment.route,
         accentColor = Color(0xFFFFD700)
     ),
     SubGateCard(
@@ -496,7 +496,7 @@ fun getNexusSubGates() = listOf(
         styleADrawable = "gatescenes_nexus_fusion_symbol",             // NEW! Fusion connection symbol
         styleBDrawable = "gatescenes_nexus_constellation_cosmic",      // NEW! Cosmic fusion
         fallbackDrawable = null,
-        route = "fusion_mode",
+        route = NavDestination.FusionMode.route,
         accentColor = Color(0xFF00E5FF)
     ),
     SubGateCard(
@@ -506,7 +506,7 @@ fun getNexusSubGates() = listOf(
         styleADrawable = "gatescenes_nexus_ldo_roster",                // NEW! LDO agent roster
         styleBDrawable = "gatescenes_nexus_hive_structure",            // NEW! Organized hive
         fallbackDrawable = null,
-        route = "task_assignment",
+        route = NavDestination.TaskAssignment.route,
         accentColor = Color(0xFFB026FF)
     ),
     SubGateCard(
@@ -516,7 +516,7 @@ fun getNexusSubGates() = listOf(
         styleADrawable = "gatescenes_nexus_circuit_tree",              // NEW! Neural tree
         styleBDrawable = "gatescenes_nexus_fusion_symbol",             // NEW! Meta connection
         fallbackDrawable = null,
-        route = "meta_instruct",
+        route = NavDestination.MetaInstruct.route,
         accentColor = Color(0xFF00FFD4)
     )
 )
