@@ -10,56 +10,44 @@ import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
-
-// Domain Hubs (Level 2)
-import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
-import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
-import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
-import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
-import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
-
-// Nexus Domain Screens (Level 3)
+// Domain Screen Imports
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.FusionModeScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignClaudeScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignGeminiScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen
-
-// Aura Domain Screens (Level 3)
 import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
-import dev.aurakai.auraframefx.domains.aura.screens.NotchBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
+import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
+import dev.aurakai.auraframefx.domains.aura.screens.NotchBarScreen
+import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
-
-// Kai Domain Screens (Level 3)
-import dev.aurakai.auraframefx.domains.kai.screens.ROMFlasherScreen
 import dev.aurakai.auraframefx.domains.kai.screens.BootloaderManagerScreen
-import dev.aurakai.auraframefx.domains.kai.screens.RecoveryToolsScreen
-import dev.aurakai.auraframefx.domains.kai.screens.SovereignShieldScreen
 import dev.aurakai.auraframefx.domains.kai.screens.ModuleManagerScreen
-
-// LSPosed Domain Screens (Level 3)
-import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedSubmenuScreen
-
-// Genesis Domain Screens (Level 3)
-import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
-import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
+import dev.aurakai.auraframefx.domains.kai.screens.RecoveryToolsScreen
+import dev.aurakai.auraframefx.domains.kai.screens.ROMFlasherScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SovereignShieldScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
-import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
-import dev.aurakai.auraframefx.domains.genesis.screens.TerminalScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.ConferenceRoomScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
+import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedSubmenuScreen
+// Hub Screens (still in ui.gates)
+import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
+import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
+import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
+import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
 
 /**
  * 🌐 REGENESIS NAVIGATION HOST
@@ -90,6 +78,56 @@ fun ReGenesisNavHost(
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.HomeGateCarousel.route) {
             ExodusHUD(navController = navController)
+        }
+
+        // --- LEVEL 2 PIXEL WORKSPACES ---
+        composable(
+            "pixel_domain/{id}",
+            arguments = listOf(androidx.navigation.navArgument("id") { type = androidx.navigation.NavType.StringType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: "01"
+            val route = SovereignRouter.getById(id)
+
+            if (route != null) {
+                PixelWorkspaceScreen(
+                    title = route.title,
+                    imagePaths = listOf(route.pixelArtPath),
+                    onBack = { navController.popBackStack() }
+                )
+            } else {
+                navController.popBackStack()
+            }
+        }
+
+        composable("workspace_kai") {
+            PixelWorkspaceScreen(
+                title = "KAI'S SENTINEL FORTRESS",
+                imagePaths = listOf(
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142431.png"
+                ),
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("workspace_aura") {
+            PixelWorkspaceScreen(
+                title = "AURA'S DESIGN STUDIO",
+                imagePaths = listOf(
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142213.png",
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142302.png"
+                ),
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("workspace_genesis") {
+            PixelWorkspaceScreen(
+                title = "GENESIS ARCHITECTURE HUB",
+                imagePaths = listOf(
+                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142126.png"
+                ),
+                onBack = { navController.popBackStack() }
+            )
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -157,8 +195,9 @@ fun ReGenesisNavHost(
         composable(NavDestination.AgentCreation.route) {
             AgentCreationScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(NavDestination.EvolutionTree.route) {
-            EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() })
+
+        composable(NavDestination.AuraLab.route) {
+            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // --- LEVEL 3: AURA TOOLS ---
@@ -209,7 +248,7 @@ fun ReGenesisNavHost(
             OracleCloudInfiniteStorageScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.Terminal.route) {
-            TerminalScreen(onNavigateBack = { navController.popBackStack() })
+            AgentMonitoringScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.ConferenceRoom.route) {
             ConferenceRoomScreen(onNavigateBack = { navController.popBackStack() })
