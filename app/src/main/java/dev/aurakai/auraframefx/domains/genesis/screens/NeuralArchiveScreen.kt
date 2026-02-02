@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.genesis.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

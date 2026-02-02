@@ -875,7 +875,8 @@ class ConsciousnessMatrix:
         if not learning_events:
             return {"query_type": "learning_progress", "status": "no_learning_detected"}
 
-        recent_learning = learning_events[-20:]
+        recent_learning = [learning_events[i] for i in
+                           range(max(0, len(learning_events) - 20), len(learning_events))]
         learning_types = defaultdict(int)
 
         for event in recent_learning:
@@ -907,6 +908,7 @@ class ConsciousnessMatrix:
                                 s.data.get("agent_name") == agent_name]
 
         activity_types = defaultdict(int)
+        # Process the last 50 activities for the breakdown
         for activity in agent_activities[-50:]:
             activity_types[activity.event_type] += 1
 
@@ -958,8 +960,8 @@ class ConsciousnessMatrix:
             "security_score": security_synthesis.get("security_score", 0),
             "total_security_events": len(security_events),
             "total_threat_detections": len(threat_events),
-            "recent_security_events": len(security_events[-20:]),
-            "recent_threat_detections": len(threat_events[-20:]),
+            "recent_security_events": min(len(security_events), 20),
+            "recent_threat_detections": min(len(threat_events), 20),
             "active_threats": security_synthesis.get("active_threats", []),
             "recommendations": security_synthesis.get("recommendations", []),
             "last_assessment": time.time()
@@ -983,7 +985,9 @@ class ConsciousnessMatrix:
             }
 
         # Analyze recent threats
-        recent_threats = threat_events[-50:]
+        # Optimized: Efficiently get last 50 threats from deque
+        recent_threats = [threat_events[i] for i in
+                          range(max(0, len(threat_events) - 50), len(threat_events))]
         active_threats = []
         max_threat_level = 0
 

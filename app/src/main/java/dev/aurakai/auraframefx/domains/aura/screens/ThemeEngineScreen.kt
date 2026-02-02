@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +29,8 @@ import dev.aurakai.auraframefx.ui.theme.picker.ThemeColors
 import dev.aurakai.auraframefx.ui.theme.picker.ThemeEditor
 import dev.aurakai.auraframefx.ui.theme.picker.ColorBlendrPicker
 import dev.aurakai.auraframefx.ui.theme.CyberGlow
+import dev.aurakai.auraframefx.ui.overlays.OverlayPrefs
+import kotlinx.coroutines.launch
 import kotlin.collections.forEachIndexed
 import kotlin.collections.toMutableList
 
@@ -41,8 +44,18 @@ import kotlin.collections.toMutableList
 fun ThemeEngineScreen(
     onNavigateBack: () -> Unit
 ) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
     var selectedColor by remember { mutableStateOf(Color.Magenta) }
     val scrollState = rememberScrollState()
+
+    // Persisted states from DataStore
+    val persistedEnabled by OverlayPrefs.enabledFlow(context).collectAsState(initial = true)
+    val persistedStyle by OverlayPrefs.transitionStyleFlow(context).collectAsState(initial = "fade")
+    val persistedSpeed by OverlayPrefs.transitionSpeedFlow(context).collectAsState(initial = 3)
+    val persistedOrder by OverlayPrefs.orderFlow(context).collectAsState(initial = listOf("StatusBar", "NavBar", "Widget"))
+
     // Remove LocalOverlaySettings access that causes crash
     var overlaysEnabled by remember { mutableStateOf(true) }
     // Overlay settings state
@@ -51,6 +64,18 @@ fun ThemeEngineScreen(
     var editMode by remember { mutableStateOf(false) }
     val scaleAnim = remember { Animatable(1f) }
     val wigglePhase = remember { Animatable(0f) }
+
+    var transitionStyle by remember { mutableStateOf("fade") }
+
+    // Synchronize local state with persisted state
+    LaunchedEffect(persistedEnabled) { overlaysEnabled = persistedEnabled }
+    LaunchedEffect(persistedStyle) { transitionStyle = persistedStyle }
+    LaunchedEffect(persistedSpeed) {
+        overlaySettings = overlaySettings.copy(transitionSpeed = persistedSpeed)
+    }
+    LaunchedEffect(persistedOrder) {
+        overlaySettings = overlaySettings.copy(overlayZOrder = persistedOrder)
+    }
 
     LaunchedEffect(editMode) {
         if (editMode) {
@@ -178,8 +203,11 @@ fun ThemeEngineScreen(
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = {
-                            overlaysEnabled = !overlaysEnabled
-                            // TODO: Save overlay settings
+                            val newValue = !overlaysEnabled
+                            overlaysEnabled = newValue
+                            coroutineScope.launch {
+                                OverlayPrefs.saveEnabled(context, newValue)
+                            }
                         }) {
                             Icon(
                                 imageVector = if (overlaysEnabled) Icons.Default.Visibility else Icons.Default.VisibilityOff,
@@ -206,14 +234,15 @@ fun ThemeEngineScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
                     Text("Transition Style", color = CyberGlow.Electric, style = MaterialTheme.typography.titleSmall)
-                    var transitionStyle by remember { mutableStateOf("fade") }
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         listOf("lens", "fade", "swipe_left", "swipe_right").forEach { style ->
                             FilterChip(
                                 selected = transitionStyle == style,
                                 onClick = {
                                     transitionStyle = style
-                                    // TODO: Save transition style
+                                    coroutineScope.launch {
+                                        OverlayPrefs.saveTransitionStyle(context, style)
+                                    }
                                 },
                                 label = { Text(style.replace("_", " ").uppercase()) },
                                 colors = FilterChipDefaults.filterChipColors(
@@ -226,12 +255,16 @@ fun ThemeEngineScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
                     Text("Transition Speed", color = CyberGlow.Electric, style = MaterialTheme.typography.titleSmall)
-                    var transitionSpeed by remember { mutableFloatStateOf(overlaySettings.transitionSpeed.toFloat()) }
+                    val transitionSpeed = overlaySettings.transitionSpeed.toFloat()
                     Slider(
                         value = transitionSpeed,
                         onValueChange = {
-                            transitionSpeed = it
-                            overlaySettings.transitionSpeed = it.toInt()
+                            overlaySettings = overlaySettings.copy(transitionSpeed = it.toInt())
+                        },
+                        onValueChangeFinished = {
+                            coroutineScope.launch {
+                                OverlayPrefs.saveTransitionSpeed(context, overlaySettings.transitionSpeed)
+                            }
                         },
                         valueRange = 1f..5f,
                         steps = 3,
@@ -244,7 +277,7 @@ fun ThemeEngineScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
                     Text("Z‑Order (Top → Bottom)", color = Color.White.copy(alpha = 0.8f))
-                    var overlayZOrder by remember { mutableStateOf(listOf("StatusBar", "NavBar", "Widget")) }
+                    val overlayZOrder = overlaySettings.overlayZOrder
                     overlayZOrder.forEachIndexed { index: Int, name: String ->
                         val phase = wigglePhase.value
                         val rotation = if (editMode) (kotlin.math.sin(phase * 2f * Math.PI).toFloat() * 2.0f) else 0f
@@ -261,7 +294,9 @@ fun ThemeEngineScreen(
                                     if (editMode) {
                                         detectDragGestures(
                                             onDragEnd = {
-                                                // snap back visuals handled by wiggle
+                                                coroutineScope.launch {
+                                                    OverlayPrefs.saveOrder(context, overlaySettings.overlayZOrder)
+                                                }
                                             }
                                         ) { _: PointerInputChange, dragAmount: Offset ->
                                             // Calculate target index based on drag direction
@@ -274,8 +309,7 @@ fun ThemeEngineScreen(
                                                 val m: MutableList<String> = overlayZOrder.toMutableList()
                                                 val item: String = m.removeAt(index)
                                                 m.add(targetIndex, item)
-                                                overlayZOrder = m
-                                                overlaySettings.overlayZOrder = m
+                                                overlaySettings = overlaySettings.copy(overlayZOrder = m)
                                             }
                                         }
                                     }
@@ -289,8 +323,10 @@ fun ThemeEngineScreen(
                                     if (index > 0) {
                                         val m: MutableList<String> = overlayZOrder.toMutableList()
                                         val tmp: String = m[index - 1]; m[index - 1] = m[index]; m[index] = tmp
-                                        overlayZOrder = m
-                                        overlaySettings.overlayZOrder = m
+                                        overlaySettings = overlaySettings.copy(overlayZOrder = m)
+                                        coroutineScope.launch {
+                                            OverlayPrefs.saveOrder(context, m)
+                                        }
                                     }
                                 }) { Text("Up") }
                                 Spacer(modifier = Modifier.width(8.dp))
@@ -298,8 +334,10 @@ fun ThemeEngineScreen(
                                     if (index < overlayZOrder.size - 1) {
                                         val m: MutableList<String> = overlayZOrder.toMutableList()
                                         val tmp: String = m[index + 1]; m[index + 1] = m[index]; m[index] = tmp
-                                        overlayZOrder = m
-                                        overlaySettings.overlayZOrder = m
+                                        overlaySettings = overlaySettings.copy(overlayZOrder = m)
+                                        coroutineScope.launch {
+                                            OverlayPrefs.saveOrder(context, m)
+                                        }
                                     }
                                 }) { Text("Down") }
                             } else {
