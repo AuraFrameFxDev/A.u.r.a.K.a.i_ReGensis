@@ -57,15 +57,51 @@ sealed class NavDestination(val route: String) {
     data object MonitoringHub : NavDestination("monitoring_hub")
 
     // ═══════════════════════════════════════════════════════════════
-    // LEVEL 3: UX/UI DESIGN TOOLS (Complete Arsenal - 20+ Features!)
+    // LEVEL 3: UX/UI DESIGN TOOLS (Complete Arsenal - 114+ Settings!)
+    // Integrated from: Iconify (69), ColorBlendr (16), PixelLauncherEnhanced (29)
     // ═══════════════════════════════════════════════════════════════
+
+    // --- ICONIFY INTEGRATION (69 Settings) ---
+    data object IconifyPicker : NavDestination("aura/iconify")
+    data object IconifyCategory : NavDestination("aura/iconify/{category}") {
+        fun createRoute(category: String) = "aura/iconify/$category"
+    }
+    data object IconifyIconPacks : NavDestination("aura/iconify/icon_packs")
+    data object IconifyBatteryStyles : NavDestination("aura/iconify/battery_styles")
+    data object IconifyBrightnessBars : NavDestination("aura/iconify/brightness_bars")
+    data object IconifyQSPanel : NavDestination("aura/iconify/qs_panel")
+    data object IconifyNotifications : NavDestination("aura/iconify/notifications")
+    data object IconifyVolumePanel : NavDestination("aura/iconify/volume_panel")
+    data object IconifyNavigationBar : NavDestination("aura/iconify/navigation_bar")
+    data object IconifyUIRoundness : NavDestination("aura/iconify/ui_roundness")
+    data object IconifyIconShape : NavDestination("aura/iconify/icon_shape")
+    data object IconifyStatusBar : NavDestination("aura/iconify/status_bar")
+    data object IconifyXposedFeatures : NavDestination("aura/iconify/xposed_features")
+    data object IconifyColorEngine : NavDestination("aura/iconify/color_engine")
+    data object IconPicker : NavDestination("aura/iconify/icon_picker/{category}") {
+        fun createRoute(category: String) = "aura/iconify/icon_picker/$category"
+    }
+
+    // --- COLORBLENDR INTEGRATION (16 Settings) ---
+    data object ColorBlendr : NavDestination("aura/colorblendr")
+    data object ColorBlendrMonet : NavDestination("aura/colorblendr/monet")
+    data object ColorBlendrPalette : NavDestination("aura/colorblendr/palette")
+    data object ColorBlendrPerApp : NavDestination("aura/colorblendr/per_app")
+
+    // --- PIXEL LAUNCHER ENHANCED INTEGRATION (29 Settings) ---
+    data object PixelLauncherEnhanced : NavDestination("aura/pixel_launcher_enhanced")
+    data object PLEIcons : NavDestination("aura/ple/icons")
+    data object PLEHomeScreen : NavDestination("aura/ple/home_screen")
+    data object PLEAppDrawer : NavDestination("aura/ple/app_drawer")
+    data object PLERecents : NavDestination("aura/ple/recents")
+
+    // --- LEGACY/OTHER AURA TOOLS ---
     data object CollabCanvas : NavDestination("collab_canvas")
     data object SandboxUi : NavDestination("sandbox_ui")
     data object ChromaCore : NavDestination("chroma_core")
     data object InstantColorPicker : NavDestination("instant_color_picker")
     data object GyroscopeCustomization : NavDestination("gyroscope_customization")
     data object ThemeManager : NavDestination("theme_manager")
-    data object IconifyPicker : NavDestination("iconify_picker")
     data object ReGenesisCustomization : NavDestination("regenesis_customization")
     data object UISettings : NavDestination("ui_settings")
     data object UserPreferences : NavDestination("user_preferences")

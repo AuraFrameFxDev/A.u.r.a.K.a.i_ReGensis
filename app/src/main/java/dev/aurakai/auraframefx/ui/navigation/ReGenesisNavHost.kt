@@ -80,56 +80,6 @@ fun ReGenesisNavHost(
             ExodusHUD(navController = navController)
         }
 
-        // --- LEVEL 2 PIXEL WORKSPACES ---
-        composable(
-            "pixel_domain/{id}",
-            arguments = listOf(androidx.navigation.navArgument("id") { type = androidx.navigation.NavType.StringType })
-        ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id") ?: "01"
-            val route = SovereignRouter.getById(id)
-
-            if (route != null) {
-                PixelWorkspaceScreen(
-                    title = route.title,
-                    imagePaths = listOf(route.pixelArtPath),
-                    onBack = { navController.popBackStack() }
-                )
-            } else {
-                navController.popBackStack()
-            }
-        }
-
-        composable("workspace_kai") {
-            PixelWorkspaceScreen(
-                title = "KAI'S SENTINEL FORTRESS",
-                imagePaths = listOf(
-                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142431.png"
-                ),
-                onBack = { navController.popBackStack() }
-            )
-        }
-
-        composable("workspace_aura") {
-            PixelWorkspaceScreen(
-                title = "AURA'S DESIGN STUDIO",
-                imagePaths = listOf(
-                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142213.png",
-                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142302.png"
-                ),
-                onBack = { navController.popBackStack() }
-            )
-        }
-
-        composable("workspace_genesis") {
-            PixelWorkspaceScreen(
-                title = "GENESIS ARCHITECTURE HUB",
-                imagePaths = listOf(
-                    "file:///sdcard/Pictures/Screenshots/IMG_20260128_142126.png"
-                ),
-                onBack = { navController.popBackStack() }
-            )
-        }
-
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 2: MAIN DOMAIN HUBS
         // ═══════════════════════════════════════════════════════════════

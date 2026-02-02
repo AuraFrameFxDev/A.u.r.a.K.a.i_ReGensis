@@ -3,6 +3,9 @@
  *
  * This file wires up the REAL Iconify, ColorBlendr, and PixelLauncherEnhanced
  * screens into the ReGenesis navigation system.
+ *
+ * NOTE: Route definitions moved to NavDestination.kt (unified architecture)
+ * This file now contains only the integration logic and sub-gate definitions.
  */
 
 package dev.aurakai.auraframefx.navigation
@@ -17,51 +20,8 @@ import dev.aurakai.auraframefx.ui.screens.aura.IconifyPickerScreen
 import dev.aurakai.auraframefx.ui.screens.aura.PixelLauncherEnhancedScreen
 
 // ============================================================================
-// NAVIGATION DESTINATIONS FOR CUSTOMIZATION
+// AURA CUSTOMIZATION NAVIGATION GRAPH
 // ============================================================================
-
-/**
- * AURA Domain - Customization Navigation Routes
- */
-sealed class AuraCustomizationRoute(val route: String) {
-    // Main Iconify
-    object IconifyPicker : AuraCustomizationRoute("aura/iconify")
-    object IconifyCategory : AuraCustomizationRoute("aura/iconify/{category}") {
-        fun createRoute(category: String) = "aura/iconify/$category"
-    }
-
-    // Iconify Sub-categories
-    object IconPacksScreen : AuraCustomizationRoute("aura/iconify/icon_packs")
-    object BatteryStylesScreen : AuraCustomizationRoute("aura/iconify/battery_styles")
-    object BrightnessBarsScreen : AuraCustomizationRoute("aura/iconify/brightness_bars")
-    object QSPanelScreen : AuraCustomizationRoute("aura/iconify/qs_panel")
-    object NotificationsScreen : AuraCustomizationRoute("aura/iconify/notifications")
-    object VolumePanelScreen : AuraCustomizationRoute("aura/iconify/volume_panel")
-    object NavigationBarScreen : AuraCustomizationRoute("aura/iconify/navigation_bar")
-    object UIRoundnessScreen : AuraCustomizationRoute("aura/iconify/ui_roundness")
-    object IconShapeScreen : AuraCustomizationRoute("aura/iconify/icon_shape")
-    object StatusBarScreen : AuraCustomizationRoute("aura/iconify/status_bar")
-    object XposedFeaturesScreen : AuraCustomizationRoute("aura/iconify/xposed_features")
-    object ColorEngineScreen : AuraCustomizationRoute("aura/iconify/color_engine")
-
-    // ColorBlendr
-    object ColorBlendr : AuraCustomizationRoute("aura/colorblendr")
-    object ColorBlendrMonet : AuraCustomizationRoute("aura/colorblendr/monet")
-    object ColorBlendrPalette : AuraCustomizationRoute("aura/colorblendr/palette")
-    object ColorBlendrPerApp : AuraCustomizationRoute("aura/colorblendr/per_app")
-
-    // PixelLauncherEnhanced
-    object PixelLauncherEnhanced : AuraCustomizationRoute("aura/pixel_launcher_enhanced")
-    object PLEIcons : AuraCustomizationRoute("aura/ple/icons")
-    object PLEHomeScreen : AuraCustomizationRoute("aura/ple/home_screen")
-    object PLEAppDrawer : AuraCustomizationRoute("aura/ple/app_drawer")
-    object PLERecents : AuraCustomizationRoute("aura/ple/recents")
-
-    // Icon Picker
-    object IconPicker : AuraCustomizationRoute("aura/iconify/icon_picker/{category}") {
-        fun createRoute(category: String) = "aura/iconify/icon_picker/$category"
-    }
-}
 
 /**
  * Navigation graph extension for AURA customization routes
@@ -74,28 +34,24 @@ fun NavGraphBuilder.auraCustomizationNavigation(
     // ICONIFY ROUTES
     // ========================================
 
-    // ========================================
-    // ICONIFY ROUTES
-    // ========================================
-
-    composable(AuraCustomizationRoute.IconifyPicker.route) {
+    composable(NavDestination.IconifyPicker.route) {
         IconifyPickerScreen(
             onNavigateBack = onNavigateBack,
             onNavigateToCategory = { category ->
-                navController.navigate(AuraCustomizationRoute.IconifyCategory.createRoute(category))
+                navController.navigate(NavDestination.IconifyCategory.createRoute(category))
             }
         )
     }
 
     composable(
-        route = AuraCustomizationRoute.IconifyCategory.route
+        route = NavDestination.IconifyCategory.route
     ) { backStackEntry ->
         val category = backStackEntry.arguments?.getString("category") ?: "Icon Packs"
         IconifyCategoryDetailScreen(
             categoryName = category,
             onNavigateBack = onNavigateBack,
             onNavigateToPicker = { cat ->
-                navController.navigate(AuraCustomizationRoute.IconPicker.createRoute(cat))
+                navController.navigate(NavDestination.IconPicker.createRoute(cat))
             }
         )
     }
@@ -104,7 +60,7 @@ fun NavGraphBuilder.auraCustomizationNavigation(
     // COLORBLENDR ROUTES
     // ========================================
 
-    composable(AuraCustomizationRoute.ColorBlendr.route) {
+    composable(NavDestination.ColorBlendr.route) {
         ColorBlendrScreen(
             onNavigateBack = onNavigateBack
         )
@@ -114,13 +70,13 @@ fun NavGraphBuilder.auraCustomizationNavigation(
     // PIXEL LAUNCHER ENHANCED ROUTES
     // ========================================
 
-    composable(AuraCustomizationRoute.PixelLauncherEnhanced.route) {
+    composable(NavDestination.PixelLauncherEnhanced.route) {
         PixelLauncherEnhancedScreen(
             onNavigateBack = onNavigateBack
         )
     }
 
-    composable(AuraCustomizationRoute.IconPicker.route) { backStackEntry ->
+    composable(NavDestination.IconPicker.route) { backStackEntry ->
         val category = backStackEntry.arguments?.getString("category") ?: ""
         IconPickerScreen(
             category = category,
@@ -148,9 +104,9 @@ object AuraSubGates {
         val name: String = "ChromaCore",
         val description: String = "Material You Color Engine",
         val routes: List<String> = listOf(
-            AuraCustomizationRoute.ColorBlendr.route,
-            AuraCustomizationRoute.ColorBlendrMonet.route,
-            AuraCustomizationRoute.ColorBlendrPalette.route
+            NavDestination.ColorBlendr.route,
+            NavDestination.ColorBlendrMonet.route,
+            NavDestination.ColorBlendrPalette.route
         ),
         val settingsCount: Int = 16  // ColorBlendr total
     )
@@ -163,7 +119,7 @@ object AuraSubGates {
         val name: String = "Theme Engine",
         val description: String = "Iconify UI Customization",
         val routes: List<String> = listOf(
-            AuraCustomizationRoute.IconifyPicker.route
+            NavDestination.IconifyPicker.route
         ),
         val categories: List<String> = listOf(
             "Icon Packs",
@@ -190,11 +146,11 @@ object AuraSubGates {
         val name: String = "CollabCanvas",
         val description: String = "Pixel Launcher Enhanced",
         val routes: List<String> = listOf(
-            AuraCustomizationRoute.PixelLauncherEnhanced.route,
-            AuraCustomizationRoute.PLEIcons.route,
-            AuraCustomizationRoute.PLEHomeScreen.route,
-            AuraCustomizationRoute.PLEAppDrawer.route,
-            AuraCustomizationRoute.PLERecents.route
+            NavDestination.PixelLauncherEnhanced.route,
+            NavDestination.PLEIcons.route,
+            NavDestination.PLEHomeScreen.route,
+            NavDestination.PLEAppDrawer.route,
+            NavDestination.PLERecents.route
         ),
         val categories: List<String> = listOf(
             "Icon Customization",
