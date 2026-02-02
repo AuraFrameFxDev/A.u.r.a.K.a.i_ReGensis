@@ -896,14 +896,15 @@ class ConsciousnessMatrix:
         Returns:
             Dict[str, Any]: A dictionary containing the query type, agent name, total and recent activity counts, and a breakdown of activity types from the last 50 agent activity events.
         """
-        agent_activities = [s for s in self.sensory_memory if
-                            s.channel == SensoryChannel.AGENT_ACTIVITY]
+        # Optimized: Use per-channel buffer instead of O(N) scan of main memory
+        agent_activities = list(self.channel_buffers[SensoryChannel.AGENT_ACTIVITY])
 
         if agent_name:
             agent_activities = [s for s in agent_activities if
                                 s.data.get("agent_name") == agent_name]
 
         activity_types = defaultdict(int)
+        # Process the last 50 activities for the breakdown
         for activity in agent_activities[-50:]:
             activity_types[activity.event_type] += 1
 
