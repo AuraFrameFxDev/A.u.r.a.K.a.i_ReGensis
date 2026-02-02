@@ -278,6 +278,53 @@ object GateAssetConfig {
     }
 
     // ═══════════════════════════════════════════════════════════════════════
+    // LEVEL 2: NEXUS SUB-GATES (Agent Hub Interior)
+    // Style A: Constellation aesthetic (star maps, cosmic connections)
+    // Style B: Control Room aesthetic (HUD panels, monitoring screens)
+    // ═══════════════════════════════════════════════════════════════════════
+
+    object NexusSubGates {
+        data class DualStyleGate(
+            val styleA: String,  // Constellation
+            val styleB: String,  // Control Room
+            val fallback: String?
+        ) {
+            fun current() = if (StyleMode.nexusStyle == GateStyle.STYLE_A) styleA else styleB
+        }
+
+        val CONSTELLATION = DualStyleGate(
+            styleA = "gatescenes_nexus_constellation_cosmic",     // NEW! Geometric constellation
+            styleB = "gatescenes_nexus_constellation_variant",    // NEW! Variant constellation
+            fallback = null
+        )
+        val MONITORING = DualStyleGate(
+            styleA = "gatescenes_nexus_circuit_tree",             // NEW! Circuit tree pattern
+            styleB = "gatescenes_nexus_constellation_variant",    // NEW! Monitoring constellation
+            fallback = null
+        )
+        val SPHERE_GRID = DualStyleGate(
+            styleA = "gatescenes_nexus_hive_structure",           // NEW! Hexagonal agent hive
+            styleB = "gatescenes_nexus_circuit_tree",             // NEW! Tech circuit style
+            fallback = "gate_spheregrid_final"
+        )
+        val FUSION_MODE = DualStyleGate(
+            styleA = "gatescenes_nexus_fusion_symbol",            // NEW! Fusion connection symbol
+            styleB = "gatescenes_nexus_constellation_cosmic",     // NEW! Cosmic fusion
+            fallback = null
+        )
+        val TASK_ASSIGNMENT = DualStyleGate(
+            styleA = "gatescenes_nexus_ldo_roster",               // NEW! LDO agent roster
+            styleB = "gatescenes_nexus_hive_structure",           // NEW! Organized hive
+            fallback = null
+        )
+        val META_INSTRUCT = DualStyleGate(
+            styleA = "gatescenes_nexus_circuit_tree",             // NEW! Neural tree
+            styleB = "gatescenes_nexus_fusion_symbol",            // NEW! Meta connection
+            fallback = null
+        )
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
     // STYLE TOGGLE HELPER
     // ═══════════════════════════════════════════════════════════════════════
 
