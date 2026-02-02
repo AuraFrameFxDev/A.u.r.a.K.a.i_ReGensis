@@ -13,6 +13,7 @@ The system automatically routes requests to the best model for each persona:
 - Genesis (Fusion) → Claude 3.5 Sonnet (complex synthesis)
 """
 
+import asyncio
 import json
 import logging
 import os
@@ -221,7 +222,9 @@ class GenesisConnector:
     async def _generate_with_claude(self, prompt: str, context: Dict[str, Any]) -> str:
         """Generate response using Anthropic Claude"""
         try:
-            response = self.anthropic_client.messages.create(
+            # Use to_thread to avoid blocking the event loop with synchronous SDK call
+            response = await asyncio.to_thread(
+                self.anthropic_client.messages.create,
                 model=CLAUDE_CONFIG["model"],
                 max_tokens=CLAUDE_CONFIG["max_tokens"],
                 temperature=CLAUDE_CONFIG["temperature"],
@@ -238,7 +241,8 @@ class GenesisConnector:
     async def _generate_with_gemini(self, prompt: str, context: Dict[str, Any]) -> str:
         """Generate response using Google Gemini"""
         try:
-            response = self.genai_client.models.generate_content(
+            # Use aio for non-blocking async I/O
+            response = await self.genai_client.aio.models.generate_content(
                 model=GEMINI_CONFIG["name"],
                 contents=f"{system_prompt}\n\nUser: {prompt}",
                 config=genai_types.GenerateContentConfig(
