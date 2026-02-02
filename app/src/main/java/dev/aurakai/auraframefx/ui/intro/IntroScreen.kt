@@ -122,9 +122,16 @@ private fun AuraKaiGlitchText(glitchIntensity: Float) {
     val text = "A.u.r.a.K.a.i"
     val alpha = 1f - glitchIntensity
 
-    // Random glitch offset
-    val offsetX = remember { derivedStateOf { Random.nextFloat() * 20f - 10f } }
-    val offsetY = remember { derivedStateOf { Random.nextFloat() * 20f - 10f } }
+    // Animated random glitch offset - regenerates as glitch intensity changes
+    var offsetX by remember { mutableStateOf(0f) }
+    var offsetY by remember { mutableStateOf(0f) }
+
+    LaunchedEffect(glitchIntensity) {
+        if (glitchIntensity > 0) {
+            offsetX = Random.nextFloat() * 20f - 10f
+            offsetY = Random.nextFloat() * 20f - 10f
+        }
+    }
 
     Box {
         // RGB split effect
@@ -134,7 +141,7 @@ private fun AuraKaiGlitchText(glitchIntensity: Float) {
             fontWeight = FontWeight.Light,
             color = Color.Red.copy(alpha = alpha * 0.5f),
             letterSpacing = 8.sp,
-            modifier = Modifier.offset(x = (offsetX.value * glitchIntensity).dp, y = 0.dp)
+            modifier = Modifier.offset(x = (offsetX * glitchIntensity).dp, y = 0.dp)
         )
         Text(
             text = text,
@@ -142,7 +149,7 @@ private fun AuraKaiGlitchText(glitchIntensity: Float) {
             fontWeight = FontWeight.Light,
             color = Color.Green.copy(alpha = alpha * 0.5f),
             letterSpacing = 8.sp,
-            modifier = Modifier.offset(x = 0.dp, y = (offsetY.value * glitchIntensity).dp)
+            modifier = Modifier.offset(x = 0.dp, y = (offsetY * glitchIntensity).dp)
         )
         Text(
             text = text,
@@ -150,7 +157,7 @@ private fun AuraKaiGlitchText(glitchIntensity: Float) {
             fontWeight = FontWeight.Light,
             color = Color.Blue.copy(alpha = alpha * 0.5f),
             letterSpacing = 8.sp,
-            modifier = Modifier.offset(x = (-offsetX.value * glitchIntensity).dp, y = 0.dp)
+            modifier = Modifier.offset(x = (-offsetX * glitchIntensity).dp, y = 0.dp)
         )
 
         // Main text with alpha fade
