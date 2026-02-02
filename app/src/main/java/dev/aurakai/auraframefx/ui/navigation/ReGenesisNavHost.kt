@@ -6,17 +6,22 @@ package dev.aurakai.auraframefx.ui.navigation
 
 // Gate/Hub Screens
 
+// NEXUS Domain Screens (Multi-Agent Hub)
+
+// AURA Domain Screens
+
+// Level 2 Hub Screens (stay in ui.gates)
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
-// NEXUS Domain Screens (Multi-Agent Hub)
+import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
+import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
+import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.FusionModeScreen
@@ -25,11 +30,8 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SovereignGeminiScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
-
-// AURA Domain Screens
-import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
-
-// Level 2 Hub Screens (stay in ui.gates)
+import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
@@ -41,7 +43,8 @@ import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
-    customizationViewModel: CustomizationViewModel = viewModel()
+    customizationViewModel: CustomizationViewModel = viewModel(),
+    composable: (String, () -> Unit?) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -243,10 +246,10 @@ fun ReGenesisNavHost(
             dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.Documentation.route) {
-            dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen(onNavigateBack = { navController.popBackStack() })
+            DocumentationScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.FAQBrowser.route) {
-            dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen(onNavigateBack = { navController.popBackStack() })
+            FAQBrowserScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.TutorialVideos.route) {
             dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
@@ -260,4 +263,18 @@ fun ReGenesisNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
     }
+}
+
+@Composable
+fun StatusBarScreen(onNavigateBack: () -> Boolean) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun StatusBarScreen(onNavigateBack: () -> Boolean) {
+    TODO("Not yet implemented")
+}
+
+fun composable(p1: String, arguments: List<NamedNavArgument>, p2: Any) {
+    TODO("Not yet implemented")
 }
