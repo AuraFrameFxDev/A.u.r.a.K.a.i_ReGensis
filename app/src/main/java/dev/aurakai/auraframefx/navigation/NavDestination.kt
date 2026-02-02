@@ -31,6 +31,11 @@ sealed class NavDestination(val route: String) {
     object CodeAssist : NavDestination("code_assist", "Code Assist", null)
 
     // ═══════════════════════════════════════════════════════════════
+    // LEVEL 0: EXODUS HUD (Main Gate Carousel)
+    // ═══════════════════════════════════════════════════════════════
+    data object HomeGateCarousel : NavDestination("exodus_hud")
+
+    // ═══════════════════════════════════════════════════════════════
     // LEVEL 1: PRIMARY GATES (Main Entry Points)
     // ═══════════════════════════════════════════════════════════════
     data object DataflowAnalysis : NavDestination("dataflow_analysis")

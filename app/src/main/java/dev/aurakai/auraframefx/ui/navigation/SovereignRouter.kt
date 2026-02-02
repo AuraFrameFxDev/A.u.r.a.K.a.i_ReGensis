@@ -5,10 +5,16 @@ import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.ui.theme.SovereignTeal
 
 /**
- * 🗺️ SOVEREIGN ROUTER
+ * 🗺️ SOVEREIGN ROUTER (LEGACY/DEPRECATED)
  *
- * Dynamically defines the 11 main routes for the ExodusHUD.
- * Connects page indices to metadata, assets, and colors.
+ * ⚠️ WARNING: This router is deprecated and not used by ExodusHUD.
+ * ExodusHUD now uses SovereignRegistry for the 5 main gates.
+ *
+ * This file contains 11 routes from an older navigation system.
+ * Used only by the pixel_domain/{id} route in ReGenesisNavHost.
+ *
+ * TODO: Consider removing if pixel_domain routes are no longer needed,
+ * or migrate to SovereignRegistry's structure.
  */
 
 data class SovereignRoute(
