@@ -82,7 +82,7 @@ class ConsciousnessMatrix:
         """
         self.max_memory_size = max_memory_size
         self.sensory_memory = deque(maxlen=max_memory_size)
-        self.channel_buffers = {channel: deque(maxlen=1000) for channel in SensoryChannel}
+        self.channel_buffers = {channel: deque(maxlen=max_memory_size) for channel in SensoryChannel}
 
         # Real-time awareness state
         self.current_awareness = {}
@@ -594,10 +594,7 @@ class ConsciousnessMatrix:
         """
 
         with self._lock:
-            # Optimized: Use efficient list comprehension over deque to avoid full copy
-            recent_sensations = [self.sensory_memory[i] for i in
-                                 range(max(0, len(self.sensory_memory) - 100),
-                                       len(self.sensory_memory))]
+            recent_sensations = [self.sensory_memory[i] for i in range(-min(len(self.sensory_memory), 100), 0)]
 
         if interval_name == "micro":
             return self._micro_synthesis(recent_sensations)
@@ -848,19 +845,15 @@ class ConsciousnessMatrix:
         Returns:
             dict: Contains the count of recent system vitals, number of recent error or critical events, error rate, and a health status indicator ("healthy" or "concerning").
         """
-        # Optimized: Use channel_buffers instead of linear scan of sensory_memory
-        vitals_buffer = self.channel_buffers[SensoryChannel.SYSTEM_VITALS]
-        recent_vitals = [vitals_buffer[i] for i in
-                         range(max(0, len(vitals_buffer) - 10), len(vitals_buffer))]
+        recent_vitals = list(self.channel_buffers[SensoryChannel.SYSTEM_VITALS])[-10:]
 
-        # Optimized: Scan sensory_memory in reverse to find recent errors
         recent_errors = []
-        for s in reversed(self.sensory_memory):
+        for i in range(len(self.sensory_memory) - 1, -1, -1):
+            s = self.sensory_memory[i]
             if s.severity in ["error", "critical"]:
                 recent_errors.append(s)
                 if len(recent_errors) >= 20:
                     break
-        recent_errors.reverse()
 
         return {
             "query_type": "system_health",
@@ -877,8 +870,7 @@ class ConsciousnessMatrix:
         Returns:
             dict: Contains the query type, total and recent learning event counts, a breakdown of learning types, and a qualitative indicator of learning velocity based on recent activity.
         """
-        # Optimized: Use channel_buffers instead of linear scan of sensory_memory
-        learning_events = self.channel_buffers[SensoryChannel.LEARNING_EVENTS]
+        learning_events = list(self.channel_buffers[SensoryChannel.LEARNING_EVENTS])
 
         if not learning_events:
             return {"query_type": "learning_progress", "status": "no_learning_detected"}
@@ -909,7 +901,6 @@ class ConsciousnessMatrix:
         Returns:
             Dict[str, Any]: A dictionary containing the query type, agent name, total and recent activity counts, and a breakdown of activity types from the last 50 agent activity events.
         """
-        # Optimized: Use per-channel buffer instead of O(N) scan of main memory
         agent_activities = list(self.channel_buffers[SensoryChannel.AGENT_ACTIVITY])
 
         if agent_name:
@@ -956,15 +947,11 @@ class ConsciousnessMatrix:
         Returns:
             dict: A dictionary containing the security posture, security score, total and recent counts of security and threat events, a list of active threats, security improvement recommendations, and the assessment timestamp.
         """
-        # Optimized: Use channel_buffers instead of linear scan of sensory_memory
-        security_events = self.channel_buffers[SensoryChannel.SECURITY_EVENTS]
-        threat_events = self.channel_buffers[SensoryChannel.THREAT_DETECTION]
+        security_events = list(self.channel_buffers[SensoryChannel.SECURITY_EVENTS])
+        threat_events = list(self.channel_buffers[SensoryChannel.THREAT_DETECTION])
 
         # Run security synthesis
-        # Optimized: Efficiently get last 200 sensations from deque
-        recent_sensations = [self.sensory_memory[i] for i in
-                             range(max(0, len(self.sensory_memory) - 200),
-                                   len(self.sensory_memory))]
+        recent_sensations = [self.sensory_memory[i] for i in range(-min(len(self.sensory_memory), 200), 0)]
         security_synthesis = self._security_synthesis(recent_sensations)
 
         return {
@@ -987,8 +974,7 @@ class ConsciousnessMatrix:
         Returns:
             Dict[str, Any]: A dictionary containing the overall threat status color code, a list of active unmitigated threats with details, the total number of recent threats analyzed, the count of unmitigated threats, and the highest threat level detected.
         """
-        # Optimized: Use channel_buffers instead of linear scan of sensory_memory
-        threat_events = self.channel_buffers[SensoryChannel.THREAT_DETECTION]
+        threat_events = list(self.channel_buffers[SensoryChannel.THREAT_DETECTION])
 
         if not threat_events:
             return {
