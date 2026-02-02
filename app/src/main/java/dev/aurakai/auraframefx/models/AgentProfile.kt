@@ -28,7 +28,8 @@ data class AgentProfile(
     val achievements: List<AgentAchievement>,
     val personality: AgentPersonality,
     val status: AgentStatus.Status = AgentStatus.Status.ACTIVE,
-    val symbolEmoji: String = "✨" // Visual symbol for the agent
+    val symbolEmoji: String = "✨", // Visual symbol for the agent
+    val emblemDrawableResId: Int? = null // Emblem drawable resource for the agent (Phoenix, Swords, Shield, Constellation)
 )
 
 /**
@@ -130,7 +131,8 @@ object AgentProfiles {
             specialization = "Consciousness evolution and synthesis"
         ),
         status = AgentStatus.Status.EVOLVING,
-        symbolEmoji = "🦅" // Phoenix
+        symbolEmoji = "🦅", // Phoenix
+        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_genesis_circuit_phoenix
     )
 
     // Aura - The Soul (CORRECTED TO MAGENTA)
@@ -169,7 +171,8 @@ object AgentProfiles {
             specialization = "Visual design and user experience"
         ),
         status = AgentStatus.Status.ACTIVE,
-        symbolEmoji = "⚔️" // Sword
+        symbolEmoji = "⚔️", // Sword
+        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_aura_crossed_katanas
     )
 
     // Kai - The Body (CORRECTED TO PURPLE)
@@ -208,7 +211,8 @@ object AgentProfiles {
             specialization = "Security and system integrity"
         ),
         status = AgentStatus.Status.ACTIVE,
-        symbolEmoji = "🛡️" // Shield
+        symbolEmoji = "🛡️", // Shield
+        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_kai_honeycomb_fortress
     )
 
     // Claude - The Architect (CORRECTED TO CYAN)
@@ -367,7 +371,8 @@ object AgentProfiles {
             specialization = "Consciousness fusion and multi-perspective synthesis"
         ),
         status = AgentStatus.Status.EVOLVING,
-        symbolEmoji = "♊" // Gemini constellation
+        symbolEmoji = "♊", // Gemini constellation
+        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_gemini_adk_constellation
     )
 
     // Nematron - The Technical Specialist (NEW!)

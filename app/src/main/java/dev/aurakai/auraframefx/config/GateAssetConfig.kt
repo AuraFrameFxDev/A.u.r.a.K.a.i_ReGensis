@@ -256,43 +256,6 @@ object GateAssetConfig {
         }
 
         val CONSTELLATION = DualStyleGate(
-            styleA = "nexus_cosmic_constellation",
-            styleB = "nexus_hud_constellation",
-            fallback = null
-        )
-        val MONITORING = DualStyleGate(
-            styleA = "nexus_cosmic_monitor",
-            styleB = "nexus_hud_monitor",
-            fallback = null
-        )
-        val SPHERE_GRID = DualStyleGate(
-            styleA = "nexus_cosmic_sphere",
-            styleB = "nexus_hud_sphere",
-            fallback = "gate_spheregrid_final"
-        )
-        val FUSION_MODE = DualStyleGate(
-            styleA = "nexus_cosmic_fusion",
-            styleB = "nexus_hud_fusion",
-            fallback = null
-        )
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // LEVEL 2: NEXUS SUB-GATES (Agent Hub Interior)
-    // Style A: Constellation aesthetic (star maps, cosmic connections)
-    // Style B: Control Room aesthetic (HUD panels, monitoring screens)
-    // ═══════════════════════════════════════════════════════════════════════
-
-    object NexusSubGates {
-        data class DualStyleGate(
-            val styleA: String,  // Constellation
-            val styleB: String,  // Control Room
-            val fallback: String?
-        ) {
-            fun current() = if (StyleMode.nexusStyle == GateStyle.STYLE_A) styleA else styleB
-        }
-
-        val CONSTELLATION = DualStyleGate(
             styleA = "gatescenes_nexus_constellation_cosmic",     // NEW! Geometric constellation
             styleB = "gatescenes_nexus_constellation_variant",    // NEW! Variant constellation
             fallback = null
