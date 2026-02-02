@@ -47,6 +47,24 @@ class TestAgentPerformanceOptimization:
         assert perf_agent_2["total_activities"] == 1
         assert perf_agent_2["activity_breakdown"] == {"type_A": 1}
 
+        # Non-matching agent should return zero and empty breakdown
+        perf_unknown = matrix._query_agent_performance(agent_name="unknown_agent")
+        assert perf_unknown["total_activities"] == 0
+        assert perf_unknown["activity_breakdown"] == {}
+
+    def test_query_agent_performance_no_agent_activity(self):
+        matrix = ConsciousnessMatrix(max_memory_size=100)
+
+        # No AGENT_ACTIVITY events have been perceived
+        perf_all = matrix._query_agent_performance()
+        assert perf_all["total_activities"] == 0
+        assert perf_all["activity_breakdown"] == {}
+
+        # Non-matching agent on empty matrix should also return zeros
+        perf_unknown = matrix._query_agent_performance(agent_name="unknown_agent")
+        assert perf_unknown["total_activities"] == 0
+        assert perf_unknown["activity_breakdown"] == {}
+
     def test_query_agent_performance_with_buffer_limit(self):
         # channel_buffers has maxlen=1000 by default in the implementation
         matrix = ConsciousnessMatrix(max_memory_size=2000)
