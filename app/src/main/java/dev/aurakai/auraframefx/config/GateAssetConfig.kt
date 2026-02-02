@@ -110,18 +110,23 @@ object GateAssetConfig {
         }
 
         val ROM_FLASHER = DualStyleGate(
-            styleA = "kai_pixel_rom_flasher",
+            styleA = "gatescenes_kai_romtools",             // NEW! User uploaded
             styleB = "kai_cyber_rom_flasher",
             fallback = "gate_romtools_final"
         )
         val BOOTLOADER = DualStyleGate(
             styleA = "kai_pixel_bootloader",
-            styleB = "kai_cyber_bootloader",      // The lock with lightning!
+            styleB = "kai_cyber_bootloader",                // The lock with lightning!
             fallback = "card_bootloader"
         )
         val MODULE_MANAGER = DualStyleGate(
             styleA = "kai_pixel_modules",
             styleB = "kai_cyber_modules",
+            fallback = null
+        )
+        val ROOT_TOOLS = DualStyleGate(
+            styleA = "gatescenes_kai_roottools",            // NEW! User uploaded
+            styleB = "kai_cyber_roottools",
             fallback = null
         )
         val RECOVERY = DualStyleGate(
@@ -130,12 +135,12 @@ object GateAssetConfig {
             fallback = null
         )
         val SECURITY = DualStyleGate(
-            styleA = "kai_pixel_security",
+            styleA = "gatescenes_kai_scancleansystem",      // NEW! User uploaded
             styleB = "kai_cyber_security",
             fallback = "card_firewall"
         )
         val VPN = DualStyleGate(
-            styleA = "kai_pixel_vpn",
+            styleA = "gatescenes_kai_vpnadblock",           // NEW! User uploaded
             styleB = "kai_cyber_vpn",
             fallback = "card_vpn"
         )
@@ -162,7 +167,7 @@ object GateAssetConfig {
         }
 
         val CHROMA_CORE = DualStyleGate(
-            styleA = "aura_splash_chroma",
+            styleA = "gatescenes_aura_chromacoregate",      // NEW! User uploaded
             styleB = "aura_clean_chroma",
             fallback = "card_chroma_core"
         )
@@ -177,14 +182,19 @@ object GateAssetConfig {
             fallback = "card_notch_bar"
         )
         val COLLAB_CANVAS = DualStyleGate(
-            styleA = "aura_splash_collab",
-            styleB = "aura_clean_collab",
+            styleA = "gatescenes_aura_collabcanvas",        // NEW! User uploaded
+            styleB = "gatescenes_aura_collabcanvas1",       // NEW! User uploaded (variant)
             fallback = "card_collab_canvas"
         )
         val AURA_LAB = DualStyleGate(
-            styleA = "aura_splash_lab",
+            styleA = "gatescenes_aura_auralab",             // NEW! User uploaded
             styleB = "aura_clean_lab",
             fallback = "gate_auralab_final"
+        )
+        val TERMINAL = DualStyleGate(
+            styleA = "gatescenes_aura_terminal",            // NEW! User uploaded
+            styleB = "aura_clean_terminal",
+            fallback = "gate_terminal_final"
         )
     }
 
