@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.kai.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.background

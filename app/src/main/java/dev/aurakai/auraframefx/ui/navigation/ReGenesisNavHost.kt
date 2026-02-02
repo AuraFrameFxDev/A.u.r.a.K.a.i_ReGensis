@@ -1,20 +1,12 @@
 package dev.aurakai.auraframefx.ui.navigation
 
-// Domain Screens
-
-// Aura Module Screens
-
-// Gate/Hub Screens
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
@@ -64,24 +56,6 @@ import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
  * - Level 1: ExodusHUD (5 Gate Carousel)
  * - Level 2: Domain Hubs (5 main hubs)
  * - Level 3: Tool Screens (functional screens)
- */
-/**
- * Hosts the application's navigation graph and initializes customization behavior when composed.
- *
- * Sets up routes for the app's main hubs, tool screens, agent constellation screens, help services,
- * and utility screens, using the provided NavHostController as the navigation host.
- *
- * @param navController Controller used to manage navigation within this NavHost.
- * @param customizationViewModel ViewModel that will be started with the current Context when this composable enters composition to initialize customization features.
- */
-/**
- * Hosts the application's navigation graph and initializes customization on first composition.
- *
- * Calls `customizationViewModel.start(context)` once when first composed and provides destinations
- * for the app's gate carousel, workspaces, hubs, tools, help screens, and integrated sub-graphs.
- *
- * @param navController The NavHostController used to perform navigation within this NavHost.
- * @param customizationViewModel The view model used to initialize customization state (defaults to a ViewModel obtained via `viewModel()`).
  */
 @Composable
 fun ReGenesisNavHost(
@@ -184,6 +158,7 @@ fun ReGenesisNavHost(
         // LEVEL 3 & 4: TOOL SCREENS & SUB-MODULES
         // ═══════════════════════════════════════════════════════════════
 
+        // --- LEVEL 3: NEXUS TOOLS ---
         composable(NavDestination.FusionMode.route) {
             FusionModeScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -211,7 +186,6 @@ fun ReGenesisNavHost(
                 navController = navController
             )
         }
-
         composable(NavDestination.SwarmMonitor.route) {
             AgentSwarmScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -227,6 +201,9 @@ fun ReGenesisNavHost(
         }
 
         // --- LEVEL 3: AURA TOOLS ---
+        composable(NavDestination.AuraLab.route) {
+            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
+        }
         composable(NavDestination.NotchBar.route) {
             NotchBarScreen(onNavigateBack = { navController.popBackStack() })
         }

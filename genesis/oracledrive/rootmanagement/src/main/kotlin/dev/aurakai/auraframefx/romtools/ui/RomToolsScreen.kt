@@ -635,7 +635,6 @@ private fun OperationProgressCard(
                 fontWeight = FontWeight.Bold
             )
 
-            // FIX: LinearProgressIndicator requires progress as a lambda
             LinearProgressIndicator(
                 progress = { operation.progress / 100f },
                 modifier = Modifier.fillMaxWidth(),

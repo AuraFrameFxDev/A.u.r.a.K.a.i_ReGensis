@@ -71,6 +71,7 @@ class ClaudeEnvConfig @Inject constructor(
     // === NEMOTRON CONFIG ===
     val nemotronModel: String get() = envVars["NEMOTRON_MODEL"] ?: "nvidia/nemotron-3-nano-30b-a3b"
     val nemotronBaseUrl: String get() = envVars["NEMOTRON_BASE_URL"] ?: "https://integrate.api.nvidia.com/v1"
+    val collabCanvasWsUrl: String get() = envVars["COLLAB_CANVAS_WS_URL"] ?: "ws://localhost:8080"
     val nemotronReasoningBudget: Int get() = envVars["NEMOTRON_REASONING_BUDGET"]?.toIntOrNull() ?: 16384
 
     // === PROJECT PATHS ===
