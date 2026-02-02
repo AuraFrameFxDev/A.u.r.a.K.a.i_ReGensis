@@ -99,7 +99,7 @@ fun UserPreferencesScreen(
                     description = "Login settings and password management",
                     icon = Icons.Default.Lock,
                     onClick = {
-                        navController.navigate("login")
+                        navController.navigate(NavDestination.Login.route)
                     }
                 )
             }

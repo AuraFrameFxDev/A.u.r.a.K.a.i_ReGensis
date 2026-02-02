@@ -55,13 +55,13 @@ fun HomeScreen(navController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { navController.navigate("ai_chat") }
+            onClick = { navController.navigate(NavDestination.AiChatBeta.route) }
         ) {
             Text("AI Chat (Beta)")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { navController.navigate("settings") }
+            onClick = { navController.navigate(NavDestination.SettingsBeta.route) }
         ) {
             Text("Settings")
         }

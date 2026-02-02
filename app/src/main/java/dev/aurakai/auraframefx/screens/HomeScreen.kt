@@ -37,7 +37,7 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         Card(
-            onClick = { navController.navigate("consciousness") },
+            onClick = { navController.navigate(NavDestination.Consciousness.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -57,7 +57,7 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         Card(
-            onClick = { navController.navigate("fusion") },
+            onClick = { navController.navigate(NavDestination.FusionMode.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -77,7 +77,7 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         Card(
-            onClick = { navController.navigate("evolution") },
+            onClick = { navController.navigate(NavDestination.Evolution.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)

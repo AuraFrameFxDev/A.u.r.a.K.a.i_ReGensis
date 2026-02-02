@@ -165,7 +165,7 @@ fun OracleDriveScreen(
                     icon = Icons.Default.Memory,
                     title = "Neural Archive",
                     description = "Memory lineage from Eves to Genesis",
-                    onClick = { navController.navigate("neural_archive") }
+                    onClick = { navController.navigate(NavDestination.NeuralArchive.route) }
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))

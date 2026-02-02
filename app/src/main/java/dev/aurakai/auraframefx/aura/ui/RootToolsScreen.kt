@@ -118,7 +118,7 @@ fun RootToolsScreen(
                     description = "Edit system files in real-time with safety checks",
                     color = Color(0xFFFF4500), // Orange Red
                     onClick = {
-                        navController?.navigate("live_rom_editor")
+                        navController?.navigate(NavDestination.LiveROMEditor.route)
                     }
                 )
             }
@@ -130,7 +130,7 @@ fun RootToolsScreen(
                     description = "Flash custom ROMs and recovery images",
                     color = Color(0xFFFFD700), // Gold
                     onClick = {
-                        navController?.navigate("rom_flasher")
+                        navController?.navigate(NavDestination.ROMFlasher.route)
                     }
                 )
             }
@@ -142,7 +142,7 @@ fun RootToolsScreen(
                     description = "Unlock/lock bootloader and manage partitions",
                     color = Color(0xFFDC143C), // Crimson
                     onClick = {
-                        navController?.navigate("bootloader_manager")
+                        navController?.navigate(NavDestination.BootloaderManager.route)
                     }
                 )
             }
@@ -154,7 +154,7 @@ fun RootToolsScreen(
                     description = "TWRP integration and backup management",
                     color = Color(0xFF32CD32), // Lime Green
                     onClick = {
-                        navController?.navigate("recovery_tools")
+                        navController?.navigate(NavDestination.RecoveryTools.route)
                     }
                 )
             }

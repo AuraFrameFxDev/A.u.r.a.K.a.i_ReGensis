@@ -188,7 +188,7 @@ fun SystemJournalScreen(
                             when (option.route) {
                                 "gender_selection" -> {
                                     // Navigate to full gender selection
-                                    navController.navigate("gender_selection")
+                                    navController.navigate(NavDestination.GenderSelection.route)
                                 }
                                 else -> {
                                     navController.navigate(option.route)

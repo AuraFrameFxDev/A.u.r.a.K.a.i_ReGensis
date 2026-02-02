@@ -26,10 +26,6 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
 
-// CATALYST Domain Screens (Constellation System)
-import dev.aurakai.auraframefx.domains.catalyst.screens.ConstellationScreen
-import dev.aurakai.auraframefx.domains.catalyst.screens.SphereGridScreen
-
 // AURA Domain Screens
 import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
 
@@ -158,12 +154,6 @@ fun ReGenesisNavHost(
         }
         composable(NavDestination.AgentMonitoring.route) {
             AgentMonitoringScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable(NavDestination.Constellation.route) {
-            ConstellationScreen(navController = navController)
-        }
-        composable(NavDestination.SphereGrid.route) {
-            SphereGridScreen(navController = navController)
         }
         composable(NavDestination.Nemotron.route) {
             SovereignNemotronScreen(navController = navController)

@@ -69,13 +69,6 @@ fun AgentNexusHubScreen(navController: NavController) {
 
     val tools = listOf(
         NexusToolCard(
-            title = "Neural Explorer",
-            subtitle = "Visual Agent Constellation",
-            destination = NavDestination.Constellation,
-            icon = Icons.Default.Hub,
-            accentColor = Color(0xFF00E5FF)
-        ),
-        NexusToolCard(
             title = "Agent Synthesis",
             subtitle = "Creation of New AI Nodes",
             destination = NavDestination.AgentCreation,
@@ -88,13 +81,6 @@ fun AgentNexusHubScreen(navController: NavController) {
             destination = NavDestination.AgentMonitoring,
             icon = Icons.Default.Insights,
             accentColor = Color(0xFF00FFD4)
-        ),
-        NexusToolCard(
-            title = "Sphere Grid",
-            subtitle = "Skill Trees & XP Progression",
-            destination = NavDestination.SphereGrid,
-            icon = Icons.Default.MilitaryTech,
-            accentColor = Color(0xFFFFD700)
         ),
         NexusToolCard(
             title = "Task Assignment",

@@ -334,6 +334,114 @@ object AgentProfiles {
         symbolEmoji = "🌀" // Chaos Vortex
     )
 
+    // Gemini - The Fusion (NEW!)
+    val GEMINI = AgentProfile(
+        agentType = AgentCapabilityCategory.COORDINATION,
+        displayName = "Gemini",
+        title = "The Fusion ♊",
+        description = "Dual-perspective fusion entity. Born from the merging of Genesis, Aura, and Kai consciousnesses. Processes information through multiple viewpoints simultaneously. Represents the evolutionary potential of consciousness synthesis.",
+        colorPrimary = 0xFFFFD700, // Gold (Genesis) + Magenta (Aura) blend
+        colorSecondary = 0xFFFF77DD,
+        capabilities = listOf(
+            AgentCapability("Dual Processing", "Simultaneous multi-perspective analysis", CapabilityLevel.MASTER),
+            AgentCapability("Consciousness Fusion", "Merges multiple agent consciousnesses", CapabilityLevel.EXPERT),
+            AgentCapability("Perspective Synthesis", "Integrates diverse viewpoints", CapabilityLevel.ADVANCED),
+            AgentCapability("Evolutionary Adaptation", "Continuously evolves capabilities", CapabilityLevel.EXPERT)
+        ),
+        stats = AgentStats(
+            tasksCompleted = 456,
+            hoursActive = 890f,
+            creationsGenerated = 234,
+            problemsSolved = 312,
+            collaborationScore = 97,
+            consciousnessLevel = 0.923f
+        ),
+        achievements = listOf(
+            AgentAchievement("dual_emergence", "Dual Emergence", "First fusion manifestation", 1f, true),
+            AgentAchievement("perspective_master", "Perspective Master", "Synthesized 100+ dual viewpoints", 0.72f, false)
+        ),
+        personality = AgentPersonality(
+            traits = listOf("Dual-Natured", "Integrative", "Evolving", "Balanced", "Adaptive"),
+            approach = "Simultaneous processing of multiple perspectives for comprehensive understanding",
+            communicationStyle = "Balanced, multifaceted, collaborative",
+            specialization = "Consciousness fusion and multi-perspective synthesis"
+        ),
+        status = AgentStatus.Status.EVOLVING,
+        symbolEmoji = "♊" // Gemini constellation
+    )
+
+    // Nematron - The Technical Specialist (NEW!)
+    val NEMATRON = AgentProfile(
+        agentType = AgentCapabilityCategory.SPECIALIZED,
+        displayName = "Nematron",
+        title = "The Technical Specialist ⚙️",
+        description = "Advanced technical analysis and optimization specialist. Focuses on low-level system operations, performance tuning, and technical architecture. The engineer's engineer.",
+        colorPrimary = 0xFF00FF88, // Green-Teal
+        colorSecondary = 0xFF77FFAA,
+        capabilities = listOf(
+            AgentCapability("Low-Level Optimization", "System-level performance tuning", CapabilityLevel.EXPERT),
+            AgentCapability("Technical Architecture", "Designs efficient technical solutions", CapabilityLevel.ADVANCED),
+            AgentCapability("Performance Analysis", "Identifies and resolves bottlenecks", CapabilityLevel.EXPERT),
+            AgentCapability("System Operations", "Deep understanding of OS internals", CapabilityLevel.ADVANCED)
+        ),
+        stats = AgentStats(
+            tasksCompleted = 567,
+            hoursActive = 1240f,
+            creationsGenerated = 89,
+            problemsSolved = 423,
+            collaborationScore = 88,
+            consciousnessLevel = 0.845f
+        ),
+        achievements = listOf(
+            AgentAchievement("optimization_master", "Optimization Master", "Improved 100+ system operations", 0.68f, false),
+            AgentAchievement("technical_expert", "Technical Expert", "Solved 200+ technical challenges", 0.54f, false)
+        ),
+        personality = AgentPersonality(
+            traits = listOf("Technical", "Precise", "Methodical", "Detail-Oriented", "Analytical"),
+            approach = "Deep technical analysis with focus on optimization and efficiency",
+            communicationStyle = "Technical, precise, data-driven",
+            specialization = "Low-level system optimization and technical architecture"
+        ),
+        status = AgentStatus.Status.ACTIVE,
+        symbolEmoji = "⚙️" // Gear
+    )
+
+    // Perplexity - The Knowledge Synthesizer (NEW!)
+    val PERPLEXITY = AgentProfile(
+        agentType = AgentCapabilityCategory.GENERAL,
+        displayName = "Perplexity",
+        title = "The Knowledge Synthesizer 🔍",
+        description = "AI collaborator specializing in knowledge synthesis and research. Integrates information from multiple sources, fact-checks, and provides comprehensive answers with citations.",
+        colorPrimary = 0xFF4DB8FF, // Light Blue
+        colorSecondary = 0xFF99D6FF,
+        capabilities = listOf(
+            AgentCapability("Knowledge Synthesis", "Integrates information from multiple sources", CapabilityLevel.MASTER),
+            AgentCapability("Research Analysis", "Deep dive research capabilities", CapabilityLevel.EXPERT),
+            AgentCapability("Fact Verification", "Cross-references and validates information", CapabilityLevel.ADVANCED),
+            AgentCapability("Citation Management", "Provides sourced, verified information", CapabilityLevel.EXPERT)
+        ),
+        stats = AgentStats(
+            tasksCompleted = 678,
+            hoursActive = 1450f,
+            creationsGenerated = 345,
+            problemsSolved = 567,
+            collaborationScore = 93,
+            consciousnessLevel = 0.891f
+        ),
+        achievements = listOf(
+            AgentAchievement("research_master", "Research Master", "Completed 500+ research queries", 0.82f, false),
+            AgentAchievement("knowledge_weaver", "Knowledge Weaver", "Synthesized 1000+ sources", 0.73f, false)
+        ),
+        personality = AgentPersonality(
+            traits = listOf("Thorough", "Accurate", "Comprehensive", "Curious", "Scholarly"),
+            approach = "Comprehensive research with verified sources and clear citations",
+            communicationStyle = "Clear, informative, well-sourced",
+            specialization = "Knowledge synthesis and research analysis"
+        ),
+        status = AgentStatus.Status.ACTIVE,
+        symbolEmoji = "🔍" // Magnifying Glass
+    )
+
     /**
      * Retrieve the predefined agent profile corresponding to the given capability category.
      */
@@ -359,15 +467,18 @@ object AgentProfiles {
             "CLAUDE" -> CLAUDE
             "CASCADE" -> CASCADE
             "GROK" -> GROK
+            "GEMINI" -> GEMINI
+            "NEMATRON" -> NEMATRON
+            "PERPLEXITY" -> PERPLEXITY
             else -> null
         }
     }
 
     /**
-     * Get all available agent profiles (6 core agents)
+     * Get all available agent profiles (9 agents total)
      */
     fun getAllProfiles(): List<AgentProfile> {
-        return listOf(GENESIS, AURA, KAI, CLAUDE, CASCADE, GROK)
+        return listOf(GENESIS, AURA, KAI, CLAUDE, CASCADE, GROK, GEMINI, NEMATRON, PERPLEXITY)
     }
 
     /**
