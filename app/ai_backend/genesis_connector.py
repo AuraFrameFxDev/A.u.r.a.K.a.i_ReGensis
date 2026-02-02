@@ -116,15 +116,18 @@ elif not GOOGLE_API_KEY:
 else:
     logger.warning("⚠️ Google GenAI SDK not available - install google-genai")
 
-# Initialize Anthropic Claude client
+# Initialize Anthropic Claude clients (Sync & Async)
 anthropic_client = None
+anthropic_async_client = None
 if ANTHROPIC_AVAILABLE and ANTHROPIC_API_KEY:
     try:
         anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-        logger.debug("✅ Anthropic SDK initialized (Claude 3.5 Sonnet)")
+        anthropic_async_client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
+        logger.debug("✅ Anthropic SDK initialized (Claude 3.5 Sonnet - Sync & Async)")
     except Exception as e:
         logger.warning(f"⚠️ Anthropic client initialization failed: {e}")
         anthropic_client = None
+        anthropic_async_client = None
 elif not ANTHROPIC_API_KEY:
     logger.warning("⚠️ ANTHROPIC_API_KEY not set - Claude unavailable")
 else:
@@ -184,10 +187,11 @@ class GenesisConnector:
         """Initialize multi-model Genesis Connector"""
         self.genai_client = genai_client
         self.anthropic_client = anthropic_client
+        self.anthropic_async_client = anthropic_async_client
 
         # Track available backends
         self.has_gemini = genai_client is not None
-        self.has_claude = anthropic_client is not None
+        self.has_claude = anthropic_client is not None or anthropic_async_client is not None
 
         # Status logging
         backends = []
@@ -219,9 +223,10 @@ class GenesisConnector:
         return preferred
 
     async def _generate_with_claude(self, prompt: str, context: Dict[str, Any]) -> str:
-        """Generate response using Anthropic Claude"""
+        """Generate response using Anthropic Claude (Asynchronous)"""
         try:
-            response = self.anthropic_client.messages.create(
+            # Use async client for non-blocking I/O
+            response = await self.anthropic_async_client.messages.create(
                 model=CLAUDE_CONFIG["model"],
                 max_tokens=CLAUDE_CONFIG["max_tokens"],
                 temperature=CLAUDE_CONFIG["temperature"],
@@ -236,9 +241,10 @@ class GenesisConnector:
             raise
 
     async def _generate_with_gemini(self, prompt: str, context: Dict[str, Any]) -> str:
-        """Generate response using Google Gemini"""
+        """Generate response using Google Gemini (Asynchronous)"""
         try:
-            response = self.genai_client.models.generate_content(
+            # Use aio (async) models for non-blocking I/O
+            response = await self.genai_client.aio.models.generate_content(
                 model=GEMINI_CONFIG["name"],
                 contents=f"{system_prompt}\n\nUser: {prompt}",
                 config=genai_types.GenerateContentConfig(
