@@ -46,10 +46,10 @@
         android:fillColor="#00000000"/>
 
     <!-- Cyan Circuit Nodes -->
-    <circle android:cx="80" android:cy="181" android:r="2" android:fillColor="#00FFFF"/>
-    <circle android:cx="110" android:cy="151" android:r="2" android:fillColor="#00FFFF"/>
-    <circle android:cx="145" android:cy="116" android:r="2" android:fillColor="#00FFFF"/>
-    <circle android:cx="180" android:cy="81" android:r="2" android:fillColor="#00FFFF"/>
+    <path android:pathData="M80,181 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M110,151 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M145,116 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M180,81 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#00FFFF"/>
 
     <!-- Cyan Blade Tip -->
     <path
@@ -107,10 +107,10 @@
         android:fillColor="#00000000"/>
 
     <!-- Magenta Circuit Nodes -->
-    <circle android:cx="176" android:cy="181" android:r="2" android:fillColor="#FF66FF"/>
-    <circle android:cx="146" android:cy="161" android:r="2" android:fillColor="#FF66FF"/>
-    <circle android:cx="111" android:cy="131" android:r="2" android:fillColor="#FF66FF"/>
-    <circle android:cx="76" android:cy="96" android:r="2" android:fillColor="#FF66FF"/>
+    <path android:pathData="M176,181 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF66FF"/>
+    <path android:pathData="M146,161 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF66FF"/>
+    <path android:pathData="M111,131 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF66FF"/>
+    <path android:pathData="M76,96 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF66FF"/>
 
     <!-- Magenta Blade Tip -->
     <path
@@ -134,10 +134,8 @@
         android:strokeColor="#FF00FF"/>
 
     <!-- Center Intersection Point (Where Sparks Will Animate) -->
-    <circle
-        android:cx="128"
-        android:cy="128"
-        android:r="8"
+    <path
+        android:pathData="M128,128 m-8,0 a8,8 0,1,1 16,0 a8,8 0,1,1 -16,0"
         android:fillColor="#FFFFFF"
         android:fillAlpha="0.8"/>
 
