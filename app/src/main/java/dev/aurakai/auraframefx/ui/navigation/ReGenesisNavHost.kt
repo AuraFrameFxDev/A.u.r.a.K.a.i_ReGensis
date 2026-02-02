@@ -1,34 +1,31 @@
 package dev.aurakai.auraframefx.ui.navigation
 
+// Domain Screens
+
+// Aura Module Screens
+
+// Gate/Hub Screens
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ConferenceRoomScreen
-import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
-import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
-import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
-import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
-import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
-import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen
 import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
-import dev.aurakai.auraframefx.ui.gates.AgentBridgeHubScreen
+import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.ArkBuildScreen
+import dev.aurakai.auraframefx.ui.gates.AuraLabScreen
 import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
-import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
 import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.FusionModeScreen
+import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
 import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.ui.gates.LSPosedSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.ModuleManagerScreen
@@ -36,13 +33,10 @@ import dev.aurakai.auraframefx.ui.gates.NeuralArchiveScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarScreen
 import dev.aurakai.auraframefx.ui.gates.OracleCloudInfiniteStorageScreen
 import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
-import dev.aurakai.auraframefx.ui.gates.ROMFlasherScreen
-import dev.aurakai.auraframefx.ui.gates.RecoveryToolsScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
 import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignShieldScreen
 import dev.aurakai.auraframefx.ui.gates.SphereGridScreen
 import dev.aurakai.auraframefx.ui.gates.TaskAssignmentScreen
 
@@ -188,12 +182,6 @@ fun ReGenesisNavHost(
         composable(NavDestination.AgentMonitoring.route) {
             dev.aurakai.auraframefx.ui.gates.SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(NavDestination.Constellation.route) {
-            ConstellationScreen(navController = navController)
-        }
-        composable(NavDestination.SphereGrid.route) {
-            SphereGridScreen(navController = navController)
-        }
         composable(NavDestination.Nemotron.route) {
             SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -301,4 +289,3 @@ fun ReGenesisNavHost(
         )
     }
 }
-

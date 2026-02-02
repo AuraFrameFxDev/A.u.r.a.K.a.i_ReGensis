@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.navigation.NavDestination
 
 /**
  * Sentinel's Fortress - Kai's Security Command Center
@@ -80,7 +81,7 @@ fun SentinelsFortressScreen(
                     description = "Network monitoring, block/allow rules, real-time traffic view",
                     color = Color(0xFFFF4500), // Orange Red
                     onClick = {
-                        navController?.navigate("firewall")
+                        navController?.navigate(NavDestination.Firewall.route)
                     }
                 )
             }
@@ -92,7 +93,7 @@ fun SentinelsFortressScreen(
                     description = "Connection profiles, auto-connect rules",
                     color = Color(0xFF4169E1), // Royal Blue
                     onClick = {
-                        navController?.navigate("vpn_manager")
+                        navController?.navigate(NavDestination.VpnManager.route)
                     }
                 )
             }
@@ -104,7 +105,7 @@ fun SentinelsFortressScreen(
                     description = "App permissions audit, malware detection",
                     color = Color(0xFFFFD700), // Gold
                     onClick = {
-                        navController?.navigate("security_scanner")
+                        navController?.navigate(NavDestination.SecurityScanner.route)
                     }
                 )
             }
@@ -116,7 +117,7 @@ fun SentinelsFortressScreen(
                     description = "RAM cleaner, battery optimizer, storage manager",
                     color = Color(0xFF00FF00), // Lime Green
                     onClick = {
-                        navController?.navigate("device_optimizer")
+                        navController?.navigate(NavDestination.DeviceOptimizer.route)
                     }
                 )
             }
@@ -128,7 +129,7 @@ fun SentinelsFortressScreen(
                     description = "App tracking blocker, permission manager",
                     color = Color(0xFF9370DB), // Medium Purple
                     onClick = {
-                        navController?.navigate("privacy_guard")
+                        navController?.navigate(NavDestination.PrivacyGuard.route)
                     }
                 )
             }

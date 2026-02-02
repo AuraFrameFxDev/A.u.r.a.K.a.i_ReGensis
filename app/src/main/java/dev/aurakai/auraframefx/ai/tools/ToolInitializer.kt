@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ai.tools
 
 import dev.aurakai.auraframefx.ai.tools.mcp.*
-import dev.aurakai.auraframefx.ai.tools.mcp.MCPServerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,8 +16,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class ToolInitializer @Inject constructor(
-    private val toolRegistry: ToolRegistry,
-    private val mcpAdapter: MCPServerAdapter
+    private val toolRegistry: ToolRegistry
+    // private val mcpAdapter: MCPServerAdapter // TODO: Re-add when MCPServerAdapter is fixed
 ) {
 
     private val initScope = CoroutineScope(Dispatchers.Default)
@@ -36,7 +35,7 @@ class ToolInitializer @Inject constructor(
                 registerKaiTools()
                 registerGenesisTools()
                 registerCascadeTools()
-                registerMCPTools()
+                // registerMCPTools() // TODO: Re-enable when MCPServerAdapter is fixed
 
                 val allTools = toolRegistry.getAllTools()
                 Timber.i("ToolInitializer: Successfully registered ${allTools.size} tools")
@@ -109,8 +108,15 @@ class ToolInitializer @Inject constructor(
 
     /**
      * Register MCP API-backed tools
+     *
+     * TODO: Currently disabled due to MCPServerAdapter compilation issues.
+     * Re-enable when MCPServerAdapter is fixed and can be injected via Hilt.
      */
     private suspend fun registerMCPTools() {
+        Timber.w("ToolInitializer: MCP tools registration disabled (MCPServerAdapter not available)")
+
+        // TODO: Uncomment when MCPServerAdapter is ready
+        /*
         // Configure MCP adapter (use dev environment by default)
         mcpAdapter.configure(
             url = "https://dev.api.auraframefx.com/v2",
@@ -124,6 +130,7 @@ class ToolInitializer @Inject constructor(
             GetAgentStatusMCPTool(mcpAdapter)
         )
         Timber.d("ToolInitializer: Registered MCP tools (API-backed)")
+        */
     }
 
     /**

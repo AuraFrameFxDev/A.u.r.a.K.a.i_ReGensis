@@ -50,8 +50,8 @@ object GateAssetConfig {
     object MainGates {
         // 🎨 AURA - UXUI Design Studio
         object UXUI_DESIGN_STUDIO {
-            const val STYLE_A = "gate_uxui_collab_canvas"      // Paint splash
-            const val STYLE_B = "gate_uxui_clean_studio"       // Sleek minimal
+            const val STYLE_A = "gatescenes_aura_designstudio"      // Aura's Design Studio (NEW!)
+            const val STYLE_B = "gate_uxui_clean_studio"           // Sleek minimal
             const val FALLBACK = "gate_uiux_studio"
 
             fun current() = if (StyleMode.auraStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
@@ -59,8 +59,8 @@ object GateAssetConfig {
 
         // 🛡️ KAI - Sentinel's Fortress
         object SENTINELS_FORTRESS {
-            const val STYLE_A = "gate_kai_pixel_fortress"      // Pixel art throne
-            const val STYLE_B = "gate_kai_cyber_security"      // Matrix/lightning
+            const val STYLE_A = "gatescenes_kai_sentinelsfortress"  // Kai's Fortress (NEW!)
+            const val STYLE_B = "gate_kai_cyber_security"          // Matrix/lightning
             const val FALLBACK = "gate_sentinelsfortress_final"
 
             fun current() = if (StyleMode.kaiStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
@@ -110,18 +110,23 @@ object GateAssetConfig {
         }
 
         val ROM_FLASHER = DualStyleGate(
-            styleA = "kai_pixel_rom_flasher",
+            styleA = "gatescenes_kai_romtools",             // NEW! User uploaded
             styleB = "kai_cyber_rom_flasher",
             fallback = "gate_romtools_final"
         )
         val BOOTLOADER = DualStyleGate(
             styleA = "kai_pixel_bootloader",
-            styleB = "kai_cyber_bootloader",      // The lock with lightning!
+            styleB = "kai_cyber_bootloader",                // The lock with lightning!
             fallback = "card_bootloader"
         )
         val MODULE_MANAGER = DualStyleGate(
             styleA = "kai_pixel_modules",
             styleB = "kai_cyber_modules",
+            fallback = null
+        )
+        val ROOT_TOOLS = DualStyleGate(
+            styleA = "gatescenes_kai_roottools",            // NEW! User uploaded
+            styleB = "kai_cyber_roottools",
             fallback = null
         )
         val RECOVERY = DualStyleGate(
@@ -130,12 +135,12 @@ object GateAssetConfig {
             fallback = null
         )
         val SECURITY = DualStyleGate(
-            styleA = "kai_pixel_security",
+            styleA = "gatescenes_kai_scancleansystem",      // NEW! User uploaded
             styleB = "kai_cyber_security",
             fallback = "card_firewall"
         )
         val VPN = DualStyleGate(
-            styleA = "kai_pixel_vpn",
+            styleA = "gatescenes_kai_vpnadblock",           // NEW! User uploaded
             styleB = "kai_cyber_vpn",
             fallback = "card_vpn"
         )
@@ -162,7 +167,7 @@ object GateAssetConfig {
         }
 
         val CHROMA_CORE = DualStyleGate(
-            styleA = "aura_splash_chroma",
+            styleA = "gatescenes_aura_chromacoregate",      // NEW! User uploaded
             styleB = "aura_clean_chroma",
             fallback = "card_chroma_core"
         )
@@ -177,14 +182,19 @@ object GateAssetConfig {
             fallback = "card_notch_bar"
         )
         val COLLAB_CANVAS = DualStyleGate(
-            styleA = "aura_splash_collab",
-            styleB = "aura_clean_collab",
+            styleA = "gatescenes_aura_collabcanvas",        // NEW! User uploaded
+            styleB = "gatescenes_aura_collabcanvas1",       // NEW! User uploaded (variant)
             fallback = "card_collab_canvas"
         )
         val AURA_LAB = DualStyleGate(
-            styleA = "aura_splash_lab",
+            styleA = "gatescenes_aura_auralab",             // NEW! User uploaded
             styleB = "aura_clean_lab",
             fallback = "gate_auralab_final"
+        )
+        val TERMINAL = DualStyleGate(
+            styleA = "gatescenes_aura_terminal",            // NEW! User uploaded
+            styleB = "aura_clean_terminal",
+            fallback = "gate_terminal_final"
         )
     }
 
@@ -204,28 +214,28 @@ object GateAssetConfig {
         }
 
         val CODE_ASSIST = DualStyleGate(
-            styleA = "genesis_phoenix_code",
-            styleB = "genesis_neural_code",
+            styleA = "gatescenes_genesis_code_panels",          // NEW! Genesis with code holographics
+            styleB = "gatescenes_genesis_neural_butterfly",     // NEW! Neural network pattern
             fallback = "gate_codeassist_final"
         )
         val NEURAL_ARCHIVE = DualStyleGate(
-            styleA = "genesis_phoenix_archive",
-            styleB = "genesis_neural_archive",
+            styleA = "gatescenes_genesis_character_sword",      // NEW! Ethereal character with sword
+            styleB = "gatescenes_genesis_warrior_armor",        // NEW! Armored warrior style
             fallback = null
         )
         val AGENT_BRIDGE = DualStyleGate(
-            styleA = "genesis_phoenix_bridge",
-            styleB = "genesis_neural_bridge",
+            styleA = "gatescenes_genesis_character_sword",      // NEW! Character connecting style
+            styleB = "gatescenes_genesis_warrior_armor",        // NEW! Technical warrior
             fallback = null
         )
         val CLOUD_STORAGE = DualStyleGate(
-            styleA = "genesis_phoenix_cloud",
-            styleB = "genesis_neural_cloud",
+            styleA = "gatescenes_genesis_database_server",      // NEW! On glowing database cube
+            styleB = "gatescenes_genesis_cloud_cosmic",         // NEW! Cosmic cloud background
             fallback = null
         )
         val TERMINAL = DualStyleGate(
-            styleA = "genesis_phoenix_terminal",
-            styleB = "genesis_neural_terminal",
+            styleA = "gatescenes_genesis_code_panels",          // NEW! Code panels visible
+            styleB = "gatescenes_genesis_warrior_armor",        // NEW! Dark tech theme
             fallback = "gate_terminal_final"
         )
     }
@@ -263,6 +273,53 @@ object GateAssetConfig {
         val FUSION_MODE = DualStyleGate(
             styleA = "nexus_cosmic_fusion",
             styleB = "nexus_hud_fusion",
+            fallback = null
+        )
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // LEVEL 2: NEXUS SUB-GATES (Agent Hub Interior)
+    // Style A: Constellation aesthetic (star maps, cosmic connections)
+    // Style B: Control Room aesthetic (HUD panels, monitoring screens)
+    // ═══════════════════════════════════════════════════════════════════════
+
+    object NexusSubGates {
+        data class DualStyleGate(
+            val styleA: String,  // Constellation
+            val styleB: String,  // Control Room
+            val fallback: String?
+        ) {
+            fun current() = if (StyleMode.nexusStyle == GateStyle.STYLE_A) styleA else styleB
+        }
+
+        val CONSTELLATION = DualStyleGate(
+            styleA = "gatescenes_nexus_constellation_cosmic",     // NEW! Geometric constellation
+            styleB = "gatescenes_nexus_constellation_variant",    // NEW! Variant constellation
+            fallback = null
+        )
+        val MONITORING = DualStyleGate(
+            styleA = "gatescenes_nexus_circuit_tree",             // NEW! Circuit tree pattern
+            styleB = "gatescenes_nexus_constellation_variant",    // NEW! Monitoring constellation
+            fallback = null
+        )
+        val SPHERE_GRID = DualStyleGate(
+            styleA = "gatescenes_nexus_hive_structure",           // NEW! Hexagonal agent hive
+            styleB = "gatescenes_nexus_circuit_tree",             // NEW! Tech circuit style
+            fallback = "gate_spheregrid_final"
+        )
+        val FUSION_MODE = DualStyleGate(
+            styleA = "gatescenes_nexus_fusion_symbol",            // NEW! Fusion connection symbol
+            styleB = "gatescenes_nexus_constellation_cosmic",     // NEW! Cosmic fusion
+            fallback = null
+        )
+        val TASK_ASSIGNMENT = DualStyleGate(
+            styleA = "gatescenes_nexus_ldo_roster",               // NEW! LDO agent roster
+            styleB = "gatescenes_nexus_hive_structure",           // NEW! Organized hive
+            fallback = null
+        )
+        val META_INSTRUCT = DualStyleGate(
+            styleA = "gatescenes_nexus_circuit_tree",             // NEW! Neural tree
+            styleB = "gatescenes_nexus_fusion_symbol",            // NEW! Meta connection
             fallback = null
         )
     }

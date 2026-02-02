@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import dev.aurakai.auraframefx.navigation.NavDestination
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -37,7 +38,7 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         Card(
-            onClick = { navController.navigate("consciousness") },
+            onClick = { navController.navigate(NavDestination.Consciousness.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -57,7 +58,7 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         Card(
-            onClick = { navController.navigate("fusion") },
+            onClick = { navController.navigate(NavDestination.FusionMode.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -77,7 +78,7 @@ fun HomeScreen(navController: NavHostController) {
         }
 
         Card(
-            onClick = { navController.navigate("evolution") },
+            onClick = { navController.navigate(NavDestination.Evolution.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)

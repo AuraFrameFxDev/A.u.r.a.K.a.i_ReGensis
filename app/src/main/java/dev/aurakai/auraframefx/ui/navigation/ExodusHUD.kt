@@ -90,7 +90,8 @@ fun ExodusHUD(navController: NavController) {
                      glowColor = gateInfo.color,
                      gradientColors = listOf(gateInfo.color, Color.Black),
                      pixelArtUrl = gateInfo.fallbackDrawable,
-                     borderColor = gateInfo.color
+                     borderColor = gateInfo.color,
+                     titlePlacement = dev.aurakai.auraframefx.ui.gates.TitlePlacement.TOP_CENTER  // Title ABOVE image, not on it
                  )
 
                  Box(
