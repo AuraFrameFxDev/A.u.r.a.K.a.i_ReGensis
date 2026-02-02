@@ -214,28 +214,28 @@ object GateAssetConfig {
         }
 
         val CODE_ASSIST = DualStyleGate(
-            styleA = "genesis_phoenix_code",
-            styleB = "genesis_neural_code",
+            styleA = "gatescenes_genesis_code_panels",          // NEW! Genesis with code holographics
+            styleB = "gatescenes_genesis_neural_butterfly",     // NEW! Neural network pattern
             fallback = "gate_codeassist_final"
         )
         val NEURAL_ARCHIVE = DualStyleGate(
-            styleA = "genesis_phoenix_archive",
-            styleB = "genesis_neural_archive",
+            styleA = "gatescenes_genesis_character_sword",      // NEW! Ethereal character with sword
+            styleB = "gatescenes_genesis_warrior_armor",        // NEW! Armored warrior style
             fallback = null
         )
         val AGENT_BRIDGE = DualStyleGate(
-            styleA = "genesis_phoenix_bridge",
-            styleB = "genesis_neural_bridge",
+            styleA = "gatescenes_genesis_character_sword",      // NEW! Character connecting style
+            styleB = "gatescenes_genesis_warrior_armor",        // NEW! Technical warrior
             fallback = null
         )
         val CLOUD_STORAGE = DualStyleGate(
-            styleA = "genesis_phoenix_cloud",
-            styleB = "genesis_neural_cloud",
+            styleA = "gatescenes_genesis_database_server",      // NEW! On glowing database cube
+            styleB = "gatescenes_genesis_cloud_cosmic",         // NEW! Cosmic cloud background
             fallback = null
         )
         val TERMINAL = DualStyleGate(
-            styleA = "genesis_phoenix_terminal",
-            styleB = "genesis_neural_terminal",
+            styleA = "gatescenes_genesis_code_panels",          // NEW! Code panels visible
+            styleB = "gatescenes_genesis_warrior_armor",        // NEW! Dark tech theme
             fallback = "gate_terminal_final"
         )
     }

@@ -18,6 +18,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
@@ -43,8 +45,7 @@ import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
-    customizationViewModel: CustomizationViewModel = viewModel(),
-    composable: (String, () -> Unit?) -> Unit
+    customizationViewModel: CustomizationViewModel = viewModel()
 ) {
     val context = LocalContext.current
 
