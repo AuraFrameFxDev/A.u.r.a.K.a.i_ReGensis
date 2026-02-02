@@ -6,8 +6,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import collabcanvas.di.CollabCanvasUrl
 import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.config.BaseUrl
+import dev.aurakai.auraframefx.config.ClaudeEnvConfig
 import dev.aurakai.auraframefx.di.AuraNetwork
 import dev.aurakai.auraframefx.network.AuraApiService
 import dev.aurakai.auraframefx.network.AuthInterceptor
@@ -153,5 +155,12 @@ object NetworkModule {
     @Singleton
     fun provideThemeApi(retrofit: Retrofit): ThemeApi {
         return retrofit.create(ThemeApi::class.java)
+    }
+
+    @Provides
+    @CollabCanvasUrl
+    @Singleton
+    fun provideCollabCanvasUrl(claudeEnvConfig: ClaudeEnvConfig): String {
+        return claudeEnvConfig.collabCanvasWsUrl
     }
 }
