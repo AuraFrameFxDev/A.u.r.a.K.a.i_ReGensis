@@ -41,26 +41,6 @@ object GateAssetLoadout {
             route = NavDestination.ColorBlendr.route,
             accentColor = Color(0xFF6200EE)
         ),
-        "iconify" to SubGateCard(
-            id = "iconify",
-            title = "Iconify",
-            subtitle = "UI Customization Engine",
-            styleADrawable = GateAssetConfig.AuraSubGates.ICONIFY.styleA,
-            styleBDrawable = GateAssetConfig.AuraSubGates.ICONIFY.styleB,
-            fallbackDrawable = GateAssetConfig.AuraSubGates.ICONIFY.fallback,
-            route = NavDestination.IconifyPicker.route,
-            accentColor = Color(0xFFBB86FC)
-        ),
-        "pixel_launcher" to SubGateCard(
-            id = "pixel_launcher",
-            title = "Pixel Launcher",
-            subtitle = "Launcher Enhancements",
-            styleADrawable = GateAssetConfig.AuraSubGates.PIXEL_LAUNCHER.styleA,
-            styleBDrawable = GateAssetConfig.AuraSubGates.PIXEL_LAUNCHER.styleB,
-            fallbackDrawable = GateAssetConfig.AuraSubGates.PIXEL_LAUNCHER.fallback,
-            route = NavDestination.PixelLauncherEnhanced.route,
-            accentColor = Color(0xFF4CAF50)
-        ),
         "collab_canvas" to SubGateCard(
             id = "collab_canvas",
             title = "CollabCanvas",
@@ -73,12 +53,12 @@ object GateAssetLoadout {
         ),
         "theme_engine" to SubGateCard(
             id = "theme_engine",
-            title = "Theme Engine",
-            subtitle = "Global Styles",
+            title = "UXUI Design Studio",
+            subtitle = "1,440+ Real LSPosed Settings",
             styleADrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleA,
             styleBDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleB,
             fallbackDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.fallback,
-            route = NavDestination.ThemeEngine.route,
+            route = NavDestination.ReGenesisCustomization.route, // Points to Customization Hub
             accentColor = Color(0xFFFFD700)
         )
     )
