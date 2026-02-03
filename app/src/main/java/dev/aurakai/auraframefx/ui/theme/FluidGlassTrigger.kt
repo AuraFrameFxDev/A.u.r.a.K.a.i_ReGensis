@@ -1,10 +1,12 @@
 package dev.aurakai.auraframefx.ui.theme
 
+import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 
@@ -25,7 +27,7 @@ fun Modifier.fluidGlass(
         // Apply the high-fidelity glass effect
         this.glassmorphic(
             glassColor = baseColor.copy(alpha = state.glassSurfaceAlpha),
-            blurRadius = state.glassBlurRadiusDp
+            blurRadius = state.glassBlurRadiusDp.dp
         )
     } else {
         // Standard background when disabled
