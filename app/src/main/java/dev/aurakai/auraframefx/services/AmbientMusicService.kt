@@ -27,9 +27,15 @@ class AmbientMusicService @Inject constructor() : Service() {
      *
      * @return `START_NOT_STICKY` to indicate the service will not be recreated automatically after being killed.
      */
-    override fun onStartCommand(_intent: Intent?, _flags: Int, _startId: Int): Int {
-        // TODO: Implement service logic for starting the service.
-        // TODO: Utilize parameters (_intent, _flags, _startId) or remove if not needed by actual implementation.
+    override fun onStartCommand(intent: Intent?, _flags: Int, _startId: Int): Int {
+        intent?.action?.let { action ->
+            when (action) {
+                ACTION_PLAY, ACTION_RESUME -> resume()
+                ACTION_PAUSE -> pause()
+                ACTION_NEXT -> skipToNextTrack()
+                ACTION_PREVIOUS -> skipToPreviousTrack()
+            }
+        }
         return START_NOT_STICKY
     }
 
@@ -70,5 +76,13 @@ class AmbientMusicService @Inject constructor() : Service() {
 
     fun skipToPreviousTrack() {
         // TODO: Reported as unused. Implement or remove.
+    }
+
+    companion object {
+        const val ACTION_PLAY = "dev.aurakai.auraframefx.action.PLAY"
+        const val ACTION_PAUSE = "dev.aurakai.auraframefx.action.PAUSE"
+        const val ACTION_RESUME = "dev.aurakai.auraframefx.action.RESUME"
+        const val ACTION_NEXT = "dev.aurakai.auraframefx.action.NEXT"
+        const val ACTION_PREVIOUS = "dev.aurakai.auraframefx.action.PREVIOUS"
     }
 }
