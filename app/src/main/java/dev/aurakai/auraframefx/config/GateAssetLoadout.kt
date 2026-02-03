@@ -51,14 +51,24 @@ object GateAssetLoadout {
             route = NavDestination.CollabCanvas.route,
             accentColor = Color(0xFF00E5FF)
         ),
-        "theme_engine" to SubGateCard(
-            id = "theme_engine",
-            title = "UXUI Design Studio",
-            subtitle = "1,440+ Real LSPosed Settings",
+        "themes" to SubGateCard(
+            id = "themes",
+            title = "Themes",
+            subtitle = "Theme Selection & Management",
             styleADrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleA,
             styleBDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleB,
             fallbackDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.fallback,
-            route = NavDestination.ReGenesisCustomization.route, // Points to Customization Hub
+            route = NavDestination.ThemeEngine.route,
+            accentColor = Color(0xFFFF6F00)
+        ),
+        "uxui_engine" to SubGateCard(
+            id = "uxui_engine",
+            title = "UXUI Engine",
+            subtitle = "Iconify • ColorBlendr • PixelLauncher",
+            styleADrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleA,
+            styleBDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleB,
+            fallbackDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.fallback,
+            route = NavDestination.ReGenesisCustomization.route,
             accentColor = Color(0xFFFFD700)
         )
     )
@@ -94,7 +104,7 @@ object GateAssetLoadout {
             styleADrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.fallback,
-            route = NavDestination.SovereignBootloader.route,
+            route = NavDestination.BootloaderManager.route, // Fixed: use wired route
             accentColor = Color(0xFF2979FF)
         ),
         "root_tools" to SubGateCard(

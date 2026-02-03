@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.Animation
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.*
@@ -36,7 +37,8 @@ fun ReGenesisCustomizationHub(
     onNavigateBack: () -> Unit,
     onNavigateToIconify: () -> Unit,
     onNavigateToColorBlendr: () -> Unit,
-    onNavigateToPLE: () -> Unit
+    onNavigateToPLE: () -> Unit,
+    onNavigateToAnimations: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         ColorWaveBackground()
@@ -107,6 +109,17 @@ fun ReGenesisCustomizationHub(
                         icon = Icons.Default.Home,
                         accentColor = Color(0xFF4CAF50),
                         onClick = onNavigateToPLE
+                    )
+                }
+
+                item {
+                    CategoryCard(
+                        title = "Animations",
+                        subtitle = "Lock Screen & System Animations",
+                        settingsCount = 12,
+                        icon = Icons.Default.Animation,
+                        accentColor = Color(0xFFFF6F00),
+                        onClick = onNavigateToAnimations
                     )
                 }
             }

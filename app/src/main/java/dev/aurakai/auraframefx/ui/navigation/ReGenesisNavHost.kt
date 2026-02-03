@@ -39,8 +39,12 @@ import dev.aurakai.auraframefx.domains.kai.screens.SovereignShieldScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.ConferenceRoomScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
+import dev.aurakai.auraframefx.domains.kai.screens.RootToolsTogglesScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.aura.animations.AnimationPicker
 import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedSubmenuScreen
 // Hub Screens (still in ui.gates)
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
@@ -104,9 +108,11 @@ fun ReGenesisNavHost(
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToIconify = { navController.navigate(NavDestination.IconifyPicker.route) },
                 onNavigateToColorBlendr = { navController.navigate(NavDestination.ColorBlendr.route) },
-                onNavigateToPLE = { navController.navigate(NavDestination.PixelLauncherEnhanced.route) }
+                onNavigateToPLE = { navController.navigate(NavDestination.PixelLauncherEnhanced.route) },
+                onNavigateToAnimations = { navController.navigate("aura/animations") }
             )
         }
+
 
         composable(NavDestination.RomToolsHub.route) {
             RomToolsScreen()
@@ -114,6 +120,14 @@ fun ReGenesisNavHost(
 
         composable(NavDestination.OracleDriveHub.route) {
             OracleDriveHubScreen(navController = navController)
+        }
+
+        composable(NavDestination.CodeAssist.route) {
+            CodeAssistScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(NavDestination.AgentBridgeHub.route) {
+            AgentBridgeHubScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(NavDestination.AgentNexusHub.route) {
@@ -181,6 +195,12 @@ fun ReGenesisNavHost(
         composable(NavDestination.QuickSettings.route) {
             QuickSettingsScreen(onNavigateBack = { navController.popBackStack() })
         }
+        composable(NavDestination.ThemeEngine.route) {
+            ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("aura/animations") {
+            AnimationPicker(onNavigateBack = { navController.popBackStack() })
+        }
 
         // --- LEVEL 3: KAI TOOLS ---
         composable(NavDestination.ROMFlasher.route) {
@@ -194,6 +214,9 @@ fun ReGenesisNavHost(
         }
         composable(NavDestination.RecoveryTools.route) {
             RecoveryToolsScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.RootTools.route) {
+            RootToolsTogglesScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.SecurityCenter.route) {
             SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
