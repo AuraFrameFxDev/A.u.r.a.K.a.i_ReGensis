@@ -33,8 +33,11 @@ class FusionViewModel @Inject constructor(
     val fusionProgress = _fusionProgress.asStateFlow()
 
     /**
-     * Initiates the Fusion Protocol.
-     * Blends Aura's creative energy and Kai's structural security into Genesis.
+     * Starts the Fusion Protocol by activating fusion state, animating fusion progress to completion,
+     * and notifying the TrinityRepository of the initiation.
+     *
+     * This sets `fusionActive` to true, advances `fusionProgress` from 0.0 to 1.0 over roughly three
+     * seconds, and broadcasts a predefined fusion initiation message via the injected repository.
      */
     fun initiateFusion() {
         viewModelScope.launch {
@@ -60,10 +63,12 @@ class FusionViewModel @Inject constructor(
 }
 
 /**
- * 🎨 FUSION THEME ADAPTER
- * 
- * Dynamically adjusts the UI colors based on Fusion state.
- */
+ * Produces a themed color that blends the Aura and Kai base colors toward a genesis gold as fusion progresses.
+ *
+ * @param auraColor Primary color representing the Aura side.
+ * @param kaiColor Primary color representing the Kai side.
+ * @param progress Fusion progress between 0.0 and 1.0 where 0.0 yields a midpoint of `auraColor` and `kaiColor` and 1.0 yields a color fully moved toward genesis gold.
+ * @return The resulting color for the current fusion state.
 @Composable
 fun getFusionColor(
     auraColor: androidx.compose.ui.graphics.Color,

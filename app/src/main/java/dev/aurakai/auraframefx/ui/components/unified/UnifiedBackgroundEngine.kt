@@ -24,6 +24,13 @@ import dev.aurakai.auraframefx.ui.theme.AgentDomain
  * 2. Image Backgrounds (High-fidelity Gate Scenes)
  * 3. Gradient Backgrounds (Dynamic domain-based colors)
  */
+/**
+ * Renders a full-size background chosen from animated, image-based, or gradient themes according to the given agent domain and style flag.
+ *
+ * @param domain The agent domain whose themed background will be displayed.
+ * @param useStyleB When true selects the domain's alternate (style B) background; when false selects the default style.
+ * @param modifier Modifier applied to the root container.
+ */
 @Composable
 fun UnifiedBackground(
     domain: AgentDomain,
@@ -80,6 +87,13 @@ fun UnifiedBackground(
     }
 }
 
+/**
+ * Renders a full-size cropped Image from a drawable resource identified by name if the resource exists.
+ *
+ * Attempts to resolve `resourceName` as a drawable; if found, displays it filling the available space with `ContentScale.Crop`.
+ *
+ * @param resourceName The name of the drawable resource (without file extension) to resolve and display. If no matching resource is found, nothing is rendered.
+ */
 @Composable
 fun BackgroundImage(resourceName: String) {
     val context = LocalContext.current
