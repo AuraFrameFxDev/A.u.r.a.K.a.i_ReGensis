@@ -194,7 +194,7 @@ object GateAssetConfig {
         )
         val COLLAB_CANVAS = DualStyleGate(
             styleA = "gatescenes_aura_collabcanvas_v2",     // NEW! Group splash
-            styleB = "gatescenes_aura_collabcanvas1",       
+            styleB = "gatescenes_aura_collabcanvas1",
             fallback = "card_collab_canvas"
         )
         val AURA_LAB = DualStyleGate(

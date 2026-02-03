@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -32,7 +33,7 @@ object IconifyModule {
     @Provides
     @Singleton
     fun provideIconifyService(
-        @dev.aurakai.auraframefx.di.AuraNetwork okHttpClient: OkHttpClient,
+        @Named("BasicOkHttpClient") okHttpClient: OkHttpClient,
         iconCacheManager: IconCacheManager
     ): IconifyService {
         return IconifyService(okHttpClient, iconCacheManager)

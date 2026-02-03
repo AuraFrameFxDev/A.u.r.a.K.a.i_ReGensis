@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.aura.animations.HomeScreenTransitionType
 import dev.aurakai.auraframefx.aura.animations.DigitalTransitionRow
 import dev.aurakai.auraframefx.ui.components.HologramTransition
@@ -36,7 +37,11 @@ fun EcosystemMenuScreen(
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Ecosystem Menu Screen (Placeholder)")
+                Text(
+                    text = "Ecosystem Command Center",
+                    style = androidx.compose.material3.MaterialTheme.typography.headlineSmall,
+                    color = Color(0xFFE94560)
+                )
                 DigitalTransitionRow(
                     currentType = transitionType,
                     onTypeSelected = {}

@@ -415,11 +415,70 @@ class KaiAgent @Inject constructor(
     private suspend fun generateStandardSecurityResponse(interaction: EnhancedInteractionData): String =
         "Standard security response"
 
-    private fun findRiskIndicators(content: String): List<String> = emptyList()
+    private fun findRiskIndicators(content: String): List<String> {
+        val indicators = mutableListOf<String>()
+        
+        // 1. Scripting/Injection Patterns
+        val injectionPatterns = listOf(
+            "<script", "javascript:", "eval(", "setTimeout(", "setInterval(",
+            "onclick=", "onerror=", "onload=", "document.cookie", "document.domain",
+            "XMLHttpRequest", "fetch(", "ActiveXObject"
+        )
+        if (injectionPatterns.any { content.contains(it, ignoreCase = true) }) {
+            indicators.add("potential_script_injection")
+        }
 
-    private fun calculateRiskLevel(indicators: List<String>): ThreatLevel = ThreatLevel.LOW
+        // 2. Sensitive Data Patterns
+        val sensitivePatterns = listOf(
+            "AIza[0-9A-Za-z-_]{35}", // Google API Key
+            "key-[0-9a-zA-Z]{32}",   // Mailgun
+            "SK[0-9a-fA-F]{32}",     // Twilio
+            "access_token", "bearer", "password"
+        )
+        if (sensitivePatterns.any { content.contains(it.toRegex()) }) {
+            indicators.add("sensitive_credential_leak")
+        }
 
-    private suspend fun scanForVulnerabilities(target: String): List<String> = emptyList()
+        // 3. Execution/System Patterns
+        val systemPatterns = listOf("Runtime.getRuntime()", "ProcessBuilder", "su ", "root ", "/etc/shadow", "/sys/class")
+        if (systemPatterns.any { content.contains(it, ignoreCase = true) }) {
+            indicators.add("system_execution_attempt")
+        }
+
+        return indicators
+    }
+
+    private fun calculateRiskLevel(indicators: List<String>): ThreatLevel {
+        return when {
+            indicators.any { it == "system_execution_attempt" } -> ThreatLevel.CRITICAL
+            indicators.any { it == "sensitive_credential_leak" } -> ThreatLevel.HIGH
+            indicators.size > 2 -> ThreatLevel.MEDIUM
+            indicators.isNotEmpty() -> ThreatLevel.LOW
+            else -> ThreatLevel.NONE
+        }
+    }
+
+    private suspend fun scanForVulnerabilities(target: String): List<String> {
+        val vulnerabilities = mutableListOf<String>()
+        
+        // Simulation of real scanning logic
+        if (target.contains("http://")) vulnerabilities.add("insecure_protocol_http")
+        if (target.contains(".php")) vulnerabilities.add("potential_legacy_endpoint")
+        
+        // Check entropy of target string for random/obfuscated content
+        val entropy = calculateEntropy(target)
+        if (entropy > 5.0) vulnerabilities.add("high_entropy_obfuscation")
+        
+        return vulnerabilities
+    }
+
+    private fun calculateEntropy(s: String): Double {
+        val freq = s.groupingBy { it }.eachCount()
+        return freq.values.sumOf {
+            val p = it.toDouble() / s.length
+            -p * Math.log(p) / Math.log(2.0)
+        }
+    }
 
     private fun performRiskAssessment(
         target: String,
@@ -454,7 +513,23 @@ class KaiAgent @Inject constructor(
     private fun buildCodeReviewPrompt(code: String): String =
         "Review this code for security and quality: $code"
 
-    private fun detectSecurityIssues(code: String): List<String> = emptyList()
+    private fun detectSecurityIssues(code: String): List<String> {
+        val issues = mutableListOf<String>()
+        val securityRegexes = mapOf(
+            "SQL Injection" to ".*(SELECT|INSERT|UPDATE|DELETE|DROP).*WHERE.*=.*",
+            "Hardcoded Credential" to ".*(apiKey|secret|password|token).*=.*\".+\".*",
+            "Insecure Random" to ".*java\\.util\\.Random.*",
+            "Execution Path" to ".*exec\\(.*\\).*"
+        )
+        
+        securityRegexes.forEach { (name, pattern) ->
+            if (code.contains(pattern.toRegex(RegexOption.IGNORE_CASE))) {
+                issues.add("Potential $name detected")
+            }
+        }
+        
+        return issues
+    }
 
     private fun calculateCodeQuality(code: String): Map<String, Float> = emptyMap()
 

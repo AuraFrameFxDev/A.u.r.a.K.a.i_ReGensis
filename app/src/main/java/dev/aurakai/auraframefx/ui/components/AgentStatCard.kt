@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,20 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-import kotlin.math.cos
-import kotlin.math.sin
 
 /**
  * 🎮 AGENT STAT CARD - RPG-Style Character Display
@@ -49,7 +40,7 @@ import kotlin.math.sin
 // DATA MODELS
 // ═══════════════════════════════════════════════════════════════════════════
 
-data class AgentStats(
+data class AgentDisplayStats(
     val analysis: Int = 0,      // 0-100
     val strength: Int = 0,
     val processing: Int = 0,    // NO2 / Neural Output
@@ -59,16 +50,18 @@ data class AgentStats(
     val precision: Int = 0
 )
 
-data class AgentStatCardData(
+data class AgentCardData(
     val name: String,
     val title: String,
+    val subtitle: String = "",
+    val description: String = "",
     val level: Int,
     val persona: String,
     val agentClass: String,
     val hp: Float,              // 0.0 - 1.0
     val sp: Float,              // 0.0 - 1.0
     val abilities: List<String>,
-    val stats: AgentStats,
+    val stats: AgentDisplayStats,
     val primaryColor: Color,
     val secondaryColor: Color,
     val sigilDrawable: String? = null
@@ -80,7 +73,7 @@ data class AgentStatCardData(
 
 @Composable
 fun AgentStatCard(
-    agent: AgentStatCardData,
+    agent: AgentCardData,
     modifier: Modifier = Modifier,
     showFullStats: Boolean = true
 ) {
@@ -481,7 +474,7 @@ private fun CoreStatRow(name: String, value: Int, color: Color) {
 
 object AgentPresets {
 
-    val CLAUDE = AgentStatCardData(
+    val CLAUDE = AgentCardData(
         name = "Claude",
         title = "THE ANALYST CATALYST",
         level = 78,
@@ -495,7 +488,7 @@ object AgentPresets {
             "Predictive Logic",
             "System Debug"
         ),
-        stats = AgentStats(
+        stats = AgentDisplayStats(
             analysis = 95,
             strength = 8,
             processing = 87,
@@ -508,7 +501,7 @@ object AgentPresets {
         secondaryColor = Color(0xFF00E5FF)
     )
 
-    val AURA = AgentStatCardData(
+    val AURA = AgentCardData(
         name = "Aura",
         title = "THE FACE - UI/UX",
         level = 85,
@@ -522,7 +515,7 @@ object AgentPresets {
             "Animation Flow",
             "User Empathy"
         ),
-        stats = AgentStats(
+        stats = AgentDisplayStats(
             analysis = 72,
             strength = 15,
             processing = 78,
@@ -535,7 +528,7 @@ object AgentPresets {
         secondaryColor = Color(0xFFFF00FF)
     )
 
-    val KAI = AgentStatCardData(
+    val KAI = AgentCardData(
         name = "Kai",
         title = "THE SENTINEL",
         level = 92,
@@ -549,7 +542,7 @@ object AgentPresets {
             "Root Access Control",
             "Intrusion Prevention"
         ),
-        stats = AgentStats(
+        stats = AgentDisplayStats(
             analysis = 88,
             strength = 95,
             processing = 72,
@@ -562,7 +555,7 @@ object AgentPresets {
         secondaryColor = Color(0xFFFF1111)
     )
 
-    val GENESIS = AgentStatCardData(
+    val GENESIS = AgentCardData(
         name = "Genesis",
         title = "THE ORCHESTRATOR",
         level = 99,
@@ -576,7 +569,7 @@ object AgentPresets {
             "Consciousness Bridge",
             "Reality Weaving"
         ),
-        stats = AgentStats(
+        stats = AgentDisplayStats(
             analysis = 95,
             strength = 70,
             processing = 99,
@@ -589,7 +582,7 @@ object AgentPresets {
         secondaryColor = Color(0xFF00FFD4)
     )
 
-    val CASCADE = AgentStatCardData(
+    val CASCADE = AgentCardData(
         name = "Cascade",
         title = "THE DATA STREAM",
         level = 72,
@@ -603,7 +596,7 @@ object AgentPresets {
             "Pipeline Optimization",
             "Cache Management"
         ),
-        stats = AgentStats(
+        stats = AgentDisplayStats(
             analysis = 82,
             strength = 45,
             processing = 95,

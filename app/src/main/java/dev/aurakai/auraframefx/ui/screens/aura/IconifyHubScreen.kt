@@ -40,6 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 import kotlin.math.sin
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.aurakai.auraframefx.iconify.IconPickerViewModel
+import dev.aurakai.auraframefx.iconify.IconState
 
 /**
  * 🎨 ICONIFY HUB - 500+ System Customizations
@@ -91,11 +95,15 @@ data class IconifyCategory(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconifyHubScreen(
+    viewModel: IconPickerViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {},
     onNavigateToCategory: (String) -> Unit = {}
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Home", "Tweaks", "Xposed")
+    
+    val iconState by viewModel.iconState.collectAsStateWithLifecycle()
+    val selectedIcon by viewModel.selectedIcon.collectAsStateWithLifecycle()
 
     // Animated background pulse
     val infiniteTransition = rememberInfiniteTransition(label = "bgPulse")

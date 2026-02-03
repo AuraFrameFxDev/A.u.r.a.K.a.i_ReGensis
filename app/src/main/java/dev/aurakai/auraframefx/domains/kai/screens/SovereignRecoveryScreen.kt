@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Terminal
@@ -49,6 +50,14 @@ fun SovereignRecoveryScreen(
                     .fillMaxSize()
                     .padding(24.dp)
             ) {
+                // Header - Back Button
+                IconButton(
+                    onClick = onNavigateBack,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
+                    Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+                }
+
                 // Header Panel
                 RecoveryHeader(state)
 

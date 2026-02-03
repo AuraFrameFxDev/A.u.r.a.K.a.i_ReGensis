@@ -23,6 +23,7 @@ data class AgentResponse(
         /**
          * Create a success response
          */
+        @Suppress("UNCHECKED_CAST")
         fun success(
             content: String,
             agentName: String = "",

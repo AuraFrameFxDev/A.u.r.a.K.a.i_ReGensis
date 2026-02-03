@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.GppBad
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.PublicOff
@@ -54,6 +55,14 @@ fun SovereignShieldScreen(
                     .fillMaxSize()
                     .padding(24.dp)
             ) {
+                // Header - Back Button
+                IconButton(
+                    onClick = onNavigateBack,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
+                    Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+                }
+                
                 // Privacy Score readout
                 PrivacyScoreDisplay(state.privacyScore)
 

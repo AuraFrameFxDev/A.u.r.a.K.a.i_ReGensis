@@ -1,8 +1,16 @@
 package dev.aurakai.auraframefx.romtools
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.models.AgentResponse
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -15,5 +23,34 @@ class RomToolsViewModel @Inject constructor(
 ) : ViewModel() {
     val romToolsState: StateFlow<RomToolsState> = romToolsManager.romToolsState
     val operationProgress: StateFlow<OperationProgress?> = romToolsManager.operationProgress
-}
 
+    private val _lastResponse = MutableStateFlow<AgentResponse?>(null)
+    val lastResponse: StateFlow<AgentResponse?> = _lastResponse.asStateFlow()
+
+    fun performOperation(operation: RomOperation, context: Context, uri: Uri? = null) {
+        viewModelScope.launch {
+            val request = RomOperationRequest(
+                operation = operation,
+                uri = uri,
+                context = context
+            )
+            
+            try {
+                val response = romToolsManager.processRomOperation(request)
+                _lastResponse.value = response
+                if (response.isSuccess) {
+                    Timber.i("Operation ${operation.javaClass.simpleName} succeeded: ${response.content}")
+                } else {
+                    Timber.e("Operation ${operation.javaClass.simpleName} failed: ${response.error}")
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Error performing ROM operation")
+                _lastResponse.value = AgentResponse.error(e.message ?: "Unknown error")
+            }
+        }
+    }
+
+    fun clearResponse() {
+        _lastResponse.value = null
+    }
+}

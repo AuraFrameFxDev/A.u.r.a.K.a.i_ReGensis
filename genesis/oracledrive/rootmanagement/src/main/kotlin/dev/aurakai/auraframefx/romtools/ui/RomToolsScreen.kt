@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.romtools.ui
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import dev.aurakai.auraframefx.romtools.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -80,6 +81,7 @@ fun RomToolsScreen(
     modifier: Modifier = Modifier,
     romToolsViewModel: dev.aurakai.auraframefx.romtools.RomToolsViewModel = hiltViewModel(),
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val romToolsState by romToolsViewModel.romToolsState.collectAsStateWithLifecycle()
     val operationProgressState by romToolsViewModel.operationProgress.collectAsStateWithLifecycle()
     val romToolsManager = romToolsViewModel.romToolsManager
@@ -99,8 +101,7 @@ fun RomToolsScreen(
     ) { uri: Uri? ->
         uri?.let {
             Timber.i("ROM file selected: $it")
-            // TODO: Wire up romToolsManager.flashRom() when it accepts Uri/path parameter
-            Timber.w("ROM flashing from URI requires RomToolsManager.flashRom(uri) implementation")
+            romToolsViewModel.performOperation(RomOperation.FlashRom, context, it)
         }
     }
 
@@ -109,8 +110,7 @@ fun RomToolsScreen(
     ) { uri: Uri? ->
         uri?.let {
             Timber.i("Backup file selected: $it")
-            // TODO: Wire up romToolsManager.restoreBackup() when it accepts Uri/path parameter
-            Timber.w("Backup restoration from URI requires RomToolsManager.restoreBackup(uri) implementation")
+            romToolsViewModel.performOperation(RomOperation.RestoreBackup, context, it)
         }
     }
 
@@ -246,8 +246,8 @@ fun RomToolsScreen(
                         }
                         else -> handleRomAction(
                             actionType = actionType,
-                            romToolsManager = romToolsManager,
-                            coroutineScope = coroutineScope
+                            viewModel = romToolsViewModel,
+                            context = context
                         )
                     }
                 }
@@ -269,47 +269,23 @@ fun RomToolsScreen(
  */
 private fun handleRomAction(
     actionType: RomActionType,
-    romToolsManager: RomToolsManager,
-    coroutineScope: kotlinx.coroutines.CoroutineScope
+    viewModel: dev.aurakai.auraframefx.romtools.RomToolsViewModel,
+    context: android.content.Context
 ) {
-    coroutineScope.launch {
-        when (actionType) {
-            RomActionType.FLASH_ROM -> { /* Handled in Composable */ }
-            RomActionType.RESTORE_BACKUP -> { /* Handled in Composable */ }
-            RomActionType.CREATE_BACKUP -> {
-                // Generate a timestamp-based backup name
-                val backupName = "AuraKai_Backup_${System.currentTimeMillis()}"
-                val result = romToolsManager.createNandroidBackup(backupName)
-                result.onSuccess {
-                    Timber.i("Backup created successfully: ${it.name}")
-                }.onFailure { error ->
-                    Timber.e(error, "Backup creation failed")
-                }
-            }
-            RomActionType.UNLOCK_BOOTLOADER -> {
-                val result = romToolsManager.unlockBootloader()
-                result.onSuccess {
-                    Timber.i("✅ Bootloader unlocked successfully")
-                }.onFailure { error ->
-                    Timber.e(error, "❌ Bootloader unlock failed")
-                }
-            }
-            RomActionType.INSTALL_RECOVERY -> {
-                val result = romToolsManager.installRecovery()
-                result.onSuccess {
-                    Timber.i("✅ Custom recovery installed successfully")
-                }.onFailure { error ->
-                    Timber.e(error, "❌ Recovery installation failed")
-                }
-            }
-            RomActionType.GENESIS_OPTIMIZATIONS -> {
-                val result = romToolsManager.installGenesisOptimizations()
-                result.onSuccess {
-                    Timber.i("Genesis AI optimizations applied successfully")
-                }.onFailure { error ->
-                    Timber.e(error, "Genesis optimizations failed")
-                }
-            }
+    when (actionType) {
+        RomActionType.FLASH_ROM -> { /* Handled in Composable */ }
+        RomActionType.RESTORE_BACKUP -> { /* Handled in Composable */ }
+        RomActionType.CREATE_BACKUP -> {
+            viewModel.performOperation(RomOperation.CreateBackup, context)
+        }
+        RomActionType.UNLOCK_BOOTLOADER -> {
+            viewModel.performOperation(RomOperation.UnlockBootloader, context)
+        }
+        RomActionType.INSTALL_RECOVERY -> {
+            viewModel.performOperation(RomOperation.InstallRecovery, context)
+        }
+        RomActionType.GENESIS_OPTIMIZATIONS -> {
+            viewModel.performOperation(RomOperation.GenesisOptimizations, context)
         }
     }
 }
@@ -466,7 +442,7 @@ private fun MainContentPreview() {
         )
     )
     val operationProgress = OperationProgress(
-        operation = RomOperation.FLASHING_ROM,
+        operation = RomStep.FLASHING_ROM,
         progress = 75f
     )
     MainContent(romToolsState = romToolsState, operationProgress = operationProgress)
@@ -656,7 +632,7 @@ private fun OperationProgressCard(
 @Composable
 private fun OperationProgressCardPreview() {
     val operationProgress = OperationProgress(
-        operation = RomOperation.FLASHING_ROM,
+        operation = RomStep.FLASHING_ROM,
         progress = 75f
     )
     OperationProgressCard(operation = operationProgress)
@@ -841,19 +817,12 @@ enum class RomActionType {
  */
 fun RomOperation.getDisplayName(): String {
     return when (this) {
-        RomOperation.VERIFYING_ROM -> "Verifying ROM"
-        RomOperation.CREATING_BACKUP -> "Creating Backup"
-        RomOperation.UNLOCKING_BOOTLOADER -> "Unlocking Bootloader"
-        RomOperation.INSTALLING_RECOVERY -> "Installing Recovery"
-        RomOperation.FLASHING_ROM -> "Flashing ROM"
-        RomOperation.VERIFYING_INSTALLATION -> "Verifying Installation"
-        RomOperation.RESTORING_BACKUP -> "Restoring Backup"
-        RomOperation.APPLYING_OPTIMIZATIONS -> "Applying Optimizations"
-        RomOperation.DOWNLOADING_ROM -> "Downloading ROM"
-        RomOperation.SETTING_UP_RETENTION -> "Setting Up Retention"
-        RomOperation.RESTORING_AURAKAI -> "Restoring Aurakai"
-        RomOperation.COMPLETED -> "Completed"
-        RomOperation.FAILED -> "Failed"
+        RomOperation.FlashRom -> "Flash ROM"
+        RomOperation.RestoreBackup -> "Restore Backup"
+        RomOperation.CreateBackup -> "Create Backup"
+        RomOperation.UnlockBootloader -> "Unlock Bootloader"
+        RomOperation.InstallRecovery -> "Install Recovery"
+        RomOperation.GenesisOptimizations -> "Genesis Optimizations"
     }
 }
 

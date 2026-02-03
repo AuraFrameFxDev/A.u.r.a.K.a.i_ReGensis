@@ -244,6 +244,24 @@ class HotSwapManager @Inject constructor(
     /**
      * Reset to default configuration
      */
+    /**
+     * Toggle quick access panel visibility
+     */
+    fun toggleQuickAccess() {
+        _currentConfig.value = _currentConfig.value.copy(quickAccessEnabled = !_currentConfig.value.quickAccessEnabled)
+        saveConfig()
+        Timber.i("HotSwapManager: Toggled quick access: ${_currentConfig.value.quickAccessEnabled}")
+    }
+
+    /**
+     * Update quick access position
+     */
+    fun updateQuickAccessPosition(position: String) {
+        _currentConfig.value = _currentConfig.value.copy(quickAccessPosition = position)
+        saveConfig()
+        Timber.i("HotSwapManager: Updated quick access position: $position")
+    }
+
     fun resetToDefaults() {
         _currentConfig.value = HotSwapConfig.default()
         _gateConfigs.value = GateConfig.defaults()

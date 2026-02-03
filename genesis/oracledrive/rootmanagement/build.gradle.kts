@@ -46,6 +46,7 @@ dependencies {
     ksp(libs.yukihookapi.ksp)
     // Serialization
     implementation(libs.kotlinx.serialization.json)
+    implementation(project(":core-module"))
     testImplementation(libs.kotlin.test)
 }
 

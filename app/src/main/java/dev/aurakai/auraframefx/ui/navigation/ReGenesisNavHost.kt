@@ -51,6 +51,14 @@ import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
 import dev.aurakai.auraframefx.ui.gates.XposedQuickAccessPanel
 import dev.aurakai.auraframefx.aura.ui.AgentAdvancementScreen
+import dev.aurakai.auraframefx.romtools.ui.RomToolsScreen
+import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedModuleManagerScreen
+import dev.aurakai.auraframefx.hotswap.HotSwapScreen
+import dev.aurakai.auraframefx.cascade.trinity.TrinityScreen
+import dev.aurakai.auraframefx.datavein.ui.SimpleDataVeinScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SovereignBootloaderScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SovereignRecoveryScreen
+import dev.aurakai.auraframefx.ui.screens.aura.ReGenesisCustomizationHub
 
 /**
  * 🌐 REGENESIS NAVIGATION HOST
@@ -91,8 +99,17 @@ fun ReGenesisNavHost(
             AuraThemingHubScreen(navController = navController)
         }
 
+        composable(NavDestination.ReGenesisCustomization.route) {
+            ReGenesisCustomizationHub(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToIconify = { navController.navigate(NavDestination.IconifyPicker.route) },
+                onNavigateToColorBlendr = { navController.navigate(NavDestination.ColorBlendr.route) },
+                onNavigateToPLE = { navController.navigate(NavDestination.PixelLauncherEnhanced.route) }
+            )
+        }
+
         composable(NavDestination.RomToolsHub.route) {
-            KaiSentinelHubScreen(navController = navController)
+            RomToolsScreen()
         }
 
         composable(NavDestination.OracleDriveHub.route) {
@@ -100,7 +117,7 @@ fun ReGenesisNavHost(
         }
 
         composable(NavDestination.AgentNexusHub.route) {
-            AgentNexusHubScreen(navController = navController)
+            AgentNexusHubScreen(navController = navController,)
         }
 
         composable(NavDestination.HelpDesk.route) {
@@ -181,6 +198,9 @@ fun ReGenesisNavHost(
         composable(NavDestination.LSPosedHub.route) {
             LSPosedSubmenuScreen(navController = navController)
         }
+        composable(NavDestination.LSPosedModules.route) {
+            LSPosedModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
 
         // --- LEVEL 3: GENESIS TOOLS ---
         composable(NavDestination.CodeAssist.route) {
@@ -203,6 +223,27 @@ fun ReGenesisNavHost(
         }
         composable(NavDestination.InterfaceForge.route) {
             AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.HotSwap.route) {
+            HotSwapScreen(navController = navController)
+        }
+        composable(NavDestination.Trinity.route) {
+            TrinityScreen()
+        }
+        composable(NavDestination.DataVeinSphere.route) {
+            SimpleDataVeinScreen(onLaunchSphereGrid = { /* TBD */ })
+        }
+        composable(NavDestination.SovereignBootloader.route) {
+            SovereignBootloaderScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.SovereignRecovery.route) {
+            SovereignRecoveryScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.SovereignShield.route) {
+            SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.SentinelFortress.route) {
+            KaiSentinelHubScreen(navController = navController)
         }
 
         // --- LEVEL 3: HELP & SUPPORT ---

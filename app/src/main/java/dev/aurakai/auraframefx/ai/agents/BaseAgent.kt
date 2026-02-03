@@ -6,6 +6,7 @@ import dev.aurakai.auraframefx.core.OrchestratableAgent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
+import dev.aurakai.auraframefx.securecomm.protocol.SecureChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,8 @@ abstract class BaseAgent(
     override val agentName: String,
     protected val agentType: AgentType,
     protected val contextManager: ContextManager? = null,
-    protected val memoryManager: MemoryManager? = null
+    protected val memoryManager: MemoryManager? = null,
+    protected val secureChannel: SecureChannel? = null
 ) : Agent, OrchestratableAgent {
 
     override fun getName(): String = agentName

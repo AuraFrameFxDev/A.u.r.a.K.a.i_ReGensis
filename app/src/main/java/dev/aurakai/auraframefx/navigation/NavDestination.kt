@@ -146,6 +146,11 @@ sealed class NavDestination(val route: String) {
     data object SecurityCenter : NavDestination("security_center")
     data object VPN : NavDestination("vpn")
     data object SentinelFortress : NavDestination("sentinel_fortress")
+    data object HotSwap : NavDestination("hotswap")
+    data object Trinity : NavDestination("trinity")
+    data object SovereignBootloader : NavDestination("sovereign_bootloader")
+    data object SovereignRecovery : NavDestination("sovereign_recovery")
+    data object SovereignShield : NavDestination("sovereign_shield")
 
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 3: AI & ORCHESTRATION TOOLS
@@ -176,6 +181,7 @@ sealed class NavDestination(val route: String) {
     data object BenchmarkMonitor : NavDestination("benchmark_monitor")
     data object InterfaceForge : NavDestination("interface_forge")
     data object SphereGrid : NavDestination("sphere_grid")
+    data object DataVeinSphere : NavDestination("datavein_sphere")
 
     // ═══════════════════════════════════════════════════════════════
     // MISSING ROUTES (From string navigate() calls)

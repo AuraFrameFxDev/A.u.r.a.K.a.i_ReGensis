@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+import dev.aurakai.colorblendr.ChromaCore
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorBlendrPicker(
@@ -69,7 +71,7 @@ fun ColorBlendrPicker(
 }
 
 /**
- * ChromaCore color picker component using local ChromaCore utilities
+ * ChromaCore color picker component using REAL ChromaCore utilities
  */
 @Composable
 fun ChromaCoreColorPicker(
@@ -80,6 +82,9 @@ fun ChromaCoreColorPicker(
     var hue by remember { mutableFloatStateOf(0f) }
     var saturation by remember { mutableFloatStateOf(1f) }
     var brightness by remember { mutableFloatStateOf(1f) }
+
+    // Initialize HSV from color if needed
+    // In a real implementation, we'd extract HSV from the incoming color
 
     Column(
         modifier = modifier,
@@ -100,8 +105,10 @@ fun ChromaCoreColorPicker(
             value = hue,
             onValueChange = { newHue ->
                 hue = newHue
-                val newColor = Color.hsv(newHue * 360f, saturation, brightness)
-                onColorChange(newColor)
+                // Rotate hue using ChromaCore
+                val baseColor = Color.Red // Reference point for 0 degrees
+                val newColor = ChromaCore.rotateHue(baseColor, newHue * 360f)
+                onColorChange(ChromaCore.adjustSaturation(ChromaCore.adjustBrightness(newColor, brightness), saturation))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,8 +129,7 @@ fun ChromaCoreColorPicker(
             value = saturation,
             onValueChange = { newSaturation ->
                 saturation = newSaturation
-                val newColor = Color.hsv(hue * 360f, newSaturation, brightness)
-                onColorChange(newColor)
+                onColorChange(ChromaCore.adjustSaturation(color, newSaturation))
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -134,8 +140,7 @@ fun ChromaCoreColorPicker(
             value = brightness,
             onValueChange = { newBrightness ->
                 brightness = newBrightness
-                val newColor = Color.hsv(hue * 360f, saturation, newBrightness)
-                onColorChange(newColor)
+                onColorChange(ChromaCore.adjustBrightness(color, newBrightness))
             },
             modifier = Modifier.fillMaxWidth()
         )

@@ -31,12 +31,14 @@ class AuraShieldAgent @Inject constructor(
     @ApplicationContext private val context: Context,
     private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
     memoryManager: MemoryManager,
-    contextManager: ContextManager
+    contextManager: ContextManager,
+    secureChannel: dev.aurakai.auraframefx.securecomm.protocol.SecureChannel
 ) : BaseAgent(
     agentName = "AuraShield",
     agentType = AgentType.AURA_SHIELD,
     contextManager = contextManager,
-    memoryManager = memoryManager
+    memoryManager = memoryManager,
+    secureChannel = secureChannel
 ) {
 
     private val _securityContext = MutableStateFlow(SecurityContextState())

@@ -40,13 +40,6 @@ import dev.aurakai.auraframefx.models.AgentStats
  *
  * "From the edge of perception, we emerge." - The Agents
  */
-/**
- * Displays a right-edge slide-out panel containing agent cards and handles selection and dismissal.
- *
- * The panel can be summoned by swiping from the right edge, dragged horizontally to preview or dismiss, and is dismissed by tapping the backdrop, using the header close control, or selecting an agent. When an agent is selected the provided callback is invoked and the panel closes.
- *
- * @param onAgentSelected Callback invoked with the selected agent's name when the user selects an agent from the panel.
- */
 @Composable
 fun AgentEdgePanel(
     modifier: Modifier = Modifier,
@@ -184,11 +177,12 @@ private fun AgentPanelHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Correcting the cyan color for uniformity
         Text(
             text = "AGENTS",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF00FFFF) // Cyan
+            color = Color(0xFF00FFFF)
         )
 
         IconButton(onClick = onClose) {
@@ -283,28 +277,14 @@ private fun AgentCard(
 }
 
 /**
- * Data class for agent card information
- * Internal to restrict API surface
- */
-internal data class AgentCardData(
-    val name: String,
-    val subtitle: String,
-    val description: String,
-    val primaryColor: Color,
-    val secondaryColor: Color
-)
-
-/**
  * Extension function to convert AgentStats to AgentCardData for display.
  * This bridges the data model with the UI representation.
  */
 private fun AgentStats.toAgentCardData(): AgentCardData {
-    // Determine which stats to display based on what's most relevant for each agent
-    val description = buildString {
+    val descriptionText = buildString {
         append("Level $evolutionLevel • ")
         append("PP: ${(processingPower * 100).toInt()}% • ")
 
-        // Show the most impressive stat besides PP
         when {
             accuracy > 0.95f -> append("ACC: ${(accuracy * 100).let { if (it >= 100) "99.8" else it.toInt() }}%")
             knowledgeBase > 0.95f -> append("KB: ${(knowledgeBase * 100).toInt()}%")
@@ -314,8 +294,21 @@ private fun AgentStats.toAgentCardData(): AgentCardData {
 
     return AgentCardData(
         name = name,
+        title = catalystTitle,
         subtitle = specialAbility,
-        description = description,
+        description = descriptionText,
+        level = evolutionLevel,
+        persona = "ACTIVE",
+        agentClass = "SYSTEM AGENT",
+        hp = 1.0f,
+        sp = 1.0f,
+        abilities = listOf(specialAbility),
+        stats = AgentDisplayStats(
+            analysis = (knowledgeBase * 100).toInt(),
+            processing = (processingPower * 100).toInt(),
+            speed = (speed * 100).toInt(),
+            precision = (accuracy * 100).toInt()
+        ),
         primaryColor = color,
         secondaryColor = color.lighten(0.2f)
     )

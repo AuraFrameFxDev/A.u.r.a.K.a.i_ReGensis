@@ -27,6 +27,10 @@ import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.aurakai.auraframefx.fusion.ForgeState
+import dev.aurakai.auraframefx.fusion.InterfaceForgeViewModel
 
 /**
  * 🛠️ APP BUILDER (Interface Forge)
@@ -37,15 +41,35 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBuilderScreen(
+    viewModel: InterfaceForgeViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit = {}
 ) {
     var step by remember { mutableIntStateOf(1) }
     var targetArch by remember { mutableStateOf("Mobile (Compose)") }
     var featureName by remember { mutableStateOf("") }
-    var isForging by remember { mutableStateOf(false) }
-    var forgeProgress by remember { mutableFloatStateOf(0f) }
+    
+    val forgeState by viewModel.forgeState.collectAsStateWithLifecycle()
 
     val architectures = listOf("Mobile (Compose)", "Web (Fusion)", "ROM Module", "System Overlay")
+    
+    // LDO Way: React to state changes
+    val isForging = forgeState is ForgeState.Forging
+    val forgeProgress = (forgeState as? ForgeState.Forging)?.progress ?: 0f
+    
+    LaunchedEffect(forgeState) {
+        when (forgeState) {
+            is ForgeState.Success -> {
+                // Navigate to result screen or show success
+                delay(2000)
+                viewModel.resetForge()
+                onNavigateBack()
+            }
+            is ForgeState.Error -> {
+                // Error display is handled in ForgeExecution
+            }
+            else -> {}
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -96,12 +120,11 @@ fun AppBuilderScreen(
                             onNext = { step = 3 }
                         )
                         3 -> ForgeExecution(
+                            forgeState = forgeState,
                             isForging = isForging,
                             progress = forgeProgress,
                             onStart = {
-                                isForging = true
-                                // Simulated Forge
-                                // In a real app, this would call GenKitMaster or CascadeAIService
+                                viewModel.startForge(featureName, targetArch)
                             }
                         )
                     }
@@ -122,17 +145,7 @@ fun AppBuilderScreen(
         }
     }
 
-    // Forge simulation logic
-    LaunchedEffect(isForging) {
-        if (isForging) {
-            for (i in 1..100) {
-                forgeProgress = i / 100f
-                delay(50)
-            }
-            isForging = false
-            // Navigation to "Result" screen or showing success
-        }
-    }
+    // Forge simulation logic removed
 }
 
 @Composable
@@ -219,10 +232,26 @@ fun FeatureDefinition(value: String, onValueChange: (String) -> Unit, onNext: ()
 }
 
 @Composable
-fun ForgeExecution(isForging: Boolean, progress: Float, onStart: () -> Unit) {
+fun ForgeExecution(
+    forgeState: ForgeState,
+    isForging: Boolean, 
+    progress: Float, 
+    onStart: () -> Unit
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text("NEURAL CONVERGENCE READY", fontFamily = LEDFontFamily, color = Color.White, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(48.dp))
+        
+        // Error display
+        if (forgeState is ForgeState.Error) {
+            Text(
+                text = "⚠️ ${forgeState.message}",
+                color = Color(0xFFFF4444),
+                fontFamily = LEDFontFamily,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+        }
         
         if (!isForging) {
             Box(
@@ -253,6 +282,15 @@ fun ForgeExecution(isForging: Boolean, progress: Float, onStart: () -> Unit) {
                 "ASSEMBLING MODULE BYTES: ${(progress * 100).toInt()}%",
                 color = Color.White,
                 fontFamily = LEDFontFamily
+            )
+        }
+        
+        if (forgeState is ForgeState.Success) {
+            Text(
+                "✅ FORGE SUCCESSFUL",
+                color = Color(0xFF00FF85),
+                fontFamily = LEDFontFamily,
+                modifier = Modifier.padding(top = 24.dp)
             )
         }
     }

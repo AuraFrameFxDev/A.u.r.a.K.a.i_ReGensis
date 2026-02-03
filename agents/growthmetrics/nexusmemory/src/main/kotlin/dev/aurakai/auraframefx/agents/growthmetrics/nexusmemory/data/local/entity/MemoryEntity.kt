@@ -16,7 +16,8 @@ data class MemoryEntity(
     val tags: List<String> = emptyList(),
     val importance: Float = 0.5f,
     val embedding: List<Float>? = null, // For future vector search
-    val relatedMemoryIds: List<Long> = emptyList() // Adjacency list for graph-like structure
+    val relatedMemoryIds: List<Long> = emptyList(), // Adjacency list for graph-like structure
+    val isEncrypted: Boolean = false
 )
 
 enum class MemoryType {

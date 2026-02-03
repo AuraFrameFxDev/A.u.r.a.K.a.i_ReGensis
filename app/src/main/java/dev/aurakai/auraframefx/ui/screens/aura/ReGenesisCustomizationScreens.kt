@@ -88,6 +88,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.ui.components.ColorWaveBackground
+import dev.aurakai.colorblendr.ChromaCore
+import dev.aurakai.colorblendr.darken
+import dev.aurakai.colorblendr.lighten
 
 // ============================================================================
 // ICONIFY PICKER SCREEN - Full Iconify Integration
@@ -659,13 +662,21 @@ private fun ColorPreviewCard(primaryColor: Color) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                // Primary shades
-                listOf(0.2f, 0.4f, 0.6f, 0.8f, 1.0f).forEach { alpha ->
+                // Use ChromaCore for professional shades instead of simple alpha
+                val shades = listOf(
+                    darken(primaryColor, 0.4f),
+                    darken(primaryColor, 0.2f),
+                    primaryColor,
+                    lighten(primaryColor, 0.2f),
+                    lighten(primaryColor, 0.4f)
+                )
+                
+                shades.forEach { shade ->
                     Box(
                         modifier = Modifier
                             .size(40.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(primaryColor.copy(alpha = alpha))
+                            .background(shade)
                     )
                 }
             }

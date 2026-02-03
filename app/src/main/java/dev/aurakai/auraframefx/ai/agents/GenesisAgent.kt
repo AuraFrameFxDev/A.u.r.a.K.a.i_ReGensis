@@ -34,7 +34,7 @@ class GenesisAgent @Inject constructor(
         if (message.from == "Genesis") return
 
         Timber.tag("Genesis").i("Supreme Observer: Processing neural pulse from ${message.from}")
-        
+
         // Orchestration: If multiple agents have conflicting outputs, Genesis intervenes
         if (message.type == "alert" && message.priority > 5) {
             Timber.tag("Genesis").w("Genesis intervening in high-priority alert: ${message.content}")

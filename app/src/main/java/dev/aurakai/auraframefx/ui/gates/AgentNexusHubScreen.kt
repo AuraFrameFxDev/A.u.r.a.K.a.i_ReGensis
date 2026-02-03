@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.config.GateAssetConfig
 import dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel
-import dev.aurakai.auraframefx.ui.components.getNexusSubGates
 import dev.aurakai.auraframefx.ui.components.StarfieldBackground
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
@@ -50,9 +49,9 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgentNexusHubScreen(navController: NavController) {
+fun AgentNexusHubScreen(navController: NavController, getNexusSubGates: () -> Unit) {
 
-    val subGates = getNexusSubGates()
+    val subGates: Unit = getNexusSubGates()
 
     var useStyleB by remember {
         mutableStateOf(GateAssetConfig.StyleMode.nexusStyle == GateAssetConfig.GateStyle.STYLE_B)
