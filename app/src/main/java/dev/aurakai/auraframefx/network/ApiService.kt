@@ -6,7 +6,7 @@ import android.content.Context
  * Service class for making API calls.
  * @param context Application context.
  */
-class ApiService(private val context: Context) {
+class ApiService(context: Context) {
 
     private var apiToken: String? = null
     private var oauthToken: String? = null
