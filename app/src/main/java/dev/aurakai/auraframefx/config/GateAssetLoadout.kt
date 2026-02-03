@@ -74,23 +74,23 @@ object GateAssetLoadout {
     )
 
     /**
-     * KAI DOMAIN GATES (Security & ROM Tools)
+     * KAI DOMAIN GATES (Ethical Governor + Security + Bootloader)
      */
     val kaiGates = mapOf(
-        "kai_rom" to SubGateCard(
-            id = "kai_rom",
-            title = "ROM Flasher",
-            subtitle = "Sovereign BIOS Control",
-            styleADrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.fallback,
-            route = NavDestination.ROMFlasher.route,
-            accentColor = Color(0xFFFF3D00)
+        "ethical_governor" to SubGateCard(
+            id = "ethical_governor",
+            title = "Ethical Governor",
+            subtitle = "9-Domain Immutable Guardrails",
+            styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
+            styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
+            fallbackDrawable = GateAssetConfig.KaiSubGates.SECURITY.fallback,
+            route = NavDestination.SecurityCenter.route, // Ethical oversight hub
+            accentColor = Color(0xFFFFD700) // Gold for guardian
         ),
-        "security" to SubGateCard(
-            id = "security",
-            title = "SecureComms",
-            subtitle = "Sentinel Encryption",
+        "security_shield" to SubGateCard(
+            id = "security_shield",
+            title = "Security Shield",
+            subtitle = "Encryption • VPN • Threat Monitor",
             styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.SECURITY.fallback,
@@ -100,22 +100,22 @@ object GateAssetLoadout {
         "bootloader" to SubGateCard(
             id = "bootloader",
             title = "Bootloader",
-            subtitle = "Unlock Hive Gates",
+            subtitle = "System BIOS Control",
             styleADrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.fallback,
-            route = NavDestination.BootloaderManager.route, // Fixed: use wired route
+            route = NavDestination.BootloaderManager.route,
             accentColor = Color(0xFF2979FF)
         ),
-        "root_tools" to SubGateCard(
-            id = "root_tools",
-            title = "Root Tools",
-            subtitle = "Oracle Drive Access",
-            styleADrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.fallback,
-            route = NavDestination.RootTools.route,
-            accentColor = Color(0xFFD500F9)
+        "rom_tools" to SubGateCard(
+            id = "rom_tools",
+            title = "ROM Tools",
+            subtitle = "Flasher • Editor • Recovery",
+            styleADrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleA,
+            styleBDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleB,
+            fallbackDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.fallback,
+            route = NavDestination.ROMFlasher.route, // Can be ROM hub later
+            accentColor = Color(0xFFFF3D00)
         )
     )
 
