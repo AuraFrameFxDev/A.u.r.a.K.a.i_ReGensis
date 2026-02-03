@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.ui.gates.SovereignNemotronViewModel
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.NemotronAIService
 import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily

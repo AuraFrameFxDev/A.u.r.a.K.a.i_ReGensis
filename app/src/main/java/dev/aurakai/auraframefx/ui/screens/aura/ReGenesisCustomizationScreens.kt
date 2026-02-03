@@ -278,46 +278,31 @@ object IconifySettingsCatalog {
 
     val allCategories: Map<String, List<SettingType>> = mapOf(
         "Status Bar" to listOf(
-            SettingType(
-                "Clock Position",
-                "Left, Center, or Right",
-                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
-                false
-            ),
-            SettingType(
-                "Battery Style",
-                "Portrait, Circle, or Dotted",
-                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
-                false
-            )
+            SettingType("Clock Position", "Left, Center, or Right", dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST, false),
+            SettingType("Battery Style", "Portrait, Circle, or Dotted", dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST, false),
+            SettingType("Network Traffic", "Show upload/download speed", dev.aurakai.auraframefx.ui.screens.aura.SettingType.TOGGLE, false),
+            SettingType("Status Bar Icons", "Toggle specific icons visibility", dev.aurakai.auraframefx.ui.screens.aura.SettingType.SELECTION, false)
         ),
-        "Quick Settings" to listOf(
-            SettingType(
-                "Header Image",
-                "Custom header in QS panel",
-                dev.aurakai.auraframefx.ui.screens.aura.SettingType.IMAGE,
-                false
-            ),
-            SettingType(
-                "Tile Shape",
-                "Change QS tile shapes",
-                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
-                false
-            )
+        "QS Panel" to listOf(
+            SettingType("Header Image", "Custom header in QS panel", dev.aurakai.auraframefx.ui.screens.aura.SettingType.IMAGE, false),
+            SettingType("Tile Shape", "Change QS tile shapes", dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST, true),
+            SettingType("Panel Transparency", "Adjust QS panel opacity", dev.aurakai.auraframefx.ui.screens.aura.SettingType.SLIDER, true),
+            SettingType("Brightness Slider Pos", "Top or Bottom", dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST, false),
+            SettingType("QS Columns", "Number of columns in panel", dev.aurakai.auraframefx.ui.screens.aura.SettingType.SLIDER, true)
         ),
         "Lock Screen" to listOf(
-            SettingType(
-                "Clock Font",
-                "Custom font for lock clock",
-                dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST,
-                false
-            ),
-            SettingType(
-                "Media Art Blur",
-                "Blur level for media art",
-                dev.aurakai.auraframefx.ui.screens.aura.SettingType.SLIDER,
-                false
-            )
+            SettingType("Clock Font", "Custom font for lock clock", dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST, false),
+            SettingType("Media Art Blur", "Blur level for media art", dev.aurakai.auraframefx.ui.screens.aura.SettingType.SLIDER, false),
+            SettingType("Double Tap to Sleep", "Lock device on double tap", dev.aurakai.auraframefx.ui.screens.aura.SettingType.TOGGLE, true),
+            SettingType("Charging Info", "Show charging voltage/current", dev.aurakai.auraframefx.ui.screens.aura.SettingType.TOGGLE, false)
+        ),
+        "Navigation Bar" to listOf(
+            SettingType("Navbar Visibility", "Enable/Disable Navbar", dev.aurakai.auraframefx.ui.screens.aura.SettingType.TOGGLE, true),
+            SettingType("Navbar Style", "Stock, Pill, or Invisible", dev.aurakai.auraframefx.ui.screens.aura.SettingType.LIST, true)
+        ),
+        "UI Roundness" to listOf(
+            SettingType("Dialog Roundness", "Corner radius for popups", dev.aurakai.auraframefx.ui.screens.aura.SettingType.SLIDER, true),
+            SettingType("Card Roundness", "Corner radius for UI cards", dev.aurakai.auraframefx.ui.screens.aura.SettingType.SLIDER, true)
         )
     )
 

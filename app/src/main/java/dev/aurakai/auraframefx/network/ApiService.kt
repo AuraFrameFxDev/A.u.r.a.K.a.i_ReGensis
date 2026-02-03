@@ -41,7 +41,6 @@ class ApiService(context: Context) {
     /**
      * Creates (or retrieves) the actual network service client.
      * @return A network service client instance. Type 'Any?' is a placeholder.
-     * TODO: Reported as unused. Implement to return a configured network client.
      */
     fun createService(): Any? {
         // TODO: Implement logic to create/configure and return a Retrofit/Ktor service.

@@ -609,7 +609,7 @@ fun NeuralNetworkBackground(modifier: Modifier = Modifier) {
  * Agent nodes as stars with constellation lines
  */
 @Composable
-fun ConstellationBackground(modifier: Modifier = Modifier) {
+fun StarfieldBackground(modifier: Modifier = Modifier) {
     val infiniteTransition = rememberInfiniteTransition(label = "constellation")
 
     val twinkle by infiniteTransition.animateFloat(

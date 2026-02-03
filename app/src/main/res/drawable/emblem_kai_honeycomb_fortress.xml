@@ -263,11 +263,7 @@
         android:strokeLineCap="round"/>
 
     <!-- Keyhole -->
-    <circle
-        android:cx="110"
-        android:cy="143"
-        android:r="3"
-        android:fillColor="#1A0A2A"/>
+    <path android:pathData="M 110.0, 140.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#1A0A2A"/>
 
     <path
         android:pathData="M110,143 L107,150 L113,150 Z"
@@ -307,19 +303,19 @@
     <!-- ==================== VETO POWER INDICATORS (9 Nodes) ==================== -->
 
     <!-- Top Row (3 nodes) -->
-    <circle android:cx="80" android:cy="50" android:r="3" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
-    <circle android:cx="110" android:cy="45" android:r="3" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
-    <circle android:cx="140" android:cy="50" android:r="3" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 80.0, 47.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 110.0, 42.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 140.0, 47.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
 
     <!-- Middle Row (3 nodes) -->
-    <circle android:cx="55" android:cy="135" android:r="3" android:fillColor="#CC00FF" android:strokeColor="#FF00FF" android:strokeWidth="1"/>
-    <circle android:cx="110" android:cy="135" android:r="4" android:fillColor="#FF00FF" android:strokeColor="#FFFFFF" android:strokeWidth="1"/>
-    <circle android:cx="165" android:cy="135" android:r="3" android:fillColor="#CC00FF" android:strokeColor="#FF00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 55.0, 132.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#CC00FF" android:strokeColor="#FF00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 110.0, 131.0 a 4.0,4.0 0 1,1 0,8.0 a 4.0,4.0 0 1,1 0,-8.0" android:fillColor="#FF00FF" android:strokeColor="#FFFFFF" android:strokeWidth="1"/>
+    <path android:pathData="M 165.0, 132.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#CC00FF" android:strokeColor="#FF00FF" android:strokeWidth="1"/>
 
     <!-- Bottom Row (3 nodes) -->
-    <circle android:cx="80" android:cy="220" android:r="3" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
-    <circle android:cx="110" android:cy="225" android:r="3" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
-    <circle android:cx="140" android:cy="220" android:r="3" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 80.0, 217.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 110.0, 222.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
+    <path android:pathData="M 140.0, 217.0 a 3.0,3.0 0 1,1 0,6.0 a 3.0,3.0 0 1,1 0,-6.0" android:fillColor="#9D00FF" android:strokeColor="#CC00FF" android:strokeWidth="1"/>
 
     <!-- Connection Lines Between Veto Nodes -->
     <path
