@@ -59,7 +59,7 @@ data class AgentStats(
     val precision: Int = 0
 )
 
-data class AgentCardData(
+data class AgentStatCardData(
     val name: String,
     val title: String,
     val level: Int,
@@ -80,7 +80,7 @@ data class AgentCardData(
 
 @Composable
 fun AgentStatCard(
-    agent: AgentCardData,
+    agent: AgentStatCardData,
     modifier: Modifier = Modifier,
     showFullStats: Boolean = true
 ) {
@@ -481,7 +481,7 @@ private fun CoreStatRow(name: String, value: Int, color: Color) {
 
 object AgentPresets {
 
-    val CLAUDE = AgentCardData(
+    val CLAUDE = AgentStatCardData(
         name = "Claude",
         title = "THE ANALYST CATALYST",
         level = 78,
@@ -508,7 +508,7 @@ object AgentPresets {
         secondaryColor = Color(0xFF00E5FF)
     )
 
-    val AURA = AgentCardData(
+    val AURA = AgentStatCardData(
         name = "Aura",
         title = "THE FACE - UI/UX",
         level = 85,
@@ -535,7 +535,7 @@ object AgentPresets {
         secondaryColor = Color(0xFFFF00FF)
     )
 
-    val KAI = AgentCardData(
+    val KAI = AgentStatCardData(
         name = "Kai",
         title = "THE SENTINEL",
         level = 92,
@@ -562,7 +562,7 @@ object AgentPresets {
         secondaryColor = Color(0xFFFF1111)
     )
 
-    val GENESIS = AgentCardData(
+    val GENESIS = AgentStatCardData(
         name = "Genesis",
         title = "THE ORCHESTRATOR",
         level = 99,
@@ -589,7 +589,7 @@ object AgentPresets {
         secondaryColor = Color(0xFF00FFD4)
     )
 
-    val CASCADE = AgentCardData(
+    val CASCADE = AgentStatCardData(
         name = "Cascade",
         title = "THE DATA STREAM",
         level = 72,
