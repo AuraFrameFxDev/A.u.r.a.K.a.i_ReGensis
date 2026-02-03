@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.config.GateAssetConfig
 import dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel
-import dev.aurakai.auraframefx.ui.components.getGenesisSubGates
+import dev.aurakai.auraframefx.config.GateAssetLoadout
 import dev.aurakai.auraframefx.ui.components.LavaApocalypseBackground
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
@@ -52,7 +52,7 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun OracleDriveHubScreen(navController: NavController) {
 
-    val subGates = getGenesisSubGates()
+    val subGates = GateAssetLoadout.getGenesisLoadout()
 
     var useStyleB by remember {
         mutableStateOf(GateAssetConfig.StyleMode.genesisStyle == GateAssetConfig.GateStyle.STYLE_B)

@@ -168,10 +168,20 @@ private fun SubGateCardView(
                 )
             },
         colors = CardDefaults.cardColors(
-            containerColor = Color.Black.copy(alpha = 0.5f)
+            containerColor = Color.Black.copy(alpha = 0.6f)
         ),
         shape = RoundedCornerShape(16.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, gate.accentColor.copy(alpha = 0.3f))
+        border = androidx.compose.foundation.BorderStroke(
+            width = 2.dp,
+            brush = Brush.linearGradient(
+                colors = listOf(
+                    gate.accentColor,
+                    gate.accentColor.copy(alpha = 0.3f),
+                    gate.accentColor,
+                    gate.accentColor.copy(alpha = 0.5f)
+                )
+            )
+        )
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -194,7 +204,7 @@ private fun SubGateCardView(
                 )
             }
 
-            // 2. Scene/Gate Image (MIDDLE)
+            // 2. Scene/Gate Image (MIDDLE) with Gradient Overlay
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -204,6 +214,7 @@ private fun SubGateCardView(
                 contentAlignment = Alignment.Center
             ) {
                 if (drawableId != 0) {
+                    // Image layer
                     Image(
                         painter = painterResource(id = drawableId),
                         contentDescription = gate.title,
@@ -212,14 +223,34 @@ private fun SubGateCardView(
                             .fillMaxSize()
                             .clip(RoundedCornerShape(8.dp))
                     )
+                    
+                    // Gradient overlay for depth
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(
+                                        gate.accentColor.copy(alpha = 0.3f),
+                                        Color.Transparent,
+                                        Color.Black.copy(alpha = 0.4f)
+                                    )
+                                )
+                            )
+                    )
                 } else {
-                    // Fallback
+                    // Fallback gradient
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
                                 brush = Brush.verticalGradient(
-                                    listOf(gate.accentColor.copy(alpha = 0.2f), Color.Transparent)
+                                    listOf(
+                                        gate.accentColor.copy(alpha = 0.4f),
+                                        gate.accentColor.copy(alpha = 0.1f),
+                                        Color.Transparent
+                                    )
                                 )
                             )
                     )

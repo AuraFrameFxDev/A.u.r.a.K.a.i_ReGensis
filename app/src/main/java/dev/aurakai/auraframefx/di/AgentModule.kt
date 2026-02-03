@@ -58,15 +58,13 @@ object AgentModule {
         contextManager: ContextManager,
         memoryManager: MemoryManager,
         systemOverlayManager: SystemOverlayManager,
-        messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
-        secureChannel: SecureChannel
+        messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>
     ): GenesisAgent {
         return GenesisAgent(
             contextManager = contextManager,
             memoryManager = memoryManager,
             systemOverlayManager = systemOverlayManager,
-            messageBus = messageBus,
-            secureChannel = secureChannel
+            messageBus = messageBus
         )
     }
 

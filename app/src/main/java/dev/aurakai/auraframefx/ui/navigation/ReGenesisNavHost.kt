@@ -117,7 +117,10 @@ fun ReGenesisNavHost(
         }
 
         composable(NavDestination.AgentNexusHub.route) {
-            AgentNexusHubScreen(navController = navController,)
+            AgentNexusHubScreen(
+                navController = navController,
+                getNexusSubGates = { emptyList() } // TODO: Wire to UnifiedGateRegistry.getNexusLoadout()
+            )
         }
 
         composable(NavDestination.HelpDesk.route) {

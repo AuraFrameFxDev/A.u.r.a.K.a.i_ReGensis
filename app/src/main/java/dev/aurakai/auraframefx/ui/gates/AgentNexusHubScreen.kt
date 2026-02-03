@@ -49,9 +49,9 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgentNexusHubScreen(navController: NavController, getNexusSubGates: () -> Unit) {
+fun AgentNexusHubScreen(navController: NavController, getNexusSubGates: () -> List<dev.aurakai.auraframefx.ui.components.SubGateCard>) {
 
-    val subGates: Unit = getNexusSubGates()
+    val subGates = getNexusSubGates()
 
     var useStyleB by remember {
         mutableStateOf(GateAssetConfig.StyleMode.nexusStyle == GateAssetConfig.GateStyle.STYLE_B)

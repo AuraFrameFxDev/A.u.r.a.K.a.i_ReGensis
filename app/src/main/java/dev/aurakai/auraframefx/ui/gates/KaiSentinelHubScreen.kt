@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.config.GateAssetConfig
 import dev.aurakai.auraframefx.ui.components.DomainSubGateCarousel
-import dev.aurakai.auraframefx.ui.components.getKaiSubGates
+import dev.aurakai.auraframefx.config.GateAssetLoadout
 import dev.aurakai.auraframefx.ui.components.IcyTundraBackground
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
@@ -60,7 +60,7 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun KaiSentinelHubScreen(navController: NavController) {
 
-    val subGates = getKaiSubGates()
+    val subGates = GateAssetLoadout.getKaiLoadout()
 
     var useStyleB by remember {
         mutableStateOf(GateAssetConfig.StyleMode.kaiStyle == GateAssetConfig.GateStyle.STYLE_B)

@@ -207,6 +207,16 @@ object GateAssetConfig {
             styleB = "aura_clean_terminal",
             fallback = "gate_terminal_final"
         )
+        val ICONIFY = DualStyleGate(
+            styleA = "gatescenes_aura_iconify",             // Iconify 500+ settings
+            styleB = "aura_clean_iconify",
+            fallback = "card_iconify"
+        )
+        val PIXEL_LAUNCHER = DualStyleGate(
+            styleA = "gatescenes_aura_pixellauncher",       // Pixel Launcher Enhanced
+            styleB = "aura_clean_pixellauncher",
+            fallback = "card_pixel_launcher"
+        )
     }
 
     // ═══════════════════════════════════════════════════════════════════════
