@@ -16,6 +16,18 @@ import dev.aurakai.auraframefx.customization.CustomizationViewModel
  * Wires the "on/off" switch to all UI components.
  * When enabled, applies the "Spellbook" glass effect.
  */
+/**
+ * Applies a customization-driven glassmorphism effect to this Modifier, or a semi-transparent
+ * fallback background when the effect is disabled.
+ *
+ * The active treatment is driven by the provided CustomizationViewModel's state: when
+ * `glassEnabled` is true the modifier is augmented with a glassmorphic effect using the
+ * configured blur radius and surface alpha; otherwise a simple background with reduced alpha
+ * is applied.
+ *
+ * @param baseColor The base color used for the glass surface or fallback background.
+ * @return This Modifier augmented with either the glassmorphic effect or a semi-transparent background.
+ */
 @Composable
 fun Modifier.fluidGlass(
     viewModel: CustomizationViewModel = viewModel(),
