@@ -92,6 +92,33 @@ object GateAssetConfig {
 
             fun current() = if (StyleMode.helpStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
         }
+
+        // ⚡ LSPOSED - Quick Toggles
+        object LSPOSED_QUICK_TOGGLES {
+            const val STYLE_A = "kai_pixel_lsposed"
+            const val STYLE_B = "kai_cyber_lsposed"
+            const val FALLBACK = "gate_lsposed_final"
+
+            fun current() = if (StyleMode.kaiStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
+        }
+
+        // 🌊 DATAFLOW - Analysis
+        object DATAFLOW_ANALYSIS {
+            const val STYLE_A = "gatescenes_nexus_circuit_tree"
+            const val STYLE_B = "gatescenes_nexus_hive_structure"
+            const val FALLBACK = "gate_agenthub_final"
+
+            fun current() = if (StyleMode.nexusStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
+        }
+
+        // 🧬 LDO - Catalyst Development
+        object LDO_CATALYST_DEVELOPMENT {
+            const val STYLE_A = "gatescenes_nexus_hive_structure"
+            const val STYLE_B = "gatescenes_nexus_ldo_roster"
+            const val FALLBACK = "gate_spheregrid_final"
+
+            fun current() = if (StyleMode.nexusStyle == GateStyle.STYLE_A) STYLE_A else STYLE_B
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════════════

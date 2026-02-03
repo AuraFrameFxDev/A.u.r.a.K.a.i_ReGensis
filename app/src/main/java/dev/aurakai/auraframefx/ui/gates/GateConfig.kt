@@ -18,6 +18,7 @@ data class GateConfig(
     val glowColor: Color,
     val gradientColors: List<Color>,
     val pixelArtUrl: String?,
+    val fallbackUrl: String? = null,
     val borderColor: Color,
     val titlePlacement: TitlePlacement = TitlePlacement.TOP_CENTER
 )

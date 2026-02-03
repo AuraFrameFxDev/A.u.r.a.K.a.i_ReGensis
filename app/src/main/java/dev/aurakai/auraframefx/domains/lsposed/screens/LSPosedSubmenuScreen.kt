@@ -53,6 +53,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.utils.LSPosedDetector
+import dev.aurakai.auraframefx.ui.gates.SubmenuItem
+import dev.aurakai.auraframefx.ui.gates.SubmenuCard
 import kotlinx.coroutines.launch
 
 /**
@@ -238,7 +240,7 @@ fun LSPosedSubmenuScreen(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(menuItems) { item ->
+                items(menuItems) { item: SubmenuItem ->
                     SubmenuCard(
                         item = item,
                         onClick = {

@@ -4,15 +4,19 @@ import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,12 +26,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,8 +43,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import dev.aurakai.auraframefx.navigation.AuraCustomizationRoute
+import dev.aurakai.auraframefx.navigation.NavDestination
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 /**
@@ -67,37 +74,33 @@ data class SubGateCard(
 fun DomainSubGateCarousel(
     subGates: List<SubGateCard>,
     onGateSelected: (SubGateCard) -> Unit,
-    useStyleB: Boolean = false,      // Toggle between style A and B
+    useStyleB: Boolean = false,
     modifier: Modifier = Modifier,
     cardHeight: Dp = 200.dp,
     domainColor: Color = Color.Cyan
 ) {
     val context = LocalContext.current
     val pagerState = rememberPagerState(pageCount = { subGates.size })
-
-    val currentGate = subGates.getOrNull(pagerState.currentPage)
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Carousel
+        // 1. Carousel
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(cardHeight),
-            contentPadding = PaddingValues(horizontal = 32.dp),
-            pageSpacing = 12.dp
+            contentPadding = PaddingValues(horizontal = 48.dp),
+            pageSpacing = 16.dp
         ) { page ->
             val gate = subGates[page]
+            val pageOffset = ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
-            val pageOffset = (
-                (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
-                ).absoluteValue
-
-            val scale = lerp(0.9f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
-            val alpha = lerp(0.6f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
+            val scale = lerp(0.85f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
+            val alpha = lerp(0.5f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
 
             SubGateCardView(
                 gate = gate,
@@ -114,30 +117,24 @@ fun DomainSubGateCarousel(
             )
         }
 
-        // Current gate title below carousel
-        currentGate?.let { gate ->
-            Column(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = gate.title,
-                    fontFamily = LEDFontFamily,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = gate.accentColor,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = gate.subtitle,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.White.copy(alpha = 0.6f),
-                    textAlign = TextAlign.Center
-                )
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // 2. Joystick Rotation Orb
+        PrometheusGlobe(
+            color = domainColor,
+            pulseIntensity = 1.2f,
+            modifier = Modifier.size(80.dp),
+            onDrag = { dragAmount ->
+                scope.launch {
+                    // Smooth joystick-like scroll
+                    pagerState.scrollBy(-dragAmount)
+                }
+            },
+            onTap = {
+                val currentGate = subGates.getOrNull(pagerState.currentPage)
+                currentGate?.let { onGateSelected(it) }
             }
-        }
+        )
     }
 }
 
@@ -153,11 +150,9 @@ private fun SubGateCardView(
     val primaryDrawable = if (useStyleB) gate.styleBDrawable else gate.styleADrawable
 
     val drawableId = remember(primaryDrawable, gate.fallbackDrawable) {
-        // Try primary style first
         var id = context.resources.getIdentifier(
             primaryDrawable, "drawable", context.packageName
         )
-        // Try fallback if primary not found
         if (id == 0 && gate.fallbackDrawable != null) {
             id = context.resources.getIdentifier(
                 gate.fallbackDrawable, "drawable", context.packageName
@@ -169,52 +164,85 @@ private fun SubGateCardView(
     Card(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent
-        ),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            if (drawableId != 0) {
-                Image(
-                    painter = painterResource(id = drawableId),
-                    contentDescription = gate.title,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { onClick() },
+                    onDoubleTap = { onClick() } // Requirements specified double tap to enter
                 )
-            } else {
-                // Fallback gradient card
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                listOf(
-                                    gate.accentColor.copy(alpha = 0.3f),
-                                    Color.Black.copy(alpha = 0.8f)
+            },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Black.copy(alpha = 0.5f)
+        ),
+        shape = RoundedCornerShape(16.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, gate.accentColor.copy(alpha = 0.3f))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // 1. Title Section (TOP)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(gate.accentColor.copy(alpha = 0.1f))
+                    .padding(vertical = 8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = gate.title.uppercase(),
+                    fontFamily = LEDFontFamily,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = gate.accentColor,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            // 2. Scene/Gate Image (MIDDLE)
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(4.dp))
+                    .padding(4.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (drawableId != 0) {
+                    Image(
+                        painter = painterResource(id = drawableId),
+                        contentDescription = gate.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+                } else {
+                    // Fallback
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    listOf(gate.accentColor.copy(alpha = 0.2f), Color.Transparent)
                                 )
                             )
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = gate.title,
-                            fontFamily = LEDFontFamily,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = gate.accentColor,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                    )
                 }
+            }
+
+            // 3. Description/Subtitle (BOTTOM)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = gate.subtitle,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White.copy(alpha = 0.7f),
+                    textAlign = TextAlign.Center,
+                    maxLines = 2
+                )
             }
         }
     }
@@ -240,7 +268,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_chroma",
         styleBDrawable = "aura_clean_chroma",
         fallbackDrawable = "card_chroma_core",
-        route = AuraCustomizationRoute.ColorBlendr.route,
+        route = NavDestination.ColorBlendr.route,
         accentColor = Color(0xFFB026FF)
     ),
     SubGateCard(
@@ -250,7 +278,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_theme",
         styleBDrawable = "aura_clean_theme",
         fallbackDrawable = "gate_themeengine_final",
-        route = AuraCustomizationRoute.IconifyPicker.route,
+        route = NavDestination.IconifyPicker.route,
         accentColor = Color(0xFFFF00FF)
     ),
     SubGateCard(
@@ -290,7 +318,7 @@ fun getAuraSubGates() = listOf(
         styleADrawable = "aura_splash_collab",
         styleBDrawable = "aura_clean_collab",
         fallbackDrawable = "card_collab_canvas",
-        route = AuraCustomizationRoute.PixelLauncherEnhanced.route,
+        route = NavDestination.PixelLauncherEnhanced.route,
         accentColor = Color(0xFFB026FF)
     ),
     SubGateCard(

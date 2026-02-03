@@ -35,12 +35,20 @@ fun GateCard(
     onDoubleTap: () -> Unit
 ) {
     val context = LocalContext.current
-    val resourceName = config.pixelArtUrl ?: "gate_auralab_final"
-    val resId = context.resources.getIdentifier(
-        resourceName,
-        "drawable",
-        context.packageName
-    )
+    val primaryName = config.pixelArtUrl
+    var resId = if (primaryName != null) {
+        context.resources.getIdentifier(primaryName, "drawable", context.packageName)
+    } else 0
+    
+    // Fallback if primary not found
+    if (resId == 0 && config.fallbackUrl != null) {
+        resId = context.resources.getIdentifier(config.fallbackUrl, "drawable", context.packageName)
+    }
+    
+    // Final fallback to default
+    if (resId == 0) {
+        resId = context.resources.getIdentifier("gate_auralab_final", "drawable", context.packageName)
+    }
 
     // SLOW KINETIC FLOATING ANIMATION
     val infiniteTransition = rememberInfiniteTransition(label = "gateFloat")

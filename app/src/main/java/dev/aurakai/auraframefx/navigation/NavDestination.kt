@@ -40,7 +40,7 @@ sealed class NavDestination(val route: String) {
 
     // Design & Creativity Hubs
     data object AuraThemingHub : NavDestination("aura_theming_hub")
-    data object AuraLab : NavDestination("aura_lab")
+    data object AuraLab : NavDestination("sandbox_ui")
 
     // Security & System Control Hubs
     data object RomToolsHub : NavDestination("rom_tools_hub")
@@ -113,6 +113,18 @@ sealed class NavDestination(val route: String) {
     data object ModuleCreation : NavDestination("module_creation")
     data object AgentCreation : NavDestination("agent_creation")
 
+    // --- Aliases for User Plan parity ---
+    data object AuraCollabCanvas : NavDestination("aura_collab_canvas")
+    data object AuraSandboxUi : NavDestination("aura_sandbox_ui")
+    data object AuraChromaCore : NavDestination("aura_chroma_core")
+    data object AuraInstantColorPicker : NavDestination("aura_instant_color_picker")
+    data object AuraGyroscopeCustomization : NavDestination("aura_gyroscope_customization")
+    data object AuraThemeManager : NavDestination("aura_theme_manager")
+    data object AuraIconifyPicker : NavDestination("aura_iconify_picker")
+    data object AuraReGenesisCustomization : NavDestination("aura_regenesis_customization")
+    data object AuraUISettings : NavDestination("aura_ui_settings")
+    data object AuraUserPreferences : NavDestination("aura_user_preferences")
+
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 3: SECURITY & ROM TOOLS (10+ Features!)
     // ═══════════════════════════════════════════════════════════════
@@ -163,6 +175,7 @@ sealed class NavDestination(val route: String) {
     data object SwarmMonitor : NavDestination("swarm_monitor")
     data object BenchmarkMonitor : NavDestination("benchmark_monitor")
     data object InterfaceForge : NavDestination("interface_forge")
+    data object SphereGrid : NavDestination("sphere_grid")
 
     // ═══════════════════════════════════════════════════════════════
     // MISSING ROUTES (From string navigate() calls)
