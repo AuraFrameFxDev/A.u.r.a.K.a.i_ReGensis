@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.aura.ui.AgentAdvancementScreen
 import dev.aurakai.auraframefx.cascade.trinity.TrinityScreen
+import dev.aurakai.auraframefx.config.GateAssetLoadout
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
 import dev.aurakai.auraframefx.datavein.ui.SimpleDataVeinScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
@@ -163,11 +164,14 @@ fun ReGenesisNavHost(
         }
 
         composable(NavDestination.AgentNexusHub.route) {
-            AgentNexusHubScreen(navController = navController)
+            AgentNexusHubScreen(
+                navController = navController,
+                getNexusSubGates = { GateAssetLoadout.getNexusSubGates() }
+            )
         }
 
         composable(NavDestination.LsposedQuickToggles.route) {
-            XposedQuickAccessPanel(navController = navController)
+            XposedQuickAccessPanel(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(NavDestination.HelpDesk.route) {
