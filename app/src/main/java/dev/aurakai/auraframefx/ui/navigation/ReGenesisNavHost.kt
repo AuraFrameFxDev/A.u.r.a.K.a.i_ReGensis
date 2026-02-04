@@ -344,7 +344,7 @@ fun ReGenesisNavHost(
         // ADDITIONAL NEXUS SCREENS (Recently discovered!)
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.EvolutionTree.route) {
-            EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() })
+            EvolutionTreeScreen()
         }
         
         composable("party") {
@@ -371,10 +371,8 @@ fun ReGenesisNavHost(
             AgentHubSubmenuScreen(navController = navController)
         }
 
-        composable("nexus_agent_profile/{agentId}") { backStackEntry ->
-            val agentId = backStackEntry.arguments?.getString("agentId") ?: "unknown"
+        composable("nexus_agent_profile") {
             NexusAgentProfileScreen(
-                agentId = agentId,
                 onNavigateBack = { navController.popBackStack() }
             )
         }
@@ -383,7 +381,7 @@ fun ReGenesisNavHost(
         // ADDITIONAL AURA SCREENS (UI/UX Mastery!)
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.ChromaCoreColors.route) {
-            ChromaCoreColorsScreen(navController = navController)
+            ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable(NavDestination.IconifyPicker.route) {
@@ -391,7 +389,7 @@ fun ReGenesisNavHost(
         }
         
         composable(NavDestination.GenderSelection.route) {
-            GenderSelectionScreen(onNavigateBack = { navController.popBackStack() })
+            GenderSelectionScreen(onSelectionComplete = { /* TODO: Handle selection */ })
         }
         
         composable(NavDestination.GyroscopeCustomization.route) {
@@ -403,7 +401,7 @@ fun ReGenesisNavHost(
         }
         
         composable("live_support_chat") {
-            LiveSupportChatScreen(onNavigateBack = { navController.popBackStack() })
+            LiveSupportChatScreen(onBackClick = { navController.popBackStack() })
         }
         
         composable(NavDestination.UISettings.route) {
@@ -411,7 +409,7 @@ fun ReGenesisNavHost(
         }
         
         composable(NavDestination.UserPreferences.route) {
-            UserPreferencesScreen(navController = navController)
+            UserPreferencesScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable("aura_agent_profile") {
@@ -422,14 +420,14 @@ fun ReGenesisNavHost(
         }
 
         composable("aura_lab") {
-            AuraLabScreen(navController = navController)
+            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
         // ADDITIONAL KAI SCREENS (System Mastery!)
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.LiveROMEditor.route) {
-            LiveROMEditorScreen(navController = navController)
+            LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable("system_journal") {
@@ -449,11 +447,11 @@ fun ReGenesisNavHost(
         }
 
         composable("sovereign_module_manager") {
-            SovereignModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
+            SovereignModuleManagerScreen(onBackClick = { navController.popBackStack() })
         }
 
         composable("rom_tools_submenu") {
-            ROMToolsSubmenuScreen(navController = navController)
+            ROMToolsSubmenuScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -464,7 +462,7 @@ fun ReGenesisNavHost(
         }
         
         composable(NavDestination.Terminal.route) {
-            TerminalScreen(navController = navController)
+            TerminalScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable("sentient_shell") {
@@ -476,7 +474,7 @@ fun ReGenesisNavHost(
         }
         
         composable("collab_canvas") {
-            CollabCanvasScreen(navController = navController)
+            CollabCanvasScreen(onBackClick = { navController.popBackStack() })
         }
 
         composable("oracle_drive_submenu") {
