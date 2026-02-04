@@ -24,7 +24,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
@@ -285,35 +284,33 @@ private fun GateCustomizationCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Image Preview
+            // Image Preview (Placeholder - URI stored)
             if (customization?.styleAUri != null) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(Color(0xFF0A0A0F))
+                        .background(gate.accentColor.copy(alpha = 0.3f)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = rememberAsyncImagePainter(customization.styleAUri),
-                        contentDescription = "Custom Gate Image",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-
-                    // Gradient Overlay
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                Brush.verticalGradient(
-                                    colors = listOf(
-                                        Color.Transparent,
-                                        Color.Black.copy(alpha = 0.3f)
-                                    )
-                                )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = null,
+                            tint = gate.accentColor,
+                            modifier = Modifier.size(32.dp)
+                        )
+                        Text(
+                            "Custom Image Set",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                color = Color.White.copy(alpha = 0.7f)
                             )
-                    )
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

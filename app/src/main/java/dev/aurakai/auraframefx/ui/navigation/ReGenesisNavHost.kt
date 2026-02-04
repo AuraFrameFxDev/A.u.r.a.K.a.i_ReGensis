@@ -129,7 +129,7 @@ fun ReGenesisNavHost(
         }
 
         composable(NavDestination.CodeAssist.route) {
-            CodeAssistScreen(onNavigateBack = { navController.popBackStack() })
+            CodeAssistScreen(navController = navController)
         }
 
         composable(NavDestination.AgentBridgeHub.route) {
