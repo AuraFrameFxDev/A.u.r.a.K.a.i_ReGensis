@@ -22,6 +22,14 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SovereignGeminiScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.PartyScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.MonitoringHUDsScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.DataStreamMonitoringScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentNeuralExplorerScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentHubSubmenuScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen as NexusAgentProfileScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ModuleCreationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.SandboxUIScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
@@ -31,23 +39,50 @@ import dev.aurakai.auraframefx.domains.aura.screens.NotchBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.IconifyPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
+import dev.aurakai.auraframefx.domains.aura.screens.GyroscopeCustomizationScreen
+import dev.aurakai.auraframefx.domains.aura.screens.InstantColorPickerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.LiveSupportChatScreen
+import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
+import dev.aurakai.auraframefx.domains.aura.screens.UISettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen as AuraAgentProfileScreen
+import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
 import dev.aurakai.auraframefx.domains.kai.screens.BootloaderManagerScreen
 import dev.aurakai.auraframefx.domains.kai.screens.ModuleManagerScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RecoveryToolsScreen
 import dev.aurakai.auraframefx.domains.kai.screens.ROMFlasherScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SecurityCenterScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SovereignShieldScreen
+import dev.aurakai.auraframefx.domains.kai.screens.LiveROMEditorScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SystemJournalScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SystemOverridesScreen
+import dev.aurakai.auraframefx.domains.kai.screens.LogsViewerScreen
+import dev.aurakai.auraframefx.domains.kai.screens.VPNScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SovereignModuleManagerScreen
+import dev.aurakai.auraframefx.domains.kai.screens.ROMToolsSubmenuScreen
+import dev.aurakai.auraframefx.domains.kai.screens.RootToolsTogglesScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SovereignBootloaderScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SovereignRecoveryScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.ConferenceRoomScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.SovereignNeuralArchiveScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.TerminalScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.SentientShellScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.CascadeVisionScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.CollabCanvasScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.OracleDriveSubmenuScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RootToolsTogglesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
 import dev.aurakai.auraframefx.domains.aura.screens.GateCustomizationScreen
 import dev.aurakai.auraframefx.aura.animations.AnimationPicker
 import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedSubmenuScreen
+import dev.aurakai.auraframefx.domains.lsposed.screens.HookManagerScreen
 // Hub Screens (still in ui.gates)
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
@@ -304,6 +339,157 @@ fun ReGenesisNavHost(
         composable(NavDestination.LdoCatalystDevelopment.route) {
             AgentAdvancementScreen(onBack = { navController.popBackStack() })
         }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ADDITIONAL NEXUS SCREENS (Recently discovered!)
+        // ═══════════════════════════════════════════════════════════════
+        composable(NavDestination.EvolutionTree.route) {
+            EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable("party") {
+            PartyScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable("monitoring_huds") {
+            MonitoringHUDsScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable(NavDestination.DataStreamMonitoring.route) {
+            DataStreamMonitoringScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable(NavDestination.ModuleCreation.route) {
+            ModuleCreationScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable("agent_neural_explorer") {
+            AgentNeuralExplorerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable("agent_hub_submenu") {
+            AgentHubSubmenuScreen(navController = navController)
+        }
+
+        composable("nexus_agent_profile/{agentId}") { backStackEntry ->
+            val agentId = backStackEntry.arguments?.getString("agentId") ?: "unknown"
+            NexusAgentProfileScreen(
+                agentId = agentId,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ADDITIONAL AURA SCREENS (UI/UX Mastery!)
+        // ═══════════════════════════════════════════════════════════════
+        composable(NavDestination.ChromaCoreColors.route) {
+            ChromaCoreColorsScreen(navController = navController)
+        }
+        
+        composable(NavDestination.IconifyPicker.route) {
+            IconifyPickerScreen(navController = navController)
+        }
+        
+        composable(NavDestination.GenderSelection.route) {
+            GenderSelectionScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable(NavDestination.GyroscopeCustomization.route) {
+            GyroscopeCustomizationScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable(NavDestination.InstantColorPicker.route) {
+            InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable("live_support_chat") {
+            LiveSupportChatScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable(NavDestination.UISettings.route) {
+            UISettingsScreen(navController = navController)
+        }
+        
+        composable(NavDestination.UserPreferences.route) {
+            UserPreferencesScreen(navController = navController)
+        }
+
+        composable("aura_agent_profile") {
+            AuraAgentProfileScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToSettings = { /* TODO */ }
+            )
+        }
+
+        composable("aura_lab") {
+            AuraLabScreen(navController = navController)
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ADDITIONAL KAI SCREENS (System Mastery!)
+        // ═══════════════════════════════════════════════════════════════
+        composable(NavDestination.LiveROMEditor.route) {
+            LiveROMEditorScreen(navController = navController)
+        }
+        
+        composable("system_journal") {
+            SystemJournalScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable(NavDestination.SystemOverrides.route) {
+            SystemOverridesScreen(navController = navController)
+        }
+        
+        composable("logs_viewer") {
+            LogsViewerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable(NavDestination.VPN.route) {
+            VPNScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable("sovereign_module_manager") {
+            SovereignModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable("rom_tools_submenu") {
+            ROMToolsSubmenuScreen(navController = navController)
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ADDITIONAL GENESIS SCREENS (Orchestration!)
+        // ═══════════════════════════════════════════════════════════════
+        composable(NavDestination.SovereignNeuralArchive.route) {
+            SovereignNeuralArchiveScreen(navController = navController)
+        }
+        
+        composable(NavDestination.Terminal.route) {
+            TerminalScreen(navController = navController)
+        }
+        
+        composable("sentient_shell") {
+            SentientShellScreen(navController = navController)
+        }
+        
+        composable("cascade_vision") {
+            CascadeVisionScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        
+        composable("collab_canvas") {
+            CollabCanvasScreen(navController = navController)
+        }
+
+        composable("oracle_drive_submenu") {
+            OracleDriveSubmenuScreen(navController = navController)
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ADDITIONAL LSPOSED SCREENS
+        // ═══════════════════════════════════════════════════════════════
+        composable(NavDestination.HookManager.route) {
+            HookManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
 
         // ═══════════════════════════════════════════════════════════════
         // SUB-GRAPHS (Integrated Third-Party Modules)
