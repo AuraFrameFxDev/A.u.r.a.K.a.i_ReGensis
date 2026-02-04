@@ -35,6 +35,7 @@ import dev.aurakai.auraframefx.domains.kai.screens.BootloaderManagerScreen
 import dev.aurakai.auraframefx.domains.kai.screens.ModuleManagerScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RecoveryToolsScreen
 import dev.aurakai.auraframefx.domains.kai.screens.ROMFlasherScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SecurityCenterScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SovereignShieldScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
@@ -219,7 +220,7 @@ fun ReGenesisNavHost(
             RootToolsTogglesScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.SecurityCenter.route) {
-            SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
+            SecurityCenterScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.LSPosedHub.route) {
             LSPosedSubmenuScreen(navController = navController)

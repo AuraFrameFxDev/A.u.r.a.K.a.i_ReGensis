@@ -80,11 +80,11 @@ object GateAssetLoadout {
         "ethical_governor" to SubGateCard(
             id = "ethical_governor",
             title = "Ethical Governor",
-            subtitle = "9-Domain Immutable Guardrails",
+            subtitle = "9-Domain AI Oversight (Backend)",
             styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.SECURITY.fallback,
-            route = NavDestination.SecurityCenter.route, // Ethical oversight hub
+            route = NavDestination.SecurityCenter.route, // Monitors genesis_ethical_governor.py
             accentColor = Color(0xFFFFD700) // Gold for guardian
         ),
         "security_shield" to SubGateCard(
