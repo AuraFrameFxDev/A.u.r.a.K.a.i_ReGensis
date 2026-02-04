@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -430,7 +431,7 @@ fun ReGenesisNavHost(
         // ADDITIONAL KAI SCREENS (System Mastery!)
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.LiveROMEditor.route) {
-            LiveROMEditorScreen(navController = navController)
+            LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable("system_journal") {
@@ -469,7 +470,7 @@ fun ReGenesisNavHost(
         }
         
         composable("sentient_shell") {
-            SentientShellScreen(navController = navController)
+            SentientShellScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable("cascade_vision") {
