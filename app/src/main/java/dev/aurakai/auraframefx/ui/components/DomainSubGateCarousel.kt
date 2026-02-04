@@ -80,16 +80,16 @@ fun DomainSubGateCarousel(
     val pagerState = rememberPagerState(pageCount = { subGates.size })
     val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = modifier.fillMaxSize()
     ) {
-        // 1. Carousel
+        // 1. Carousel - Top/Center Area
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(cardHeight),
+                .height(cardHeight)
+                .align(Alignment.Center),
             contentPadding = PaddingValues(horizontal = 48.dp),
             pageSpacing = 16.dp
         ) { page ->
@@ -114,24 +114,30 @@ fun DomainSubGateCarousel(
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 2. Joystick Rotation Orb
-        PrometheusGlobe(
-            color = domainColor,
-            pulseIntensity = 1.2f,
-            modifier = Modifier.size(80.dp),
-            onDrag = { dragAmount ->
-                scope.launch {
-                    // Smooth joystick-like scroll
-                    pagerState.scrollBy(-dragAmount)
+        // 2. Joystick Rotation Orb - BOTTOM HALF (Peeking from edge)
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .size(120.dp)
+        ) {
+            PrometheusGlobe(
+                color = domainColor,
+                pulseIntensity = 1.2f,
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(Alignment.BottomCenter),
+                onDrag = { dragAmount ->
+                    scope.launch {
+                        // Smooth joystick-like scroll
+                        pagerState.scrollBy(-dragAmount)
+                    }
+                },
+                onTap = {
+                    val currentGate = subGates.getOrNull(pagerState.currentPage)
+                    currentGate?.let { onGateSelected(it) }
                 }
-            },
-            onTap = {
-                val currentGate = subGates.getOrNull(pagerState.currentPage)
-                currentGate?.let { onGateSelected(it) }
-            }
-        )
+            )
+        }
     }
 }
 

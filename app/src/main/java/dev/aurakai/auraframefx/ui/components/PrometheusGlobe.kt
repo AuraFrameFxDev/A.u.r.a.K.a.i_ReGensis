@@ -52,14 +52,14 @@ fun PrometheusGlobe(
         label = "Rotation"
     )
 
-    val bounce by infiniteTransition.animateFloat(
-        initialValue = -5f,
-        targetValue = 5f,
+    val pulse by infiniteTransition.animateFloat(
+        initialValue = 0.15f,
+        targetValue = 0.3f,
         animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = FastOutSlowInEasing),
+            animation = tween(3000, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
-        label = "Bounce"
+        label = "Pulse"
     )
 
     Box(
@@ -79,24 +79,32 @@ fun PrometheusGlobe(
         contentAlignment = Alignment.Center
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
-            val center = Offset(size.width / 2, size.height / 2 + bounce)
-            val radius = size.width / 3
+            val center = Offset(size.width / 2, size.height) // Bottom edge
+            val radius = size.width / 2.5f
 
-            // 1. Outer Glow
+            // 1. Soft Outer Glow (Faint pulsing)
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = listOf(color.copy(alpha = 0.4f * pulseIntensity), Color.Transparent),
+                    colors = listOf(
+                        color.copy(alpha = pulse * 0.4f),
+                        color.copy(alpha = pulse * 0.2f),
+                        Color.Transparent
+                    ),
                     center = center,
-                    radius = radius * 1.5f
+                    radius = radius * 2.5f
                 ),
-                radius = radius * 1.5f,
+                radius = radius * 2.5f,
                 center = center
             )
 
-            // 2. Globe Sphere
+            // 2. Half-Globe Core (Top hemisphere only)
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = listOf(color, color.copy(alpha = 0.6f)),
+                    colors = listOf(
+                        color.copy(alpha = 0.6f),
+                        color.copy(alpha = 0.3f),
+                        Color.Transparent
+                    ),
                     center = center,
                     radius = radius
                 ),
@@ -104,43 +112,18 @@ fun PrometheusGlobe(
                 center = center
             )
 
-            // 3. Grid Lines (Lat/Long)
-            val strokeWidth = 2f
-            val gridColor = Color.White.copy(alpha = 0.3f)
-
-            // Latitudes
-            for (i in -2..2) {
-                val yOffset = i * (radius / 3)
-                val width = (radius * radius - yOffset * yOffset).let { if (it > 0) kotlin.math.sqrt(it) else 0f }
-                drawOval(
-                    color = gridColor,
-                    topLeft = Offset(center.x - width, center.y + yOffset - 1f),
-                    size = androidx.compose.ui.geometry.Size(width * 2, 2f),
-                    style = Stroke(strokeWidth)
-                )
-            }
-
-            // Longitudes (Rotating)
-            for (i in 0 until 3) {
-                val rot = (rotation + i * 120) % 360
-                val widthMult = sin(Math.toRadians(rot.toDouble())).toFloat()
-                drawOval(
-                    color = gridColor,
-                    topLeft = Offset(center.x + (radius * widthMult) - (radius * 0.1f), center.y - radius),
-                    size = androidx.compose.ui.geometry.Size(radius * 0.2f, radius * 2),
-                    style = Stroke(strokeWidth)
-                )
-            }
-
-            // 4. Highlight
+            // 3. Subtle Inner Glow
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = listOf(Color.White.copy(alpha = 0.5f), Color.Transparent),
-                    center = center - Offset(radius * 0.3f, radius * 0.3f),
-                    radius = radius * 0.5f
+                    colors = listOf(
+                        Color.White.copy(alpha = pulse * 0.3f),
+                        Color.Transparent
+                    ),
+                    center = center,
+                    radius = radius * 0.6f
                 ),
-                radius = radius * 0.5f,
-                center = center - Offset(radius * 0.3f, radius * 0.3f)
+                radius = radius * 0.6f,
+                center = center
             )
         }
     }
