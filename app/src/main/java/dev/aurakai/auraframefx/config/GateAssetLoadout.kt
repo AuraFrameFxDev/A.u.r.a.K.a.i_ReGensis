@@ -149,4 +149,7 @@ object GateAssetLoadout {
     fun getAuraLoadout() = auraGates.values.toList()
     fun getKaiLoadout() = kaiGates.values.toList()
     fun getGenesisLoadout() = genesisGates.values.toList()
+    fun getNexusSubGates(): List<SubGateCard> {
+        TODO("Not yet implemented")
+    }
 }
