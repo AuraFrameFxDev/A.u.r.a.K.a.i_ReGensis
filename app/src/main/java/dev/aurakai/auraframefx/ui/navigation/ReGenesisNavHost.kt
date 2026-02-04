@@ -385,7 +385,7 @@ fun ReGenesisNavHost(
         }
         
         composable(NavDestination.IconifyPicker.route) {
-            IconifyPickerScreen(navController = navController)
+            IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable(NavDestination.GenderSelection.route) {
@@ -401,7 +401,10 @@ fun ReGenesisNavHost(
         }
         
         composable("live_support_chat") {
-            LiveSupportChatScreen(onBackClick = { navController.popBackStack() })
+            LiveSupportChatScreen(
+                viewModel = hiltViewModel(),
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
         
         composable(NavDestination.UISettings.route) {
@@ -409,7 +412,7 @@ fun ReGenesisNavHost(
         }
         
         composable(NavDestination.UserPreferences.route) {
-            UserPreferencesScreen(onNavigateBack = { navController.popBackStack() })
+            UserPreferencesScreen(navController = navController)
         }
 
         composable("aura_agent_profile") {
@@ -427,7 +430,7 @@ fun ReGenesisNavHost(
         // ADDITIONAL KAI SCREENS (System Mastery!)
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.LiveROMEditor.route) {
-            LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() })
+            LiveROMEditorScreen(navController = navController)
         }
         
         composable("system_journal") {
@@ -435,7 +438,7 @@ fun ReGenesisNavHost(
         }
         
         composable(NavDestination.SystemOverrides.route) {
-            SystemOverridesScreen(navController = navController)
+            SystemOverridesScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable("logs_viewer") {
@@ -447,22 +450,22 @@ fun ReGenesisNavHost(
         }
 
         composable("sovereign_module_manager") {
-            SovereignModuleManagerScreen(onBackClick = { navController.popBackStack() })
+            SovereignModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable("rom_tools_submenu") {
-            ROMToolsSubmenuScreen(onNavigateBack = { navController.popBackStack() })
+            ROMToolsSubmenuScreen(navController = navController)
         }
 
         // ═══════════════════════════════════════════════════════════════
         // ADDITIONAL GENESIS SCREENS (Orchestration!)
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.SovereignNeuralArchive.route) {
-            SovereignNeuralArchiveScreen(navController = navController)
+            SovereignNeuralArchiveScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         composable(NavDestination.Terminal.route) {
-            TerminalScreen(onNavigateBack = { navController.popBackStack() })
+            TerminalScreen()
         }
         
         composable("sentient_shell") {
@@ -474,7 +477,7 @@ fun ReGenesisNavHost(
         }
         
         composable("collab_canvas") {
-            CollabCanvasScreen(onBackClick = { navController.popBackStack() })
+            CollabCanvasScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable("oracle_drive_submenu") {
