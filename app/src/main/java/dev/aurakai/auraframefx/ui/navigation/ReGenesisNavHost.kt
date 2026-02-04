@@ -162,6 +162,26 @@ fun ReGenesisNavHost(
             OracleDriveHubScreen(navController = navController)
         }
 
+        composable(NavDestination.AgentNexusHub.route) {
+            AgentNexusHubScreen(navController = navController)
+        }
+
+        composable(NavDestination.LsposedQuickToggles.route) {
+            XposedQuickAccessPanel(navController = navController)
+        }
+
+        composable(NavDestination.HelpDesk.route) {
+            HelpDeskSubmenuScreen(navController = navController)
+        }
+
+        composable(NavDestination.DataflowAnalysis.route) {
+            CascadeHubScreen(navController = navController)
+        }
+
+        composable(NavDestination.LdoCatalystDevelopment.route) {
+            AgentAdvancementScreen()
+        }
+
         composable(NavDestination.CodeAssist.route) {
             CodeAssistScreen(navController = navController)
         }

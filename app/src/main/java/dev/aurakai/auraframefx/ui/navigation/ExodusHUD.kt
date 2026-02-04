@@ -41,100 +41,97 @@ fun ExodusHUD(navController: NavController) {
         label = "PulseIntensity"
     )
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        // TOP 85%: The 5 Sovereign Gates
-        Box(
+        // CENTER: The 5 Sovereign Gates
+        HorizontalPager(
+            state = pagerState,
             modifier = Modifier
-                .weight(0.85f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-             HorizontalPager(
-                 state = pagerState,
-                 modifier = Modifier.fillMaxSize(),
-                 contentPadding = PaddingValues(horizontal = 64.dp),
-                 pageSpacing = 16.dp
-             ) { page ->
-                 // Get Gate from registry
-                 val gateInfo = SovereignRegistry.getGate("0${page + 1}")
+                .fillMaxSize()
+                .padding(bottom = 60.dp), // Space for half-orb
+            contentPadding = PaddingValues(horizontal = 64.dp),
+            pageSpacing = 16.dp
+        ) { page ->
+            // Get Gate from registry
+            val gateInfo = SovereignRegistry.getGate("0${page + 1}")
 
-                 // Prometheus Orbit Logic
-                val pageOffset = (
-                    (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
-                ).absoluteValue
+            // Prometheus Orbit Logic
+            val pageOffset = (
+                (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+            ).absoluteValue
 
-                val scale = lerp(
-                    start = 0.85f,
-                    stop = 1f,
-                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+            val scale = lerp(
+                start = 0.85f,
+                stop = 1f,
+                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+            )
+
+            val alpha = lerp(
+                start = 0.5f,
+                stop = 1f,
+                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+            )
+
+            // Construct GateConfig from gateInfo
+            val config = GateConfig(
+                id = gateInfo.id,
+                moduleId = gateInfo.moduleId,
+                title = gateInfo.title,
+                subtitle = gateInfo.subtitle,
+                description = gateInfo.description,
+                route = gateInfo.hubRoute,
+                glowColor = gateInfo.color,
+                gradientColors = listOf(gateInfo.color, Color.Black),
+                pixelArtUrl = gateInfo.assetProvider(),
+                fallbackUrl = gateInfo.fallbackDrawable,
+                borderColor = gateInfo.color,
+                titlePlacement = dev.aurakai.auraframefx.ui.gates.TitlePlacement.TOP_CENTER  // Title ABOVE image, not on it
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight(0.9f)
+                    .graphicsLayer {
+                        scaleX = scale
+                        scaleY = scale
+                        this.alpha = alpha
+                        translationY = pageOffset * 20.dp.toPx()
+                    }
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onPress = {
+                                isPressed = true
+                                tryAwaitRelease()
+                                isPressed = false
+                            },
+                            onDoubleTap = {
+                                navController.navigate(gateInfo.hubRoute)
+                            }
+                        )
+                    }
+            ) {
+                GateCard(
+                    config = config,
+                    onDoubleTap = { navController.navigate(gateInfo.hubRoute) }
                 )
-
-                val alpha = lerp(
-                    start = 0.5f,
-                    stop = 1f,
-                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                )
-
-                 // Construct GateConfig from gateInfo
-                 val config = GateConfig(
-                     id = gateInfo.id,
-                     moduleId = gateInfo.moduleId,
-                     title = gateInfo.title,
-                     subtitle = gateInfo.subtitle,
-                     description = gateInfo.description,
-                     route = gateInfo.hubRoute,
-                     glowColor = gateInfo.color,
-                     gradientColors = listOf(gateInfo.color, Color.Black),
-                     pixelArtUrl = gateInfo.assetProvider(),
-                     fallbackUrl = gateInfo.fallbackDrawable,
-                     borderColor = gateInfo.color,
-                     titlePlacement = dev.aurakai.auraframefx.ui.gates.TitlePlacement.TOP_CENTER  // Title ABOVE image, not on it
-                 )
-
-                 Box(
-                    modifier = Modifier
-                        .fillMaxHeight(0.9f)
-                        .graphicsLayer {
-                            scaleX = scale
-                            scaleY = scale
-                            this.alpha = alpha
-                            translationY = pageOffset * 20.dp.toPx()
-                        }
-                        .pointerInput(Unit) {
-                            detectTapGestures(
-                                onPress = {
-                                    isPressed = true
-                                    tryAwaitRelease()
-                                    isPressed = false
-                                },
-                                onDoubleTap = {
-                                    navController.navigate(gateInfo.hubRoute)
-                                }
-                            )
-                        }
-                 ) {
-                     GateCard(
-                         config = config,
-                         onDoubleTap = { navController.navigate(gateInfo.hubRoute) }
-                     )
-                 }
             }
         }
 
-        // BOTTOM 15%: The Prometheus Globe
+        // BOTTOM: The Prometheus Half-Orb Joystick
         Box(
             modifier = Modifier
-                .weight(0.15f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
+                .align(Alignment.BottomCenter)
+                .size(120.dp)
         ) {
             PrometheusGlobe(
                 color = Color(0xFF00E5FF), // Sovereign Teal / Aura Cyan
-                pulseIntensity = pulseIntensity
+                pulseIntensity = pulseIntensity,
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(Alignment.BottomCenter)
             )
         }
     }
