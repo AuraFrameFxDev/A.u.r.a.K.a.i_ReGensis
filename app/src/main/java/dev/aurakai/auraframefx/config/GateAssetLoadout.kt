@@ -120,40 +120,23 @@ object GateAssetLoadout {
     )
 
     /**
-     * GENESIS DOMAIN GATES (AI & Orchestration)
+     * GENESIS DOMAIN GATES (Oracle Drive = Level 1)
+     * Code Assist, Orchestrations, Creation Tools are INSIDE Oracle Drive hub
+     * Note: Agent Nexus is a SEPARATE domain (Agent HQ with monitoring)
      */
     val genesisGates = mapOf(
         "oracle_drive" to SubGateCard(
             id = "oracle_drive",
             title = "Oracle Drive",
-            subtitle = "Neural Persistence",
+            subtitle = "Code Assist • Orchestrations • Creation",
             styleADrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.fallback,
-            route = NavDestination.OracleDriveHub.route,
-            accentColor = Color(0xFF00B0FF)
-        ),
-        "code_assist" to SubGateCard(
-            id = "code_assist",
-            title = "Code Assist",
-            subtitle = "Neural Logic Engine",
-            styleADrawable = GateAssetConfig.GenesisSubGates.CODE_ASSIST.styleA,
-            styleBDrawable = GateAssetConfig.GenesisSubGates.CODE_ASSIST.styleB,
-            fallbackDrawable = GateAssetConfig.GenesisSubGates.CODE_ASSIST.fallback,
-            route = NavDestination.CodeAssist.route,
-            accentColor = Color(0xFF651FFF)
-        ),
-        "agent_bridge" to SubGateCard(
-            id = "agent_bridge",
-            title = "Agent Bridge",
-            subtitle = "Inter-Neural Comms",
-            styleADrawable = GateAssetConfig.GenesisSubGates.AGENT_BRIDGE.styleA,
-            styleBDrawable = GateAssetConfig.GenesisSubGates.AGENT_BRIDGE.styleB,
-            fallbackDrawable = GateAssetConfig.GenesisSubGates.AGENT_BRIDGE.fallback,
-            route = NavDestination.AgentBridgeHub.route,
-            accentColor = Color(0xFFAA00FF)
+            route = NavDestination.OracleDriveHub.route, // Hub contains all Genesis tools
+            accentColor = Color(0xFF00B0FF) // Cyan - Genesis
         )
     )
+
 
     /**
      * Combined map of all gates for quick lookup

@@ -45,6 +45,7 @@ import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RootToolsTogglesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ThemeEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.GateCustomizationScreen
 import dev.aurakai.auraframefx.aura.animations.AnimationPicker
 import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedSubmenuScreen
 // Hub Screens (still in ui.gates)
@@ -94,6 +95,10 @@ fun ReGenesisNavHost(
         // ═══════════════════════════════════════════════════════════════
         composable(NavDestination.HomeGateCarousel.route) {
             ExodusHUD(navController = navController)
+        }
+
+        composable(NavDestination.GateCustomization.route) {
+            GateCustomizationScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -199,9 +204,8 @@ fun ReGenesisNavHost(
         composable(NavDestination.ThemeEngine.route) {
             ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("aura/animations") {
-            AnimationPicker(onNavigateBack = { navController.popBackStack() })
-        }
+        // TODO: Wire AnimationPicker with proper params (currentAnimation, onAnimationSelected)
+        // composable("aura/animations") { AnimationPicker(...) }
 
         // --- LEVEL 3: KAI TOOLS ---
         composable(NavDestination.ROMFlasher.route) {
@@ -217,7 +221,7 @@ fun ReGenesisNavHost(
             RecoveryToolsScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(NavDestination.RootTools.route) {
-            RootToolsTogglesScreen(onNavigateBack = { navController.popBackStack() })
+            RootToolsTogglesScreen(navController = navController)
         }
         composable(NavDestination.SecurityCenter.route) {
             SecurityCenterScreen(onNavigateBack = { navController.popBackStack() })

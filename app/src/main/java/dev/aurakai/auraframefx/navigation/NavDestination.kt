@@ -33,6 +33,7 @@ sealed class NavDestination(val route: String) {
     data object DataflowAnalysis : NavDestination("dataflow_analysis")
     data object LsposedQuickToggles : NavDestination("lsposed_quick_toggles")
     data object LdoCatalystDevelopment : NavDestination("ldo_catalyst_development")
+    data object GateCustomization : NavDestination("gate_customization")
 
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 2: DOMAIN HUBS (Main Management Frameworks)
