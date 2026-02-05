@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.domains.kai.security.EncryptionManager
 import dev.aurakai.auraframefx.domains.kai.security.KeystoreManager
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -42,11 +42,9 @@ object SecurityModule {
 
     @Provides
     @Singleton
-    @Named("OracleDrive")
+    @javax.inject.Named("OracleDrive")
     fun provideOracleDriveEncryptionManager(): dev.aurakai.auraframefx.domains.genesis.oracledrive.security.EncryptionManager {
         return dev.aurakai.auraframefx.domains.genesis.oracledrive.security.EncryptionManager()
     }
 }
-
-annotation class Named(val value: String)
 

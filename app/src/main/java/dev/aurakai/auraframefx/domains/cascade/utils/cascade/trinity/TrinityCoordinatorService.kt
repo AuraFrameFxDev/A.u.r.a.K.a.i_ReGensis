@@ -3,9 +3,9 @@ package dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.GenesisBridgeService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.KaiAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.GenesisBridgeService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIService
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.cascade.utils.i

@@ -19,9 +19,10 @@ import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAISer
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
 import dev.aurakai.auraframefx.domains.kai.SystemMonitor
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 
 /**
  * Hilt module responsible for providing all major AI Agent dependencies.
@@ -47,7 +48,7 @@ object AgentModule {
     @Singleton
     fun provideContextManager(
         memoryManager: MemoryManager,
-        config: dev.aurakai.auraframefx.cascade.AIPipelineConfig
+        config: AIPipelineConfig
     ): ContextManager {
         return ContextManager(memoryManager, config)
     }
