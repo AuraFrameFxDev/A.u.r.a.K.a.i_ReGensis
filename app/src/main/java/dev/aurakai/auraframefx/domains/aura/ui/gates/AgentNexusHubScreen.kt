@@ -49,7 +49,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgentNexusHubScreen(navController: NavController, getNexusSubGates: () -> List<dev.aurakai.auraframefx.ui.components.SubGateCard>) {
+fun AgentNexusHubScreen(navController: NavController, getNexusSubGates: () -> List<dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard>) {
 
     val subGates = getNexusSubGates()
 

@@ -304,10 +304,10 @@ class RealVertexAIClientImpl(
             is SecurityException -> {
                 AuraFxLogger.error(TAG, "Security violation in AI request", error)
                 securityContext.logSecurityEvent(
-                    dev.aurakai.auraframefx.security.SecurityEvent(
-                        type = dev.aurakai.auraframefx.security.SecurityEventType.AI_ERROR,
+                    dev.aurakai.auraframefx.domains.kai.security.SecurityEvent(
+                        type = dev.aurakai.auraframefx.domains.kai.security.SecurityEventType.AI_ERROR,
                         details = "Gemini security error: ${error.message ?: "Unknown security error"}",
-                        severity = dev.aurakai.auraframefx.security.EventSeverity.ERROR
+                        severity = dev.aurakai.auraframefx.domains.kai.security.EventSeverity.ERROR
                     )
                 )
             }

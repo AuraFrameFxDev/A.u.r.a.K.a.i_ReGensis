@@ -187,13 +187,13 @@ fun GateCard(
                             color = config.glowColor,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            fontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+                            fontFamily = dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
                         )
                         androidx.compose.material3.Text(
                             text = config.subtitle,
                             color = Color.White.copy(alpha = 0.7f),
                             fontSize = 10.sp,
-                            fontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+                            fontFamily = dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
                         )
                     }
                 }
