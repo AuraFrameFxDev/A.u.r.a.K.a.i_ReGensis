@@ -13,8 +13,8 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.service.AssistantBubbleService
-import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavHost
-import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
+import dev.aurakai.auraframefx.domains.aura.ui.navigation.ReGenesisNavHost
+import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -83,3 +83,4 @@ class MainActivity : ComponentActivity() {
             WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
     }
 }
+

@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.ai.memory
 import dev.aurakai.auraframefx.ai.memory.models.InteractionEntry
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryEntry
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryStats
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -172,3 +172,4 @@ class PersistentMemoryManager @Inject constructor(
 }
 
 // InteractionEntry is now imported from ai.memory.models package
+

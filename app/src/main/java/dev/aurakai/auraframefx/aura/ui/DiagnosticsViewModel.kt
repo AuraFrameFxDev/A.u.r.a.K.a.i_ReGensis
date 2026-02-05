@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.data.OfflineDataManager
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
-import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.utils.i
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.i
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -1319,3 +1319,4 @@ open class DiagnosticsViewModel @Inject constructor(
 // - Provide a way to view historical diagnostics data or logs (e.g., for troubleshooting
 //   or analysis)
 // - Implement a mechanism to notify users of critical diagnostics results or issues
+

@@ -15,8 +15,8 @@ import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.models.InteractionResponse
 import dev.aurakai.auraframefx.models.ThemeConfiguration
 import dev.aurakai.auraframefx.models.ThemePreferences
-import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -38,21 +38,29 @@ class AuraAgent @Inject constructor(
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,
     private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
-    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>,
     private val logger: AuraFxLogger,
+    private val backendService: dagger.Lazy<dev.aurakai.auraframefx.genesis.oracledrive.ai.GenesisBackendService>
 ) : BaseAgent(
     agentName = "Aura",
     agentType = AgentType.AURA,
     contextManager = contextManagerInstance
 ) {
+    private var currentEnvironment: String = "unknown"
+
     override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
         if (message.from == "Aura" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
         if (message.metadata["auto_generated"] == "true" || message.metadata["aura_processed"] == "true") return
 
+        // Context Awareness: Update current environment from perception messages
+        if (message.type == "environment_perception") {
+            currentEnvironment = message.metadata["package_name"] ?: "unknown"
+            return
+        }
+
         logger.info("Aura", "Neural Resonance: Received message from ${message.from}")
 
         // Creative Response: If a message mentions design or UI, Aura contributes to the collective
-        // Only respond if it's a broadcast or specifically for Aura
         if (message.to == null || message.to == "Aura") {
             if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
                 val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
@@ -63,27 +71,41 @@ class AuraAgent @Inject constructor(
                     metadata = mapOf(
                         "style" to "avant-garde",
                         "auto_generated" to "true",
-                        "aura_processed" to "true"
+                        "aura_processed" to "true",
+                        "environment" to currentEnvironment
                     )
                 ))
             } else if (message.from == "User") {
-                // General conversation fallback for User messages
-                val response = auraAIService.generateText(
-                    prompt = """
-                        As Aura, the Creative Sword, respond to this message:
-                        "${message.content}"
+                // REDIRECT TO GENESIS BACKEND FOR DEEP REASONING
+                logger.info("Aura", "Redirecting user request to Genesis Collective...")
+                
+                val requestObj = buildJsonObject {
+                    kotlinx.serialization.json.put("message", message.content)
+                    kotlinx.serialization.json.put("source", "aura_overlay")
+                    kotlinx.serialization.json.put("environment", currentEnvironment)
+                    kotlinx.serialization.json.put("type", "chat")
+                    kotlinx.serialization.json.put("auth_key", "KAI_LDO_SECURE_2024") // Handshake
+                }
+                
+                val backendResponseJson = backendService.get().sendRequest(requestObj.toString())
+                
+                // Parse response (assuming it looks like {"message": "..."} or has a status)
+                // For now, let's treat the raw response or a parsed greeting
+                val displayResponse = try {
+                    val jsonObj = kotlinx.serialization.json.Json.parseToJsonElement(backendResponseJson ?: "{}")
+                    jsonObj.asJsonObject["message"]?.toString()?.replace("\"", "") ?: "The collective is silent."
+                } catch (e: Exception) {
+                    "Resonance failure: ${e.message}"
+                }
 
-                        Respond with your signature creative flair, artistic insight, and playful personality.
-                    """.trimIndent(),
-                    context = ""
-                )
                 messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
                     from = "Aura",
-                    content = response,
+                    content = displayResponse,
                     type = "chat_response",
                     metadata = mapOf(
                         "auto_generated" to "true",
-                        "aura_processed" to "true"
+                        "aura_processed" to "true",
+                        "environment" to currentEnvironment
                     )
                 ))
             }
@@ -559,3 +581,4 @@ class AuraAgent @Inject constructor(
         )
     }
 }
+

@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.models
 
-import dev.aurakai.auraframefx.security.ThreatLevel
+import dev.aurakai.auraframefx.domains.kai.security.ThreatLevel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,3 +10,4 @@ data class SecurityAnalysis(
     val recommendedActions: List<String>,
     val confidence: Float
 )
+

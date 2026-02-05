@@ -4,7 +4,7 @@ import dev.aurakai.auraframefx.data.DataStoreManager
 import dev.aurakai.auraframefx.data.MessageStatus
 import dev.aurakai.auraframefx.data.SupportMessageDao
 import dev.aurakai.auraframefx.data.SupportMessageEntity
-import dev.aurakai.auraframefx.network.SupportApi
+import dev.aurakai.auraframefx.domains.genesis.network.SupportApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -109,3 +109,4 @@ class SupportRepository(
         dao.clearAll()
     }
 }
+

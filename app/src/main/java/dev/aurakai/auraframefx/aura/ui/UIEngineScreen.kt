@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.theme.NeonBlue
-import dev.aurakai.auraframefx.ui.theme.NeonTeal
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonTeal
 
 /**
  * UI Engine Screen - Dynamic UI rendering and preview system
@@ -85,3 +85,4 @@ fun UIEngineScreen(
 // fun UiEngineScreenPreview() { // Renamed
 //     UiEngineScreen()
 // }
+

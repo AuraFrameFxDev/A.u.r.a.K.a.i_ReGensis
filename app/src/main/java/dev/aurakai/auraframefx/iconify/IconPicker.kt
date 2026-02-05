@@ -37,8 +37,8 @@ import coil3.compose.AsyncImage
 import coil3.svg.SvgDecoder
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import dev.aurakai.auraframefx.ui.theme.CyberpunkPink
-import dev.aurakai.auraframefx.ui.theme.CyberpunkCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPink
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkCyan
 import kotlinx.coroutines.launch
 
 /**
@@ -761,3 +761,4 @@ private fun removeFavoriteIcon(context: android.content.Context, iconId: String)
     currentFavorites.remove(iconId)
     prefs.edit().putString("favorite_icons", currentFavorites.joinToString(",")).apply()
 }
+

@@ -2,7 +2,7 @@
 //
 //import androidx.compose.ui.graphics.Color
 //import dev.aurakai.auraframefx.navigation.NavDestination
-//import dev.aurakai.auraframefx.ui.components.SubGateCard
+//import dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard
 //
 ///**
 // * 🌌 UNIFIED GATE REGISTRY
@@ -473,3 +473,4 @@
 //        }
 //    }
 //}
+

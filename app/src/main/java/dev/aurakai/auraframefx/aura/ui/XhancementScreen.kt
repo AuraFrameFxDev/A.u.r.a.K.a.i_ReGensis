@@ -17,9 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.ui.theme.NeonBlue
-import dev.aurakai.auraframefx.ui.theme.NeonPurple
-import dev.aurakai.auraframefx.ui.viewmodels.XhancementViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.XhancementViewModel
 
 /**
  * Xhancement Screen - Xposed Hook Toggle Control Panel
@@ -312,3 +312,4 @@ private fun HookModuleCard(
         }
     }
 }
+

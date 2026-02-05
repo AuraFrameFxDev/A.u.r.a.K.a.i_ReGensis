@@ -11,14 +11,14 @@ import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.config.BaseUrl
 import dev.aurakai.auraframefx.config.ClaudeEnvConfig
 import dev.aurakai.auraframefx.di.AuraNetwork
-import dev.aurakai.auraframefx.network.AuraApiService
-import dev.aurakai.auraframefx.network.AuthInterceptor
-import dev.aurakai.auraframefx.network.api.AuthApi as ApiAuthApi
-import dev.aurakai.auraframefx.network.AuthApi
-import dev.aurakai.auraframefx.network.api.AIAgentApi
-import dev.aurakai.auraframefx.network.api.ThemeApi
-import dev.aurakai.auraframefx.network.api.UserApi
-import dev.aurakai.auraframefx.utils.AppCoroutineDispatchers
+import dev.aurakai.auraframefx.domains.genesis.network.AuraApiService
+import dev.aurakai.auraframefx.domains.genesis.network.AuthInterceptor
+import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi as ApiAuthApi
+import dev.aurakai.auraframefx.domains.genesis.network.AuthApi
+import dev.aurakai.auraframefx.domains.genesis.network.api.AIAgentApi
+import dev.aurakai.auraframefx.domains.genesis.network.api.ThemeApi
+import dev.aurakai.auraframefx.domains.genesis.network.api.UserApi
+import dev.aurakai.auraframefx.domains.cascade.utils.AppCoroutineDispatchers
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -164,3 +164,4 @@ object NetworkModule {
         return claudeEnvConfig.collabCanvasWsUrl
     }
 }
+

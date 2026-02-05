@@ -4,9 +4,9 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
 import dev.aurakai.auraframefx.config.VertexAIConfig
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
-import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.utils.i
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.i
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -320,3 +320,4 @@ class RealVertexAIClientImpl(
         private const val TAG = "RealVertexAIClient"
     }
 }
+

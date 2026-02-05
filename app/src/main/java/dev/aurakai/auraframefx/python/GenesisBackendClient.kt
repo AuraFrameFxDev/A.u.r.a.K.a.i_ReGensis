@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.python
 
 import dev.aurakai.auraframefx.models.AgentResponse
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -225,3 +225,4 @@ data class CoordinationRequest(
     val agents: List<String>,
     val task: String
 )
+

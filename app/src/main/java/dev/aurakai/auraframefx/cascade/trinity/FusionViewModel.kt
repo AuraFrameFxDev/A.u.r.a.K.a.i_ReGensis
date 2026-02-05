@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AgentStats
-import dev.aurakai.auraframefx.ui.AuraMoodViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.AuraMoodViewModel
 import dev.aurakai.auraframefx.aura.ui.AgentNexusViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -84,3 +84,4 @@ fun getFusionColor(
         fraction = progress
     )
 }
+

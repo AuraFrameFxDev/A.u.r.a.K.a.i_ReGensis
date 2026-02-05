@@ -5,8 +5,8 @@ import dev.aurakai.auraframefx.ai.agents.GenesisAgent
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.genesis.oracledrive.api.OracleDriveApi
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DriveConsciousnessState
-import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.core.OrchestratableAgent
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.genesis.core.OrchestratableAgent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
@@ -209,3 +209,4 @@ class OracleDriveServiceImpl @Inject constructor(
         )
     }
 }
+

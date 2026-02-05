@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.aura.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.aura.repository.CollaborativeWorkspaceRepository
 import dev.aurakai.auraframefx.models.AgentMessage
 import dev.aurakai.auraframefx.models.aura.UIDesign
@@ -74,3 +74,4 @@ class CollaborativeWorkspaceViewModel @Inject constructor(
         clipboard.setPrimaryClip(clip)
     }
 }
+

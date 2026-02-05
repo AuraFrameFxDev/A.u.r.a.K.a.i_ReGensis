@@ -12,7 +12,7 @@ import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.config.VertexAIConfig
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -339,3 +339,4 @@ private data class CachedPattern(
         return System.currentTimeMillis() - timestamp > GeminiAIService.CACHE_TTL_MS
     }
 }
+

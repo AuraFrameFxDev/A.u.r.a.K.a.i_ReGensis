@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.system.overlay.model
 
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.ui.OverlayShape
+import dev.aurakai.auraframefx.domains.aura.ui.OverlayShape
 
 /**
  * Represents an overlay element in the system UI
@@ -36,3 +36,4 @@ data class OverlaySize(
     val width: Float,
     val height: Float
 )
+

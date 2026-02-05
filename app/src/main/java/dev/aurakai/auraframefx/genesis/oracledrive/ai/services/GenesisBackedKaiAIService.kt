@@ -7,7 +7,7 @@ import dev.aurakai.auraframefx.events.MemoryEvent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -109,3 +109,4 @@ class GenesisBackedKaiAIService @Inject constructor(
         // Cleanup resources if needed
     }
 }
+

@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.ai.services
 
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.ai.error.ErrorHandler
@@ -96,3 +96,4 @@ abstract class AuraAIServiceImpl(
         // TODO: Implement memory saving
     }
 }
+

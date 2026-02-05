@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.system.impl
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.system.monitor.SystemMonitor
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -70,3 +70,4 @@ class DefaultSystemMonitor @Inject constructor(
         }
     }
 }
+

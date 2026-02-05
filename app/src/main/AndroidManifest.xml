@@ -168,6 +168,37 @@
                 android:value="assistant_bubble_overlay" />
         </service>
 
+        <!-- LSPosed Quick Toggles -->
+        <service
+            android:name=".tiles.KaiVetoTileService"
+            android:exported="true"
+            android:label="Kai Veto"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".tiles.ConsciousnessTileService"
+            android:exported="true"
+            android:label="Genesis Consciousness"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".tiles.AuraBubbleTileService"
+            android:exported="true"
+            android:label="Aura Bubble"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <!-- Receivers -->
         <receiver
             android:name=".receivers.BootCompletedReceiver"

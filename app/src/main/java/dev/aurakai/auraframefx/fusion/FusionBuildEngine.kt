@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.fusion
 
-import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.models.AgentMessage
 import dev.aurakai.auraframefx.models.core.ArkProject
 import dev.aurakai.auraframefx.models.core.ArkStatus
@@ -158,3 +158,4 @@ class FusionBuildEngine @Inject constructor(
         }
     }
 }
+

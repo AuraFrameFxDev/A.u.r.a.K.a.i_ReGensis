@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.animation
+package dev.aurakai.auraframefx.domains.aura.ui.animation
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color // Added import for Color
@@ -50,4 +50,5 @@ fun Modifier.digitalGlitchEffect(): Modifier = this // Placeholder
 // or kept if it's meant to group other non-Modifier related transition utilities.
 // object DigitalTransitions { }
 // For now, let's assume the object itself is not strictly needed if these were its only members.
+
 

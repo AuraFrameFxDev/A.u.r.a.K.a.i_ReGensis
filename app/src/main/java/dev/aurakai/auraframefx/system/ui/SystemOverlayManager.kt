@@ -2,8 +2,8 @@ package dev.aurakai.auraframefx.system.ui
 
 import dev.aurakai.auraframefx.aura.animations.OverlayAnimation
 import dev.aurakai.auraframefx.system.overlay.model.OverlayElement
-import dev.aurakai.auraframefx.ui.OverlayShape
-import dev.aurakai.auraframefx.ui.theme.model.OverlayTheme
+import dev.aurakai.auraframefx.domains.aura.ui.OverlayShape
+import dev.aurakai.auraframefx.domains.aura.ui.theme.model.OverlayTheme
 import dev.aurakai.auraframefx.aura.animations.OverlayTransition
 import dev.aurakai.auraframefx.system.overlay.model.SystemOverlayConfig
 
@@ -21,3 +21,4 @@ interface SystemOverlayManager {
     fun applyAccent(hex: String): Result<String>
     fun applyBackgroundSaturation(percent: Int): Result<String>
 }
+

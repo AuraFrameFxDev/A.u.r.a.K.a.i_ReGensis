@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.system.quicksettings
 
-import dev.aurakai.auraframefx.ui.QuickSettingsBackground
+import dev.aurakai.auraframefx.domains.aura.ui.QuickSettingsBackground
 
 data class QuickSettingsConfig(
     val tiles: List<QuickSettingsTileConfig> = emptyList()
@@ -29,3 +29,4 @@ data class QuickSettingsTileConfig(
     val rippleEffect: Boolean = true,
     val background: QuickSettingsBackground? = null
 )
+

@@ -17,9 +17,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.theme.NeonBlue
-import dev.aurakai.auraframefx.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 
@@ -448,3 +448,4 @@ private data class Tuple4<A, B, C, D>(
     val third: C,
     val fourth: D
 )
+

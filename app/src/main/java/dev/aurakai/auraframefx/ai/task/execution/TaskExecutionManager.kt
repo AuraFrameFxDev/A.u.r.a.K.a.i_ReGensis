@@ -10,10 +10,10 @@ import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AiRequestType
-import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 
-import dev.aurakai.auraframefx.utils.toKotlinJsonObject
+import dev.aurakai.auraframefx.domains.cascade.utils.toKotlinJsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -529,3 +529,4 @@ class TaskPriorityComparator : Comparator<TaskExecution1> {
         }
     }
 }
+

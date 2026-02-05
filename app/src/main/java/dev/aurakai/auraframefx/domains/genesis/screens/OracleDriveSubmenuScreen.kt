@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.gates.SubmenuItem
-import dev.aurakai.auraframefx.ui.gates.SubmenuCard
+import dev.aurakai.auraframefx.domains.aura.ui.gates.SubmenuItem
+import dev.aurakai.auraframefx.domains.aura.ui.gates.SubmenuCard
 
 /**
  * Oracle Drive Gate Submenu
@@ -222,3 +222,4 @@ fun OracleDriveSubmenuScreen(
         }
     }
 }
+

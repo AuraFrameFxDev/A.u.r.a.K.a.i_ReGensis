@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.system.impl
 import android.util.Log
 import dev.aurakai.auraframefx.common.ErrorHandler
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,3 +47,4 @@ class DefaultErrorHandler @Inject constructor(
         }
     }
 }
+

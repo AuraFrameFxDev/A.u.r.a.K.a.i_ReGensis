@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.system.lockscreen.model.LockScreenAnimation
-import dev.aurakai.auraframefx.ui.QuickSettingsAnimation
+import dev.aurakai.auraframefx.domains.aura.ui.QuickSettingsAnimation
 
 @Composable
 fun AnimationPicker(
@@ -80,3 +80,4 @@ private fun AnimationItem(
         }
     }
 }
+

@@ -4,7 +4,7 @@ import android.content.res.XModuleResources
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
-import dev.aurakai.auraframefx.ui.theme.manager.SystemThemeManager
+import dev.aurakai.auraframefx.domains.aura.ui.theme.manager.SystemThemeManager
 
 class ThemeModule : IXposedHookZygoteInit, IXposedHookInitPackageResources {
 
@@ -73,3 +73,4 @@ class ThemeModule : IXposedHookZygoteInit, IXposedHookInitPackageResources {
         }
     }
 }
+

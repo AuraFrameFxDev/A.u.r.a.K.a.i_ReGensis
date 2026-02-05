@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.network.AuraApiServiceWrapper
+import dev.aurakai.auraframefx.domains.genesis.network.AuraApiServiceWrapper
 import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 import javax.inject.Singleton
 
@@ -28,8 +28,9 @@ object RepositoryModule {
         auraAgent: dev.aurakai.auraframefx.aura.AuraAgent,
         kaiAgent: dev.aurakai.auraframefx.kai.KaiAgent,
         genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
-        messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+        messageBus: dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
     ): TrinityRepository {
         return TrinityRepository(apiService, auraAgent, kaiAgent, genesisAgent, messageBus)
     }
 }
+

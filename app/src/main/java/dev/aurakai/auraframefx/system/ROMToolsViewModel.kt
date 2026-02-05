@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.system
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.File
@@ -475,3 +475,4 @@ sealed class ROMOperation {
     data class BackupCreated(val name: String) : ROMOperation()
     data class BackupRestored(val name: String) : ROMOperation()
 }
+

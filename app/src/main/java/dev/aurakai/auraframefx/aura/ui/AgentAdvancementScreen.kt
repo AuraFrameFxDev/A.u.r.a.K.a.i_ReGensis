@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.models.AgentStats
-import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin

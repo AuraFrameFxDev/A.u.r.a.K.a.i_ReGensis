@@ -60,8 +60,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.models.ChatMessage
-import dev.aurakai.auraframefx.ui.theme.ChessFontFamily
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.ChessFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.viewmodel.ConferenceRoomViewModel
 
 // --- COLORS & THEME LOCALS ---
@@ -435,3 +435,4 @@ fun UnisonInputBar(
         }
     }
 }
+

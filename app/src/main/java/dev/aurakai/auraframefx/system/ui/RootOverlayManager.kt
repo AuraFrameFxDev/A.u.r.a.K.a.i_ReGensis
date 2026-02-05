@@ -4,8 +4,8 @@ import dev.aurakai.auraframefx.aura.animations.OverlayAnimation
 import dev.aurakai.auraframefx.aura.animations.OverlayTransition
 import dev.aurakai.auraframefx.system.overlay.model.OverlayElement
 import dev.aurakai.auraframefx.system.overlay.model.SystemOverlayConfig
-import dev.aurakai.auraframefx.ui.OverlayShape
-import dev.aurakai.auraframefx.ui.theme.model.OverlayTheme
+import dev.aurakai.auraframefx.domains.aura.ui.OverlayShape
+import dev.aurakai.auraframefx.domains.aura.ui.theme.model.OverlayTheme
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -113,3 +113,4 @@ class RootOverlayManager @Inject constructor() : SystemOverlayManager {
         }
     }
 }
+

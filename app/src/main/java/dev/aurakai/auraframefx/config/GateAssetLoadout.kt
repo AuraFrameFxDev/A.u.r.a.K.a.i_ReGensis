@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.config
 
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.components.SubGateCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard
 
 /**
  * 📦 GATE ASSET LOADOUT
@@ -38,7 +38,7 @@ object GateAssetLoadout {
             styleADrawable = GateAssetConfig.AuraSubGates.CHROMA_CORE.styleA,
             styleBDrawable = GateAssetConfig.AuraSubGates.CHROMA_CORE.styleB,
             fallbackDrawable = GateAssetConfig.AuraSubGates.CHROMA_CORE.fallback,
-            route = NavDestination.ColorBlendr.route,
+            route = NavDestination.ChromaCore.route,
             accentColor = Color(0xFF6200EE)
         ),
         "collab_canvas" to SubGateCard(
@@ -153,3 +153,4 @@ object GateAssetLoadout {
         TODO("Not yet implemented")
     }
 }
+

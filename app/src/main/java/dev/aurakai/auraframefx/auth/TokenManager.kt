@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.utils.AppCoroutineDispatchers
+import dev.aurakai.auraframefx.domains.cascade.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -128,3 +128,4 @@ class TokenManager @Inject constructor(
         private const val TOKEN_EXPIRATION_BUFFER = 5 * 60 * 1000L
     }
 }
+

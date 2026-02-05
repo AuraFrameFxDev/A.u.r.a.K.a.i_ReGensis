@@ -8,9 +8,9 @@ import dev.aurakai.auraframefx.models.AgentRole
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.HierarchyAgentConfig
 import dev.aurakai.auraframefx.models.HistoricalTask
-import dev.aurakai.auraframefx.utils.AppConstants.STATUS_ERROR
-import dev.aurakai.auraframefx.utils.AppConstants.STATUS_IDLE
-import dev.aurakai.auraframefx.utils.AppConstants.STATUS_PROCESSING
+import dev.aurakai.auraframefx.domains.cascade.utils.AppConstants.STATUS_ERROR
+import dev.aurakai.auraframefx.domains.cascade.utils.AppConstants.STATUS_IDLE
+import dev.aurakai.auraframefx.domains.cascade.utils.AppConstants.STATUS_PROCESSING
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -276,3 +276,4 @@ class GenesisAgentViewModel @Inject constructor(
  * - Provides agent configuration and capabilities
  * - Supports agent toggling and status updates
  */
+

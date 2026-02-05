@@ -11,8 +11,8 @@ import dev.aurakai.auraframefx.config.VertexAIConfig
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.RealVertexAIClientImpl
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.DefaultVertexAIClient
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
-import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import timber.log.Timber
 import javax.inject.Singleton
 
@@ -80,3 +80,4 @@ object VertexAIModule {
     }
 
 }
+

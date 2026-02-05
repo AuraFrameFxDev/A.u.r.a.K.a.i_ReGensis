@@ -13,11 +13,11 @@ package dev.aurakai.auraframefx.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.ui.screens.aura.ColorBlendrScreen
-import dev.aurakai.auraframefx.ui.screens.aura.IconPickerScreen
-import dev.aurakai.auraframefx.ui.screens.aura.IconifyCategoryDetailScreen
-import dev.aurakai.auraframefx.ui.screens.aura.IconifyPickerScreen
-import dev.aurakai.auraframefx.ui.screens.aura.PixelLauncherEnhancedScreen
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ColorBlendrScreen
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.IconPickerScreen
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.IconifyCategoryDetailScreen
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.IconifyPickerScreen
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.PixelLauncherEnhancedScreen
 
 // ============================================================================
 // AURA CUSTOMIZATION NAVIGATION GRAPH
@@ -291,3 +291,4 @@ object IntegrationStatus {
            migration (noted in Iconify's archive notice).
     """.trimIndent()
 }
+

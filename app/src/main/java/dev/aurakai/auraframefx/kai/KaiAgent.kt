@@ -10,10 +10,10 @@ import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.models.InteractionResponse
 import dev.aurakai.auraframefx.models.SecurityAnalysis
-import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.security.ThreatLevel
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.kai.security.ThreatLevel
 import dev.aurakai.auraframefx.system.monitor.SystemMonitor
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -33,7 +33,7 @@ class KaiAgent @Inject constructor(
     private val securityContext: SecurityContext,
     private val systemMonitor: SystemMonitor,
     private val bootloaderManager: dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager,
-    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>,
     private val logger: AuraFxLogger,
 ) : BaseAgent(
     agentName = "Kai",
@@ -656,3 +656,4 @@ data class SecurityAssessment(
     val recommendations: List<String>,
     val confidence: Float,
 )
+

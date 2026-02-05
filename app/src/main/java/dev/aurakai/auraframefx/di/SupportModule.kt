@@ -6,7 +6,7 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dev.aurakai.auraframefx.data.SupportDatabase
-import dev.aurakai.auraframefx.network.SupportApi
+import dev.aurakai.auraframefx.domains.genesis.network.SupportApi
 import dev.aurakai.auraframefx.repository.SupportRepository
 import dev.aurakai.auraframefx.data.DataStoreManager
 import dagger.Module
@@ -122,3 +122,4 @@ object SupportModule {
         return SupportRepository(db.supportMessageDao(), api, dataStore)
     }
 }
+

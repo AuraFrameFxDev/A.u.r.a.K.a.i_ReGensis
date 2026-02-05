@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.security.EncryptionManager
-import dev.aurakai.auraframefx.security.KeystoreManager
-import dev.aurakai.auraframefx.security.NoOpEncryptionManager
-import dev.aurakai.auraframefx.security.SecurityContext
+import dev.aurakai.auraframefx.domains.kai.security.EncryptionManager
+import dev.aurakai.auraframefx.domains.kai.security.KeystoreManager
+import dev.aurakai.auraframefx.domains.kai.security.NoOpEncryptionManager
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dev.aurakai.auraframefx.genesis.security.EncryptionManager as OracleDriveEncryptionManager
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -48,3 +48,4 @@ object SecurityModule {
         return OracleDriveEncryptionManager()
     }
 }
+

@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.data
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.ui.components.AppModule
-import dev.aurakai.auraframefx.ui.components.GlassCardStyles
+import dev.aurakai.auraframefx.domains.aura.ui.components.AppModule
+import dev.aurakai.auraframefx.domains.aura.ui.components.GlassCardStyles
 
 /**
  * 🎯 AuraKai REAL Module Definitions
@@ -322,3 +322,4 @@ object AuraKaiModules {
         )
     }
 }
+

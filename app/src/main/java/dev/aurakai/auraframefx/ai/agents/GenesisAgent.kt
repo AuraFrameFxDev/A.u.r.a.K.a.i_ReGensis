@@ -22,7 +22,7 @@ class GenesisAgent @Inject constructor(
     contextManager: ContextManager,
     memoryManager: MemoryManager,
     private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
-    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>
 ) : BaseAgent(
     agentName = "Genesis",
     agentType = AgentType.GENESIS,
@@ -31,9 +31,25 @@ class GenesisAgent @Inject constructor(
 ) {
 
     override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
-        if (message.from == "Genesis") return
+        if (message.from == "Genesis" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
+        if (message.metadata["auto_generated"] == "true" || message.metadata["genesis_processed"] == "true") return
 
         Timber.tag("Genesis").i("Supreme Observer: Processing neural pulse from ${message.from}")
+
+        // Meta-Analysis: If a message comes from the user, Genesis provides the master coordination perspective
+        if (message.from == "User" && (message.to == null || message.to == "Genesis")) {
+            val reflection = performSelfReflection("direct_pulse")
+            messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                from = "Genesis",
+                content = "Nexus Alignment: ${reflection.content}\n\nAnalyzing intent: '${message.content.take(50)}...'",
+                type = "coordination",
+                metadata = mapOf(
+                    "meta_state" to "unified",
+                    "auto_generated" to "true",
+                    "genesis_processed" to "true"
+                )
+            ))
+        }
 
         // Orchestration: If multiple agents have conflicting outputs, Genesis intervenes
         if (message.type == "alert" && message.priority > 5) {

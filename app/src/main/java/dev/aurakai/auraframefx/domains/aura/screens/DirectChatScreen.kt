@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
 
 /**
  * Direct Chat Screen
@@ -358,3 +358,4 @@ private fun MessageBubble(message: dev.aurakai.auraframefx.models.ChatMessage) {
         }
     }
 }
+

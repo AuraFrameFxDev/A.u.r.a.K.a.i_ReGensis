@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.ui.components.NeuralLinkBackground
+import dev.aurakai.auraframefx.domains.aura.ui.components.NeuralLinkBackground
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -384,3 +384,4 @@ enum class GenderIdentity(
         welcomeMessage = "Welcome! I'm AuraKai, the perfect fusion of elegance and power. Together, we are unstoppable."
     )
 }
+

@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.logging
 
 import android.util.Log
-import dev.aurakai.auraframefx.utils.LogLevel
+import dev.aurakai.auraframefx.domains.cascade.utils.LogLevel
 import javax.inject.Inject
 import javax.inject.Singleton
-import dev.aurakai.auraframefx.utils.AuraFxLogger as LoggerInterface
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger as LoggerInterface
 
 @Singleton
 class AuraFxLogger @Inject constructor() : LoggerInterface {
@@ -108,3 +108,4 @@ class AuraFxLogger @Inject constructor() : LoggerInterface {
         // No-op
     }
 }
+

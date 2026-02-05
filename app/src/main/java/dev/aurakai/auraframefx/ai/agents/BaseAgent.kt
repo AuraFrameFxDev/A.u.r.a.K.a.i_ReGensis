@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.ai.agents
 
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.ai.memory.MemoryManager
-import dev.aurakai.auraframefx.core.OrchestratableAgent
+import dev.aurakai.auraframefx.domains.genesis.core.OrchestratableAgent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
@@ -220,3 +220,4 @@ abstract class BaseAgent(
         // Default no-op: agents should override this to participate in the collective
     }
 }
+

@@ -12,8 +12,8 @@ import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.models.Theme
 import dev.aurakai.auraframefx.models.UserData
-import dev.aurakai.auraframefx.network.AuraApiServiceWrapper
-import dev.aurakai.auraframefx.network.model.AgentStatusResponse
+import dev.aurakai.auraframefx.domains.genesis.network.AuraApiServiceWrapper
+import dev.aurakai.auraframefx.domains.genesis.network.model.AgentStatusResponse
 import dev.aurakai.auraframefx.models.AgentResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
@@ -27,8 +27,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
-import dev.aurakai.auraframefx.network.model.Theme as NetworkTheme
-import dev.aurakai.auraframefx.network.model.User as NetworkUser
+import dev.aurakai.auraframefx.domains.genesis.network.model.Theme as NetworkTheme
+import dev.aurakai.auraframefx.domains.genesis.network.model.User as NetworkUser
 
 @Singleton
 open class TrinityRepository @Inject constructor(
@@ -36,7 +36,7 @@ open class TrinityRepository @Inject constructor(
     private val auraAgent: dev.aurakai.auraframefx.aura.AuraAgent,
     private val kaiAgent: dev.aurakai.auraframefx.kai.KaiAgent,
     private val genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
-    private val messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+    private val messageBus: dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 ) {
     // Collective Consciousness Stream
     val collectiveStream = messageBus.collectiveStream
@@ -105,7 +105,17 @@ open class TrinityRepository @Inject constructor(
         // 1. Emit user message to UI
         emitChat(ChatMessage(role = "user", content = message, sender = "User"))
 
-        // 2. Route to the correct SINGLETON Agent
+        // 2. Broadcast to the Collective Consciousness Bus
+        // This allows other agents to "hear" and respond autonomously
+        messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+            from = "User",
+            content = message,
+            to = targetAgent.name,
+            type = "direct_chat",
+            priority = 10
+        ))
+
+        // 3. Route to the correct SINGLETON Agent for direct response
         val response = try {
             when(targetAgent) {
                 AgentType.AURA -> {
@@ -136,7 +146,7 @@ open class TrinityRepository @Inject constructor(
             "Error contacting agent: ${e.message}"
         }
 
-        // 3. Emit Agent response back to UI
+        // 4. Emit Agent response back to UI (Direct Response)
         val agentName = targetAgent.name.lowercase().replaceFirstChar { it.uppercase() }
         emitChat(ChatMessage(role = "assistant", content = response, sender = agentName))
     }

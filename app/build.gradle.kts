@@ -145,7 +145,15 @@ extensions.configure<ApplicationExtension> {
     // ═══════════════════════════════════════════════════════════════════════════
     sourceSets {
         getByName("main") {
-            // Correct source sets are automatically handled by AGP
+            res.srcDirs(
+                "src/main/res",
+                "src/main/res/drawable/Gatescenes/Aura",
+                "src/main/res/drawable/Gatescenes/Kai",
+                "src/main/res/drawable/Gatescenes/Genesis",
+                "src/main/res/drawable/Gatescenes/Nexus",
+                "src/main/res/drawable/Gatescenes/Cascade",
+                "src/main/res/drawable/Gatescenes/Vessels"
+            )
         }
     }
 }

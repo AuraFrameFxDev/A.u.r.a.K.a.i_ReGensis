@@ -3,11 +3,11 @@ package dev.aurakai.auraframefx.kai.system
 import javax.inject.Inject
 import javax.inject.Singleton
 import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
-import dev.aurakai.auraframefx.ui.theme.model.OverlayTheme
+import dev.aurakai.auraframefx.domains.aura.ui.theme.model.OverlayTheme
 import dev.aurakai.auraframefx.system.overlay.model.OverlayElement
 import dev.aurakai.auraframefx.aura.animations.OverlayAnimation
 import dev.aurakai.auraframefx.aura.animations.OverlayTransition
-import dev.aurakai.auraframefx.ui.OverlayShape
+import dev.aurakai.auraframefx.domains.aura.ui.OverlayShape
 import dev.aurakai.auraframefx.system.overlay.model.SystemOverlayConfig
 
 @Singleton
@@ -24,3 +24,4 @@ class SystemOverlayManagerImpl @Inject constructor() : SystemOverlayManager {
     override fun applyAccent(hex: String): Result<String> = Result.success("no-op")
     override fun applyBackgroundSaturation(percent: Int): Result<String> = Result.success("no-op")
 }
+

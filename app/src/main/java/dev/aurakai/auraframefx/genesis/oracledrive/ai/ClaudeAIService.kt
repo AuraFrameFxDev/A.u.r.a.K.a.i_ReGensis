@@ -11,7 +11,7 @@ import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -347,3 +347,4 @@ private data class CachedResponse(
         return System.currentTimeMillis() - timestamp > ClaudeAIService.CACHE_TTL_MS
     }
 }
+

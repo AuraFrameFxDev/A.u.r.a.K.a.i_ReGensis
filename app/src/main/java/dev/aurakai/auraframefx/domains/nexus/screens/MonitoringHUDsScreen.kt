@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.MonitoringViewModel
 
 /**
  * 📊 MONITORING HUDS SCREEN
@@ -155,3 +155,4 @@ fun HudGaugeCard(title: String, value: String, progress: Float, icon: ImageVecto
         }
     }
 }
+

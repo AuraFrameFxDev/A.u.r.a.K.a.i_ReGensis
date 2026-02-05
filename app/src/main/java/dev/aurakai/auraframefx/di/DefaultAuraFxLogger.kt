@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.di
 
-import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.utils.LogLevel
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.LogLevel
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -95,3 +95,4 @@ class DefaultAuraFxLogger @Inject constructor() : AuraFxLogger {
         Timber.uprootAll()
     }
 }
+

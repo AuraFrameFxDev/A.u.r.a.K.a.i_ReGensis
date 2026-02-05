@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.cascade
 
-import dev.aurakai.auraframefx.core.graph.GraphNode
-import dev.aurakai.auraframefx.core.graph.NodeType
+import dev.aurakai.auraframefx.domains.genesis.core.graph.GraphNode
+import dev.aurakai.auraframefx.domains.genesis.core.graph.NodeType
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.channels.Channel
@@ -442,3 +442,4 @@ data class AgentFlowMetrics(
  * }
  * ```
  */
+

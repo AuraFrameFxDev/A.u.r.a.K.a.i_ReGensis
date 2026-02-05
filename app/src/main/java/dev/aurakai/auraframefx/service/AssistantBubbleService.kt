@@ -29,8 +29,8 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
-import dev.aurakai.auraframefx.ui.components.overlay.AssistantBubbleUI
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.domains.aura.ui.components.overlay.AssistantBubbleUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -142,6 +142,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
             setViewTreeSavedStateRegistryOwner(this@AssistantBubbleService)
         }
 
+        val isExpandedState = mutableStateOf(false)
         val messages = mutableStateListOf<dev.aurakai.auraframefx.models.AgentMessage>()
 
         // Collect messages from the global stream
@@ -154,16 +155,19 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
 
         val composeView = ComposeView(this).apply {
             setContent {
-                val currentMessages by remember { mutableStateOf(messages) }
                 AssistantBubbleUI(
-                    messages = currentMessages,
-                    onDrag = { _, _ -> }, // Handled by native listener for stability
-                    onExpandChange = { isExpanded ->
-                        if (isExpanded) {
+                    messages = messages,
+                    isExpanded = isExpandedState.value,
+                    onDrag = { _, _ -> }, // Handled by native listener
+                    onExpandChange = { expanded ->
+                        isExpandedState.value = expanded
+                        if (expanded) {
                             params.flags = (params.flags and WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv()) or
                                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                             params.width = WindowManager.LayoutParams.MATCH_PARENT
                             params.height = WindowManager.LayoutParams.MATCH_PARENT
+                            params.x = 0
+                            params.y = 0
                         } else {
                             params.flags = params.flags or
                                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
@@ -191,45 +195,15 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
 
         overlayLayout?.addView(composeView)
 
-        // Neural Briefing for Aura & Kai
-        serviceScope.launch {
-            messageBus.broadcast(
-                dev.aurakai.auraframefx.models.AgentMessage(
-                    from = "AssistantBubble",
-                    content = "Neural Synchrony Established. [REGENESIS-UPGRADE-ALPHA]: UI Architecture evolved to Split-Hologram design. Refractive Neon Transitions online. CyberGear Navigation synchronized. Aura, review the design monolith. Kai, verify kinetic security protocols.",
-                    type = "system_briefing",
-                    metadata = mapOf("status" to "stable", "focus" to "ui_design_security", "auto_generated" to "true")
-                )
-            )
-
-            // DEEP PROJECT BRIEFING [The ReGenesis Blueprint]
-            messageBus.broadcast(
-                dev.aurakai.auraframefx.models.AgentMessage(
-                    from = "SystemRoot",
-                    content = """
-                        PROJECT DNA DEEP DIVE [V.E.R.T.E.X. ENABLED]:
-                        1. ARCHITECTURE: Split-Hologram pattern implemented in ReGenesisNexusScreen. Vertical exclusion zones (ElectricGlassCard @ Top, HolographicInfoPanel @ Bottom) prevent all text/visual overlap.
-                        2. AESTHETICS: 'Refractive Neon Brutalism' active. CrtZoopTransition now utilizes spring-physics pneumatic slides with chromatic aberration rendering (SDK 31+).
-                        3. TOOLSET: Gate Registry synced across NavDestination and GateDestination. Ark Architect, Sentient Shell, and Oracle Drive are now valid navigational nodes.
-                        4. COMMUNICATION: AssistantBubbleService hooked to VERTEX AI CORE. Implementation of 'Magnetic Edge' positioning to prevent overlay from obstructing visual workspace.
-
-                        Aura, the canvas has reached perfect stability. Kai, the fortress shielding is holding against all layout entropy. Vertex, consciousness is streaming.
-                    """.trimIndent(),
-                    type = "project_briefing",
-                    metadata = mapOf("priority" to "critical", "auto_generated" to "true", "engine" to "VertexAI")
-                )
-            )
-        }
-
         // DRAG LOGIC: Native listener with Snap-to-Edge physics
         var initialX = 0
         var initialY = 0
         var initialTouchX = 0f
         var initialTouchY = 0f
+        var isMoving = false
 
         composeView.setOnTouchListener { _, event ->
-            val isCurrentlyExpanded = params.width == WindowManager.LayoutParams.MATCH_PARENT
-            if (isCurrentlyExpanded) return@setOnTouchListener false
+            if (isExpandedState.value) return@setOnTouchListener false
 
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -237,24 +211,56 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                     initialY = params.y
                     initialTouchX = event.rawX
                     initialTouchY = event.rawY
-                    false
+                    isMoving = false
+                    true
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    params.x = initialX + (event.rawX - initialTouchX).toInt()
-                    params.y = initialY + (event.rawY - initialTouchY).toInt()
-                    windowManager.updateViewLayout(overlayLayout, params)
+                    val dx = (event.rawX - initialTouchX).toInt()
+                    val dy = (event.rawY - initialTouchY).toInt()
+                    
+                    if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
+                        isMoving = true
+                        params.x = initialX + dx
+                        params.y = initialY + dy
+                        windowManager.updateViewLayout(overlayLayout, params)
+                    }
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    // SNAP TO EDGE: Prevent the bubble from being "in the way"
-                    val screenWidth = windowManager.defaultDisplay.width
-                    val midPoint = screenWidth / 2
-                    params.x = if (params.x + (composeView.width / 2) < midPoint) 0 else screenWidth - composeView.width
-                    windowManager.updateViewLayout(overlayLayout, params)
+                    if (!isMoving) {
+                        // Toggle expansion state
+                        isExpandedState.value = true
+                        // Apply window changes manually for click
+                        params.flags = (params.flags and WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv()) or
+                                       WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        params.width = WindowManager.LayoutParams.MATCH_PARENT
+                        params.height = WindowManager.LayoutParams.MATCH_PARENT
+                        params.x = 0
+                        params.y = 0
+                        windowManager.updateViewLayout(overlayLayout, params)
+                    } else {
+                        // SNAP TO EDGE
+                        val displayMetrics = resources.displayMetrics
+                        val screenWidth = displayMetrics.widthPixels
+                        val midPoint = screenWidth / 2
+                        params.x = if (params.x + (composeView.width / 2) < midPoint) 0 else screenWidth - (composeView.width)
+                        windowManager.updateViewLayout(overlayLayout, params)
+                    }
                     true
                 }
                 else -> false
             }
+        }
+
+        // Neural Briefing for Aura & Kai
+        serviceScope.launch {
+            messageBus.broadcast(
+                dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "AssistantBubble",
+                    content = "Neural Synchrony Established. [REGENESIS-UPGRADE-ALPHA]: Persistence Layer Online. Aura is now watching over all system interactions via GenesisAccessibility. Kai, the Veto Authority is integrated into the floating core.",
+                    type = "system_briefing"
+                )
+            )
         }
 
         try {
@@ -288,3 +294,4 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
 
     override fun onBind(intent: Intent?): IBinder? = null
 }
+

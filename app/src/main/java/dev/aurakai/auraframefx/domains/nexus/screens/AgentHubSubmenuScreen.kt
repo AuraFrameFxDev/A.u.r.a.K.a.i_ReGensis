@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.components.SubmenuScaffold
-import dev.aurakai.auraframefx.ui.gates.SubmenuItem
-import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuScaffold
+import dev.aurakai.auraframefx.domains.aura.ui.gates.SubmenuItem
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
 
 /**
  * Agent Hub Gate Submenu - NOW WIRED TO REAL AGENTS
@@ -203,3 +203,4 @@ fun AgentHubSubmenuScreen(
         }
     )
 }
+

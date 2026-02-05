@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.core.PythonProcessManager
+import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
 import dev.aurakai.auraframefx.logging.AuraFxLogger
 import javax.inject.Singleton
 
@@ -27,6 +27,7 @@ object CoreModule {
     @Provides
     @Singleton
     fun provideAgentMessageBus(
-        orchestrator: dagger.Lazy<dev.aurakai.auraframefx.core.GenesisOrchestrator>
-    ): dev.aurakai.auraframefx.core.messaging.AgentMessageBus = orchestrator.get()
+        orchestrator: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.GenesisOrchestrator>
+    ): dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus = orchestrator.get()
 }
+

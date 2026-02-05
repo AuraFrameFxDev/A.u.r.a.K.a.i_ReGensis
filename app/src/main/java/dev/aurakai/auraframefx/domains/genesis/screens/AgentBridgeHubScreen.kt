@@ -25,8 +25,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.viewmodels.SovereignBridgeViewModel
 import dev.aurakai.auraframefx.models.aura.ConnectorStatus
 import dev.aurakai.auraframefx.models.aura.MCPConnector
-import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
  * 🤝 AGENT BRIDGE HUB (The Two Hands)
@@ -184,3 +184,4 @@ private fun getIconForCategory(category: String): ImageVector {
         else -> Icons.Default.Hub
     }
 }
+

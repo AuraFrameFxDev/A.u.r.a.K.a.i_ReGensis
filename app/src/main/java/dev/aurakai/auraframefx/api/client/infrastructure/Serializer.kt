@@ -3,16 +3,16 @@ package dev.aurakai.auraframefx.api.client.infrastructure
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.aurakai.auraframefx.aura.ui.StringBuilderAdapter
-import dev.aurakai.auraframefx.ui.adapters.AtomicBooleanAdapter
-import dev.aurakai.auraframefx.ui.adapters.AtomicIntegerAdapter
-import dev.aurakai.auraframefx.ui.adapters.AtomicLongAdapter
-import dev.aurakai.auraframefx.ui.adapters.BigDecimalAdapter
-import dev.aurakai.auraframefx.ui.adapters.BigIntegerAdapter
-import dev.aurakai.auraframefx.ui.adapters.LocalDateAdapter
-import dev.aurakai.auraframefx.ui.adapters.LocalDateTimeAdapter
-import dev.aurakai.auraframefx.ui.adapters.OffsetDateTimeAdapter
-import dev.aurakai.auraframefx.ui.adapters.URIAdapter
-import dev.aurakai.auraframefx.ui.adapters.URLAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.AtomicBooleanAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.AtomicIntegerAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.AtomicLongAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.BigDecimalAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.BigIntegerAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.LocalDateAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.LocalDateTimeAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.OffsetDateTimeAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.URIAdapter
+import dev.aurakai.auraframefx.domains.aura.ui.adapters.URLAdapter
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import kotlinx.serialization.modules.SerializersModule
@@ -123,3 +123,4 @@ object Serializer {
             .addLast(KotlinJsonAdapterFactory())
     }
 }
+

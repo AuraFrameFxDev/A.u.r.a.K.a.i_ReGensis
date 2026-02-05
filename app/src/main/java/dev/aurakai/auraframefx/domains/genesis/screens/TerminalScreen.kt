@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.genesis.screens.TerminalLine
 import dev.aurakai.auraframefx.domains.genesis.screens.TerminalType
-import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
+import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -200,3 +200,4 @@ private fun processCommand(cmd: String, history: MutableList<TerminalLine>) {
         }
     }
 }
+

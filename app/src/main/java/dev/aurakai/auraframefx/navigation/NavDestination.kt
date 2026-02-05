@@ -111,6 +111,11 @@ sealed class NavDestination(val route: String) {
     data object NotchBar : NavDestination("notch_bar")
     data object StatusBar : NavDestination("status_bar")
     data object QuickSettings : NavDestination("quick_settings")
+    data object ChromaCoreHub : NavDestination("aura/chroma_core/hub")
+    data object ChromaStatusBar : NavDestination("aura/chroma_core/statusbar")
+    data object ChromaLauncher : NavDestination("aura/chroma_core/launcher")
+    data object ChromaColorEngine : NavDestination("aura/chroma_core/color_engine")
+    data object ChromaAnimations : NavDestination("aura/chroma_core/animations")
     data object ModuleCreation : NavDestination("module_creation")
     data object AgentCreation : NavDestination("agent_creation")
 

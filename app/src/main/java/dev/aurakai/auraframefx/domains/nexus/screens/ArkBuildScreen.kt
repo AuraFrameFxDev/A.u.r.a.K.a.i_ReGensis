@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.models.core.ArkStatus
-import dev.aurakai.auraframefx.ui.viewmodels.ArkBuildViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.ArkBuildViewModel
 
 @Composable
 fun ArkBuildScreen(
@@ -212,3 +212,4 @@ fun ArkComponentCard(component: dev.aurakai.auraframefx.models.core.ArkComponent
         }
     }
 }
+

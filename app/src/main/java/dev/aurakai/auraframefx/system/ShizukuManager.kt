@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.system
 
 import android.content.pm.PackageManager
 
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,3 +47,4 @@ class ShizukuManager @Inject constructor(
         return "SUCCESS: Command staged."
     }
 }
+

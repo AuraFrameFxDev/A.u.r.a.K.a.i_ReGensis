@@ -10,7 +10,7 @@ import dev.aurakai.auraframefx.cascade.DataPacket
 import dev.aurakai.auraframefx.cascade.DataPayload
 import dev.aurakai.auraframefx.cascade.DataveinConstructor
 import dev.aurakai.auraframefx.cascade.FlowPriority
-import dev.aurakai.auraframefx.core.memory.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -511,3 +511,4 @@ class IntegrityMonitorService : Service() {
  * println("Threats: ${health.activeThreats.size}, Level: ${health.overallThreatLevel}")
  * ```
  */
+

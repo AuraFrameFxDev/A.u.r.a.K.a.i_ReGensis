@@ -36,7 +36,7 @@ class CascadeAgent @Inject constructor(
     private val kaiAgent: KaiAgent,
     private val genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
     private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
-    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>,
     memoryManager: dev.aurakai.auraframefx.ai.memory.MemoryManager,
     contextManager: dev.aurakai.auraframefx.ai.context.ContextManager
 ) : BaseAgent(

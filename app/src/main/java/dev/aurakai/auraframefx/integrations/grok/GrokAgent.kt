@@ -6,7 +6,7 @@ import dev.aurakai.auraframefx.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -498,3 +498,4 @@ data class GrokAgentState(
     val requestCount: Int = 0,
     val lastError: String? = null
 )
+

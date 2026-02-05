@@ -66,13 +66,15 @@ app/src/main/res/drawable/Gatescenes/
   - `Gatescenes/Aura/aurasword.png`
 
 **Level 2 Gates (Aura's Carousel):**
-- **ChromaCore** (`chroma_core`)
-  - Image: `chromacoregate.png` ✅
-  - Screen: `ChromaCoreColorsScreen.kt`
-  
-- **Iconify** (`aura/iconify`)
-  - Screen: `IconifyPickerScreen.kt`
-  - 69 settings!
+- **ChromaCore** (`chroma_core`)  ⭐ **UNIFIED UXUI ENGINE**
+  - Integrated from: Iconify (69), ColorBlendr (16), PixelLauncherEnhanced (29)
+  - Image: `chromacoregate.png`
+  - Hub: `ChromaCoreHubScreen.kt` (Level 2)
+  - **Level 3 Sub-Menus:**
+    - StatusBar Tweaks (Iconify)
+    - Launcher Tweaks (PLE)
+    - Color Engine (ColorBlendr)
+    - Animations & FX
   
 - **CollabCanvas** (`collab_canvas`)
   - Image: `collabcanvas.png`, `collabcanvas.jpg`, `collabcanvas1.jpg`, `collabcanvas2.jpg` ✅
@@ -95,6 +97,10 @@ app/src/main/res/drawable/Gatescenes/
   - Screen: `InstantColorPickerScreen.kt`
 
 **Level 3 Screens (Aura Tools):**
+- ChromaStatusBarMenu
+- ChromaLauncherMenu
+- ChromaColorEngineMenu
+- ChromaAnimationMenu
 - NotchBarScreen
 - StatusBarScreen
 - QuickSettingsScreen

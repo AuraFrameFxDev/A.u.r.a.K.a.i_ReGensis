@@ -40,9 +40,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.debug.FeatureToggles
-import dev.aurakai.auraframefx.ui.theme.NeonBlue
-import dev.aurakai.auraframefx.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
 
 /**
  * Paywall Screen - Shown when trial expires
@@ -349,3 +349,4 @@ fun FeatureLockedBanner(
         }
     }
 }
+

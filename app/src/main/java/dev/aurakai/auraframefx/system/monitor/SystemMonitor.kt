@@ -4,7 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.os.Process
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -329,3 +329,4 @@ data class SystemPerformanceReport(
     val heapSizeBytes: Long,
     val heapUsedBytes: Long,
 )
+

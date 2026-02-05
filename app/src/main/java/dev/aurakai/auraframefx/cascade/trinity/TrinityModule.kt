@@ -11,9 +11,9 @@ import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.KaiAIService
-import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.security.SecurityMonitor
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.kai.security.SecurityMonitor
 import javax.inject.Singleton
 
 /**
@@ -96,3 +96,4 @@ object TrinityModule {
         )
     }
 }
+

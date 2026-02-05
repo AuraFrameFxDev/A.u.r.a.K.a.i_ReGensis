@@ -3,7 +3,7 @@
 package dev.aurakai.auraframefx.ai.services
 
 import dev.aurakai.auraframefx.ai.task.TaskStatus
-import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -380,3 +380,4 @@ class AgentWebExplorationService @Inject constructor(
         activeTasks.clear()
     }
 }
+

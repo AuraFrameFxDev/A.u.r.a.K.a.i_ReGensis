@@ -19,7 +19,7 @@ import dev.aurakai.auraframefx.genesis.oracledrive.service.OracleDriveService
 import dev.aurakai.auraframefx.genesis.oracledrive.service.SecureFileService
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStorageProvider
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStorageProviderImpl
-import dev.aurakai.auraframefx.security.SecurityContext
+import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -98,3 +98,4 @@ object OracleDriveModule {
         )
     }
 }
+

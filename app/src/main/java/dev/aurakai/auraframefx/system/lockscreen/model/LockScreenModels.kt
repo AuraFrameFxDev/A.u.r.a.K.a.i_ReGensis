@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.system.lockscreen.model
 
-import dev.aurakai.auraframefx.ui.OverlayShape
-import dev.aurakai.auraframefx.ui.ImageResource
-import dev.aurakai.auraframefx.ui.HapticFeedbackConfig
+import dev.aurakai.auraframefx.domains.aura.ui.OverlayShape
+import dev.aurakai.auraframefx.domains.aura.ui.ImageResource
+import dev.aurakai.auraframefx.domains.aura.ui.HapticFeedbackConfig
 
 /**
  * Configuration for lock screen customization
@@ -79,3 +79,4 @@ enum class LockScreenAnimation {
     BOUNCE,
     PULSE
 }
+
