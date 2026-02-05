@@ -78,7 +78,7 @@ fun AurasLabScreen(
                 contentColor = Color(0xFF00FFFF),
                 indicator = {
                     TabRowDefaults.PrimaryIndicator(
-                        modifier = Modifier.tabIndicatorOffset(selectedTab, isPrimary = true),
+                        modifier = Modifier.tabIndicatorOffset(selectedTab),
                         color = Color(0xFF00FFFF)
                     )
                 }
