@@ -7,7 +7,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
-import dev.aurakai.auraframefx.logging.AuraFxLogger
 import javax.inject.Singleton
 
 @Module
@@ -20,10 +19,6 @@ object CoreModule {
         @ApplicationContext context: Context
     ): PythonProcessManager = PythonProcessManager(context)
     
-    @Provides
-    @Singleton
-    fun provideLogger(): AuraFxLogger = AuraFxLogger()
-
     @Provides
     @Singleton
     fun provideAgentMessageBus(

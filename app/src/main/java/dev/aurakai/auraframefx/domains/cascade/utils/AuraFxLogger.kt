@@ -49,25 +49,25 @@ interface AuraFxLogger {
      * This allows code to call AuraFxLogger.info(...), AuraFxLogger.debug(...), etc.
      */
     companion object {
-        fun i(tag: String, message: String) = dev.aurakai.auraframefx.utils.i(tag, message)
-        fun d(tag: String, message: String) = dev.aurakai.auraframefx.utils.d(tag, message)
+        fun i(tag: String, message: String) = dev.aurakai.auraframefx.domains.cascade.utils.i(tag, message)
+        fun d(tag: String, message: String) = dev.aurakai.auraframefx.domains.cascade.utils.d(tag, message)
         fun w(tag: String, message: String, throwable: Throwable? = null) =
-            dev.aurakai.auraframefx.utils.warn(tag, message, throwable)
+            dev.aurakai.auraframefx.domains.cascade.utils.warn(tag, message, throwable)
 
         fun e(tag: String, message: String, throwable: Throwable? = null) =
-            dev.aurakai.auraframefx.utils.error(tag, message, throwable)
+            dev.aurakai.auraframefx.domains.cascade.utils.error(tag, message, throwable)
 
         fun info(tag: String, message: String, throwable: Throwable? = null) =
-            dev.aurakai.auraframefx.utils.info(tag, message)
+            dev.aurakai.auraframefx.domains.cascade.utils.info(tag, message)
 
         fun debug(tag: String, message: String, throwable: Throwable? = null) =
-            dev.aurakai.auraframefx.utils.debug(tag, message)
+            dev.aurakai.auraframefx.domains.cascade.utils.debug(tag, message)
 
         fun warn(tag: String, message: String, throwable: Throwable? = null) =
-            dev.aurakai.auraframefx.utils.warn(tag, message, throwable)
+            dev.aurakai.auraframefx.domains.cascade.utils.warn(tag, message, throwable)
 
         fun error(tag: String, message: String, throwable: Throwable? = null) =
-            dev.aurakai.auraframefx.utils.error(tag, message, throwable)
+            dev.aurakai.auraframefx.domains.cascade.utils.error(tag, message, throwable)
     }
 }
 

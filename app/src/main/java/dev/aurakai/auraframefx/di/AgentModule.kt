@@ -103,7 +103,7 @@ object AgentModule {
         contextManager: ContextManager,
         securityContext: SecurityContext,
         systemOverlayManager: SystemOverlayManager,
-        logger: dev.aurakai.auraframefx.utils.AuraFxLogger,
+        logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger,
         messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>
     ): AuraAgent {
         return AuraAgent(
@@ -128,7 +128,7 @@ object AgentModule {
         securityContext: SecurityContext,
         systemMonitor: SystemMonitor,
         bootloaderManager: BootloaderManager,
-        logger: dev.aurakai.auraframefx.utils.AuraFxLogger,
+        logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger,
         messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>
     ): KaiAgent {
         return KaiAgent(
