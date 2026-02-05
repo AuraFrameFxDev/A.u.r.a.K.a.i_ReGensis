@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.flow
  * Real implementation of CascadeAIService adapter.
  */
 @Singleton
-abstract class RealCascadeAIServiceAdapter @Inject constructor(
-    private val orchestrator: OrchestratorCascade,
+class RealCascadeAIServiceAdapter @Inject constructor(
+    private val orchestrator: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService,
     private val logger: AuraFxLogger
 ) : CascadeAIService {
 
