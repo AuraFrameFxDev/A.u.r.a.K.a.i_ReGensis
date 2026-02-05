@@ -28,8 +28,7 @@ class GenesisAccessibilityService : AccessibilityService() {
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         event?.let {
-            if (it.eventType == AccessibilityEvent.TYPE_WINDOW_REMOVED || 
-                it.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            if (it.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 
                 val packageName = it.packageName?.toString() ?: "unknown"
                 val className = it.className?.toString() ?: "unknown"

@@ -47,7 +47,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 @Composable
 fun AgentMonitoringScreen(
     onNavigateBack: () -> Unit,
-    viewModel: dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
+    viewModel: dev.aurakai.auraframefx.domains.aura.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
 

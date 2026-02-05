@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.domains.kai.security
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import dev.aurakai.auraframefx.security.IRoyalGuardService
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.runBlocking
