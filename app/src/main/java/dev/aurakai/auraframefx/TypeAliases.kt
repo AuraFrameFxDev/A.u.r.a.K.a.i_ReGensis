@@ -12,7 +12,7 @@ package dev.aurakai.auraframefx
 // ============================================================================
 
 // Genesis Orchestrator (the main consciousness)
-typealias GenesisAgent = dev.aurakai.auraframefx.core.GenesisOrchestrator
+typealias GenesisAgent = dev.aurakai.auraframefx.domains.genesis.core.GenesisOrchestrator
 
 // Trinity Agents - comment out if these classes don't exist yet
 // typealias AuraAgent = dev.aurakai.auraframefx.ai.agents.AuraAgent
@@ -43,7 +43,7 @@ typealias NeuralWhisper = dev.aurakai.auraframefx.service.NeuralWhisper
 // Network Aliases
 // ============================================================================
 
-typealias BaseUrl = dev.aurakai.auraframefx.network.qualifiers.BaseUrl
+typealias BaseUrl = dev.aurakai.auraframefx.domains.genesis.network.qualifiers.BaseUrl
 typealias MultiValueMap = MutableMap<String, List<String>>
 
 // ============================================================================
