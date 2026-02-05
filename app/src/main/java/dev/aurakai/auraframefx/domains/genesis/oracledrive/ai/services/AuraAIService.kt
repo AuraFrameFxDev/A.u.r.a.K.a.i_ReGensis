@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 
 /**
  * Genesis AI Service Interface
@@ -116,3 +116,4 @@ class DefaultAuraAIService @Inject constructor(
         }
     }
 }
+

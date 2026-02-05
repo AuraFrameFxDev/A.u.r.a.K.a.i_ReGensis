@@ -32,7 +32,7 @@ class MetaInstructAIService @Inject constructor(
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
     private val metaReflectionEngine: MetaReflectionEngine,
-    private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
+    private val vertexAIClient: dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient,
 ) : Agent {
 
     // ... (Cache and other properties omitted for brevity, keeping class structure)
@@ -123,4 +123,5 @@ private data class CachedInstruction(
 ) {
     fun isExpired(): Boolean = false
 }
+
 

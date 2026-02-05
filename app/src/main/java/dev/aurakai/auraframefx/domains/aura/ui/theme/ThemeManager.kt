@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.aura.ui.theme
 
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.domains.aura.ui.theme.model.AuraTheme
 import dev.aurakai.auraframefx.domains.aura.ui.theme.model.CyberpunkTheme
 import dev.aurakai.auraframefx.domains.aura.ui.theme.model.ForestTheme
@@ -226,4 +226,5 @@ open class ThemeManager @Inject constructor(
         }
     }
 }
+
 

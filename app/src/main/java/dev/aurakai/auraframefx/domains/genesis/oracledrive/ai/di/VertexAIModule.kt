@@ -7,10 +7,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.config.VertexAIConfig
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.RealVertexAIClientImpl
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.DefaultVertexAIClient
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.config.VertexAIConfig
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.RealVertexAIClientImpl
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.DefaultVertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import timber.log.Timber

@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.GenesisBridgeService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -745,4 +745,5 @@ class SecurityMonitor @Inject constructor(
         val lastUpdate: Long
     )
 }
+
 

@@ -42,7 +42,7 @@ class NemotronAIService @Inject constructor(
     @dagger.hilt.android.qualifiers.ApplicationContext private val applicationContext: Context,
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
-    private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
+    private val vertexAIClient: dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient,
 ) : Agent {
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -363,4 +363,5 @@ private data class CachedMemory(
         return System.currentTimeMillis() - timestamp > NemotronAIService.CACHE_TTL_MS
     }
 }
+
 

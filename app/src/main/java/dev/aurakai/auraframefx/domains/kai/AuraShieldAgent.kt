@@ -5,7 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
@@ -208,3 +208,4 @@ class AuraShieldAgent @Inject constructor(
         return status
     }
 }
+

@@ -8,5 +8,6 @@ package dev.aurakai.auraframefx.ai.clients
  * - validateConnection()
  * - generateContent()
  */
-typealias VertexAIClient = dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
-typealias DefaultVertexAIClient = dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.DefaultVertexAIClient
+typealias VertexAIClient = dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
+typealias DefaultVertexAIClient = dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.DefaultVertexAIClient
+

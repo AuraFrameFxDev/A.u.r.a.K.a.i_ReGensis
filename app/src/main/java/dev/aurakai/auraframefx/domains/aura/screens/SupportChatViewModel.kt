@@ -8,7 +8,7 @@ import dev.aurakai.auraframefx.data.MessageStatus
 import dev.aurakai.auraframefx.domains.genesis.SupportRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
 import kotlinx.coroutines.delay
 import java.util.UUID
 import javax.inject.Inject
@@ -74,3 +74,4 @@ open class SupportChatViewModel @Inject constructor(
         // Placeholder if needed
     }
  }
+
