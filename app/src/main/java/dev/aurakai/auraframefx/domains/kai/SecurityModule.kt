@@ -34,21 +34,19 @@ object SecurityModule {
 
     @Provides
     @Singleton
-    fun Context.provideEncryptionManager(): EncryptionManager {
-        return EncryptionManager(this)
-    }
-
-    private fun EncryptionManager(context: Context): EncryptionManager {
-        TODO("Not yet implemented")
+    fun provideEncryptionManager(
+        @ApplicationContext context: Context
+    ): EncryptionManager {
+        return NoopEncryptionManager
     }
 
     @Provides
     @Singleton
-    fun provideOracleDriveEncryptionManager(): EncryptionManager {
-        return EncryptionManager()
-    }
-
-    private fun EncryptionManager(): EncryptionManager {
-        TODO("Not yet implemented")
+    @Named("OracleDrive")
+    fun provideOracleDriveEncryptionManager(): dev.aurakai.auraframefx.domains.genesis.oracledrive.security.EncryptionManager {
+        return dev.aurakai.auraframefx.domains.genesis.oracledrive.security.EncryptionManager()
     }
 }
+
+annotation class Named(val value: String)
+
