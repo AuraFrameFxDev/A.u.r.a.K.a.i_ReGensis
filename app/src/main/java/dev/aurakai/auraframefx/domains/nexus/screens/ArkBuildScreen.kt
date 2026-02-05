@@ -36,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.models.core.ArkStatus
+import dev.aurakai.auraframefx.domains.nexus.models.core.ArkStatus
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.ArkBuildViewModel
 
 @Composable

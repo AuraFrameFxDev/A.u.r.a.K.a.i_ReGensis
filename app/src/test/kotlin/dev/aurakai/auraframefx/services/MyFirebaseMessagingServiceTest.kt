@@ -11,6 +11,7 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.google.firebase.messaging.RemoteMessage
+import dev.aurakai.auraframefx.domains.genesis.MyFirebaseMessagingService
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher

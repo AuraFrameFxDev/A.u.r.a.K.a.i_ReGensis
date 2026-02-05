@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,17 +40,17 @@ class AgentCreationViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch {
             _isCreating.value = true
             _creationProgress.value = 0f
-            
+
             // Simulation of neural assembly
             for (i in 1..100) {
                 _creationProgress.value = i / 100f
                 delay(30)
             }
-            
+
             _isCreating.value = false
-            
+
             // Register the new agent in the collective
-            dev.aurakai.auraframefx.data.repositories.AgentRepository.addAgent(
+            AgentRepository.addAgent(
                 dev.aurakai.auraframefx.models.AgentStats(
                     name = _agentName.value,
                     processingPower = 0.5f,
@@ -63,7 +64,7 @@ class AgentCreationViewModel @Inject constructor() : ViewModel() {
                     catalystTitle = "Fledgling Catalyst"
                 )
             )
-            
+
             onComplete()
         }
     }

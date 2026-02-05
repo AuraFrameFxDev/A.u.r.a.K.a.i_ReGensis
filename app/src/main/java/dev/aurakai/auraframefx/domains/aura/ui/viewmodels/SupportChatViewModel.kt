@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-import dev.aurakai.auraframefx.models.ChatMessage
+import dev.aurakai.auraframefx.domains.cascade.models.ChatMessage
 
 @HiltViewModel
 class SupportChatViewModel @Inject constructor() : ViewModel() {

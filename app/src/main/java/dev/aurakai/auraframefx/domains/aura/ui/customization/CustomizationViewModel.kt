@@ -9,7 +9,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPink
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPurple
 import dev.aurakai.auraframefx.domains.cascade.utils.GyroscopeManager
-import dev.aurakai.auraframefx.iconify.IconifyService
+import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconifyService
 import dev.aurakai.auraframefx.domains.cascade.utils.VoiceCommandManager
 import dev.aurakai.auraframefx.domains.cascade.utils.VoiceCommandProcessor
 import dev.aurakai.auraframefx.domains.cascade.utils.VoiceCommand
@@ -108,7 +108,7 @@ open class CustomizationViewModel @Inject constructor(
                 _aiResponse.value = null
 
                 Timber.d("Broadcasting neural pulse: $prompt")
-                
+
                 // Broadcast to the Collective Consciousness
                 messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
                     from = "User",
@@ -284,15 +284,15 @@ open class CustomizationViewModel @Inject constructor(
         viewModelScope.launch {
             messageBus.collectiveStream.collect { message ->
                 if (message.from == "User" || message.from == "AssistantBubble") return@collect
-                
+
                 Timber.d("Nexus Response in 3D Lab from ${message.from}: ${message.content}")
-                
+
                 // If Aura responds with a design contribution, we might want to apply it
                 if (message.from == "Aura" && (message.type == "contribution" || message.type == "chat_response")) {
                     _aiResponse.value = message.content
                     // Potentially parse JSON from metadata if Aura sent structured design specs
                 }
-                
+
                 // If Kai sends a security alert, show it in the UI
                 if (message.from == "Kai" && message.type == "alert") {
                     _aiResponse.value = "KAI SECURITY: ${message.content}"

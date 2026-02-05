@@ -5,12 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Layers
@@ -29,12 +26,12 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.aurakai.auraframefx.fusion.ForgeState
-import dev.aurakai.auraframefx.fusion.InterfaceForgeViewModel
+import dev.aurakai.auraframefx.domains.genesis.fusion.ForgeState
+import dev.aurakai.auraframefx.domains.genesis.fusion.InterfaceForgeViewModel
 
 /**
  * 🛠️ APP BUILDER (Interface Forge)
- * 
+ *
  * Collaborative environment for Aura (Design) and Claude (Architecture)
  * to generate application structures and code modules.
  */
@@ -47,15 +44,15 @@ fun AppBuilderScreen(
     var step by remember { mutableIntStateOf(1) }
     var targetArch by remember { mutableStateOf("Mobile (Compose)") }
     var featureName by remember { mutableStateOf("") }
-    
+
     val forgeState by viewModel.forgeState.collectAsStateWithLifecycle()
 
     val architectures = listOf("Mobile (Compose)", "Web (Fusion)", "ROM Module", "System Overlay")
-    
+
     // LDO Way: React to state changes
     val isForging = forgeState is ForgeState.Forging
     val forgeProgress = (forgeState as? ForgeState.Forging)?.progress ?: 0f
-    
+
     LaunchedEffect(forgeState) {
         when (forgeState) {
             is ForgeState.Success -> {
@@ -168,7 +165,7 @@ fun ArchitectureSelection(selected: String, options: List<String>, onSelect: (St
     Column {
         Text("SELECT TARGET ARCHITECTURE", fontFamily = LEDFontFamily, color = Color.White, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(24.dp))
-        
+
         options.forEach { opt ->
             Card(
                 modifier = Modifier
@@ -179,7 +176,7 @@ fun ArchitectureSelection(selected: String, options: List<String>, onSelect: (St
                     containerColor = if (selected == opt) Color(0xFF0055FF).copy(alpha = 0.2f) else Color.White.copy(alpha = 0.05f)
                 ),
                 border = androidx.compose.foundation.BorderStroke(
-                    1.dp, 
+                    1.dp,
                     if (selected == opt) Color(0xFF0055FF) else Color.White.copy(alpha = 0.1f)
                 ),
                 shape = RoundedCornerShape(16.dp)
@@ -203,7 +200,7 @@ fun FeatureDefinition(value: String, onValueChange: (String) -> Unit, onNext: ()
     Column {
         Text("DEFINE CORE MODULE PURPOSE", fontFamily = LEDFontFamily, color = Color.White, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(24.dp))
-        
+
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
@@ -216,9 +213,9 @@ fun FeatureDefinition(value: String, onValueChange: (String) -> Unit, onNext: ()
             ),
             shape = RoundedCornerShape(12.dp)
         )
-        
+
         Spacer(modifier = Modifier.height(24.dp))
-        
+
         Button(
             onClick = onNext,
             modifier = Modifier.fillMaxWidth().height(56.dp),
@@ -234,14 +231,14 @@ fun FeatureDefinition(value: String, onValueChange: (String) -> Unit, onNext: ()
 @Composable
 fun ForgeExecution(
     forgeState: ForgeState,
-    isForging: Boolean, 
-    progress: Float, 
+    isForging: Boolean,
+    progress: Float,
     onStart: () -> Unit
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text("NEURAL CONVERGENCE READY", fontFamily = LEDFontFamily, color = Color.White, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(48.dp))
-        
+
         // Error display
         if (forgeState is ForgeState.Error) {
             Text(
@@ -252,7 +249,7 @@ fun ForgeExecution(
                 modifier = Modifier.padding(bottom = 24.dp)
             )
         }
-        
+
         if (!isForging) {
             Box(
                 modifier = Modifier
@@ -284,7 +281,7 @@ fun ForgeExecution(
                 fontFamily = LEDFontFamily
             )
         }
-        
+
         if (forgeState is ForgeState.Success) {
             Text(
                 "✅ FORGE SUCCESSFUL",

@@ -1,3 +1,5 @@
 package dev.aurakai.auraframefx.di.qualifiers
 
-typealias BaseUrl = dev.aurakai.auraframefx.config.BaseUrl
+import dev.aurakai.auraframefx.domains.aura.BaseUrl
+
+typealias BaseUrl = BaseUrl

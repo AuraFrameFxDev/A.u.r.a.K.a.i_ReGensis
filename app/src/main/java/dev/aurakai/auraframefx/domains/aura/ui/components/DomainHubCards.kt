@@ -25,10 +25,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.aura.ui.gates.GenesisToolCard
-import dev.aurakai.auraframefx.domains.aura.ui.gates.NexusToolCard
-import dev.aurakai.auraframefx.domains.aura.ui.gates.SentinelToolCard
-import dev.aurakai.auraframefx.domains.aura.ui.gates.ThemingToolCard
+import dev.aurakai.auraframefx.navigation.gates.common.GenesisToolCard
+import dev.aurakai.auraframefx.navigation.gates.common.NexusToolCard
+import dev.aurakai.auraframefx.navigation.gates.common.SentinelToolCard
+import dev.aurakai.auraframefx.navigation.gates.common.ThemingToolCard
 
 @Composable
 fun NexusCard(tool: NexusToolCard, onClick: () -> Unit) {

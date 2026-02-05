@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.aura.ui.screens.manual
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -15,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.aurakai.auraframefx.customization.CustomizationViewModel
+import dev.aurakai.auraframefx.domains.aura.lab.CustomizationViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraNeonCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
@@ -117,7 +116,7 @@ fun ChromaSphereManualScreen(
             item {
                 Text("Style Preset", color = Color.White, fontSize = 16.sp)
                 val styles = listOf("TONAL_SPOT", "VIBRANT", "EXPRESSIVE", "SPRITZ", "RAINBOW", "FRUIT_SALAD")
-                
+
                 Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     styles.take(3).forEach { style ->
                         StyleButton(

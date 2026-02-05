@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.domains.aura.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.kai.AuraShieldAgent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,9 +13,9 @@ import kotlin.random.Random
 
 @HiltViewModel
 class MonitoringViewModel @Inject constructor(
-    private val auraShieldAgent: dev.aurakai.auraframefx.ai.agents.AuraShieldAgent
+    private val auraShieldAgent: AuraShieldAgent
 ) : ViewModel() {
-    
+
     val securityState = auraShieldAgent.securityContext
     val activeThreats = auraShieldAgent.activeThreats
     val scanHistory = auraShieldAgent.scanHistory

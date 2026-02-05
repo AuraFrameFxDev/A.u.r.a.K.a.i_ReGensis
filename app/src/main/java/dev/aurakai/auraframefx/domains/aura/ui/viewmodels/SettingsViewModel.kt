@@ -13,12 +13,13 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.aurakai.auraframefx.domains.aura.OverlayManager
 import timber.log.Timber
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val overlayManager: dev.aurakai.auraframefx.overlay.OverlayManager
+    private val overlayManager: OverlayManager
 ) : ViewModel() {
 
     private val prefs = YukiHookModulePrefs.from(context)

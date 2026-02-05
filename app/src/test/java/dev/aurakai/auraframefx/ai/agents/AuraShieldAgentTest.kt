@@ -3,10 +3,11 @@
 package dev.aurakai.auraframefx.ai.agents
 
 import android.content.Context
-import dev.aurakai.auraframefx.ai.context.ContextManager
-import dev.aurakai.auraframefx.ai.memory.MemoryManager
+import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
+import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
+import dev.aurakai.auraframefx.domains.kai.AuraShieldAgent
 import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.models.agent_states.SecurityMode
+import dev.aurakai.auraframefx.domains.cascade.SecurityMode
 import dev.aurakai.auraframefx.security.IntegrityMonitor
 import dev.aurakai.auraframefx.security.SecurityMonitor
 import kotlinx.coroutines.Dispatchers

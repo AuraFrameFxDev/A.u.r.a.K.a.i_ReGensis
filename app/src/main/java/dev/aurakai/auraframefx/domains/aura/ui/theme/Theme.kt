@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.models.Emotion
+import dev.aurakai.auraframefx.domains.aura.models.Emotion
 import dev.aurakai.auraframefx.domains.aura.ui.theme.DarkBackground
 import dev.aurakai.auraframefx.domains.aura.ui.theme.ErrorColor
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LightBackground

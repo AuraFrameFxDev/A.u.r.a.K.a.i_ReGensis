@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.repository
 
-import dev.aurakai.auraframefx.models.aura.ConnectorStatus
-import dev.aurakai.auraframefx.models.aura.MCPConnector
+import dev.aurakai.auraframefx.domains.aura.ConnectorStatus
+import dev.aurakai.auraframefx.domains.aura.MCPConnector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

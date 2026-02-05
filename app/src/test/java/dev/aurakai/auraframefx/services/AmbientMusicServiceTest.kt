@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.services
 
 import android.content.Intent
 import android.os.IBinder
+import dev.aurakai.auraframefx.domains.aura.AmbientMusicService
 import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach

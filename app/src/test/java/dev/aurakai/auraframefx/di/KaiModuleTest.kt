@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.di
 
+import dev.aurakai.auraframefx.domains.kai.KaiModule
 import dev.aurakai.auraframefx.ui.KaiController
 import io.mockk.clearAllMocks
 import org.junit.jupiter.api.AfterEach

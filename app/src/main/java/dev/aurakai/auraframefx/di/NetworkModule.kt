@@ -1,16 +1,15 @@
 package dev.aurakai.auraframefx.di
 
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import collabcanvas.di.CollabCanvasUrl
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.config.BaseUrl
+import dev.aurakai.auraframefx.domains.aura.BaseUrl
 import dev.aurakai.auraframefx.config.ClaudeEnvConfig
-import dev.aurakai.auraframefx.di.AuraNetwork
+import dev.aurakai.auraframefx.domains.aura.AuraNetwork
 import dev.aurakai.auraframefx.domains.genesis.network.AuraApiService
 import dev.aurakai.auraframefx.domains.genesis.network.AuthInterceptor
 import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi as ApiAuthApi
