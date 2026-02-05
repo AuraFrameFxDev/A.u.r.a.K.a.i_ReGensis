@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import dev.aurakai.auraframefx.cascade.memory.AgentMemoryEntity
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.AgentMemoryEntity
 
 @Database(
     entities = [AgentMemoryEntity::class, TaskHistoryEntity::class, AgentStatsEntity::class],
