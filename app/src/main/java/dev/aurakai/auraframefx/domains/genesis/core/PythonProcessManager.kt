@@ -2,6 +2,9 @@ package dev.aurakai.auraframefx.domains.genesis.core
 
 import android.content.Context
 import android.util.Log
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -13,8 +16,6 @@ import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * ╔════════════════════════════════════════════════════════════════╗
@@ -95,7 +96,7 @@ data class ProcessConfig(
 
 @Singleton
 class PythonProcessManager @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private val TAG = "PythonProcessManager"
 
@@ -238,6 +239,15 @@ class PythonProcessManager @Inject constructor(
 
             null
         }
+    }
+
+    /**
+     * Bridge method for legacy call sites (Tiles, etc)
+     */
+    suspend fun sendGenericRequest(path: String, json: String): String? {
+        // We ignore the path in the stream-based implementation for now
+        // or we can wrap it in a structural shell if the backend expects it.
+        return sendRequest(json)
     }
 
     /**
@@ -473,6 +483,16 @@ class PythonProcessManager @Inject constructor(
             if (latencySamples.isEmpty()) 0
             else latencySamples.average().toLong()
         }
+    }
+
+    // Compatibility methods for legacy callers
+    fun isBackendRunning(): Boolean = isHealthy()
+    
+    fun getBackendUrl(): String = "http://localhost:5000" // Default for flask
+
+    fun startGenesisBackend(): Boolean {
+        start()
+        return true
     }
 }
 

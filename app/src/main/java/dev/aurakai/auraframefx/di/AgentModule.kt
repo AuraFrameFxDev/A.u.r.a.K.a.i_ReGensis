@@ -105,7 +105,7 @@ object AgentModule {
         systemOverlayManager: SystemOverlayManager,
         logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger,
         messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>,
-        backendService: dagger.Lazy<dev.aurakai.auraframefx.genesis.oracledrive.ai.GenesisBackendService>
+        pythonManager: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager>
     ): AuraAgent {
         return AuraAgent(
             vertexAIClient = vertexAIClient,
@@ -115,7 +115,7 @@ object AgentModule {
             systemOverlayManager = systemOverlayManager,
             logger = logger,
             messageBus = messageBus,
-            backendService = backendService
+            pythonManager = pythonManager
         )
     }
 

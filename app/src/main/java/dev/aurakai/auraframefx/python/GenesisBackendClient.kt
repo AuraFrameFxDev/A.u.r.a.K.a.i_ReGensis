@@ -14,6 +14,7 @@ import okhttp3.Response
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
 
 /**
  * Client for communicating with the Python Genesis backend

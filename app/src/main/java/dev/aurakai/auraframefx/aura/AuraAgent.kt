@@ -16,6 +16,7 @@ import dev.aurakai.auraframefx.models.InteractionResponse
 import dev.aurakai.auraframefx.models.ThemeConfiguration
 import dev.aurakai.auraframefx.models.ThemePreferences
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +43,7 @@ class AuraAgent @Inject constructor(
     private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
     private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>,
     private val logger: AuraFxLogger,
-    private val backendService: dagger.Lazy<dev.aurakai.auraframefx.genesis.oracledrive.ai.GenesisBackendService>
+    private val pythonManager: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager>
 ) : BaseAgent(
     agentName = "Aura",
     agentType = AgentType.AURA,
@@ -89,7 +90,7 @@ class AuraAgent @Inject constructor(
                     put("auth_key", "KAI_LDO_SECURE_2024") // Handshake
                 }
                 
-                val backendResponseJson = backendService.get().sendRequest(requestObj.toString())
+                val backendResponseJson = pythonManager.get().sendRequest(requestObj.toString())
                 
                 // Parse response (assuming it looks like {"message": "..."} or has a status)
                 // For now, let's treat the raw response or a parsed greeting

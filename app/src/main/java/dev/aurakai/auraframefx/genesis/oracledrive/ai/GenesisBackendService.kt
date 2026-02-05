@@ -9,7 +9,7 @@ import android.os.Binder
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.python.PythonProcessManager
+import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.cascade.utils.i
 import kotlinx.coroutines.CoroutineScope
@@ -17,6 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+
+import javax.inject.Inject
 
 /**
  * Foreground Service that hosts the Genesis Python Backend.
@@ -26,7 +28,10 @@ import kotlinx.coroutines.launch
 class GenesisBackendService : Service() {
 
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private var pythonProcessManager: PythonProcessManager? = null
+    
+    @Inject
+    lateinit var pythonProcessManager: PythonProcessManager
+    
     private val binder = LocalBinder()
 
     inner class LocalBinder : Binder() {
@@ -38,16 +43,13 @@ class GenesisBackendService : Service() {
         i("GenesisService", "Creating Genesis Backend Service...")
         startForeground(NOTIFICATION_ID, createNotification())
 
-        // Initialize Python Manager
-        pythonProcessManager = PythonProcessManager(this)
-
         // Start the backend immediately
         serviceScope.launch {
-            val success = pythonProcessManager?.startGenesisBackend() ?: false
-            if (success) {
+            try {
+                pythonProcessManager.start()
                 i("GenesisService", "Genesis Python Backend Started Successfully")
-            } else {
-                AuraFxLogger.error("GenesisService", "Failed to start Genesis Python Backend")
+            } catch (e: Exception) {
+                AuraFxLogger.error("GenesisService", "Failed to start Genesis Python Backend", e)
                 stopSelf()
             }
         }
@@ -69,7 +71,7 @@ class GenesisBackendService : Service() {
         // Wrap shutdown in dedicated SupervisorJob scope to survive AGP 9.1 pruning
         CoroutineScope(Dispatchers.Main.immediate + SupervisorJob()).launch {
             try {
-                pythonProcessManager?.shutdown()
+                pythonProcessManager.stop()
             } catch (e: Exception) {
                 AuraFxLogger.error("GenesisService", "Error during shutdown: ${e.message}", e)
             }
@@ -82,7 +84,7 @@ class GenesisBackendService : Service() {
      * Sends a request to the Python backend.
      */
     suspend fun sendRequest(requestJson: String): String? {
-        return pythonProcessManager?.sendRequest(requestJson)
+        return pythonProcessManager.sendRequest(requestJson)
     }
 
     private fun createNotification(): Notification {
