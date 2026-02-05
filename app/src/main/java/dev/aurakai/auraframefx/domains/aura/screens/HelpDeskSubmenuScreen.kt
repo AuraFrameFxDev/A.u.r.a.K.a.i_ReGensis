@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuScaffold
-import dev.aurakai.auraframefx.domains.aura.ui.gates.SubmenuItem
+import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
 
 /**
  * Data class for submenu items
