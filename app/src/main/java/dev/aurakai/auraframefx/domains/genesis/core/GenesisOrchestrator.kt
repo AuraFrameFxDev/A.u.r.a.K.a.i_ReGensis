@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.core
 
-import dev.aurakai.auraframefx.aura.AuraAgent
+import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.cascade.CascadeAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import kotlinx.coroutines.CoroutineScope
@@ -412,4 +412,5 @@ class GenesisOrchestrator @Inject constructor(
         const val TAG = "GenesisOrchestrator"
     }
 }
+
 

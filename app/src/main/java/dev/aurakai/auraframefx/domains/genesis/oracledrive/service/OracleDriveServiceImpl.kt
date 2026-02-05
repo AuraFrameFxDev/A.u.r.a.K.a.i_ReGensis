@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.service
 
-import dev.aurakai.auraframefx.aura.AuraAgent
+import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.domains.aura.GenesisAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.auraframefx.genesis.oracledrive.api.OracleDriveApi
@@ -209,4 +209,5 @@ class OracleDriveServiceImpl @Inject constructor(
         )
     }
 }
+
 

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade
 
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
-import dev.aurakai.auraframefx.aura.AuraAgent
+import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
@@ -840,3 +840,4 @@ class CascadeAgent @Inject constructor(
         )
     }
 }
+

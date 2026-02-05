@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.genesis.fusion
 
 import javax.inject.Inject
 import dev.aurakai.auraframefx.domains.cascade.CascadeAIService
-import dev.aurakai.auraframefx.aura.AuraAgent
+import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 
 class ChronoSculptor @Inject constructor(
     private val cascade: CascadeAIService,
@@ -13,3 +13,4 @@ class ChronoSculptor @Inject constructor(
         return aura.processRequest("Refine temporal patterns: $history")
     }
 }
+

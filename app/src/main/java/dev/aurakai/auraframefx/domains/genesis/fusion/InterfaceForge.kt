@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.genesis.fusion
 
 import javax.inject.Inject
 import javax.inject.Singleton
-import dev.aurakai.auraframefx.aura.AuraAgent
+import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.colorblendr.ChromaCore
 
@@ -22,3 +22,4 @@ class InterfaceForge @Inject constructor(
         }
     }
 }
+
