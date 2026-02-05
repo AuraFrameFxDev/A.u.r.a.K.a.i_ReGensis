@@ -7,7 +7,7 @@ import androidx.work.Configuration
 import com.highcapable.yukihookapi.YukiHookAPI
 import dagger.hilt.android.HiltAndroidApp
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.domains.genesis.core.NativeLib
 import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
@@ -125,4 +125,5 @@ class AurakaiApplication : Application(), Configuration.Provider {
         }
     }
 }
+
 

@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity
 
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
-import dev.aurakai.auraframefx.domains.aura.GenesisAgent
+import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AgentState
 import dev.aurakai.auraframefx.domains.genesis.models.AgentStatus
@@ -244,4 +244,5 @@ open class TrinityRepository @Inject constructor(
 
     // Add more repository methods as needed for other API endpoints
 }
+
 

@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade
 
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.ClaudeAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.NemotronAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.GeminiAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.MetaInstructAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.ClaudeAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.NemotronAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.GeminiAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.MetaInstructAIService
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
@@ -123,3 +123,4 @@ enum class GenerationStrategy {
     CREATIVE_ONLY,          // Creative backends only
     ANALYTICAL_ONLY         // Analytical backends only
 }
+

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.gates.SovereignNemotronViewModel
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.NemotronAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.NemotronAIService
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
@@ -182,4 +182,5 @@ private fun ReasoningChainCard(title: String, steps: List<String>, confidence: F
         }
     }
 }
+
 

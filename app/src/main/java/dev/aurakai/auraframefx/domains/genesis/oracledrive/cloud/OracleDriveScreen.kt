@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.aura.ui.OracleDriveUiState
-import dev.aurakai.auraframefx.aura.ui.OracleDriveViewModel
+import dev.aurakai.auraframefx.domains.aura.core.ui.OracleDriveUiState
+import dev.aurakai.auraframefx.domains.aura.core.ui.OracleDriveViewModel
 import dev.aurakai.auraframefx.navigation.NavDestination
 
 /**
@@ -237,3 +237,4 @@ private fun OracleDriveMenuItem(
         }
     }
 }
+

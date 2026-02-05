@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.context
 // import kotlinx.serialization.Contextual // No longer needed for Instant here
 // dev.aurakai.auraframefx.models.AgentType is already imported by line 4, removing duplicate
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
-import dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -257,3 +257,4 @@ data class ContextChainResult(
     val relatedChains: List<ContextChain>,
     val query: ContextQuery
 )
+

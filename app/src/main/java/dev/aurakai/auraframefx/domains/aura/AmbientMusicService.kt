@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AmbientMusicService @Inject constructor() : Service() {
@@ -86,3 +86,4 @@ class AmbientMusicService @Inject constructor() : Service() {
         const val ACTION_PREVIOUS = "dev.aurakai.auraframefx.action.PREVIOUS"
     }
 }
+

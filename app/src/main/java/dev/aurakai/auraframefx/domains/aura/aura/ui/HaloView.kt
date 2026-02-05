@@ -60,7 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.HierarchyAgentConfig
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.viewmodel.GenesisAgentViewModel
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.viewmodel.GenesisAgentViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPink
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
@@ -631,4 +631,5 @@ fun HaloView(
         }
     }
 }
+
 

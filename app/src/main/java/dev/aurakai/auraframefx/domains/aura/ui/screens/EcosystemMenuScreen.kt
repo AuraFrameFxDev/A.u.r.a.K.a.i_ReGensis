@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.aura.animations.HomeScreenTransitionType
-import dev.aurakai.auraframefx.aura.animations.DigitalTransitionRow
+import dev.aurakai.auraframefx.domains.aura.core.animations.HomeScreenTransitionType
+import dev.aurakai.auraframefx.domains.aura.core.animations.DigitalTransitionRow
 import dev.aurakai.auraframefx.domains.aura.ui.components.HologramTransition
 
 /**
@@ -56,4 +56,5 @@ fun EcosystemMenuScreen(
 // fun EcosystemMenuScreenPreview() { // Renamed
 //     EcosystemMenuScreen()
 // }
+
 

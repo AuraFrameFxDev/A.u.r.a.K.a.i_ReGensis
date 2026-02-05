@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.domains.cascade.utils.DebugTreeWithClassAndMethod
-import jakarta.inject.Inject
+import javax.inject.Inject
 import timber.log.Timber
 
 open class TimberInitializer @Inject constructor() {
@@ -24,4 +24,5 @@ private class CrashReportingTree : Timber.Tree() {
         }
     }
 }
+
 

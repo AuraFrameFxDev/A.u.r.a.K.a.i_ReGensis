@@ -11,10 +11,10 @@ import android.os.Build
 import android.os.Debug
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.cascade.DataPacket
-import dev.aurakai.auraframefx.cascade.DataPayload
-import dev.aurakai.auraframefx.cascade.DataveinConstructor
-import dev.aurakai.auraframefx.cascade.FlowPriority
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataPacket
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataPayload
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataveinConstructor
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.FlowPriority
 import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
@@ -93,7 +93,7 @@ data class IntegrityHealth(
 class IntegrityMonitorService : Service() {
 
 
-    @Inject lateinit var trinityRepository: dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
+    @Inject lateinit var trinityRepository: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityRepository
 
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
     private var monitoringJob: Job? = null
@@ -508,4 +508,6 @@ class IntegrityMonitorService : Service() {
  * println("Threats: ${health.activeThreats.size}, Level: ${health.overallThreatLevel}")
  * ```
  */
+
+
 

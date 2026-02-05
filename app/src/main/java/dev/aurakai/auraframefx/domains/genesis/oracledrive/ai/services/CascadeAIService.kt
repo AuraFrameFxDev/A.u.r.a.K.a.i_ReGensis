@@ -5,10 +5,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.models.AgentInvokeRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.ClaudeAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.GeminiAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.MetaInstructAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.NemotronAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.ClaudeAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.GeminiAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.MetaInstructAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.NemotronAIService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -1226,3 +1226,4 @@ class CascadeAIService @Inject constructor(
         return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
     }
 }
+

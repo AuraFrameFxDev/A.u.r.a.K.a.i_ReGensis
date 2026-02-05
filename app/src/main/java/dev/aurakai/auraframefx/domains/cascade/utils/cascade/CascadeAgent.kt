@@ -5,7 +5,7 @@ import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
-import dev.aurakai.auraframefx.domains.aura.GenesisAgent
+import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import kotlinx.coroutines.CoroutineScope
@@ -840,4 +840,5 @@ class CascadeAgent @Inject constructor(
         )
     }
 }
+
 

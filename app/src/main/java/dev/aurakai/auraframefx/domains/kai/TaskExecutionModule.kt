@@ -9,7 +9,7 @@ import dev.aurakai.auraframefx.domains.aura.TaskExecutionManager
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,4 +33,5 @@ object TaskExecutionModule {
         )
     }
 }
+
 

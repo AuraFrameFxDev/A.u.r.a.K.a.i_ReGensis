@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.memory
 
 import java.util.concurrent.ConcurrentHashMap
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryEntry
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryStats as GenesisMemoryStats
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.memory.MemoryEntry
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.memory.MemoryStats as GenesisMemoryStats
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.models.InteractionEntry
 
 /**
@@ -122,3 +122,4 @@ class DefaultMemoryManager {
 
 // InteractionEntry is now imported from ai.memory.models package
 // MemoryEntry is defined in its own file
+

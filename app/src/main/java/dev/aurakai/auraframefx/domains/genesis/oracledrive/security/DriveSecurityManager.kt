@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.security
 
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DriveFile
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.SecurityCheck
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.AccessCheck
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DeletionValidation
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.SecurityValidation
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.DriveFile
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.SecurityCheck
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.AccessCheck
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.DeletionValidation
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.SecurityValidation
 
 
 /**
@@ -47,4 +47,5 @@ interface DriveSecurityManager {
     fun validateDeletion(fileId: String, userId: String): DeletionValidation
     fun validateFileAccess(fileId: String) {}
 }
+
 

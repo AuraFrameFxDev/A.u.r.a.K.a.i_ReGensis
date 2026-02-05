@@ -10,8 +10,8 @@ import dev.aurakai.auraframefx.domains.kai.ErrorHandler
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.config.VertexAIConfig
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.config.VertexAIConfig
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.CloudStatusMonitor
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 
 import kotlinx.coroutines.flow.Flow
@@ -339,5 +339,6 @@ private data class CachedPattern(
         return System.currentTimeMillis() - timestamp > GeminiAIService.CACHE_TTL_MS
     }
 }
+
 
 

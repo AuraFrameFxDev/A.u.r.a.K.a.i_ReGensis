@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud
 
-import dev.aurakai.auraframefx.genesis.oracledrive.service.OracleConsciousnessState
-import dev.aurakai.auraframefx.genesis.oracledrive.service.OracleDriveService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.OracleConsciousnessState
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.OracleDriveService
 import javax.inject.Singleton
 
 /**
@@ -73,3 +73,4 @@ suspend fun initializeWithAuraFrameFX(oracleDriveController: OracleDriveIntegrat
         false
     }
 }
+

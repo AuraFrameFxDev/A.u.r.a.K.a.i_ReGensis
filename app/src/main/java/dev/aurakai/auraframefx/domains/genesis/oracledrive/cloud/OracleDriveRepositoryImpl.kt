@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud
 import android.content.Context
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.OracleDriveFile
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.OracleCloudApi
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.OracleDriveFile
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.OracleCloudApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -220,3 +220,4 @@ open class OracleDriveRepositoryImpl @Inject constructor(
             }
         }
 }
+
