@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.ui.gates
+package dev.aurakai.auraframefx.navigation.gates.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

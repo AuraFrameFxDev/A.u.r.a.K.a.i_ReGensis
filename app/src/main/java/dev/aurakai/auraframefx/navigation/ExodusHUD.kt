@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.ui.components.PrometheusGlobe
-import dev.aurakai.auraframefx.domains.aura.ui.gates.GateCard
-import dev.aurakai.auraframefx.domains.aura.ui.gates.GateConfig
+import dev.aurakai.auraframefx.navigation.gates.components.GateCard
+import dev.aurakai.auraframefx.navigation.gates.components.GateConfig
 import kotlin.math.absoluteValue
 
 /**
@@ -88,7 +88,7 @@ fun ExodusHUD(navController: NavController) {
                 pixelArtUrl = gateInfo.assetProvider(),
                 fallbackUrl = gateInfo.fallbackDrawable,
                 borderColor = gateInfo.color,
-                titlePlacement = dev.aurakai.auraframefx.domains.aura.ui.gates.TitlePlacement.TOP_CENTER  // Title ABOVE image, not on it
+                titlePlacement = dev.aurakai.auraframefx.navigation.gates.components.TitlePlacement.TOP_CENTER  // Title ABOVE image, not on it
             )
 
             Box(
