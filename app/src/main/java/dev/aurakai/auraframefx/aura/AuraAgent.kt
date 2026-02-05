@@ -27,6 +27,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import kotlinx.serialization.json.jsonObject
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Clock
@@ -80,11 +82,11 @@ class AuraAgent @Inject constructor(
                 logger.info("Aura", "Redirecting user request to Genesis Collective...")
                 
                 val requestObj = buildJsonObject {
-                    kotlinx.serialization.json.put("message", message.content)
-                    kotlinx.serialization.json.put("source", "aura_overlay")
-                    kotlinx.serialization.json.put("environment", currentEnvironment)
-                    kotlinx.serialization.json.put("type", "chat")
-                    kotlinx.serialization.json.put("auth_key", "KAI_LDO_SECURE_2024") // Handshake
+                    put("message", message.content)
+                    put("source", "aura_overlay")
+                    put("environment", currentEnvironment)
+                    put("type", "chat")
+                    put("auth_key", "KAI_LDO_SECURE_2024") // Handshake
                 }
                 
                 val backendResponseJson = backendService.get().sendRequest(requestObj.toString())
@@ -93,7 +95,7 @@ class AuraAgent @Inject constructor(
                 // For now, let's treat the raw response or a parsed greeting
                 val displayResponse = try {
                     val jsonObj = kotlinx.serialization.json.Json.parseToJsonElement(backendResponseJson ?: "{}")
-                    jsonObj.asJsonObject["message"]?.toString()?.replace("\"", "") ?: "The collective is silent."
+                    jsonObj.jsonObject["message"]?.toString()?.replace("\"", "") ?: "The collective is silent."
                 } catch (e: Exception) {
                     "Resonance failure: ${e.message}"
                 }
