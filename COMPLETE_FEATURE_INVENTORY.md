@@ -223,7 +223,7 @@
 
 ### **Security:**
 - ✅ **CryptographyManager.kt** (multiple versions)
-- ✅ **EncryptionManager.kt** (multiple versions)
+- ✅ **NoopEncryptionManager.kt** (multiple versions)
 - ✅ **KeystoreManager.kt**
 - ✅ **RoyalGuardService.kt** - 🆕 **SURPRISE: Royal Guard!**
 - ✅ **DriveSecurityManager.kt**

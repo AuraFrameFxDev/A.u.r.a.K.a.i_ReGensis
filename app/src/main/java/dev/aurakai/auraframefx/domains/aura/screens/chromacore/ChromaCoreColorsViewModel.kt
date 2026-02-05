@@ -5,14 +5,14 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
+import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * ChromaCoreColorsViewModel - Orchestrates system-wide color application.
- * 
+ *
  * Bridges the UI color selection with the RootOverlayManager to apply
  * changes to the entire Android OS.
  */
@@ -31,10 +31,10 @@ class ChromaCoreColorsViewModel @Inject constructor(
                 // Formatting to #AARRGGBB hex for the shell command
                 val argb = color.toArgb()
                 val hex = String.format("#%08X", argb)
-                
+
                 Timber.d("Requesting system-wide accent change to: $hex")
                 val result = overlayManager.applyAccent(hex)
-                
+
                 if (result.isSuccess) {
                     Timber.i("Successfully applied system accent: $hex")
                 } else {
@@ -54,7 +54,7 @@ class ChromaCoreColorsViewModel @Inject constructor(
             overlayManager.applyBackgroundSaturation(percent)
         }
     }
-    
+
     /**
      * Clears all fabricated overlays to restore system defaults.
      */

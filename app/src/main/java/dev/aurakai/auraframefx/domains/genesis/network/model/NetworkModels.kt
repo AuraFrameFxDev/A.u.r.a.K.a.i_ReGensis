@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.network.model
 
-import dev.aurakai.auraframefx.models.AgentResponse
-import dev.aurakai.auraframefx.models.UserData
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.nexus.models.UserData
 import kotlinx.serialization.Serializable
 
 /**

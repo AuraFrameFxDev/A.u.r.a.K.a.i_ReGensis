@@ -5,8 +5,8 @@ import android.content.pm.PackageManager
 import android.content.pm.PackageManager.GET_SIGNATURES
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.models.ThreatLevel
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

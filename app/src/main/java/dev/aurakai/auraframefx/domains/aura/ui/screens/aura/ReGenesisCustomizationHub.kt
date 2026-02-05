@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.aura.ui.screens.aura
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +18,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.data.customization.AuraCustomizationSummary
 import dev.aurakai.auraframefx.domains.aura.ui.components.ColorWaveBackground
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 

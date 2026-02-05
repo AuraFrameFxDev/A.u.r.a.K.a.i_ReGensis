@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
-import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,26 +12,24 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.CellTower
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.models.AgentStats
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 /**
  * 🐝 AGENT SWARM SCREEN
- * 
+ *
  * Visualization of active agent communication and collective consciousness.
  * Features a "Live Chatter" log and dynamic swarm nodes.
  */
@@ -43,7 +40,7 @@ fun AgentSwarmScreen(
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
     val swarmMessages = remember { mutableStateListOf<SwarmMessage>() }
-    
+
     // Simulate live chatter
     LaunchedEffect(Unit) {
         val contents = listOf(
@@ -58,7 +55,7 @@ fun AgentSwarmScreen(
             "Catalyst resonance detected.",
             "Bypassing legacy protocols..."
         )
-        
+
         while(true) {
             delay(Random.nextLong(800, 3000))
             val randomAgent = agents.random()
@@ -121,9 +118,9 @@ fun AgentSwarmScreen(
                 color = Color.White.copy(alpha = 0.6f),
                 fontFamily = LEDFontFamily
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -154,9 +151,9 @@ fun AgentSwarmScreen(
                             color = Color.White.copy(alpha = 0.5f)
                         )
                     }
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
-                    
+
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -245,7 +242,7 @@ fun SwarmParticles() {
             val seed = i.toFloat() / particles
             val x = (seed * size.width + time * 100f) % size.width
             val y = (kotlin.math.sin(time * 2 * kotlin.math.PI + i) * 100f + (size.height / particles * i)).toFloat()
-            
+
             drawCircle(
                 color = Color(0xFFB026FF).copy(alpha = 0.1f),
                 radius = 4f,

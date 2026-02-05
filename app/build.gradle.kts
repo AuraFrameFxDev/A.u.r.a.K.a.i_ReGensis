@@ -182,6 +182,7 @@ dependencies {
     implementation(libs.androidx.animation)
     implementation(libs.androidx.compose.ui.geometry)
     implementation(libs.androidx.compose.material3)
+    testImplementation(libs.jupiter.junit.jupiter)
     ksp(libs.hilt.compiler)
 
     // Core Android
@@ -341,7 +342,6 @@ dependencies {
     implementation(project(":aura:reactivedesign:collabcanvas"))
     implementation(project(":aura:reactivedesign:chromacore"))
     implementation(project(":aura:reactivedesign:customization"))
-    implementation(project(":aura:reactivedesign:sandboxui"))
 
     // Kai → SentinelsFortress (Security & Threat Monitoring)
     implementation(project(":kai:sentinelsfortress:security"))

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.network
 
 import android.content.Context
-import dev.aurakai.auraframefx.di.AuraNetwork
+import dev.aurakai.auraframefx.domains.aura.AuraNetwork
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

@@ -12,8 +12,8 @@ import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.service.AssistantBubbleService
-import dev.aurakai.auraframefx.domains.aura.ui.navigation.ReGenesisNavHost
+import dev.aurakai.auraframefx.domains.aura.AssistantBubbleService
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import timber.log.Timber
 

@@ -15,7 +15,7 @@
 
 package dev.aurakai.auraframefx.domains.aura.ui
 
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
+import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

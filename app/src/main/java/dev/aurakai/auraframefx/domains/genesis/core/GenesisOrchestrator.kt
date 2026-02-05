@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.genesis.core
 
 import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.cascade.CascadeAgent
-import dev.aurakai.auraframefx.kai.KaiAgent
+import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -88,7 +88,7 @@ class GenesisOrchestrator @Inject constructor(
             "genesis" -> null // Genesis is the bus owner, but could be a GenesisAgent
             else -> null
         }
-        
+
         try {
             target?.onAgentMessage(message)
         } catch (e: Exception) {

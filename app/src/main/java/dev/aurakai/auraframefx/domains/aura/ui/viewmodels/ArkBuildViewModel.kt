@@ -1,12 +1,10 @@
 package dev.aurakai.auraframefx.domains.aura.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dev.aurakai.auraframefx.fusion.FusionBuildEngine
-import dev.aurakai.auraframefx.models.core.ArkProject
+import dev.aurakai.auraframefx.domains.genesis.fusion.FusionBuildEngine
+import dev.aurakai.auraframefx.domains.nexus.models.core.ArkProject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +22,7 @@ class ArkBuildViewModel @Inject constructor(
     fun dispatchAgents() {
         fusionBuildEngine.dispatchAgents()
     }
-    
+
     // Simulate progress updates for demo purposes
     fun simulateProgress(componentName: String, amount: Float) {
         fusionBuildEngine.updateComponentProgress(componentName, amount)

@@ -8,11 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.aurakai.auraframefx.customization.CustomizationViewModel
+import dev.aurakai.auraframefx.domains.aura.lab.CustomizationViewModel
 
 /**
  * 🔮 FLUID GLASSMORPHISM TRIGGER
- * 
+ *
  * Wires the "on/off" switch to all UI components.
  * When enabled, applies the "Spellbook" glass effect.
  */
@@ -34,7 +34,7 @@ fun Modifier.fluidGlass(
     baseColor: Color = Color.White.copy(alpha = 0.1f)
 ): Modifier {
     val state by viewModel.state.collectAsState()
-    
+
     return if (state.glassEnabled) {
         // Apply the high-fidelity glass effect
         this.glassmorphic(

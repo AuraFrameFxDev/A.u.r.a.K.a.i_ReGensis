@@ -7,9 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.data.room.AgentMemoryDao
-import dev.aurakai.auraframefx.data.room.AppDatabase
-import dev.aurakai.auraframefx.data.room.TaskHistoryDao
+import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentMemoryDao
+import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentStatsDao
+import dev.aurakai.auraframefx.domains.cascade.utils.room.AppDatabase
+import dev.aurakai.auraframefx.domains.cascade.utils.room.TaskHistoryDao
 import javax.inject.Singleton
 
 @Module
@@ -54,7 +55,7 @@ object DatabaseModule {
     }
 
     @Provides
-    fun provideAgentStatsDao(database: AppDatabase): dev.aurakai.auraframefx.data.room.AgentStatsDao {
+    fun provideAgentStatsDao(database: AppDatabase): AgentStatsDao {
         return database.agentStatsDao()
     }
 }

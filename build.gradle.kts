@@ -23,18 +23,7 @@ plugins {
     id("com.google.firebase.crashlytics") version "3.0.6" apply false
 }
 
-// Clean task for the root project
-tasks.register("clean", Delete::class) {
-    delete(rootProject.layout.buildDirectory)
-}
 
-// Configure all projects
-// Configure all projects
-allprojects {
-    // Common configurations can go here
-    group = "dev.aurakai.auraframefx"
-    version = "0.1.0"
-}
 
 
 val skipTests = providers.gradleProperty("aurafx.skip.tests").orElse("false").map { it.toBoolean() }.getOrElse(false)!!

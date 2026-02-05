@@ -1,18 +1,11 @@
 package dev.aurakai.auraframefx.domains.aura.ui.screens.aura
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,20 +23,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import kotlin.math.sin
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.aurakai.auraframefx.iconify.IconPickerViewModel
-import dev.aurakai.auraframefx.iconify.IconState
+import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPickerViewModel
 
 /**
  * 🎨 ICONIFY HUB - 500+ System Customizations
@@ -101,7 +89,7 @@ fun IconifyHubScreen(
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Home", "Tweaks", "Xposed")
-    
+
     val iconState by viewModel.iconState.collectAsStateWithLifecycle()
     val selectedIcon by viewModel.selectedIcon.collectAsStateWithLifecycle()
 

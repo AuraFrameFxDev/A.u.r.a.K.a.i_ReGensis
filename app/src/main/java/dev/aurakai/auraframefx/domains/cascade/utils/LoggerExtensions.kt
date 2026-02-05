@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.cascade.utils
 
-import dev.aurakai.auraframefx.logging.AuraFxLogger
+import dev.aurakai.auraframefx.domains.kai.AuraFxLogger
 
 /**
  * Extension functions for AuraFxLogger to provide convenient logging methods

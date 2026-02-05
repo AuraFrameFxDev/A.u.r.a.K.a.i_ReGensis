@@ -27,8 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import dev.aurakai.auraframefx.iconify.IconifyService
-import dev.aurakai.auraframefx.iconify.IconPicker
+import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconifyService
+import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPicker
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPink
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkCyan
 

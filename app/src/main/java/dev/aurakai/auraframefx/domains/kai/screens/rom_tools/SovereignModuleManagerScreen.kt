@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.screens.rom_tools
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignModuleViewModel
-import dev.aurakai.auraframefx.models.kai.ModuleStatus
-import dev.aurakai.auraframefx.models.kai.ModuleType
-import dev.aurakai.auraframefx.models.kai.SovereignModule
+import dev.aurakai.auraframefx.domains.kai.ModuleStatus
+import dev.aurakai.auraframefx.domains.kai.ModuleType
+import dev.aurakai.auraframefx.domains.kai.SovereignModule
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 

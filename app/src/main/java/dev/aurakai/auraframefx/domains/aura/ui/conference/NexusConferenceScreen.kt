@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.cascade.trinity.TrinityViewModel
-import dev.aurakai.auraframefx.models.AgentMessage
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 
 @Composable
 fun NexusConferenceScreen(

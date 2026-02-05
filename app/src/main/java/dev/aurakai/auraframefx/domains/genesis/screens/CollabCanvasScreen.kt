@@ -1,8 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,7 +22,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.viewmodels.CollaborativeWorkspaceViewModel
-import dev.aurakai.auraframefx.models.aura.UIDesign
+import dev.aurakai.auraframefx.domains.aura.UIDesign
 
 /**
  * 🎨 COLLAB CANVAS SCREEN
@@ -62,10 +59,10 @@ fun CollabCanvasScreen(
                         color = Color.White.copy(alpha = 0.6f),
                         fontSize = 12.sp
                     )
-                    
+
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         OutlinedButton(
-                            onClick = { 
+                            onClick = {
                                 val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                                 val json = clipboard.primaryClip?.getItemAt(0)?.text?.toString() ?: ""
                                 viewModel.importDesign(json)
@@ -74,7 +71,7 @@ fun CollabCanvasScreen(
                         ) {
                             Text("IMPORT", color = Color.White)
                         }
-                        
+
                         Button(
                             onClick = { /* New Project */ },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB026FF))
@@ -84,9 +81,9 @@ fun CollabCanvasScreen(
                         }
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(20.dp))
-                
+
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(designs) { design ->
                         DesignCanvasItem(
@@ -122,7 +119,7 @@ private fun DesignCanvasItem(
                     Text(design.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                     Text("By ${design.author} | ${design.status}", color = Color.Gray, fontSize = 12.sp)
                 }
-                
+
                 Row {
                     IconButton(onClick = onBroadcast) {
                         Icon(Icons.Default.CloudUpload, "Broadcast to Agents", tint = Color.Magenta)
@@ -132,7 +129,7 @@ private fun DesignCanvasItem(
                     }
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(12.dp))
             LinearProgressIndicator(
                 progress = { 1.0f }, // Finalized for now
