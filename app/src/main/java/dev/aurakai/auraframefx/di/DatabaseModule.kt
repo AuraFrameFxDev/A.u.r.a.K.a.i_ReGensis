@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentMemoryDao
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.AgentMemoryDao
 import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentStatsDao
 import dev.aurakai.auraframefx.domains.cascade.utils.room.AppDatabase
 import dev.aurakai.auraframefx.domains.cascade.utils.room.TaskHistoryDao
