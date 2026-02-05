@@ -9,7 +9,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.DarkColorScheme
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurpleLegacy
 
 // Import AppTypography from ui package
-val AppTypography = dev.aurakai.auraframefx.ui.AppTypography
+val AppTypography = dev.aurakai.auraframefx.domains.aura.ui.AppTypography
 
 // Lightweight theme helpers for cyberpunk-styled text colors and mapped text styles.
 // This file intentionally keeps only presentation helpers (no animation/particle code).
