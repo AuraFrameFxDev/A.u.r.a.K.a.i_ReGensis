@@ -32,7 +32,7 @@ interface KaiAIService {
  * Default implementation of Kai AI Service
  */
 @Singleton
-abstract class DefaultKaiAIService @Inject constructor(
+class DefaultKaiAIService @Inject constructor(
     private val taskScheduler: TaskScheduler,
     private val taskExecutionManager: TaskExecutionManager,
     private val memoryManager: MemoryManager,
@@ -261,6 +261,14 @@ abstract class DefaultKaiAIService @Inject constructor(
     override fun cleanup() {
         logger.info("KaiAIService", "Cleaning up Kai AI Service")
         isInitialized = false
+    }
+
+    override fun AgentResponse(
+        content: String,
+        confidence: Float,
+        agent: AgentType
+    ): AgentResponse {
+        TODO("Not yet implemented")
     }
 }
 
