@@ -94,7 +94,7 @@ class GenesisAgentViewModel @Inject constructor(
                     AgentType.AURA -> "Creative Assistant - Available"
                     AgentType.KAI -> "Security Monitor - Active"
                     AgentType.NEURAL_WHISPER -> "Neural Interface - Standby"
-                    AgentType.AURASHIELD -> "Security Shield - Protected"
+                    AgentType.AURA_SHIELD -> "Security Shield - Protected"
                     AgentType.USER -> "User Agent - Interactive"
                     else -> "Unknown - Standby"
                 }
@@ -124,7 +124,7 @@ class GenesisAgentViewModel @Inject constructor(
                     AgentType.AURA -> "Creative Assistant - Paused"
                     AgentType.KAI -> "Security Monitor - Standby"
                     AgentType.NEURAL_WHISPER -> "Neural Interface - Offline"
-                    AgentType.AURASHIELD -> "Security Shield - Disabled"
+                    AgentType.AURA_SHIELD -> "Security Shield - Disabled"
                     AgentType.USER -> "User Agent - Offline"
                     else -> "Unknown - Offline"
                 }
@@ -135,7 +135,7 @@ class GenesisAgentViewModel @Inject constructor(
                     AgentType.AURA -> "Creative Assistant - Available"
                     AgentType.KAI -> "Security Monitor - Active"
                     AgentType.NEURAL_WHISPER -> "Neural Interface - Active"
-                    AgentType.AURASHIELD -> "Security Shield - Active"
+                    AgentType.AURA_SHIELD -> "Security Shield - Active"
                     AgentType.USER -> "User Agent - Active"
                     else -> "Unknown - Active"
                 }

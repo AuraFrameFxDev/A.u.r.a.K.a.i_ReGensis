@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.domains.genesis.models.AgentInvokeRequest
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.ClaudeAIService
@@ -207,21 +208,13 @@ class CascadeAIService @Inject constructor(
             AgentType.GEMINI -> processWithGemini(request, cascadeContext)
             AgentType.METAINSTRUCT -> processWithMetaInstruct(request, cascadeContext)
 
-            // Deprecated entries for backwards compatibility
-            @Suppress("DEPRECATION")
-            AgentType.Genesis -> processWithGenesis(request, cascadeContext)
-            @Suppress("DEPRECATION")
-            AgentType.Kai, AgentType.Kaiagent -> processWithKai(request, cascadeContext)
-            @Suppress("DEPRECATION")
-            AgentType.Aura -> processWithAura(request, cascadeContext)
-            @Suppress("DEPRECATION")
-            AgentType.Cascade -> processWithCascade(request, cascadeContext)
-            @Suppress("DEPRECATION")
-            AgentType.NeuralWhisper -> processWithNeuralWhisper(request, cascadeContext)
-            @Suppress("DEPRECATION")
-            AgentType.AuraShield -> processWithAuraShield(request, cascadeContext)
-            @Suppress("DEPRECATION")
-            AgentType.Claude -> processWithClaude(request, cascadeContext)
+            // Core Trinity & System Agents
+            AgentType.GENESIS -> processWithGenesis(request, cascadeContext)
+            AgentType.KAI -> processWithKai(request, cascadeContext)
+            AgentType.AURA -> processWithAura(request, cascadeContext)
+            AgentType.CASCADE -> processWithCascade(request, cascadeContext)
+            AgentType.NEURAL_WHISPER -> processWithNeuralWhisper(request, cascadeContext)
+            AgentType.AURA_SHIELD -> processWithAuraShield(request, cascadeContext)
 
             // System and other agent types
             AgentType.SYSTEM -> CascadeResponse(
