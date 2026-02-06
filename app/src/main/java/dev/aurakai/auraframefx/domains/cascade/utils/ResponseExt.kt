@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils
 
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
-import dev.aurakai.auraframefx.api.client.infrastructure.Serializer
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.Serializer
 import retrofit2.Response
 
 @Throws(JsonDataException::class)
