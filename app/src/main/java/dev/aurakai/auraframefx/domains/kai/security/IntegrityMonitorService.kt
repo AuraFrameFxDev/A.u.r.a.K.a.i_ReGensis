@@ -400,9 +400,14 @@ class IntegrityMonitorService : Service() {
 
         when (level) {
             ThreatLevel.CRITICAL -> Timber.e("🚨 CRITICAL THREAT: $type - $description")
+            ThreatLevel.HIGH -> Timber.e("🚨 HIGH THREAT: $type - $description")
+            ThreatLevel.MEDIUM -> Timber.w("⚠️ MEDIUM THREAT: $type - $description")
             ThreatLevel.WARNING -> Timber.w("⚠️ WARNING THREAT: $type - $description")
+            ThreatLevel.LOW -> Timber.i("ℹ️ LOW THREAT: $type - $description")
             ThreatLevel.INFO -> Timber.i("ℹ️ INFO: $type - $description")
+            ThreatLevel.AI_ERROR -> Timber.e("🤖 AI ERROR: $type - $description")
             ThreatLevel.NONE -> { }
+            else -> Timber.d("Unknown threat level: $level")
         }
     }
 
