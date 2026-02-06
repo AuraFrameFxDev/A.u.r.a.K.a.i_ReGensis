@@ -11,16 +11,4 @@ fun AgentType.toCapabilityCategory(): AgentCapabilityCategory {
     return AgentCapabilityCategory.fromAgentType(this)
 }
 
-/**
- * Convert AgentCapabilityCategory to AgentType
- * Returns the primary AgentType for each category
- */
-fun AgentCapabilityCategory.toAgentType(): AgentType {
-    return when (this) {
-        AgentCapabilityCategory.CREATIVE -> AgentType.AURA
-        AgentCapabilityCategory.ANALYSIS -> AgentType.KAI
-        AgentCapabilityCategory.SPECIALIZED -> AgentType.CASCADE
-        AgentCapabilityCategory.GENERAL -> AgentType.CLAUDE
-        AgentCapabilityCategory.COORDINATION -> AgentType.GENESIS
-    }
-}
+// toAgentType() is defined as a member function on AgentCapabilityCategory in core-module

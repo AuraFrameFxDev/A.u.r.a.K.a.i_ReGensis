@@ -1,14 +1,4 @@
 package dev.aurakai.auraframefx.domains.genesis.models
 
-/**
- * Represents a discrete intelligence operation or background process.
- */
-data class AITask(
-    val id: String = "",
-    val name: String,
-    val description: String = "",
-    val status: TaskStatus = TaskStatus.PENDING,
-    val priority: Int = 0,
-    val startTime: Long = 0L,
-    val endTime: Long = 0L
-)
+// AITask is defined in the app module's oracledrive/ai/task/models/TaskModels.kt
+// This file is intentionally empty to avoid duplicate class definitions

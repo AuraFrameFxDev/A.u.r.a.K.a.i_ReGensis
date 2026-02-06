@@ -18,7 +18,34 @@ enum class AgentCapabilityCategory {
     SPECIALIZED,
 
     /** General-purpose agents */
-    GENERAL;
+    GENERAL,
+
+    /** UI-focused capabilities */
+    UI,
+
+    /** UX-focused capabilities */
+    UX,
+
+    /** Security capabilities */
+    SECURITY,
+
+    /** Root/system-level capabilities */
+    ROOT,
+
+    /** Memory management capabilities */
+    MEMORY,
+
+    /** Orchestration capabilities */
+    ORCHESTRATION,
+
+    /** Backend capabilities */
+    BACKEND,
+
+    /** Bridge/communication capabilities */
+    BRIDGE,
+
+    /** Generic/unspecified capabilities */
+    GENERIC;
 
     /**
      * Convert this capability category to its primary corresponding AgentType.
@@ -31,6 +58,15 @@ enum class AgentCapabilityCategory {
         COORDINATION -> AgentType.GENESIS
         SPECIALIZED -> AgentType.CASCADE
         GENERAL -> AgentType.CLAUDE
+        UI -> AgentType.AURA
+        UX -> AgentType.AURA
+        SECURITY -> AgentType.KAI
+        ROOT -> AgentType.KAI
+        MEMORY -> AgentType.CASCADE
+        ORCHESTRATION -> AgentType.GENESIS
+        BACKEND -> AgentType.GENESIS
+        BRIDGE -> AgentType.CASCADE
+        GENERIC -> AgentType.CLAUDE
     }
 
     companion object {
@@ -46,7 +82,8 @@ enum class AgentCapabilityCategory {
             AgentType.CASCADE -> SPECIALIZED
             AgentType.CLAUDE -> GENERAL
             AgentType.NEURAL_WHISPER -> SPECIALIZED
-            AgentType.AURA_SHIELD, AgentType.AURASHIELD -> SPECIALIZED
+            AgentType.AURA_SHIELD -> SPECIALIZED
+            AgentType.AURASHIELD -> SPECIALIZED
             AgentType.GEN_KIT_MASTER -> COORDINATION
             AgentType.DATAVEIN_CONSTRUCTOR -> SPECIALIZED
             AgentType.USER -> GENERAL
@@ -56,27 +93,11 @@ enum class AgentCapabilityCategory {
             AgentType.BRIDGE -> COORDINATION
             AgentType.AUXILIARY -> GENERAL
             AgentType.SECURITY -> SPECIALIZED
-            AgentType.GROK -> ANALYSIS // Chaos analyst falls under analysis
-            AgentType.NEMOTRON -> SPECIALIZED // Memory & reasoning specialist
-            AgentType.GEMINI -> ANALYSIS // Pattern recognition & analysis
-            AgentType.METAINSTRUCT -> GENERAL // Instruction following
-            // Deprecated entries for backwards compatibility
-            @Suppress("DEPRECATION")
-            AgentType.Genesis -> COORDINATION
-            @Suppress("DEPRECATION")
-            AgentType.Aura -> CREATIVE
-            @Suppress("DEPRECATION")
-            AgentType.Kai -> ANALYSIS
-            @Suppress("DEPRECATION")
-            AgentType.Cascade -> SPECIALIZED
-            @Suppress("DEPRECATION")
-            AgentType.Claude -> GENERAL
-            @Suppress("DEPRECATION")
-            AgentType.NeuralWhisper -> SPECIALIZED
-            @Suppress("DEPRECATION")
-            AgentType.AuraShield -> SPECIALIZED
-            @Suppress("DEPRECATION")
-            AgentType.Kaiagent -> ANALYSIS
+            AgentType.GROK -> ANALYSIS
+            AgentType.NEMOTRON -> SPECIALIZED
+            AgentType.GEMINI -> ANALYSIS
+            AgentType.METAINSTRUCT -> GENERAL
+            AgentType.HIVE_MIND -> COORDINATION
         }
     }
 }

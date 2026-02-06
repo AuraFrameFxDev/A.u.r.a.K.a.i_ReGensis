@@ -10,26 +10,7 @@ enum class ApiAgentType {
     GENESIS
 }
 
-/**
- * Categories of agent capabilities
- */
-enum class AgentCapabilityCategory {
-    UI,
-    UX,
-    SECURITY,
-    ROOT,
-    MEMORY,
-    ORCHESTRATION,
-    BACKEND,
-    BRIDGE,
-    GENERIC,
-    // New categories
-    COORDINATION,
-    CREATIVE,
-    ANALYSIS,
-    GENERAL,
-    SPECIALIZED
-}
+// AgentCapabilityCategory is defined in core-module
 
 /**
  * Types of AI requests for routing and processing
@@ -58,7 +39,14 @@ enum class AiRequestType {
     CHAT,
     NEURAL_WHISPER,
     SYNC_HEARTBEAT,
-    AURA_SYNC
+    AURA_SYNC,
+    ARCHITECTURAL,
+    REASONING,
+    PATTERN,
+    TECHNICAL,
+    QUESTION,
+    AUDIO,
+    ACTION
 }
 
 /**

@@ -41,7 +41,7 @@ open class FakeRomToolsManager(
     override val operationProgress: StateFlow<OperationProgress?> = _operationProgress.asStateFlow()
 
     override suspend fun processRomOperation(request: RomOperationRequest): AgentResponse {
-        return AgentResponse.success("Fake operation completed", agent = AgentType.GENESIS)
+        return AgentResponse.success("Fake operation completed", agentName = "RomTools", agentType = AgentType.GENESIS)
     }
 
     override suspend fun flashRom(romFile: RomFile): Result<Unit> = Result.success(Unit)
