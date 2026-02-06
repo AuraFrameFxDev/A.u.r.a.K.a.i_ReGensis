@@ -7,7 +7,7 @@ import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoor
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.cascade.models.ChatMessage
-import dev.aurakai.auraframefx.service.NeuralWhisper
+import dev.aurakai.auraframefx.domains.aura.NeuralWhisper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
