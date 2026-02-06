@@ -318,7 +318,7 @@ fun DirectChatScreen(
  * Message bubble component
  */
 @Composable
-private fun MessageBubble(message: dev.aurakai.auraframefx.models.ChatMessage) {
+private fun MessageBubble(message: dev.aurakai.auraframefx.domains.cascade.models.ChatMessage) {
     val isUser = message.isFromUser
 
     Row(
