@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai
 
 import dagger.Lazy
-import dev.aurakai.auraframefx.ai.agents.BaseAgent
+import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.ProcessingState
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.VisionState
