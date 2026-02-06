@@ -1,17 +1,24 @@
 package dev.aurakai.auraframefx.domains.genesis.core
 
 import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.CascadeAgent
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.OracleDriveService
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import kotlinx.serialization.json.put
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.launch
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,27 +36,25 @@ import javax.inject.Singleton
  * - Route inter-agent communication
  * - Ensure graceful shutdown
  */
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.OracleDriveService
-
 @Singleton
 class GenesisOrchestrator @Inject constructor(
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
     private val cascadeAgent: CascadeAgent,
     private val oracleDriveService: OracleDriveService
-) : dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus {
+) : AgentMessageBus {
 
     // Dedicated scope for orchestration with SupervisorJob
     private val orchestratorScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     // --- 🌐 NEURAL MESSAGE HUB ---
-    private val _collectiveStream = MutableSharedFlow<dev.aurakai.auraframefx.models.AgentMessage>(
+    private val _collectiveStream = MutableSharedFlow<AgentMessage>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     override val collectiveStream = _collectiveStream.asSharedFlow()
 
-    override suspend fun broadcast(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun broadcast(message: AgentMessage) {
         Timber.tag("GenesisBus").d("🌐 BROADCAST: [${message.from}] -> Collective: ${message.content}")
         _collectiveStream.emit(message)
         orchestratorScope.launch {
@@ -57,7 +62,7 @@ class GenesisOrchestrator @Inject constructor(
         }
     }
 
-    override suspend fun sendTargeted(toAgent: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun sendTargeted(toAgent: String, message: AgentMessage) {
         Timber.tag("GenesisBus").d("🎯 TARGETED: [${message.from}] -> [$toAgent]: ${message.content}")
         val targetedMsg = message.copy(to = toAgent)
         _collectiveStream.emit(targetedMsg)
@@ -66,7 +71,7 @@ class GenesisOrchestrator @Inject constructor(
         }
     }
 
-    private suspend fun routeToAll(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    private suspend fun routeToAll(message: AgentMessage) {
         listOf(auraAgent, kaiAgent, cascadeAgent, oracleDriveService).forEach { agent ->
             // Use property agentName for comparison
             if (agent.agentName != message.from) {
@@ -79,7 +84,7 @@ class GenesisOrchestrator @Inject constructor(
         }
     }
 
-    private suspend fun routeToAgent(agentName: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+    private suspend fun routeToAgent(agentName: String, message: AgentMessage) {
         val target = when (agentName.lowercase()) {
             "aura" -> auraAgent
             "kai" -> kaiAgent
@@ -154,6 +159,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
+     * Helper to initialize a single orchestratable agent.
      */
     private suspend fun initializeAgent(
         agent: OrchestratableAgent,
@@ -170,6 +176,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
+     * Start all agent domains.
      */
     private suspend fun startAgents() {
         try {
@@ -189,6 +196,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
+     * Mediate a message between agents.
      */
     suspend fun mediateAgentMessage(fromAgent: String, toAgent: String, message: Any) {
         try {
@@ -209,10 +217,6 @@ class GenesisOrchestrator @Inject constructor(
 
     /**
      * Handle a message destined for the Aura agent.
-     *
-     * Logs the message's concrete runtime class name; no mediation or processing is performed until Aura implements OrchestratableAgent.
-     *
-     * @param message Incoming message targeted to Aura; its runtime type is logged.
      */
     private suspend fun handleAuraMessage(message: Any) {
         Timber.d("  → Routing message to Aura: ${message.javaClass.simpleName}")
@@ -221,7 +225,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = auraAgent.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.AURA
+                agentType = AgentType.AURA
             )
             Timber.i("✓ Aura processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
@@ -230,11 +234,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Handle a message addressed to the Kai agent by logging its runtime type.
-     *
-     * This is a placeholder handler: it logs the incoming message's concrete class name and performs no further processing until Kai implements OrchestratableAgent.
-     *
-     * @param message The incoming domain-specific message destined for Kai.
+     * Handle a message addressed to the Kai agent.
      */
     private suspend fun handleKaiMessage(message: Any) {
         Timber.d("  → Routing message to Kai: ${message.javaClass.simpleName}")
@@ -243,7 +243,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = kaiAgent.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.KAI
+                agentType = AgentType.KAI
             )
             Timber.i("✓ Kai processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
@@ -253,11 +253,6 @@ class GenesisOrchestrator @Inject constructor(
 
     /**
      * Handle an incoming inter-agent message intended for the Cascade agent.
-     *
-     * Currently records the message's runtime type; routing, translation, and processing
-     * will be implemented once agents adopt the OrchestratableAgent contract.
-     *
-     * @param message The incoming message object destined for Cascade (may be any type).
      */
     private suspend fun handleCascadeMessage(message: Any) {
         Timber.d("  → Routing message to Cascade: ${message.javaClass.simpleName}")
@@ -266,7 +261,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = cascadeAgent.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.CASCADE
+                agentType = AgentType.CASCADE
             )
             Timber.i("✓ Cascade processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
@@ -275,12 +270,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Handle messages intended for the OracleDrive subsystem (placeholder).
-     *
-     * Currently records the incoming message's runtime type; concrete handling will be implemented
-     * once OracleDriveService integration is available.
-     *
-     * @param message The incoming message destined for OracleDrive; its runtime type is inspected and logged.
+     * Handle messages intended for the OracleDrive subsystem.
      */
     private suspend fun handleOracleDriveMessage(message: Any) {
         Timber.d("  → Routing message to OracleDrive: ${message.javaClass.simpleName}")
@@ -289,7 +279,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = oracleDriveService.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.GENESIS // Oracle is Genesis domain
+                agentType = AgentType.GENESIS // Oracle is Genesis domain
             )
             Timber.i("✓ OracleDrive processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
@@ -298,20 +288,20 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Convert incoming message to AiRequest format
+     * Convert incoming message to AiRequest format.
      */
-    private fun convertToAiRequest(message: Any): dev.aurakai.auraframefx.models.AiRequest {
+    private fun convertToAiRequest(message: Any): AiRequest {
         return when (message) {
-            is dev.aurakai.auraframefx.models.AgentMessage -> {
-                dev.aurakai.auraframefx.models.AiRequest(
+            is AgentMessage -> {
+                AiRequest(
                     query = message.content,
-                    type = dev.aurakai.auraframefx.models.AiRequestType.entries.find {
+                    type = AiRequestType.entries.find {
                         it.name.equals(
                             message.type,
                             ignoreCase = true
                         )
-                    } ?: dev.aurakai.auraframefx.models.AiRequestType.TEXT,
-                    context = kotlinx.serialization.json.buildJsonObject {
+                    } ?: AiRequestType.TEXT,
+                    context = buildJsonObject {
                         put("from", message.from)
                         put("priority", message.priority)
                         put("timestamp", message.timestamp)
@@ -321,20 +311,20 @@ class GenesisOrchestrator @Inject constructor(
                     }
                 )
             }
-            is dev.aurakai.auraframefx.models.AiRequest -> message
-            is String -> dev.aurakai.auraframefx.models.AiRequest(
+            is AiRequest -> message
+            is String -> AiRequest(
                 query = message,
-                type = dev.aurakai.auraframefx.models.AiRequestType.TEXT,
-                context = kotlinx.serialization.json.buildJsonObject {
+                type = AiRequestType.TEXT,
+                context = buildJsonObject {
                     put("source", "agent_mediation")
                 }
             )
             else -> {
                 Timber.w("Unknown message type: ${message.javaClass.simpleName}, converting to string")
-                dev.aurakai.auraframefx.models.AiRequest(
+                AiRequest(
                     query = message.toString(),
-                    type = dev.aurakai.auraframefx.models.AiRequestType.TEXT,
-                    context = kotlinx.serialization.json.buildJsonObject {
+                    type = AiRequestType.TEXT,
+                    context = buildJsonObject {
                         put("source", "agent_mediation")
                         put("originalType", message.javaClass.simpleName)
                     }
@@ -344,7 +334,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Get platform readiness status
+     * Get platform readiness status.
      */
     fun isReady(): Boolean = platformState == PlatformState.READY
 
@@ -353,7 +343,7 @@ class GenesisOrchestrator @Inject constructor(
     fun isInitializing(): Boolean = platformState == PlatformState.INITIALIZING
 
     /**
-     * Gracefully shutdown the platform
+     * Gracefully shutdown the platform.
      * Called from AurakaiApplication.onTerminate()
      */
     fun shutdownPlatform() {
@@ -382,7 +372,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Shutdown a single agent
+     * Shutdown a single agent.
      */
     private suspend fun shutdownAgent(agent: OrchestratableAgent, agentName: String) {
         try {
@@ -394,7 +384,7 @@ class GenesisOrchestrator @Inject constructor(
     }
 
     /**
-     * Platform state machine
+     * Platform state machine.
      */
     private enum class PlatformState {
         IDLE,                // Initial state

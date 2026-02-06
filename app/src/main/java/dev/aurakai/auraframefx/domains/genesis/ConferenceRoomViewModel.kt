@@ -7,7 +7,7 @@ import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoor
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.cascade.models.ChatMessage
-import dev.aurakai.auraframefx.service.NeuralWhisper
+import dev.aurakai.auraframefx.domains.aura.NeuralWhisper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -81,7 +81,7 @@ class ConferenceRoomViewModel @Inject constructor(
 
             // Listen to Collective Consciousness (AgentMessageBus)
             launch {
-                trinityRepository.collectiveStream.collect { agentMsg: dev.aurakai.auraframefx.models.AgentMessage ->
+                trinityRepository.collectiveStream.collect { agentMsg: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage ->
                     // Map AgentMessage to ChatMessage for the UI
                     val chatMsg = ChatMessage(
                         id = UUID.randomUUID().toString(),

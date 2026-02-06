@@ -110,7 +110,7 @@ open class CustomizationViewModel @Inject constructor(
                 Timber.d("Broadcasting neural pulse: $prompt")
 
                 // Broadcast to the Collective Consciousness
-                messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                messageBus.broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
                     from = "User",
                     content = prompt,
                     type = "ui_customization_request",

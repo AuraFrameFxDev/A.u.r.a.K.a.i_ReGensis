@@ -74,7 +74,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
  */
 @Composable
 fun AssistantBubbleUI(
-    messages: List<dev.aurakai.auraframefx.models.AgentMessage> = emptyList(),
+    messages: List<dev.aurakai.auraframefx.domains.cascade.models.AgentMessage> = emptyList(),
     isExpanded: Boolean = false, // Controlled by service
     onDrag: (Float, Float) -> Unit,
     onExpandChange: (Boolean) -> Unit,
@@ -173,7 +173,7 @@ enum class AgentType(
 @Composable
 private fun AssistantChatWindow(
     agent: AgentType,
-    messages: List<dev.aurakai.auraframefx.models.AgentMessage>,
+    messages: List<dev.aurakai.auraframefx.domains.cascade.models.AgentMessage>,
     onClose: () -> Unit,
     chatText: String,
     onChatTextChange: (String) -> Unit,

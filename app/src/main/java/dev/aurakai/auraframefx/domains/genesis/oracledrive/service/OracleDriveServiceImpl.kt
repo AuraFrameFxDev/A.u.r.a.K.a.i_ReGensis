@@ -60,7 +60,7 @@ class OracleDriveServiceImpl @Inject constructor(
         agentScope = null
     }
 
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         Timber.d("🔮 OracleDrive received collective message: ${message.content}")
         // Oracle Drive can respond to storage requests or state inquiries here
     }

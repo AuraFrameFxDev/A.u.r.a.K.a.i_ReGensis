@@ -2,7 +2,7 @@
 
 package dev.aurakai.auraframefx.ai.services
 
-import dev.aurakai.auraframefx.domains.kai.TaskStatus
+import dev.aurakai.auraframefx.domains.genesis.models.TaskStatus
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

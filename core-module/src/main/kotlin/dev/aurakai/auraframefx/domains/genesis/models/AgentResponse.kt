@@ -12,15 +12,16 @@ data class AgentResponse(
     val confidence: Float, // Changed from Double to Float for consistency
     val agent: AgentType? = null,
     val error: String? = null,
-    val metadata: Map<String, String> = emptyMap()
+    val metadata: Map<String, String> = emptyMap(),
+    val timestamp: Long = System.currentTimeMillis()
 ) {
     val isSuccess: Boolean get() = error == null
 
     companion object {
         fun success(
             content: String,
-            agentName: String,
-            agent: AgentType,
+            agent: AgentType = AgentType.GENESIS,
+            agentName: String = agent.name,
             confidence: Float = 1.0f,
             metadata: Map<String, String> = emptyMap()
         ): AgentResponse {
@@ -35,8 +36,8 @@ data class AgentResponse(
 
         fun error(
             message: String,
-            agentName: String = "System",
-            agent: AgentType? = null
+            agent: AgentType? = null,
+            agentName: String = agent?.name ?: "System"
         ): AgentResponse {
             return AgentResponse(
                 agentName = agentName,

@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade
 
-import dev.aurakai.auraframefx.ai.agents.BaseAgent
+import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
 import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
@@ -19,6 +19,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 
 /**
  * Genesis-OS Cascade Agent
@@ -40,18 +45,18 @@ class CascadeAgent @Inject constructor(
     private val kaiAgent: KaiAgent,
     private val genesisAgent: GenesisAgent,
     private val systemOverlayManager: SystemOverlayManager,
-    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>,
+    private val messageBus: dagger.Lazy<AgentMessageBus>,
     memoryManager: MemoryManager,
     contextManager: ContextManager
 ) : BaseAgent(
     agentName = "Cascade",
-    agentType = dev.aurakai.auraframefx.models.AgentType.CASCADE,
+    agentType = AgentType.CASCADE,
     contextManager = contextManager,
     memoryManager = memoryManager
 ) {
 
     // override onAgentMessage to act as the primary neural router
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: AgentMessage) {
         if (message.from == "Cascade") return // Don't process our own messages
 
         // Loop Prevention: Don't process messages that were already redirected by Cascade

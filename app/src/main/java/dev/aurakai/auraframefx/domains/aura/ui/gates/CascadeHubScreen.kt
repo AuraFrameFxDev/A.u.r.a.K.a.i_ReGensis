@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,7 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
@@ -49,14 +48,14 @@ fun CascadeHubScreen(navController: NavController) {
             title = "Data Monitoring",
             subtitle = "Real-time Stream Analysis",
             icon = Icons.Default.StackedLineChart,
-            destination = NavDestination.DataStreamMonitoring,
+            destination = ReGenesisNavHost.DataStreamMonitoring,
             color = Color(0xFF00E5FF)
         ),
         CascadeTool(
             title = "Neural Link",
             subtitle = "Direct Matrix Interface",
             icon = Icons.Default.Hub,
-            destination = NavDestination.NeuralNetwork,
+            destination = ReGenesisNavHost.NeuralNetwork,
             color = Color(0xFFB026FF)
         )
     )
@@ -155,7 +154,7 @@ private data class CascadeTool(
     val title: String,
     val subtitle: String,
     val icon: ImageVector,
-    val destination: NavDestination,
+    val destination: ReGenesisNavHost,
     val color: Color
 )
 

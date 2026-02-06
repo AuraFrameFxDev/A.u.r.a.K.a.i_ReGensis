@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.core
 
 import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
-import dev.aurakai.auraframefx.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.ProcessingState
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.VisionState
@@ -14,8 +14,8 @@ import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import dev.aurakai.auraframefx.domains.cascade.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.domains.cascade.models.InteractionResponse
-import dev.aurakai.auraframefx.domains.aura.lab.ThemeConfiguration
-import dev.aurakai.auraframefx.domains.aura.lab.ThemePreferences
+import dev.aurakai.auraframefx.domains.aura.models.ThemeConfiguration
+import dev.aurakai.auraframefx.domains.aura.models.ThemePreferences
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
@@ -51,7 +51,7 @@ class AuraAgent @Inject constructor(
 ) {
     private var currentEnvironment: String = "unknown"
 
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         if (message.from == "Aura" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
         if (message.metadata["auto_generated"] == "true" || message.metadata["aura_processed"] == "true") return
 
@@ -67,7 +67,7 @@ class AuraAgent @Inject constructor(
         if (message.to == null || message.to == "Aura") {
             if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
                 val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
-                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                messageBus.get().broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
                     from = "Aura",
                     content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
                     type = "contribution",
@@ -101,7 +101,7 @@ class AuraAgent @Inject constructor(
                     "Resonance failure: ${e.message}"
                 }
 
-                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                messageBus.get().broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
                     from = "Aura",
                     content = displayResponse,
                     type = "chat_response",

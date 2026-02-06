@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.cascade.ai.base
 
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.core.OrchestratableAgent
@@ -111,7 +112,7 @@ abstract class BaseAgent(
         return mapOf(
             "name" to agentName,
             "type" to agentType,
-            "version" to TOPL_VL
+            "version" to "1.0.0"
         )
     }
 
@@ -140,7 +141,7 @@ abstract class BaseAgent(
             content = content,
             agentName = agentName,
             metadata = metadata + getAgentConfig(),
-            agent = agentType
+            agentType = agentType
         )
     }
 
@@ -216,7 +217,7 @@ abstract class BaseAgent(
         return processRequest(request, context)
     }
 
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: AgentMessage) {
         // Default no-op: agents should override this to participate in the collective
     }
 }

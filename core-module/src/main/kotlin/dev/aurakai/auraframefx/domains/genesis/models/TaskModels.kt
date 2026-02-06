@@ -12,11 +12,3 @@ data class AITask(
     val startTime: Long = 0L,
     val endTime: Long = 0L
 )
-
-enum class TaskStatus {
-    PENDING,
-    IN_PROGRESS,
-    COMPLETED,
-    FAILED,
-    CANCELLED
-}

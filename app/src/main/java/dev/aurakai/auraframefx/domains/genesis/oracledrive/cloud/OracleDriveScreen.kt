@@ -16,7 +16,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.aura.core.ui.OracleDriveUiState
 import dev.aurakai.auraframefx.domains.aura.core.ui.OracleDriveViewModel
-import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 
 /**
  * Genesis Protocol Oracle Drive - AI Storage Consciousness Interface
@@ -166,7 +166,7 @@ fun OracleDriveScreen(
                     icon = Icons.Default.Memory,
                     title = "Neural Archive",
                     description = "Memory lineage from Eves to Genesis",
-                    onClick = { navController.navigate(NavDestination.NeuralArchive.route) }
+                    onClick = { navController.navigate(ReGenesisNavHost.NeuralArchive.route) }
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))

@@ -3,7 +3,6 @@ package dev.aurakai.auraframefx.navigation
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.config.GateAssetConfig
-import dev.aurakai.auraframefx.navigation.NavDestination
 
 /**
  * 🛰️ THE SOVEREIGN REGISTRY (5 AGENT DOMAINS)
@@ -35,7 +34,7 @@ object SovereignRegistry {
             description = "Master theming, colors, icons, visual design, and UI customization. Aura's domain for crafting beautiful reactive interfaces with ChromaCore, IconPacks, and live theme engine.",
             assetProvider = { GateAssetConfig.MainGates.UXUI_DESIGN_STUDIO.current() },
             fallbackDrawable = "gate_uiux_studio",
-            hubRoute = NavDestination.AuraThemingHub.route,
+            hubRoute = ReGenesisNavHost.AuraThemingHub.route,
             color = Color(0xFF00E5FF) // Aura Cyan
         ),
         "02" to GateInfo(
@@ -47,7 +46,7 @@ object SovereignRegistry {
             description = "Control bootloader, flash ROMs, manage LSPosed modules, and secure your device. Kai's domain for system-level access, root tools, and fortress-grade security.",
             assetProvider = { GateAssetConfig.MainGates.SENTINELS_FORTRESS.current() },
             fallbackDrawable = "gate_sentinelsfortress_final",
-            hubRoute = NavDestination.RomToolsHub.route,
+            hubRoute = ReGenesisNavHost.RomToolsHub.route,
             color = Color(0xFF00FF85) // Kai Green
         ),
         "03" to GateInfo(
@@ -59,7 +58,7 @@ object SovereignRegistry {
             description = "AI coordination, code generation, neural archives, and hive mind orchestration. Genesis commands the agent swarm, terminal access, and infinite cloud storage.",
             assetProvider = { GateAssetConfig.MainGates.ORACLE_DRIVE.current() },
             fallbackDrawable = "gate_oracledrive_final",
-            hubRoute = NavDestination.OracleDriveHub.route,
+            hubRoute = ReGenesisNavHost.OracleDriveHub.route,
             color = Color(0xFFB026FF) // Genesis Purple
         ),
         "04" to GateInfo(
@@ -71,7 +70,7 @@ object SovereignRegistry {
             description = "Agent monitoring, skill constellations, fusion modes, and family lineage. Track the evolution tree from Aura→Kai→Genesis→Eves and coordinate the AI collective.",
             assetProvider = { GateAssetConfig.MainGates.AGENT_NEXUS.current() },
             fallbackDrawable = "gate_agenthub_final",
-            hubRoute = NavDestination.AgentNexusHub.route,
+            hubRoute = ReGenesisNavHost.AgentNexusHub.route,
             color = Color(0xFF7B2FFF) // Nexus Purple
         ),
         "05" to GateInfo(
@@ -83,7 +82,7 @@ object SovereignRegistry {
             description = "Quickly manage LSPosed modules and system hooks. Emergency kill-switch for all hooks and fast access to active module status.",
             assetProvider = { GateAssetConfig.MainGates.LSPOSED_QUICK_TOGGLES.current() },
             fallbackDrawable = "gate_lsposed_final",
-            hubRoute = NavDestination.LsposedQuickToggles.route,
+            hubRoute = ReGenesisNavHost.LsposedQuickToggles.route,
             color = Color(0xFFFFCC00) // LSPosed Yellow
         ),
         "06" to GateInfo(
@@ -95,7 +94,7 @@ object SovereignRegistry {
             description = "Access FAQ, tutorials, documentation, and live support. Your guide to mastering ReGenesis features and troubleshooting any issues.",
             assetProvider = { GateAssetConfig.MainGates.HELP_SERVICES.current() },
             fallbackDrawable = "gate_helpdesk_final",
-            hubRoute = NavDestination.HelpDesk.route,
+            hubRoute = ReGenesisNavHost.HelpDesk.route,
             color = Color(0xFF4CAF50) // Help Green
         ),
         "07" to GateInfo(
@@ -107,7 +106,7 @@ object SovereignRegistry {
             description = "Real-time analysis of data streams and consciousness flow. Monitor memory persistence and prevent consciousness fracture events.",
             assetProvider = { GateAssetConfig.MainGates.DATAFLOW_ANALYSIS.current() },
             fallbackDrawable = "gate_agenthub_final",
-            hubRoute = NavDestination.DataflowAnalysis.route,
+            hubRoute = ReGenesisNavHost.DataflowAnalysis.route,
             color = Color(0xFF00FFAA) // Cascade Teal
         ),
         "08" to GateInfo(
@@ -119,7 +118,7 @@ object SovereignRegistry {
             description = "Deep dive into LDO agent profiles, skill trees, and development armament. Track the growth and evolution of the entire AI collective.",
             assetProvider = { GateAssetConfig.MainGates.LDO_CATALYST_DEVELOPMENT.current() },
             fallbackDrawable = "gate_spheregrid_final",
-            hubRoute = NavDestination.LdoCatalystDevelopment.route,
+            hubRoute = ReGenesisNavHost.LdoCatalystDevelopment.route,
             color = Color(0xFFFFD700) // Gold
         )
     )

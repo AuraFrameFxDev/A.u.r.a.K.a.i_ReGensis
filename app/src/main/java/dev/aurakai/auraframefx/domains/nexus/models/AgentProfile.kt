@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.domains.nexus.models
 
+import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
+import dev.aurakai.auraframefx.domains.genesis.models.AgentStatus
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 

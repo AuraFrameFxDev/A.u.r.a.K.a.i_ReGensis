@@ -1,10 +1,10 @@
-package dev.aurakai.auraframefx.ai
+package dev.aurakai.auraframefx.domains.aura.services
 
 // import dev.aurakai.auraframefx.generated.models.auraframefxai.GenerateImageDescriptionResponse // Not available in new API
 // import kotlinx.coroutines.CoroutineScope // Not needed if generateImageDescription is removed
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.models.GenerateTextRequest
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.models.GenerateTextResponse
-import dev.aurakai.auraframefx.api.AiContentApi
+import dev.aurakai.auraframefx.domains.cascade.network.apis.AiContentApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

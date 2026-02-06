@@ -4,7 +4,7 @@ import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TaskResult(
+data class TaskExecutionResultData(
     val taskId: String,
     val status: TaskStatus,
     val message: String? = null,

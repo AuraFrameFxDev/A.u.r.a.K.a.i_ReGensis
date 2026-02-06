@@ -39,13 +39,13 @@ class AIAgentApiImpl @Inject constructor() : AIAgentApi {
         )
     }
 
-    override suspend fun processAgentRequest(agentType: String, request: dev.aurakai.auraframefx.models.AgentRequest): dev.aurakai.auraframefx.models.AgentResponse {
-        return dev.aurakai.auraframefx.models.AgentResponse(
+    override suspend fun processAgentRequest(agentType: String, request: dev.aurakai.auraframefx.domains.genesis.models.AgentRequest): dev.aurakai.auraframefx.domains.genesis.models.AgentResponse {
+        return dev.aurakai.auraframefx.domains.genesis.models.AgentResponse(
             agentName = agentType,
-            response = "Request processed",
+            content = "Request processed",
             confidence = 1.0f,
             timestamp = System.currentTimeMillis(),
-            metadata = (request.metadata ?: emptyMap()).mapValues { it.value as Any as String }
+            metadata = (request.metadata ?: emptyMap()).mapValues { it.value }
         )
     }
 }

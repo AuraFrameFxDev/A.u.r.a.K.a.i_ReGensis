@@ -54,6 +54,6 @@ interface OrchestratableAgent {
     /**
      * Handle an incoming message from the inter-agent communication bus.
      */
-    suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage)
+    suspend fun onAgentMessage(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage)
 }
 

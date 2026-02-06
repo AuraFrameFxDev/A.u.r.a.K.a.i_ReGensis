@@ -28,7 +28,7 @@ import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import dev.aurakai.auraframefx.domains.nexus.models.AgentProfile
 import dev.aurakai.auraframefx.domains.nexus.models.AgentProfiles
 import dev.aurakai.auraframefx.domains.genesis.models.AgentStatus
-import dev.aurakai.auraframefx.models.CapabilityLevel
+import dev.aurakai.auraframefx.domains.nexus.models.CapabilityLevel
 
 /**
  * Comprehensive Agent Profile Screen

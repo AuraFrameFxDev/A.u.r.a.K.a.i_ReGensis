@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.aura
 
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.domains.genesis.network.qualifiers.BaseUrl
-import dev.aurakai.auraframefx.service.NeuralWhisper
+
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
@@ -30,8 +30,7 @@ typealias GenesisAgent = GenesisOrchestrator
 // Service Aliases
 // ============================================================================
 
-typealias VertexAIClient = dev.aurakai.auraframefx.genesis.oracledrive.VertexAIClient
-typealias NeuralWhisper = NeuralWhisper
+typealias VertexAIClient = dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 
 // ============================================================================
 // Data & Memory Aliases
@@ -50,7 +49,7 @@ typealias NeuralWhisper = NeuralWhisper
 // Network Aliases
 // ============================================================================
 
-typealias BaseUrl = BaseUrl
+typealias BaseUrl = dev.aurakai.auraframefx.domains.genesis.BaseUrl // Point to the actual annotation
 typealias MultiValueMap = MutableMap<String, List<String>>
 
 // ============================================================================

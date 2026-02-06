@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.kai
 
-import dev.aurakai.auraframefx.ai.tools.AgentTool
-import dev.aurakai.auraframefx.ai.tools.PropertySchema
-import dev.aurakai.auraframefx.ai.tools.ToolCategory
-import dev.aurakai.auraframefx.ai.tools.ToolInputSchema
-import dev.aurakai.auraframefx.ai.tools.ToolResult
+import dev.aurakai.auraframefx.domains.genesis.core.AgentTool
+import dev.aurakai.auraframefx.domains.genesis.core.PropertySchema
+import dev.aurakai.auraframefx.domains.genesis.core.ToolCategory
+import dev.aurakai.auraframefx.domains.genesis.core.ToolInputSchema
+import dev.aurakai.auraframefx.domains.genesis.core.ToolResult
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import timber.log.Timber
@@ -264,6 +264,7 @@ class ManageBootloaderTool : AgentTool {
                         estimatedDuration = 60000L // 1 minute
                     )
                 }
+
                 else -> return ToolResult.Failure("Invalid action: $action")
             }
 
