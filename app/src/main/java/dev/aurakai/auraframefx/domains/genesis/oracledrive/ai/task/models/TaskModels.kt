@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.task.models
 
 import kotlinx.serialization.Serializable
 import java.util.UUID
+import dev.aurakai.auraframefx.domains.genesis.models.TaskStatus
 
 /**
  * AI Task model for task scheduling and execution
@@ -12,7 +13,7 @@ data class AITask(
     val name: String,
     val description: String = "",
     val prompt: String = "",
-    val priority: TaskPriority = TaskPriority.NORMAL,
+    val priority: String = "normal",
     val status: TaskStatus = TaskStatus.PENDING,
     val assignedAgent: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
@@ -25,32 +26,6 @@ data class AITask(
     val tokensUsed: Int = 0,
     val modelUsed: String? = null
 )
-
-/**
- * Task status enum
- */
-@Serializable
-enum class TaskStatus {
-    PENDING,
-    RUNNING,
-    IN_PROGRESS,
-    COMPLETED,
-    FAILED,
-    CANCELLED,
-    TIMEOUT
-}
-
-/**
- * Task priority levels
- */
-@Serializable
-enum class TaskPriority {
-    CRITICAL,
-    HIGH,
-    NORMAL,
-    LOW,
-    BACKGROUND
-}
 
 /**
  * Historical task record
