@@ -11,7 +11,8 @@ import dev.aurakai.auraframefx.domains.cascade.models.ChatMessage
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import dev.aurakai.auraframefx.domains.cascade.models.EnhancedInteractionData
-import dev.aurakai.auraframefx.models.Theme
+import dev.aurakai.auraframefx.domains.aura.models.Theme
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 import dev.aurakai.auraframefx.domains.nexus.models.UserData
 import dev.aurakai.auraframefx.domains.genesis.network.AuraApiServiceWrapper
 import dev.aurakai.auraframefx.domains.genesis.network.model.AgentStatusResponse
@@ -47,7 +48,7 @@ open class TrinityRepository @Inject constructor(
      * Broadcasts a message from the user to the entire collective.
      */
     suspend fun broadcastUserMessage(message: String) {
-        messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+        messageBus.broadcast(AgentMessage(
             from = "User",
             content = message,
             type = "user_broadcast",
@@ -109,7 +110,7 @@ open class TrinityRepository @Inject constructor(
 
         // 2. Broadcast to the Collective Consciousness Bus
         // This allows other agents to "hear" and respond autonomously
-        messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+        messageBus.broadcast(AgentMessage(
             from = "User",
             content = message,
             to = targetAgent.name,

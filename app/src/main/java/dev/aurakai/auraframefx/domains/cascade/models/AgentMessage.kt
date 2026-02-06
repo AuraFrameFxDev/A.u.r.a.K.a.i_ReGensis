@@ -1,7 +1,8 @@
 package dev.aurakai.auraframefx.domains.cascade.models
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 
 /**
  * Message sent between agents in the collective consciousness
