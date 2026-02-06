@@ -38,7 +38,7 @@ class AgentWebExplorationService @Inject constructor(
         val taskType: TaskType,
         val parameters: Map<String, Any>,
         val startTime: Long = System.currentTimeMillis(),
-        var status: TaskStatus = TaskStatus.IN_PROGRESS,
+        var status: TaskStatus.Status = TaskStatus.Status.RUNNING,
         val job: Job? = null
     )
 
@@ -120,7 +120,7 @@ class AgentWebExplorationService @Inject constructor(
 
         // Update task status
         activeTasks[agentName]?.let {
-            it.status = TaskStatus.COMPLETED
+            it.status = TaskStatus.Status.COMPLETED
         }
     }
 
@@ -367,7 +367,7 @@ class AgentWebExplorationService @Inject constructor(
     fun cancelTask(agentName: String) {
         activeTasks[agentName]?.let {
             it.job?.cancel()
-            it.status = TaskStatus.CANCELLED
+            it.status = TaskStatus.Status.CANCELLED
             activeTasks.remove(agentName)
         }
     }
