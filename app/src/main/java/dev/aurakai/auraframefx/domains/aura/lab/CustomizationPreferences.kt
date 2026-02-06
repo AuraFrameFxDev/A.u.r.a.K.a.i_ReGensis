@@ -13,6 +13,11 @@ import dev.aurakai.auraframefx.domains.aura.MonetConfiguration
 import dev.aurakai.auraframefx.domains.aura.SystemUIConfiguration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import android.net.Uri
+import com.google.gson.Gson
+import androidx.compose.ui.layout.ContentScale
+import dev.aurakai.auraframefx.aura.lab.ImageTransformation
+import dev.aurakai.auraframefx.aura.lab.SpacingConfig
 
 private val Context.customizationDataStore by preferencesDataStore(name = "customization_prefs")
 
@@ -220,6 +225,233 @@ object CustomizationPreferences {
     suspend fun setAgentColor(context: Context, agentName: String, hexColor: String) {
         context.customizationDataStore.edit {
             it[stringPreferencesKey(KEY_AGENT_COLOR_PREFIX + agentName)] = hexColor
+        }
+    }
+
+    // --- LEGACY / SHARED PREFERENCES COMPATIBILITY METHODS ---
+    // Added to support components that require synchronous access or use simpler storage
+
+    private const val KEY_IMAGE_URI_SUFFIX = "_image_uri"
+    private const val KEY_IMAGE_TRANSFORMATION_SUFFIX = "_image_transformation"
+    private const val KEY_HEADER_IMAGE_URI = "header_image_uri"
+    private const val KEY_HEADER_IMAGE_SCALE = "header_image_scale"
+
+    private val gson = Gson()
+
+    fun saveHeaderImage(context: Context, uri: Uri?, scale: ContentScale) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            putString(KEY_HEADER_IMAGE_URI, uri?.toString())
+            putString(KEY_HEADER_IMAGE_SCALE, scale.name)
+            apply()
+        }
+    }
+
+    fun getHeaderImageUri(context: Context): Uri? {
+        val uriString = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_HEADER_IMAGE_URI, null)
+        return uriString?.let { Uri.parse(it) }
+    }
+
+    fun getHeaderImageScale(context: Context): ContentScale {
+        val scaleName = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_HEADER_IMAGE_SCALE, ContentScale.Crop.name)
+        return ContentScale.values().firstOrNull { it.name == scaleName } ?: ContentScale.Crop
+    }
+
+    private const val KEY_CUSTOM_QS_BACKGROUND_ENABLED = "custom_qs_background_enabled"
+    private const val KEY_CUSTOM_QS_BACKGROUND_URI = "custom_qs_background_uri"
+    private const val KEY_CUSTOM_QS_BACKGROUND_OPACITY = "custom_qs_background_opacity"
+    private const val KEY_CUSTOM_QS_BACKGROUND_BLEND_MODE = "custom_qs_background_blend_mode"
+
+    fun saveCustomQsBackgroundSettings(context: Context, enabled: Boolean, uri: Uri?, opacity: Float, blendMode: String) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            putBoolean(KEY_CUSTOM_QS_BACKGROUND_ENABLED, enabled)
+            putString(KEY_CUSTOM_QS_BACKGROUND_URI, uri?.toString())
+            putFloat(KEY_CUSTOM_QS_BACKGROUND_OPACITY, opacity)
+            putString(KEY_CUSTOM_QS_BACKGROUND_BLEND_MODE, blendMode)
+            apply()
+        }
+    }
+
+    fun getCustomQsBackgroundEnabled(context: Context): Boolean {
+        return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getBoolean(KEY_CUSTOM_QS_BACKGROUND_ENABLED, false)
+    }
+
+    fun getCustomQsBackgroundUri(context: Context): Uri? {
+        val uriString = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_CUSTOM_QS_BACKGROUND_URI, null)
+        return uriString?.let { Uri.parse(it) }
+    }
+
+    fun getCustomQsBackgroundOpacity(context: Context): Float {
+        return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getFloat(KEY_CUSTOM_QS_BACKGROUND_OPACITY, 1.0f)
+    }
+
+    fun getCustomQsBackgroundBlendMode(context: Context): String {
+        return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_CUSTOM_QS_BACKGROUND_BLEND_MODE, "SrcOver") ?: "SrcOver"
+    }
+
+    private const val KEY_NAV_DRAWER_BACKGROUND_URI = "nav_drawer_background_uri"
+    private const val KEY_NAV_DRAWER_BACKGROUND_SCALE = "nav_drawer_background_scale"
+    private const val KEY_SPLASH_SCREEN_IMAGE_URI = "splash_screen_image_uri"
+    private const val KEY_SPLASH_SCREEN_IMAGE_SCALE = "splash_screen_image_scale"
+
+    fun saveNavDrawerBackground(context: Context, uri: Uri?, scale: ContentScale) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            putString(KEY_NAV_DRAWER_BACKGROUND_URI, uri?.toString())
+            putString(KEY_NAV_DRAWER_BACKGROUND_SCALE, scale.name)
+            apply()
+        }
+    }
+
+    fun getNavDrawerBackgroundUri(context: Context): Uri? {
+        val uriString = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_NAV_DRAWER_BACKGROUND_URI, null)
+        return uriString?.let { Uri.parse(it) }
+    }
+
+    fun getNavDrawerBackgroundScale(context: Context): ContentScale {
+        val scaleName = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_NAV_DRAWER_BACKGROUND_SCALE, ContentScale.Crop.name)
+        return ContentScale.values().firstOrNull { it.name == scaleName } ?: ContentScale.Crop
+    }
+
+    fun saveSplashScreenImage(context: Context, uri: Uri?, scale: ContentScale) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            putString(KEY_SPLASH_SCREEN_IMAGE_URI, uri?.toString())
+            putString(KEY_SPLASH_SCREEN_IMAGE_SCALE, scale.name)
+            apply()
+        }
+    }
+
+    fun getSplashScreenImageUri(context: Context): Uri? {
+        val uriString = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_SPLASH_SCREEN_IMAGE_URI, null)
+        return uriString?.let { Uri.parse(it) }
+    }
+
+    fun getSplashScreenImageScale(context: Context): ContentScale {
+        val scaleName = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_SPLASH_SCREEN_IMAGE_SCALE, ContentScale.Crop.name)
+        return ContentScale.values().firstOrNull { it.name == scaleName } ?: ContentScale.Crop
+    }
+
+    fun saveImageWithTransformation(context: Context, key: String, uri: Uri?, transformation: ImageTransformation?) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            putString(key + KEY_IMAGE_URI_SUFFIX, uri?.toString())
+            putString(key + KEY_IMAGE_TRANSFORMATION_SUFFIX, transformation?.let { gson.toJson(it) })
+            apply()
+        }
+    }
+
+    fun getImageWithTransformation(context: Context, key: String): Pair<Uri?, ImageTransformation?> {
+        val sharedPrefs = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+        val uriString = sharedPrefs.getString(key + KEY_IMAGE_URI_SUFFIX, null)
+        val transformationJson = sharedPrefs.getString(key + KEY_IMAGE_TRANSFORMATION_SUFFIX, null)
+
+        val uri = uriString?.let { Uri.parse(it) }
+        val transformation = transformationJson?.let { gson.fromJson(it, ImageTransformation::class.java) }
+
+        return Pair(uri, transformation)
+    }
+
+    fun clearImageWithTransformation(context: Context, key: String) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            remove(key + KEY_IMAGE_URI_SUFFIX)
+            remove(key + KEY_IMAGE_TRANSFORMATION_SUFFIX)
+            apply()
+        }
+    }
+
+    fun getAllReferencedImageUris(context: Context): Set<Uri> {
+        val sharedPrefs = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+        val allUris = mutableSetOf<Uri>()
+
+        val allKeys = sharedPrefs.all.keys
+        allKeys.filter { it.endsWith(KEY_IMAGE_URI_SUFFIX) }.forEach {
+            val uriString = sharedPrefs.getString(it, null)
+            uriString?.let { str -> allUris.add(Uri.parse(str)) }
+        }
+
+        sharedPrefs.getString(KEY_HEADER_IMAGE_URI, null)?.let { allUris.add(Uri.parse(it)) }
+        sharedPrefs.getString(KEY_CUSTOM_QS_BACKGROUND_URI, null)?.let { allUris.add(Uri.parse(it)) }
+        sharedPrefs.getString(KEY_NAV_DRAWER_BACKGROUND_URI, null)?.let { allUris.add(Uri.parse(it)) }
+        sharedPrefs.getString(KEY_SPLASH_SCREEN_IMAGE_URI, null)?.let { allUris.add(Uri.parse(it)) }
+        sharedPrefs.getString(KEY_NOTCH_BAR_BACKGROUND_URI, null)?.let { allUris.add(Uri.parse(it)) }
+
+        return allUris
+    }
+
+    private const val KEY_NOTCH_BAR_BACKGROUND_ENABLED = "notch_bar_background_enabled"
+    private const val KEY_NOTCH_BAR_BACKGROUND_URI = "notch_bar_background_uri"
+    private const val KEY_NOTCH_BAR_BACKGROUND_OPACITY = "notch_bar_background_opacity"
+    private const val KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE = "notch_bar_background_blend_mode"
+    private const val KEY_NOTCH_BAR_IMAGE_TRANSFORMATION = "notch_bar_image_transformation"
+
+    fun saveNotchBarBackgroundSettings(
+        context: Context,
+        enabled: Boolean,
+        uri: Uri?,
+        transformation: ImageTransformation?,
+        opacity: Float,
+        blendMode: String
+    ) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            putBoolean(KEY_NOTCH_BAR_BACKGROUND_ENABLED, enabled)
+            putString(KEY_NOTCH_BAR_BACKGROUND_URI, uri?.toString())
+            putString(KEY_NOTCH_BAR_IMAGE_TRANSFORMATION, transformation?.let { gson.toJson(it) })
+            putFloat(KEY_NOTCH_BAR_BACKGROUND_OPACITY, opacity)
+            putString(KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE, blendMode)
+            apply()
+        }
+    }
+
+    fun getNotchBarBackgroundEnabled(context: Context): Boolean {
+        return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getBoolean(KEY_NOTCH_BAR_BACKGROUND_ENABLED, false)
+    }
+
+    fun getNotchBarBackgroundUri(context: Context): Uri? {
+        val uriString = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_NOTCH_BAR_BACKGROUND_URI, null)
+        return uriString?.let { Uri.parse(it) }
+    }
+
+    fun getNotchBarImageTransformation(context: Context): ImageTransformation? {
+        val transformationJson = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_NOTCH_BAR_IMAGE_TRANSFORMATION, null)
+        return transformationJson?.let { gson.fromJson(it, ImageTransformation::class.java) }
+    }
+
+    fun getNotchBarBackgroundOpacity(context: Context): Float {
+        return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getFloat(KEY_NOTCH_BAR_BACKGROUND_OPACITY, 1.0f)
+    }
+
+    fun getNotchBarBackgroundBlendMode(context: Context): String {
+        return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE, "SrcOver") ?: "SrcOver"
+    }
+
+    private const val KEY_SPACING_CONFIG = "spacing_config"
+
+    fun saveSpacingConfig(context: Context, spacingConfig: SpacingConfig) {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+            putString(KEY_SPACING_CONFIG, gson.toJson(spacingConfig))
+            apply()
+        }
+    }
+
+    fun getSpacingConfig(context: Context): SpacingConfig {
+        val jsonString = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
+            .getString(KEY_SPACING_CONFIG, null)
+        return if (jsonString != null) {
+            gson.fromJson(jsonString, SpacingConfig::class.java)
+        } else {
+            SpacingConfig()
         }
     }
 }
