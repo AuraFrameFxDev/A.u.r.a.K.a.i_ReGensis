@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ai.tools
+package dev.aurakai.auraframefx.domains.genesis.core
 
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.sync.Mutex
