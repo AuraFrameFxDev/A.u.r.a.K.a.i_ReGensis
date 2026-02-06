@@ -11,10 +11,12 @@ data class AgentResponse(
     val content: String,
     val agentName: String = "System",
     val agentType: AgentType = AgentType.GENESIS,
-    val confidence: Double = 1.0,
+    val confidence: Float = 1.0,
     val status: Status = Status.SUCCESS,
     val timestamp: Long = System.currentTimeMillis(),
-    val metadata: Map<String, String> = emptyMap()
+    val metadata: Map<String, String> = emptyMap(),
+    val agent: AgentType,
+    val error: String?
 ) {
     enum class Status {
         SUCCESS, ERROR, PROCESSING, IDLE
@@ -32,8 +34,7 @@ data class AgentResponse(
             agentName = agentName,
             agentType = agentType,
             confidence = confidence,
-            status = Status.SUCCESS,
-            metadata = metadata.mapValues { it.value.toString() }
+            metadata = metadata.mapValues { it.value.toString() },
         )
 
         fun error(
@@ -45,7 +46,7 @@ data class AgentResponse(
             agentName = agentName,
             agentType = agentType,
             confidence = 0.0,
-            status = Status.ERROR
+            status = Status.ERROR,
         )
 
         fun processing(
@@ -57,7 +58,7 @@ data class AgentResponse(
             agentName = agentName,
             agentType = agentType,
             confidence = 0.0,
-            status = Status.PROCESSING
+            status = Status.PROCESSING,
         )
     }
 }

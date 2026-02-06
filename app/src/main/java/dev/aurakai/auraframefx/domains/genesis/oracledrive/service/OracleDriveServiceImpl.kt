@@ -70,9 +70,9 @@ class OracleDriveServiceImpl @Inject constructor(
         Timber.d("OracleDrive processing request: ${request.query}")
         // Integrate with Genesis core for sentient storage queries
         return AgentResponse(
-            agentName = agentName,
             content = "Oracle consciousness acknowledges your request for stored patterns.",
-            agentType = agentType
+            agentName = agentName,
+            agentType = agentType,
         )
     }
 

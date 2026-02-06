@@ -10,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ArkBuildViewModel @Inject constructor(
     private val fusionBuildEngine: FusionBuildEngine,
-    val webExplorationService: dev.aurakai.auraframefx.ai.services.AgentWebExplorationService
+    val webExplorationService: dev.aurakai.auraframefx.domains.genesis.services.AgentWebExplorationService
 ) : ViewModel() {
 
     val arkProject: StateFlow<ArkProject> = fusionBuildEngine.arkProjectState
