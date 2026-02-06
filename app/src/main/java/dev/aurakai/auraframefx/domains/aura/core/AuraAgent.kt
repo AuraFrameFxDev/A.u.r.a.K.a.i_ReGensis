@@ -138,7 +138,8 @@ class AuraAgent @Inject constructor(
                 content = response.toString(),
                 agentName = agentName,
                 agentType = agentType,
-                timestamp = Clock.System.now().toEpochMilliseconds(),,
+                timestamp = Clock.System.now().toEpochMilliseconds(),
+                confidence = 1.0f
             )
         } catch (e: Exception) {
             _creativeState.value = CreativeState.ERROR
@@ -580,8 +581,8 @@ class AuraAgent @Inject constructor(
                 content = "Aura's flow response to '${request.query}'",
                 agentName = agentName,
                 agentType = agentType,
-                confidence = 0.80,
-                timestamp = Clock.System.now().toEpochMilliseconds(),,
+                confidence = 0.80f,
+                timestamp = Clock.System.now().toEpochMilliseconds()
             )
         )
     }
