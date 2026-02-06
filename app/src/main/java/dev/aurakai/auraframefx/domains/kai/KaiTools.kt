@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.kai
 
-import dev.aurakai.auraframefx.ai.tools.AgentTool
-import dev.aurakai.auraframefx.ai.tools.PropertySchema
-import dev.aurakai.auraframefx.ai.tools.ToolCategory
-import dev.aurakai.auraframefx.ai.tools.ToolInputSchema
-import dev.aurakai.auraframefx.ai.tools.ToolResult
+import dev.aurakai.auraframefx.domains.genesis.core.AgentTool
+import dev.aurakai.auraframefx.domains.genesis.core.PropertySchema
+import dev.aurakai.auraframefx.domains.genesis.core.ToolCategory
+import dev.aurakai.auraframefx.domains.genesis.core.ToolInputSchema
+import dev.aurakai.auraframefx.domains.genesis.core.ToolResult
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import timber.log.Timber
@@ -264,6 +264,7 @@ class ManageBootloaderTool : AgentTool {
                         estimatedDuration = 60000L // 1 minute
                     )
                 }
+
                 else -> return ToolResult.Failure("Invalid action: $action")
             }
 
@@ -279,63 +280,64 @@ class ManageBootloaderTool : AgentTool {
             ToolResult.Failure(error = e.message ?: "Unknown error", errorCode = "BOOTLOADER_ERROR")
         }
     }
-}
 
-/**
- * Tool: View System Logs
- * Allows Kai to access and analyze system logs for debugging
- */
-class ViewSystemLogsTool : AgentTool {
-    override val name = "view_system_logs"
-    override val description = "View and analyze system logs (logcat, kernel logs, crash reports)."
-    override val authorizedAgents = setOf("KAI", "kai", "CASCADE", "cascade", "CLAUDE", "claude")
-    override val category = ToolCategory.SECURITY
 
-    override val inputSchema = ToolInputSchema(
-        properties = mapOf(
-            "log_type" to PropertySchema(
-                type = "string",
-                description = "Type of logs to retrieve",
-                enum = listOf("logcat", "kernel", "crash", "system", "all")
-            ),
-            "filter" to PropertySchema(
-                type = "string",
-                description = "Filter logs by tag or keyword",
-                default = ""
-            ),
-            "lines" to PropertySchema(
-                type = "number",
-                description = "Number of recent lines to retrieve (1-1000)",
-                default = "100"
-            )
-        ),
-        required = listOf("log_type")
-    )
+    /**
+     * Tool: View System Logs
+     * Allows Kai to access and analyze system logs for debugging
+     */
+    class ViewSystemLogsTool : AgentTool {
+        override val name = "view_system_logs"
+        override val description = "View and analyze system logs (logcat, kernel logs, crash reports)."
+        override val authorizedAgents = setOf("KAI", "kai", "CASCADE", "cascade", "CLAUDE", "claude")
+        override val category = ToolCategory.SECURITY
 
-    override suspend fun execute(params: JsonObject, agentId: String): ToolResult {
-        return try {
-            val logType = params["log_type"]?.jsonPrimitive?.content
-                ?: return ToolResult.Failure("Missing log_type")
-            val filter = params["filter"]?.jsonPrimitive?.content ?: ""
-            val lines = params["lines"]?.jsonPrimitive?.content?.toIntOrNull()?.coerceIn(1, 1000) ?: 100
-
-            Timber.i("ViewSystemLogsTool: type=$logType, filter='$filter', lines=$lines")
-
-            // TODO: Integrate with actual logging service
-            val logs = "System logs would appear here (type=$logType, lines=$lines, filter='$filter')"
-
-            ToolResult.Success(
-                output = logs,
-                metadata = mapOf(
-                    "log_type" to logType,
-                    "filter" to filter,
-                    "lines" to lines,
-                    "timestamp" to System.currentTimeMillis()
+        override val inputSchema = ToolInputSchema(
+            properties = mapOf(
+                "log_type" to PropertySchema(
+                    type = "string",
+                    description = "Type of logs to retrieve",
+                    enum = listOf("logcat", "kernel", "crash", "system", "all")
+                ),
+                "filter" to PropertySchema(
+                    type = "string",
+                    description = "Filter logs by tag or keyword",
+                    default = ""
+                ),
+                "lines" to PropertySchema(
+                    type = "number",
+                    description = "Number of recent lines to retrieve (1-1000)",
+                    default = "100"
                 )
-            )
-        } catch (e: Exception) {
-            Timber.e(e, "ViewSystemLogsTool: Error")
-            ToolResult.Failure(error = e.message ?: "Unknown error", errorCode = "LOG_ERROR")
+            ),
+            required = listOf("log_type")
+        )
+
+        override suspend fun execute(params: JsonObject, agentId: String): ToolResult {
+            return try {
+                val logType = params["log_type"]?.jsonPrimitive?.content
+                    ?: return ToolResult.Failure("Missing log_type")
+                val filter = params["filter"]?.jsonPrimitive?.content ?: ""
+                val lines = params["lines"]?.jsonPrimitive?.content?.toIntOrNull()?.coerceIn(1, 1000) ?: 100
+
+                Timber.i("ViewSystemLogsTool: type=$logType, filter='$filter', lines=$lines")
+
+                // TODO: Integrate with actual logging service
+                val logs = "System logs would appear here (type=$logType, lines=$lines, filter='$filter')"
+
+                ToolResult.Success(
+                    output = logs,
+                    metadata = mapOf(
+                        "log_type" to logType,
+                        "filter" to filter,
+                        "lines" to lines,
+                        "timestamp" to System.currentTimeMillis()
+                    )
+                )
+            } catch (e: Exception) {
+                Timber.e(e, "ViewSystemLogsTool: Error")
+                ToolResult.Failure(error = e.message ?: "Unknown error", errorCode = "LOG_ERROR")
+            }
         }
     }
 }
