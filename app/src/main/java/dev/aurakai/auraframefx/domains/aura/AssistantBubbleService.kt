@@ -32,6 +32,8 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.aura.ui.components.overlay.AssistantBubbleUI
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -144,7 +146,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         }
 
         val isExpandedState = mutableStateOf(false)
-        val messages = mutableStateListOf<dev.aurakai.auraframefx.models.AgentMessage>()
+        val messages = mutableStateListOf<AgentMessage>()
 
         // Collect messages from the global stream
         serviceScope.launch {
@@ -181,7 +183,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                     onSendMessage = { text, agent ->
                         serviceScope.launch {
                             messageBus.broadcast(
-                                dev.aurakai.auraframefx.models.AgentMessage(
+                                AgentMessage(
                                     from = "User",
                                     content = text,
                                     to = agent.agentName,
@@ -256,7 +258,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         // Neural Briefing for Aura & Kai
         serviceScope.launch {
             messageBus.broadcast(
-                dev.aurakai.auraframefx.models.AgentMessage(
+                AgentMessage(
                     from = "AssistantBubble",
                     content = "Neural Synchrony Established. [REGENESIS-UPGRADE-ALPHA]: Persistence Layer Online. Aura is now watching over all system interactions via GenesisAccessibility. Kai, the Veto Authority is integrated into the floating core.",
                     type = "system_briefing"

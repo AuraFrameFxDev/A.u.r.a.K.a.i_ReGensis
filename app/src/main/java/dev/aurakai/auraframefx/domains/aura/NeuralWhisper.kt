@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.service
+package dev.aurakai.auraframefx.domains.aura
 
 import android.content.Context
 import android.speech.SpeechRecognizer
@@ -7,8 +7,6 @@ import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.domains.aura.models.Emotion
 import dev.aurakai.auraframefx.domains.cascade.models.ConversationState
-import dev.aurakai.auraframefx.domains.cascade.models.ConversationState
-import dev.aurakai.auraframefx.domains.aura.models.Emotion
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.Locale

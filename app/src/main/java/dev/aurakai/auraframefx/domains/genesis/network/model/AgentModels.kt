@@ -9,12 +9,8 @@ import kotlinx.serialization.Serializable
 /**
  * Typealias to unify AgentRequest across the codebase
  */
-typealias AgentRequest = dev.aurakai.auraframefx.models.AgentRequest
-
-/**
- * Typealias to unify AgentResponse across the codebase
- */
-typealias AgentResponse = dev.aurakai.auraframefx.models.AgentResponse
+typealias AgentRequest = dev.aurakai.auraframefx.domains.genesis.models.AgentRequest
+typealias AgentResponse = dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 
 /**
  * Network-specific status response
