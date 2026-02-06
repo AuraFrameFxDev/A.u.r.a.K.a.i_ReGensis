@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.aura
 
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.domains.genesis.network.qualifiers.BaseUrl
-import dev.aurakai.auraframefx.service.NeuralWhisper
+
 import java.time.Clock
 import java.time.Duration
 import java.time.Instant
