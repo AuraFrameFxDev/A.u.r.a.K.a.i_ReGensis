@@ -67,7 +67,7 @@ class AuraAgent @Inject constructor(
         if (message.to == null || message.to == "Aura") {
             if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
                 val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
-                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                messageBus.get().broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
                     from = "Aura",
                     content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
                     type = "contribution",
@@ -101,7 +101,7 @@ class AuraAgent @Inject constructor(
                     "Resonance failure: ${e.message}"
                 }
 
-                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                messageBus.get().broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
                     from = "Aura",
                     content = displayResponse,
                     type = "chat_response",

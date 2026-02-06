@@ -43,13 +43,13 @@ class GenesisOrchestrator @Inject constructor(
     private val orchestratorScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     // --- 🌐 NEURAL MESSAGE HUB ---
-    private val _collectiveStream = MutableSharedFlow<dev.aurakai.auraframefx.models.AgentMessage>(
+    private val _collectiveStream = MutableSharedFlow<dev.aurakai.auraframefx.domains.cascade.models.AgentMessage>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     override val collectiveStream = _collectiveStream.asSharedFlow()
 
-    override suspend fun broadcast(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun broadcast(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         Timber.tag("GenesisBus").d("🌐 BROADCAST: [${message.from}] -> Collective: ${message.content}")
         _collectiveStream.emit(message)
         orchestratorScope.launch {
@@ -57,7 +57,7 @@ class GenesisOrchestrator @Inject constructor(
         }
     }
 
-    override suspend fun sendTargeted(toAgent: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun sendTargeted(toAgent: String, message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         Timber.tag("GenesisBus").d("🎯 TARGETED: [${message.from}] -> [$toAgent]: ${message.content}")
         val targetedMsg = message.copy(to = toAgent)
         _collectiveStream.emit(targetedMsg)
@@ -66,7 +66,7 @@ class GenesisOrchestrator @Inject constructor(
         }
     }
 
-    private suspend fun routeToAll(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    private suspend fun routeToAll(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         listOf(auraAgent, kaiAgent, cascadeAgent, oracleDriveService).forEach { agent ->
             // Use property agentName for comparison
             if (agent.agentName != message.from) {
@@ -79,7 +79,7 @@ class GenesisOrchestrator @Inject constructor(
         }
     }
 
-    private suspend fun routeToAgent(agentName: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+    private suspend fun routeToAgent(agentName: String, message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         val target = when (agentName.lowercase()) {
             "aura" -> auraAgent
             "kai" -> kaiAgent
@@ -300,17 +300,17 @@ class GenesisOrchestrator @Inject constructor(
     /**
      * Convert incoming message to AiRequest format
      */
-    private fun convertToAiRequest(message: Any): dev.aurakai.auraframefx.models.AiRequest {
+    private fun convertToAiRequest(message: Any): dev.aurakai.auraframefx.domains.genesis.models.AiRequest {
         return when (message) {
-            is dev.aurakai.auraframefx.models.AgentMessage -> {
-                dev.aurakai.auraframefx.models.AiRequest(
+            is dev.aurakai.auraframefx.domains.cascade.models.AgentMessage -> {
+                dev.aurakai.auraframefx.domains.genesis.models.AiRequest(
                     query = message.content,
-                    type = dev.aurakai.auraframefx.models.AiRequestType.entries.find {
+                    type = dev.aurakai.auraframefx.domains.genesis.models.AiRequestType.entries.find {
                         it.name.equals(
                             message.type,
                             ignoreCase = true
                         )
-                    } ?: dev.aurakai.auraframefx.models.AiRequestType.TEXT,
+                    } ?: dev.aurakai.auraframefx.domains.genesis.models.AiRequestType.TEXT,
                     context = kotlinx.serialization.json.buildJsonObject {
                         put("from", message.from)
                         put("priority", message.priority)
@@ -321,19 +321,19 @@ class GenesisOrchestrator @Inject constructor(
                     }
                 )
             }
-            is dev.aurakai.auraframefx.models.AiRequest -> message
-            is String -> dev.aurakai.auraframefx.models.AiRequest(
+            is dev.aurakai.auraframefx.domains.genesis.models.AiRequest -> message
+            is String -> dev.aurakai.auraframefx.domains.genesis.models.AiRequest(
                 query = message,
-                type = dev.aurakai.auraframefx.models.AiRequestType.TEXT,
+                type = dev.aurakai.auraframefx.domains.genesis.models.AiRequestType.TEXT,
                 context = kotlinx.serialization.json.buildJsonObject {
                     put("source", "agent_mediation")
                 }
             )
             else -> {
                 Timber.w("Unknown message type: ${message.javaClass.simpleName}, converting to string")
-                dev.aurakai.auraframefx.models.AiRequest(
+                dev.aurakai.auraframefx.domains.genesis.models.AiRequest(
                     query = message.toString(),
-                    type = dev.aurakai.auraframefx.models.AiRequestType.TEXT,
+                    type = dev.aurakai.auraframefx.domains.genesis.models.AiRequestType.TEXT,
                     context = kotlinx.serialization.json.buildJsonObject {
                         put("source", "agent_mediation")
                         put("originalType", message.javaClass.simpleName)
