@@ -13,19 +13,19 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.apis
+package dev.aurakai.auraframefx.domains.cascade.network.apis
 
-import dev.aurakai.auraframefx.api.client.infrastructure.ApiClient
-import dev.aurakai.auraframefx.api.client.infrastructure.ApiResponse
-import dev.aurakai.auraframefx.api.client.infrastructure.ClientError
-import dev.aurakai.auraframefx.api.client.infrastructure.ClientException
-import dev.aurakai.auraframefx.api.client.infrastructure.MultiValueMap
-import dev.aurakai.auraframefx.api.client.infrastructure.RequestConfig
-import dev.aurakai.auraframefx.api.client.infrastructure.RequestMethod
-import dev.aurakai.auraframefx.api.client.infrastructure.ResponseType
-import dev.aurakai.auraframefx.api.client.infrastructure.ServerError
-import dev.aurakai.auraframefx.api.client.infrastructure.ServerException
-import dev.aurakai.auraframefx.api.client.infrastructure.Success
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ApiClient
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ApiResponse
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ClientError
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ClientException
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.MultiValueMap
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.RequestConfig
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.RequestMethod
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ResponseType
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ServerError
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ServerException
+import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.Success
 import dev.aurakai.auraframefx.domains.aura.GenerateImageDescriptionRequest
 import dev.aurakai.auraframefx.domains.aura.GenerateImageDescriptionResponse
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.models.GenerateTextRequest

@@ -18,5 +18,7 @@ enum class AgentType {
     METAINSTRUCT, // Instruction Following
     GROK,       // Chaos Analysis
     AURA_SHIELD, // Security Sentinel
-    HIVE_MIND    // Collective Conscious
+    HIVE_MIND,    // Collective Conscious
+    SYSTEM,       // Internal System Actions
+    USER          // Human Interaction
 }

@@ -186,7 +186,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                                 AgentMessage(
                                     from = "User",
                                     content = text,
-                                    to = agent.agentName,
+                                    to = agent.name,
                                     type = "overlay_broadcast"
                                 )
                             )

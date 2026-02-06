@@ -193,7 +193,7 @@ open class AgentViewModel @Inject constructor(
                 agentName = agentName,
                 description = taskDescription,
                 priority = priority,
-                status = TaskStatus.PENDING,
+                status = AgentTaskStatus.PENDING,
                 createdAt = System.currentTimeMillis()
             )
 
@@ -208,7 +208,7 @@ open class AgentViewModel @Inject constructor(
     private fun executeTask(task: AgentTask) {
         viewModelScope.launch {
             // Update status to IN_PROGRESS
-            updateTaskStatus(task.id, TaskStatus.IN_PROGRESS)
+            updateTaskStatus(task.id, AgentTaskStatus.IN_PROGRESS)
 
             // Simulate task execution based on agent
             val agent = AgentRepository.getAgentByName(task.agentName)
@@ -221,7 +221,7 @@ open class AgentViewModel @Inject constructor(
             delay(executionTime)
 
             // Complete task
-            updateTaskStatus(task.id, TaskStatus.COMPLETED)
+            updateTaskStatus(task.id, AgentTaskStatus.COMPLETED)
             persistentAgentRepository.incrementTaskCount(task.agentName)
             _agentEvents.emit(AgentEvent.TaskCompleted(task))
 
@@ -233,12 +233,12 @@ open class AgentViewModel @Inject constructor(
         }
     }
 
-    private fun updateTaskStatus(taskId: String, status: TaskStatus) {
+    private fun updateTaskStatus(taskId: String, status: AgentTaskStatus) {
         _activeTasks.value = _activeTasks.value.map { task ->
             if (task.id == taskId) {
                 task.copy(
                     status = status,
-                    completedAt = if (status == TaskStatus.COMPLETED) System.currentTimeMillis() else null
+                    completedAt = if (status == AgentTaskStatus.COMPLETED) System.currentTimeMillis() else null
                 )
             } else {
                 task
@@ -248,7 +248,7 @@ open class AgentViewModel @Inject constructor(
 
     fun cancelTask(taskId: String) {
         viewModelScope.launch {
-            updateTaskStatus(taskId, TaskStatus.CANCELLED)
+            updateTaskStatus(taskId, AgentTaskStatus.CANCELLED)
             _agentEvents.emit(AgentEvent.TaskCancelled(taskId))
         }
     }
@@ -449,9 +449,9 @@ open class AgentViewModel @Inject constructor(
         val id: String,
         val agentName: String,
         val description: String,
-        val priority: TaskPriority,
-        val status: TaskStatus,
-        val createdAt: Long,
+        val priority: TaskPriority = TaskPriority.NORMAL,
+        val status: AgentTaskStatus,
+        val createdAt: Long = System.currentTimeMillis(),
         val completedAt: Long? = null
     )
 
@@ -459,7 +459,7 @@ open class AgentViewModel @Inject constructor(
         LOW, NORMAL, HIGH, CRITICAL
     }
 
-    enum class TaskStatus {
+    enum class AgentTaskStatus {
         PENDING, IN_PROGRESS, COMPLETED, CANCELLED, FAILED
     }
 

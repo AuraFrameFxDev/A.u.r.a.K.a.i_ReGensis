@@ -10,15 +10,16 @@ import kotlinx.serialization.json.buildJsonObject
  */
 @Serializable
 data class AiRequest(
-    val prompt: String,
+    val prompt: String = "",
+    val query: String = "", // Compatibility alias
     val agentType: AgentType = AgentType.GENESIS,
     val type: AiRequestType = AiRequestType.TEXT,
     val context: JsonObject = buildJsonObject { },
     val metadata: Map<String, String> = emptyMap(),
     val priority: Priority = Priority.NORMAL
 ) {
-    /** Compatibility alias for [prompt] */
-    val query: String get() = prompt
+    /** Combined prompt text for processing */
+    fun getPromptText(): String = if (prompt.isNotBlank()) prompt else query
 
     @Serializable
     enum class Priority {
