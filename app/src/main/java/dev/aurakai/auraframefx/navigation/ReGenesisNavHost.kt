@@ -11,7 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.domains.aura.core.ui.AgentAdvancementScreen
+import dev.aurakai.auraframefx.domains.aura.aura.ui.AgentAdvancementScreen
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityScreen
 import dev.aurakai.auraframefx.config.GateAssetLoadout
 import dev.aurakai.auraframefx.domains.aura.lab.CustomizationViewModel
