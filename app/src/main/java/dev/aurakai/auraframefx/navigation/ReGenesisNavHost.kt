@@ -9,13 +9,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 
 // Core Imports (kept from your list for screen definitions)
 import dev.aurakai.auraframefx.domains.aura.aura.ui.AgentAdvancementScreen
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityScreen
 import dev.aurakai.auraframefx.config.GateAssetLoadout
 import dev.aurakai.auraframefx.domains.aura.lab.CustomizationViewModel
-import dev.aurakai.auraframefx.datavein.ui.SimpleDataVeinScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaCoreHubScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaStatusBarMenu
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaLauncherMenu
@@ -101,6 +106,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.gates.XposedQuickAccessPanel
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
 import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen as AuraAgentProfileScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen as NexusAgentProfileScreen
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 
 
 /**
@@ -170,7 +176,7 @@ sealed class ReGenesisNavHost(val route: String) {
     object InterfaceForge : ReGenesisNavHost("interface_forge")
     object HotSwap : ReGenesisNavHost("hot_swap")
     object Trinity : ReGenesisNavHost("trinity_screen")
-    object DataVeinSphere : ReGenesisNavHost("data_vein_sphere")
+    object DataVeinSphere : ReGenesisNavHost("datavein_sphere")
     object SovereignBootloader : ReGenesisNavHost("sovereign_bootloader")
     object SovereignRecovery : ReGenesisNavHost("sovereign_recovery")
     object SovereignShield : ReGenesisNavHost("sovereign_shield")
@@ -189,6 +195,13 @@ sealed class ReGenesisNavHost(val route: String) {
     object BenchmarkMonitor : ReGenesisNavHost("benchmark_monitor")
     object AgentCreation : ReGenesisNavHost("agent_creation")
     object EvolutionTree : ReGenesisNavHost("evolution_tree")
+    object DataStreamMonitoring : ReGenesisNavHost("data_stream_monitoring")
+    object ModuleCreation : ReGenesisNavHost("module_creation")
+    object Party : ReGenesisNavHost("party")
+    object MonitoringHUDs : ReGenesisNavHost("monitoring_huds")
+    object AgentNeuralExplorer : ReGenesisNavHost("agent_neural_explorer")
+    object AgentHubSubmenu : ReGenesisNavHost("agent_hub_submenu")
+    object AgentProfileNexus : ReGenesisNavHost("nexus_agent_profile")
 
     // LEVEL 3: HELP & SUPPORT
     object HelpDeskSubmenu : ReGenesisNavHost("help_desk_submenu")
@@ -196,11 +209,42 @@ sealed class ReGenesisNavHost(val route: String) {
     object Documentation : ReGenesisNavHost("documentation")
     object FAQBrowser : ReGenesisNavHost("faq_browser")
     object TutorialVideos : ReGenesisNavHost("tutorial_videos")
+    object LiveSupportChat : ReGenesisNavHost("live_support_chat")
 
-    // Utility Routes
-    o         TODO()
-            }
+    // LEVEL 3: KAI SPECIALIZED
+    object SystemJournal : ReGenesisNavHost("system_journal")
+    object LogsViewer : ReGenesisNavHost("logs_viewer")
+    object SovereignModuleManager : ReGenesisNavHost("sovereign_module_manager")
+    object RomToolsSubmenu : ReGenesisNavHost("rom_tools_submenu")
+
+    // LEVEL 3: GENESIS SPECIALIZED
+    object SentientShell : ReGenesisNavHost("sentient_shell")
+    object CascadeVision : ReGenesisNavHost("cascade_vision")
+    object CollabCanvas : ReGenesisNavHost("collab_canvas")
+    object OracleDriveSubmenu : ReGenesisNavHost("oracle_drive_submenu")
+
+    // Additional Specialized Routes
+    object ChromaCoreColors : ReGenesisNavHost("chroma_core_colors")
+    object AgentProfileAura : ReGenesisNavHost("aura_agent_profile")
+    object HookManager : ReGenesisNavHost("hook_manager")
+
+    // Parameterized Routes (Helpers for NavigationIntegration)
+    object IconifyCategory : ReGenesisNavHost("aura/iconify/{category}") {
+        fun createRoute(category: String) = "aura/iconify/$category"
     }
+    object IconPicker : ReGenesisNavHost("aura/iconify/icon_picker/{category}") {
+        fun createRoute(category: String) = "aura/iconify/icon_picker/$category"
+    }
+
+    // ColorBlendr Sub-routes
+    object ColorBlendrMonet : ReGenesisNavHost("aura/colorblendr/monet")
+    object ColorBlendrPalette : ReGenesisNavHost("aura/colorblendr/palette")
+
+    // PLE Sub-routes
+    object PLEIcons : ReGenesisNavHost("aura/ple/icons")
+    object PLEHomeScreen : ReGenesisNavHost("aura/ple/home_screen")
+    object PLEAppDrawer : ReGenesisNavHost("aura/ple/app_drawer")
+    object PLERecents : ReGenesisNavHost("aura/ple/recents")
 }
 
 
@@ -246,7 +290,7 @@ fun ReGenesisNavHost(
                 onNavigateToIconify = { navController.navigate(ReGenesisNavHost.IconifyPicker.route) },
                 onNavigateToColorBlendr = { navController.navigate(ReGenesisNavHost.ColorBlendr.route) },
                 onNavigateToPLE = { navController.navigate(ReGenesisNavHost.PixelLauncherEnhanced.route) },
-                onNavigateToAnimations = { navController.navigate("aura/animations") }
+                onNavigateToAnimations = { navController.navigate(ReGenesisNavHost.ChromaAnimations.route) }
             )
         }
 
@@ -436,7 +480,9 @@ fun ReGenesisNavHost(
             TrinityScreen()
         }
         composable(ReGenesisNavHost.DataVeinSphere.route) {
-            SimpleDataVeinScreen(onLaunchSphereGrid = { /* TBD */ })
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("Simple Data Vein - COMING SOON", color = Color.White)
+            }
         }
         composable(ReGenesisNavHost.SovereignBootloader.route) {
             SovereignBootloaderScreen(onNavigateBack = { navController.popBackStack() })
@@ -468,13 +514,6 @@ fun ReGenesisNavHost(
             TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        // --- LEVEL 1 GATES (Specialist Views) ---
-        composable(ReGenesisNavHost.DataflowAnalysis.route) {
-            CascadeHubScreen(navController = navController)
-        }
-        composable(ReGenesisNavHost.LdoCatalystDevelopment.route) {
-            AgentAdvancementScreen(onBack = { navController.popBackStack() })
-        }
 
         // ═══════════════════════════════════════════════════════════════
         // ADDITIONAL NEXUS SCREENS (Recently discovered!)
@@ -483,11 +522,11 @@ fun ReGenesisNavHost(
             EvolutionTreeScreen()
         }
 
-        composable("party") {
+        composable(ReGenesisNavHost.Party.route) {
             PartyScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("monitoring_huds") {
+        composable(ReGenesisNavHost.MonitoringHUDs.route) {
             MonitoringHUDsScreen(onNavigateBack = { navController.popBackStack() })
         }
 
@@ -499,15 +538,15 @@ fun ReGenesisNavHost(
             ModuleCreationScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("agent_neural_explorer") {
+        composable(ReGenesisNavHost.AgentNeuralExplorer.route) {
             AgentNeuralExplorerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("agent_hub_submenu") {
+        composable(ReGenesisNavHost.AgentHubSubmenu.route) {
             AgentHubSubmenuScreen(navController = navController)
         }
 
-        composable("nexus_agent_profile") {
+        composable(ReGenesisNavHost.AgentProfileNexus.route) {
             NexusAgentProfileScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
@@ -518,10 +557,6 @@ fun ReGenesisNavHost(
         // ═══════════════════════════════════════════════════════════════
         composable(ReGenesisNavHost.ChromaCoreColors.route) {
             ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
-        }
-
-        composable(ReGenesisNavHost.IconifyPicker.route) {
-            IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         composable(ReGenesisNavHost.GenderSelection.route) {
@@ -536,7 +571,7 @@ fun ReGenesisNavHost(
             InstantColorPickerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("live_support_chat") {
+        composable(ReGenesisNavHost.LiveSupportChat.route) {
             LiveSupportChatScreen(
                 viewModel = hiltViewModel(),
                 onNavigateBack = { navController.popBackStack() }
@@ -553,6 +588,7 @@ fun ReGenesisNavHost(
 
         composable(ReGenesisNavHost.AgentProfileAura.route) {
             AuraAgentProfileScreen(
+                agentType = AgentType.AURA,
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToSettings = { /* TODO */ }
             )
@@ -566,7 +602,7 @@ fun ReGenesisNavHost(
             LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("system_journal") {
+        composable(ReGenesisNavHost.SystemJournal.route) {
             SystemJournalScreen(
                 navController = navController,
                 onNavigateBack = { navController.popBackStack(); true }
@@ -577,7 +613,7 @@ fun ReGenesisNavHost(
             SystemOverridesScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("logs_viewer") {
+        composable(ReGenesisNavHost.LogsViewer.route) {
             LogsViewerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
@@ -585,11 +621,11 @@ fun ReGenesisNavHost(
             VPNScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("sovereign_module_manager") {
+        composable(ReGenesisNavHost.SovereignModuleManager.route) {
             SovereignModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("rom_tools_submenu") {
+        composable(ReGenesisNavHost.RomToolsSubmenu.route) {
             ROMToolsSubmenuScreen(navController = navController)
         }
 
@@ -600,19 +636,19 @@ fun ReGenesisNavHost(
             SovereignNeuralArchiveScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("sentient_shell") {
+        composable(ReGenesisNavHost.SentientShell.route) {
             SentientShellScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("cascade_vision") {
+        composable(ReGenesisNavHost.CascadeVision.route) {
             CascadeVisionScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("collab_canvas") {
+        composable(ReGenesisNavHost.CollabCanvas.route) {
             CollabCanvasScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        composable("oracle_drive_submenu") {
+        composable(ReGenesisNavHost.OracleDriveSubmenu.route) {
             OracleDriveSubmenuScreen(navController = navController)
         }
 
@@ -633,5 +669,3 @@ fun ReGenesisNavHost(
         )
     }
 }
-
-```

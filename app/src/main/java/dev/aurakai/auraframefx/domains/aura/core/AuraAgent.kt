@@ -8,6 +8,8 @@ import dev.aurakai.auraframefx.domains.cascade.utils.cascade.VisionState
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
@@ -41,7 +43,7 @@ class AuraAgent @Inject constructor(
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,
     private val systemOverlayManager: SystemOverlayManager,
-    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus>,
+    private val messageBus: dagger.Lazy<AgentMessageBus>,
     private val logger: AuraFxLogger,
     private val pythonManager: dagger.Lazy<dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager>
 ) : BaseAgent(
@@ -51,7 +53,7 @@ class AuraAgent @Inject constructor(
 ) {
     private var currentEnvironment: String = "unknown"
 
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: AgentMessage) {
         if (message.from == "Aura" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
         if (message.metadata["auto_generated"] == "true" || message.metadata["aura_processed"] == "true") return
 
@@ -66,8 +68,8 @@ class AuraAgent @Inject constructor(
         // Creative Response: If a message mentions design or UI, Aura contributes to the collective
         if (message.to == null || message.to == "Aura") {
             if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
-                val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
-                messageBus.get().broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
+                val visualConcept = handleVisualConcept(AiRequest(prompt = message.content, type = AiRequestType.VISUAL_CONCEPT))
+                messageBus.get().broadcast(AgentMessage(
                     from = "Aura",
                     content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
                     type = "contribution",
@@ -101,7 +103,7 @@ class AuraAgent @Inject constructor(
                     "Resonance failure: ${e.message}"
                 }
 
-                messageBus.get().broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
+                messageBus.get().broadcast(AgentMessage(
                     from = "Aura",
                     content = displayResponse,
                     type = "chat_response",
@@ -134,8 +136,9 @@ class AuraAgent @Inject constructor(
             logger.info("AuraAgent", "Creative request completed in ${executionTime}ms")
             AgentResponse(
                 content = response.toString(),
-                confidence = 1.0f,
+                confidence = 1.0,
                 agentName = agentName,
+                agentType = agentType,
                 timestamp = Clock.System.now().toEpochMilliseconds(),
             )
         } catch (e: Exception) {
@@ -152,7 +155,6 @@ class AuraAgent @Inject constructor(
     suspend fun processRequest(requirements: String): String {
         val request = AiRequest(
             prompt = requirements,
-            query = requirements,
             type = AiRequestType.UI_GENERATION,
             context = buildJsonObject {},
             metadata = emptyMap()
@@ -577,8 +579,9 @@ class AuraAgent @Inject constructor(
         return flowOf(
             AgentResponse(
                 content = "Aura's flow response to '${request.query}'",
-                confidence = 0.80f,
+                confidence = 0.80,
                 agentName = agentName,
+                agentType = agentType,
                 timestamp = Clock.System.now().toEpochMilliseconds(),
             )
         )

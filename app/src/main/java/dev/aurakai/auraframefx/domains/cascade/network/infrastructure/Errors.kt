@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package dev.aurakai.auraframefx.api.client.infrastructure
+package dev.aurakai.auraframefx.domains.cascade.network.infrastructure
 
 open class ClientException(
     message: String? = null,

@@ -16,12 +16,14 @@ import dev.aurakai.auraframefx.domains.aura.AssistantBubbleService
 import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import timber.log.Timber
+import javax.inject.Inject
+import dev.aurakai.auraframefx.system.ShizukuManager
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @javax.inject.Inject
-    lateinit var shizukuManager: dev.aurakai.auraframefx.system.ShizukuManager
+    @Inject
+    lateinit var shizukuManager: ShizukuManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

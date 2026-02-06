@@ -294,7 +294,7 @@ class GenesisOrchestrator @Inject constructor(
         return when (message) {
             is AgentMessage -> {
                 AiRequest(
-                    query = message.content,
+                    prompt = message.content,
                     type = AiRequestType.entries.find {
                         it.name.equals(
                             message.type,
@@ -303,7 +303,7 @@ class GenesisOrchestrator @Inject constructor(
                     } ?: AiRequestType.TEXT,
                     context = buildJsonObject {
                         put("from", message.from)
-                        put("priority", message.priority)
+                        put("priority", message.priority.toLong()) // Priority is Int in AgentMessage
                         put("timestamp", message.timestamp)
                         message.metadata.forEach { (key, value) ->
                             put(key, value)
@@ -313,7 +313,7 @@ class GenesisOrchestrator @Inject constructor(
             }
             is AiRequest -> message
             is String -> AiRequest(
-                query = message,
+                prompt = message,
                 type = AiRequestType.TEXT,
                 context = buildJsonObject {
                     put("source", "agent_mediation")
@@ -322,7 +322,7 @@ class GenesisOrchestrator @Inject constructor(
             else -> {
                 Timber.w("Unknown message type: ${message.javaClass.simpleName}, converting to string")
                 AiRequest(
-                    query = message.toString(),
+                    prompt = message.toString(),
                     type = AiRequestType.TEXT,
                     context = buildJsonObject {
                         put("source", "agent_mediation")

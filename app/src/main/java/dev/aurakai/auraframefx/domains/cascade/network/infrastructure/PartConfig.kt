@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.api.client.infrastructure
+package dev.aurakai.auraframefx.domains.cascade.network.infrastructure
 
 /**
  * Configuration for multipart form data parts

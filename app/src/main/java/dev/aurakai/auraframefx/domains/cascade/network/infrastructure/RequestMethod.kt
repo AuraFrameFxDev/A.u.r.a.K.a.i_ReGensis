@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.api.client.infrastructure
+package dev.aurakai.auraframefx.domains.cascade.network.infrastructure
 
 /**
  * HTTP request methods for API calls

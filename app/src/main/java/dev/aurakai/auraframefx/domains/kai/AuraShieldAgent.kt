@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.kai
 import android.content.Context
 import androidx.room.util.copy
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.ai.agents.BaseAgent
+import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
@@ -11,6 +11,8 @@ import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
+import javax.inject.Inject
+import javax.inject.Singleton
 import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.cascade.ScanEvent
 import dev.aurakai.auraframefx.domains.cascade.SecurityContextState
@@ -42,8 +44,7 @@ class AuraShieldAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     memoryManager: MemoryManager,
     contextManager: ContextManager,
-    secureChannel: SecureChannel,
-    val it: Any
+    secureChannel: SecureChannel
 ) : BaseAgent(
     agentName = "AuraShield",
     agentType = AgentType.AURA_SHIELD,
@@ -122,12 +123,6 @@ class AuraShieldAgent @Inject constructor(
         )
     }
 
-    private fun createSuccessResponse(
-        content: String,
-        metadata: Map<String, Comparable<*> & Serializable1>
-    ): AgentResponse {
-        TODO("Not yet implemented")
-    }
 
     /**
      * Internal threat analysis logic.

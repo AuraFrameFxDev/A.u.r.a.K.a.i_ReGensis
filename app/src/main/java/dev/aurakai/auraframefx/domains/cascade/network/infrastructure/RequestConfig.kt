@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.api.client.infrastructure
+package dev.aurakai.auraframefx.domains.cascade.network.infrastructure
 
 /**
  * Defines a config object for a given request.

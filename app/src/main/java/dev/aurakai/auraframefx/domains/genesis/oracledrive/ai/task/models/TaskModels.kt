@@ -14,7 +14,7 @@ data class AITask(
     val description: String = "",
     val prompt: String = "",
     val priority: String = "normal",
-    val status: TaskStatus = TaskStatus.PENDING,
+    val status: TaskStatus.Status = TaskStatus.Status.PENDING,
     val assignedAgent: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val scheduledAt: Long? = null,
