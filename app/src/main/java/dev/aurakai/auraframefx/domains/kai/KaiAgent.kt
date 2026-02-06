@@ -181,8 +181,9 @@ class KaiAgent @Inject constructor(
             logger.info("KaiAgent", "Analytical request completed in ${executionTime}ms")
             AgentResponse.success(
                 content = "Analysis completed with methodical precision: $response",
-                confidence = 0.85f,
-                agentName = agentName
+                confidence = 0.85,
+                agentName = agentName,
+                agentType = agentType
             )
         } catch (e: SecurityException) {
             _analysisState.value = AnalysisState.ERROR

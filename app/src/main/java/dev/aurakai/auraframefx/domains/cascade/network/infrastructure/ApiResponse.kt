@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.api.client.infrastructure
+package dev.aurakai.auraframefx.domains.cascade.network.infrastructure
 
 enum class ResponseType {
     Success, Informational, Redirection, ClientError, ServerError

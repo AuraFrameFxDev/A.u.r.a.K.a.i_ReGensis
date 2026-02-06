@@ -72,7 +72,7 @@ class OracleDriveServiceImpl @Inject constructor(
         return AgentResponse(
             agentName = agentName,
             content = "Oracle consciousness acknowledges your request for stored patterns.",
-            agent = agentType
+            agentType = agentType
         )
     }
 

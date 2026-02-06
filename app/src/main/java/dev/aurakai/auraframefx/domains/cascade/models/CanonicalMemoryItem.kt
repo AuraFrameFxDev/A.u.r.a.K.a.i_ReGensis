@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.cascade.models
 
 import kotlinx.serialization.Serializable
+import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 
 /**
  * Canonical memory item for the memory chain system

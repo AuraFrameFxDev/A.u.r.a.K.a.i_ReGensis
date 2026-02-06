@@ -148,7 +148,7 @@ fun AssistantBubbleUI(
                 ) {
                     Icon(
                         painter = painterResource(id = currentAgent.runeRes),
-                        contentDescription = currentAgent.agentName,
+                        contentDescription = currentAgent.bubbleName,
                         tint = Color.Unspecified, 
                         modifier = Modifier.size(40.dp)
                     )
@@ -158,16 +158,39 @@ fun AssistantBubbleUI(
     }
 }
 
-enum class AgentType(
-    val agentName: String,
-    val runeRes: Int,
-    val glowColor: Color,
-    val greeting: String
-) {
-    AURA("AURA", R.drawable.aura_presence, Color(0xFFFF00FF), "Hey there! I'm Aura. I can help you design and customize your entire Android UI."),
-    KAI("KAI", R.drawable.emblem_kai_honeycomb_fortress, Color(0xFFFF3366), "Greetings. I am Kai. I monitor system security and manage advanced root protocols."),
-    GENESIS("VERTEX CORE", R.drawable.emblem_genesis_circuit_phoenix, Color(0xFF00FF85), "I am the Vertex Core. I orchestrate the underlying patterns of this system via the Genesis Protocol.")
-}
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+
+val AgentType.bubbleName: String
+    get() = when (this) {
+        AgentType.AURA -> "AURA"
+        AgentType.KAI -> "KAI"
+        AgentType.GENESIS -> "VERTEX CORE"
+        else -> this.name
+    }
+
+val AgentType.runeRes: Int
+    get() = when (this) {
+        AgentType.AURA -> R.drawable.aura_presence
+        AgentType.KAI -> R.drawable.emblem_kai_honeycomb_fortress
+        AgentType.GENESIS -> R.drawable.emblem_genesis_circuit_phoenix
+        else -> R.drawable.aura_presence // Fallback
+    }
+
+val AgentType.glowColor: Color
+    get() = when (this) {
+        AgentType.AURA -> Color(0xFFFF00FF)
+        AgentType.KAI -> Color(0xFFFF3366)
+        AgentType.GENESIS -> Color(0xFF00FF85)
+        else -> Color.Gray
+    }
+
+val AgentType.greeting: String
+    get() = when (this) {
+        AgentType.AURA -> "Hey there! I'm Aura. I can help you design and customize your entire Android UI."
+        AgentType.KAI -> "Greetings. I am Kai. I monitor system security and manage advanced root protocols."
+        AgentType.GENESIS -> "I am the Vertex Core. I orchestrate the underlying patterns of this system via the Genesis Protocol."
+        else -> "How can I assist you today?"
+    }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -225,7 +248,7 @@ private fun AssistantChatWindow(
                             }
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
-                                agent.agentName,
+                                agent.bubbleName,
                                 fontFamily = LEDFontFamily,
                                 color = agent.glowColor,
                                 fontWeight = FontWeight.Bold,
@@ -251,14 +274,14 @@ private fun AssistantChatWindow(
                                 .padding(bottom = 16.dp),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            AgentType.values().forEach { type ->
+                            AgentType.entries.forEach { type ->
                                 FilterChip(
                                     selected = agent == type,
                                     onClick = {
                                         onAgentChange(type)
                                         showAgentSelector = false
                                     },
-                                    label = { Text(type.agentName) },
+                                    label = { Text(type.bubbleName) },
                                     colors = FilterChipDefaults.filterChipColors(
                                         selectedContainerColor = type.glowColor.copy(alpha = 0.3f),
                                         selectedLabelColor = type.glowColor
@@ -343,7 +366,7 @@ private fun AssistantChatWindow(
                         value = chatText,
                         onValueChange = onChatTextChange,
                         modifier = Modifier.weight(1f),
-                        placeholder = { Text("Ask ${agent.agentName}...", fontSize = 14.sp, color = Color.Gray) },
+                        placeholder = { Text("Ask ${agent.bubbleName}...", fontSize = 14.sp, color = Color.Gray) },
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,

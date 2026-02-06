@@ -68,7 +68,7 @@ class AuraAgent @Inject constructor(
         // Creative Response: If a message mentions design or UI, Aura contributes to the collective
         if (message.to == null || message.to == "Aura") {
             if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
-                val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
+                val visualConcept = handleVisualConcept(AiRequest(prompt = message.content, type = AiRequestType.VISUAL_CONCEPT))
                 messageBus.get().broadcast(AgentMessage(
                     from = "Aura",
                     content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
@@ -136,8 +136,9 @@ class AuraAgent @Inject constructor(
             logger.info("AuraAgent", "Creative request completed in ${executionTime}ms")
             AgentResponse(
                 content = response.toString(),
-                confidence = 1.0f,
+                confidence = 1.0,
                 agentName = agentName,
+                agentType = agentType,
                 timestamp = Clock.System.now().toEpochMilliseconds(),
             )
         } catch (e: Exception) {
@@ -154,7 +155,6 @@ class AuraAgent @Inject constructor(
     suspend fun processRequest(requirements: String): String {
         val request = AiRequest(
             prompt = requirements,
-            query = requirements,
             type = AiRequestType.UI_GENERATION,
             context = buildJsonObject {},
             metadata = emptyMap()
@@ -579,8 +579,9 @@ class AuraAgent @Inject constructor(
         return flowOf(
             AgentResponse(
                 content = "Aura's flow response to '${request.query}'",
-                confidence = 0.80f,
+                confidence = 0.80,
                 agentName = agentName,
+                agentType = agentType,
                 timestamp = Clock.System.now().toEpochMilliseconds(),
             )
         )

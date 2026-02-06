@@ -8,6 +8,8 @@ import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AgentPriority
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -413,7 +415,7 @@ class CascadeAgent @Inject constructor(
         Timber.d("🤝 Processing collaborative request")
 
         // Get responses from multiple agents
-        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = AiRequestType.COLLABORATIVE)
+        val request = AiRequest(prompt = prompt, agentType = AgentType.CASCADE, priority = AiRequest.Priority.NORMAL)
         val auraResponse = auraAgent.processRequest(request, "").content
         val kaiResponse = kaiAgent.processRequest(request, "").content
 
@@ -433,7 +435,7 @@ class CascadeAgent @Inject constructor(
             )
         )
 
-        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = AiRequestType.SECURITY)
+        val request = AiRequest(prompt = prompt, agentType = AgentType.KAI, priority = AiRequest.Priority.NORMAL)
         val response = kaiAgent.processRequest(request, "")
 
         updateProcessingState(
@@ -459,7 +461,7 @@ class CascadeAgent @Inject constructor(
             )
         )
 
-        val request = dev.aurakai.auraframefx.models.AiRequest(query = prompt, type = AiRequestType.CREATIVE)
+        val request = AiRequest(prompt = prompt, agentType = AgentType.AURA, priority = AiRequest.Priority.NORMAL)
         val response = auraAgent.processRequest(request, "")
 
         updateProcessingState(
@@ -834,14 +836,16 @@ class CascadeAgent @Inject constructor(
 
     // BaseAgent abstract method implementation
     override suspend fun processRequest(
-        request: dev.aurakai.auraframefx.models.AiRequest,
+        request: AiRequest,
         context: String
-    ): dev.aurakai.auraframefx.models.AgentResponse {
+    ): AgentResponse {
         // Delegate to the string-based processRequest method
         val response = processRequest(request.prompt)
-        return dev.aurakai.auraframefx.models.AgentResponse(
+        return AgentResponse.success(
             content = response,
-            confidence = 0.90f
+            agentName = agentName,
+            agentType = agentType,
+            confidence = 0.90
         )
     }
 }

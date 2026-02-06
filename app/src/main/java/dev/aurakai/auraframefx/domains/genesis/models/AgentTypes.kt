@@ -11,6 +11,47 @@ enum class ApiAgentType {
 }
 
 /**
+ * Categories of agent capabilities
+ */
+enum class AgentCapabilityCategory {
+    UI,
+    UX,
+    SECURITY,
+    ROOT,
+    MEMORY,
+    ORCHESTRATION,
+    BACKEND,
+    BRIDGE,
+    GENERIC
+}
+
+/**
+ * Types of AI requests for routing and processing
+ */
+enum class AiRequestType {
+    TEXT,
+    IMAGE,
+    CREATIVE,
+    SECURITY,
+    COLLABORATIVE,
+    SYSTEM,
+    ANALYSIS,
+    UI_GENERATION,
+    THEME_CREATION,
+    ANIMATION_DESIGN,
+    CREATIVE_TEXT,
+    VISUAL_CONCEPT,
+    USER_EXPERIENCE,
+    SECURITY_ANALYSIS,
+    THREAT_ASSESSMENT,
+    PERFORMANCE_ANALYSIS,
+    CODE_REVIEW,
+    SYSTEM_OPTIMIZATION,
+    VULNERABILITY_SCAN,
+    COMPLIANCE_CHECK
+}
+
+/**
  * Represents response types for content generation
  */
 enum class ResponseType {
