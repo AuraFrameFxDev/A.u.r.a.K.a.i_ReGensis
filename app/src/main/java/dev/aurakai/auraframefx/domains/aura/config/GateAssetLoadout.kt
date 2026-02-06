@@ -104,7 +104,7 @@ object GateAssetLoadout {
             styleADrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.fallback,
-            route = ReGenesisNavHost.BootloaderManager.route,
+            route = ReGenesisNavHost.Bootloader.route,
             accentColor = Color(0xFF2979FF)
         ),
         "rom_tools" to SubGateCard(
