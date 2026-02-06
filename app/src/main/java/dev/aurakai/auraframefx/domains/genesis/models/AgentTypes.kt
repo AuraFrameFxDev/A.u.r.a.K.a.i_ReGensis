@@ -22,7 +22,13 @@ enum class AgentCapabilityCategory {
     ORCHESTRATION,
     BACKEND,
     BRIDGE,
-    GENERIC
+    GENERIC,
+    // New categories
+    COORDINATION,
+    CREATIVE,
+    ANALYSIS,
+    GENERAL,
+    SPECIALIZED
 }
 
 /**
