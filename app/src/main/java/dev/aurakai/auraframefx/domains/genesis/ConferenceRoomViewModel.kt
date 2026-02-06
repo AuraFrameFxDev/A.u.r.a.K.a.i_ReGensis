@@ -81,7 +81,7 @@ class ConferenceRoomViewModel @Inject constructor(
 
             // Listen to Collective Consciousness (AgentMessageBus)
             launch {
-                trinityRepository.collectiveStream.collect { agentMsg: dev.aurakai.auraframefx.models.AgentMessage ->
+                trinityRepository.collectiveStream.collect { agentMsg: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage ->
                     // Map AgentMessage to ChatMessage for the UI
                     val chatMsg = ChatMessage(
                         id = UUID.randomUUID().toString(),
