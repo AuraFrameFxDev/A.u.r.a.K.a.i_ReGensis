@@ -1,3 +1,3 @@
 package dev.aurakai.auraframefx.aura
 
-annotation class AuraAgent
+annotation class AuraAgentQualifier
