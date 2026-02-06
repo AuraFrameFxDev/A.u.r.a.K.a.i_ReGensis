@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.api.client.apis.AIContentApi
+import dev.aurakai.auraframefx.domains.cascade.network.apis.AIContentApi
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import javax.inject.Named

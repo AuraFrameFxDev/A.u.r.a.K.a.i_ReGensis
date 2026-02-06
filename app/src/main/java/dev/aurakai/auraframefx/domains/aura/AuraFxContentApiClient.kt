@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.aura
 
-import dev.aurakai.auraframefx.api.client.apis.AIContentApi
+import dev.aurakai.auraframefx.domains.cascade.network.apis.AIContentApi
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.models.GenerateTextRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
