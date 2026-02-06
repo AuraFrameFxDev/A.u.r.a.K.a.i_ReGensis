@@ -71,7 +71,7 @@ class DefaultAuraAIService @Inject constructor(
             AgentResponse(
                 content = content,
                 confidence = 1.0f,
-                agent = AgentType.AURA
+                agentType = AgentType.AURA
             )
         )
     }
@@ -81,7 +81,7 @@ class DefaultAuraAIService @Inject constructor(
         return AgentResponse(
             content = content,
             confidence = 1.0f,
-            agent = AgentType.AURA
+            agentType = AgentType.AURA
         )
     }
 

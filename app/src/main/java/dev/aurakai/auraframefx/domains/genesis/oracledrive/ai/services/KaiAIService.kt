@@ -173,7 +173,7 @@ class DefaultKaiAIService @Inject constructor(
             emit(AgentResponse(
                 content = "Kai analyzing security posture...",
                 confidence = 0.5f,
-                agent = AgentType.KAI)
+                agentType = AgentType.KAI)
             )
 
             // Emit detailed analysis
@@ -190,7 +190,7 @@ class DefaultKaiAIService @Inject constructor(
             emit(AgentResponse(
                 content = detailedResponse,
                 confidence = analysisResult["confidence"] as? Float ?: 0.9f,
-                agent = AgentType.KAI
+                agentType = AgentType.KAI
             ))
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error in processRequestFlow", e)
@@ -200,7 +200,7 @@ class DefaultKaiAIService @Inject constructor(
                 content = "Security analysis error: ${e.message}",
                 confidence = 0.0f,
                 error = e.message,
-                agent = AgentType.KAI
+                agentType = AgentType.KAI
             ))
         }
     }
@@ -262,13 +262,6 @@ class DefaultKaiAIService @Inject constructor(
         isInitialized = false
     }
 
-    override fun AgentResponse(
-        content: String,
-        confidence: Float,
-        agent: AgentType
-    ): AgentResponse {
-        TODO("Not yet implemented")
-    }
 }
 
 

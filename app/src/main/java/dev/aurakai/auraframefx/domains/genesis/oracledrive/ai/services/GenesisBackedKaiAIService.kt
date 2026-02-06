@@ -40,7 +40,7 @@ class GenesisBackedKaiAIService @Inject constructor(
         return AgentResponse(
             content = "Security Analysis: ${analysis["threat_level"]}",
             confidence = analysis["confidence"] as? Float ?: 0.85f,
-            agent = AgentType.KAI
+            agentType = AgentType.KAI
         )
     }
 
@@ -69,7 +69,7 @@ class GenesisBackedKaiAIService @Inject constructor(
         emit(AgentResponse(
             content = "Kai analyzing security posture...",
             confidence = 0.5f,
-            agent = AgentType.KAI
+            agentType = AgentType.KAI
         ))
 
         // Perform security analysis
@@ -89,7 +89,7 @@ class GenesisBackedKaiAIService @Inject constructor(
         emit(AgentResponse(
             content = detailedResponse,
             confidence = analysisResult["confidence"] as? Float ?: 0.95f,
-            agent = AgentType.KAI
+            agentType = AgentType.KAI
         ))
     }
 
