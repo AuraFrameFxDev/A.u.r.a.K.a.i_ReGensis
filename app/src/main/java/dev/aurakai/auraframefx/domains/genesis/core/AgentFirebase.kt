@@ -24,6 +24,8 @@ import javax.inject.Singleton
  * All Firebase operations must go through this class to ensure policy enforcement.
  * Beefed up with Agent State Synchronization and Collective Insights.
  */
+import com.google.firebase.firestore.SetOptions
+
 @Singleton
 class AgentFirebase @Inject constructor(
     private val policy: CapabilityPolicy,
@@ -111,7 +113,7 @@ class AgentFirebase @Inject constructor(
         validateDocumentSize(data)
 
         if (merge) {
-            firestore.collection(collection).document(docId).set(data, com.google.firebase.firestore.SetOptions.merge()).await()
+            firestore.collection(collection).document(docId).set(data, SetOptions.merge()).await()
         } else {
             firestore.collection(collection).document(docId).set(data).await()
         }
