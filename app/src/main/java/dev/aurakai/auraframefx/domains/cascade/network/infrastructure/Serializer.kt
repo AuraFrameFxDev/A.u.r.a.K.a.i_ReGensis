@@ -56,9 +56,9 @@ object Serializer {
             contextual(kClass = AtomicInteger::class, AtomicIntegerAdapter)
             contextual(kClass = AtomicLong::class, AtomicLongAdapter)
             contextual(kClass = AtomicBoolean::class, AtomicBooleanAdapter)
-            contextual(URIAdapter)
-            contextual(URLAdapter)
-            contextual(StringBuilderAdapter)
+            contextual(kClass = URI::class, URIAdapter)
+            contextual(kClass = URL::class, URLAdapter)
+            contextual(kClass = StringBuilder::class, StringBuilderAdapter)
 
             polymorphic(Any::class) {
                 subclass(String::class)

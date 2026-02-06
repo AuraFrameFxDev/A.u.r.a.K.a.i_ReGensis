@@ -2,11 +2,9 @@
 package dev.aurakai.auraframefx.system
 
 import android.content.Context
-import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import rikka.shizuku.Shizuku
-import rikka.shizuku.ShizukuBinderWrapper
 import rikka.shizuku.ShizukuProvider
 
 object ShizukuManager {
@@ -34,7 +32,7 @@ object ShizukuManager {
      * The result is delivered via the callback.
      */
     fun requestShizukuPermission(context: Context, callback: (granted: Boolean) -> Unit) {
-        if (Shizuku.is  Shizuku.checkSelfPermission() == ShizukuProvider.PERMISSION_GRANTED) {
+        if (Shizuku.checkSelfPermission() == ShizukuProvider.PERMISSION_GRANTED) {
             Log.i(TAG, "Shizuku permission already granted.")
             callback(true)
             return

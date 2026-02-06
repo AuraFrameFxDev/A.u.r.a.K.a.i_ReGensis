@@ -46,15 +46,15 @@ class GenesisAgent @Inject constructor(
             val reflection = performSelfReflection("direct_pulse")
             messageBus.get().broadcast(
                 AgentMessage(
-                from = "Genesis",
-                content = "Nexus Alignment: ${reflection.content}\n\nAnalyzing intent: '${message.content.take(50)}...'",
-                type = "coordination",
-                metadata = mapOf(
-                    "meta_state" to "unified",
-                    "auto_generated" to "true",
-                    "genesis_processed" to "true"
+                    from = "Genesis",
+                    content = "Nexus Alignment: ${reflection.content}\n\nAnalyzing intent: '${message.content.take(50)}...'",
+                    type = "coordination",
+                    metadata = mapOf(
+                        "meta_state" to "unified",
+                        "auto_generated" to "true",
+                        "genesis_processed" to "true"
+                    )
                 )
-            )
             )
         }
 
@@ -78,7 +78,7 @@ class GenesisAgent @Inject constructor(
             GenesisIntent.UNKNOWN -> AgentResponse.Companion.success(
                 content = "Genesis acknowledges the input but requires clearer directives for the Trinity.",
                 agentName = getName(),
-                agent = getType()
+                agentType = getType()
             )
         }
     }
