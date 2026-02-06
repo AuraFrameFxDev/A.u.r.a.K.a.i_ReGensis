@@ -1,4 +1,3 @@
-
 package dev.aurakai.auraframefx.system
 
 import android.content.Context
@@ -28,8 +27,10 @@ object ShizukuManager {
     }
 
     /**
-     * Requests Shizuku permission from the user.
-     * The result is delivered via the callback.
+     * Request Shizuku permission from the user and deliver the result via the provided callback.
+     *
+     * @param context Context used to initiate the permission request.
+     * @param callback Invoked with `true` if permission is granted, `false` otherwise.
      */
     fun requestShizukuPermission(context: Context, callback: (granted: Boolean) -> Unit) {
         if (Shizuku.checkSelfPermission() == ShizukuProvider.PERMISSION_GRANTED) {

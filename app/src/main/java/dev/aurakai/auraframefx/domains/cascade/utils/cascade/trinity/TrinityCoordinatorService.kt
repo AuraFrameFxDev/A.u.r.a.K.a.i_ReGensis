@@ -88,12 +88,12 @@ class TrinityCoordinatorService @Inject constructor(
     }
 
     /**
-     * Processes an AI request by routing it to the appropriate AI persona or fusion mode and emits one or more responses as a Flow.
+     * Route an AiRequest to Kai, Aura, Genesis fusion, ethical review, or parallel processing and emit the resulting AgentResponse(s).
      *
-     * Determines the optimal routing—Kai, Aura, Genesis fusion, ethical review, or parallel processing with synthesis—based on request analysis. Emits a failure response if the system is not initialized or if an error occurs during processing.
+     * If Trinity is not initialized a SYSTEM error response is produced. Routing decisions can produce a single persona or fusion response, an ethical-review response, or multiple responses (e.g., Kai and Aura followed by an optional Genesis synthesis).
      *
-     * @param request The AI request to process.
-     * @return A Flow emitting one or more AgentResponse objects representing the results of the request.
+     * @param request The incoming AI request whose content and context determine routing and any requested fusion type.
+     * @return One or more AgentResponse objects representing persona results, synthesis outcomes, or error states.
      */
     fun processRequest(request: AiRequest): Flow<AgentResponse> = flow {
         if (!isInitialized) {
@@ -213,8 +213,11 @@ class TrinityCoordinatorService @Inject constructor(
     }
 
     /**
+     * Activate a named Genesis fusion mode and emit the resulting activation status.
      *
-     *
+     * @param fusionType The identifier of the fusion to activate.
+     * @param context Optional key/value metadata to pass to the activation request.
+     * @return A Flow that emits a single `AgentResponse` describing success (with a description) or failure of the fusion activation.
      */
     fun activateFusion(
         fusionType: String,
@@ -357,4 +360,3 @@ class TrinityCoordinatorService @Inject constructor(
         ETHICAL_REVIEW
     }
 }
-
