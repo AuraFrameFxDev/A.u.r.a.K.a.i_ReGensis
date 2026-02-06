@@ -17,6 +17,8 @@ data class AgentResponse(
     val metadata: Map<String, String> = emptyMap(),
     val error: String? = null
 ) {
+    val isSuccess: Boolean get() = status == Status.SUCCESS
+
     enum class Status {
         SUCCESS, ERROR, PROCESSING, IDLE
     }
@@ -26,13 +28,13 @@ data class AgentResponse(
             content: String,
             agentName: String,
             agentType: AgentType = AgentType.GENESIS,
-            confidence: Double = 1.0,
+            confidence: Float = 1.0f,
             metadata: Map<String, Any> = emptyMap()
         ) = AgentResponse(
             content = content,
             agentName = agentName,
             agentType = agentType,
-            confidence = confidence.toFloat(),
+            confidence = confidence,
             metadata = metadata.mapValues { it.value.toString() },
             status = Status.SUCCESS
         )

@@ -1,34 +1,4 @@
 package dev.aurakai.auraframefx.domains.genesis.models
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-enum class AiRequestType {
-    TEXT,
-    CHAT,
-    QUESTION,
-    IMAGE,
-    AUDIO,
-    ACTION,
-    ANALYSIS,
-    UI_GENERATION,
-    SECURITY,
-    CREATIVE,
-    COLLABORATIVE,
-    THEME_CREATION,
-    ANIMATION_DESIGN,
-    CREATIVE_TEXT,
-    VISUAL_CONCEPT,
-    USER_EXPERIENCE,
-    SECURITY_ANALYSIS,
-    THREAT_ASSESSMENT,
-    PERFORMANCE_ANALYSIS,
-    CODE_REVIEW,
-    SYSTEM_OPTIMIZATION,
-    VULNERABILITY_SCAN,
-    COMPLIANCE_CHECK,
-    ARCHITECTURAL,
-    REASONING,
-    PATTERN,
-    TECHNICAL
-}
+// AiRequestType is defined in the app module's AgentTypes.kt
+// This file is intentionally empty to avoid duplicate class definitions

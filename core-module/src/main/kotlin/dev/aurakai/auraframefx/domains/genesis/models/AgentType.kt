@@ -32,7 +32,8 @@ enum class AgentType {
     BRIDGE,
     AUXILIARY,
     SECURITY,
-    GROK;
+    GROK,
+    HIVE_MIND;
 
     // Backward compatibility for lowercase variants used in some codebases
     companion object {

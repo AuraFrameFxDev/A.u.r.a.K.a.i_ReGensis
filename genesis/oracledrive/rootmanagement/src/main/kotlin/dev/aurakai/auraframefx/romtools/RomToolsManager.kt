@@ -93,29 +93,29 @@ class RomToolsManagerImpl @Inject constructor(
             is RomOperation.CreateBackup -> {
                 val name = "AuraKai_Backup_${System.currentTimeMillis()}"
                 val result = createNandroidBackup(name)
-                if (result.isSuccess) AgentResponse.success("Backup created: $name", agent = AgentType.GENESIS)
-                else AgentResponse.error("Backup failed: ${result.exceptionOrNull()?.message}", agent = AgentType.GENESIS)
+                if (result.isSuccess) AgentResponse.success("Backup created: $name", agentName = "RomTools", agentType = AgentType.GENESIS)
+                else AgentResponse.error("Backup failed: ${result.exceptionOrNull()?.message}", agentName = "RomTools", agentType = AgentType.GENESIS)
             }
             is RomOperation.UnlockBootloader -> {
                 val result = unlockBootloader()
-                if (result.isSuccess) AgentResponse.success("Bootloader unlocked", agent = AgentType.KAI)
-                else AgentResponse.error("Unlock failed", agent = AgentType.KAI)
+                if (result.isSuccess) AgentResponse.success("Bootloader unlocked", agentName = "RomTools", agentType = AgentType.KAI)
+                else AgentResponse.error("Unlock failed", agentName = "RomTools", agentType = AgentType.KAI)
             }
             is RomOperation.InstallRecovery -> {
                 val result = installRecovery()
-                if (result.isSuccess) AgentResponse.success("Recovery installed", agent = AgentType.GENESIS)
-                else AgentResponse.error("Installation failed", agent = AgentType.GENESIS)
+                if (result.isSuccess) AgentResponse.success("Recovery installed", agentName = "RomTools", agentType = AgentType.GENESIS)
+                else AgentResponse.error("Installation failed", agentName = "RomTools", agentType = AgentType.GENESIS)
             }
             is RomOperation.GenesisOptimizations -> {
                 val result = installGenesisOptimizations()
-                if (result.isSuccess) AgentResponse.success("Optimizations applied", agent = AgentType.GENESIS)
-                else AgentResponse.error("Optimizations failed", agent = AgentType.GENESIS)
+                if (result.isSuccess) AgentResponse.success("Optimizations applied", agentName = "RomTools", agentType = AgentType.GENESIS)
+                else AgentResponse.error("Optimizations failed", agentName = "RomTools", agentType = AgentType.GENESIS)
             }
         }
     }
 
     private suspend fun handleFlashRom(request: RomOperationRequest): AgentResponse {
-        val uri = request.uri ?: return AgentResponse.error("No ROM URI", agent = AgentType.GENESIS)
+        val uri = request.uri ?: return AgentResponse.error("No ROM URI", agentName = "RomTools", agentType = AgentType.GENESIS)
         
         // 1. Snapshot with Aura (learning)
         nexusMemory.emitLearning(
@@ -127,23 +127,23 @@ class RomToolsManagerImpl @Inject constructor(
 
         // 2. Execution (Genesis roots)
         val cacheFile = copyUriToCache(request.context, uri, "rom_flash.zip")
-            ?: return AgentResponse.error("Failed to access ROM file", agent = AgentType.GENESIS)
+            ?: return AgentResponse.error("Failed to access ROM file", agentName = "RomTools", agentType = AgentType.GENESIS)
         
         val romFile = RomFile(name = "Selected ROM", path = cacheFile.absolutePath)
         val result = flashRom(romFile)
         
         return if (result.isSuccess) {
-            AgentResponse.success("Flash successful", agent = AgentType.GENESIS)
+            AgentResponse.success("Flash successful", agentName = "RomTools", agentType = AgentType.GENESIS)
         } else {
-            AgentResponse.error("Flash failed: ${result.exceptionOrNull()?.message}", agent = AgentType.GENESIS)
+            AgentResponse.error("Flash failed: ${result.exceptionOrNull()?.message}", agentName = "RomTools", agentType = AgentType.GENESIS)
         }
     }
 
     private suspend fun handleRestoreBackup(request: RomOperationRequest): AgentResponse {
-        val uri = request.uri ?: return AgentResponse.error("No Backup URI", agent = AgentType.GENESIS)
+        val uri = request.uri ?: return AgentResponse.error("No Backup URI", agentName = "RomTools", agentType = AgentType.GENESIS)
         
         val cacheFile = copyUriToCache(request.context, uri, "backup_restore.zip")
-            ?: return AgentResponse.error("Failed to access backup file", agent = AgentType.GENESIS)
+            ?: return AgentResponse.error("Failed to access backup file", agentName = "RomTools", agentType = AgentType.GENESIS)
             
         val backupInfo = BackupInfo(
             name = "Restored Backup",
@@ -158,9 +158,9 @@ class RomToolsManagerImpl @Inject constructor(
         val result = restoreNandroidBackup(backupInfo)
         
         return if (result.isSuccess) {
-            AgentResponse.success("Restore successful", agent = AgentType.GENESIS)
+            AgentResponse.success("Restore successful", agentName = "RomTools", agentType = AgentType.GENESIS)
         } else {
-            AgentResponse.error("Restore failed", agent = AgentType.GENESIS)
+            AgentResponse.error("Restore failed", agentName = "RomTools", agentType = AgentType.GENESIS)
         }
     }
 
