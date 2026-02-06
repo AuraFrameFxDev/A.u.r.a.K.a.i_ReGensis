@@ -19,8 +19,8 @@ data class AgentResponse(
     companion object {
         fun success(
             content: String,
-            agentName: String,
-            agent: AgentType,
+            agent: AgentType = AgentType.GENESIS,
+            agentName: String = agent.name,
             confidence: Float = 1.0f,
             metadata: Map<String, String> = emptyMap()
         ): AgentResponse {
@@ -35,8 +35,8 @@ data class AgentResponse(
 
         fun error(
             message: String,
-            agentName: String = "System",
-            agent: AgentType? = null
+            agent: AgentType? = null,
+            agentName: String = agent?.name ?: "System"
         ): AgentResponse {
             return AgentResponse(
                 agentName = agentName,
