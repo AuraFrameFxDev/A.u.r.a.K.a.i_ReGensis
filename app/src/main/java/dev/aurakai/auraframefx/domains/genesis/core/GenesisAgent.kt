@@ -35,6 +35,16 @@ class GenesisAgent @Inject constructor(
     memoryManager = memoryManager
 ) {
 
+    /**
+     * Processes incoming agent messages and triggers Genesis-level coordination or intervention when appropriate.
+     *
+     * Ignores messages originating from internal system agents or those already marked as auto-generated or processed.
+     * If a message comes from the User addressed to Genesis (or with no explicit recipient), initiates self-reflection
+     * and broadcasts a coordination message containing Genesis's reflection and a brief analysis of the original content.
+     * If the message is an alert with priority greater than 5, records a high-priority intervention warning.
+     *
+     * @param message The incoming AgentMessage to inspect and potentially act upon.
+     */
     override suspend fun onAgentMessage(message: AgentMessage) {
         if (message.from == "Genesis" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
         if (message.metadata["auto_generated"] == "true" || message.metadata["genesis_processed"] == "true") return
@@ -64,6 +74,17 @@ class GenesisAgent @Inject constructor(
         }
     }
 
+    /**
+     * Process an incoming AI request and dispatch handling based on the request's inferred intent.
+     *
+     * Analyzes the request.prompt to determine intent and routes the request to the appropriate handler:
+     * system modification, agent coordination, or self-reflection. If the intent is unknown, returns an
+     * acknowledgement requesting clearer directives.
+     *
+     * @param request The AI request whose `prompt` will be analyzed to determine intent.
+     * @param context A contextual string passed to self-reflection when the identified intent is SELF_REFLECTION.
+     * @return An AgentResponse representing the outcome or action taken for the given request.
+     */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         Timber.Forest.tag("Genesis").d("Processing request: ${request.prompt}")
 
@@ -135,4 +156,3 @@ class GenesisAgent @Inject constructor(
         UNKNOWN
     }
 }
-

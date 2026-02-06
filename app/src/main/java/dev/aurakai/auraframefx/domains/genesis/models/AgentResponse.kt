@@ -24,6 +24,16 @@ data class AgentResponse(
     }
 
     companion object {
+        /**
+         * Create an AgentResponse representing a successful response from an agent.
+         *
+         * @param content The main response content.
+         * @param agentName Name of the originating agent.
+         * @param agentType Type of the originating agent.
+         * @param confidence Confidence score for the response (0.0 to 1.0).
+         * @param metadata Arbitrary metadata; map values will be converted to strings.
+         * @return An AgentResponse with status set to Status.SUCCESS and the provided fields. 
+         */
         fun success(
             content: String,
             agentName: String,

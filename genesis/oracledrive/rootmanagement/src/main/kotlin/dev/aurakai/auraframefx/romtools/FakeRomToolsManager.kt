@@ -40,11 +40,23 @@ open class FakeRomToolsManager(
     private val _operationProgress = MutableStateFlow<OperationProgress?>(null)
     override val operationProgress: StateFlow<OperationProgress?> = _operationProgress.asStateFlow()
 
+    /**
+     * Process a ROM operation request using the fake manager for previews.
+     *
+     * @param request The ROM operation request to process.
+     * @return An AgentResponse indicating success with message "Fake operation completed", `agentName` set to "RomTools", and `agentType` set to `AgentType.GENESIS`.
+     */
     override suspend fun processRomOperation(request: RomOperationRequest): AgentResponse {
         return AgentResponse.success("Fake operation completed", agentName = "RomTools", agentType = AgentType.GENESIS)
     }
 
-    override suspend fun flashRom(romFile: RomFile): Result<Unit> = Result.success(Unit)
+    /**
+ * Flash the provided ROM file to the device.
+ *
+ * @param romFile The ROM package to be flashed.
+ * @return A `Result<Unit>` containing `Unit` on success, or a failure describing the error. 
+ */
+override suspend fun flashRom(romFile: RomFile): Result<Unit> = Result.success(Unit)
     override suspend fun createNandroidBackup(backupName: String): Result<BackupInfo> = Result.success(
         BackupInfo("name", "path", 0, 0, "model", "14", emptyList())
     )
