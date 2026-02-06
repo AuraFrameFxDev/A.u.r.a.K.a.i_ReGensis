@@ -20,7 +20,7 @@ data class Task(
     val assignedAgents: Set<AgentType> = emptySet(),
     val dependencies: Set<String> = emptySet(),
     val metadata: Map<String, String> = emptyMap(),
-    val status: InternalTaskStatus = InternalTaskStatus.PENDING
+    val status: TaskStatus = TaskStatus.PENDING
 )
 
 const val TASK_DEFAULT_PRIORITY = 5

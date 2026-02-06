@@ -39,7 +39,7 @@ enum class TaskImportance(val value: Float) {
  * Task execution status.
  */
 @Serializable
-enum class InternalTaskStatus {
+enum class TaskStatus {
     PENDING,
     IN_PROGRESS,
     COMPLETED,

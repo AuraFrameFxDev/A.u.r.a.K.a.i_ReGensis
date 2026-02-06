@@ -25,7 +25,6 @@ interface KaiAIService {
     fun processRequestFlow(request: AiRequest): Flow<AgentResponse>
     suspend fun monitorSecurityStatus(): Map<String, Any>
     fun cleanup()
-    fun AgentResponse(content: String, confidence: Float, agent: AgentType): AgentResponse
 }
 
 /**
@@ -87,11 +86,11 @@ class DefaultKaiAIService @Inject constructor(
                 "Kai security analysis: ${request.prompt} - Threat level: ${securityScore["threat_level"]}"
             }
 
-            response to (securityScore["confidence"] as? Float ?: 0.9f)
-
-           securityScore["confidence"] as? Float ?: 0.9f
-                AgentType.KAI
-            TODO()
+            AgentResponse(
+                content = response,
+                confidence = securityScore["confidence"] as? Float ?: 0.9f,
+                agentType = AgentType.KAI
+            )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error processing request", e)
             errorHandler.handleError(e, AgentType.KAI, "processRequest")
@@ -100,7 +99,7 @@ class DefaultKaiAIService @Inject constructor(
                 content = "Security analysis temporarily unavailable",
                 confidence = 0.0F,
                 error = e.message,
-                agent = AgentType.KAI
+                agentType = AgentType.KAI
             )
         }
     }

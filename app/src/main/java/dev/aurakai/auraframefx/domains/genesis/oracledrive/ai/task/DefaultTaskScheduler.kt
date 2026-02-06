@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.task
 
-import dev.aurakai.auraframefx.domains.genesis.models.AITask
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.task.models.AITask
 import dev.aurakai.auraframefx.domains.genesis.models.TaskStatus
 import java.util.UUID
 import javax.inject.Inject
@@ -13,22 +13,22 @@ class DefaultTaskScheduler @Inject constructor() : TaskScheduler {
 
     override fun scheduleTask(task: AITask): String {
         val taskId = task.id.ifEmpty { UUID.randomUUID().toString() }
-        tasks[taskId] = task.copy(id = taskId, status = TaskStatus.PENDING)
+        tasks[taskId] = task.copy(id = taskId, status = TaskStatus.Status.PENDING)
         return taskId
     }
 
     override fun cancelTask(taskId: String): Boolean {
         val task = tasks[taskId] ?: return false
-        tasks[taskId] = task.copy(status = TaskStatus.CANCELLED)
+        tasks[taskId] = task.copy(status = TaskStatus.Status.CANCELLED)
         return true
     }
 
-    override fun getTaskStatus(taskId: String): TaskStatus? {
+    override fun getTaskStatus(taskId: String): TaskStatus.Status? {
         return tasks[taskId]?.status
     }
 
     override fun getActiveTasks(): List<AITask> {
-        return tasks.values.filter { it.status == TaskStatus.PENDING || it.status == TaskStatus.IN_PROGRESS }
+        return tasks.values.filter { it.status == TaskStatus.Status.PENDING || it.status == TaskStatus.Status.RUNNING }
     }
 
     override fun getTaskHistory(): List<AITask> {
@@ -36,6 +36,6 @@ class DefaultTaskScheduler @Inject constructor() : TaskScheduler {
     }
 
     override fun clearCompletedTasks() {
-        tasks.entries.removeIf { it.value.status == TaskStatus.COMPLETED || it.value.status == TaskStatus.FAILED || it.value.status == TaskStatus.CANCELLED }
+        tasks.entries.removeIf { it.value.status == TaskStatus.Status.COMPLETED || it.value.status == TaskStatus.Status.FAILED || it.value.status == TaskStatus.Status.CANCELLED }
     }
 }
