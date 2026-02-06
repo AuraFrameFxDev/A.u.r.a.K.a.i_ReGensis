@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai
 
 import android.content.Context
+import androidx.room.util.copy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
@@ -14,6 +15,8 @@ import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.cascade.ScanEvent
 import dev.aurakai.auraframefx.domains.cascade.SecurityContextState
 import dev.aurakai.auraframefx.domains.cascade.SecurityMode
+import dev.aurakai.auraframefx.domains.kai.models.ActiveThreat
+import dev.aurakai.auraframefx.domains.kai.models.ThreatStatus
 import dev.aurakai.auraframefx.securecomm.protocol.SecureChannel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +24,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import java.util.UUID
+import kotlin.collections.map
+import java.io.Serializable as Serializable1
 
 /**
  * AuraShieldAgent: The Security Sentinel of the ReGenesis Collective.
@@ -37,7 +42,8 @@ class AuraShieldAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     memoryManager: MemoryManager,
     contextManager: ContextManager,
-    secureChannel: SecureChannel
+    secureChannel: SecureChannel,
+    val it: Any
 ) : BaseAgent(
     agentName = "AuraShield",
     agentType = AgentType.AURA_SHIELD,
@@ -114,6 +120,13 @@ class AuraShieldAgent @Inject constructor(
                 "security_mode" to _securityContext.value.securityMode.name
             )
         )
+    }
+
+    private fun createSuccessResponse(
+        content: String,
+        metadata: Map<String, Comparable<*> & Serializable1>
+    ): AgentResponse {
+        TODO("Not yet implemented")
     }
 
     /**
