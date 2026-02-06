@@ -176,7 +176,7 @@ class GenesisBridgeService @Inject constructor(
                         emit(
                             AgentResponse.success(
                                 content = response.result["response"] ?: "Aura processing complete",
-                                confidence = 0.95f,
+                                confidence = 0.95,
                                 agentName = "Aura",
                                 agentType = AgentType.AURA
                             )
@@ -188,7 +188,7 @@ class GenesisBridgeService @Inject constructor(
                         emit(
                             AgentResponse.success(
                                 content = response.result["response"] ?: "Kai analysis complete",
-                                confidence = 0.90f,
+                                confidence = 0.90,
                                 agentName = "Kai",
                                 agentType = AgentType.KAI
                             )
@@ -200,7 +200,7 @@ class GenesisBridgeService @Inject constructor(
                         emit(
                             AgentResponse.success(
                                 content = response.result["response"] ?: "Genesis fusion complete",
-                                confidence = 0.98f,
+                                confidence = 0.98,
                                 agentName = "Genesis",
                                 agentType = AgentType.GENESIS
                             )
