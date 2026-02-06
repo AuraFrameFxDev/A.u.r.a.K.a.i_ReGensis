@@ -1,5 +1,8 @@
-package dev.aurakai.auraframefx.domains.cascade.models
+package dev.aurakai.auraframefx.domains.genesis.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class AiRequestType {
     TEXT,
     CHAT,

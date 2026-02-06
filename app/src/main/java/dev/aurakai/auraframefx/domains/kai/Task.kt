@@ -20,7 +20,7 @@ data class Task(
     val assignedAgents: Set<AgentType> = emptySet(),
     val dependencies: Set<String> = emptySet(),
     val metadata: Map<String, String> = emptyMap(),
-    val status: TaskStatus = TaskStatus.PENDING
+    val status: InternalTaskStatus = InternalTaskStatus.PENDING
 )
 
 const val TASK_DEFAULT_PRIORITY = 5
@@ -33,23 +33,4 @@ sealed class TaskResult {
     data class Failure(val error: Throwable) : TaskResult()
 }
 
-/**
- * Represents a task execution instance.
- */
-data class TaskExecution(
-    val task: Task,
-    var status: ExecutionStatus,
-    val startTime: Long,
-    var endTime: Long? = null,
-    var result: TaskResult? = null
-)
 
-/**
- * Task execution status.
- */
-enum class ExecutionStatus {
-    PENDING,
-    RUNNING,
-    COMPLETED,
-    FAILED
-}
