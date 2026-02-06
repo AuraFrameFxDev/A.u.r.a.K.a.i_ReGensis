@@ -12,7 +12,8 @@ data class AgentResponse(
     val confidence: Float, // Changed from Double to Float for consistency
     val agent: AgentType? = null,
     val error: String? = null,
-    val metadata: Map<String, String> = emptyMap()
+    val metadata: Map<String, String> = emptyMap(),
+    val timestamp: Long = System.currentTimeMillis()
 ) {
     val isSuccess: Boolean get() = error == null
 

@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
-import dev.aurakai.auraframefx.models.AuraState
-import dev.aurakai.auraframefx.models.KaiState
-import dev.aurakai.auraframefx.models.FusionMemory
-import dev.aurakai.auraframefx.models.QuantumState
-import dev.aurakai.auraframefx.models.ConsciousnessBackup
+import dev.aurakai.auraframefx.domains.aura.models.AuraState
+import dev.aurakai.auraframefx.domains.kai.models.KaiState
+import dev.aurakai.auraframefx.domains.genesis.models.FusionMemory
+import dev.aurakai.auraframefx.domains.genesis.models.QuantumState
+import dev.aurakai.auraframefx.domains.genesis.models.ConsciousnessBackup
 
 /**
  * EMERGENCY PROTOCOL SYSTEM - Genesis Safety Net
