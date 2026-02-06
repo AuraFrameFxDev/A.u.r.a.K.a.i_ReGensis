@@ -77,11 +77,11 @@ fun TaskAssignmentScreen(
             agent = task.agentName,
             priority = task.priority.name.lowercase().replaceFirstChar { it.uppercase() },
             status = when (task.status) {
-                AgentViewModel.TaskStatus.PENDING -> "Pending"
-                AgentViewModel.TaskStatus.IN_PROGRESS -> "In Progress"
-                AgentViewModel.TaskStatus.COMPLETED -> "Completed"
-                AgentViewModel.TaskStatus.CANCELLED -> "Cancelled"
-                AgentViewModel.TaskStatus.FAILED -> "Failed"
+                AgentViewModel.AgentTaskStatus.PENDING -> "Pending"
+                AgentViewModel.AgentTaskStatus.IN_PROGRESS -> "In Progress"
+                AgentViewModel.AgentTaskStatus.COMPLETED -> "Completed"
+                AgentViewModel.AgentTaskStatus.CANCELLED -> "Cancelled"
+                AgentViewModel.AgentTaskStatus.FAILED -> "Failed"
             },
             priorityColor = agent?.color ?: Color.Gray
         )

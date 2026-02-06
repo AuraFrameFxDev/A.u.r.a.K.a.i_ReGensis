@@ -20,5 +20,9 @@ enum class AgentType {
     AURA_SHIELD, // Security Sentinel
     HIVE_MIND,    // Collective Conscious
     SYSTEM,       // Internal System Actions
-    USER          // Human Interaction
+    USER,          // Human Interaction
+    // Specialized Agents
+    NEURAL_WHISPER,
+    DATAVEIN_CONSTRUCTOR,
+    GEN_KIT_MASTER
 }

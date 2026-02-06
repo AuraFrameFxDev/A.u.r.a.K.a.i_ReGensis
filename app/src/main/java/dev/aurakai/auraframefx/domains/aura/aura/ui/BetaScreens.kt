@@ -56,13 +56,13 @@ fun HomeScreen(navController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { navController.navigate(ReGenesisNavHost.AiChatBeta.route) }
+            onClick = { navController.navigate(ReGenesisNavHost.DirectChat.route) }
         ) {
             Text("AI Chat (Beta)")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { navController.navigate(ReGenesisNavHost.SettingsBeta.route) }
+            onClick = { navController.navigate(ReGenesisNavHost.UISettings.route) }
         ) {
             Text("Settings")
         }

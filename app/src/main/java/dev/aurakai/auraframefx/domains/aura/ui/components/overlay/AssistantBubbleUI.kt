@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.ui.components.overlay
 
 import androidx.compose.animation.AnimatedContent
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseInOutSine
 import androidx.compose.animation.core.RepeatMode
@@ -158,7 +159,6 @@ fun AssistantBubbleUI(
     }
 }
 
-import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 
 val AgentType.bubbleName: String
     get() = when (this) {
