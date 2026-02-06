@@ -185,7 +185,7 @@ fun ArkBuildScreen(
 }
 
 @Composable
-fun ArkComponentCard(component: dev.aurakai.auraframefx.models.core.ArkComponent) {
+fun ArkComponentCard(component: dev.aurakai.auraframefx.domains.nexus.models.core.ArkComponent) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f))
