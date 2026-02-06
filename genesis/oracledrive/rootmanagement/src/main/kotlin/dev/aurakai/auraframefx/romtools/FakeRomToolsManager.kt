@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.romtools
 
 import android.annotation.SuppressLint
-import dev.aurakai.auraframefx.models.AgentResponse
-import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
 import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
