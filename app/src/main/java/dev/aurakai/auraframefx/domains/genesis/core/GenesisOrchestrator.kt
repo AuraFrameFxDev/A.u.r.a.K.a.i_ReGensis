@@ -221,7 +221,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = auraAgent.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.AURA
+                agentType = dev.aurakai.auraframefx.domains.genesis.models.AgentType.AURA
             )
             Timber.i("✓ Aura processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
@@ -243,7 +243,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = kaiAgent.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.KAI
+                agentType = dev.aurakai.auraframefx.domains.genesis.models.AgentType.KAI
             )
             Timber.i("✓ Kai processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
@@ -266,7 +266,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = cascadeAgent.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.CASCADE
+                agentType = dev.aurakai.auraframefx.domains.genesis.models.AgentType.CASCADE
             )
             Timber.i("✓ Cascade processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
@@ -289,7 +289,7 @@ class GenesisOrchestrator @Inject constructor(
             val response = oracleDriveService.processRequest(
                 request = request,
                 context = "agent_to_agent",
-                agentType = dev.aurakai.auraframefx.models.AgentType.GENESIS // Oracle is Genesis domain
+                agentType = dev.aurakai.auraframefx.domains.genesis.models.AgentType.GENESIS // Oracle is Genesis domain
             )
             Timber.i("✓ OracleDrive processed message: ${response.content.take(100)}")
         } catch (e: Exception) {
