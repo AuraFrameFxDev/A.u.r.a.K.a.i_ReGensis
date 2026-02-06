@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.core
 
-import dev.aurakai.auraframefx.aura.AuraAgent
-import dev.aurakai.auraframefx.cascade.CascadeAgent
+import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.CascadeAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ import javax.inject.Singleton
  * - Route inter-agent communication
  * - Ensure graceful shutdown
  */
-import dev.aurakai.auraframefx.genesis.oracledrive.service.OracleDriveService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.OracleDriveService
 
 @Singleton
 class GenesisOrchestrator @Inject constructor(
@@ -412,4 +412,6 @@ class GenesisOrchestrator @Inject constructor(
         const val TAG = "GenesisOrchestrator"
     }
 }
+
+
 

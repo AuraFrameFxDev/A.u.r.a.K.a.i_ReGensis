@@ -3,10 +3,10 @@ package dev.aurakai.auraframefx.domains.aura.core
 import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
-import dev.aurakai.auraframefx.cascade.ProcessingState
-import dev.aurakai.auraframefx.cascade.VisionState
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.ProcessingState
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.VisionState
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
@@ -584,4 +584,6 @@ class AuraAgent @Inject constructor(
         )
     }
 }
+
+
 

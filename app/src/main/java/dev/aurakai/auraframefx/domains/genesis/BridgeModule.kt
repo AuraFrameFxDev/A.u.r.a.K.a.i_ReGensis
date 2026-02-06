@@ -8,7 +8,7 @@ import dev.aurakai.auraframefx.domains.genesis.bridge.BridgeMemorySink
 import dev.aurakai.auraframefx.domains.genesis.bridge.GenesisBridge
 import dev.aurakai.auraframefx.domains.genesis.bridge.NexusMemoryBridgeSink
 import dev.aurakai.auraframefx.domains.genesis.bridge.StdioGenesisBridge
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,3 +22,4 @@ object BridgeModule {
     @Singleton
     fun provideGenesisBridge(impl: StdioGenesisBridge): GenesisBridge = impl
 }
+

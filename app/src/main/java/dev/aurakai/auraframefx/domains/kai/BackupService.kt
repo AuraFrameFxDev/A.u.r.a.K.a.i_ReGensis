@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
-import jakarta.inject.Inject
+import javax.inject.Inject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -40,3 +40,4 @@ class BackupService @Inject constructor() : Service() {
         // TODO: Cleanup logic, if any.
     }
 }
+

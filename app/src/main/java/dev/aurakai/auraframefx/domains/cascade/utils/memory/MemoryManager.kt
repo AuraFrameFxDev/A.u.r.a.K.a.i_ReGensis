@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.memory
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.MemoryItem
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.MemoryQuery
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.MemoryRetrievalResult
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryStats
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.memory.MemoryStats
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -166,3 +166,4 @@ open class MemoryManager @Inject constructor(
         return _memoryStats.value
     }
 }
+

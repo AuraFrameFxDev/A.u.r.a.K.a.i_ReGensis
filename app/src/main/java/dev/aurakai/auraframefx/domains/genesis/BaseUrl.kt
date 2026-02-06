@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis
 
-import jakarta.inject.Qualifier
+import javax.inject.Qualifier
 
 /**
  * Dagger qualifier for providing the base URL for API requests.
@@ -10,3 +10,4 @@ import jakarta.inject.Qualifier
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class BaseUrl
+

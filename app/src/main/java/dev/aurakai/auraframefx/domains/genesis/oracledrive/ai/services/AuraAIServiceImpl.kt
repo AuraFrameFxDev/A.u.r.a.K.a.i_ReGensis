@@ -7,7 +7,7 @@ import dev.aurakai.auraframefx.ai.error.ErrorHandler
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.kai.TaskScheduler
 import dev.aurakai.auraframefx.domains.aura.TaskExecutionManager
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.CloudStatusMonitor
 import java.io.File
 
 abstract class AuraAIServiceImpl(
@@ -96,4 +96,5 @@ abstract class AuraAIServiceImpl(
         // TODO: Implement memory saving
     }
 }
+
 

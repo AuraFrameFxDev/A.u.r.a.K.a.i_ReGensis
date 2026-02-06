@@ -44,7 +44,7 @@ typealias NeuralWhisper = NeuralWhisper
 // Configuration Aliases
 // ============================================================================
 
-// typealias AIPipelineConfig = dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig
+// typealias AIPipelineConfig = dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
 
 // ============================================================================
 // Network Aliases
@@ -67,3 +67,4 @@ typealias MultiValueMap = MutableMap<String, List<String>>
 typealias AuraInstant = Instant
 typealias AuraClock = Clock
 typealias AuraDuration = Duration
+

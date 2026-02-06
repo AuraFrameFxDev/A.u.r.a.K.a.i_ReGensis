@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.domains.kai
 import dagger.Lazy
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
-import dev.aurakai.auraframefx.cascade.ProcessingState
-import dev.aurakai.auraframefx.cascade.VisionState
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.ProcessingState
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.VisionState
 import dev.aurakai.auraframefx.domains.genesis.models.AgentRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
@@ -670,4 +670,5 @@ data class SecurityAssessment(
     val recommendations: List<String>,
     val confidence: Float,
 )
+
 

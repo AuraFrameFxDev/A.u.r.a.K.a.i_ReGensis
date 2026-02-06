@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai
 
-import dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
 import dev.aurakai.auraframefx.domains.kai.ErrorHandler
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -257,3 +257,4 @@ data class TaskStats(
     val taskCounts: Map<TaskStatus, Int> = emptyMap(),
     val lastUpdated: Long = Clock.System.now().toEpochMilliseconds(),
 )
+

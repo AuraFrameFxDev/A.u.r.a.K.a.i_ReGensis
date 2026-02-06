@@ -33,7 +33,7 @@ import kotlinx.serialization.Serializable as KotlinxSerializable
  */
 @Singleton
 class TaskExecutionManager @Inject constructor(
-    private val auraAgent: dev.aurakai.auraframefx.aura.AuraAgent,
+    private val auraAgent: dev.aurakai.auraframefx.domains.aura.core.AuraAgent,
     private val kaiAgent: KaiAgent,
     private val genesisAgent: GenesisAgent,
     private val securityContext: SecurityContext,
@@ -525,4 +525,5 @@ class TaskPriorityComparator : Comparator<TaskExecution1> {
         }
     }
 }
+
 

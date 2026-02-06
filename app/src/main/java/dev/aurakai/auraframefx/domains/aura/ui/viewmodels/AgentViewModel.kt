@@ -3,9 +3,9 @@ package dev.aurakai.auraframefx.domains.aura.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.aura.GenesisAgent
-import dev.aurakai.auraframefx.aura.AuraAgent
-import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
+import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
+import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import dev.aurakai.auraframefx.domains.genesis.repositories.PersistentAgentRepository
@@ -478,4 +478,7 @@ open class AgentViewModel @Inject constructor(
         object VoiceModeDisabled : AgentEvent()
     }
 }
+
+
+
 

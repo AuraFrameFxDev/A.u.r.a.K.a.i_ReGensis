@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.utils
 
 import android.util.Log
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.config.VertexAIConfig
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.config.VertexAIConfig
 
 
 /**
@@ -124,3 +124,4 @@ object VertexAIUtils {
         return "Placeholder content for '$_prompt'"
     }
 }
+

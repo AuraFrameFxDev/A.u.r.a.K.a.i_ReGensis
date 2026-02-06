@@ -10,8 +10,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.cascade.ProcessingState
-import dev.aurakai.auraframefx.cascade.VisionState
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.ProcessingState
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.VisionState
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
@@ -206,3 +206,4 @@ fun CascadeZOrderPlaygroundPreview() {
         CascadeZOrderPlayground()
     }
 }
+

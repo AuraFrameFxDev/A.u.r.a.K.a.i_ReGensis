@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients
 
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.config.VertexAIConfig
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.config.VertexAIConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -442,3 +442,4 @@ class VertexAIException(
     message: String,
     val httpCode: Int
 ) : Exception(message)
+

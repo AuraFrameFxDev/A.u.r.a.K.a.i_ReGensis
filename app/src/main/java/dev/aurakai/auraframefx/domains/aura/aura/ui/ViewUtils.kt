@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import dev.aurakai.auraframefx.R
-import dev.aurakai.auraframefx.aura.ui.ViewUtils.setViewTag
+import dev.aurakai.auraframefx.domains.aura.core.ui.ViewUtils.setViewTag
 
 /**
  * Utility class for view-related operations.
@@ -381,3 +381,4 @@ object ViewUtils {
         ViewCompat.setElevation(view, elevation)
     }
 }
+

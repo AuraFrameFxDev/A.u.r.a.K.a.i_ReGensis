@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dagger.hilt.android.AndroidEntryPoint
@@ -283,4 +283,5 @@ class VertexCloudService : Service() {
         serviceScope.cancel()
     }
 }
+
 

@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.pipeline
 
-import dev.aurakai.auraframefx.domains.aura.GenesisAgent
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.KaiAIService
+import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIService
 import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
@@ -344,3 +344,5 @@ sealed class PipelineState {
     data class Completed(val task: String) : PipelineState()
     data class Error(val message: String) : PipelineState()
 }
+
+

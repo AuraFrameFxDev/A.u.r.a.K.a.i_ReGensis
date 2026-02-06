@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.core.generator
 
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
@@ -66,3 +66,4 @@ class AuraForgeGenerator @Inject constructor(
         data class Error(val message: String) : SpelhookResult()
     }
 }
+

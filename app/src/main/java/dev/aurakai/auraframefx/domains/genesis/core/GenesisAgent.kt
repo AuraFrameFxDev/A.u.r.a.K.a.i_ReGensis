@@ -9,8 +9,8 @@ import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
+import javax.inject.Inject
+import javax.inject.Singleton
 import timber.log.Timber
 
 /**
@@ -134,3 +134,4 @@ class GenesisAgent @Inject constructor(
         UNKNOWN
     }
 }
+

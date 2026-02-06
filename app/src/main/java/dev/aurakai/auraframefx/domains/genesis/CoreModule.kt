@@ -10,7 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
 import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,3 +28,4 @@ object CoreModule {
         orchestrator: Lazy<GenesisOrchestrator>
     ): AgentMessageBus = orchestrator.get()
 }
+

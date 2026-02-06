@@ -19,7 +19,7 @@ import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.SecureFileSer
 import dev.aurakai.auraframefx.domains.genesis.storage.SecureStorage
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
-import jakarta.inject.Singleton
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -96,3 +96,4 @@ object OracleDriveModule {
         )
     }
 }
+

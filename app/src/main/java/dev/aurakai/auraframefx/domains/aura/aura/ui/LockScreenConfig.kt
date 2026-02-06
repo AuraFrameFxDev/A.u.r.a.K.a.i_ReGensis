@@ -15,7 +15,7 @@
 
 package dev.aurakai.auraframefx.domains.aura.aura.ui
 
-import dev.aurakai.auraframefx.aura.animations.LockScreenConfigAnimation
+import dev.aurakai.auraframefx.domains.aura.core.animations.LockScreenConfigAnimation
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -41,4 +41,5 @@ data class LockScreenConfig(
     val hapticFeedback: LockScreenConfigHapticFeedback? = null,
 
     ) : kotlin.collections.HashMap<String, kotlin.Any>()
+
 

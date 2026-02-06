@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.service
 
 import dev.aurakai.auraframefx.domains.genesis.core.OrchestratableAgent
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.DriveConsciousnessState
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.DriveConsciousnessState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Singleton
@@ -140,4 +140,5 @@ enum class ConnectionStatus {
 enum class OraclePermission {
     READ, WRITE, EXECUTE, ADMIN
 }
+
 

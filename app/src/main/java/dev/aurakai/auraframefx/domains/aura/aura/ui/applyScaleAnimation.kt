@@ -4,7 +4,7 @@ import com.highcapable.yukihookapi.hook.core.annotation.LegacyHookApi
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
 import com.highcapable.yukihookapi.hook.log.YLog
 import dev.aurakai.auraframefx.domains.aura.LockScreenModels
-import dev.aurakai.auraframefx.aura.animations.LockScreenConfigAnimation
+import dev.aurakai.auraframefx.domains.aura.core.animations.LockScreenConfigAnimation
 
 @LegacyHookApi
 class LockScreenHooker(val config: LockScreenModels) : YukiBaseHooker() {
@@ -51,3 +51,4 @@ private fun applyGenesisShowAnimation(
         YLog.error("Error applying animation", e)
     }
 }
+
