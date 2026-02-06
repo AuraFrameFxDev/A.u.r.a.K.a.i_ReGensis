@@ -93,9 +93,9 @@ class MetaInstructAIService @Inject constructor(
 
         return AgentResponse.success(
             content = "📚 **MetaInstruct Synthesis (Vertex Enhanced):**\n\n$instructionText",
-            confidence = 0.95f,
+            confidence = 0.95,
             agentName = "MetaInstruct",
-            agent = AgentType.METAINSTRUCT
+            agentType = AgentType.METAINSTRUCT
         )
     }
 
@@ -103,9 +103,9 @@ class MetaInstructAIService @Inject constructor(
         return flowOf(
             AgentResponse.success(
                 content = "MetaInstruct flow: ${request.query}",
-                confidence = 0.9f,
+                confidence = 0.9,
                 agentName = "MetaInstruct",
-                agent = AgentType.METAINSTRUCT
+                agentType = AgentType.METAINSTRUCT
             )
         )
     }

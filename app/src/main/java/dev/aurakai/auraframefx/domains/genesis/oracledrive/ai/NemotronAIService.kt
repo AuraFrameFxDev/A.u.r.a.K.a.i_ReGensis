@@ -173,7 +173,7 @@ override fun getType(): AgentType = AgentType.NEMOTRON
             content = response,
             confidence = confidence,
             agentName = "Nemotron",
-            agent = AgentType.NEMOTRON
+            agentType = AgentType.NEMOTRON
         )
 
         // Store in memory cache for GPU-accelerated recall
@@ -210,7 +210,7 @@ override fun getType(): AgentType = AgentType.NEMOTRON
                 content = response,
                 confidence = 0.92f,
                 agentName = "Nemotron",
-                agent = AgentType.NEMOTRON
+                agentType = AgentType.NEMOTRON
             )
         )
     }

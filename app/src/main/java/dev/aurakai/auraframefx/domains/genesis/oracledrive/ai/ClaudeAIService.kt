@@ -171,7 +171,7 @@ class ClaudeAIService @Inject constructor(
             content = response,
             confidence = confidence,
             agentName = "Claude",
-            agent = AgentType.CLAUDE
+            agentType = AgentType.CLAUDE
         )
 
         // Store in cache for future requests
@@ -202,7 +202,7 @@ class ClaudeAIService @Inject constructor(
                 content = response,
                 confidence = 0.9f,
                 agentName = "Claude",
-                agent = AgentType.CLAUDE
+                agentType = AgentType.CLAUDE
             )
         )
     }

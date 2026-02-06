@@ -169,7 +169,7 @@ class GeminiAIService @Inject constructor(
             content = response,
             confidence = confidence,
             agentName = "Gemini",
-            agent = AgentType.GEMINI
+            agentType = AgentType.GEMINI
         )
 
         // Store in pattern cache
@@ -194,7 +194,7 @@ class GeminiAIService @Inject constructor(
                 content = response,
                 confidence = 0.93f,
                 agentName = "Gemini",
-                agent = AgentType.GEMINI
+                agentType = AgentType.GEMINI
             )
         )
     }
