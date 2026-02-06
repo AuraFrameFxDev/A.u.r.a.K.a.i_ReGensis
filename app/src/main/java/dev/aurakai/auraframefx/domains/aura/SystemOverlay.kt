@@ -69,7 +69,7 @@ data class OverlayTransition(
     val type: String = "crossfade",
     val duration: Long = 500L,
 ) {
-    val name: String
+    val name: String get() = type
 }
 
 @Serializable
