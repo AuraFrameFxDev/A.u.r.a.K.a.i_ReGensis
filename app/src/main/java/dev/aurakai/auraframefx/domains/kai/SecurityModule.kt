@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.domains.kai.security.EncryptionManager
 import dev.aurakai.auraframefx.domains.kai.security.KeystoreManager
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
+import dev.aurakai.auraframefx.domains.kai.security.NoopEncryptionManager
 import javax.inject.Singleton
 
 @Module
