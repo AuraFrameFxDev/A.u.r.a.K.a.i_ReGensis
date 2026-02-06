@@ -49,7 +49,7 @@ typealias VertexAIClient = dev.aurakai.auraframefx.domains.genesis.oracledrive.a
 // Network Aliases
 // ============================================================================
 
-// typealias BaseUrl = dev.aurakai.auraframefx.domains.genesis.network.qualifiers.BaseUrl // Removed cyclic alias
+typealias BaseUrl = dev.aurakai.auraframefx.domains.genesis.BaseUrl // Point to the actual annotation
 typealias MultiValueMap = MutableMap<String, List<String>>
 
 // ============================================================================
