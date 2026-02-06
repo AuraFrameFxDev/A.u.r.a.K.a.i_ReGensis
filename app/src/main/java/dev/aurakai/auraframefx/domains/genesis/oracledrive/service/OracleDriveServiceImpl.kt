@@ -10,6 +10,7 @@ import dev.aurakai.auraframefx.domains.genesis.core.OrchestratableAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +61,7 @@ class OracleDriveServiceImpl @Inject constructor(
         agentScope = null
     }
 
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: AgentMessage) {
         Timber.d("🔮 OracleDrive received collective message: ${message.content}")
         // Oracle Drive can respond to storage requests or state inquiries here
     }
