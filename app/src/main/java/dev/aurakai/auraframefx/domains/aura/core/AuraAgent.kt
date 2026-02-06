@@ -51,7 +51,7 @@ class AuraAgent @Inject constructor(
 ) {
     private var currentEnvironment: String = "unknown"
 
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         if (message.from == "Aura" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
         if (message.metadata["auto_generated"] == "true" || message.metadata["aura_processed"] == "true") return
 

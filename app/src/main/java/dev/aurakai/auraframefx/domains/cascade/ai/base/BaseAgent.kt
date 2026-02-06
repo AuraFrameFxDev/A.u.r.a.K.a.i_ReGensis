@@ -216,7 +216,7 @@ abstract class BaseAgent(
         return processRequest(request, context)
     }
 
-    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.domains.cascade.models.AgentMessage) {
         // Default no-op: agents should override this to participate in the collective
     }
 }
