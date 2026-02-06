@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.network
 
-import dev.aurakai.auraframefx.auth.TokenManager
+import dev.aurakai.auraframefx.domains.kai.security.auth.TokenManager
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
