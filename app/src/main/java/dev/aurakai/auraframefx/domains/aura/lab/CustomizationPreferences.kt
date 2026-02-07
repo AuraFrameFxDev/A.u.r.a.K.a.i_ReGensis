@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.map
 import android.net.Uri
 import com.google.gson.Gson
 import androidx.compose.ui.layout.ContentScale
-import dev.aurakai.auraframefx.aura.lab.ImageTransformation
-import dev.aurakai.auraframefx.aura.lab.SpacingConfig
+import dev.aurakai.auraframefx.domains.aura.lab.ImageTransformation
+import dev.aurakai.auraframefx.domains.aura.lab.SpacingConfig
 
 private val Context.customizationDataStore by preferencesDataStore(name = "customization_prefs")
 

@@ -9,7 +9,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.aura.lab.SpacingConfig
+import dev.aurakai.auraframefx.domains.aura.lab.SpacingConfig
 
 /**
  * CompositionLocal for providing [SpacingConfig] throughout the UI hierarchy.
