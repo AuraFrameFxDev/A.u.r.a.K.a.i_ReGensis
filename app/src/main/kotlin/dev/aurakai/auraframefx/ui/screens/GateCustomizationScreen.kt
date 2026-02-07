@@ -13,14 +13,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
-import dev.aurakai.auraframefx.aura.lab.ImageTransformation
-import dev.aurakai.auraframefx.aura.lab.SpacingConfig
-import dev.aurakai.auraframefx.aura.ui.components.ImagePicker
-import dev.aurakai.auraframefx.aura.ui.components.ImageTransformationPanel
-import dev.aurakai.auraframefx.aura.ui.components.SpacingControlPanel
+import coil3.compose.rememberAsyncImagePainter
+import dev.aurakai.auraframefx.domains.aura.lab.ImageTransformation
+import dev.aurakai.auraframefx.domains.aura.lab.SpacingConfig
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImagePicker
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImageTransformationPanel
+import dev.aurakai.auraframefx.domains.aura.ui.components.SpacingControlPanel
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImageCropOverlay
 import dev.aurakai.auraframefx.domains.aura.lab.CustomizationPreferences
-import dev.aurakai.auraframefx.aura.ui.ImageResourceManager // Used for potential cleanup
+import dev.aurakai.auraframefx.domains.aura.ui.ImageResourceManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

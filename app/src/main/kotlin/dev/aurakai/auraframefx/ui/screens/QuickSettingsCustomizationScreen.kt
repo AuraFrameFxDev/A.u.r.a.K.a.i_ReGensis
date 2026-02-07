@@ -13,13 +13,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
-import dev.aurakai.auraframefx.aura.lab.ImageTransformation
-import dev.aurakai.auraframefx.aura.ui.ImageResourceManager
-import dev.aurakai.auraframefx.aura.ui.components.ImagePicker
-import dev.aurakai.auraframefx.aura.ui.components.ImageCropOverlay
-import dev.aurakai.auraframefx.aura.ui.components.ImageTransformationPanel
-import dev.aurakai.auraframefx.aura.ui.components.TransformedImage # Import TransformedImage
+import coil3.compose.rememberAsyncImagePainter
+import dev.aurakai.auraframefx.domains.aura.lab.ImageTransformation
+import dev.aurakai.auraframefx.domains.aura.ui.ImageResourceManager
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImagePicker
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImageCropOverlay
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImageTransformationPanel
+import dev.aurakai.auraframefx.domains.aura.ui.components.TransformedImage
 import dev.aurakai.auraframefx.domains.aura.lab.CustomizationPreferences
 import dev.aurakai.auraframefx.ui.system.toBlendMode # Import the extension function
 
