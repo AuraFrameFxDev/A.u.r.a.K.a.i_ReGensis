@@ -14,13 +14,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog // Import for Dialog
-import dev.aurakai.auraframefx.aura.lab.ImageTransformation // Import ImageTransformation
-import dev.aurakai.auraframefx.aura.ui.ImageResourceManager // Import ImageResourceManager for cleanup
-import dev.aurakai.auraframefx.aura.ui.components.ImagePicker // Updated ImagePicker signature
-import dev.aurakai.auraframefx.aura.ui.components.ImageTransformationPanel // Import ImageTransformationPanel
-import dev.aurakai.auraframefx.aura.ui.components.TransformedImage // Import TransformedImage
+import dev.aurakai.auraframefx.domains.aura.lab.ImageTransformation
+import dev.aurakai.auraframefx.domains.aura.ui.ImageResourceManager
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImagePicker
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImageTransformationPanel
+import dev.aurakai.auraframefx.domains.aura.ui.components.TransformedImage
+import dev.aurakai.auraframefx.domains.aura.ui.components.ImageCropOverlay
 import dev.aurakai.auraframefx.domains.aura.lab.CustomizationPreferences
+import androidx.compose.material3.Surface
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.TextField
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Divider
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SystemOverlay() {
     val context = LocalContext.current
