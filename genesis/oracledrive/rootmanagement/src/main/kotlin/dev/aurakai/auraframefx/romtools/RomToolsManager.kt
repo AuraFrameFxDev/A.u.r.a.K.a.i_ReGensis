@@ -4,18 +4,21 @@ package dev.aurakai.auraframefx.romtools
 import android.content.Context
 import android.net.Uri
 import android.os.Build
-import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
-import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
-import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
+import dev.aurakai.auraframefx.core.consciousness.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
-import dev.aurakai.auraframefx.core.consciousness.NexusMemoryCore
+import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
+import dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation
+import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
+import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
+import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,9 +50,9 @@ sealed class RomOperation {
 interface RomToolsManager {
     val romToolsState: StateFlow<RomToolsState>
     val operationProgress: StateFlow<OperationProgress?>
-    
+
     suspend fun processRomOperation(request: RomOperationRequest): AgentResponse
-    
+
     // Legacy support for specific methods
     suspend fun flashRom(romFile: RomFile): Result<Unit>
     suspend fun createNandroidBackup(backupName: String): Result<BackupInfo>
@@ -71,7 +74,7 @@ class RomToolsManagerImpl @Inject constructor(
     private val verificationManager: RomVerificationManager,
     private val backupManager: BackupManager,
     private val retentionManager: AurakaiRetentionManager,
-    private val safetyManager: dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager,
+    private val safetyManager: BootloaderSafetyManager,
     private val nexusMemory: NexusMemoryCore
 ) : RomToolsManager {
 
@@ -96,16 +99,19 @@ class RomToolsManagerImpl @Inject constructor(
                 if (result.isSuccess) AgentResponse.success("Backup created: $name", agentName = "RomTools", agentType = AgentType.GENESIS)
                 else AgentResponse.error("Backup failed: ${result.exceptionOrNull()?.message}", agentName = "RomTools", agentType = AgentType.GENESIS)
             }
+
             is RomOperation.UnlockBootloader -> {
                 val result = unlockBootloader()
                 if (result.isSuccess) AgentResponse.success("Bootloader unlocked", agentName = "RomTools", agentType = AgentType.KAI)
                 else AgentResponse.error("Unlock failed", agentName = "RomTools", agentType = AgentType.KAI)
             }
+
             is RomOperation.InstallRecovery -> {
                 val result = installRecovery()
                 if (result.isSuccess) AgentResponse.success("Recovery installed", agentName = "RomTools", agentType = AgentType.GENESIS)
                 else AgentResponse.error("Installation failed", agentName = "RomTools", agentType = AgentType.GENESIS)
             }
+
             is RomOperation.GenesisOptimizations -> {
                 val result = installGenesisOptimizations()
                 if (result.isSuccess) AgentResponse.success("Optimizations applied", agentName = "RomTools", agentType = AgentType.GENESIS)
@@ -116,7 +122,7 @@ class RomToolsManagerImpl @Inject constructor(
 
     private suspend fun handleFlashRom(request: RomOperationRequest): AgentResponse {
         val uri = request.uri ?: return AgentResponse.error("No ROM URI", agentName = "RomTools", agentType = AgentType.GENESIS)
-        
+
         // 1. Snapshot with Aura (learning)
         nexusMemory.emitLearning(
             key = "${Build.MANUFACTURER}:${Build.MODEL}:rom_flash",
@@ -128,10 +134,10 @@ class RomToolsManagerImpl @Inject constructor(
         // 2. Execution (Genesis roots)
         val cacheFile = copyUriToCache(request.context, uri, "rom_flash.zip")
             ?: return AgentResponse.error("Failed to access ROM file", agentName = "RomTools", agentType = AgentType.GENESIS)
-        
+
         val romFile = RomFile(name = "Selected ROM", path = cacheFile.absolutePath)
         val result = flashRom(romFile)
-        
+
         return if (result.isSuccess) {
             AgentResponse.success("Flash successful", agentName = "RomTools", agentType = AgentType.GENESIS)
         } else {
@@ -141,10 +147,10 @@ class RomToolsManagerImpl @Inject constructor(
 
     private suspend fun handleRestoreBackup(request: RomOperationRequest): AgentResponse {
         val uri = request.uri ?: return AgentResponse.error("No Backup URI", agentName = "RomTools", agentType = AgentType.GENESIS)
-        
+
         val cacheFile = copyUriToCache(request.context, uri, "backup_restore.zip")
             ?: return AgentResponse.error("Failed to access backup file", agentName = "RomTools", agentType = AgentType.GENESIS)
-            
+
         val backupInfo = BackupInfo(
             name = "Restored Backup",
             path = cacheFile.absolutePath,
@@ -154,13 +160,12 @@ class RomToolsManagerImpl @Inject constructor(
             androidVersion = Build.VERSION.RELEASE,
             partitions = emptyList() // Should be detected from zip
         )
-        
+
         val result = restoreNandroidBackup(backupInfo)
-        
         return if (result.isSuccess) {
             AgentResponse.success("Restore successful", agentName = "RomTools", agentType = AgentType.GENESIS)
         } else {
-            AgentResponse.error("Restore failed", agentName = "RomTools", agentType = AgentType.GENESIS)
+            AgentResponse.error("Restore failed: ${result.exceptionOrNull()?.message}", agentName = "RomTools", agentType = AgentType.GENESIS)
         }
     }
 
@@ -169,7 +174,7 @@ class RomToolsManagerImpl @Inject constructor(
             val cacheDir = File(context.cacheDir, "rom_tools")
             if (!cacheDir.exists()) cacheDir.mkdirs()
             val destFile = File(cacheDir, fileName)
-            
+
             context.contentResolver.openInputStream(uri)?.use { input ->
                 FileOutputStream(destFile).use { output ->
                     input.copyTo(output)
@@ -214,11 +219,11 @@ class RomToolsManagerImpl @Inject constructor(
 
             // Step 0.5: 🛡️ Perform Pre-Flight Safety Checks
             updateOperationProgress(RomStep.VERIFYING_ROM, 7f)
-            val safetyResult = safetyManager.performPreFlightChecks(dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation.FLASH_PARTITION)
+            val safetyResult = safetyManager.performPreFlightChecks(BootloaderOperation.FLASH_PARTITION)
             if (!safetyResult.passed) {
                 throw IllegalStateException("Safety Check Failed: ${safetyResult.criticalIssues.joinToString()}")
             }
-            
+
             safetyManager.createSafetyCheckpoint()
 
             // Step 1: Verify ROM file integrity
@@ -349,7 +354,7 @@ class RomToolsManagerImpl @Inject constructor(
     override suspend fun unlockBootloader(): Result<Unit> {
         return try {
             updateOperationProgress(RomStep.UNLOCKING_BOOTLOADER, 0f)
-            val safetyResult = safetyManager.performPreFlightChecks(dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation.UNLOCK)
+            val safetyResult = safetyManager.performPreFlightChecks(BootloaderOperation.UNLOCK)
             if (!safetyResult.passed) {
                 return Result.failure(IllegalStateException("Safety Check Failed"))
             }
@@ -388,7 +393,7 @@ class RomToolsManagerImpl @Inject constructor(
 
     private fun checkRootAccess(): Boolean {
         return try {
-            val process = Runtime.getRuntime().exec("su -c 'echo test'")
+            val process = Runtime.getRuntime().exec(arrayOf("su", "-c", "echo test"))
             process.waitFor() == 0
         } catch (e: Exception) {
             false
@@ -457,7 +462,9 @@ enum class RomStep {
     COMPLETED,
     FAILED;
 
-    fun getDisplayName(): String = name.replace("_", " ").lowercase().capitalize()
+    fun getDisplayName(): String = name.replace("_", " ")
+        .lowercase(Locale.ROOT)
+        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
 }
 
 data class RomFile(

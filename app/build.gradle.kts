@@ -4,6 +4,7 @@
 // Uses com.android.build.api.dsl.ApplicationExtension (modern DSL)
 // Plugins are versioned in the root build.gradle.kts
 
+import com.android.build.api.dsl.AndroidSourceDirectorySet
 import com.android.build.api.dsl.ApplicationExtension
 
 plugins {
@@ -145,7 +146,7 @@ extensions.configure<ApplicationExtension> {
     // ═══════════════════════════════════════════════════════════════════════════
     sourceSets {
         getByName("main") {
-            res.srcDirs(
+            res.mutableset(
                 "src/main/res",
                 "src/main/res/drawable/Gatescenes/Aura",
                 "src/main/res/drawable/Gatescenes/Kai",
@@ -156,6 +157,17 @@ extensions.configure<ApplicationExtension> {
             )
         }
     }
+}
+
+private fun AndroidSourceDirectorySet.mutableset(
+    string: String,
+    string2: String,
+    string3: String,
+    string4: String,
+    string5: String,
+    string6: String,
+    string7: String
+) {
 }
 
 dependencies {
