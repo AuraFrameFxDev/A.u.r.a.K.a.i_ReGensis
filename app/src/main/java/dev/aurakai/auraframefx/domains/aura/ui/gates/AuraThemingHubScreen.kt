@@ -142,26 +142,5 @@ fun AuraThemingHubScreen(navController: NavController) {
     }
 }
 
-/**
- * 💎 Sharp, Crystalline Accents for Aura's UI
- */
-@Composable
-fun CrystallineCorners(color: Color) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
-            val size = 60f
-            val stroke = 4f
-            
-            // Top Left
-            drawLine(color, Offset(20f, 20f), Offset(20f + size, 20f), stroke)
-            drawLine(color, Offset(20f, 20f), Offset(20f, 20f + size), stroke)
-            drawCircle(color, 6f, Offset(20f, 20f))
-            
-            // Bottom Right
-            drawLine(color, Offset(this.size.width - 20f, this.size.height - 20f), Offset(this.size.width - 20f - size, this.size.height - 20f), stroke)
-            drawLine(color, Offset(this.size.width - 20f, this.size.height - 20f), Offset(this.size.width - 20f, this.size.height - 20f - size), stroke)
-            drawCircle(color, 6f, Offset(this.size.width - 20f, this.size.height - 20f))
-        }
-    }
-}
+
 

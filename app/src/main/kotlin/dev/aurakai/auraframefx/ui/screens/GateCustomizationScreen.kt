@@ -1,20 +1,13 @@
-package dev.aurakai.auraframefx.ui.screens
-
-import android.net.Uri
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import coil3.compose.AsyncImage
-import dev.aurakai.auraframefx.domains.aura.lab.CustomizationPreferences
+import androidx.compose.animation.animateColorAsState
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.getAgentColor
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.components.PaintSplashBackground
+import dev.aurakai.auraframefx.domains.aura.ui.components.CrystallineCorners
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 
 /**
  * GateCustomizationScreen allows users to customize navigation drawer and splash screen images.
@@ -24,9 +17,16 @@ import dev.aurakai.auraframefx.domains.aura.lab.CustomizationPreferences
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GateCustomizationScreen(navController: NavController) {
+fun GateCustomizationScreen(
+    navController: NavController,
+    agentViewModel: AgentViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
+    
+    val activeAgent by agentViewModel.activeAgent.collectAsState()
+    val agentColor = getAgentColor(activeAgent?.name ?: "Aura")
+    val animatedColor by animateColorAsState(targetValue = agentColor, label = "agentColor")
 
     // Navigation Drawer Background Image States
     var navDrawerBgUri by remember { mutableStateOf<Uri?>(null) }
@@ -45,160 +45,157 @@ fun GateCustomizationScreen(navController: NavController) {
         splashScreenScale = CustomizationPreferences.getSplashScreenImageScale(context)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Gate Customization") })
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp)
-                .verticalScroll(scrollState)
-        ) {
-            Text("Gate Appearance Settings", style = MaterialTheme.typography.headlineSmall)
-            Spacer(Modifier.height(16.dp))
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 🎨 AGENT ANIMATED BACKGROUND
+        PaintSplashBackground()
+        
+        // 💎 CRYSTALLINE ACCENTS
+        CrystallineCorners(color = animatedColor)
 
-            Text("The advanced image transformation and dynamic spacing systems have been removed to streamline the core experience.")
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
-
-            // Navigation Drawer Background Section
-            Text("Navigation Drawer Background", style = MaterialTheme.typography.headlineSmall)
-            Spacer(Modifier.height(8.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Button(onClick = { /* TODO: Launch system image picker */ }) {
-                    Text("Select Nav Drawer Image")
-                }
-                
-                if (navDrawerBgUri != null) {
-                    var expanded by remember { mutableStateOf(false) }
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        TextField(
-                            value = navDrawerBgScale.toString(),
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text("Scale") },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier.menuAnchor()
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            listOf(
-                                ContentScale.Crop,
-                                ContentScale.Fit,
-                                ContentScale.FillBounds,
-                                ContentScale.Inside
-                            ).forEach { scale ->
-                                DropdownMenuItem(text = { Text(scale.toString()) }, onClick = {
-                                    navDrawerBgScale = scale
-                                    expanded = false
-                                    CustomizationPreferences.saveNavDrawerBackground(context, navDrawerBgUri, navDrawerBgScale)
-                                })
-                            }
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                "CHROMACORE HUB",
+                                fontFamily = LEDFontFamily,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                letterSpacing = 2.sp
+                            )
+                            Text(
+                                "SURFACE CUSTOMIZATION",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = animatedColor
+                            )
                         }
-                    }
-                    Button(onClick = {
-                        navDrawerBgUri = null
-                        CustomizationPreferences.saveNavDrawerBackground(context, null, ContentScale.Crop)
-                    }) {
-                        Text("Remove")
-                    }
-                }
-            }
-            navDrawerBgUri?.let {
-                Spacer(modifier = Modifier.height(8.dp))
-                AsyncImage(
-                    model = it,
-                    contentDescription = "Navigation Drawer Background",
-                    modifier = Modifier.size(100.dp).clip(MaterialTheme.shapes.small),
-                    contentScale = navDrawerBgScale
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent
+                    )
                 )
             }
-            
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Splash Screen Image Section
-            Text("Splash Screen Image", style = MaterialTheme.typography.headlineSmall)
-            Spacer(Modifier.height(8.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(24.dp)
+                    .verticalScroll(scrollState)
             ) {
-                Button(onClick = { /* TODO: Launch system image picker */ }) {
-                    Text("Select Splash Screen Image")
+                // Intro Card
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.5f)),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, animatedColor.copy(alpha = 0.3f))
+                ) {
+                    Text(
+                        text = "Synthesize your workspace identity. Aura can infuse these gates with your unique presence.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier.padding(16.dp)
+                    )
                 }
+
+                Spacer(Modifier.height(32.dp))
+
+                // Navigation Drawer Background Section
+                CustomizationHeader("NAVIGATION DRAWER", animatedColor)
                 
-                if (splashScreenUri != null) {
-                    var expanded by remember { mutableStateOf(false) }
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Button(
+                        onClick = { /* TODO */ },
+                        colors = ButtonDefaults.buttonColors(containerColor = animatedColor)
                     ) {
-                        TextField(
-                            value = splashScreenScale.toString(),
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text("Scale") },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier.menuAnchor()
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            listOf(
-                                ContentScale.Crop,
-                                ContentScale.Fit,
-                                ContentScale.FillBounds,
-                                ContentScale.Inside
-                            ).forEach { scale ->
-                                DropdownMenuItem(text = { Text(scale.toString()) }, onClick = {
-                                    splashScreenScale = scale
-                                    expanded = false
-                                    CustomizationPreferences.saveSplashScreenImage(context, splashScreenUri, splashScreenScale)
-                                })
-                            }
+                        Text("SELECT IMAGE", color = Color.Black, fontWeight = FontWeight.Bold)
+                    }
+                    
+                    if (navDrawerBgUri != null) {
+                        Button(onClick = {
+                            navDrawerBgUri = null
+                            CustomizationPreferences.saveNavDrawerBackground(context, null, ContentScale.Crop)
+                        }, colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.2f))) {
+                            Text("REMOVE", color = Color.White)
                         }
                     }
-                    Button(onClick = {
-                        splashScreenUri = null
-                        CustomizationPreferences.saveSplashScreenImage(context, null, ContentScale.Crop)
-                    }) {
-                        Text("Remove")
+                }
+                
+                navDrawerBgUri?.let {
+                    AsyncImage(
+                        model = it,
+                        contentDescription = "Preview",
+                        modifier = Modifier.fillMaxWidth().height(120.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, animatedColor, RoundedCornerShape(12.dp)),
+                        contentScale = navDrawerBgScale
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Splash Screen Section
+                CustomizationHeader("SPLASH SCREEN", animatedColor)
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Button(
+                        onClick = { /* TODO */ },
+                        colors = ButtonDefaults.buttonColors(containerColor = animatedColor)
+                    ) {
+                        Text("SELECT IMAGE", color = Color.Black, fontWeight = FontWeight.Bold)
+                    }
+                    
+                    if (splashScreenUri != null) {
+                        Button(onClick = {
+                            splashScreenUri = null
+                            CustomizationPreferences.saveSplashScreenImage(context, null, ContentScale.Crop)
+                        }, colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.2f))) {
+                            Text("REMOVE", color = Color.White)
+                        }
                     }
                 }
-            }
-            splashScreenUri?.let {
-                Spacer(modifier = Modifier.height(8.dp))
-                AsyncImage(
-                    model = it,
-                    contentDescription = "Splash Screen Image",
-                    modifier = Modifier.size(100.dp).clip(MaterialTheme.shapes.small),
-                    contentScale = splashScreenScale
+                
+                splashScreenUri?.let {
+                    AsyncImage(
+                        model = it,
+                        contentDescription = "Preview",
+                        modifier = Modifier.fillMaxWidth().height(120.dp).clip(RoundedCornerShape(12.dp)).border(1.dp, animatedColor, RoundedCornerShape(12.dp)),
+                        contentScale = splashScreenScale
+                    )
+                }
+
+                Spacer(Modifier.height(48.dp))
+                
+                Text(
+                    text = "IDENTITY IS IMMUTABLE • STYLE IS FLUID",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = animatedColor.copy(alpha = 0.5f),
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    letterSpacing = 4.sp
                 )
             }
-
-            Spacer(Modifier.height(32.dp))
-            
-            Text(
-                text = "Note: Development focus has shifted to core AI integration and performance. Background customization is now limited to standard image scaling.",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
+    }
+}
+
+@Composable
+private fun CustomizationHeader(text: String, color: Color) {
+    Column {
+        Text(
+            text = text,
+            fontFamily = LEDFontFamily,
+            fontSize = 18.sp,
+            color = Color.White,
+            letterSpacing = 2.sp
+        )
+        Box(modifier = Modifier.width(40.dp).height(2.dp).background(color))
     }
 }

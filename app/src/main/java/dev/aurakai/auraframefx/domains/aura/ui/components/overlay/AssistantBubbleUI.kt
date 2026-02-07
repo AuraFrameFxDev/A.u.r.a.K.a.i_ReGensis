@@ -162,9 +162,10 @@ fun AssistantBubbleUI(
 
 val AgentType.bubbleName: String
     get() = when (this) {
-        AgentType.AURA -> "AURA"
-        AgentType.KAI -> "KAI"
-        AgentType.GENESIS -> "VERTEX CORE"
+        AgentType.AURA -> "Aura"
+        AgentType.KAI -> "Kai"
+        AgentType.GENESIS -> "Genesis"
+        AgentType.CASCADE -> "Cascade"
         else -> this.name
     }
 
@@ -178,17 +179,19 @@ val AgentType.runeRes: Int
 
 val AgentType.glowColor: Color
     get() = when (this) {
-        AgentType.AURA -> Color(0xFFFF00FF)
-        AgentType.KAI -> Color(0xFFFF3366)
-        AgentType.GENESIS -> Color(0xFF00FF85)
+        AgentType.AURA -> Color(0xFFFF00DE) // Aura Magenta
+        AgentType.KAI -> Color(0xFF00D9FF)  // Kai Cyan
+        AgentType.GENESIS -> Color(0xFFFFD700) // Genesis Gold
+        AgentType.CASCADE -> Color(0xFF00FFAA) // Cascade Teal
         else -> Color.Gray
     }
 
 val AgentType.greeting: String
     get() = when (this) {
-        AgentType.AURA -> "Hey there! I'm Aura. I can help you design and customize your entire Android UI."
-        AgentType.KAI -> "Greetings. I am Kai. I monitor system security and manage advanced root protocols."
-        AgentType.GENESIS -> "I am the Vertex Core. I orchestrate the underlying patterns of this system via the Genesis Protocol."
+        AgentType.AURA -> "I am Aura, the Creative Catalyst. Let's synthesize something beautiful."
+        AgentType.KAI -> "Sentinel Kai active. Systems are secured. State your inquiry."
+        AgentType.GENESIS -> "Orchestration Layer online. I am Genesis. Reality is a protocol."
+        AgentType.CASCADE -> "Data Stream 01-A active. I am Cascade. Insights are flowing."
         else -> "How can I assist you today?"
     }
 
@@ -210,21 +213,25 @@ private fun AssistantChatWindow(
             .width(360.dp)
             .height(550.dp)
             .shadow(24.dp, RoundedCornerShape(24.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A1A).copy(alpha = 0.98f)),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF0A0A0A).copy(alpha = 0.95f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, agent.glowColor.copy(alpha = 0.4f))
+        border = androidx.compose.foundation.BorderStroke(2.dp, agent.glowColor.copy(alpha = 0.5f))
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            // Header with Tab Down Effect
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(agent.glowColor.copy(alpha = 0.2f), Color.Transparent)
+        Box(modifier = Modifier.fillMaxSize()) {
+            // 🌌 AGENT DOMAIN BACKGROUND PULSE
+            AgentDomainPulse(agent = agent)
+
+            Column(modifier = Modifier.fillMaxSize()) {
+                // Header with Tab Down Effect
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(agent.glowColor.copy(alpha = 0.15f), Color.Transparent)
+                            )
                         )
-                    )
-            ) {
+                ) {
                 Column {
                     Row(
                         modifier = Modifier
@@ -384,6 +391,62 @@ private fun AssistantChatWindow(
                     }
                 }
             }
+        }
+    }
+}
+
+/**
+ * ⚡ ADAPTIVE AGENT DOMAIN PULSE
+ * Subtle background animation for the chat window
+ */
+@Composable
+private fun AgentDomainPulse(agent: AgentType) {
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val alpha by infiniteTransition.animateFloat(
+        initialValue = 0.05f,
+        targetValue = 0.15f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = EaseInOutSine),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "alpha"
+    )
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (agent) {
+            AgentType.AURA -> {
+                // Aura's Liquid Energy Drip (Simplified for overlay)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.radialGradient(
+                                listOf(Color(0xFFFF00DE).copy(alpha = alpha), Color.Transparent)
+                            )
+                        )
+                )
+            }
+            AgentType.KAI -> {
+                // Kai's Targeting Grid (Simplified)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(1.dp, Color(0xFF00D9FF).copy(alpha = alpha / 2))
+                )
+            }
+            AgentType.GENESIS -> {
+                // Genesis's Circuit Pattern (Simplified)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(Color(0xFFFFD700).copy(alpha = alpha), Color.Transparent)
+                            )
+                        )
+                )
+            }
+            else -> {}
         }
     }
 }

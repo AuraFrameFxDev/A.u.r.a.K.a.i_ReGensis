@@ -1,25 +1,14 @@
 
-package dev.aurakai.auraframefx.ui
-
-import android.net.Uri
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.domains.aura.lab.CustomizationPreferences
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.TextField
-import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.animation.animateColorAsState
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.getAgentColor
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.components.PaintSplashBackground
+import dev.aurakai.auraframefx.domains.aura.ui.components.CrystallineCorners
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 
 /**
@@ -30,8 +19,14 @@ import coil3.compose.AsyncImage
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SystemOverlay() {
+fun SystemOverlay(
+    agentViewModel: AgentViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
+    
+    val activeAgent by agentViewModel.activeAgent.collectAsState()
+    val agentColor = getAgentColor(activeAgent?.name ?: "Aura")
+    val animatedColor by animateColorAsState(targetValue = agentColor, label = "agentColor")
 
     // State to hold the current header image URI and scale
     var headerImageUri by remember { mutableStateOf<Uri?>(null) }
@@ -43,103 +38,108 @@ fun SystemOverlay() {
         headerImageUri = CustomizationPreferences.getHeaderImageUri(context)
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        // Placeholder Header Area
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp) // Example fixed height for header
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            contentAlignment = Alignment.Center
-        ) {
-            if (headerImageUri != null) {
-                AsyncImage(
-                    model = headerImageUri,
-                    contentDescription = "Custom Header Background",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = headerImageScale
-                )
-            } else {
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 🎨 AGENT ANIMATED BACKGROUND
+        PaintSplashBackground()
+        
+        // 💎 CRYSTALLINE ACCENTS
+        CrystallineCorners(color = animatedColor)
+
+        Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+            // Header Content
+            Column(modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp)) {
                 Text(
-                    text = "System Header (No Custom Image)",
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    style = MaterialTheme.typography.headlineSmall
+                    "IDENTITY SYNTHESIZER",
+                    fontFamily = LEDFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    fontSize = 24.sp,
+                    letterSpacing = 4.sp
+                )
+                Box(modifier = Modifier.width(60.dp).height(4.dp).background(animatedColor))
+                Text(
+                    "OS SURFACE LAYER • ${activeAgent?.name?.uppercase() ?: "AURA"}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = animatedColor.copy(alpha = 0.8f),
+                    modifier = Modifier.padding(top = 8.dp)
                 )
             }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Controls for Header Customization
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Header Customization",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                // Image selection would typically use a system picker now
-                Button(onClick = { /* TODO: Launch system image picker */ }) {
-                    Text("Select Image")
-                }
-
-                if (headerImageUri != null) {
-                    // ContentScale selection
-                    var expanded by remember { mutableStateOf(false) }
-                    ExposedDropdownMenuBox(
-                        expanded = expanded,
-                        onExpandedChange = { expanded = !expanded }
-                    ) {
-                        TextField(
-                            value = headerImageScale.toString(),
-                            onValueChange = {}, // Read-only
-                            readOnly = true,
-                            label = { Text("Scale") },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            modifier = Modifier.menuAnchor()
+            // Placeholder Header Area (Visualization)
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp),
+                shape = RoundedCornerShape(24.dp),
+                border = androidx.compose.foundation.BorderStroke(2.dp, animatedColor.copy(alpha = 0.5f)),
+                colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f))
+            ) {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                    if (headerImageUri != null) {
+                        AsyncImage(
+                            model = headerImageUri,
+                            contentDescription = "Preview",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = headerImageScale
                         )
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            listOf(
-                                ContentScale.Crop,
-                                ContentScale.Fit,
-                                ContentScale.FillBounds,
-                                ContentScale.FillWidth,
-                                ContentScale.FillHeight,
-                                ContentScale.Inside,
-                                ContentScale.None
-                            ).forEach { scale ->
-                                DropdownMenuItem(text = { Text(scale.toString()) }, onClick = {
-                                    headerImageScale = scale
-                                    expanded = false
-                                    CustomizationPreferences.saveHeaderImage(context, headerImageUri, headerImageScale)
-                                })
-                            }
-                        }
+                    } else {
+                        Text(
+                            text = "[ NO INFUSION DETECTED ]",
+                            fontFamily = LEDFontFamily,
+                            color = animatedColor.copy(alpha = 0.4f),
+                            fontSize = 14.sp
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Controls
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Black.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
+                    .border(1.dp, animatedColor.copy(alpha = 0.2f), RoundedCornerShape(16.dp))
+                    .padding(20.dp)
+            ) {
+                Text(
+                    "INFUSION PROTOCOL",
+                    fontFamily = LEDFontFamily,
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Button(
+                        onClick = { /* TODO */ },
+                        colors = ButtonDefaults.buttonColors(containerColor = animatedColor)
+                    ) {
+                        Text("SELECT IMAGE", color = Color.Black, fontWeight = FontWeight.Bold)
                     }
 
-                    Button(onClick = {
-                        headerImageUri = null
-                        CustomizationPreferences.saveHeaderImage(context, null, ContentScale.Crop)
-                    }) {
-                        Text("Remove")
+                    if (headerImageUri != null) {
+                        Button(
+                            onClick = {
+                                headerImageUri = null
+                                CustomizationPreferences.saveHeaderImage(context, null, ContentScale.Crop)
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.2f))
+                        ) {
+                            Text("REMOVE", color = Color.White)
+                        }
                     }
                 }
             }
             
+            Spacer(modifier = Modifier.weight(1f))
+            
             Text(
-                text = "Note: Image transformation and cropping features have been discontinued.",
+                text = "REGENESIS SYSTEM OVERLAY LAYER [ALPHA]",
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 16.dp)
+                color = Color.White.copy(alpha = 0.3f),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
     }
