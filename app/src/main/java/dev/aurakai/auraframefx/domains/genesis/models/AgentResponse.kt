@@ -49,6 +49,15 @@ data class AgentResponse(
             status = Status.SUCCESS
         )
 
+        /**
+         * Create an AgentResponse representing an error state.
+         *
+         * @param message The visible error message content.
+         * @param agentName The name of the agent that produced the error (defaults to "System").
+         * @param agentType The type of the agent that produced the error.
+         * @param error Optional detailed error text; defaults to `message`.
+         * @return An AgentResponse with `status` set to `Status.ERROR`, `confidence` set to 0.0, and `error` populated when provided.
+         */
         fun error(
             message: String,
             agentName: String = "System",
@@ -63,6 +72,14 @@ data class AgentResponse(
             error = error
         )
 
+        /**
+         * Create an AgentResponse representing an in-progress (processing) state for the given message and originator.
+         *
+         * @param message The response content or status message.
+         * @param agentName The name of the agent producing the response (defaults to "System").
+         * @param agentType The type of the agent producing the response.
+         * @return An AgentResponse with status `Status.PROCESSING`, confidence `0.0f`, and the provided content and agent information.
+         */
         fun processing(
             message: String,
             agentName: String = "System",

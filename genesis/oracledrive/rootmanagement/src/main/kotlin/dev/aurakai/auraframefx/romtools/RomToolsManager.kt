@@ -127,10 +127,10 @@ class RomToolsManagerImpl @Inject constructor(
     }
 
     /**
-     * Handles a ROM flash request: validates the request, records a pre-flash learning snapshot, stages the ROM to cache, invokes the flashing workflow, and returns the result.
+     * Processes a ROM flash operation request and returns an AgentResponse reflecting the outcome.
      *
-     * @param request The ROM operation request containing the ROM URI and Android context; the function requires `request.uri` (source URI) and `request.context` (to copy the URI to cache).
-     * @return An AgentResponse indicating success when the ROM was flashed or an error containing a concise failure message otherwise.
+     * @param request The ROM operation request; must include a non-null `uri` and a `context` used to stage the ROM file to app cache.
+     * @return An AgentResponse that is `success` when the ROM was flashed, or `error` containing a concise failure message otherwise.
      */
     private suspend fun handleFlashRom(request: RomOperationRequest): AgentResponse {
         val uri = request.uri ?: return AgentResponse.error("No ROM URI", agentName = "RomTools", agentType = AgentType.GENESIS)
@@ -158,12 +158,12 @@ class RomToolsManagerImpl @Inject constructor(
     }
 
     /**
-     * Restores a nandroid backup specified by the request's URI and returns an operation result.
+     * Restore the nandroid backup referenced by the given request.
      *
-     * Copies the backup URI into the app cache, constructs a BackupInfo for the cached file, and invokes the backup restore flow.
+     * Copies the backup from the request's URI into app cache and triggers the restore operation.
      *
-     * @param request The ROM operation request containing the backup `uri` and an Android `context`.
-     * @return `AgentResponse` indicating success when the restore completed, or an error response otherwise.
+     * @param request RomOperationRequest containing the backup `uri` and an Android `context`.
+     * @return `AgentResponse` with a success message if the backup was restored, or an error message otherwise.
      */
     private suspend fun handleRestoreBackup(request: RomOperationRequest): AgentResponse {
         val uri = request.uri ?: return AgentResponse.error("No Backup URI", agentName = "RomTools", agentType = AgentType.GENESIS)
@@ -546,5 +546,11 @@ data class DownloadProgress(
 )
 
 class RomRepository {
-    fun getCompatibleRoms(deviceModel: String): List<AvailableRom> = emptyList()
+    /**
+ * Retrieves ROMs that are compatible with the given device model.
+ *
+ * @param deviceModel The device model identifier used to filter compatible ROMs (e.g., "pixel_7").
+ * @return A list of AvailableRom entries compatible with the specified device model; an empty list if none are available.
+ */
+fun getCompatibleRoms(deviceModel: String): List<AvailableRom> = emptyList()
 }

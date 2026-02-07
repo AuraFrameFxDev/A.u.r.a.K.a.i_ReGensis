@@ -12,6 +12,12 @@ package dev.aurakai.auraframefx.domains.genesis.models
  *
  * @return The AgentCapabilityCategory that corresponds to this AgentType.
  */
+/**
+ * Convert this AgentType to its corresponding AgentCapabilityCategory.
+ *
+ * @receiver The AgentType to convert.
+ * @return The AgentCapabilityCategory corresponding to this AgentType.
+ */
 fun AgentType.toCapabilityCategory(): AgentCapabilityCategory {
     return AgentCapabilityCategory.fromAgentType(this)
 }
