@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+// Removed: import com.google.firebase.vertexai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,7 +36,7 @@ class RomToolsViewModel @Inject constructor(
                 uri = uri,
                 context = context
             )
-            
+
             try {
                 val response = romToolsManager.processRomOperation(request)
                 _lastResponse.value = response
@@ -45,7 +47,11 @@ class RomToolsViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Timber.e(e, "Error performing ROM operation")
-                _lastResponse.value = AgentResponse.error(e.message ?: "Unknown error")
+                _lastResponse.value = AgentResponse.error(
+                    message = e.message ?: "Unknown error",
+                    agentName = "RomTools",
+                    agentType = AgentType.GENESIS
+                )
             }
         }
     }

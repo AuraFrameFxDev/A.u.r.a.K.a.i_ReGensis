@@ -18,7 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.LaunchedEffect
 import dev.aurakai.auraframefx.system.ShizukuManager
+import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuProvider
 
 private const val TAG = "SovereignShieldScreen"

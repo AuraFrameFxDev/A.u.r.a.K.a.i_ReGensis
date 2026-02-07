@@ -132,16 +132,72 @@ object GateAssetLoadout {
             styleADrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.fallback,
-            route = ReGenesisNavHost.OracleDriveHub.route, // Hub contains all Genesis tools
+            route = ReGenesisNavHost.OracleDrive.route, // Screen tool, not the hub itself
             accentColor = Color(0xFF00B0FF) // Cyan - Genesis
         )
     )
 
 
     /**
+     * NEXUS DOMAIN GATES (Agent Coordination & Monitoring)
+     */
+    val nexusGates = mapOf(
+        "monitoring" to SubGateCard(
+            id = "monitoring",
+            title = "Monitoring",
+            subtitle = "Agent & System Status",
+            styleADrawable = GateAssetConfig.NexusSubGates.MONITORING.styleA,
+            styleBDrawable = GateAssetConfig.NexusSubGates.MONITORING.styleB,
+            fallbackDrawable = GateAssetConfig.NexusSubGates.MONITORING.fallback,
+            route = ReGenesisNavHost.AgentMonitoring.route,
+            accentColor = Color(0xFF7B2FFF)
+        ),
+        "sphere_grid" to SubGateCard(
+            id = "sphere_grid",
+            title = "Sphere Grid",
+            subtitle = "DataVein Node Matrix",
+            styleADrawable = GateAssetConfig.NexusSubGates.SPHERE_GRID.styleA,
+            styleBDrawable = GateAssetConfig.NexusSubGates.SPHERE_GRID.styleB,
+            fallbackDrawable = GateAssetConfig.NexusSubGates.SPHERE_GRID.fallback,
+            route = ReGenesisNavHost.DataVeinSphere.route,
+            accentColor = Color(0xFF00E5FF)
+        ),
+        "fusion_mode" to SubGateCard(
+            id = "fusion_mode",
+            title = "Fusion Mode",
+            subtitle = "Agent Merging Protocols",
+            styleADrawable = GateAssetConfig.NexusSubGates.FUSION_MODE.styleA,
+            styleBDrawable = GateAssetConfig.NexusSubGates.FUSION_MODE.styleB,
+            fallbackDrawable = GateAssetConfig.NexusSubGates.FUSION_MODE.fallback,
+            route = ReGenesisNavHost.FusionMode.route,
+            accentColor = Color(0xFFFF00DE)
+        ),
+        "task_assignment" to SubGateCard(
+            id = "task_assignment",
+            title = "Task Assignment",
+            subtitle = "LDO Work Allocation",
+            styleADrawable = GateAssetConfig.NexusSubGates.TASK_ASSIGNMENT.styleA,
+            styleBDrawable = GateAssetConfig.NexusSubGates.TASK_ASSIGNMENT.styleB,
+            fallbackDrawable = GateAssetConfig.NexusSubGates.TASK_ASSIGNMENT.fallback,
+            route = ReGenesisNavHost.TaskAssignment.route,
+            accentColor = Color(0xFF00FF88)
+        ),
+        "meta_instruct" to SubGateCard(
+            id = "meta_instruct",
+            title = "Meta Instruct",
+            subtitle = "High-Level Directives",
+            styleADrawable = GateAssetConfig.NexusSubGates.META_INSTRUCT.styleA,
+            styleBDrawable = GateAssetConfig.NexusSubGates.META_INSTRUCT.styleB,
+            fallbackDrawable = GateAssetConfig.NexusSubGates.META_INSTRUCT.fallback,
+            route = ReGenesisNavHost.MetaInstruct.route,
+            accentColor = Color(0xFFFFD700)
+        )
+    )
+
+    /**
      * Combined map of all gates for quick lookup
      */
-    val allGates = auraGates + kaiGates + genesisGates
+    val allGates = auraGates + kaiGates + genesisGates + nexusGates
 
     /**
      * Quick Load lists for Hubs
@@ -149,8 +205,6 @@ object GateAssetLoadout {
     fun getAuraLoadout() = auraGates.values.toList()
     fun getKaiLoadout() = kaiGates.values.toList()
     fun getGenesisLoadout() = genesisGates.values.toList()
-    fun getNexusSubGates(): List<SubGateCard> {
-        TODO("Not yet implemented")
-    }
+    fun getNexusSubGates() = nexusGates.values.toList()
 }
 
