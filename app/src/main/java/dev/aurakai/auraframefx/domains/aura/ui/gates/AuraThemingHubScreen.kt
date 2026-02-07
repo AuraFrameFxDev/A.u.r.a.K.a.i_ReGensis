@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,8 +49,11 @@ fun AuraThemingHubScreen(navController: NavController) {
     val styleName = if (useStyleB) "CLEAN STUDIO" else "COLLABCANVAS"
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // 🎨 AURA'S ANIMATED BACKGROUND - Paint Splash!
+        // 🎨 AURA'S ANIMATED BACKGROUND - Liquid Energy & Glitch Artifacts!
         PaintSplashBackground()
+
+        // 💎 CRYSTALLINE ACCENTS (Sharp corners)
+        CrystallineCorners(color = Color(0xFFFF00DE))
 
         Scaffold(
             containerColor = Color.Transparent,
@@ -67,7 +71,7 @@ fun AuraThemingHubScreen(navController: NavController) {
                             Text(
                                 "AURA'S CREATIVE DOMAIN • $styleName",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = Color(0xFF00E5FF)
+                                color = Color(0xFFFF00DE) // Aura Magenta
                             )
                         }
                     },
@@ -84,7 +88,7 @@ fun AuraThemingHubScreen(navController: NavController) {
                             Icon(
                                 Icons.Default.SwapHoriz,
                                 "Toggle Style",
-                                tint = Color(0xFF00E5FF)
+                                tint = Color(0xFF00FFFF) // Aura Cyan
                             )
                         }
                     },
@@ -119,7 +123,7 @@ fun AuraThemingHubScreen(navController: NavController) {
                     },
                     useStyleB = useStyleB,
                     cardHeight = 280.dp,
-                    domainColor = Color(0xFF00E5FF),
+                    domainColor = Color(0xFFFF00DE),
                     modifier = Modifier.weight(1f)
                 )
 
@@ -134,6 +138,29 @@ fun AuraThemingHubScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(32.dp))
             }
+        }
+    }
+}
+
+/**
+ * 💎 Sharp, Crystalline Accents for Aura's UI
+ */
+@Composable
+fun CrystallineCorners(color: Color) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+            val size = 60f
+            val stroke = 4f
+            
+            // Top Left
+            drawLine(color, Offset(20f, 20f), Offset(20f + size, 20f), stroke)
+            drawLine(color, Offset(20f, 20f), Offset(20f, 20f + size), stroke)
+            drawCircle(color, 6f, Offset(20f, 20f))
+            
+            // Bottom Right
+            drawLine(color, Offset(this.size.width - 20f, this.size.height - 20f), Offset(this.size.width - 20f - size, this.size.height - 20f), stroke)
+            drawLine(color, Offset(this.size.width - 20f, this.size.height - 20f), Offset(this.size.width - 20f, this.size.height - 20f - size), stroke)
+            drawCircle(color, 6f, Offset(this.size.width - 20f, this.size.height - 20f))
         }
     }
 }
