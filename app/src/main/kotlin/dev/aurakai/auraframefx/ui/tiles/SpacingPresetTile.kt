@@ -9,8 +9,8 @@ import android.service.quicksettings.TileService
 import android.util.Log
 import dev.aurakai.auraframefx.R // Assuming R file exists for resources
 import dev.aurakai.auraframefx.domains.aura.lab.CustomizationPreferences
-import dev.aurakai.auraframefx.aura.lab.SpacingConfig
-import dev.aurakai.auraframefx.aura.ui.components.Presets // Assuming Presets object is accessible
+import dev.aurakai.auraframefx.domains.aura.lab.SpacingConfig
+import dev.aurakai.auraframefx.domains.aura.lab.Presets
 
 private const val TAG = "SpacingPresetTile"
 
