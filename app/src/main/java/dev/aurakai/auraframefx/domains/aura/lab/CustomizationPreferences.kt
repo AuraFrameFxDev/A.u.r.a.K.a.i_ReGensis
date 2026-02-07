@@ -16,8 +16,6 @@ import kotlinx.coroutines.flow.map
 import android.net.Uri
 import com.google.gson.Gson
 import androidx.compose.ui.layout.ContentScale
-import dev.aurakai.auraframefx.domains.aura.lab.ImageTransformation
-import dev.aurakai.auraframefx.domains.aura.lab.SpacingConfig
 
 private val Context.customizationDataStore by preferencesDataStore(name = "customization_prefs")
 
@@ -231,8 +229,6 @@ object CustomizationPreferences {
     // --- LEGACY / SHARED PREFERENCES COMPATIBILITY METHODS ---
     // Added to support components that require synchronous access or use simpler storage
 
-    private const val KEY_IMAGE_URI_SUFFIX = "_image_uri"
-    private const val KEY_IMAGE_TRANSFORMATION_SUFFIX = "_image_transformation"
     private const val KEY_HEADER_IMAGE_URI = "header_image_uri"
     private const val KEY_HEADER_IMAGE_SCALE = "header_image_scale"
 
@@ -339,42 +335,9 @@ object CustomizationPreferences {
         return ContentScale.values().firstOrNull { it.name == scaleName } ?: ContentScale.Crop
     }
 
-    fun saveImageWithTransformation(context: Context, key: String, uri: Uri?, transformation: ImageTransformation?) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
-            putString(key + KEY_IMAGE_URI_SUFFIX, uri?.toString())
-            putString(key + KEY_IMAGE_TRANSFORMATION_SUFFIX, transformation?.let { gson.toJson(it) })
-            apply()
-        }
-    }
-
-    fun getImageWithTransformation(context: Context, key: String): Pair<Uri?, ImageTransformation?> {
-        val sharedPrefs = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
-        val uriString = sharedPrefs.getString(key + KEY_IMAGE_URI_SUFFIX, null)
-        val transformationJson = sharedPrefs.getString(key + KEY_IMAGE_TRANSFORMATION_SUFFIX, null)
-
-        val uri = uriString?.let { Uri.parse(it) }
-        val transformation = transformationJson?.let { gson.fromJson(it, ImageTransformation::class.java) }
-
-        return Pair(uri, transformation)
-    }
-
-    fun clearImageWithTransformation(context: Context, key: String) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
-            remove(key + KEY_IMAGE_URI_SUFFIX)
-            remove(key + KEY_IMAGE_TRANSFORMATION_SUFFIX)
-            apply()
-        }
-    }
-
     fun getAllReferencedImageUris(context: Context): Set<Uri> {
         val sharedPrefs = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
         val allUris = mutableSetOf<Uri>()
-
-        val allKeys = sharedPrefs.all.keys
-        allKeys.filter { it.endsWith(KEY_IMAGE_URI_SUFFIX) }.forEach {
-            val uriString = sharedPrefs.getString(it, null)
-            uriString?.let { str -> allUris.add(Uri.parse(str)) }
-        }
 
         sharedPrefs.getString(KEY_HEADER_IMAGE_URI, null)?.let { allUris.add(Uri.parse(it)) }
         sharedPrefs.getString(KEY_CUSTOM_QS_BACKGROUND_URI, null)?.let { allUris.add(Uri.parse(it)) }
@@ -389,20 +352,17 @@ object CustomizationPreferences {
     private const val KEY_NOTCH_BAR_BACKGROUND_URI = "notch_bar_background_uri"
     private const val KEY_NOTCH_BAR_BACKGROUND_OPACITY = "notch_bar_background_opacity"
     private const val KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE = "notch_bar_background_blend_mode"
-    private const val KEY_NOTCH_BAR_IMAGE_TRANSFORMATION = "notch_bar_image_transformation"
 
     fun saveNotchBarBackgroundSettings(
         context: Context,
         enabled: Boolean,
         uri: Uri?,
-        transformation: ImageTransformation?,
         opacity: Float,
         blendMode: String
     ) {
         context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
             putBoolean(KEY_NOTCH_BAR_BACKGROUND_ENABLED, enabled)
             putString(KEY_NOTCH_BAR_BACKGROUND_URI, uri?.toString())
-            putString(KEY_NOTCH_BAR_IMAGE_TRANSFORMATION, transformation?.let { gson.toJson(it) })
             putFloat(KEY_NOTCH_BAR_BACKGROUND_OPACITY, opacity)
             putString(KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE, blendMode)
             apply()
@@ -420,12 +380,6 @@ object CustomizationPreferences {
         return uriString?.let { Uri.parse(it) }
     }
 
-    fun getNotchBarImageTransformation(context: Context): ImageTransformation? {
-        val transformationJson = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
-            .getString(KEY_NOTCH_BAR_IMAGE_TRANSFORMATION, null)
-        return transformationJson?.let { gson.fromJson(it, ImageTransformation::class.java) }
-    }
-
     fun getNotchBarBackgroundOpacity(context: Context): Float {
         return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
             .getFloat(KEY_NOTCH_BAR_BACKGROUND_OPACITY, 1.0f)
@@ -434,25 +388,6 @@ object CustomizationPreferences {
     fun getNotchBarBackgroundBlendMode(context: Context): String {
         return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
             .getString(KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE, "SrcOver") ?: "SrcOver"
-    }
-
-    private const val KEY_SPACING_CONFIG = "spacing_config"
-
-    fun saveSpacingConfig(context: Context, spacingConfig: SpacingConfig) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
-            putString(KEY_SPACING_CONFIG, gson.toJson(spacingConfig))
-            apply()
-        }
-    }
-
-    fun getSpacingConfig(context: Context): SpacingConfig {
-        val jsonString = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
-            .getString(KEY_SPACING_CONFIG, null)
-        return if (jsonString != null) {
-            gson.fromJson(jsonString, SpacingConfig::class.java)
-        } else {
-            SpacingConfig()
-        }
     }
 }
 

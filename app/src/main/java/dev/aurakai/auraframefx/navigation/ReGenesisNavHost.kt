@@ -101,7 +101,9 @@ import dev.aurakai.auraframefx.domains.aura.ui.gates.AuraThemingHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.CascadeHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.HelpDeskScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ui.OracleDriveScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.OracleDriveHubScreen
+import dev.aurakai.auraframefx.datavein.ui.SimpleDataVeinScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.XposedQuickAccessPanel
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
 import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen as AuraAgentProfileScreen
@@ -181,6 +183,8 @@ sealed class ReGenesisNavHost(val route: String) {
     object SovereignRecovery : ReGenesisNavHost("sovereign_recovery")
     object SovereignShield : ReGenesisNavHost("sovereign_shield")
     object SovereignNeuralArchive : ReGenesisNavHost("sovereign_neural_archive")
+    object SphereGrid : ReGenesisNavHost("sphere_grid")
+    object OracleDrive : ReGenesisNavHost("oracle_drive")
 
     // LEVEL 3: NEXUS TOOLS
     object FusionMode : ReGenesisNavHost("fusion_mode")
@@ -301,6 +305,10 @@ fun ReGenesisNavHost(
 
         composable(ReGenesisNavHost.OracleDriveHub.route) {
             OracleDriveHubScreen(navController = navController)
+        }
+
+        composable(ReGenesisNavHost.OracleDrive.route) {
+            OracleDriveScreen(navController = navController)
         }
 
         // CONSOLIDATED: Only one entry for AgentNexusHub
@@ -480,9 +488,15 @@ fun ReGenesisNavHost(
             TrinityScreen()
         }
         composable(ReGenesisNavHost.DataVeinSphere.route) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Simple Data Vein - COMING SOON", color = Color.White)
-            }
+            SimpleDataVeinScreen(
+                onLaunchSphereGrid = { navController.navigate(ReGenesisNavHost.SphereGrid.route) }
+            )
+        }
+
+        composable(ReGenesisNavHost.SphereGrid.route) {
+            SimpleDataVeinScreen(
+                onLaunchSphereGrid = { /* Already here */ }
+            )
         }
         composable(ReGenesisNavHost.SovereignBootloader.route) {
             SovereignBootloaderScreen(onNavigateBack = { navController.popBackStack() })
