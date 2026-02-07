@@ -17,9 +17,10 @@ import dev.aurakai.auraframefx.domains.aura.lab.SpacingConfig
  */
 val LocalSpacing = staticCompositionLocalOf { SpacingConfig() }
 @Composable
-fun SpacingProvider(content: @Composable () -> Unit) {
-    val context = LocalContext.current
-    val spacing = CustomizationPreferences.getSpacingConfig(context)
+fun SpacingProvider(
+    spacing: SpacingConfig = CustomizationPreferences.getSpacingConfig(LocalContext.current),
+    content: @Composable () -> Unit
+) {
     CompositionLocalProvider(LocalSpacing provides spacing) {
         content()
     }
