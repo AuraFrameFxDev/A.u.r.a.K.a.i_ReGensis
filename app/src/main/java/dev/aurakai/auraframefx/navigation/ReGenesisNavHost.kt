@@ -96,15 +96,9 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
 import dev.aurakai.auraframefx.hotswap.HotSwapScreen
 import dev.aurakai.auraframefx.romtools.ui.RomToolsScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.AgentNexusHubScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.AuraThemingHubScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.CascadeHubScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.HelpDeskScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
+
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ui.OracleDriveScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.OracleDriveHubScreen
 import dev.aurakai.auraframefx.datavein.ui.SimpleDataVeinScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.XposedQuickAccessPanel
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
 import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen as AuraAgentProfileScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen as NexusAgentProfileScreen
@@ -284,9 +278,7 @@ fun ReGenesisNavHost(
         // LEVEL 2: MAIN DOMAIN HUBS
         // ═══════════════════════════════════════════════════════════════
 
-        composable(ReGenesisNavHost.AuraThemingHub.route) {
-            AuraThemingHubScreen(navController = navController)
-        }
+
 
         composable(ReGenesisNavHost.ReGenesisCustomization.route) {
             ReGenesisCustomizationHub(
@@ -301,36 +293,16 @@ fun ReGenesisNavHost(
         // CONSOLIDATED: Only one entry for RomToolsHub
         composable(ReGenesisNavHost.RomToolsHub.route) {
             RomToolsScreen()
-        }
 
-        composable(ReGenesisNavHost.OracleDriveHub.route) {
-            OracleDriveHubScreen(navController = navController)
         }
 
         composable(ReGenesisNavHost.OracleDrive.route) {
             OracleDriveScreen(navController = navController)
         }
 
-        // CONSOLIDATED: Only one entry for AgentNexusHub
-        composable(ReGenesisNavHost.AgentNexusHub.route) {
-            AgentNexusHubScreen(
-                navController = navController,
-                getNexusSubGates = { GateAssetLoadout.getNexusSubGates() } // Kept original logic
-            )
-        }
 
-        composable(ReGenesisNavHost.LsposedQuickToggles.route) {
-            XposedQuickAccessPanel(onNavigateBack = { navController.popBackStack() })
-        }
 
-        // CONSOLIDATED: Only one entry for HelpDesk
-        composable(ReGenesisNavHost.HelpDesk.route) {
-            HelpDeskScreen(navController = navController)
-        }
 
-        composable(ReGenesisNavHost.DataflowAnalysis.route) {
-            CascadeHubScreen(navController = navController)
-        }
 
         composable(ReGenesisNavHost.LdoCatalystDevelopment.route) {
             AgentAdvancementScreen(onBack = { navController.popBackStack() })
@@ -507,9 +479,7 @@ fun ReGenesisNavHost(
         composable(ReGenesisNavHost.SovereignShield.route) {
             SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(ReGenesisNavHost.SentinelFortress.route) {
-            KaiSentinelHubScreen(navController = navController)
-        }
+
 
         // --- LEVEL 3: HELP & SUPPORT ---
         composable(ReGenesisNavHost.HelpDeskSubmenu.route) {
