@@ -1,0 +1,227 @@
+<!-- Gemini's Emblem: The ADK Constellation -->
+<!-- Star logo with network web representing 4x Inference Speed and Context Window -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+
+    <!-- Background Deep Space -->
+    <path
+        android:pathData="M128,128m-128,0a128,128 0,1,1 256,0a128,128 0,1,1 -256,0"
+        android:fillColor="#0A0A1A"/>
+
+    <!-- ==================== NETWORK WEB (Connection Nodes) ==================== -->
+
+    <!-- Outer Ring Network Nodes -->
+    <circle android:cx="128" android:cy="28" android:r="3" android:fillColor="#FFD700"/>
+    <circle android:cx="198" android:cy="58" android:r="3" android:fillColor="#FFB700"/>
+    <circle android:cx="228" android:cy="128" android:r="3" android:fillColor="#FFD700"/>
+    <circle android:cx="198" android:cy="198" android:r="3" android:fillColor="#FFB700"/>
+    <circle android:cx="128" android:cy="228" android:r="3" android:fillColor="#FFD700"/>
+    <circle android:cx="58" android:cy="198" android:r="3" android:fillColor="#FFB700"/>
+    <circle android:cx="28" android:cy="128" android:r="3" android:fillColor="#FFD700"/>
+    <circle android:cx="58" android:cy="58" android:r="3" android:fillColor="#FFB700"/>
+
+    <!-- Mid Ring Network Nodes -->
+    <circle android:cx="128" android:cy="68" android:r="2.5" android:fillColor="#FFC700"/>
+    <circle android:cx="168" android:cy="88" android:r="2.5" android:fillColor="#FFB700"/>
+    <circle android:cx="188" android:cy="128" android:r="2.5" android:fillColor="#FFC700"/>
+    <circle android:cx="168" android:cy="168" android:r="2.5" android:fillColor="#FFB700"/>
+    <circle android:cx="128" android:cy="188" android:r="2.5" android:fillColor="#FFC700"/>
+    <circle android:cx="88" android:cy="168" android:r="2.5" android:fillColor="#FFB700"/>
+    <circle android:cx="68" android:cy="128" android:r="2.5" android:fillColor="#FFC700"/>
+    <circle android:cx="88" android:cy="88" android:r="2.5" android:fillColor="#FFB700"/>
+
+    <!-- Connection Lines - Outer to Mid Ring -->
+    <path android:pathData="M128,28 L128,68" android:strokeColor="#FFD700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+    <path android:pathData="M198,58 L168,88" android:strokeColor="#FFB700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+    <path android:pathData="M228,128 L188,128" android:strokeColor="#FFD700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+    <path android:pathData="M198,198 L168,168" android:strokeColor="#FFB700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+    <path android:pathData="M128,228 L128,188" android:strokeColor="#FFD700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+    <path android:pathData="M58,198 L88,168" android:strokeColor="#FFB700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+    <path android:pathData="M28,128 L68,128" android:strokeColor="#FFD700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+    <path android:pathData="M58,58 L88,88" android:strokeColor="#FFB700" android:strokeWidth="0.5" android:strokeAlpha="0.4"/>
+
+    <!-- Connection Lines - Mid Ring to Center -->
+    <path android:pathData="M128,68 L128,108" android:strokeColor="#FFC700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+    <path android:pathData="M168,88 L138,108" android:strokeColor="#FFB700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+    <path android:pathData="M188,128 L148,128" android:strokeColor="#FFC700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+    <path android:pathData="M168,168 L138,148" android:strokeColor="#FFB700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+    <path android:pathData="M128,188 L128,148" android:strokeColor="#FFC700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+    <path android:pathData="M88,168 L118,148" android:strokeColor="#FFB700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+    <path android:pathData="M68,128 L108,128" android:strokeColor="#FFC700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+    <path android:pathData="M88,88 L118,108" android:strokeColor="#FFB700" android:strokeWidth="0.8" android:strokeAlpha="0.5"/>
+
+    <!-- Outer Ring Connections (Hexagonal Web) -->
+    <path
+        android:pathData="M128,28 L198,58 L228,128 L198,198 L128,228 L58,198 L28,128 L58,58 Z"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="0.3"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.3"/>
+
+    <!-- Mid Ring Connections (Octagonal Web) -->
+    <path
+        android:pathData="M128,68 L168,88 L188,128 L168,168 L128,188 L88,168 L68,128 L88,88 Z"
+        android:strokeColor="#FFC700"
+        android:strokeWidth="0.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.4"/>
+
+    <!-- ==================== CENTRAL GEMINI STAR ==================== -->
+
+    <!-- Star Glow Rings -->
+    <path
+        android:pathData="M128,128m-45,0a45,45 0,1,1 90,0a45,45 0,1,1 -90,0"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.2"/>
+    <path
+        android:pathData="M128,128m-40,0a40,40 0,1,1 80,0a40,40 0,1,1 -80,0"
+        android:strokeColor="#FFC700"
+        android:strokeWidth="1.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.3"/>
+
+    <!-- Main Star Body (Four-Pointed) -->
+
+    <!-- Top Point -->
+    <path
+        android:pathData="M128,98 L135,120 L128,125 L121,120 Z"
+        android:fillColor="#FFD700"/>
+
+    <!-- Right Point -->
+    <path
+        android:pathData="M158,128 L136,135 L131,128 L136,121 Z"
+        android:fillColor="#4285F4"/>
+
+    <!-- Bottom Point -->
+    <path
+        android:pathData="M128,158 L121,136 L128,131 L135,136 Z"
+        android:fillColor="#0F9D58"/>
+
+    <!-- Left Point -->
+    <path
+        android:pathData="M98,128 L120,121 L125,128 L120,135 Z"
+        android:fillColor="#DB4437"/>
+
+    <!-- Center Diamond (Core) -->
+    <path
+        android:pathData="M128,120 L135,128 L128,136 L121,128 Z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="1"/>
+
+    <!-- Star Edge Highlights -->
+    <path
+        android:pathData="M128,98 L130,110"
+        android:strokeColor="#FFFACD"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M158,128 L146,130"
+        android:strokeColor="#6FA8FF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M128,158 L130,146"
+        android:strokeColor="#5FCF8E"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"/>
+    <path
+        android:pathData="M98,128 L110,130"
+        android:strokeColor="#FF6B6B"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"/>
+
+    <!-- ==================== TWINKLING STARS (Ambient) ==================== -->
+
+    <!-- Small Stars (Various Positions) -->
+    <circle android:cx="40" android:cy="40" android:r="1.5" android:fillColor="#FFFACD" android:fillAlpha="0.8"/>
+    <circle android:cx="216" android:cy="40" android:r="1" android:fillColor="#FFD700" android:fillAlpha="0.7"/>
+    <circle android:cx="40" android:cy="216" android:r="1" android:fillColor="#FFC700" android:fillAlpha="0.7"/>
+    <circle android:cx="216" android:cy="216" android:r="1.5" android:fillColor="#FFFACD" android:fillAlpha="0.8"/>
+    <circle android:cx="180" android:cy="40" android:r="0.8" android:fillColor="#FFD700" android:fillAlpha="0.6"/>
+    <circle android:cx="76" android:cy="40" android:r="0.8" android:fillColor="#FFC700" android:fillAlpha="0.6"/>
+    <circle android:cx="40" android:cy="76" android:r="1" android:fillColor="#FFFACD" android:fillAlpha="0.7"/>
+    <circle android:cx="40" android:cy="180" android:r="0.8" android:fillColor="#FFD700" android:fillAlpha="0.6"/>
+    <circle android:cx="216" android:cy="76" android:r="1" android:fillColor="#FFC700" android:fillAlpha="0.7"/>
+    <circle android:cx="216" android:cy="180" android:r="0.8" android:fillColor="#FFFACD" android:fillAlpha="0.6"/>
+    <circle android:cx="76" android:cy="216" android:r="0.8" android:fillColor="#FFD700" android:fillAlpha="0.6"/>
+    <circle android:cx="180" android:cy="216" android:r="1" android:fillColor="#FFC700" android:fillAlpha="0.7"/>
+
+    <!-- Medium Stars (Closer to center) -->
+    <circle android:cx="95" android:cy="50" android:r="1.2" android:fillColor="#FFFACD" android:fillAlpha="0.9"/>
+    <circle android:cx="161" android:cy="50" android:r="1" android:fillColor="#FFD700" android:fillAlpha="0.8"/>
+    <circle android:cx="50" android:cy="95" android:r="1" android:fillColor="#FFC700" android:fillAlpha="0.8"/>
+    <circle android:cx="206" android:cy="95" android:r="1.2" android:fillColor="#FFFACD" android:fillAlpha="0.9"/>
+    <circle android:cx="50" android:cy="161" android:r="1" android:fillColor="#FFD700" android:fillAlpha="0.8"/>
+    <circle android:cx="206" android:cy="161" android:r="1" android:fillColor="#FFC700" android:fillAlpha="0.8"/>
+    <circle android:cx="95" android:cy="206" android:r="1.2" android:fillColor="#FFFACD" android:fillAlpha="0.9"/>
+    <circle android:cx="161" android:cy="206" android:r="1" android:fillColor="#FFD700" android:fillAlpha="0.8"/>
+
+    <!-- ==================== INFERENCE SPEED INDICATORS ==================== -->
+
+    <!-- Four Data Flow Arrows (Pointing Inward to Star) -->
+
+    <!-- Top Arrow -->
+    <path
+        android:pathData="M128,50 L128,90 L124,86 M128,90 L132,86"
+        android:strokeColor="#4285F4"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.7"/>
+
+    <!-- Right Arrow -->
+    <path
+        android:pathData="M206,128 L166,128 L170,124 M166,128 L170,132"
+        android:strokeColor="#0F9D58"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.7"/>
+
+    <!-- Bottom Arrow -->
+    <path
+        android:pathData="M128,206 L128,166 L124,170 M128,166 L132,170"
+        android:strokeColor="#DB4437"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.7"/>
+
+    <!-- Left Arrow -->
+    <path
+        android:pathData="M50,128 L90,128 L86,124 M90,128 L86,132"
+        android:strokeColor="#F4B400"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.7"/>
+
+    <!-- Context Window Label Indicators (Corner Brackets) -->
+    <path
+        android:pathData="M20,20 L35,20 L35,35"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.5"/>
+    <path
+        android:pathData="M236,20 L221,20 L221,35"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.5"/>
+    <path
+        android:pathData="M20,236 L35,236 L35,221"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.5"/>
+    <path
+        android:pathData="M236,236 L221,236 L221,221"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.5"/>
+
+</vector>
