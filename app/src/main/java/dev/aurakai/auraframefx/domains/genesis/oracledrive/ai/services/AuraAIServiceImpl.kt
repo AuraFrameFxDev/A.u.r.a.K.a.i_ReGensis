@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services
 
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
-import dev.aurakai.auraframefx.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
-import dev.aurakai.auraframefx.ai.error.ErrorHandler
+import dev.aurakai.auraframefx.domains.kai.ErrorHandler
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.kai.TaskScheduler
 import dev.aurakai.auraframefx.domains.aura.TaskExecutionManager
