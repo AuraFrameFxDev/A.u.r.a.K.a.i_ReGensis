@@ -14,6 +14,7 @@ import dev.aurakai.auraframefx.domains.aura.SystemUIConfiguration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import android.net.Uri
+import androidx.core.content.edit as sharedPrefsEdit
 import com.google.gson.Gson
 import androidx.compose.ui.layout.ContentScale
 
@@ -234,11 +235,32 @@ object CustomizationPreferences {
 
     private val gson = Gson()
 
+    private fun contentScaleToString(scale: ContentScale): String = when (scale) {
+        ContentScale.Crop -> "Crop"
+        ContentScale.Fit -> "Fit"
+        ContentScale.FillBounds -> "FillBounds"
+        ContentScale.FillWidth -> "FillWidth"
+        ContentScale.FillHeight -> "FillHeight"
+        ContentScale.Inside -> "Inside"
+        ContentScale.None -> "None"
+        else -> "Crop"
+    }
+
+    private fun stringToContentScale(name: String?): ContentScale = when (name) {
+        "Crop" -> ContentScale.Crop
+        "Fit" -> ContentScale.Fit
+        "FillBounds" -> ContentScale.FillBounds
+        "FillWidth" -> ContentScale.FillWidth
+        "FillHeight" -> ContentScale.FillHeight
+        "Inside" -> ContentScale.Inside
+        "None" -> ContentScale.None
+        else -> ContentScale.Crop
+    }
+
     fun saveHeaderImage(context: Context, uri: Uri?, scale: ContentScale) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).sharedPrefsEdit {
             putString(KEY_HEADER_IMAGE_URI, uri?.toString())
-            putString(KEY_HEADER_IMAGE_SCALE, scale.name)
-            apply()
+            putString(KEY_HEADER_IMAGE_SCALE, contentScaleToString(scale))
         }
     }
 
@@ -250,8 +272,8 @@ object CustomizationPreferences {
 
     fun getHeaderImageScale(context: Context): ContentScale {
         val scaleName = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
-            .getString(KEY_HEADER_IMAGE_SCALE, ContentScale.Crop.name)
-        return ContentScale.values().firstOrNull { it.name == scaleName } ?: ContentScale.Crop
+            .getString(KEY_HEADER_IMAGE_SCALE, "Crop")
+        return stringToContentScale(scaleName)
     }
 
     private const val KEY_CUSTOM_QS_BACKGROUND_ENABLED = "custom_qs_background_enabled"
@@ -260,12 +282,11 @@ object CustomizationPreferences {
     private const val KEY_CUSTOM_QS_BACKGROUND_BLEND_MODE = "custom_qs_background_blend_mode"
 
     fun saveCustomQsBackgroundSettings(context: Context, enabled: Boolean, uri: Uri?, opacity: Float, blendMode: String) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).sharedPrefsEdit {
             putBoolean(KEY_CUSTOM_QS_BACKGROUND_ENABLED, enabled)
             putString(KEY_CUSTOM_QS_BACKGROUND_URI, uri?.toString())
             putFloat(KEY_CUSTOM_QS_BACKGROUND_OPACITY, opacity)
             putString(KEY_CUSTOM_QS_BACKGROUND_BLEND_MODE, blendMode)
-            apply()
         }
     }
 
@@ -296,10 +317,9 @@ object CustomizationPreferences {
     private const val KEY_SPLASH_SCREEN_IMAGE_SCALE = "splash_screen_image_scale"
 
     fun saveNavDrawerBackground(context: Context, uri: Uri?, scale: ContentScale) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).sharedPrefsEdit {
             putString(KEY_NAV_DRAWER_BACKGROUND_URI, uri?.toString())
-            putString(KEY_NAV_DRAWER_BACKGROUND_SCALE, scale.name)
-            apply()
+            putString(KEY_NAV_DRAWER_BACKGROUND_SCALE, contentScaleToString(scale))
         }
     }
 
@@ -311,15 +331,14 @@ object CustomizationPreferences {
 
     fun getNavDrawerBackgroundScale(context: Context): ContentScale {
         val scaleName = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
-            .getString(KEY_NAV_DRAWER_BACKGROUND_SCALE, ContentScale.Crop.name)
-        return ContentScale.values().firstOrNull { it.name == scaleName } ?: ContentScale.Crop
+            .getString(KEY_NAV_DRAWER_BACKGROUND_SCALE, "Crop")
+        return stringToContentScale(scaleName)
     }
 
     fun saveSplashScreenImage(context: Context, uri: Uri?, scale: ContentScale) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).sharedPrefsEdit {
             putString(KEY_SPLASH_SCREEN_IMAGE_URI, uri?.toString())
-            putString(KEY_SPLASH_SCREEN_IMAGE_SCALE, scale.name)
-            apply()
+            putString(KEY_SPLASH_SCREEN_IMAGE_SCALE, contentScaleToString(scale))
         }
     }
 
@@ -331,8 +350,8 @@ object CustomizationPreferences {
 
     fun getSplashScreenImageScale(context: Context): ContentScale {
         val scaleName = context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
-            .getString(KEY_SPLASH_SCREEN_IMAGE_SCALE, ContentScale.Crop.name)
-        return ContentScale.values().firstOrNull { it.name == scaleName } ?: ContentScale.Crop
+            .getString(KEY_SPLASH_SCREEN_IMAGE_SCALE, "Crop")
+        return stringToContentScale(scaleName)
     }
 
     fun getAllReferencedImageUris(context: Context): Set<Uri> {
@@ -360,12 +379,11 @@ object CustomizationPreferences {
         opacity: Float,
         blendMode: String
     ) {
-        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).edit {
+        context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).sharedPrefsEdit {
             putBoolean(KEY_NOTCH_BAR_BACKGROUND_ENABLED, enabled)
             putString(KEY_NOTCH_BAR_BACKGROUND_URI, uri?.toString())
             putFloat(KEY_NOTCH_BAR_BACKGROUND_OPACITY, opacity)
             putString(KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE, blendMode)
-            apply()
         }
     }
 

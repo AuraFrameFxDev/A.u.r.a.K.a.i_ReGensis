@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.data
+package dev.aurakai.auraframefx.domains.cascade.storage
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

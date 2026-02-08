@@ -1,10 +1,11 @@
+
 package dev.aurakai.auraframefx.system
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.IBinder
 import android.util.Log
 import rikka.shizuku.Shizuku
-import rikka.shizuku.ShizukuProvider
 
 object ShizukuManager {
 
@@ -12,9 +13,8 @@ object ShizukuManager {
     const val SHIZUKU_PERMISSION_REQUEST_CODE = 1001
 
     /**
-     * Determine whether the Shizuku service is reachable.
-     *
-     * @return `true` if the Shizuku service is reachable and responsive, `false` otherwise.
+     * Checks if Shizuku is available by pinging its binder.
+     * @return True if Shizuku is running and responsive, false otherwise.
      */
     fun isShizukuAvailable(): Boolean {
         return try {
@@ -28,30 +28,25 @@ object ShizukuManager {
     }
 
     /**
-     * Request Shizuku permission from the user and deliver the result via the provided callback.
-     *
-     * @param context Context used to initiate the permission request.
-     * @param callback Invoked with `true` if permission is granted, `false` otherwise.
+     * Requests Shizuku permission from the user.
+     * The result is delivered via the callback.
      */
     fun requestShizukuPermission(context: Context, callback: (granted: Boolean) -> Unit) {
-        if (Shizuku.checkSelfPermission() == ShizukuProvider.PERMISSION_GRANTED) {
+        if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Shizuku permission already granted.")
             callback(true)
             return
         }
 
         Log.i(TAG, "Requesting Shizuku permission.")
-        val listener = object : Shizuku.OnRequestPermissionListener {
-            override fun onRequestPermission(requestCode: Int, grantResult: Int) {
-                if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
-                    val granted = grantResult == ShizukuProvider.PERMISSION_GRANTED
-                    Log.i(TAG, "Shizuku permission request result: granted=$granted")
-                    callback(granted)
-                    Shizuku.removeRequestPermissionListener(this)
-                }
+        val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+            if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
+                val granted = grantResult == PackageManager.PERMISSION_GRANTED
+                Log.i(TAG, "Shizuku permission request result: granted=$granted")
+                callback(granted)
             }
         }
-        Shizuku.addRequestPermissionListener(listener)
+        Shizuku.addRequestPermissionResultListener(listener)
         Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
     }
 
@@ -85,11 +80,11 @@ object ShizukuManager {
      */
     fun getShizukuServiceBinder(): IBinder? {
         return try {
-            val binder = Shizuku.getService()
+            val binder = Shizuku.getBinder()
             if (binder != null) {
                 Log.d(TAG, "Shizuku service binder obtained successfully.")
             } else {
-                Log.w(TAG, "Shizuku.getService() returned null.")
+                Log.w(TAG, "Shizuku.getBinder() returned null.")
             }
             binder
         } catch (e: Throwable) {
@@ -105,14 +100,7 @@ object ShizukuManager {
     }
 
     // You might want to call initialize() or similar methods from your application's onCreate
-    /**
-     * Initializes Shizuku integration: verifies availability, requests permission if necessary,
-     * and attaches a binder death listener to the Shizuku service when permission is granted.
-     *
-     * If Shizuku is not available, the function logs an error and returns without requesting permission.
-     *
-     * @param context Context used to request Shizuku permission.
-     */
+    // to set up Shizuku. Example:
     fun initializeShizukuIntegration(context: Context) {
         if (isShizukuAvailable()) {
             requestShizukuPermission(context) { granted ->

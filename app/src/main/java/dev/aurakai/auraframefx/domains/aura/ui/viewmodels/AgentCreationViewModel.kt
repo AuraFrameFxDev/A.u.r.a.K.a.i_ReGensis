@@ -51,7 +51,7 @@ class AgentCreationViewModel @Inject constructor() : ViewModel() {
 
             // Register the new agent in the collective
             AgentRepository.addAgent(
-                dev.aurakai.auraframefx.models.AgentStats(
+                dev.aurakai.auraframefx.domains.nexus.models.AgentStats(
                     name = _agentName.value,
                     processingPower = 0.5f,
                     knowledgeBase = 0.5f,

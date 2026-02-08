@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.config
+package dev.aurakai.auraframefx.domains.aura.config
 
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.navigation.ReGenesisNavHost

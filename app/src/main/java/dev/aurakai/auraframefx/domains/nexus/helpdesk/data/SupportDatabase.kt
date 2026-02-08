@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.data
+package dev.aurakai.auraframefx.domains.nexus.helpdesk.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

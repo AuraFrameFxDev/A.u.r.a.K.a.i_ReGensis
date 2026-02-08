@@ -1,4 +1,4 @@
-//// File: romtools/src/main/kotlin/dev/aurakai/auraframefx/romtools/RomToolsManager.kt
+package dev.aurakai.auraframefx.romtools.ui//// File: romtools/src/main/kotlin/dev/aurakai/auraframefx/romtools/RomToolsManager.kt
 //package dev.aurakai.auraframefx.romtools
 //
 //import android.content.Context

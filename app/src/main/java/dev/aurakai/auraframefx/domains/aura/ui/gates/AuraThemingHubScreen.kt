@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -49,11 +48,8 @@ fun AuraThemingHubScreen(navController: NavController) {
     val styleName = if (useStyleB) "CLEAN STUDIO" else "COLLABCANVAS"
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // 🎨 AURA'S ANIMATED BACKGROUND - Liquid Energy & Glitch Artifacts!
+        // 🎨 AURA'S ANIMATED BACKGROUND - Paint Splash!
         PaintSplashBackground()
-
-        // 💎 CRYSTALLINE ACCENTS (Sharp corners)
-        CrystallineCorners(color = Color(0xFFFF00DE))
 
         Scaffold(
             containerColor = Color.Transparent,
@@ -71,7 +67,7 @@ fun AuraThemingHubScreen(navController: NavController) {
                             Text(
                                 "AURA'S CREATIVE DOMAIN • $styleName",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = Color(0xFFFF00DE) // Aura Magenta
+                                color = Color(0xFF00E5FF)
                             )
                         }
                     },
@@ -88,7 +84,7 @@ fun AuraThemingHubScreen(navController: NavController) {
                             Icon(
                                 Icons.Default.SwapHoriz,
                                 "Toggle Style",
-                                tint = Color(0xFF00FFFF) // Aura Cyan
+                                tint = Color(0xFF00E5FF)
                             )
                         }
                     },
@@ -123,7 +119,7 @@ fun AuraThemingHubScreen(navController: NavController) {
                     },
                     useStyleB = useStyleB,
                     cardHeight = 280.dp,
-                    domainColor = Color(0xFFFF00DE),
+                    domainColor = Color(0xFF00E5FF),
                     modifier = Modifier.weight(1f)
                 )
 
@@ -141,6 +137,4 @@ fun AuraThemingHubScreen(navController: NavController) {
         }
     }
 }
-
-
 

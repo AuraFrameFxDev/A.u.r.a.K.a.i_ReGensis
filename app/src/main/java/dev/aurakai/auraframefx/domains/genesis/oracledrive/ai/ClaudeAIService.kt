@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai
 
 import android.content.Context
-import dev.aurakai.auraframefx.ai.agents.Agent
+import dev.aurakai.auraframefx.domains.cascade.ai.base.Agent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.kai.TaskScheduler

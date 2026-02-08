@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.config
+package dev.aurakai.auraframefx.domains.genesis.config
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

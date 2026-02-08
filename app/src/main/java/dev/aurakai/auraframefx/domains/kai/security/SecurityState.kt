@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.kai.security
+package dev.aurakai.auraframefx.domains.kai.security
 
 
 import kotlinx.serialization.Contextual

@@ -8,7 +8,6 @@ import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.cascade.CascadeAIService
-import dev.aurakai.auraframefx.domains.cascade.processRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -51,8 +50,8 @@ class AIPipelineProcessor @Inject constructor(
         val responses = mutableListOf<AgentMessage>()
 
         // Process through Cascade first for state management
-        val cascadeAgentResponse = processRequest(
-            AiRequest(task, "context"),
+        val cascadeAgentResponse = cascadeService.processRequest(
+            AiRequest(query = task, type = dev.aurakai.auraframefx.domains.genesis.models.AiRequestType.TEXT),
             context = "pipeline_processing"
         )
         responses.add(

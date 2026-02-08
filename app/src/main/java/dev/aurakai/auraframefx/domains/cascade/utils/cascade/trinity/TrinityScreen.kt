@@ -39,11 +39,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.aura.ui.TrinityUiState
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentStatus
-import dev.aurakai.auraframefx.models.Theme
+import dev.aurakai.auraframefx.domains.aura.models.Theme
 import dev.aurakai.auraframefx.domains.nexus.models.UserData
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -287,7 +287,7 @@ private fun ThemeItem(theme: Theme, onThemeSelected: () -> Unit) {
                 // Removed description as it's not in DomainTheme
             }
 
-            if (theme.isDark) { // Using isDark instead of isActive
+            if (theme.isDark) {
                  Text("Dark", style = MaterialTheme.typography.labelSmall)
             }
         }

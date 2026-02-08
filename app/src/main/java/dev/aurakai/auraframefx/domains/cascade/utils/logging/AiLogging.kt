@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ai.logging
+package dev.aurakai.auraframefx.domains.cascade.utils.logging
 
 import android.util.Log
 import timber.log.Timber

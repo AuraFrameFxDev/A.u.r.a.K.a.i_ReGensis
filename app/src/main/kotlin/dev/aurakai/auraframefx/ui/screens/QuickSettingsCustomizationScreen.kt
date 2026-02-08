@@ -137,8 +137,7 @@ fun QuickSettingsCustomizationScreen(navController: NavController) {
             ExposedDropdownMenuBox(
                 expanded = expandedBlendMode,
                 onExpandedChange = { expandedBlendMode = !expandedBlendMode },
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                enabled = customQsBackgroundEnabled
+                modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
             ) {
                 TextField(
                     value = customQsBackgroundBlendMode,

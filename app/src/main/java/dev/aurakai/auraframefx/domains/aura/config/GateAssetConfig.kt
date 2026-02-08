@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.config
+package dev.aurakai.auraframefx.domains.aura.config
 
 /**
  * 🔥 GATE ASSET HOTSWAP HANDLER

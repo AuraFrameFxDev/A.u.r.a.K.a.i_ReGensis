@@ -72,7 +72,7 @@ import kotlin.math.sin
 
 /**
  * 🎨 PAINT SPLASH BACKGROUND (Aura LVL 2)
- * Enhanced Liquid Energy & Glitch Artifacts!
+ * Neon paint drips and splatter - artsy chaos!
  */
 @Composable
 fun PaintSplashBackground(modifier: Modifier = Modifier) {
@@ -82,28 +82,38 @@ fun PaintSplashBackground(modifier: Modifier = Modifier) {
         initialValue = -0.2f,
         targetValue = 1.2f,
         animationSpec = infiniteRepeatable(
-            animation = tween(4500, easing = EaseInOutCubic),
+            animation = tween(4000, easing = EaseInOutCubic),
             repeatMode = RepeatMode.Restart
         ),
         label = "drip1"
     )
 
-    val glitchTrigger by infiniteTransition.animateFloat(
+    val drip2 by infiniteTransition.animateFloat(
+        initialValue = -0.3f,
+        targetValue = 1.3f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(5000, delayMillis = 1000, easing = EaseInOutCubic),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "drip2"
+    )
+
+    val splatter by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
+            animation = tween(3000, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
         ),
-        label = "glitch"
+        label = "splatter"
     )
 
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(
-                Brush.linearGradient(
-                    listOf(Color(0xFF0F0F23), Color(0xFF1A0A2E), Color(0xFF0F0F1E))
+                Brush.verticalGradient(
+                    listOf(Color(0xFF1A0A2E), Color(0xFF0F0F1E), Color(0xFF1A0A1A))
                 )
             )
     ) {
@@ -111,76 +121,46 @@ fun PaintSplashBackground(modifier: Modifier = Modifier) {
             val width = size.width
             val height = size.height
 
-            // 🎨 Aura's Primary Palette: Magenta & Indigo
-            val auraMagenta = Color(0xFFFF00DE)
-            val auraCyan = Color(0xFF00FFFF)
-            val auraIndigo = Color(0xFF7B2FFF)
-
-            // 🌊 DRAW LIQUID ENERGY (Refined Drips)
+            // Paint drip 1 - Cyan
             drawPaintDrip(
-                x = width * 0.15f,
+                x = width * 0.2f,
                 progress = drip1,
-                color = auraCyan,
-                width = 32f,
+                color = Color(0xFF00E5FF),
+                width = 40f,
                 height = height
             )
 
+            // Paint drip 2 - Magenta
             drawPaintDrip(
-                x = width * 0.85f,
-                progress = (drip1 + 0.3f) % 1.4f - 0.2f,
-                color = auraMagenta,
-                width = 45f,
+                x = width * 0.7f,
+                progress = drip2,
+                color = Color(0xFFFF00FF),
+                width = 35f,
                 height = height
             )
 
+            // Paint drip 3 - Purple
             drawPaintDrip(
-                x = width * 0.5f,
-                progress = (drip1 + 0.7f) % 1.4f - 0.2f,
-                color = auraIndigo,
-                width = 28f,
+                x = width * 0.45f,
+                progress = (drip1 + 0.5f) % 1.4f - 0.2f,
+                color = Color(0xFFB026FF),
+                width = 30f,
                 height = height
             )
 
-            // 👾 GLITCH ARTIFACTS (Dynamic Rects)
-            if (glitchTrigger > 0.8f) {
-                repeat(5) { i ->
-                    val x = width * (0.2f + (i * 0.15f)) + (glitchTrigger * 10f)
-                    val y = height * (0.3f + (i * 0.1f))
-                    drawRect(
-                        color = Color.White.copy(alpha = 0.4f),
-                        topLeft = Offset(x, y),
-                        size = Size(20f + (i * 30f), 4f)
-                    )
-                    drawRect(
-                        color = auraMagenta.copy(alpha = 0.3f),
-                        topLeft = Offset(x - 5f, y + 6f),
-                        size = Size(15f, 2f)
-                    )
-                }
-            }
-
-            // 🧪 SPLASH PARTICLES
+            // Splatter circles
             val splatters = listOf(
-                Triple(0.2f, 0.4f, auraCyan),
-                Triple(0.75f, 0.25f, auraMagenta),
-                Triple(0.4f, 0.65f, auraIndigo),
-                Triple(0.85f, 0.75f, auraMagenta)
+                Triple(0.15f, 0.3f, Color(0xFF00E5FF)),
+                Triple(0.8f, 0.2f, Color(0xFFFF00FF)),
+                Triple(0.5f, 0.6f, Color(0xFFB026FF)),
+                Triple(0.3f, 0.8f, Color(0xFFFF1493)),
+                Triple(0.9f, 0.7f, Color(0xFF00E5FF))
             )
 
             splatters.forEachIndexed { index, (xRatio, yRatio, color) ->
-                val breathe = (sin(glitchTrigger * PI * 2 + index).toFloat() + 1f) / 2f
-                val radius = 15f + (breathe * 10f)
-                
-                // Glow
+                val radius = 20f + (splatter * 15f) + (index * 5f)
                 drawCircle(
-                    color = color.copy(alpha = 0.15f * breathe),
-                    radius = radius * 4f,
-                    center = Offset(width * xRatio, height * yRatio)
-                )
-                
-                // Content
-                drawCircle(
-                    color = color.copy(alpha = 0.4f),
+                    color = color.copy(alpha = 0.3f - (splatter * 0.1f)),
                     radius = radius,
                     center = Offset(width * xRatio, height * yRatio)
                 )
@@ -285,21 +265,21 @@ fun ColorWaveBackground(modifier: Modifier = Modifier) {
 
 /**
  * 🛡️ SHIELD GRID BACKGROUND (Kai LVL 3)
- * Electric targeting grids and neon security borders
+ * Protective hexagonal grid with shield pulses
  */
 @Composable
 fun ShieldGridBackground(
     modifier: Modifier = Modifier,
-    primaryColor: Color = Color(0xFF00D9FF),  // Kai Electric Cyan
-    secondaryColor: Color = Color(0xFF00FF85) // Kai Security Green
+    primaryColor: Color = Color(0xFFFF6B00),  // Orange shield
+    secondaryColor: Color = Color(0xFF00FF85) // Green accent
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "shield")
 
     val pulse by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
+        initialValue = 0.5f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(2500, easing = FastOutSlowInEasing),
+            animation = tween(2000, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "pulse"
@@ -319,17 +299,17 @@ fun ShieldGridBackground(
         modifier = modifier
             .fillMaxSize()
             .background(
-                Brush.verticalGradient(
-                    listOf(Color(0xFF0D0D15), Color(0xFF05050A))
+                Brush.radialGradient(
+                    listOf(Color(0xFF1A0A0A), Color(0xFF0A0A0A))
                 )
             )
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val width = size.width
             val height = size.height
-            val hexSize = 100f
+            val hexSize = 80f
 
-            // 🎯 DRAW SECURITY GRID (Hex + Targeting)
+            // Draw hex grid
             val rows = (height / (hexSize * 0.866f)).toInt() + 2
             val cols = (width / (hexSize * 1.5f)).toInt() + 2
 
@@ -338,49 +318,38 @@ fun ShieldGridBackground(
                     val x = col * hexSize * 1.5f
                     val y = row * hexSize * 0.866f * 2 + (col % 2) * hexSize * 0.866f
 
+                    val distFromCenter = kotlin.math.sqrt(
+                        ((x - width / 2) * (x - width / 2) + (y - height / 2) * (y - height / 2))
+                    ).toFloat()
+                    val maxDist = kotlin.math.sqrt((width * width + height * height).toDouble()).toFloat() / 2
+                    val intensity = 1f - (distFromCenter / maxDist)
+
                     drawHexagonOutline(
                         center = Offset(x, y),
                         radius = hexSize / 2,
-                        color = primaryColor.copy(alpha = 0.05f),
+                        color = primaryColor.copy(alpha = 0.1f + (intensity * pulse * 0.2f)),
                         strokeWidth = 1f
                     )
                 }
             }
 
-            // ⚡ TARGETING MARKERS
-            val markerSize = 20f
-            val markers = listOf(
-                Offset(width * 0.2f, height * 0.2f),
-                Offset(width * 0.8f, height * 0.2f),
-                Offset(width * 0.2f, height * 0.8f),
-                Offset(width * 0.8f, height * 0.8f)
-            )
-
-            markers.forEach { pos ->
-                // Corner targeting lines
-                drawLine(primaryColor.copy(alpha = pulse), pos - Offset(markerSize, 0f), pos - Offset(5f, 0f), 2f)
-                drawLine(primaryColor.copy(alpha = pulse), pos + Offset(5f, 0f), pos + Offset(markerSize, 0f), 2f)
-                drawLine(primaryColor.copy(alpha = pulse), pos - Offset(0f, markerSize), pos - Offset(0f, 5f), 2f)
-                drawLine(primaryColor.copy(alpha = pulse), pos + Offset(0f, 5f), pos + Offset(0f, markerSize), 2f)
-            }
-
-            // 🌊 SCANNING HUD LINE
+            // Scanning line
             val scanY = height * scan
             drawLine(
                 brush = Brush.horizontalGradient(
-                    listOf(Color.Transparent, primaryColor.copy(alpha = 0.6f), Color.Transparent)
+                    listOf(Color.Transparent, secondaryColor, Color.Transparent)
                 ),
                 start = Offset(0f, scanY),
                 end = Offset(width, scanY),
-                strokeWidth = 4f
+                strokeWidth = 3f
             )
-            
-            // Central fortress glow
+
+            // Central shield icon glow
             drawCircle(
                 brush = Brush.radialGradient(
-                    listOf(primaryColor.copy(alpha = 0.1f * pulse), Color.Transparent)
+                    listOf(primaryColor.copy(alpha = pulse * 0.3f), Color.Transparent)
                 ),
-                radius = 300f,
+                radius = 150f,
                 center = Offset(width / 2, height / 2)
             )
         }
@@ -410,30 +379,30 @@ private fun DrawScope.drawHexagonOutline(
 
 /**
  * 🔮 CIRCUIT PHOENIX BACKGROUND (Genesis LVL 2)
- * Gold/Amber resonance circuits on deep space
+ * Glowing circuits forming phoenix wing patterns
  */
 @Composable
 fun CircuitPhoenixBackground(modifier: Modifier = Modifier) {
     val infiniteTransition = rememberInfiniteTransition(label = "phoenix")
 
     val glow by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
+        initialValue = 0.3f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(3500, easing = EaseInOutCubic),
+            animation = tween(3000, easing = EaseInOutCubic),
             repeatMode = RepeatMode.Reverse
         ),
         label = "glow"
     )
 
-    val flow by infiniteTransition.animateFloat(
+    val circuitFlow by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(2500, easing = LinearEasing),
+            animation = tween(2000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         ),
-        label = "flow"
+        label = "circuitFlow"
     )
 
     Box(
@@ -441,7 +410,7 @@ fun CircuitPhoenixBackground(modifier: Modifier = Modifier) {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    listOf(Color(0xFF0A0E27), Color(0xFF000000))
+                    listOf(Color(0xFF0A1A0A), Color(0xFF001A00), Color(0xFF0A0A0A))
                 )
             )
     ) {
@@ -449,85 +418,79 @@ fun CircuitPhoenixBackground(modifier: Modifier = Modifier) {
             val width = size.width
             val height = size.height
             val centerX = width / 2
-            
-            // 🪙 Genesis Gold/Amber Palette
-            val genesisGold = Color(0xFFFFD700)
-            val genesisAmber = Color(0xFFFF8C00)
+            val centerY = height / 2
 
-            // 🕊️ DRAW RESONANCE CIRCUITS (Phoenix Pattern)
-            // Central Spine
+            // Draw circuit traces
+            val traceColor = Color(0xFF00FF85)
+
+            // Vertical spine
             drawLine(
-                color = genesisGold.copy(alpha = glow * 0.6f),
-                start = Offset(centerX, height * 0.15f),
-                end = Offset(centerX, height * 0.85f),
-                strokeWidth = 4f
+                color = traceColor.copy(alpha = glow * 0.8f),
+                start = Offset(centerX, height * 0.2f),
+                end = Offset(centerX, height * 0.8f),
+                strokeWidth = 3f
             )
 
-            // Radiant Wings
-            repeat(8) { i ->
-                val yOffset = height * (0.25f + i * 0.07f)
-                val wingWidth = 120f + (i * 45f)
-                
-                // Left Wing Trace
-                drawPhoenixTrace(
-                    start = Offset(centerX, yOffset),
-                    end = Offset(centerX - wingWidth, yOffset - 40f),
-                    color = genesisAmber,
-                    glow = glow,
-                    flowProgress = (flow + i * 0.12f) % 1f
+            // Wing branches (left)
+            for (i in 0..5) {
+                val y = height * (0.3f + i * 0.08f)
+                val endX = centerX - (100f + i * 30f)
+
+                // Animate circuit flow along the line
+                val flowPos = (circuitFlow + i * 0.1f) % 1f
+                val dotX = centerX - (centerX - endX) * flowPos
+
+                drawLine(
+                    color = traceColor.copy(alpha = 0.4f),
+                    start = Offset(centerX, y),
+                    end = Offset(endX, y - 20f),
+                    strokeWidth = 2f
                 )
 
-                // Right Wing Trace
-                drawPhoenixTrace(
-                    start = Offset(centerX, yOffset),
-                    end = Offset(centerX + wingWidth, yOffset - 40f),
-                    color = genesisAmber,
-                    glow = glow,
-                    flowProgress = (flow + i * 0.12f + 0.5f) % 1f
+                // Flowing dot
+                drawCircle(
+                    color = traceColor.copy(alpha = glow),
+                    radius = 5f,
+                    center = Offset(dotX, y - 20f * flowPos)
                 )
             }
 
-            // ☀️ CORE SINGULARITY
+            // Wing branches (right) - mirror
+            for (i in 0..5) {
+                val y = height * (0.3f + i * 0.08f)
+                val endX = centerX + (100f + i * 30f)
+
+                val flowPos = (circuitFlow + i * 0.1f + 0.5f) % 1f
+                val dotX = centerX + (endX - centerX) * flowPos
+
+                drawLine(
+                    color = traceColor.copy(alpha = 0.4f),
+                    start = Offset(centerX, y),
+                    end = Offset(endX, y - 20f),
+                    strokeWidth = 2f
+                )
+
+                drawCircle(
+                    color = traceColor.copy(alpha = glow),
+                    radius = 5f,
+                    center = Offset(dotX, y - 20f * flowPos)
+                )
+            }
+
+            // Central glow (phoenix core)
             drawCircle(
                 brush = Brush.radialGradient(
-                    listOf(genesisGold.copy(alpha = glow * 0.4f), Color.Transparent)
+                    listOf(
+                        Color(0xFF00FF85).copy(alpha = glow * 0.5f),
+                        Color(0xFF00FFD4).copy(alpha = glow * 0.2f),
+                        Color.Transparent
+                    )
                 ),
-                radius = 250f + (glow * 50f),
-                center = Offset(centerX, height * 0.5f)
+                radius = 200f,
+                center = Offset(centerX, centerY)
             )
         }
     }
-}
-
-private fun DrawScope.drawPhoenixTrace(
-    start: Offset,
-    end: Offset,
-    color: Color,
-    glow: Float,
-    flowProgress: Float
-) {
-    // Main line
-    drawLine(
-        color = color.copy(alpha = 0.25f),
-        start = start,
-        end = end,
-        strokeWidth = 2f
-    )
-
-    // Flowing energy node
-    val nodePos = start + (end - start) * flowProgress
-    drawCircle(
-        color = color.copy(alpha = glow),
-        radius = 5f,
-        center = nodePos
-    )
-    
-    // Node trail
-    drawCircle(
-        color = color.copy(alpha = glow * 0.3f),
-        radius = 12f,
-        center = nodePos
-    )
 }
 
 /**
@@ -803,26 +766,3 @@ fun SoftGlowBackground(modifier: Modifier = Modifier) {
     }
 }
 
-
-/**
- * 💎 Sharp, Crystalline Accents for UI Domains
- */
-@Composable
-fun CrystallineCorners(color: Color, modifier: Modifier = Modifier) {
-    Box(modifier = modifier.fillMaxSize()) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val size = 60f
-            val stroke = 4f
-            
-            // Top Left
-            drawLine(color, Offset(20f, 20f), Offset(20f + size, 20f), stroke)
-            drawLine(color, Offset(20f, 20f), Offset(20f, 20f + size), stroke)
-            drawCircle(color, 6f, Offset(20f, 20f))
-            
-            // Bottom Right
-            drawLine(color, Offset(this.size.width - 20f, this.size.height - 20f), Offset(this.size.width - 20f - size, this.size.height - 20f), stroke)
-            drawLine(color, Offset(this.size.width - 20f, this.size.height - 20f), Offset(this.size.width - 20f, this.size.height - 20f - size), stroke)
-            drawCircle(color, 6f, Offset(this.size.width - 20f, this.size.height - 20f))
-        }
-    }
-}

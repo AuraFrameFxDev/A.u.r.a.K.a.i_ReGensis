@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.data
+package dev.aurakai.auraframefx.domains.nexus.preferences
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit

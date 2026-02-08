@@ -3,8 +3,6 @@
 // Testing library/framework: JUnit 5 (JUnit Jupiter) with kotlin.test assertions (if available)
 @file:Suppress("SameParameterValue", "UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
 
-package testplaceholder
-
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths

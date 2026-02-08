@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ai.clients
+package dev.aurakai.auraframefx.domains.genesis.network
 
 /**
  * Typealias shim: Redirects to canonical VertexAIClient in oracledrive package

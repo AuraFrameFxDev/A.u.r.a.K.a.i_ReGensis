@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ai.clients
+package dev.aurakai.auraframefx.domains.genesis.network
 
 import javax.inject.Inject
 import javax.inject.Singleton

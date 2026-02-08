@@ -342,7 +342,11 @@ class EmergencyProtocol(private val context: Context) {
     private suspend fun captureAuraState(): AuraState = AuraState()
     private suspend fun captureKaiState(): KaiState = KaiState()
     private suspend fun captureFusionMemories(): List<FusionMemory> = emptyList()
-    private suspend fun captureQuantumState(): QuantumState = QuantumState()
+    private suspend fun captureQuantumState(): QuantumState = QuantumState(
+        coherence = 1.0f,
+        entanglementLevel = 0,
+        activeNodes = emptySet()
+    )
 
     fun cleanup() {
         scope.cancel()

@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai
 
 import android.content.Context
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.MetaReflectionEngine
-import dev.aurakai.auraframefx.ai.agents.Agent
+import dev.aurakai.auraframefx.domains.cascade.ai.base.Agent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.kai.TaskScheduler
@@ -69,7 +69,7 @@ class MetaInstructAIService @Inject constructor(
     ): AgentResponse {
         logger.info("MetaInstructAIService", "Processing request: ${request.query}")
 
-        val effectiveInstructions = metaReflectionEngine.getEffectiveInstructions(request.agentId ?: "UNKNOWN")
+        val effectiveInstructions = metaReflectionEngine.getEffectiveInstructions(request.agentType.name)
 
         // Build the augmented query with meta-instructions
         if (effectiveInstructions.isNotEmpty()) {
@@ -93,7 +93,7 @@ class MetaInstructAIService @Inject constructor(
 
         return AgentResponse.success(
             content = "📚 **MetaInstruct Synthesis (Vertex Enhanced):**\n\n$instructionText",
-            confidence = 0.95,
+            confidence = 0.95f,
             agentName = "MetaInstruct",
             agentType = AgentType.METAINSTRUCT
         )
@@ -103,7 +103,7 @@ class MetaInstructAIService @Inject constructor(
         return flowOf(
             AgentResponse.success(
                 content = "MetaInstruct flow: ${request.query}",
-                confidence = 0.9,
+                confidence = 0.9f,
                 agentName = "MetaInstruct",
                 agentType = AgentType.METAINSTRUCT
             )

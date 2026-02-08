@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.data
+package dev.aurakai.auraframefx.domains.cascade.storage
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*

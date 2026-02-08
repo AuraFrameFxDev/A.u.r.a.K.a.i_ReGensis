@@ -845,7 +845,7 @@ class CascadeAgent @Inject constructor(
             content = response,
             agentName = agentName,
             agentType = agentType,
-            confidence = 0.90
+            confidence = 0.90f
         )
     }
 }

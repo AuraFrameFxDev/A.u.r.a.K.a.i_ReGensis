@@ -108,10 +108,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.gates.XposedQuickAccessPanel
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
 import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen as AuraAgentProfileScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen as NexusAgentProfileScreen
-import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.overlays.GlobalActionHub
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 
 
 /**
@@ -262,19 +259,15 @@ fun ReGenesisNavHost(
     customizationViewModel: CustomizationViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val agentViewModel: AgentViewModel = hiltViewModel()
-    val activeAgent by agentViewModel.activeAgent.collectAsState()
-    val activeAgentName = activeAgent?.name ?: "Genesis"
 
     LaunchedEffect(Unit) {
         customizationViewModel.start(context)
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        NavHost(
-            navController = navController,
-            startDestination = ReGenesisNavHost.HomeGateCarousel.route
-        ) {
+    NavHost(
+        navController = navController,
+        startDestination = ReGenesisNavHost.HomeGateCarousel.route
+    ) {
 
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 1: EXODUS HUD (The 5 Gate Carousel)
@@ -689,20 +682,4 @@ fun ReGenesisNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
     }
-
-    // ⚡ GLOBAL ACTION HUB (Persistent Layer)
-    GlobalActionHub(
-        activeAgentName = activeAgentName,
-        onActionClick = { action ->
-            when (action) {
-                "voice" -> agentViewModel.toggleVoiceMode()
-                "connect" -> navController.navigate(ReGenesisNavHost.Trinity.route)
-                "assign" -> navController.navigate(ReGenesisNavHost.TaskAssignment.route)
-                "design" -> navController.navigate(ReGenesisNavHost.AuraLab.route)
-                "create" -> navController.navigate(ReGenesisNavHost.CodeAssist.route)
-                "authority" -> navController.navigate(ReGenesisNavHost.AgentNexusHub.route)
-            }
-        },
-        modifier = Modifier.align(Alignment.BottomCenter)
-    )
 }

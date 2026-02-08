@@ -19,9 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.LaunchedEffect
+import android.content.pm.PackageManager
 import dev.aurakai.auraframefx.system.ShizukuManager
 import rikka.shizuku.Shizuku
-import rikka.shizuku.ShizukuProvider
 
 private const val TAG = "SovereignShieldScreen"
 
@@ -106,7 +106,7 @@ private fun requestShizukuPermission(context: Context, onStatusUpdate: ((String,
 
 private fun updateShizukuStatus(context: Context, onStatusUpdate: (String, Boolean) -> Unit) {
     if (ShizukuManager.isShizukuAvailable()) {
-        val granted = Shizuku.checkSelfPermission() == ShizukuProvider.PERMISSION_GRANTED
+        val granted = Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
         if (granted) {
             onStatusUpdate("Connected", true)
         } else {

@@ -42,7 +42,7 @@ fun String.toBlendMode(): BlendMode {
         "Overlay" -> BlendMode.Overlay
         "Darken" -> BlendMode.Darken
         "Lighten" -> BlendMode.Lighten
-        "Add" -> BlendMode.Add
+        "Add" -> BlendMode.Plus
         "Exclusion" -> BlendMode.Exclusion
         "ColorDodge" -> BlendMode.ColorDodge
         "ColorBurn" -> BlendMode.ColorBurn

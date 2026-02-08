@@ -332,7 +332,7 @@ fun constructFromResponse(
     sourceAgent = sourceAgent,
     targetAgents = null,  // Broadcast
     payload = DataPayload.Response(
-        content = response.response,
+        content = response.content,
         confidence = response.confidence.toDouble(),
         metadata = response.metadata.mapValues { it.value.toString() }
     ),

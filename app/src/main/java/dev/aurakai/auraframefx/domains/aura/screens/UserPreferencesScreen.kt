@@ -98,7 +98,8 @@ fun UserPreferencesScreen(
                     description = "Login settings and password management",
                     icon = Icons.Default.Lock,
                     onClick = {
-                        navController.navigate(ReGenesisNavHost.Login.route)
+                        // TODO: Navigate to login screen when implemented
+                        navController.navigate(ReGenesisNavHost.UserPreferences.route)
                     }
                 )
             }

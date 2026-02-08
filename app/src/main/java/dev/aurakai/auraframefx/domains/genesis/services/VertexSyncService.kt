@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.app
+package dev.aurakai.auraframefx.domains.genesis.services
 
 import android.app.Service
 import android.content.Intent

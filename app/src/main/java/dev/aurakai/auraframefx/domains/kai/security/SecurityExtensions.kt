@@ -15,7 +15,7 @@ import javax.crypto.SecretKey
  */
 fun SecurityContext.isSecure(): Boolean {
     return securityState.value.errorState == false &&
-            securityState.value.threatLevel != dev.aurakai.auraframefx.models.ThreatLevel.CRITICAL &&
+            securityState.value.threatLevel != dev.aurakai.auraframefx.domains.kai.models.ThreatLevel.CRITICAL &&
             encryptionStatus.value == EncryptionStatus.ACTIVE
 }
 

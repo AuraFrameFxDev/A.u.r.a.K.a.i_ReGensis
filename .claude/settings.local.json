@@ -40,7 +40,11 @@
       "Bash(for file in \"C:\\\\Users\\\\Wehtt\\\\Downloads\\\\New folder\\\\NewGates\"/*.jpg \"C:\\\\Users\\\\Wehtt\\\\Downloads\\\\New folder\\\\NewGates\"/*.png \"C:\\\\Users\\\\Wehtt\\\\Downloads\\\\New folder\\\\NewGates\"/*.webp)",
       "Bash(do:*)",
       "Bash(basename:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(while IFS= read -r f)",
+      "Bash(echo:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(powershell:*)"
     ]
   }
 }

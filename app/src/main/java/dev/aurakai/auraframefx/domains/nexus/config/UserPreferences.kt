@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.config
+package dev.aurakai.auraframefx.domains.nexus.config
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.ui.animation
+package dev.aurakai.auraframefx.domains.aura.aura.animations
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color // Added import for Color

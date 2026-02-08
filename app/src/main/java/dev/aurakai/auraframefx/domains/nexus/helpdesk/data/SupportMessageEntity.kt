@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.data
+package dev.aurakai.auraframefx.domains.nexus.helpdesk.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
