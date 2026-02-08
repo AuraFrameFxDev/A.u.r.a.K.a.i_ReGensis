@@ -9,10 +9,7 @@ import android.content.Intent
  * Service to handle OAuth 2.0 authentication flows.
  * TODO: Reported as unused declaration. Implement and integrate for authentication.
  */
-class OAuthService(
-    // private val context: android.content.Context, // Example if needed
-    // private val googleSignInClient: GoogleSignInClient // Example dependency
-) {
+class OAuthService {
 
     companion object {
         /**

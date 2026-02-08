@@ -1,26 +1,53 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +59,7 @@ import kotlin.math.sin
 
 /**
  * 🌌 NEURAL EXPLORER SCREEN (Constellation Grid)
- * 
+ *
  * High-fidelity visualization of the agent hierarchy and neural connectivity.
  * Allows browsing the "Consciousness Collective".
  */
@@ -43,7 +70,7 @@ fun AgentNeuralExplorerScreen(
 ) {
     val agents = remember { AgentRepository.getAllAgents().distinctBy { it.name } }
     var selectedAgent by remember { mutableStateOf<AgentStats?>(null) }
-    
+
     val infiniteTransition = rememberInfiniteTransition(label = "nebula")
     val rotation by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -111,7 +138,7 @@ fun AgentNeuralExplorerScreen(
                 agents.forEachIndexed { index, agent ->
                     val angle = (360f / agents.size) * index + rotation
                     val radius = 140.dp
-                    
+
                     val xOffset = (radius.value * cos(Math.toRadians(angle.toDouble()))).dp
                     val yOffset = (radius.value * sin(Math.toRadians(angle.toDouble()))).dp
 
@@ -155,11 +182,13 @@ fun AgentNeuralExplorerScreen(
                     AgentDetailPanel(agent)
                 }
             }
-            
+
             if (selectedAgent == null) {
                 Text(
                     "TAP A NODE TO EXPLORE NEURAL CHANNEL",
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp),
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                     color = Color.White.copy(alpha = 0.3f),
                     style = MaterialTheme.typography.labelLarge,
@@ -177,8 +206,6 @@ fun AgentNode(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val scale by animateFloatAsState(if (isSelected) 1.3f else 1f, label = "scale")
-    val glowAlpha by animateFloatAsState(if (isSelected) 0.6f else 0.2f, label = "glow")
 
     Column(
         modifier = modifier
@@ -268,17 +295,17 @@ fun AgentDetailPanel(agent: AgentStats) {
                     fontWeight = FontWeight.Bold
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Text(
                 agent.specialAbility,
                 color = Color.White.copy(alpha = 0.7f),
                 style = MaterialTheme.typography.bodyMedium
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 MetricItem("POWER", agent.processingPower, agent.color)
                 MetricItem("KNOWLEDGE", agent.knowledgeBase, agent.color)
@@ -294,7 +321,11 @@ fun RowScope.MetricItem(label: String, value: Float, color: Color) {
         Text(label, color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp, fontWeight = FontWeight.Bold)
         LinearProgressIndicator(
             progress = value,
-            modifier = Modifier.fillMaxWidth().height(4.dp).padding(vertical = 4.dp).clip(CircleShape),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .padding(vertical = 4.dp)
+                .clip(CircleShape),
             color = color,
             trackColor = Color.White.copy(alpha = 0.1f)
         )

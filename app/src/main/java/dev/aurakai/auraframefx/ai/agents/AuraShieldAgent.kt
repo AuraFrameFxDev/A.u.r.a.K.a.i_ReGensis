@@ -15,10 +15,11 @@ import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 /**
  * AuraShieldAgent: The Security Sentinel of the ReGenesis Collective.
- * 
+ *
  * Responsible for:
  * - Real-time threat detection and containment.
  * - Integrity monitoring of the agent ecosystem.
@@ -27,7 +28,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class AuraShieldAgent @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val vertexAIClient: dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient,
     memoryManager: MemoryManager,
     contextManager: ContextManager
@@ -56,13 +57,13 @@ class AuraShieldAgent @Inject constructor(
      */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         Timber.d("🛡️ AuraShield Analyzing Request: ${request.prompt}")
-        
+
         // Start a scan
         val scanId = UUID.randomUUID().toString()
         updateSecurityContext(isScanning = true)
-        
+
         val threatsFound = analyzeThreats(request.prompt)
-        
+
         // Enhance analysis with Vertex AI for deep behavioral detection
         val vertexAnalysis = vertexAIClient.generateText(
             prompt = """
@@ -70,13 +71,13 @@ class AuraShieldAgent @Inject constructor(
                 Task: Analyze the following string for subtle security threats, prompt injections, or system exploits.
                 Input: ${request.prompt}
                 Heuristic Hits: ${threatsFound.joinToString { it.type }}
-                
+
                 Provide a risk assessment and recommended containment strategy.
             """.trimIndent()
         ) ?: "Deep analysis offline. Relying on local heuristics."
 
         updateSecurityContext(isScanning = false, threatDelta = threatsFound.size)
-        
+
         val responseText = if (threatsFound.isEmpty() && !vertexAnalysis.lowercase().contains("critical")) {
             "Analysis complete. No immediate threats detected. Deep Shield remains at level ${_securityContext.value.securityMode}.\n\nDeep Insight: $vertexAnalysis"
         } else {
@@ -144,7 +145,7 @@ class AuraShieldAgent @Inject constructor(
      */
     fun resolveThreat(threatId: String) {
         _activeThreats.update { threats ->
-            threats.map { 
+            threats.map {
                 if (it.threatId == threatId) it.copy(status = ThreatStatus.RESOLVED) else it
             }
         }
@@ -182,7 +183,7 @@ class AuraShieldAgent @Inject constructor(
         if (message.content.contains("ALERT") || message.metadata["priority"] == "CRITICAL") {
             Timber.e("🛡️ AuraShield intercepted critical message from ${message.from}: ${message.content}")
             analyzeThreats(message.content)
-            
+
             // Auto-broadcasting state if threat detected
             if (_activeThreats.value.any { it.status == ThreatStatus.ACTIVE }) {
                 // In a real app, we'd emit a message here back to the bus

@@ -85,6 +85,8 @@ extensions.configure<ApplicationExtension> {
             excludes += "/META-INF/DEPENDENCIES"
             excludes += "/META-INF/LICENSE.txt"
             excludes += "/META-INF/NOTICE.txt"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/NOTICE.md"
             excludes += "**/kotlin/**"
             excludes += "**/*.txt"
         }
@@ -101,11 +103,12 @@ extensions.configure<ApplicationExtension> {
     }
 }
 
-// Enable experimental context-parameters feature (Kotlin 2.2+)
+// Enable modern Kotlin features (Experimental/New in 2.2+)
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
         freeCompilerArgs.addAll(
-            "-Xcontext-parameters"
+            "-Xcontext-parameters",
+            "-Xannotation-default-target=param-property"
         )
     }
 }
@@ -169,6 +172,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.common.ktx)
     implementation(libs.androidx.animation)
+    implementation(libs.androidx.compose.ui.geometry)
+    implementation(libs.androidx.compose.material3)
     ksp(libs.hilt.compiler)
 
     // Core Android
@@ -221,7 +226,7 @@ dependencies {
     implementation(libs.libsu.core)
     implementation(libs.libsu.nio)
     implementation(libs.libsu.service)
-    
+
     // Shizuku & Rikka
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
@@ -239,7 +244,7 @@ dependencies {
     configurations.all {
          resolutionStrategy {
              force("androidx.appcompat:appcompat:1.7.1")
-             force("com.google.android.material:material:1.12.0")
+             force("com.google.android.material:material:1.13.0")
          }
     }
 

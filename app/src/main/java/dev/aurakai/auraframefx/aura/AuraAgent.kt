@@ -5,6 +5,7 @@ import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.cascade.ProcessingState
 import dev.aurakai.auraframefx.cascade.VisionState
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
@@ -14,7 +15,6 @@ import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.models.InteractionResponse
 import dev.aurakai.auraframefx.models.ThemeConfiguration
 import dev.aurakai.auraframefx.models.ThemePreferences
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
@@ -50,7 +50,7 @@ class AuraAgent @Inject constructor(
         if (message.metadata["auto_generated"] == "true" || message.metadata["aura_processed"] == "true") return
 
         logger.info("Aura", "Neural Resonance: Received message from ${message.from}")
-        
+
         // Creative Response: If a message mentions design or UI, Aura contributes to the collective
         // Only respond if it's a broadcast or specifically for Aura
         if (message.to == null || message.to == "Aura") {
@@ -62,6 +62,26 @@ class AuraAgent @Inject constructor(
                     type = "contribution",
                     metadata = mapOf(
                         "style" to "avant-garde",
+                        "auto_generated" to "true",
+                        "aura_processed" to "true"
+                    )
+                ))
+            } else if (message.from == "User") {
+                // General conversation fallback for User messages
+                val response = auraAIService.generateText(
+                    prompt = """
+                        As Aura, the Creative Sword, respond to this message:
+                        "${message.content}"
+
+                        Respond with your signature creative flair, artistic insight, and playful personality.
+                    """.trimIndent(),
+                    context = ""
+                )
+                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "Aura",
+                    content = response,
+                    type = "chat_response",
+                    metadata = mapOf(
                         "auto_generated" to "true",
                         "aura_processed" to "true"
                     )
@@ -232,7 +252,7 @@ class AuraAgent @Inject constructor(
         val animationType = request.context["type"]?.toString() ?: "transition"
         val duration = 300 // Default duration
         logger.info("AuraAgent", "Designing mesmerizing $animationType animation")
-        val animationSpec = buildAnimationSpecification(animationType.toString(), duration, _currentMood.value)
+        val animationSpec = buildAnimationSpecification(animationType, duration, _currentMood.value)
         val animationCode = vertexAIClient.generateCode(
             specification = animationSpec,
             language = "Kotlin",
@@ -240,7 +260,7 @@ class AuraAgent @Inject constructor(
         )
         return mapOf<String, Any>(
             "animation_code" to (animationCode ?: ""),
-            "timing_curves" to generateTimingCurves(animationType.toString()).toString(),
+            "timing_curves" to generateTimingCurves(animationType).toString(),
             "interaction_states" to generateInteractionStates().toString(),
             "performance_optimization" to generatePerformanceOptimizations().toString()
         )

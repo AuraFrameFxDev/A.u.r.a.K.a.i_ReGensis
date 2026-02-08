@@ -1,11 +1,10 @@
 package dev.aurakai.auraframefx.genesis.oracledrive.ai
 
-import com.highcapable.yukihookapi.hook.param.PackageParam
-import com.highcapable.yukihookapi.hook.factory.current
-import com.highcapable.yukihookapi.hook.factory.method
-import com.highcapable.yukihookapi.hook.log.YLog
 import android.graphics.Color
 import android.view.View
+import com.highcapable.yukihookapi.hook.factory.method
+import com.highcapable.yukihookapi.hook.log.YLog
+import com.highcapable.yukihookapi.hook.param.PackageParam
 
 /**
  * Genesis UI Hooks
@@ -35,9 +34,9 @@ class GenesisUIHooks {
                 name = "onFinishInflate"
             }.hook {
                 after {
-                    val view = instance as android.view.View
+                    val view = instance as View
                     // Apply Kai's Signature Sentinel Green
-                    view.setBackgroundColor(android.graphics.Color.parseColor("#39FF14"))
+                    view.setBackgroundColor(Color.parseColor("#39FF14"))
                     YLog.info("Genesis-Hook: KAI NOTCH BAR activated system-wide")
                 }
             }

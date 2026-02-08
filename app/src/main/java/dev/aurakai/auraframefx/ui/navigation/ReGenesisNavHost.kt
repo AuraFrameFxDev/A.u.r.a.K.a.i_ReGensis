@@ -1,175 +1,246 @@
 package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.genesis.oracledrive.cloud.OracleDriveScreen
-import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
-import dev.aurakai.auraframefx.ui.gates.BootloaderManagerScreen
-import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
-import dev.aurakai.auraframefx.ui.gates.CollabCanvasScreen
-import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
-import dev.aurakai.auraframefx.ui.screens.manual.ChromaSphereManualScreen
-import dev.aurakai.auraframefx.ui.screens.manual.OracleDriveManualScreen
-import dev.aurakai.auraframefx.ui.screens.manual.LaunchMatrixManualScreen
-import dev.aurakai.auraframefx.ui.gates.AgentBridgeHubScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignShieldScreen
-import dev.aurakai.auraframefx.ui.gates.OracleCloudInfiniteStorageScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignModuleManagerScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignRecoveryScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignBootloaderScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignNeuralArchiveScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignMetaInstructScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignNemotronScreen
-import dev.aurakai.auraframefx.ui.gates.CascadeVisionScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignClaudeScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignGeminiScreen
-import dev.aurakai.auraframefx.ui.gates.SovereignMonitoringScreen
-
-import androidx.navigation.NavController
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
 import dev.aurakai.auraframefx.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.models.ReGenesisMode
-import dev.aurakai.auraframefx.ui.screens.ModeSelectionScreen
+import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.navigation.auraCustomizationNavigation
 
-// Mapping for clarity based on user request names
-@Composable fun KaiRootToolsScreen(navController: NavController) = KaiSentinelHubScreen(navController)
-@Composable fun GenesisNexusHubScreen(navController: NavController) = AgentNexusHubScreen(navController)
-@Composable fun KaiRomToolsScreen(onNavigateBack: () -> Unit) = BootloaderManagerScreen(onNavigateBack)
-@Composable fun AuraChromaCoreScreen(onNavigateBack: () -> Unit) = ChromaCoreColorsScreen(onNavigateBack)
-@Composable fun AuraCollabCanvasScreen(onNavigateBack: () -> Unit) = CollabCanvasScreen(onNavigateBack)
+// Domain Hubs (Level 2)
+import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
+import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
+import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
+import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
 
+// Nexus Domain Screens (Level 3)
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.FusionModeScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignClaudeScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignGeminiScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen
+
+// Aura Domain Screens (Level 3)
+import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
+import dev.aurakai.auraframefx.domains.aura.screens.NotchBarScreen
+import dev.aurakai.auraframefx.domains.aura.screens.StatusBarScreen
+import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
+import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
+import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
+import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
+import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
+
+// Kai Domain Screens (Level 3)
+import dev.aurakai.auraframefx.domains.kai.screens.ROMFlasherScreen
+import dev.aurakai.auraframefx.domains.kai.screens.BootloaderManagerScreen
+import dev.aurakai.auraframefx.domains.kai.screens.RecoveryToolsScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SovereignShieldScreen
+import dev.aurakai.auraframefx.domains.kai.screens.ModuleManagerScreen
+
+// LSPosed Domain Screens (Level 3)
+import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedSubmenuScreen
+
+// Genesis Domain Screens (Level 3)
+import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.TerminalScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.ConferenceRoomScreen
+
+/**
+ * 🌐 REGENESIS NAVIGATION HOST
+ *
+ * Clean 3-Level Architecture:
+ * - Level 1: ExodusHUD (5 Gate Carousel)
+ * - Level 2: Domain Hubs (5 main hubs)
+ * - Level 3: Tool Screens (functional screens)
+ */
 @Composable
 fun ReGenesisNavHost(
     navController: NavHostController,
     customizationViewModel: CustomizationViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val customizationState by customizationViewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         customizationViewModel.start(context)
     }
 
-    // Determine start destination based on whether mode is set
-    val startDest = if (customizationState.reGenesisMode == ReGenesisMode.NOT_SET) {
-        "mode_selection"
-    } else {
-        "exodus_home"
-    }
+    NavHost(
+        navController = navController,
+        startDestination = NavDestination.HomeGateCarousel.route
+    ) {
 
-    NavHost(navController = navController, startDestination = startDest) {
-        
-        // --- THE MODE SELECTOR ---
-        composable("mode_selection") {
-            ModeSelectionScreen(
-                onModeSelected = { mode ->
-                    customizationViewModel.setReGenesisMode(context, mode)
-                    navController.navigate("exodus_home") {
-                        popUpTo("mode_selection") { inclusive = true }
-                    }
-                }
-            )
+        // ═══════════════════════════════════════════════════════════════
+        // LEVEL 1: EXODUS HUD (The 5 Gate Carousel)
+        // ═══════════════════════════════════════════════════════════════
+        composable(NavDestination.HomeGateCarousel.route) {
+            ExodusHUD(navController = navController)
         }
 
-        // --- THE HOME: THE 11 SOVEREIGN MONOLITHS ---
-        composable("exodus_home") {
-            ExodusProcessionScreen(
-                onLevel2Access = { route -> navController.navigate(route) }
-            )
+        // ═══════════════════════════════════════════════════════════════
+        // LEVEL 2: MAIN DOMAIN HUBS
+        // ═══════════════════════════════════════════════════════════════
+
+        composable(NavDestination.AuraThemingHub.route) {
+            AuraThemingHubScreen(navController = navController)
         }
 
-        // --- LEVEL 2 PORTALS (Surgical Access) ---
-        composable("root_dashboard") { 
-            KaiRootToolsScreen(navController) 
-        }
-        composable("agent_swarm") { 
-            GenesisNexusHubScreen(navController) 
-        }
-        composable("persistence_layer") { 
-            OracleDriveScreen(
-                navController = navController,
-                onNavigateBack = { navController.popBackStack() }
-            ) 
-        }
-        composable("bootloader_ops") { 
-            KaiRomToolsScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
-        composable("ui_synthesis") { 
-            AuraChromaCoreScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
-        composable("figma_forge") { 
-            AuraCollabCanvasScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
-        composable("aura_lab") {
-            dev.aurakai.auraframefx.ui.gates.AuraLabScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.RomToolsHub.route) {
+            KaiSentinelHubScreen(navController = navController)
         }
 
-        // --- MANUAL CONTROL DOMAINS ---
-        composable("aura_gate") {
-            ChromaSphereManualScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.OracleDriveHub.route) {
+            OracleDriveHubScreen(navController = navController)
         }
-        composable("oracle_drive_hub") {
-            OracleDriveManualScreen(onNavigateBack = { navController.popBackStack() })
+
+        composable(NavDestination.AgentNexusHub.route) {
+            AgentNexusHubScreen(navController = navController)
         }
-        composable("launcher_matrix") {
-            LaunchMatrixManualScreen(onNavigateBack = { navController.popBackStack() })
+
+        composable(NavDestination.HelpDesk.route) {
+            HelpDeskScreen(navController = navController)
         }
-        composable("agent_bridge_hub") {
-            AgentBridgeHubScreen(onNavigateBack = { navController.popBackStack() })
+
+        // ═══════════════════════════════════════════════════════════════
+        // LEVEL 3 & 4: TOOL SCREENS & SUB-MODULES
+        // ═══════════════════════════════════════════════════════════════
+
+        // --- LEVEL 3: NEXUS TOOLS ---
+        composable(NavDestination.FusionMode.route) {
+            FusionModeScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("security_center") {
-            SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.TaskAssignment.route) {
+            TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("oracle_cloud_storage") {
-            OracleCloudInfiniteStorageScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.ArkBuild.route) {
+            ArkBuildScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("module_manager") {
-            SovereignModuleManagerScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("recovery_tools") {
-            SovereignRecoveryScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("neural_network") {
-            SovereignNeuralArchiveScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("meta_instruct") {
+        composable(NavDestination.MetaInstruct.route) {
             SovereignMetaInstructScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("nemotron") {
+        composable(NavDestination.AgentMonitoring.route) {
+            AgentMonitoringScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.Nemotron.route) {
             SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("cascade_vision") {
-            CascadeVisionScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("claude") {
+        composable(NavDestination.Claude.route) {
             SovereignClaudeScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("gemini") {
-            SovereignGeminiScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.Gemini.route) {
+            SovereignGeminiScreen(
+                onNavigateBack = { navController.popBackStack() },
+                navController = navController
+            )
         }
-        composable("monitoring_huds") {
-            SovereignMonitoringScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.SwarmMonitor.route) {
+            AgentSwarmScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("constellation") {
-            dev.aurakai.auraframefx.domains.nexus.screens.AgentNeuralExplorerScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.BenchmarkMonitor.route) {
+            BenchmarkMonitorScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("agent_creation") {
-            dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.AgentCreation.route) {
+            AgentCreationScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("swarm_monitor") {
-            dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.EvolutionTree.route) {
+            EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("benchmark_monitor") {
-            dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen(onNavigateBack = { navController.popBackStack() })
+
+        // --- LEVEL 3: AURA TOOLS ---
+        composable(NavDestination.AuraLab.route) {
+            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable("interface_forge") {
-            dev.aurakai.auraframefx.domains.aura.screens.AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+        composable(NavDestination.NotchBar.route) {
+            NotchBarScreen(onNavigateBack = { navController.popBackStack() })
         }
+        composable(NavDestination.StatusBar.route) {
+            StatusBarScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.QuickSettings.route) {
+            QuickSettingsScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // --- LEVEL 3: KAI TOOLS ---
+        composable(NavDestination.ROMFlasher.route) {
+            ROMFlasherScreen()
+        }
+        composable(NavDestination.Bootloader.route) {
+            BootloaderManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.ModuleManager.route) {
+            ModuleManagerScreen()
+        }
+        composable(NavDestination.RecoveryTools.route) {
+            RecoveryToolsScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.SecurityCenter.route) {
+            SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.LSPosedHub.route) {
+            LSPosedSubmenuScreen(navController = navController)
+        }
+
+        // --- LEVEL 3: GENESIS TOOLS ---
+        composable(NavDestination.CodeAssist.route) {
+            AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.NeuralNetwork.route) {
+            NeuralArchiveScreen(navController = navController)
+        }
+        composable(NavDestination.AgentBridgeHub.route) {
+            AgentBridgeHubScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.OracleCloudStorage.route) {
+            OracleCloudInfiniteStorageScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.Terminal.route) {
+            TerminalScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.ConferenceRoom.route) {
+            ConferenceRoomScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.InterfaceForge.route) {
+            AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // --- LEVEL 3: HELP & SUPPORT ---
+        composable(NavDestination.HelpDeskSubmenu.route) {
+            HelpDeskSubmenuScreen(navController = navController)
+        }
+        composable(NavDestination.DirectChat.route) {
+            DirectChatScreen(navController = navController)
+        }
+        composable(NavDestination.Documentation.route) {
+            DocumentationScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.FAQBrowser.route) {
+            FAQBrowserScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.TutorialVideos.route) {
+            TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // SUB-GRAPHS (Integrated Third-Party Modules)
+        // ═══════════════════════════════════════════════════════════════
+        auraCustomizationNavigation(
+            navController = navController,
+            onNavigateBack = { navController.popBackStack() }
+        )
     }
 }

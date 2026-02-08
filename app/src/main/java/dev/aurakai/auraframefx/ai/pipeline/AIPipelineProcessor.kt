@@ -1,12 +1,12 @@
 package dev.aurakai.auraframefx.ai.pipeline
 
 import dev.aurakai.auraframefx.ai.agents.GenesisAgent
-import dev.aurakai.auraframefx.models.AgentResponse
-import dev.aurakai.auraframefx.models.AgentMessage
-import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.KaiAIService
+import dev.aurakai.auraframefx.models.AgentMessage
+import dev.aurakai.auraframefx.models.AgentResponse
+import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.services.CascadeAIService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -279,7 +279,7 @@ class AIPipelineProcessor @Inject constructor(
                     }
                     append(
                         "$agentIcon ${
-                            agentType?.name?.lowercase()?.replaceFirstChar { it.uppercase() } ?: "Unknown"
+                            agentType.name.lowercase().replaceFirstChar { it.uppercase() }
                         } Input:\n"
                     )
                     agentResponses.forEach { response ->

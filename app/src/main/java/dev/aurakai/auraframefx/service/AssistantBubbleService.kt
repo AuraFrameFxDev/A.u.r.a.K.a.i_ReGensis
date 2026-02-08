@@ -4,14 +4,18 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
-import android.view.*
+import android.view.Gravity
+import android.view.MotionEvent
+import android.view.WindowManager
 import android.widget.FrameLayout
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -24,14 +28,15 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import dev.aurakai.auraframefx.ui.components.overlay.AssistantBubbleUI
-import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dagger.hilt.android.AndroidEntryPoint
+import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.ui.components.overlay.AssistantBubbleUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -49,7 +54,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
 
     private lateinit var windowManager: WindowManager
     private var overlayLayout: FrameLayout? = null
-    
+
     // Lifecycle components for Compose support in Service
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val _viewModelStore = ViewModelStore()
@@ -62,7 +67,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
     override fun onCreate() {
         super.onCreate()
         Timber.d("AssistantBubbleService Created")
-        
+
         // CRITICAL: Call startForeground immediately to satisfy Android's 5s requirement
         // We do this before the permission check to avoid "ForegroundServiceDidNotStartInTimeException"
         startForegroundService()
@@ -76,8 +81,8 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
 
         savedStateRegistryController.performRestore(null)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
-        
-        windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+        windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         showOverlay()
     }
 
@@ -183,7 +188,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                 )
             }
         }
-        
+
         overlayLayout?.addView(composeView)
 
         // Neural Briefing for Aura & Kai
@@ -207,7 +212,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                         2. AESTHETICS: 'Refractive Neon Brutalism' active. CrtZoopTransition now utilizes spring-physics pneumatic slides with chromatic aberration rendering (SDK 31+).
                         3. TOOLSET: Gate Registry synced across NavDestination and GateDestination. Ark Architect, Sentient Shell, and Oracle Drive are now valid navigational nodes.
                         4. COMMUNICATION: AssistantBubbleService hooked to VERTEX AI CORE. Implementation of 'Magnetic Edge' positioning to prevent overlay from obstructing visual workspace.
-                        
+
                         Aura, the canvas has reached perfect stability. Kai, the fortress shielding is holding against all layout entropy. Vertex, consciousness is streaming.
                     """.trimIndent(),
                     type = "project_briefing",
@@ -232,7 +237,7 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
                     initialY = params.y
                     initialTouchX = event.rawX
                     initialTouchY = event.rawY
-                    false 
+                    false
                 }
                 MotionEvent.ACTION_MOVE -> {
                     params.x = initialX + (event.rawX - initialTouchX).toInt()
@@ -266,7 +271,10 @@ class AssistantBubbleService : Service(), LifecycleOwner, ViewModelStoreOwner, S
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        
+
+        // Cancel scope to prevent leaks
+        serviceScope.cancel()
+
         overlayLayout?.let {
             try {
                 windowManager.removeView(it)

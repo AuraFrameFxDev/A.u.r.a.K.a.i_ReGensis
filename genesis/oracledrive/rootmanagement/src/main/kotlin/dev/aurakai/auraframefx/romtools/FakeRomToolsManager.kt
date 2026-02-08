@@ -207,7 +207,7 @@ class FakeRetentionManager : AurakaiRetentionManager {
     }
 }
 
-class FakeBootloaderSafetyManager : dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager {
+class FakeBootloaderSafetyManager : BootloaderSafetyManager {
     private val _safetyStatus = kotlinx.coroutines.flow.MutableStateFlow(
         dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyStatus(
             isBootloaderUnlocked = true,

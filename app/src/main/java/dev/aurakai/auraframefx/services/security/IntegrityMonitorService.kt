@@ -148,12 +148,13 @@ class IntegrityMonitorService : Service() {
         // Use appropriate foreground type if API 34+
         if (Build.VERSION.SDK_INT >= 34) {
              try {
-                // If using dataSync or specialized type, specify it here. 
-                // For general monitoring, we might not pass a specific type unless declared in Manifest.
-                // Assuming standard foreground service for now to be safe.
-                startForeground(1338, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC) 
+                startForeground(
+                    1338, 
+                    notification, 
+                    android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+                ) 
              } catch (e: Exception) {
-                 Timber.e(e, "Failed to start foreground with type")
+                 Timber.e(e, "Failed to start foreground with specialUse type")
                  startForeground(1338, notification)
              }
         } else {

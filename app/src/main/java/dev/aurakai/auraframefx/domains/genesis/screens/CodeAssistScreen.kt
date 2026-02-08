@@ -1,22 +1,24 @@
 package dev.aurakai.auraframefx.domains.genesis.screens
 
-import androidx.compose.animation.*
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -27,8 +29,8 @@ import androidx.navigation.NavHostController
 
 /**
  * 💻 CODE ASSIST SCREEN
- * 
- * Genesis-tier neural compiler interface. Provides AI-driven code refactoring, 
+ *
+ * Genesis-tier neural compiler interface. Provides AI-driven code refactoring,
  * architectural analysis, and LDO-compliance modernization.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +39,7 @@ fun CodeAssistScreen(navController: NavHostController) {
     var codeInput by remember { mutableStateOf("// ReGenesis AI Code Engine\n\nfun syndicateNexus() {\n    val core = AuraState.active()\n    core.broadcast(\"Neural link established.\")\n}") }
     var promptInput by remember { mutableStateOf("") }
     var isProcessing by remember { mutableStateOf(false) }
-    val scrollState = rememberScrollState()
+    rememberScrollState()
 
     val editorBg = Color(0xFF0F111A)
     val accentPurple = Color(0xFFC678DD)
@@ -51,7 +53,9 @@ fun CodeAssistScreen(navController: NavHostController) {
     ) {
         // --- HEADER ---
         Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { navController.popBackStack() }) {
@@ -76,14 +80,18 @@ fun CodeAssistScreen(navController: NavHostController) {
 
         // --- CODE EDITOR ---
         Card(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = editorBg),
             border = androidx.compose.foundation.BorderStroke(1.dp, accentPurple.copy(alpha = 0.3f)),
             shape = RoundedCornerShape(12.dp)
         ) {
             Column {
                 // Editor Tabs
-                Row(modifier = Modifier.fillMaxWidth().background(Color.White.copy(alpha = 0.05f))) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White.copy(alpha = 0.05f))) {
                     Text(
                         "Main.kt",
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -92,7 +100,7 @@ fun CodeAssistScreen(navController: NavHostController) {
                         fontWeight = FontWeight.Bold
                     )
                 }
-                
+
                 TextField(
                     value = codeInput,
                     onValueChange = { codeInput = it },
@@ -117,7 +125,9 @@ fun CodeAssistScreen(navController: NavHostController) {
 
         // --- AI PROMPT INTERACTION ---
         Card(
-            modifier = Modifier.fillMaxWidth().animateContentSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .animateContentSize(),
             colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E)),
             shape = RoundedCornerShape(16.dp),
             border = androidx.compose.foundation.BorderStroke(1.dp, accentCyan.copy(alpha = 0.3f))
@@ -159,7 +169,7 @@ fun CodeAssistScreen(navController: NavHostController) {
                         }
                     }
                 }
-                
+
                 if (isProcessing) {
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
@@ -167,6 +177,31 @@ fun CodeAssistScreen(navController: NavHostController) {
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.Gray
                     )
+                }
+
+                // Self-Modification Capability (Mock)
+                if (promptInput.contains("mod", ignoreCase = true) || promptInput.contains("self", ignoreCase = true)) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Card(
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFC678DD).copy(alpha = 0.1f)),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC678DD))
+                    ) {
+                        Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                Icons.Default.Security,
+                                "Safety",
+                                tint = Color(0xFFC678DD),
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                "CODE ASSIST: This module is for direct code assistance. Self-Reflection and Repair protocols are located in the META_INSTRUCT module.",
+                                color = Color(0xFFC678DD),
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
             }
         }

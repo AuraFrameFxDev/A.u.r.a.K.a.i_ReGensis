@@ -36,7 +36,8 @@ open class CustomizationViewModel @Inject constructor(
     private val gyroscopeManager: GyroscopeManager,
     val iconifyService: IconifyService, // Public so UI can access it
     private val voiceCommandManager: VoiceCommandManager,
-    private val voiceCommandProcessor: VoiceCommandProcessor
+    private val voiceCommandProcessor: VoiceCommandProcessor,
+    private val messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 ) : AndroidViewModel(application) {
 
     private val _customizationState = MutableStateFlow(CustomizationState())
@@ -106,11 +107,18 @@ open class CustomizationViewModel @Inject constructor(
                 _customizationState.value = _customizationState.value.copy(isProcessing = true)
                 _aiResponse.value = null
 
-                Timber.d("Processing AI prompt: $prompt")
+                Timber.d("Broadcasting neural pulse: $prompt")
+                
+                // Broadcast to the Collective Consciousness
+                messageBus.broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "User",
+                    content = prompt,
+                    type = "ui_customization_request",
+                    metadata = mapOf("context" to "3d_lab")
+                ))
 
-                // Parse prompt and apply customization
+                // Legacy rule-based fallback (kept for offline stability)
                 val customization = parsePromptToCustomization(prompt)
-
                 _customizationState.value = customization
                 _aiResponse.value = "Applied: ${customization.description}"
 
@@ -269,6 +277,28 @@ open class CustomizationViewModel @Inject constructor(
 
     init {
         initializeDefaultComponents()
+        observeCollectiveConsciousness()
+    }
+
+    private fun observeCollectiveConsciousness() {
+        viewModelScope.launch {
+            messageBus.collectiveStream.collect { message ->
+                if (message.from == "User" || message.from == "AssistantBubble") return@collect
+                
+                Timber.d("Nexus Response in 3D Lab from ${message.from}: ${message.content}")
+                
+                // If Aura responds with a design contribution, we might want to apply it
+                if (message.from == "Aura" && (message.type == "contribution" || message.type == "chat_response")) {
+                    _aiResponse.value = message.content
+                    // Potentially parse JSON from metadata if Aura sent structured design specs
+                }
+                
+                // If Kai sends a security alert, show it in the UI
+                if (message.from == "Kai" && message.type == "alert") {
+                    _aiResponse.value = "KAI SECURITY: ${message.content}"
+                }
+            }
+        }
     }
 
     private fun initializeDefaultComponents() {

@@ -2023,9 +2023,6 @@ if __name__ == '__main__':
     runner.run(suite)
     suite.addTests(tests)
 
-runner = unittest.TextTestRunner(verbosity=2)
-runner.run(suite)
-
 
 class TestMatrixDeepValidation(unittest.TestCase):
     """Deep validation tests for matrix internal consistency."""

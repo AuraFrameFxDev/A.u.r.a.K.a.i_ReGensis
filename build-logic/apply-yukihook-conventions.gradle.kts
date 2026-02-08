@@ -134,6 +134,9 @@ subprojects { subproject ->
             // Configure KSP
             extensions.configure<com.google.devtools.ksp.gradle.KspExtension> {
                 arg("YUKIHOOK_PACKAGE_NAME", project.group.toString())
+                // Disable IDE features to prevent IntelliJ API initialization in CI
+                arg("yukihookapi.configs.isEnableResourcesCache", "false")
+                arg("yukihookapi.configs.isEnableDataChannel", "false")
             }
         }
     }

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.data.OfflineDataManager
-import dev.aurakai.auraframefx.data.OfflineSystemData
 import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import dev.aurakai.auraframefx.utils.i
@@ -62,7 +61,7 @@ open class DiagnosticsViewModel @Inject constructor(
                 currentMap.toMutableMap().apply {
                     put(
                         "Last Full Sync (Offline Data)",
-                        if (offlineData?.lastFullSyncTimestamp != null) {
+                        if (offlineData.lastFullSyncTimestamp != null) {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
                                 Date(
                                     offlineData.lastFullSyncTimestamp
@@ -74,7 +73,7 @@ open class DiagnosticsViewModel @Inject constructor(
                     )
                     put(
                         "Offline AI Config Version (Timestamp)",
-                        if (offlineData?.aiConfig?.lastSyncTimestamp != null && offlineData.aiConfig.lastSyncTimestamp != 0L) {
+                        if (offlineData.aiConfig?.lastSyncTimestamp != null && offlineData.aiConfig.lastSyncTimestamp != 0L) {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
                                 Date(
                                     offlineData.aiConfig.lastSyncTimestamp
@@ -86,11 +85,11 @@ open class DiagnosticsViewModel @Inject constructor(
                     )
                     put(
                         "Monitoring Enabled",
-                        (offlineData?.systemMonitoring?.enabled ?: false).toString()
+                        (offlineData.systemMonitoring?.enabled ?: false).toString()
                     )
                     put(
                         "Contextual Memory Last Update",
-                        if (offlineData?.contextualMemory?.lastUpdateTimestamp != null && offlineData.contextualMemory.lastUpdateTimestamp != 0L) {
+                        if (offlineData.contextualMemory?.lastUpdateTimestamp != null && offlineData.contextualMemory.lastUpdateTimestamp != 0L) {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
                                 Date(
                                     offlineData.contextualMemory.lastUpdateTimestamp
