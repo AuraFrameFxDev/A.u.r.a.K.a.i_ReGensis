@@ -8,6 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = "user_preferences")
@@ -75,18 +76,13 @@ class UserPreferences @Inject constructor(
     suspend fun getGenderIdentity(): String? {
         return context.dataStore.data.map { preferences ->
             preferences[GENDER_IDENTITY_KEY]
-        }.map { it }
-            .let { flow ->
-                kotlinx.coroutines.flow.first(flow)
-            }
+        }.first()
     }
 
     suspend fun isOnboardingComplete(): Boolean {
         return context.dataStore.data.map { preferences ->
             preferences[ONBOARDING_COMPLETE_KEY]?.toBoolean() ?: false
-        }.let { flow ->
-            kotlinx.coroutines.flow.first(flow)
-        }
+        }.first()
     }
 
     fun getTheme(): String = "dark"
