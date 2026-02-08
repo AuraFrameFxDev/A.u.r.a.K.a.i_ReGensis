@@ -87,7 +87,7 @@ fun AnimeHUDContainer(
 
         // 0. HOLOGRAPHIC BACKDROP (Stage Base Layer)
         androidx.compose.foundation.Image(
-            painter = painterResource(id = R.drawable.gatebackdrop),
+            painter = painterResource(id = R.drawable.unnamed_1),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = androidx.compose.ui.layout.ContentScale.Crop,

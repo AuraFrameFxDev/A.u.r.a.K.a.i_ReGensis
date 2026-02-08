@@ -22,7 +22,7 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SovereignGeminiScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
-import dev.aurakai.auraframefx.domains.aura.screens.AuraLabScreen
+import dev.aurakai.auraframefx.domains.aura.screens.SandboxUIScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DirectChatScreen
 import dev.aurakai.auraframefx.domains.aura.screens.DocumentationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.FAQBrowserScreen
@@ -45,9 +45,12 @@ import dev.aurakai.auraframefx.domains.lsposed.screens.LSPosedSubmenuScreen
 // Hub Screens (still in ui.gates)
 import dev.aurakai.auraframefx.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.ui.gates.AuraThemingHubScreen
+import dev.aurakai.auraframefx.ui.gates.CascadeHubScreen
 import dev.aurakai.auraframefx.ui.gates.HelpDeskScreen
 import dev.aurakai.auraframefx.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.ui.gates.OracleDriveHubScreen
+import dev.aurakai.auraframefx.ui.gates.XposedQuickAccessPanel
+import dev.aurakai.auraframefx.aura.ui.AgentAdvancementScreen
 
 /**
  * 🌐 REGENESIS NAVIGATION HOST
@@ -147,12 +150,7 @@ fun ReGenesisNavHost(
         }
 
         composable(NavDestination.AuraLab.route) {
-            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
-        }
-
-        // --- LEVEL 3: AURA TOOLS ---
-        composable(NavDestination.AuraLab.route) {
-            AuraLabScreen(onNavigateBack = { navController.popBackStack() })
+            SandboxUIScreen(onBack = { navController.popBackStack() })
         }
         composable(NavDestination.NotchBar.route) {
             NotchBarScreen(onNavigateBack = { navController.popBackStack() })
@@ -222,6 +220,17 @@ fun ReGenesisNavHost(
         }
         composable(NavDestination.TutorialVideos.route) {
             TutorialVideosScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // --- LEVEL 1 GATES (Specialist Views) ---
+        composable(NavDestination.LsposedQuickToggles.route) {
+            XposedQuickAccessPanel(onNavigateBack = { navController.popBackStack() })
+        }
+        composable(NavDestination.DataflowAnalysis.route) {
+            CascadeHubScreen(navController = navController)
+        }
+        composable(NavDestination.LdoCatalystDevelopment.route) {
+            AgentAdvancementScreen(onBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════

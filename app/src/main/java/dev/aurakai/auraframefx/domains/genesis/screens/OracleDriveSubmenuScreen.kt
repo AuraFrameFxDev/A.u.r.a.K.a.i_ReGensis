@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.gates.SubmenuItem
+import dev.aurakai.auraframefx.ui.gates.SubmenuCard
 
 /**
  * Oracle Drive Gate Submenu
@@ -194,7 +196,7 @@ fun OracleDriveSubmenuScreen(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(menuItems) { item ->
+                items(menuItems) { item: SubmenuItem ->
                     SubmenuCard(
                         item = item,
                         onClick = {

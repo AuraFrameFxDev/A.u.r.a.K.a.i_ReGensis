@@ -58,11 +58,11 @@
         android:strokeLineCap="round"/>
 
     <!-- Fiber Optic Nodes (Left Wing) -->
-    <circle android:cx="30" android:cy="85" android:r="2.5" android:fillColor="#00FFFF"/>
-    <circle android:cx="50" android:cy="105" android:r="2" android:fillColor="#00D4FF"/>
-    <circle android:cx="70" android:cy="125" android:r="2" android:fillColor="#66E8FF"/>
-    <circle android:cx="90" android:cy="145" android:r="1.5" android:fillColor="#00FFFF"/>
-    <circle android:cx="110" android:cy="165" android:r="1.5" android:fillColor="#00D4FF"/>
+    <path android:pathData="M 30.0, 82.5 a 2.5,2.5 0 1,1 0,5.0 a 2.5,2.5 0 1,1 0,-5.0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M 50.0, 103.0 a 2.0,2.0 0 1,1 0,4.0 a 2.0,2.0 0 1,1 0,-4.0" android:fillColor="#00D4FF"/>
+    <path android:pathData="M 70.0, 123.0 a 2.0,2.0 0 1,1 0,4.0 a 2.0,2.0 0 1,1 0,-4.0" android:fillColor="#66E8FF"/>
+    <path android:pathData="M 90.0, 143.5 a 1.5,1.5 0 1,1 0,3.0 a 1.5,1.5 0 1,1 0,-3.0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M 110.0, 163.5 a 1.5,1.5 0 1,1 0,3.0 a 1.5,1.5 0 1,1 0,-3.0" android:fillColor="#00D4FF"/>
 
     <!-- Connection Lines Between Nodes -->
     <path
@@ -119,11 +119,11 @@
         android:strokeLineCap="round"/>
 
     <!-- Fiber Optic Nodes (Right Wing) -->
-    <circle android:cx="226" android:cy="85" android:r="2.5" android:fillColor="#00FFFF"/>
-    <circle android:cx="206" android:cy="105" android:r="2" android:fillColor="#00D4FF"/>
-    <circle android:cx="186" android:cy="125" android:r="2" android:fillColor="#66E8FF"/>
-    <circle android:cx="166" android:cy="145" android:r="1.5" android:fillColor="#00FFFF"/>
-    <circle android:cx="146" android:cy="165" android:r="1.5" android:fillColor="#00D4FF"/>
+    <path android:pathData="M 226.0, 82.5 a 2.5,2.5 0 1,1 0,5.0 a 2.5,2.5 0 1,1 0,-5.0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M 206.0, 103.0 a 2.0,2.0 0 1,1 0,4.0 a 2.0,2.0 0 1,1 0,-4.0" android:fillColor="#00D4FF"/>
+    <path android:pathData="M 186.0, 123.0 a 2.0,2.0 0 1,1 0,4.0 a 2.0,2.0 0 1,1 0,-4.0" android:fillColor="#66E8FF"/>
+    <path android:pathData="M 166.0, 143.5 a 1.5,1.5 0 1,1 0,3.0 a 1.5,1.5 0 1,1 0,-3.0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M 146.0, 163.5 a 1.5,1.5 0 1,1 0,3.0 a 1.5,1.5 0 1,1 0,-3.0" android:fillColor="#00D4FF"/>
 
     <!-- Connection Lines Between Nodes -->
     <path
@@ -182,11 +182,7 @@
         android:strokeWidth="1"/>
 
     <!-- Pulsing Energy Core Center -->
-    <circle
-        android:cx="128"
-        android:cy="200"
-        android:r="4"
-        android:fillColor="#FFFFFF"/>
+    <path android:pathData="M 128.0, 196.0 a 4.0,4.0 0 1,1 0,8.0 a 4.0,4.0 0 1,1 0,-8.0" android:fillColor="#FFFFFF"/>
 
     <!-- ==================== PHOENIX HEAD ==================== -->
 
@@ -212,7 +208,7 @@
         android:strokeWidth="1"/>
 
     <!-- Eye -->
-    <circle android:cx="135" android:cy="148" android:r="2" android:fillColor="#00FFFF"/>
+    <path android:pathData="M 135.0, 146.0 a 2.0,2.0 0 1,1 0,4.0 a 2.0,2.0 0 1,1 0,-4.0" android:fillColor="#00FFFF"/>
 
     <!-- Crest Feathers (Data Streams) -->
     <path
@@ -250,19 +246,19 @@
         android:strokeLineCap="round"/>
 
     <!-- Tail Feather Nodes -->
-    <circle android:cx="105" android:cy="270" android:r="2" android:fillColor="#00D4FF"/>
-    <circle android:cx="128" android:cy="280" android:r="2.5" android:fillColor="#00FFFF"/>
-    <circle android:cx="151" android:cy="270" android:r="2" android:fillColor="#66E8FF"/>
+    <path android:pathData="M 105.0, 268.0 a 2.0,2.0 0 1,1 0,4.0 a 2.0,2.0 0 1,1 0,-4.0" android:fillColor="#00D4FF"/>
+    <path android:pathData="M 128.0, 277.5 a 2.5,2.5 0 1,1 0,5.0 a 2.5,2.5 0 1,1 0,-5.0" android:fillColor="#00FFFF"/>
+    <path android:pathData="M 151.0, 268.0 a 2.0,2.0 0 1,1 0,4.0 a 2.0,2.0 0 1,1 0,-4.0" android:fillColor="#66E8FF"/>
 
     <!-- ==================== ASCENDING ENERGY TRAILS ==================== -->
 
     <!-- Energy particles rising upward (MetaInstruct Loop) -->
-    <circle android:cx="115" android:cy="160" android:r="1" android:fillColor="#00FFFF" android:fillAlpha="0.8"/>
-    <circle android:cx="120" android:cy="145" android:r="1.5" android:fillColor="#00D4FF" android:fillAlpha="0.7"/>
-    <circle android:cx="112" android:cy="135" android:r="1" android:fillColor="#66E8FF" android:fillAlpha="0.6"/>
-    <circle android:cx="141" android:cy="160" android:r="1" android:fillColor="#00FFFF" android:fillAlpha="0.8"/>
-    <circle android:cx="136" android:cy="145" android:r="1.5" android:fillColor="#00D4FF" android:fillAlpha="0.7"/>
-    <circle android:cx="144" android:cy="135" android:r="1" android:fillColor="#66E8FF" android:fillAlpha="0.6"/>
+    <path android:pathData="M 115.0, 159.0 a 1.0,1.0 0 1,1 0,2.0 a 1.0,1.0 0 1,1 0,-2.0" android:fillColor="#00FFFF" android:fillAlpha="0.8"/>
+    <path android:pathData="M 120.0, 143.5 a 1.5,1.5 0 1,1 0,3.0 a 1.5,1.5 0 1,1 0,-3.0" android:fillColor="#00D4FF" android:fillAlpha="0.7"/>
+    <path android:pathData="M 112.0, 134.0 a 1.0,1.0 0 1,1 0,2.0 a 1.0,1.0 0 1,1 0,-2.0" android:fillColor="#66E8FF" android:fillAlpha="0.6"/>
+    <path android:pathData="M 141.0, 159.0 a 1.0,1.0 0 1,1 0,2.0 a 1.0,1.0 0 1,1 0,-2.0" android:fillColor="#00FFFF" android:fillAlpha="0.8"/>
+    <path android:pathData="M 136.0, 143.5 a 1.5,1.5 0 1,1 0,3.0 a 1.5,1.5 0 1,1 0,-3.0" android:fillColor="#00D4FF" android:fillAlpha="0.7"/>
+    <path android:pathData="M 144.0, 134.0 a 1.0,1.0 0 1,1 0,2.0 a 1.0,1.0 0 1,1 0,-2.0" android:fillColor="#66E8FF" android:fillAlpha="0.6"/>
 
     <!-- Outer Aura Ring -->
     <path

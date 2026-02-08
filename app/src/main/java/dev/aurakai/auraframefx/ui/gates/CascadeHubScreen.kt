@@ -46,13 +46,6 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 fun CascadeHubScreen(navController: NavController) {
     val tools = listOf(
         CascadeTool(
-            title = "Cascade Vision",
-            subtitle = "Pattern Recognition HUD",
-            icon = Icons.Default.RemoveRedEye,
-            destination = NavDestination.CascadeVision,
-            color = Color(0xFF00FFD4)
-        ),
-        CascadeTool(
             title = "Data Monitoring",
             subtitle = "Real-time Stream Analysis",
             icon = Icons.Default.StackedLineChart,

@@ -89,7 +89,8 @@ fun ExodusHUD(navController: NavController) {
                      route = gateInfo.hubRoute,
                      glowColor = gateInfo.color,
                      gradientColors = listOf(gateInfo.color, Color.Black),
-                     pixelArtUrl = gateInfo.fallbackDrawable,
+                     pixelArtUrl = gateInfo.assetProvider(),
+                     fallbackUrl = gateInfo.fallbackDrawable,
                      borderColor = gateInfo.color,
                      titlePlacement = dev.aurakai.auraframefx.ui.gates.TitlePlacement.TOP_CENTER  // Title ABOVE image, not on it
                  )

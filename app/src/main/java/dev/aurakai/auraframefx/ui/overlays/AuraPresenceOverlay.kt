@@ -84,9 +84,9 @@ fun AuraPresenceOverlay(
                 // Sentient Avatar Image (Dynamic Theme Switching)
                 val isDark = androidx.compose.foundation.isSystemInDarkTheme()
                 val avatarRes = if (isDark) {
-                    dev.aurakai.auraframefx.R.drawable.ic_genesis_night
+                    dev.aurakai.auraframefx.R.drawable.emblem_genesis_circuit_phoenix
                 } else {
-                    dev.aurakai.auraframefx.R.drawable.ic_genesis_day
+                    dev.aurakai.auraframefx.R.drawable.emblem_genesis_circuit_phoenix
                 }
 
                 androidx.compose.foundation.Image(

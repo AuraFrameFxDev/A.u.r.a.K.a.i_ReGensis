@@ -2,24 +2,24 @@ package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.aurakai.auraframefx.aura.ui.EvolutionNode
-import dev.aurakai.auraframefx.aura.ui.EvolutionTreeScreen as AuraEvolutionTreeScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionNode
+import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen as NexusEvolutionTreeScreen
 
 /**
  * Wrapper composable placed in `ui.screens` to provide a stable public API for navigation wiring.
- * Forwards to the real implementation in `aura.ui` so we don't duplicate heavy UI logic.
+ * Forwards to the real implementation in `domains.nexus.screens` so we don't duplicate heavy UI logic.
  */
 @Composable
 fun EvolutionTreeScreen(
-    onNavigateToAgents: () -> Unit = {},
-    onNavigateToFusion: () -> Unit = {},
-    modifier: Modifier = Modifier,
-    onNodeSelected: (EvolutionNode) -> Unit = {}
+    onNavigateToAgents: () -> Unit,
+    onNavigateToFusion: () -> Unit,
+    onNodeSelected: (EvolutionNode) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    AuraEvolutionTreeScreen(
+    NexusEvolutionTreeScreen(
         onNavigateToAgents = onNavigateToAgents,
         onNavigateToFusion = onNavigateToFusion,
-        modifier = modifier,
-        onNodeSelected = onNodeSelected
+        onNodeSelected = onNodeSelected,
+        modifier = modifier
     )
 }
