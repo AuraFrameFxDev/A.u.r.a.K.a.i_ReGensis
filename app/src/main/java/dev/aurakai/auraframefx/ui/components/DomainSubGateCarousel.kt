@@ -258,11 +258,11 @@ private fun SubGateCardView(
  * COMPLETE ARSENAL:
  * - AurasLab (SandboxUI) - Testing & Experimentation
  * - CollabCanvas - Multi-Agent Design Collaboration
- * - ChromaCore - ColorBlendr Integration (Material You)
+ * - ChromaCore - ColorBlendr + Monet Engine (Material You)
  * - Theme Engine - Iconify Integration (69+ settings)
  * - UX/UI Engine - 1440+ Customizations Hub
- * - Monet Engine - Material You Color Generation
  * - Iconify - 250,000+ Icons
+ * - Pixel Launcher - PixelLauncherEnhanced (29+ settings)
  *
  * Style A: "CollabCanvas" - Paint splashes, neon drips, artistic
  * Style B: "Clean Studio" - Sleek gradients, minimalist
@@ -292,28 +292,17 @@ fun getAuraSubGates() = listOf(
         route = NavDestination.CollabCanvas.route,
         accentColor = Color(0xFFB026FF)
     ),
-    // 🌈 CHROMA CORE - ColorBlendr (Material You Colors)
-    // Contains: Monet Engine integration
+    // 🌈 CHROMA CORE - ColorBlendr + Monet Engine (Material You Colors)
+    // ChromaCore = ColorBlendr + Monet Engine combined
     SubGateCard(
         id = "aura_chroma",
         title = "ChromaCore",
-        subtitle = "ColorBlendr + Monet Engine",
+        subtitle = "ColorBlendr + Monet - Material You",
         styleADrawable = "gatescenes_aura_chromacoregate",    // NEW! High Fidelity
         styleBDrawable = "gatescenes_aura_chromacore_alt",    // Alt style
         fallbackDrawable = "card_chroma_core",
-        route = NavDestination.ColorBlendr.route,
+        route = NavDestination.ColorBlendr.route,             // Routes to ColorBlendr which contains Monet
         accentColor = Color(0xFFB026FF)
-    ),
-    // 🎨 MONET ENGINE - Material You Color Generation (Attached to ChromaCore)
-    SubGateCard(
-        id = "aura_monet",
-        title = "Monet Engine",
-        subtitle = "Material You Color Generation",
-        styleADrawable = "gatescenes_aura_chromacore_alt",    // Chromacore variant
-        styleBDrawable = "gatescenes_aura_chromacoregate",    // Main chromacore
-        fallbackDrawable = "card_chroma_core",
-        route = NavDestination.ColorBlendrMonet.route,
-        accentColor = Color(0xFF00FFD4)
     ),
     // 🎭 THEME ENGINE - Iconify Integration (69+ Settings)
     SubGateCard(
