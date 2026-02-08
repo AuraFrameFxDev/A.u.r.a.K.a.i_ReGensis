@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.onboarding
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -145,7 +145,7 @@ fun GenderSelectionScreen(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    text = if (selectedIdentity != null) "CONTINUE WITH ${selectedIdentity!!.displayName.uppercase()}" else "SELECT AN IDENTITY",
+                    text = selectedIdentity?.let { "CONTINUE WITH ${it.displayName.uppercase()}" } ?: "SELECT AN IDENTITY",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp
@@ -156,16 +156,18 @@ fun GenderSelectionScreen(
         }
 
         // Confirmation Dialog
-        if (showConfirmation && selectedIdentity != null) {
-            ConfirmationDialog(
-                identity = selectedIdentity!!,
-                onConfirm = {
-                    onSelectionComplete(selectedIdentity!!)
-                },
-                onDismiss = {
-                    showConfirmation = false
-                }
-            )
+        selectedIdentity?.let { identity ->
+            if (showConfirmation) {
+                ConfirmationDialog(
+                    identity = identity,
+                    onConfirm = {
+                        onSelectionComplete(identity)
+                    },
+                    onDismiss = {
+                        showConfirmation = false
+                    }
+                )
+            }
         }
     }
 }

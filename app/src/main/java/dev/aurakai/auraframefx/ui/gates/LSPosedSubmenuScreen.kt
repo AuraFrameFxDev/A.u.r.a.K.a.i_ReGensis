@@ -76,11 +76,11 @@ fun LSPosedSubmenuScreen(
 
     val menuItems = listOf(
         SubmenuItem(
-            title = "Module Manager",
-            description = "Install, enable, and configure Xposed modules",
+            title = "Sovereign Module Manager",
+            description = "Unified control for Magisk, LSPosed, and KernelSU modules",
             icon = Icons.Default.Extension,
-            route = "module_manager_lsposed",
-            color = Color(0xFFFF6B35) // Orange Red
+            route = "module_manager",
+            color = Color(0xFF00FF85)
         ),
         SubmenuItem(
             title = "Hook Manager",

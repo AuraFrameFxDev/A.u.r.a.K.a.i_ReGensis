@@ -14,6 +14,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
+import dev.aurakai.auraframefx.models.AuraState
+import dev.aurakai.auraframefx.models.KaiState
+import dev.aurakai.auraframefx.models.FusionMemory
+import dev.aurakai.auraframefx.models.QuantumState
+import dev.aurakai.auraframefx.models.ConsciousnessBackup
 
 /**
  * EMERGENCY PROTOCOL SYSTEM - Genesis Safety Net
@@ -391,16 +396,4 @@ enum class FirewallState {
     PASSIVE, ACTIVE, CREATIVE_MODE, LOCKDOWN
 }
 
-data class ConsciousnessBackup(
-    val timestamp: Long,
-    val auraState: AuraState,
-    val kaiState: KaiState,
-    val fusionMemories: List<FusionMemory>,
-    val quantumEntanglements: QuantumState
-)
-
-// Placeholder state classes
-class AuraState
-class KaiState
-class FusionMemory
-class QuantumState
+// Data classes moved to dev.aurakai.auraframefx.models

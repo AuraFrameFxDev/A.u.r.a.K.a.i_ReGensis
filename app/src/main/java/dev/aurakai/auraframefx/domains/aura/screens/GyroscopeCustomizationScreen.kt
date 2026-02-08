@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.customization
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.animation.core.*
 import androidx.compose.animation.slideInHorizontally
@@ -35,6 +35,11 @@ import dev.aurakai.auraframefx.ui.theme.CyberpunkPurple
 import dev.aurakai.auraframefx.utils.VoiceState
 import dev.aurakai.auraframefx.utils.GyroscopeManager
 import dev.aurakai.auraframefx.ui.customization.CustomizationViewModel
+import dev.aurakai.auraframefx.ui.customization.ComponentEditor
+import dev.aurakai.auraframefx.ui.customization.CustomizationState
+import dev.aurakai.auraframefx.ui.customization.UIComponent
+import dev.aurakai.auraframefx.ui.customization.ComponentType
+import dev.aurakai.auraframefx.iconify.IconifyService
 import kotlin.math.*
 
 /**

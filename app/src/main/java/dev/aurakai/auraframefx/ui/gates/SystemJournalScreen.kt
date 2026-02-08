@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.ui.onboarding.GenderIdentity
+import dev.aurakai.auraframefx.domains.aura.screens.GenderIdentity
 
 /**
  * 🎮 System Journal - User Profile & Menu
@@ -449,10 +449,12 @@ data class MenuOption(
  * Menu Options List
  */
 private val menuOptions = listOf(
-    MenuOption("File Manager", Icons.Default.Folder, Color(0xFFFFD700), "oracle_drive"),
-    MenuOption("Hello", Icons.Default.Face, Color(0xFF00FFFF), "direct_chat"),
-    MenuOption("Tools", Icons.Default.Build, Color(0xFFFF00FF), "root_tools_toggles"),
-    MenuOption("Laptop", Icons.Default.Computer, Color(0xFF00FFFF), "terminal"),
-    MenuOption("Music", Icons.Default.MusicNote, Color(0xFFFF00FF), "theme_engine"),
-    MenuOption("Camera", Icons.Default.CameraAlt, Color(0xFF00FFFF), "gyroscope_customization")
+    MenuOption("Oracle Cloud", Icons.Default.Folder, Color(0xFFFFD700), "oracle_cloud_storage"),
+    MenuOption("Agent Bridge", Icons.Default.Hub, Color(0xFF00FFFF), "agent_bridge_hub"),
+    MenuOption("Sovereign Mod", Icons.Default.Build, Color(0xFFFF00FF), "module_manager"),
+    MenuOption("Sentient Shell", Icons.Default.Computer, Color(0xFF00FFFF), "neural_network"),
+    MenuOption("Monitoring", Icons.Default.Insights, Color(0xFF00FFD4), "monitoring_huds"),
+    MenuOption("Nexus Hub", Icons.Default.Hub, Color(0xFF7B2FFF), "agent_nexus_gate"),
+    MenuOption("Deep Shield", Icons.Default.Shield, Color(0xFFFF00FF), "security_center"),
+    MenuOption("Recovery", Icons.Default.Settings, Color(0xFF00E5FF), "recovery_tools")
 )

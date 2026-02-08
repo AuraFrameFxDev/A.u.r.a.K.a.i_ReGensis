@@ -16,4 +16,8 @@ interface SystemOverlayManager {
     fun applyConfig(config: SystemOverlayConfig)
     fun removeElement(elementId: String)
     fun clearAll()
+
+    // Root-specific fabrications (opt-in)
+    fun applyAccent(hex: String): Result<String>
+    fun applyBackgroundSaturation(percent: Int): Result<String>
 }

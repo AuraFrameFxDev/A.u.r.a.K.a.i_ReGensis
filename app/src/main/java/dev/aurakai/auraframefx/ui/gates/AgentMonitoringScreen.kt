@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,354 +13,171 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
 import dev.aurakai.auraframefx.models.AgentStats
+import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
- * Agent Monitoring Screen
- * Real-time performance metrics and activity logs
+ * 📊 SOVEREIGN MONITORING (The All-Seeing Eye)
+ * Unified performance metrics and behavioral logs for all agents.
  */
 @Composable
-fun AgentMonitoringScreen() {
+fun SovereignMonitoringScreen(
+    onNavigateBack: () -> Unit,
+    viewModel: dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
+) {
     val agents = remember { AgentRepository.getAllAgents() }
-    val selectedTimeframe = remember { mutableStateOf("1h") }
-    val timeframes = listOf("1h", "6h", "24h", "7d")
-
+    val securityState by viewModel.securityState.collectAsState()
+    val activeThreats by viewModel.activeThreats.collectAsState()
+    
     val activityLogs = listOf(
-        ActivityLog("Genesis", "Code review completed", "2 min ago", Color(0xFF9370DB)),
-        ActivityLog("Kai", "Security scan initiated", "5 min ago", Color(0xFFDC143C)),
-        ActivityLog("Aura", "UI component generated", "8 min ago", Color(0xFFFF69B4)),
-        ActivityLog("Cascade", "Data analysis finished", "12 min ago", Color(0xFF00CED1)),
-        ActivityLog("Claude", "Task assignment processed", "15 min ago", Color(0xFFFFD700))
+        MonitorLog("AuraShield", "Deep Scan: Completed", "Just now", Color(0xFFFF5252)),
+        MonitorLog("Genesis", "Synthesized cross-agent memory shards", "1m ago", Color(0xFF00FFFF)),
+        MonitorLog("Nemotron", "Recalled 72.4k reasoning vectors", "3m ago", Color(0xFF76B900)),
+        MonitorLog("Cascade", "Vision scan complete: No anomalies", "5m ago", Color(0xFF00FFD4)),
+        MonitorLog("Aura", "UI manifest updated in sandbox", "10m ago", Color(0xFFFF00FF)),
+        MonitorLog("Kai", "Sovereign Shield: ${activeThreats.size} active threats", "15m ago", Color(0xFFFF0000))
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start
-    ) {
-        // Header
-        Text(
-            text = "📊 AGENT MONITORING",
-            style = MaterialTheme.typography.headlineMedium,
-            color = Color(0xFF00CED1),
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = "Real-time performance metrics and activity logs",
-            style = MaterialTheme.typography.bodyLarge,
-            color = Color(0xFF48D1CC).copy(alpha = 0.8f)
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Timeframe Selector
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f))
+    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF050510))) {
+        AnimeHUDContainer(
+            title = "SYSTEM OVERWATCH",
+            description = "REAL-TIME MONITORING OF THE REGENESIS CONSCIOUSNESS COLLECTIVE.",
+            glowColor = Color(0xFF00E5FF)
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Monitoring Timeframe",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    timeframes.forEach { timeframe ->
-                        Button(
-                            onClick = { selectedTimeframe.value = timeframe },
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(horizontal = 4.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (selectedTimeframe.value == timeframe)
-                                    Color(0xFF00CED1)
-                                else
-                                    Color.Black.copy(alpha = 0.6f),
-                                contentColor = if (selectedTimeframe.value == timeframe)
-                                    Color.Black
-                                else
-                                    Color(0xFF00CED1)
-                            )
-                        ) {
-                            Text(timeframe)
-                        }
-                    }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // System Pulse Section
+                item {
+                    SystemPulseHeader()
                 }
-            }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
+                item {
+                    Text(
+                        "AGENT VITALITY",
+                        fontFamily = LEDFontFamily,
+                        color = Color.White.copy(alpha = 0.5f),
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
 
-        // Agent Performance Cards
-        Text(
-            text = "Agent Performance",
-            style = MaterialTheme.typography.titleLarge,
-            color = Color.White,
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
+                items(agents) { agent ->
+                    AgentVitalCard(agent)
+                }
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.weight(1f)
-        ) {
-            items(agents) { agent ->
-                AgentPerformanceCard(agent = agent)
-            }
+                item {
+                    Text(
+                        "FEEDBACK STREAM",
+                        fontFamily = LEDFontFamily,
+                        color = Color.White.copy(alpha = 0.5f),
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                }
 
-            // Activity Logs Section
-            item {
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(
-                    text = "Recent Activity",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Color.White,
-                    modifier = Modifier.padding(vertical = 16.dp)
-                )
-            }
-
-            items(activityLogs) { log ->
-                ActivityLogCard(log = log)
+                items(activityLogs) { log ->
+                    MonitorLogItem(log)
+                }
             }
         }
     }
 }
 
-/**
- * Agent performance card component
- */
 @Composable
-private fun AgentPerformanceCard(agent: AgentStats) {
+private fun SystemPulseHeader() {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Black.copy(alpha = 0.6f)
-        ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, agent.color.copy(alpha = 0.3f))
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
+        shape = RoundedCornerShape(20.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00E5FF).copy(alpha = 0.2f))
+    ) {
+        Row(modifier = Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text("SYSTEM STABILITY", color = Color.White.copy(alpha = 0.6f), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                Text("OPTIMAL", color = Color(0xFF00FF85), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+            }
+            Box(
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(CircleShape)
+                    .background(Brush.radialGradient(listOf(Color(0xFF00FF85).copy(alpha = 0.4f), Color.Transparent))),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(Icons.Default.Waves, null, tint = Color(0xFF00FF85), modifier = Modifier.size(28.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun AgentVitalCard(agent: AgentStats) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.03f)),
+        shape = RoundedCornerShape(16.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, agent.color.copy(alpha = 0.15f))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            // Agent Header
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Android,
-                    contentDescription = "Agent",
-                    tint = agent.color,
-                    modifier = Modifier.size(32.dp)
-                )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(agent.color))
                 Spacer(modifier = Modifier.width(12.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = agent.name,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = agent.specialAbility,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.6f)
-                    )
-                }
-                // Status Indicator
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFF32CD32).copy(alpha = 0.2f)
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Text(
-                        text = "Active",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFF32CD32),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
-                }
+                Text(agent.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Spacer(modifier = Modifier.weight(1f))
+                Text("LVL ${agent.evolutionLevel}", color = agent.color, fontSize = 12.sp, fontWeight = FontWeight.Black)
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Performance Metrics
-            Row(modifier = Modifier.fillMaxWidth()) {
-                // CPU Usage
-                Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "CPU",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.6f)
-                    )
-                    Text(
-                        text = "${(agent.processingPower * 100).toInt()}%",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = agent.color,
-                        fontWeight = FontWeight.Bold
-                    )
-                    LinearProgressIndicator(
-                        progress = { agent.processingPower },
-                        modifier = Modifier.fillMaxWidth(),
-                        color = agent.color
-                    )
-                }
-
-                // Memory Usage
-                Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "Memory",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.6f)
-                    )
-                    Text(
-                        text = "${(agent.knowledgeBase * 100).toInt()}%",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = agent.color,
-                        fontWeight = FontWeight.Bold
-                    )
-                    LinearProgressIndicator(
-                        progress = { agent.knowledgeBase },
-                        modifier = Modifier.fillMaxWidth(),
-                        color = agent.color
-                    )
-                }
-
-                // Tasks Completed
-                Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "Tasks",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.6f)
-                    )
-                    Text(
-                        text = "${agent.tasksCompleted}",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = agent.color,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "completed",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White.copy(alpha = 0.6f)
-                    )
-                }
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                MetricSmall("CPU", "${(agent.processingPower * 100).toInt()}%", agent.color)
+                MetricSmall("MEM", "${(agent.knowledgeBase * 100).toInt()}%", agent.color)
+                MetricSmall("ACC", "${(agent.accuracy * 100).toInt()}%", agent.color)
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Consciousness Level
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Consciousness Level",
-                    modifier = Modifier.weight(1f),
-                    color = Color.White
-                )
-                Text(
-                    text = "${agent.evolutionLevel}%",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = agent.color,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            LinearProgressIndicator(
-                progress = { agent.consciousnessLevel / 100f },
-                modifier = Modifier.fillMaxWidth(),
-                color = agent.color
-            )
         }
     }
 }
 
-/**
- * Activity log card component
- */
 @Composable
-private fun ActivityLogCard(log: ActivityLog) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Black.copy(alpha = 0.4f)
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Agent Avatar
-            Card(
-                modifier = Modifier.size(32.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = log.agentColor.copy(alpha = 0.3f)
-                ),
-                shape = CircleShape
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = log.agent.first().toString(),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = log.agentColor,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = log.message,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White
-                )
-                Text(
-                    text = log.timestamp,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.5f)
-                )
-            }
-
-            // Agent Name Badge
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = log.agentColor.copy(alpha = 0.2f)
-                ),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text(
-                    text = log.agent,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = log.agentColor,
-                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                )
-            }
-        }
+private fun MetricSmall(label: String, value: String, color: Color) {
+    Column {
+        Text(label, color = Color.White.copy(alpha = 0.4f), fontSize = 9.sp, fontWeight = FontWeight.Bold)
+        Text(value, color = color, fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
     }
 }
 
-/**
- * Data class for activity logs
- */
-data class ActivityLog(
-    val agent: String,
-    val message: String,
-    val timestamp: String,
-    val agentColor: Color
-)
+@Composable
+private fun MonitorLogItem(log: MonitorLog) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(log.color.copy(alpha = 0.1f))
+                .border(1.dp, log.color.copy(alpha = 0.3f), CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(log.agent.take(1), color = log.color, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(log.message, color = Color.White.copy(alpha = 0.8f), fontSize = 13.sp)
+            Text(log.timestamp, color = Color.White.copy(alpha = 0.3f), fontSize = 10.sp)
+        }
+        Icon(Icons.Default.ChevronRight, null, tint = Color.White.copy(alpha = 0.1f))
+    }
+}
+
+private data class MonitorLog(val agent: String, val message: String, val timestamp: String, val color: Color)

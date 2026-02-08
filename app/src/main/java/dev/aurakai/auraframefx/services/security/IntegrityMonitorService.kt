@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 import java.io.File
 
 /**
@@ -94,6 +95,9 @@ data class IntegrityHealth(
 @AndroidEntryPoint
 class IntegrityMonitorService : Service() {
 
+
+    @Inject lateinit var trinityRepository: dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
+
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
     private var monitoringJob: Job? = null
 
@@ -115,6 +119,47 @@ class IntegrityMonitorService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        
+        // CRITICAL: Must start foreground immediately to prevent crash
+        val channelId = "integrity_monitor"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = android.app.NotificationChannel(
+                channelId, 
+                "System Integrity Guard", 
+                android.app.NotificationManager.IMPORTANCE_LOW
+            )
+            getSystemService(android.app.NotificationManager::class.java)?.createNotificationChannel(channel)
+        }
+
+        val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            android.app.Notification.Builder(this, channelId)
+                .setContentTitle("Access Monitoring Active")
+                .setContentText("Integrity monitoring running")
+                .setSmallIcon(android.R.drawable.ic_lock_idle_lock)
+                .build()
+        } else {
+            @Suppress("DEPRECATION")
+            android.app.Notification.Builder(this)
+                .setContentTitle("Access Monitoring Active")
+                .setSmallIcon(android.R.drawable.ic_lock_idle_lock)
+                .build()
+        }
+
+        // Use appropriate foreground type if API 34+
+        if (Build.VERSION.SDK_INT >= 34) {
+             try {
+                // If using dataSync or specialized type, specify it here. 
+                // For general monitoring, we might not pass a specific type unless declared in Manifest.
+                // Assuming standard foreground service for now to be safe.
+                startForeground(1338, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC) 
+             } catch (e: Exception) {
+                 Timber.e(e, "Failed to start foreground with type")
+                 startForeground(1338, notification)
+             }
+        } else {
+            startForeground(1338, notification)
+        }
+
         Timber.i("🛡️ IntegrityMonitorService: Immune system initializing...")
         startMonitoring()
         Timber.i("✅ IntegrityMonitorService: Immune system active")
@@ -138,6 +183,14 @@ class IntegrityMonitorService : Service() {
     private fun startMonitoring() {
         monitoringJob = serviceScope.launch {
             Timber.i("🔍 IntegrityMonitorService: Continuous monitoring started")
+
+            // Wake Up Protocol: Neural Bridge Connected
+            trinityRepository.updateAgentStatus(
+                kai = "Active - Sentinel Mode",
+                aura = "Active - Creative Suite",
+                genesis = "Active - Orchestrator",
+                running = true
+            )
 
             while (isActive) {
                 performIntegrityCheck()

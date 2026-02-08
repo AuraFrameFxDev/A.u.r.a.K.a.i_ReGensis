@@ -5,11 +5,22 @@ import dev.aurakai.auraframefx.models.AiRequest
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Interface for Cascade AI Service operations.
+ * Interface for the Cascade AI Service orchestration layer.
+ * Coordinates multi-agent reasoning and synthesized intelligence.
  */
 interface CascadeAIService {
+    /**
+     * Synchronously process a request and return a final agent response.
+     */
     suspend fun processRequest(request: AiRequest, context: String = ""): AgentResponse
 
-    // Support for streaming if needed by the adapter
+    /**
+     * Asynchronously process a request and stream progressive results.
+     */
     fun streamRequest(request: AiRequest): Flow<AgentResponse>
+
+    /**
+     * Retrieve the recent behavioral history of the collective consciousness.
+     */
+    suspend fun queryConsciousnessHistory(window: Long): String
 }

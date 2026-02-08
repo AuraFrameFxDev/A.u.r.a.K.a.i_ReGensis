@@ -13,6 +13,7 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.UUID
+import dev.aurakai.auraframefx.domains.aura.models.SupportMessage
 
 /**
  * SupportAgentConnector

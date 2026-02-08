@@ -7,7 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.ai.services.NeuralWhisper
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.clients.VertexAIClient
 import javax.inject.Singleton
 
 @Module

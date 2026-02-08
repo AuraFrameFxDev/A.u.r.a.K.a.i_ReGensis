@@ -8,7 +8,7 @@ import dev.aurakai.auraframefx.security.EncryptionManager
 import dev.aurakai.auraframefx.security.KeystoreManager
 import dev.aurakai.auraframefx.security.NoOpEncryptionManager
 import dev.aurakai.auraframefx.security.SecurityContext
-import dev.aurakai.auraframefx.oracle.drive.utils.EncryptionManager as OracleDriveEncryptionManager
+import dev.aurakai.auraframefx.genesis.security.EncryptionManager as OracleDriveEncryptionManager
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton

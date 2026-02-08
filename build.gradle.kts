@@ -13,11 +13,11 @@ plugins {
     id("org.jetbrains.kotlin.plugin.parcelize") version "2.3.0" apply false
 
     // Android plugins
-    id("com.android.application") version "9.1.0-alpha05" apply false
-    id("com.android.library") version "9.1.0-alpha05" apply false
+    id("com.android.application") version "9.1.0-alpha06" apply false
+    id("com.android.library") version "9.1.0-alpha06" apply false
 
     // Other plugins - Updated to latest stable versions
-    id("com.google.dagger.hilt.android") version "2.58" apply false
+    id("com.google.dagger.hilt.android") version "2.59" apply false
     id("com.google.devtools.ksp") version "2.3.4" apply false
     id("com.google.gms.google-services") version "4.4.4" apply false
     id("com.google.firebase.crashlytics") version "3.0.6" apply false
@@ -37,7 +37,7 @@ allprojects {
 }
 
 
-val skipTests = providers.gradleProperty("aurafx.skip.tests").orElse("true").map { it.toBoolean() }.getOrElse(true)!!
+val skipTests = providers.gradleProperty("aurafx.skip.tests").orElse("false").map { it.toBoolean() }.getOrElse(false)!!
 
 subprojects {
     // Configure Java Toolchain and Compile Options for Android Modules

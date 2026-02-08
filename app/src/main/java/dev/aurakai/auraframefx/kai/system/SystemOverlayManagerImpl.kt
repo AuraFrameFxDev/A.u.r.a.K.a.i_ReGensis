@@ -20,4 +20,7 @@ class SystemOverlayManagerImpl @Inject constructor() : SystemOverlayManager {
     override fun applyConfig(config: SystemOverlayConfig) { /* no-op */ }
     override fun removeElement(elementId: String) { /* no-op */ }
     override fun clearAll() { /* no-op */ }
+
+    override fun applyAccent(hex: String): Result<String> = Result.success("no-op")
+    override fun applyBackgroundSaturation(percent: Int): Result<String> = Result.success("no-op")
 }

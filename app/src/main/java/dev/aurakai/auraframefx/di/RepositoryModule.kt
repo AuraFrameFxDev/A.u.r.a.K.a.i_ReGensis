@@ -25,7 +25,11 @@ object RepositoryModule {
     @Singleton
     fun provideTrinityRepository(
         apiService: AuraApiServiceWrapper,
+        auraAgent: dev.aurakai.auraframefx.aura.AuraAgent,
+        kaiAgent: dev.aurakai.auraframefx.kai.KaiAgent,
+        genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
+        messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
     ): TrinityRepository {
-        return TrinityRepository(apiService)
+        return TrinityRepository(apiService, auraAgent, kaiAgent, genesisAgent, messageBus)
     }
 }

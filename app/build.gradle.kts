@@ -9,13 +9,13 @@ import com.android.build.api.dsl.ApplicationExtension
 plugins {
     // Core Android and Kotlin plugins
     id("com.android.application")
-
+    id("com.google.dagger.hilt.android")
     // Compose and serialization
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
 
     // Dependency injection and code generation
-    id("com.google.dagger.hilt.android")
+
     id("com.google.devtools.ksp")
 
     // Firebase and analytics
@@ -142,13 +142,7 @@ extensions.configure<ApplicationExtension> {
     // ═══════════════════════════════════════════════════════════════════════════
     sourceSets {
         getByName("main") {
-            java.directories.add("dev/aurakai/auraframefx/ai/agents/BaseAgent.kt")
-        }
-        getByName("release") {
-            java.directories.add("dev/aurakai/auraframefx/logging/TimberInitializer.kt")
-        }
-        getByName("debug") {
-            java.directories.add("dev/aurakai/auraframefx/logging/TimberInitializer.kt")
+            // Correct source sets are automatically handled by AGP
         }
     }
 }
@@ -225,12 +219,29 @@ dependencies {
 
     // Root/System Utils
     implementation(libs.libsu.core)
-    implementation(libs.libsu.io)
+    implementation(libs.libsu.nio)
     implementation(libs.libsu.service)
+    
+    // Shizuku & Rikka
+    implementation(libs.shizuku.api)
+    implementation(libs.shizuku.provider)
+    implementation(libs.rikkax.core)
+    implementation(libs.rikkax.core.ktx)
+    implementation(libs.rikkax.material) {
+        exclude(group = "dev.rikka.rikkax.appcompat", module = "appcompat")
+    }
 
     // YukiHook API
     compileOnly(libs.yukihookapi.api)
     ksp(libs.yukihookapi.ksp)
+
+    // Force resolution of conflicting dependencies
+    configurations.all {
+         resolutionStrategy {
+             force("androidx.appcompat:appcompat:1.7.1")
+             force("com.google.android.material:material:1.12.0")
+         }
+    }
 
     // Firebase BOM (Bill of Materials) for version management
     implementation(platform(libs.firebase.bom))

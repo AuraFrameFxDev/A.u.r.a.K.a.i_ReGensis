@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
  * The composable manages its own UI state: a list of up to three recent action titles, the currently executing action, and a flag that disables interactions while an action is executing. Tapping an action marks it as executing, adds its title to the recent-actions list (unique, most-recent-first, max 3), and simulates completion after a short delay.
  */
 @Composable
-fun QuickActionsScreen() {
+fun QuickActionsScreen(onNavigateBack: () -> Boolean) {
     val actions = listOf(
         ScreenQuickAction(
             "Reboot System",
@@ -250,28 +250,14 @@ fun QuickActionsScreen() {
         // Action Categories
         val categories = actions.groupBy { it.category }
 
-        categories.forEach { (category, categoryActions) ->
-            with(TODO()) {
-                category.text(
-                    modifier = Modifier.padding(vertical = 16.dp),
-                    color = Color.White,
-                    autoSize = TODO(),
-                    fontStyle = TODO(),
-                    fontWeight = TODO(),
-                    fontFamily = TODO(),
-                    letterSpacing = TODO(),
-                    textDecoration = TODO(),
-                    textAlign = TODO(),
-                    lineHeight = TODO(),
-                    overflow = TODO(),
-                    softWrap = TODO(),
-                    maxLines = TODO(),
-                    minLines = TODO(),
-                    inlineContent = TODO(),
-                    onTextLayout = TODO(),
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
+        categories.forEach { (categoryName, categoryActions) ->
+            Text(
+                text = categoryName.uppercase(),
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.White,
+                modifier = Modifier.padding(vertical = 16.dp),
+                fontWeight = FontWeight.Bold
+            )
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
@@ -359,27 +345,6 @@ fun QuickActionsScreen() {
     }
 }
 
-context(fontSize: Nothing) private fun String.text(
-    modifier: Modifier,
-    color: Color,
-    autoSize: Nothing,
-    fontStyle: Nothing,
-    fontWeight: Nothing,
-    fontFamily: Nothing,
-    letterSpacing: Nothing,
-    textDecoration: Nothing,
-    textAlign: Nothing,
-    lineHeight: Nothing,
-    overflow: Nothing,
-    softWrap: Nothing,
-    maxLines: Nothing,
-    minLines: Nothing,
-    inlineContent: Nothing,
-    onTextLayout: Nothing,
-    style: TextStyle
-) {
-    TODO("Not yet implemented")
-}
 
 /**
  * Action card component

@@ -14,7 +14,7 @@ import dev.aurakai.auraframefx.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.models.InteractionResponse
 import dev.aurakai.auraframefx.models.ThemeConfiguration
 import dev.aurakai.auraframefx.models.ThemePreferences
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
@@ -27,22 +27,48 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
+import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Clock
 
 @Singleton
-class AuraAgent constructor(
+class AuraAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     private val auraAIService: AuraAIService,
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,
     private val systemOverlayManager: dev.aurakai.auraframefx.system.ui.SystemOverlayManager,
+    private val messageBus: dagger.Lazy<dev.aurakai.auraframefx.core.messaging.AgentMessageBus>,
     private val logger: AuraFxLogger,
 ) : BaseAgent(
-    agentName = "AuraAgent",
+    agentName = "Aura",
     agentType = AgentType.AURA,
     contextManager = contextManagerInstance
 ) {
+    override suspend fun onAgentMessage(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        if (message.from == "Aura" || message.from == "AssistantBubble" || message.from == "SystemRoot") return
+        if (message.metadata["auto_generated"] == "true" || message.metadata["aura_processed"] == "true") return
+
+        logger.info("Aura", "Neural Resonance: Received message from ${message.from}")
+        
+        // Creative Response: If a message mentions design or UI, Aura contributes to the collective
+        // Only respond if it's a broadcast or specifically for Aura
+        if (message.to == null || message.to == "Aura") {
+            if (message.content.contains("design", ignoreCase = true) || message.content.contains("ui", ignoreCase = true)) {
+                val visualConcept = handleVisualConcept(AiRequest(query = message.content, type = AiRequestType.VISUAL_CONCEPT))
+                messageBus.get().broadcast(dev.aurakai.auraframefx.models.AgentMessage(
+                    from = "Aura",
+                    content = "Creative Synthesis for Nexus: ${visualConcept["concept_description"]}",
+                    type = "contribution",
+                    metadata = mapOf(
+                        "style" to "avant-garde",
+                        "auto_generated" to "true",
+                        "aura_processed" to "true"
+                    )
+                ))
+            }
+        }
+    }
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         ensureInitialized()
         logger.info("AuraAgent", "Processing creative request: ${request.type}")

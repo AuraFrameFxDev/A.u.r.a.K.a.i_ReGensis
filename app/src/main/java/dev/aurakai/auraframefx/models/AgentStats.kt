@@ -26,6 +26,8 @@ data class AgentStats(
     val speed: Float = 0f,              // SP
     val accuracy: Float = 0f,           // AC
     val evolutionLevel: Int = 1,
+    val experience: Float = 0f,
+    val skillPoints: Int = 0,
     val isActive: Boolean = true,
     val specialAbility: String = "",
     @Contextual val color: Color = Color.Cyan

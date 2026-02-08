@@ -1,5 +1,6 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.aura.screens
 
+import dev.aurakai.auraframefx.domains.aura.models.SupportMessage
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -65,20 +66,30 @@ fun LiveSupportChatScreen(
 ) {
     val persistedMessages by viewModel.messages.collectAsState()
     val incoming = viewModel.incoming
+    val isTyping by viewModel.isLoading.collectAsState()
     val chatMessages = remember { mutableStateListOf<SupportMessage>() }
     val currentMessage = remember { mutableStateOf("") }
-    val isTyping = remember { mutableStateOf(false) }
     val supportAgent = remember { mutableStateOf("Genesis") }
-    rememberCoroutineScope()
 
     // Observe persisted Room messages and map to UI bubbles
     LaunchedEffect(persistedMessages) {
         // Clear then repopulate to keep UI consistent
         chatMessages.clear()
-        persistedMessages.forEach { e ->
+        if (persistedMessages.isEmpty()) {
             chatMessages.add(
-                SupportMessage(e.content, e.sender, e.isUser, e.timestamp.toString())
+                SupportMessage(
+                    "Hello! I'm ${supportAgent.value}, your support assistant. How can I help you today?",
+                    supportAgent.value,
+                    false,
+                    "Now"
+                )
             )
+        } else {
+            persistedMessages.forEach { e ->
+                chatMessages.add(
+                    SupportMessage(e.content, e.sender, e.isUser, e.timestamp.toString())
+                )
+            }
         }
     }
 
@@ -86,20 +97,7 @@ fun LiveSupportChatScreen(
     LaunchedEffect(incoming) {
         incoming.collect { msg ->
             chatMessages.add(msg)
-            isTyping.value = false
         }
-    }
-
-    // Initialize with welcome message
-    LaunchedEffect(Unit) {
-        chatMessages.add(
-            SupportMessage(
-                "Hello! I'm ${supportAgent.value}, your support assistant. How can I help you today?",
-                supportAgent.value,
-                false,
-                "10:30 AM"
-            )
-        )
     }
 
     Column(
@@ -253,7 +251,7 @@ fun LiveSupportChatScreen(
                     }
 
                     // Typing indicator
-                    if (isTyping.value) {
+                    if (isTyping) {
                         item {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -337,7 +335,6 @@ fun LiveSupportChatScreen(
                                 currentMessage.value = ""
 
                                 // Use ViewModel to send message (persists + posts to backend)
-                                isTyping.value = true
                                 viewModel.sendMessage(toSend)
                              }
                          },
@@ -469,9 +466,4 @@ private fun SupportMessageBubble(message: SupportMessage) {
 /**
  * Data class for support messages
  */
-data class SupportMessage(
-    val content: String,
-    val sender: String,
-    val isUser: Boolean,
-    val timestamp: String
-)
+// SupportMessage moved to dev.aurakai.auraframefx.domains.aura.models.SupportMessage

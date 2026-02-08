@@ -64,6 +64,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Path
+import dev.aurakai.auraframefx.kai.ui.KaiShieldMap
+import dev.aurakai.auraframefx.kai.ui.KaiShieldLayout
 import kotlinx.coroutines.delay
 import kotlin.math.abs
 
@@ -269,12 +272,13 @@ fun FusionModeScreen(
                         enter = slideInHorizontally(initialOffsetX = { it }),
                         exit = slideOutHorizontally(targetOffsetX = { it })
                     ) {
-                        KaiVisualization(
-                            power = kaiPower,
+                        Box(
                             modifier = Modifier
                                 .offset(x = 50.dp * (1f - fusionProgress))
-                                .scale(1f - fusionProgress * 0.3f)
-                        )
+                                .scale(0.8f - fusionProgress * 0.2f)
+                        ) {
+                            KaiShieldMap()
+                        }
                     }
                 }
 
@@ -472,59 +476,89 @@ fun AuraVisualization(
     power: Float,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.size(100.dp)) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            // Draw Aura's sword
-            drawLine(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color.Cyan.copy(alpha = power),
-                        Color.White
-                    )
-                ),
-                start = Offset(size.width * 0.5f, size.height * 0.2f),
-                end = Offset(size.width * 0.5f, size.height * 0.8f),
-                strokeWidth = 8f * power
-            )
+    val infiniteTransition = rememberInfiniteTransition(label = "SwordGlow")
+    val glowIntensity by infiniteTransition.animateFloat(
+        initialValue = 0.5f,
+        targetValue = 1.0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "Glow"
+    )
 
-            // Crossguard
-            drawLine(
-                color = Color.Cyan,
-                start = Offset(size.width * 0.3f, size.height * 0.35f),
-                end = Offset(size.width * 0.7f, size.height * 0.35f),
-                strokeWidth = 4f
-            )
-        }
-    }
-}
-
-@Composable
-fun KaiVisualization(
-    power: Float,
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier.size(100.dp)) {
+    Box(modifier = modifier.size(150.dp)) {
         Canvas(modifier = Modifier.fillMaxSize()) {
-            // Draw Kai's shield
+            val centerX = size.width / 2
+            val centerY = size.height / 2
+            
+            // Level 10: Chromatic Aberration Aura (The Sword's Edge)
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = listOf(
-                        Color.Magenta.copy(alpha = power),
-                        Color.Transparent
-                    )
-                ),
-                radius = size.minDimension * 0.4f * power
+                    colors = listOf(Color.Cyan.copy(alpha = 0.2f * power * glowIntensity), Color.Transparent),
+                    center = Offset(centerX, centerY),
+                    radius = size.minDimension * 0.6f
+                )
             )
 
-            // Shield pattern
-            drawCircle(
-                color = Color.Magenta,
-                radius = size.minDimension * 0.3f,
-                style = Stroke(width = 3f)
+            // The Blade (Sharpened Path)
+            val bladePath = Path().apply {
+                moveTo(centerX, size.height * 0.1f) // Tip
+                lineTo(centerX - 10f, size.height * 0.3f) // Shoulder left
+                lineTo(centerX - 8f, size.height * 0.8f) // Base left
+                lineTo(centerX + 8f, size.height * 0.8f) // Base right
+                lineTo(centerX + 10f, size.height * 0.3f) // Shoulder right
+                close()
+            }
+
+            // Draw Blade Fill
+            drawPath(
+                path = bladePath,
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.White, Color.Cyan.copy(alpha = 0.8f))
+                )
             )
+
+            // Draw Blade Glow (Inner Highlight)
+            drawPath(
+                path = bladePath,
+                color = Color.Cyan.copy(alpha = 0.5f * glowIntensity),
+                style = Stroke(width = 4f)
+            )
+
+            // Node Chain Illumination (The Vein of the Sword)
+            for (i in 0..5) {
+                val yPos = size.height * (0.2f + i * 0.1f)
+                drawCircle(
+                    color = Color.White,
+                    radius = 3f,
+                    center = Offset(centerX, yPos)
+                )
+                // Connect nodes with light threads
+                if (i < 5) {
+                    drawLine(
+                        color = Color.White.copy(alpha = 0.6f * power),
+                        start = Offset(centerX, yPos),
+                        end = Offset(centerX, size.height * (0.3f + i * 0.1f)),
+                        strokeWidth = 1f
+                    )
+                }
+            }
+
+            // Crossguard (Level 10 Refined)
+            val guardPath = Path().apply {
+                moveTo(centerX - 35f, size.height * 0.8f)
+                lineTo(centerX + 35f, size.height * 0.8f)
+                lineTo(centerX + 30f, size.height * 0.82f)
+                lineTo(centerX - 30f, size.height * 0.82f)
+                close()
+            }
+            drawPath(guardPath, Color.Cyan)
         }
     }
 }
+
+
 
 @Composable
 fun GenesisVisualization(

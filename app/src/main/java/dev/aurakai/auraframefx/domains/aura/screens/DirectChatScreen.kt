@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -318,7 +318,7 @@ fun DirectChatScreen(
  * Message bubble component
  */
 @Composable
-private fun MessageBubble(message: AgentViewModel.ChatMessage) {
+private fun MessageBubble(message: dev.aurakai.auraframefx.models.ChatMessage) {
     val isUser = message.isFromUser
 
     Row(

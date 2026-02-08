@@ -3,12 +3,13 @@ package dev.aurakai.auraframefx.ai.memory
 import dev.aurakai.auraframefx.cascade.memory.MemoryItem
 import dev.aurakai.auraframefx.cascade.memory.MemoryQuery
 import dev.aurakai.auraframefx.cascade.memory.MemoryRetrievalResult
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryStats
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.memory.MemoryStats
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Clock
 
 /**
  * Configuration classes for memory management
@@ -111,7 +112,7 @@ open class MemoryManager @Inject constructor(
         val item = MemoryItem(
             id = key,
             content = value,
-            timestamp = kotlinx.datetime.Clock.System.now(),
+            timestamp = Clock.System.now(),
             agent = dev.aurakai.auraframefx.models.AgentCapabilityCategory.GENERAL,
             context = null,
             priority = 0.5f,
@@ -128,7 +129,7 @@ open class MemoryManager @Inject constructor(
         val item = MemoryItem(
             id = "interaction_${System.currentTimeMillis()}",
             content = "Prompt: $prompt\nResponse: $response",
-            timestamp = kotlinx.datetime.Clock.System.now(),
+            timestamp = Clock.System.now(),
             agent = dev.aurakai.auraframefx.models.AgentCapabilityCategory.GENERAL,
             context = prompt,
             priority = 0.7f,

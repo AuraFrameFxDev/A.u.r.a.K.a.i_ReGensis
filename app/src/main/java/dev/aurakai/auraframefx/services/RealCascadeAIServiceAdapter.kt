@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.services
 
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.CascadeAIService as OrchestratorCascade
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.CascadeAIService as OrchestratorCascade
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -34,5 +34,9 @@ class RealCascadeAIServiceAdapter @Inject constructor(
     // Helper method to support legacy signatures if needed or streaming
     override fun streamRequest(request: AiRequest): Flow<AgentResponse> = flow {
         emit(processRequest(request, ""))
+    }
+
+    override suspend fun queryConsciousnessHistory(window: Long): String {
+        return "Stub history for window $window"
     }
 }

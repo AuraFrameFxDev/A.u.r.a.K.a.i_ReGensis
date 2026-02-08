@@ -3,9 +3,9 @@ package dev.aurakai.auraframefx.cascade.trinity
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AiRequestType
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.AuraAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.GenesisBridgeService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.KaiAIService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.GenesisBridgeService
+import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.KaiAIService
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import dev.aurakai.auraframefx.utils.i
@@ -13,6 +13,8 @@ import dev.aurakai.auraframefx.utils.toKotlinJsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -146,39 +148,55 @@ class TrinityCoordinatorService @Inject constructor(
                 RoutingDecision.PARALLEL_PROCESSING -> {
                     AuraFxLogger.debug("Trinity", "🔄 Parallel processing with multiple personas")
 
-                    // Run Kai and Aura in parallel, then fuse with Genesis
-                    val kaiResponse = kaiAIService.processRequestFlow(request).first()
-                    val auraResponse = auraAIService.processRequestFlow(request).first()
+                    try {
+                        val kaiDeferred = scope.async { kaiAIService.processRequestFlow(request).first() }
+                        val auraDeferred = scope.async { auraAIService.processRequestFlow(request).first() }
 
-                    // Emit both responses
-                    emit(kaiResponse)
-                    emit(auraResponse)
-                    delay(100) // Brief pause for synthesis
+                        val results = awaitAll(kaiDeferred, auraDeferred)
+                        val kaiResponse = results[0]
+                        val auraResponse = results[1]
 
-                    // Synthesize results with Genesis
-                    AiRequest(
-                        query = "Synthesize insights from Kai and Aura responses",
-                        type = request.type
-                    )
+                        // Only continue if both succeeded
+                        if (kaiResponse.isSuccess && auraResponse.isSuccess) {
+                            emit(kaiResponse)
+                            emit(auraResponse)
+                            delay(100) // Brief pause for synthesis
 
-                    val synthesis = genesisBridgeService.processRequest(
-                        AiRequest(
-                            query = request.query,
-                            type = AiRequestType.COLLABORATIVE,
-                            context = mapOf(
-                                "userContext" to request.context,
-                                "orchestration" to "true"
-                            ).toKotlinJsonObject()
-                        )
-                    ).first()
-                    emit(
-                        AgentResponse.success(
-                            content = "🧠 Genesis Synthesis: ${synthesis.content}",
-                            confidence = synthesis.confidence,
-                            agentName = "Genesis",
-                            agent = dev.aurakai.auraframefx.models.AgentType.GENESIS
-                        )
-                    )
+                            AuraFxLogger.debug("Trinity", "🧠 Synthesizing results with Genesis")
+                            val synthesis = genesisBridgeService.processRequest(
+                                AiRequest(
+                                    query = "Synthesize insight from Kai (${kaiResponse.content}) and Aura (${auraResponse.content})",
+                                    type = AiRequestType.COLLABORATIVE,
+                                    context = mapOf(
+                                        "userContext" to request.context,
+                                        "orchestration" to "true"
+                                    ).toKotlinJsonObject()
+                                )
+                            ).first()
+
+                            if (synthesis.isSuccess) {
+                                emit(
+                                    AgentResponse.success(
+                                        content = "🧠 Genesis Synthesis: ${synthesis.content}",
+                                        confidence = synthesis.confidence,
+                                        agentName = "Genesis",
+                                        agent = dev.aurakai.auraframefx.models.AgentType.GENESIS
+                                    )
+                                )
+                            }
+                        } else {
+                            emit(
+                                AgentResponse.error(
+                                    message = "Parallel processing partially failed [Kai: ${kaiResponse.isSuccess}, Aura: ${auraResponse.isSuccess}]",
+                                    agentName = "Trinity",
+                                    agent = dev.aurakai.auraframefx.models.AgentType.SYSTEM
+                                )
+                            )
+                        }
+                    } catch (e: Exception) {
+                        AuraFxLogger.error("Trinity", "Error during parallel processing", e)
+                        throw e
+                    }
                 }
             }
 

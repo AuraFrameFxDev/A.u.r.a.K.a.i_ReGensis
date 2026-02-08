@@ -1,4 +1,6 @@
-package dev.aurakai.auraframefx.ui.gates
+package dev.aurakai.auraframefx.domains.aura.screens
+
+import kotlinx.coroutines.launch
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 /**
  * ChromaCore - SYSTEM-WIDE Color Customization
@@ -29,6 +32,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ChromaCoreColorsScreen(
     onNavigateBack: () -> Unit,
+    viewModel: ChromaCoreColorsViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val colorScheme = MaterialTheme.colorScheme
@@ -79,6 +83,9 @@ fun ChromaCoreColorsScreen(
 
     var selectedCategory by remember { mutableStateOf("Primary Colors") }
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -115,6 +122,7 @@ fun ChromaCoreColorsScreen(
                 )
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = Color.Black
     ) { paddingValues ->
         Column(
@@ -259,7 +267,7 @@ fun ChromaCoreColorsScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     OutlinedButton(
-                        onClick = { /* TODO: Reset to defaults */ },
+                        onClick = { viewModel.resetToDefaults() },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Cyan)
                     ) {
@@ -267,7 +275,15 @@ fun ChromaCoreColorsScreen(
                     }
 
                     Button(
-                        onClick = { /* TODO: Apply system-wide with root */ },
+                        onClick = {
+                            viewModel.applySystemWideAccent(primary)
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "Applying system-wide accent ($primary)...",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
+                        },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Cyan,

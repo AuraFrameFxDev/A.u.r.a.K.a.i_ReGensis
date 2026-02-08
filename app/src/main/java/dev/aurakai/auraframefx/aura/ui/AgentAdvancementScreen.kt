@@ -29,6 +29,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,19 +45,12 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.models.AgentStats
+import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-
-data class AgentStats(
-    val processingPower: Float = 0.7f,  // PP
-    val knowledgeBase: Float = 0.85f,   // KB
-    val speed: Float = 0.6f,            // SP
-    val accuracy: Float = 0.9f,         // AC
-    val level: Int = 1,
-    val experience: Float = 0.45f,
-    val skillPoints: Int = 3
-)
 
 data class SkillNode(
     val id: String,
@@ -75,10 +69,13 @@ enum class NodeType {
 @Composable
 fun AgentAdvancementScreen(
     agentName: String = "Genesis",
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    viewModel: AgentViewModel = hiltViewModel()
 ) {
-    var selectedAgent by remember { mutableStateOf(agentName) }
-    var agentStats by remember { mutableStateOf(AgentStats()) }
+    var selectedAgentName by remember { mutableStateOf(agentName) }
+    val allAgents by viewModel.allAgents.collectAsState()
+    
+    val agentStats = allAgents.find { it.name == selectedAgentName } ?: AgentStats(name = selectedAgentName)
     var selectedNode by remember { mutableStateOf<SkillNode?>(null) }
 
     // Animated background
@@ -97,8 +94,8 @@ fun AgentAdvancementScreen(
         ) {
             // Header with Agent Selection
             AgentHeader(
-                selectedAgent = selectedAgent,
-                onAgentSelected = { selectedAgent = it }
+                selectedAgent = selectedAgentName,
+                onAgentSelected = { selectedAgentName = it }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -218,11 +215,11 @@ fun AgentHeader(
     onAgentSelected: (String) -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        listOf("Aura", "Kai", "Genesis").forEach { agent ->
+        listOf("Aura", "Kai", "Genesis", "Cascade", "Claude").forEach { agent ->
             ElevatedFilterChip(
                 selected = selectedAgent == agent,
                 onClick = { onAgentSelected(agent) },
@@ -282,7 +279,7 @@ fun StatsPanel(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text("Level", color = Color.White.copy(alpha = 0.7f))
-                Text("${stats.level}", color = Color.Cyan, fontWeight = FontWeight.Bold)
+                Text("${stats.evolutionLevel}", color = Color.Cyan, fontWeight = FontWeight.Bold)
             }
 
             Row(

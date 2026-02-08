@@ -38,7 +38,6 @@ fun ThemeEditor(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
     ) {
         // UI Preview Section
         UIComponentsPreview(

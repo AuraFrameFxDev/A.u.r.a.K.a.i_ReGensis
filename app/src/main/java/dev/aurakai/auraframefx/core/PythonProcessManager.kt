@@ -155,9 +155,11 @@ class PythonProcessManager @Inject constructor(
             )
 
             // Setup I/O streams
-            writer = OutputStreamWriter(process!!.outputStream)
-            reader = BufferedReader(InputStreamReader(process!!.inputStream))
-            errorReader = BufferedReader(InputStreamReader(process!!.errorStream))
+            process?.let { p ->
+                writer = OutputStreamWriter(p.outputStream)
+                reader = BufferedReader(InputStreamReader(p.inputStream))
+                errorReader = BufferedReader(InputStreamReader(p.errorStream))
+            } ?: throw IllegalStateException("Process failed to initialize")
 
             isRunning.set(true)
             startTime = System.currentTimeMillis()

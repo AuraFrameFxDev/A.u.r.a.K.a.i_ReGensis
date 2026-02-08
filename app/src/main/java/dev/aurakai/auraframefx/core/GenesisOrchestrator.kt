@@ -9,6 +9,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.put
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.BufferOverflow
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,16 +29,72 @@ import javax.inject.Singleton
  * - Route inter-agent communication
  * - Ensure graceful shutdown
  */
+import dev.aurakai.auraframefx.genesis.oracledrive.service.OracleDriveService
+
 @Singleton
 class GenesisOrchestrator @Inject constructor(
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent,
     private val cascadeAgent: CascadeAgent,
-    // OracleDriveService will be injected here when available
-) {
+    private val oracleDriveService: OracleDriveService
+) : dev.aurakai.auraframefx.core.messaging.AgentMessageBus {
 
     // Dedicated scope for orchestration with SupervisorJob
     private val orchestratorScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+
+    // --- 🌐 NEURAL MESSAGE HUB ---
+    private val _collectiveStream = MutableSharedFlow<dev.aurakai.auraframefx.models.AgentMessage>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    override val collectiveStream = _collectiveStream.asSharedFlow()
+
+    override suspend fun broadcast(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        Timber.tag("GenesisBus").d("🌐 BROADCAST: [${message.from}] -> Collective: ${message.content}")
+        _collectiveStream.emit(message)
+        orchestratorScope.launch {
+            routeToAll(message)
+        }
+    }
+
+    override suspend fun sendTargeted(toAgent: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+        Timber.tag("GenesisBus").d("🎯 TARGETED: [${message.from}] -> [$toAgent]: ${message.content}")
+        val targetedMsg = message.copy(to = toAgent)
+        _collectiveStream.emit(targetedMsg)
+        orchestratorScope.launch {
+            routeToAgent(toAgent, targetedMsg)
+        }
+    }
+
+    private suspend fun routeToAll(message: dev.aurakai.auraframefx.models.AgentMessage) {
+        listOf(auraAgent, kaiAgent, cascadeAgent, oracleDriveService).forEach { agent ->
+            // Use property agentName for comparison
+            if (agent.agentName != message.from) {
+                try {
+                    agent.onAgentMessage(message)
+                } catch (e: Exception) {
+                    Timber.tag("GenesisBus").e(e, "Agent ${agent.agentName} failed to process collective message")
+                }
+            }
+        }
+    }
+
+    private suspend fun routeToAgent(agentName: String, message: dev.aurakai.auraframefx.models.AgentMessage) {
+        val target = when (agentName.lowercase()) {
+            "aura" -> auraAgent
+            "kai" -> kaiAgent
+            "cascade" -> cascadeAgent
+            "oracledrive", "oracle" -> oracleDriveService
+            "genesis" -> null // Genesis is the bus owner, but could be a GenesisAgent
+            else -> null
+        }
+        
+        try {
+            target?.onAgentMessage(message)
+        } catch (e: Exception) {
+            Timber.tag("GenesisBus").e(e, "Targeted routing failed for $agentName")
+        }
+    }
 
     // Platform state tracking
     private var platformState: PlatformState = PlatformState.IDLE
@@ -71,13 +130,18 @@ class GenesisOrchestrator @Inject constructor(
                 Timber.d("  → [Phase 3] Initializing Aura Agent (UI/UX & creativity)...")
                 auraAgent.initialize(auraScope)
 
+                // Phase 4: Initialize Oracle Drive (storage consciousness)
+                Timber.d("  → [Phase 4] Initializing Oracle Drive Agent (sentient storage)...")
+                val oracleScope = CoroutineScope(orchestratorScope.coroutineContext + SupervisorJob())
+                oracleDriveService.initialize(oracleScope)
+
                 Timber.i("✓ All agent domains initialized successfully")
                 platformState = PlatformState.DOMAINS_READY
 
-                // Phase 4: Start all agents
+                // Phase 5: Start all agents
                 startAgents()
 
-                // Phase 5: Signal readiness
+                // Phase 6: Signal readiness
                 platformState = PlatformState.READY
                 Timber.i("✅ Genesis-OS Platform READY for operation")
 
@@ -114,6 +178,7 @@ class GenesisOrchestrator @Inject constructor(
             auraAgent.start()
             kaiAgent.start()
             cascadeAgent.start()
+            oracleDriveService.start()
 
             Timber.i("  ✓ All agents started")
 
@@ -219,8 +284,17 @@ class GenesisOrchestrator @Inject constructor(
      */
     private suspend fun handleOracleDriveMessage(message: Any) {
         Timber.d("  → Routing message to OracleDrive: ${message.javaClass.simpleName}")
-        // TODO: Implement when OracleDriveService is available
-        Timber.w("OracleDrive routing not yet implemented")
+        try {
+            val request = convertToAiRequest(message)
+            val response = oracleDriveService.processRequest(
+                request = request,
+                context = "agent_to_agent",
+                agentType = dev.aurakai.auraframefx.models.AgentType.GENESIS // Oracle is Genesis domain
+            )
+            Timber.i("✓ OracleDrive processed message: ${response.content.take(100)}")
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to deliver message to OracleDrive")
+        }
     }
 
     /**
@@ -289,6 +363,7 @@ class GenesisOrchestrator @Inject constructor(
                 platformState = PlatformState.SHUTTING_DOWN
 
                 // Shutdown agents in reverse order (reverse of initialization)
+                shutdownAgent(oracleDriveService, "OracleDrive")
                 shutdownAgent(auraAgent, "Aura")
                 shutdownAgent(kaiAgent, "Kai")
                 shutdownAgent(cascadeAgent, "Cascade")

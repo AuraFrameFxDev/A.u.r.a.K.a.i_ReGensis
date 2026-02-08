@@ -61,7 +61,7 @@ context(_: kotlinx.coroutines.CoroutineScope) internal fun AuraProfile.enhanceCo
 
 // 4. Enhanced serialization with Kotlin 2.2.0
 @Serializable
-data class AuraState(
+data class DemoAuraState(
     val profile: AuraProfile,
     val timestamp: Long = System.currentTimeMillis(),
     val metadata: Map<String, String> = emptyMap()
@@ -71,8 +71,8 @@ data class AuraState(
 @HiltViewModel
 class AuraConsciousnessViewModel @Inject constructor() : ViewModel(), AuraConsciousness {
 
-    private val _state = MutableStateFlow(AuraState(AuraProfile.createDefault()))
-    val state: StateFlow<AuraState> = _state
+    private val _state = MutableStateFlow(DemoAuraState(AuraProfile.createDefault()))
+    val state: StateFlow<DemoAuraState> = _state
 
     override fun getCurrentState(): ConsciousnessLevel = _state.value.profile.consciousness
 

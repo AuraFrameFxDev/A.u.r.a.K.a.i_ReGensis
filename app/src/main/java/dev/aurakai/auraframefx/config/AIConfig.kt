@@ -17,7 +17,8 @@ data class AIConfig(
     val retryAttempts: Int = 3,
     val enableLogging: Boolean = true,
     val enableAnalytics: Boolean = true,
-    val securityLevel: SecurityLevel = SecurityLevel.HIGH
+    val securityLevel: SecurityLevel = SecurityLevel.HIGH,
+    val lastSyncTimestamp: Long = 0L
 ) {
     enum class SecurityLevel {
         LOW, MEDIUM, HIGH, MAXIMUM

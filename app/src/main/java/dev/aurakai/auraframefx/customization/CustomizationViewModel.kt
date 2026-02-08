@@ -32,8 +32,12 @@ open class CustomizationViewModel @Inject constructor() : ViewModel() {
         val animationsEnabled: Boolean = false,
         val animationSpeed: Int = 0,
         val showStatusBar: Boolean = true,
-        val showNotchBar: Boolean = false,
+        val showNotchBar: Boolean = true,
         val showOverlayMenus: Boolean = false,
+        val reGenesisMode: dev.aurakai.auraframefx.models.ReGenesisMode = dev.aurakai.auraframefx.models.ReGenesisMode.NOT_SET,
+        val monetConfig: dev.aurakai.auraframefx.models.customization.MonetConfiguration = dev.aurakai.auraframefx.models.customization.MonetConfiguration(),
+        val systemUIConfig: dev.aurakai.auraframefx.models.customization.SystemUIConfiguration = dev.aurakai.auraframefx.models.customization.SystemUIConfiguration(),
+        val launcherConfig: dev.aurakai.auraframefx.models.customization.LauncherConfiguration = dev.aurakai.auraframefx.models.customization.LauncherConfiguration(),
         val agentColors: Map<String, String> = emptyMap()
     )
 
@@ -62,12 +66,21 @@ open class CustomizationViewModel @Inject constructor() : ViewModel() {
             CustomizationPreferences.showOverlayMenusFlow(context)
         ) { status: Boolean, notch: Boolean, overlay: Boolean -> Triple(status, notch, overlay) }
 
+        val modeFlow = CustomizationPreferences.reGenesisModeFlow(context)
+        val monetFlow = CustomizationPreferences.monetConfigFlow(context)
+        val systemUIFlow = CustomizationPreferences.systemUIConfigFlow(context)
+        val launcherFlow = CustomizationPreferences.launcherConfigFlow(context)
+
         viewModelScope.launch {
-            combine(themeFlow, glassFlow, animFlow, uiFlow) { values: Array<Any?> ->
+            combine(themeFlow, glassFlow, animFlow, uiFlow, modeFlow, monetFlow, systemUIFlow, launcherFlow) { values: Array<Any?> ->
                 val theme = values[0] as Triple<String, String, Boolean>
                 val glass = values[1] as Triple<Boolean, Float, Float>
                 val anim = values[2] as Pair<Boolean, Int>
                 val ui = values[3] as Triple<Boolean, Boolean, Boolean>
+                val mode = values[4] as dev.aurakai.auraframefx.models.ReGenesisMode
+                val monet = values[5] as dev.aurakai.auraframefx.models.customization.MonetConfiguration
+                val sysui = values[6] as dev.aurakai.auraframefx.models.customization.SystemUIConfiguration
+                val launcher = values[7] as dev.aurakai.auraframefx.models.customization.LauncherConfiguration
                 _state.value = _state.value.copy(
                     themeName = theme.first,
                     themeAccent = theme.second,
@@ -79,7 +92,11 @@ open class CustomizationViewModel @Inject constructor() : ViewModel() {
                     animationSpeed = anim.second,
                     showStatusBar = ui.first,
                     showNotchBar = ui.second,
-                    showOverlayMenus = ui.third
+                    showOverlayMenus = ui.third,
+                    reGenesisMode = mode,
+                    monetConfig = monet,
+                    systemUIConfig = sysui,
+                    launcherConfig = launcher
                 )
             }.collect { /* emission already handled in combine lambda */ }
         }
@@ -99,6 +116,22 @@ open class CustomizationViewModel @Inject constructor() : ViewModel() {
 
     fun setUiElements(context: Context, showStatusBar: Boolean, showNotchBar: Boolean, showOverlayMenus: Boolean) {
         viewModelScope.launch { CustomizationPreferences.setUiElements(context, showStatusBar, showNotchBar, showOverlayMenus) }
+    }
+
+    fun setReGenesisMode(context: Context, mode: dev.aurakai.auraframefx.models.ReGenesisMode) {
+        viewModelScope.launch { CustomizationPreferences.setReGenesisMode(context, mode) }
+    }
+
+    fun updateMonetConfig(context: Context, config: dev.aurakai.auraframefx.models.customization.MonetConfiguration) {
+        viewModelScope.launch { CustomizationPreferences.updateMonetConfig(context, config) }
+    }
+
+    fun updateSystemUIConfig(context: Context, config: dev.aurakai.auraframefx.models.customization.SystemUIConfiguration) {
+        viewModelScope.launch { CustomizationPreferences.updateSystemUIConfig(context, config) }
+    }
+
+    fun updateLauncherConfig(context: Context, config: dev.aurakai.auraframefx.models.customization.LauncherConfiguration) {
+        viewModelScope.launch { CustomizationPreferences.updateLauncherConfig(context, config) }
     }
 
     fun setAgentColor(context: Context, agentName: String, hexColor: String) {

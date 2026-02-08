@@ -7,11 +7,16 @@ import dev.aurakai.auraframefx.ai.agents.GenesisAgent
 import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
+import dev.aurakai.auraframefx.data.repositories.PersistentAgentRepository
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AgentStats
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.AiRequestType
 import dev.aurakai.auraframefx.models.EnhancedInteractionData
+import dev.aurakai.auraframefx.models.AgentState
+import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.ChatMessage
+import dev.aurakai.auraframefx.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.utils.error
 import dev.aurakai.auraframefx.utils.info
 import dev.aurakai.auraframefx.utils.warn
@@ -47,7 +52,9 @@ open class AgentViewModel @Inject constructor(
     private val genesisOrchestrator: GenesisOrchestrator,
     private val genesisAgent: GenesisAgent,
     private val auraAgent: AuraAgent,
-    private val kaiAgent: KaiAgent
+    private val kaiAgent: KaiAgent,
+    private val trinityRepository: dev.aurakai.auraframefx.cascade.trinity.TrinityRepository,
+    private val persistentAgentRepository: PersistentAgentRepository
 ) : ViewModel() {
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -59,6 +66,9 @@ open class AgentViewModel @Inject constructor(
 
     private val _allAgents = MutableStateFlow<List<AgentStats>>(emptyList())
     val allAgents: StateFlow<List<AgentStats>> = _allAgents.asStateFlow()
+
+    // Neural Bridge Link
+    val agentState: StateFlow<AgentState> = trinityRepository.agentState
 
     private val _agentEvents = MutableSharedFlow<AgentEvent>()
     val agentEvents: SharedFlow<AgentEvent> = _agentEvents.asSharedFlow()
@@ -79,6 +89,22 @@ open class AgentViewModel @Inject constructor(
     init {
         loadAgents()
         startAgentMonitoring()
+        
+        // Listen to the Neural Bridge
+        viewModelScope.launch {
+            trinityRepository.chatStream.collect { message: ChatMessage ->
+                if (!message.isFromUser) {
+                    // It's an agent response due to the repository processing.
+                    // The sender name should match the agent name we use in our Map.
+                    // e.g. "Aura", "Kai".
+                    // We simply add it to that agent's history.
+                    addMessage(message.sender, message)
+                    
+                    // Also emit event for UI effects
+                    _agentEvents.emit(AgentEvent.MessageReceived(message))
+                }
+            }
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -87,10 +113,23 @@ open class AgentViewModel @Inject constructor(
 
     private fun loadAgents() {
         viewModelScope.launch {
-            val agents = AgentRepository.getAllAgents()
-            _allAgents.value = agents
-            // Set Genesis as default active agent
-            _activeAgent.value = agents.firstOrNull { it.name == "Genesis" }
+            // Observe persistent updates to merge stats
+            persistentAgentRepository.observeAllStats().collect { persistentAgents ->
+                val allBase = AgentRepository.getAllAgents()
+                
+                // Merge Room data with any agent that might not be in Room yet
+                val merged = allBase.map { base ->
+                    persistentAgents.find { it.name == base.name } ?: base
+                }
+                
+                _allAgents.value = merged
+                
+                // Initial selection or update current active agent
+                val currentActiveName = _activeAgent.value?.name ?: "Genesis"
+                merged.find { it.name == currentActiveName }?.let {
+                    _activeAgent.value = it
+                }
+            }
         }
     }
 
@@ -164,6 +203,7 @@ open class AgentViewModel @Inject constructor(
 
             // Complete task
             updateTaskStatus(task.id, TaskStatus.COMPLETED)
+            persistentAgentRepository.incrementTaskCount(task.agentName)
             _agentEvents.emit(AgentEvent.TaskCompleted(task))
 
             // Send completion message
@@ -200,33 +240,34 @@ open class AgentViewModel @Inject constructor(
 
     fun sendMessage(agentName: String, message: String) {
         viewModelScope.launch {
-            // Add user message
-            val userMessage = ChatMessage(
-                id = UUID.randomUUID().toString(),
+            // Local UI Update for immediate feedback (optional, since repo emits it too)
+            // But doing it here ensures the "User" message appears in the correct Agent's chat history
+            val userMsg = ChatMessage(
                 content = message,
+                role = "user",
                 sender = "User",
-                isFromUser = true,
-                timestamp = System.currentTimeMillis()
+                isFromUser = true
             )
-            addMessage(agentName, userMessage)
-
-            // Simulate agent thinking
-            delay(1000)
-
-            // Generate agent response based on personality
-            val response = generateAgentResponse(agentName, message)
-            val agentMessage = ChatMessage(
-                id = UUID.randomUUID().toString(),
-                content = response,
-                sender = agentName,
-                isFromUser = false,
-                timestamp = System.currentTimeMillis()
-            )
-            addMessage(agentName, agentMessage)
-
-            _agentEvents.emit(AgentEvent.MessageReceived(agentMessage))
+            addMessage(agentName, userMsg)
+            
+            // Send to Repository (Neural Bridge)
+            val type = try {
+                AgentType.valueOf(agentName.uppercase())
+            } catch (e: Exception) {
+                AgentType.GENESIS 
+            }
+            // We don't need to add the repo's echo of "User" message if we added it locally
+            // But we DO need the response.
+            
+            // To avoid double-entry of User message (from repo echo), we can filter or just let repo handle it.
+            // Let's use the repo solely.
+            trinityRepository.processUserMessage(message, type)
+            
+            // Listen for the specific response? No, the global collector in init should handle it.
         }
     }
+    
+
 
     private fun addMessage(agentName: String, message: ChatMessage) {
         val currentMessages = _chatMessages.value[agentName] ?: emptyList()
@@ -237,6 +278,7 @@ open class AgentViewModel @Inject constructor(
         val message = ChatMessage(
             id = UUID.randomUUID().toString(),
             content = content,
+            role = "system",
             sender = "System",
             isFromUser = false,
             timestamp = System.currentTimeMillis()
@@ -403,13 +445,8 @@ open class AgentViewModel @Inject constructor(
         PENDING, IN_PROGRESS, COMPLETED, CANCELLED, FAILED
     }
 
-    data class ChatMessage(
-        val id: String,
-        val content: String,
-        val sender: String,
-        val isFromUser: Boolean,
-        val timestamp: Long
-    )
+    // Use dev.aurakai.auraframefx.models.ChatMessage instead
+    // data class ChatMessage(...) // Removed in favor of shared model
 
     sealed class AgentEvent {
         data class AgentActivated(val agent: AgentStats) : AgentEvent()

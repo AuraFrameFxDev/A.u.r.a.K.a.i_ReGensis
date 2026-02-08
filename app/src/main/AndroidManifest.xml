@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <!-- Optional Permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -73,6 +74,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.dev.aurakai.auraframefx">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -116,7 +118,8 @@
             android:exported="false" />
         <service
             android:name=".services.security.IntegrityMonitorService"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
         <service
             android:name=".services.BackupService"
             android:exported="false"
@@ -140,9 +143,14 @@
 
         <!-- Aura Omnipresent Overlay Service -->
         <service
-            android:name=".services.AuraOverlayService"
+            android:name=".service.AssistantBubbleService"
             android:exported="false"
-            android:foregroundServiceType="mediaProjection" />
+            android:foregroundServiceType="specialUse"
+            tools:ignore="ForegroundServiceType">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="assistant_bubble_overlay" />
+        </service>
 
         <!-- Receivers -->
         <receiver
