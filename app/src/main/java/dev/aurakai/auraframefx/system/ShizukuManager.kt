@@ -1,4 +1,3 @@
-
 package dev.aurakai.auraframefx.system
 
 import android.content.Context
@@ -13,8 +12,9 @@ object ShizukuManager {
     const val SHIZUKU_PERMISSION_REQUEST_CODE = 1001
 
     /**
-     * Checks if Shizuku is available by pinging its binder.
-     * @return True if Shizuku is running and responsive, false otherwise.
+     * Determine whether the Shizuku service is reachable.
+     *
+     * @return `true` if the Shizuku service is reachable and responsive, `false` otherwise.
      */
     fun isShizukuAvailable(): Boolean {
         return try {
@@ -28,8 +28,10 @@ object ShizukuManager {
     }
 
     /**
-     * Requests Shizuku permission from the user.
-     * The result is delivered via the callback.
+     * Request Shizuku permission from the user and deliver the result via the provided callback.
+     *
+     * @param context Context used to initiate the permission request.
+     * @param callback Invoked with `true` if permission is granted, `false` otherwise.
      */
     fun requestShizukuPermission(context: Context, callback: (granted: Boolean) -> Unit) {
         if (Shizuku.checkSelfPermission() == ShizukuProvider.PERMISSION_GRANTED) {
@@ -103,7 +105,14 @@ object ShizukuManager {
     }
 
     // You might want to call initialize() or similar methods from your application's onCreate
-    // to set up Shizuku. Example:
+    /**
+     * Initializes Shizuku integration: verifies availability, requests permission if necessary,
+     * and attaches a binder death listener to the Shizuku service when permission is granted.
+     *
+     * If Shizuku is not available, the function logs an error and returns without requesting permission.
+     *
+     * @param context Context used to request Shizuku permission.
+     */
     fun initializeShizukuIntegration(context: Context) {
         if (isShizukuAvailable()) {
             requestShizukuPermission(context) { granted ->
