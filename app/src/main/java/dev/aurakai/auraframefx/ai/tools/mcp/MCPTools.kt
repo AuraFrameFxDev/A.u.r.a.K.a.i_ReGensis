@@ -1,7 +1,10 @@
 package dev.aurakai.auraframefx.ai.tools.mcp
 
-import dev.aurakai.auraframefx.ai.tools.*
-import kotlinx.coroutines.runBlocking
+import dev.aurakai.auraframefx.domains.genesis.core.AgentTool
+import dev.aurakai.auraframefx.domains.genesis.core.PropertySchema
+import dev.aurakai.auraframefx.domains.genesis.core.ToolCategory
+import dev.aurakai.auraframefx.domains.genesis.core.ToolInputSchema
+import dev.aurakai.auraframefx.domains.genesis.core.ToolResult
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import timber.log.Timber
@@ -9,7 +12,7 @@ import timber.log.Timber
 /**
  * MCP-Backed Agent Tools
  *
- * These tools call the actual AuraFrameFX API endpoints defined in /app/api/ai.yml
+ * These tools call the actual AuraFrameFX API endpoints defined in /app/api/AI.yml
  * They bridge agent prompts to real backend services.
  */
 

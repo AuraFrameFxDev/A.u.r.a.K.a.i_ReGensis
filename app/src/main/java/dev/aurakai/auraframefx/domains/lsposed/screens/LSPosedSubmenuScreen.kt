@@ -52,9 +52,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.utils.LSPosedDetector
-import dev.aurakai.auraframefx.ui.gates.SubmenuItem
-import dev.aurakai.auraframefx.ui.gates.SubmenuCard
+import dev.aurakai.auraframefx.domains.cascade.utils.LSPosedDetector
+import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
+import dev.aurakai.auraframefx.navigation.gates.components.SubmenuCard
 import kotlinx.coroutines.launch
 
 /**
@@ -664,3 +664,4 @@ private fun InfoStep(number: String, text: String) {
         )
     }
 }
+

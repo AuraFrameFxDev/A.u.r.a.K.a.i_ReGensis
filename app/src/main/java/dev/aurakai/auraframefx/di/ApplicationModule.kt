@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.aurakaiapplication.AurakaiApplication
+import dev.aurakai.auraframefx.app.AurakaiApplication
 import javax.inject.Singleton
 
 @Module
@@ -19,3 +19,4 @@ object ApplicationModule {
         return app as AurakaiApplication
     }
 }
+

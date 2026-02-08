@@ -43,7 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.ui.components.common.CodedTextBox
+import dev.aurakai.auraframefx.domains.aura.ui.components.common.CodedTextBox
 import kotlinx.coroutines.delay
 
 /**
@@ -557,3 +557,4 @@ enum class EvolutionPhase(val displayName: String, val color: Color) {
     CURRENT("Current Forms", Color.Cyan),
     GENESIS("Genesis Unity", Color(0xFFFFD700))
 }
+

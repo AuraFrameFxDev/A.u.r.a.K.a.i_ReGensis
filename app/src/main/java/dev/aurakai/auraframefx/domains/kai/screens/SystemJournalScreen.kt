@@ -18,7 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.screens.GenderIdentity
-import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 
 /**
  * 🎮 System Journal - User Profile & Menu
@@ -40,7 +39,8 @@ import dev.aurakai.auraframefx.navigation.NavDestination
 @Composable
 fun SystemJournalScreen(
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateBack: () -> Boolean
 ) {
     var selectedGender by remember { mutableStateOf<GenderIdentity?>(GenderIdentity.KAI) }
 
@@ -189,7 +189,7 @@ fun SystemJournalScreen(
                             when (option.route) {
                                 "gender_selection" -> {
                                     // Navigate to full gender selection
-                                    navController.navigate(NavDestination.GenderSelection.route)
+                                    navController.navigate(ReGenesisNavHost.GenderSelection.route)
                                 }
                                 else -> {
                                     navController.navigate(option.route)

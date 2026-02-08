@@ -35,10 +35,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.models.AgentStats
-import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
+import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
  * 📊 AGENT MONITORING (The All-Seeing Eye)
@@ -47,7 +47,7 @@ import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 @Composable
 fun AgentMonitoringScreen(
     onNavigateBack: () -> Unit,
-    viewModel: dev.aurakai.auraframefx.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
+    viewModel: dev.aurakai.auraframefx.domains.aura.ui.viewmodels.MonitoringViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
 
@@ -203,3 +203,4 @@ private fun MonitorLogItem(log: MonitorLog) {
 }
 
 private data class MonitorLog(val agent: String, val message: String, val timestamp: String, val color: Color)
+

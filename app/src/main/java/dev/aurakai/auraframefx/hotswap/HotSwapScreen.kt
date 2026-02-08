@@ -467,10 +467,13 @@ private fun AssetBundleCard(
 
 @Composable
 private fun ShortcutsTab(viewModel: HotSwapViewModel) {
+    val config by viewModel.currentConfig.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
             "QUICK ACCESS SHORTCUTS",
@@ -479,17 +482,46 @@ private fun ShortcutsTab(viewModel: HotSwapViewModel) {
                 fontWeight = FontWeight.Bold
             )
         )
-        Text(
-            "Configure floating quick access panel",
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = Color.Gray
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            "⚙️ Shortcut customization coming soon...",
-            color = Color.Gray
-        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A1A))
+        ) {
+            Row(
+                modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text("Floating Panel", color = Color.White)
+                    Text("Show quick access overlay", fontSize = 12.sp, color = Color.Gray)
+                }
+                androidx.compose.material3.Switch(
+                    checked = config.quickAccessEnabled,
+                    onCheckedChange = { viewModel.toggleQuickAccess() }
+                )
+            }
+        }
+
+        if (config.quickAccessEnabled) {
+            Text("Position", fontSize = 14.sp, color = Color.White)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                listOf("top_left", "top_right", "bottom_left", "bottom_right").forEach { pos ->
+                    val isSelected = config.quickAccessPosition == pos
+                    androidx.compose.material3.FilterChip(
+                        selected = isSelected,
+                        onClick = { viewModel.updateQuickAccessPosition(pos) },
+                        label = { Text(pos.replace("_", " ").uppercase()) },
+                        colors = androidx.compose.material3.FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = Color(0xFFFF8C00)
+                        )
+                    )
+                }
+            }
+        }
     }
 }
 

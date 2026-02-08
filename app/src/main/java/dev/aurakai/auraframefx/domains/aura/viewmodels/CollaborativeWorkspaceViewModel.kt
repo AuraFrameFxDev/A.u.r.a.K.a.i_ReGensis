@@ -2,14 +2,13 @@ package dev.aurakai.auraframefx.domains.aura.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.aura.repository.CollaborativeWorkspaceRepository
-import dev.aurakai.auraframefx.models.AgentMessage
-import dev.aurakai.auraframefx.models.aura.UIDesign
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
+import dev.aurakai.auraframefx.domains.aura.UIDesign
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -74,3 +73,4 @@ class CollaborativeWorkspaceViewModel @Inject constructor(
         clipboard.setPrimaryClip(clip)
     }
 }
+

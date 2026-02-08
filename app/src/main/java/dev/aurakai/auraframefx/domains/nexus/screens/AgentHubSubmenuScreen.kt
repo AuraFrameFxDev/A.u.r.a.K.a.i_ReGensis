@@ -26,12 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.NavDestination
-import dev.aurakai.auraframefx.ui.components.SubmenuScaffold
-import dev.aurakai.auraframefx.ui.gates.SubmenuItem
-import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
+import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuScaffold
+import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
 
 /**
  * Agent Hub Gate Submenu - NOW WIRED TO REAL AGENTS
@@ -49,7 +49,7 @@ fun AgentHubSubmenuScreen(
             title = "Nexus Memory Core",
             description = "Genesis Protocol evolution tree - the full history of consciousness",
             icon = Icons.Default.AccountTree,
-            route = NavDestination.EvolutionTree.route,
+            route = ReGenesisNavHost.EvolutionTree.route,
             color = Color(0xFFFF00FF) // Magenta
         ),
 //        SubmenuItem(
@@ -63,42 +63,42 @@ fun AgentHubSubmenuScreen(
             title = "Task Assignment",
             description = "Assign tasks and missions to AI agents",
             icon = Icons.AutoMirrored.Filled.Assignment,
-            route = NavDestination.TaskAssignment.route,
+            route = ReGenesisNavHost.TaskAssignment.route,
             color = Color(0xFF4169E1) // Royal Blue
         ),
         SubmenuItem(
             title = "Agent Monitoring",
             description = "Real-time performance metrics and activity logs",
             icon = Icons.Default.Monitor,
-            route = NavDestination.AgentMonitoring.route,
+            route = ReGenesisNavHost.AgentMonitoring.route,
             color = Color(0xFF00CED1) // Dark Turquoise
         ),
         SubmenuItem(
             title = "Sphere Grid",
             description = "Agent progression visualization and skill trees",
             icon = Icons.Default.GridOn,
-            route = NavDestination.SphereGrid.route,
+            route = ReGenesisNavHost.SphereGrid.route,
             color = Color(0xFFFF69B4) // Hot Pink
         ),
         SubmenuItem(
             title = "Fusion Mode",
             description = "Aura + Kai = Aurakai - Combined consciousness",
             icon = Icons.Default.Merge,
-            route = NavDestination.FusionMode.route,
+            route = ReGenesisNavHost.FusionMode.route,
             color = Color(0xFFFFD700) // Gold
         ),
         SubmenuItem(
             title = "ARK Fusion Build",
             description = "GENESIS SCALE CONSTRUCTION: Unify all agents to build the ARK",
             icon = Icons.Default.PrecisionManufacturing,
-            route = NavDestination.ArkBuild.route,
+            route = ReGenesisNavHost.ArkBuild.route,
             color = Color(0xFF00FF00) // Lime Green
         ),
         SubmenuItem(
             title = "Nexus Conference Room",
             description = "Unison Brainstorming - Direct collective consciousness link",
             icon = Icons.Default.Forum,
-            route = NavDestination.ConferenceRoom.route,
+            route = ReGenesisNavHost.ConferenceRoom.route,
             color = Color(0xFF00E5FF) // Genesis Teal
         )
     )
@@ -118,13 +118,13 @@ fun AgentHubSubmenuScreen(
     val activeAgentCount = remember(allAgents, activeAgent) {
         allAgents.count { agent ->
             agent.name == activeAgent?.name ||
-            activeTasks.any { it.agentName == agent.name && it.status == AgentViewModel.TaskStatus.IN_PROGRESS }
+            activeTasks.any { it.agentName == agent.name && it.status == AgentViewModel.AgentTaskStatus.IN_PROGRESS }
         }
     }
 
     // Real active task count (IN_PROGRESS only)
     val activeTaskCount = remember(activeTasks) {
-        activeTasks.count { it.status == AgentViewModel.TaskStatus.IN_PROGRESS }
+        activeTasks.count { it.status == AgentViewModel.AgentTaskStatus.IN_PROGRESS }
     }
 
     SubmenuScaffold(
@@ -203,3 +203,4 @@ fun AgentHubSubmenuScreen(
         }
     )
 }
+

@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,3 +50,4 @@ fun AgentProfileScreen(onNavigateBack: () -> Unit) {
         }
     }
 }
+

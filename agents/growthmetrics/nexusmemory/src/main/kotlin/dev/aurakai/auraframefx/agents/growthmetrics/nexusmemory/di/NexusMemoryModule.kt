@@ -11,6 +11,7 @@ import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.Nexus
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.dao.MemoryDao
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.repository.NexusMemoryRepositoryImpl
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.domain.repository.NexusMemoryRepository
+import dev.aurakai.auraframefx.securecomm.crypto.CryptoManager
 import javax.inject.Singleton
 
 @Module
@@ -36,7 +37,10 @@ object NexusMemoryModule {
 
     @Provides
     @Singleton
-    fun provideNexusMemoryRepository(memoryDao: MemoryDao): NexusMemoryRepository {
-        return NexusMemoryRepositoryImpl(memoryDao)
+    fun provideNexusMemoryRepository(
+        memoryDao: MemoryDao,
+        cryptoManager: CryptoManager
+    ): NexusMemoryRepository {
+        return NexusMemoryRepositoryImpl(memoryDao, cryptoManager)
     }
 }

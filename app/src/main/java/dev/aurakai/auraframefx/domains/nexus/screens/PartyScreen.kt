@@ -25,8 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.ui.viewmodels.PartyViewModel
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.PartyViewModel
 
 /**
  * 👥 PARTY SCREEN (Digital Council)
@@ -191,3 +191,4 @@ fun agentRole(agent: AgentType): String = when(agent) {
     AgentType.CASCADE -> "Data Streamer"
     else -> "Generic Unit"
 }
+

@@ -1,252 +1,150 @@
-package dev.aurakai.auraframefx.romtools
-
-import android.annotation.SuppressLint
-import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
-import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
-import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
-import dev.aurakai.auraframefx.romtools.retention.RetentionMechanism
-import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import java.io.File
-
-/**
- * Fake implementation of RomToolsManager for Jetpack Compose previews.
- * Provides a pre-initialized state for UI rendering in previews.
- */
-open class FakeRomToolsManager(safetyManager: BootloaderSafetyManager) : RomToolsManager(
-    bootloaderManager = FakeBootloaderManager(),
-    recoveryManager = FakeRecoveryManager(),
-    systemModificationManager = FakeSystemModificationManager(),
-    flashManager = FakeFlashManager(),
-    verificationManager = FakeRomVerificationManager(),
-    backupManager = FakeBackupManager(),
-    retentionManager = FakeRetentionManager(), safetyManager
-) {
-    // Pre-configured fake state for previews
-    private val previewState: RomToolsState = RomToolsState(
-        isInitialized = true,
-        capabilities = RomCapabilities(
-            hasRootAccess = true,
-            hasBootloaderAccess = true,
-            hasRecoveryAccess = true,
-            hasSystemWriteAccess = true,
-            supportedArchitectures = listOf("arm64-v8a", "armeabi-v7a"),
-            deviceModel = "Pixel 7 Pro",
-            androidVersion = "14",
-            securityPatchLevel = "2025-10-05"
-        )
-    )
-
-    init {
-        // Initialize with preview state
-        _romToolsState.value = previewState
-    }
-}
-
-// === Minimal Fake Managers for Preview ===
-
-class FakeBootloaderManager : BootloaderManager {
-    override fun checkBootloaderAccess(): Boolean = true
-    override fun isBootloaderUnlocked(): Boolean = true
-    override suspend fun unlockBootloader(): Result<Unit> = Result.success(Unit)
-
-    override fun collectPreflightSignals(): BootloaderManager.PreflightSignals {
-        return BootloaderManager.PreflightSignals(
-            isBootloaderUnlocked = true,
-            oemUnlockSupported = true,
-            verifiedBootState = "green",
-            batteryLevel = 85,
-            developerOptionsEnabled = true,
-            oemUnlockAllowedUser = true,
-            deviceFingerprint = "google/cheetah/cheetah:14/UP1A.231105.003/11010452:user/release-keys"
-        )
-    }
-}
-
-class FakeRecoveryManager : RecoveryManager {
-    override fun checkRecoveryAccess(): Boolean = true
-    override fun isCustomRecoveryInstalled(): Boolean = true
-    override suspend fun installCustomRecovery(): Result<Unit> = Result.success(Unit)
-}
-
-class FakeSystemModificationManager : SystemModificationManager {
-    override fun checkSystemWriteAccess(): Boolean = true
-    override suspend fun installGenesisOptimizations(progressCallback: (Float) -> Unit): Result<Unit> {
-        progressCallback(100f)
-        return Result.success(Unit)
-    }
-
-    override suspend fun verifyOptimizations(): Result<OptimizationStatus> {
-        return Result.success(
-            OptimizationStatus(
-                isInstalled = true,
-                optimizations = listOf("build_prop_tweaks", "init_d_script"),
-                version = "1.0.0",
-                installedAt = System.currentTimeMillis()
-            )
-        )
-    }
-
-    override suspend fun removeOptimizations(): Result<Unit> {
-        return Result.success(Unit)
-    }
-}
-
-class FakeFlashManager : FlashManager {
-    override suspend fun flashRom(romFile: RomFile, progressCallback: (Float) -> Unit): Result<Unit> {
-        // Simulate flashing progress
-        for (i in 0..100 step 10) {
-            progressCallback(i.toFloat())
-        }
-        return Result.success(Unit)
-    }
-
-    override fun downloadRom(rom: AvailableRom): Flow<DownloadProgress> {
-        // Return a fake download progress flow
-        return flowOf(
-            DownloadProgress(
-                bytesDownloaded = 1024 * 1024 * 500, // 500 MB
-                totalBytes = 1024 * 1024 * 1000,      // 1 GB
-                progress = 0.5f,
-                speed = 1024 * 1024 * 10,             // 10 MB/s
-                isCompleted = false
-            )
-        )
-    }
-}
-
-class FakeRomVerificationManager : RomVerificationManager {
-    override suspend fun verifyRomFile(romFile: RomFile): Result<Unit> = Result.success(Unit)
-    override suspend fun verifyInstallation(): Result<Unit> = Result.success(Unit)
-    override suspend fun calculateChecksum(file: File, algorithm: String): Result<String> {
-        return Result.success("fake_checksum")
-    }
-
-    override suspend fun verifyZipIntegrity(zipFile: File): Result<ZipVerificationResult> {
-        return Result.success(
-            ZipVerificationResult(
-                isValid = true,
-                entries = listOf("META-INF/com/google/android/updater-script", "boot.img"),
-                errors = emptyList(),
-                totalEntries = 2
-            )
-        )
-    }
-}
-
-class FakeBackupManager : BackupManager {
-    @SuppressLint("SdCardPath")
-    override suspend fun createFullBackup(): Result<BackupInfo> = Result.success(
-        BackupInfo(
-            name = "fake-full-backup",
-            path = "/sdcard/fake-full-backup",
-            size = 1024 * 1024 * 1000L, // 1 GB
-            createdAt = System.currentTimeMillis(),
-            deviceModel = "Pixel 7 Pro",
-            androidVersion = "14",
-            partitions = listOf("system", "boot", "vendor", "data")
-        )
-    )
-
-    @SuppressLint("SdCardPath")
-    override suspend fun createNandroidBackup(
-        backupName: String,
-        progressCallback: (Float) -> Unit
-    ): Result<BackupInfo> {
-        progressCallback(100f)
-        return Result.success(
-            BackupInfo(
-                name = "fake-backup",
-                path = "/sdcard/fake-backup",
-                size = 1024 * 1024 * 500L, // 500 MB
-                createdAt = System.currentTimeMillis(),
-                deviceModel = "Pixel 7 Pro",
-                androidVersion = "14",
-                partitions = listOf("system", "boot", "vendor")
-            )
-        )
-    }
-
-    override suspend fun restoreNandroidBackup(
-        backupInfo: BackupInfo,
-        progressCallback: (Float) -> Unit
-    ): Result<Unit> {
-        progressCallback(100f)
-        return Result.success(Unit)
-    }
-
-    override suspend fun listBackups(): Result<List<BackupInfo>> {
-        return Result.success(emptyList())
-    }
-
-    override suspend fun deleteBackup(backupInfo: BackupInfo): Result<Unit> {
-        return Result.success(Unit)
-    }
-}
-
-class FakeRetentionManager : AurakaiRetentionManager {
-    override suspend fun setupRetentionMechanisms(): Result<RetentionStatus> {
-        return Result.success(
-            RetentionStatus(
-                mechanisms = mapOf(
-                    RetentionMechanism.APK_BACKUP to true,
-                    RetentionMechanism.ADDON_D_SCRIPT to true,
-                    RetentionMechanism.RECOVERY_ZIP to true,
-                    RetentionMechanism.MAGISK_MODULE to false
-                ),
-                retentionDirPath = "/data/local/genesis_retention",
-                packageName = "dev.aurakai.auraframefx",
-                timestamp = System.currentTimeMillis()
-            )
-        )
-    }
-
-    override suspend fun restoreAurakaiAfterRomFlash(): Result<Unit> {
-        return Result.success(Unit)
-    }
-}
-
-class FakeBootloaderSafetyManager : BootloaderSafetyManager {
-    private val _safetyStatus = kotlinx.coroutines.flow.MutableStateFlow(
-        dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyStatus(
-            isBootloaderUnlocked = true,
-            oemUnlockEnabled = true,
-            batteryLevel = 100,
-            availableStorageSpace = 10000,
-            verifiedBootState = dev.aurakai.auraframefx.romtools.bootloader.BootState.VERIFIED,
-            selinuxMode = dev.aurakai.auraframefx.romtools.bootloader.SELinuxMode.ENFORCING,
-            deviceCompatible = true,
-            lastCheckTimestamp = System.currentTimeMillis()
-        )
-    )
-    override val safetyStatus: kotlinx.coroutines.flow.StateFlow<dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyStatus> = _safetyStatus
-
-    override suspend fun performPreFlightChecks(operation: dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation): dev.aurakai.auraframefx.romtools.bootloader.SafetyCheckResult {
-        return dev.aurakai.auraframefx.romtools.bootloader.SafetyCheckResult(
-            passed = true,
-            warnings = emptyList(),
-            criticalIssues = emptyList(),
-            canProceedWithWarning = false
-        )
-    }
-
-    override suspend fun monitorOperationState(): dev.aurakai.auraframefx.romtools.bootloader.StateMonitoringResult {
-        return dev.aurakai.auraframefx.romtools.bootloader.StateMonitoringResult(
-            systemResponsive = true,
-            partitionsHealthy = true,
-            bootEnvironmentStable = true,
-            kernelPanicDetected = false
-        )
-    }
-
-    override suspend fun createSafetyCheckpoint(): String = "fake_checkpoint"
-
-    override suspend fun validatePostOperationState(operation: dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation): dev.aurakai.auraframefx.romtools.bootloader.ValidationResult {
-        return dev.aurakai.auraframefx.romtools.bootloader.ValidationResult(
-            success = true,
-            issues = emptyList(),
-            requiresRecovery = false
-        )
-    }
-}
+package dev.aurakai.auraframefx.romtools//package dev.aurakai.auraframefx.romtools
+//
+//import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+//import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+//import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
+//import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
+//import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
+//import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
+//import kotlinx.coroutines.flow.Flow
+//import kotlinx.coroutines.flow.MutableStateFlow
+//import kotlinx.coroutines.flow.StateFlow
+//import kotlinx.coroutines.flow.asStateFlow
+//import kotlinx.coroutines.flow.flowOf
+//import java.io.File
+//
+///**
+// * Fake implementation of RomToolsManager for Jetpack Compose previews.
+// */
+//open class FakeRomToolsManager(
+//    private val safetyManager: BootloaderSafetyManager = FakeBootloaderSafetyManager()
+//) : RomToolsManager {
+//
+//    private val _romToolsState = MutableStateFlow(RomToolsState(
+//        isInitialized = true,
+//        capabilities = RomCapabilities(
+//            hasRootAccess = true,
+//            hasBootloaderAccess = true,
+//            hasRecoveryAccess = true,
+//            hasSystemWriteAccess = true,
+//            supportedArchitectures = listOf("arm64-v8a", "armeabi-v7a"),
+//            deviceModel = "Pixel 7 Pro",
+//            androidVersion = "14",
+//            securityPatchLevel = "2025-10-05"
+//        )
+//    ))
+//    override val romToolsState: StateFlow<RomToolsState> = _romToolsState.asStateFlow()
+//
+//    private val _operationProgress = MutableStateFlow<OperationProgress?>(null)
+//    override val operationProgress: StateFlow<OperationProgress?> = _operationProgress.asStateFlow()
+//
+//    override suspend fun processRomOperation(request: RomOperationRequest): AgentResponse {
+//        return AgentResponse.success("Fake operation completed", agentName = "RomTools", agentType = AgentType.GENESIS)
+//    }
+//
+//    override suspend fun flashRom(romFile: RomFile): Result<Unit> = Result.success(Unit)
+//    override suspend fun createNandroidBackup(backupName: String): Result<BackupInfo> = Result.success(
+//        BackupInfo("name", "path", 0, 0, "model", "14", emptyList())
+//    )
+//    override suspend fun restoreNandroidBackup(backupInfo: BackupInfo): Result<Unit> = Result.success(Unit)
+//    override suspend fun installGenesisOptimizations(): Result<Unit> = Result.success(Unit)
+//    override fun getAvailableRoms(): Result<List<AvailableRom>> = Result.success(emptyList())
+//    override fun downloadRom(rom: AvailableRom): Flow<DownloadProgress> = flowOf()
+//    override suspend fun setupAurakaiRetention(): Result<RetentionStatus> = Result.success(
+//        RetentionStatus(emptyMap(), "path", "pkg", 0)
+//    )
+//    override suspend fun unlockBootloader(): Result<Unit> = Result.success(Unit)
+//    override suspend fun installRecovery(): Result<Unit> = Result.success(Unit)
+//}
+//
+//class FakeRomToolsManagerImpl : FakeRomToolsManager()
+//
+//// === Minimal Fake Managers for Preview ===
+//
+//class FakeBootloaderManager : BootloaderManager {
+//    override fun checkBootloaderAccess(): Boolean = true
+//    override fun isBootloaderUnlocked(): Boolean = true
+//    override suspend fun unlockBootloader(): Result<Unit> = Result.success(Unit)
+//
+//    override fun collectPreflightSignals(): BootloaderManager.PreflightSignals {
+//        return BootloaderManager.PreflightSignals(
+//            isBootloaderUnlocked = true,
+//            oemUnlockSupported = true,
+//            verifiedBootState = "green",
+//            batteryLevel = 85,
+//            developerOptionsEnabled = true,
+//            oemUnlockAllowedUser = true,
+//            deviceFingerprint = "google/cheetah/cheetah:14/UP1A.231105.003/11010452:user/release-keys"
+//        )
+//    }
+//}
+//
+//class FakeRecoveryManager : RecoveryManager {
+//    override fun checkRecoveryAccess(): Boolean = true
+//    override fun isCustomRecoveryInstalled(): Boolean = true
+//    override suspend fun installCustomRecovery(): Result<Unit> = Result.success(Unit)
+//}
+//
+//class FakeSystemModificationManager : SystemModificationManager {
+//    override fun checkSystemWriteAccess(): Boolean = true
+//    override suspend fun installGenesisOptimizations(progressCallback: (Float) -> Unit): Result<Unit> {
+//        progressCallback(100f)
+//        return Result.success(Unit)
+//    }
+//    override suspend fun verifyOptimizations(): Result<OptimizationStatus> = Result.success(
+//        OptimizationStatus(true, emptyList(), "1.0", 0)
+//    )
+//    override suspend fun removeOptimizations(): Result<Unit> = Result.success(Unit)
+//}
+//
+//class FakeFlashManager : FlashManager {
+//    override suspend fun flashRom(romFile: RomFile, progressCallback: (Float) -> Unit): Result<Unit> = Result.success(Unit)
+//    override fun downloadRom(rom: AvailableRom): Flow<DownloadProgress> = flowOf()
+//}
+//
+//class FakeRomVerificationManager : RomVerificationManager {
+//    override suspend fun verifyRomFile(romFile: RomFile): Result<Unit> = Result.success(Unit)
+//    override suspend fun verifyInstallation(): Result<Unit> = Result.success(Unit)
+//    override suspend fun calculateChecksum(file: File, algorithm: String): Result<String> = Result.success("check")
+//    override suspend fun verifyZipIntegrity(zipFile: File): Result<ZipVerificationResult> = Result.success(
+//        ZipVerificationResult(true, emptyList(), emptyList(), 0)
+//    )
+//}
+//
+//class FakeBackupManager : BackupManager {
+//    override suspend fun createFullBackup(): Result<BackupInfo> = Result.success(
+//        BackupInfo("name", "path", 0, 0, "model", "14", emptyList())
+//    )
+//    override suspend fun createNandroidBackup(name: String, callback: (Float) -> Unit): Result<BackupInfo> = createFullBackup()
+//    override suspend fun restoreNandroidBackup(info: BackupInfo, callback: (Float) -> Unit): Result<Unit> = Result.success(Unit)
+//    override suspend fun listBackups(): Result<List<BackupInfo>> = Result.success(emptyList())
+//    override suspend fun deleteBackup(info: BackupInfo): Result<Unit> = Result.success(Unit)
+//}
+//
+//class FakeRetentionManager : AurakaiRetentionManager {
+//    override suspend fun setupRetentionMechanisms(): Result<RetentionStatus> = Result.success(
+//        RetentionStatus(emptyMap(), "path", "pkg", 0)
+//    )
+//    override suspend fun restoreAurakaiAfterRomFlash(): Result<Unit> = Result.success(Unit)
+//}
+//
+//class FakeBootloaderSafetyManager : BootloaderSafetyManager {
+//    override val safetyStatus: StateFlow<dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyStatus> =
+//        MutableStateFlow(dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyStatus(
+//            true, true, 100, 1000,
+//            dev.aurakai.auraframefx.romtools.bootloader.BootState.VERIFIED,
+//            dev.aurakai.auraframefx.romtools.bootloader.SELinuxMode.ENFORCING,
+//            true, 0
+//        )).asStateFlow()
+//
+//    override suspend fun performPreFlightChecks(op: dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation) =
+//        dev.aurakai.auraframefx.romtools.bootloader.SafetyCheckResult(true, emptyList(), emptyList(), false)
+//
+//    override suspend fun monitorOperationState() =
+//        dev.aurakai.auraframefx.romtools.bootloader.StateMonitoringResult(true, true, true, false)
+//
+//    override suspend fun createSafetyCheckpoint(): String = "check"
+//
+//    override suspend fun validatePostOperationState(op: dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation) =
+//        dev.aurakai.auraframefx.romtools.bootloader.ValidationResult(true, emptyList(), false)
+//}

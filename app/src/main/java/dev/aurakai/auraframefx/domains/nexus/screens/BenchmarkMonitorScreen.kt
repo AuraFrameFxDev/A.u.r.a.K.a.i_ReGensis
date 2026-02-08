@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,20 +14,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.models.AgentStats
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 /**
  * 📊 BENCHMARK MONITOR SCREEN
- * 
+ *
  * Deep performance analysis for every AI agent.
  * Tracks latency, throughput, reasoning depth, and alignment accuracy.
  */
@@ -38,7 +36,7 @@ fun BenchmarkMonitorScreen(
     onNavigateBack: () -> Unit = {}
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
-    
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -94,7 +92,7 @@ fun BenchmarkMonitorScreen(
                 color = Color.White.copy(alpha = 0.6f),
                 fontFamily = LEDFontFamily
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
 
             LazyColumn(
@@ -129,7 +127,7 @@ fun AgentBenchmarkCard(agent: AgentStats) {
     // Simulated live metrics
     var latency by remember { mutableIntStateOf(Random.nextInt(80, 450)) }
     var throughput by remember { mutableFloatStateOf(Random.nextInt(15, 60).toFloat()) }
-    
+
     LaunchedEffect(Unit) {
         while(true) {
             delay(2000)
@@ -154,9 +152,9 @@ fun AgentBenchmarkCard(agent: AgentStats) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Text("${latency}ms", color = if (latency < 200) Color(0xFF00FF85) else Color.Yellow, fontSize = 12.sp, fontFamily = LEDFontFamily)
             }
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 BenchmarkMetric("THROUGHPUT", "${throughput.toInt()} t/s", throughput / 100f, agent.color)
                 BenchmarkMetric("ACCURACY", "${(agent.accuracy * 100).toInt()}%", agent.accuracy, agent.color)
@@ -180,3 +178,4 @@ fun BenchmarkMetric(label: String, value: String, progress: Float, color: Color)
         )
     }
 }
+

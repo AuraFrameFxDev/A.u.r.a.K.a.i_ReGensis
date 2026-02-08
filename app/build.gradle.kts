@@ -4,6 +4,7 @@
 // Uses com.android.build.api.dsl.ApplicationExtension (modern DSL)
 // Plugins are versioned in the root build.gradle.kts
 
+import com.android.build.api.dsl.AndroidSourceDirectorySet
 import com.android.build.api.dsl.ApplicationExtension
 
 plugins {
@@ -145,9 +146,28 @@ extensions.configure<ApplicationExtension> {
     // ═══════════════════════════════════════════════════════════════════════════
     sourceSets {
         getByName("main") {
-            // Correct source sets are automatically handled by AGP
+            res.mutableset(
+                "src/main/res",
+                "src/main/res/drawable/Gatescenes/Aura",
+                "src/main/res/drawable/Gatescenes/Kai",
+                "src/main/res/drawable/Gatescenes/Genesis",
+                "src/main/res/drawable/Gatescenes/Nexus",
+                "src/main/res/drawable/Gatescenes/Cascade",
+                "src/main/res/drawable/Gatescenes/Vessels"
+            )
         }
     }
+}
+
+private fun AndroidSourceDirectorySet.mutableset(
+    string: String,
+    string2: String,
+    string3: String,
+    string4: String,
+    string5: String,
+    string6: String,
+    string7: String
+) {
 }
 
 dependencies {
@@ -174,6 +194,7 @@ dependencies {
     implementation(libs.androidx.animation)
     implementation(libs.androidx.compose.ui.geometry)
     implementation(libs.androidx.compose.material3)
+    testImplementation(libs.jupiter.junit.jupiter)
     ksp(libs.hilt.compiler)
 
     // Core Android
@@ -333,7 +354,6 @@ dependencies {
     implementation(project(":aura:reactivedesign:collabcanvas"))
     implementation(project(":aura:reactivedesign:chromacore"))
     implementation(project(":aura:reactivedesign:customization"))
-    implementation(project(":aura:reactivedesign:sandboxui"))
 
     // Kai → SentinelsFortress (Security & Threat Monitoring)
     implementation(project(":kai:sentinelsfortress:security"))
