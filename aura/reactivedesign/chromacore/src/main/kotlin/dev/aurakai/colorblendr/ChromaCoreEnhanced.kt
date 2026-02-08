@@ -180,12 +180,11 @@ object ChromaCoreEnhanced {
  * - Proper touch targets (48dp minimum)
  */
 @Composable
-fun NeonGlowOrb(
+fun Modifier.NeonGlowOrb(
     color: Color,
     size: Float = 120f,
     onClick: (() -> Unit)? = null,
-    contentDescription: String = "Neon orb",
-    modifier: Modifier = Modifier
+    contentDescription: String = "Neon orb"
 ) {
     val haptic = LocalHapticFeedback.current
     val interactionSource = remember { MutableInteractionSource() }
@@ -220,8 +219,7 @@ fun NeonGlowOrb(
     )
     
     Box(
-        modifier = modifier
-            .size((size * 1.5f).dp) // Larger touch target (48dp minimum)
+        modifier = size((size * 1.5f).dp) // Larger touch target (48dp minimum)
             .semantics {
                 this.contentDescription = contentDescription
                 this.role = Role.Button
@@ -353,7 +351,7 @@ fun AnimatedOrbField(
                         alpha = 0.6f + 0.4f * sin((index * PI / colors.size).toFloat())
                     }
             ) {
-                NeonGlowOrb(
+                Modifier.NeonGlowOrb(
                     color = color,
                     size = 80f + (index * 20f)
                 )

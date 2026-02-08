@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.data.AuraKaiModules
+import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
 import dev.aurakai.auraframefx.embodiment.*
 import dev.aurakai.auraframefx.domains.aura.ui.components.GlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.components.GlassCardStyles
