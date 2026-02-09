@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.delay
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AurasLabViewModel
 
 /**
