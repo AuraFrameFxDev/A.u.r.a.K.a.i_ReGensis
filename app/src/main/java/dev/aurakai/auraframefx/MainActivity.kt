@@ -13,11 +13,11 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.domains.aura.AssistantBubbleService
-import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
+import dev.aurakai.auraframefx.system.ShizukuManager
 import timber.log.Timber
 import javax.inject.Inject
-import dev.aurakai.auraframefx.system.ShizukuManager
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -57,10 +57,23 @@ class MainActivity : ComponentActivity() {
         setContent {
             AuraFrameFXTheme {
                 val navController = rememberNavController()
+
+                // Handle deep link from Sidebar
+                LaunchedEffect(intent) {
+                    intent.getStringExtra("navigate_to")?.let { route ->
+                        navController.navigate(route)
+                    }
+                }
+
                 // 🚀 THE FIX: Actually display the navigation!
                 ReGenesisNavHost(navController = navController)
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 
     private fun checkOverlayPermission() {

@@ -354,6 +354,12 @@ dependencies {
     implementation(project(":aura:reactivedesign:collabcanvas"))
     implementation(project(":aura:reactivedesign:chromacore"))
     implementation(project(":aura:reactivedesign:customization"))
+    implementation(project(":extendsysa"))
+    implementation(project(":extendsysb"))
+    implementation(project(":extendsysc"))
+    implementation(project(":extendsysd"))
+    implementation(project(":extendsyse"))
+    implementation(project(":extendsysf"))
 
     // Kai → SentinelsFortress (Security & Threat Monitoring)
     implementation(project(":kai:sentinelsfortress:security"))

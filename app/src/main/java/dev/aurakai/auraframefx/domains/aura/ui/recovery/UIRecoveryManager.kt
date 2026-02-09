@@ -9,12 +9,12 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import javax.inject.Inject
@@ -43,7 +43,7 @@ open class UIRecoveryManager @Inject constructor(
     @ApplicationContext private val context: Context,
     @Named("AppStateDataStore") private val dataStore: DataStore<Preferences>
 ) {
-    private val scope = CoroutineScope(Dispatchers.Default)
+    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val json = Json { ignoreUnknownKeys = true }
 
     private val _recoveryState = MutableStateFlow<UIRecoveryState>(UIRecoveryState.Normal)

@@ -189,7 +189,9 @@ class FloatingAgentOverlay : Service(), LifecycleOwner, ViewModelStoreOwner, Sav
         super.onDestroy()
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
         overlayView?.let {
-            windowManager.removeView(it)
+            if (::windowManager.isInitialized) {
+                windowManager.removeView(it)
+            }
         }
     }
 

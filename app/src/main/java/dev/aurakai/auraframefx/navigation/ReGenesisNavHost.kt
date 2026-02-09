@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import collabcanvas.ui.CanvasScreen
 import dev.aurakai.auraframefx.datavein.ui.SimpleDataVeinScreen
 import dev.aurakai.auraframefx.domains.aura.aura.ui.AgentAdvancementScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaAnimationMenu
@@ -25,14 +26,14 @@ import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
 import dev.aurakai.auraframefx.domains.aura.screens.HelpDeskSubmenuScreen
 import dev.aurakai.auraframefx.domains.aura.screens.TutorialVideosScreen
 import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
-import dev.aurakai.auraframefx.domains.aura.screens.chromacore.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.chromacore.InstantColorPickerScreen
 import dev.aurakai.auraframefx.domains.aura.screens.themes.ThemeEngineScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.AurasLabScreen
+import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.GateCustomizationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.GyroscopeCustomizationScreen
-import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.NotchBarScreen
-import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.QuickSettingsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.NotchBarCustomizationScreen
+import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.QuickSettingsCustomizationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.StatusBarScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.UISettingsScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
@@ -90,6 +91,7 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
 import dev.aurakai.auraframefx.hotswap.HotSwapScreen
 import dev.aurakai.auraframefx.romtools.ui.RomToolsScreen
+import dev.aurakai.auraframefx.sandbox.ui.SandboxScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen as AuraAgentProfileScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen as NexusAgentProfileScreen
 
@@ -214,6 +216,10 @@ sealed class ReGenesisNavHost(val route: String) {
     object ChromaCoreColors : ReGenesisNavHost("chroma_core_colors")
     object AgentProfileAura : ReGenesisNavHost("aura_agent_profile")
     object HookManager : ReGenesisNavHost("hook_manager")
+    object Sandbox : ReGenesisNavHost("sandbox_screen")
+    object CollaborativeDrawing : ReGenesisNavHost("collab_drawing")
+    object NotchBarCustomization : ReGenesisNavHost("notch_bar_customization")
+    object QuickSettingsCustomization : ReGenesisNavHost("qs_customization")
 
     // Parameterized Routes (Helpers for NavigationIntegration)
     object IconifyCategory : ReGenesisNavHost("aura/iconify/{category}") {
@@ -261,6 +267,18 @@ fun ReGenesisNavHost(
 
         composable(ReGenesisNavHost.GateCustomization.route) {
             GateCustomizationScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(ReGenesisNavHost.NotchBarCustomization.route) {
+            NotchBarCustomizationScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(ReGenesisNavHost.QuickSettingsCustomization.route) {
+            QuickSettingsCustomizationScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(ReGenesisNavHost.ChromaCoreColors.route) {
+            ChromaCoreColorsScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -623,6 +641,14 @@ fun ReGenesisNavHost(
         // ═══════════════════════════════════════════════════════════════
         composable(ReGenesisNavHost.HookManager.route) {
             HookManagerScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(ReGenesisNavHost.Sandbox.route) {
+            SandboxScreen()
+        }
+
+        composable(ReGenesisNavHost.CollaborativeDrawing.route) {
+            CanvasScreen(onBack = { navController.popBackStack() })
         }
 
 
