@@ -90,6 +90,8 @@ extensions.configure<ApplicationExtension> {
             excludes += "/META-INF/NOTICE.md"
             excludes += "**/kotlin/**"
             excludes += "**/*.txt"
+            // YukiHook: Pick first occurrence of duplicate class
+            pickFirsts += "**/YukiHookAPIProperties.class"
         }
         jniLibs {
             useLegacyPackaging = false
@@ -257,10 +259,12 @@ dependencies {
         exclude(group = "dev.rikka.rikkax.appcompat", module = "appcompat")
     }
 
-    // YukiHook API
-    compileOnly(libs.yukihookapi.api)
-    ksp(libs.yukihookapi.ksp)
-
+    implementation("com.highcapable.yukihookapi:api:1.3.1") {
+        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+    }
+    ksp("com.highcapable.yukihookapi:ksp-xposed:1.3.1") {
+        exclude(group = "com.highcapable.yukihookapi", module = "api")
+    }
     // Force resolution of conflicting dependencies
     configurations.all {
          resolutionStrategy {

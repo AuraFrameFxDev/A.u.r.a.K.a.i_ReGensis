@@ -36,6 +36,13 @@ subprojects {
                 sourceCompatibility = JavaVersion.VERSION_25
                 targetCompatibility = JavaVersion.VERSION_25
             }
+
+            // YUKIHOOK FIX: Resolve duplicate class across all modules
+            packaging {
+                resources {
+                    pickFirsts += "**/YukiHookAPIProperties.class"
+                }
+            }
         }
 
         // Set JVM Target for Kotlin tasks
@@ -60,6 +67,13 @@ subprojects {
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_25
                 targetCompatibility = JavaVersion.VERSION_25
+            }
+
+            // YUKIHOOK FIX: Resolve duplicate class across all library modules
+            packaging {
+                resources {
+                    pickFirsts += "**/YukiHookAPIProperties.class"
+                }
             }
         }
 

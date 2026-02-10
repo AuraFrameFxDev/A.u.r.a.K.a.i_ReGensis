@@ -1,4 +1,16 @@
-package dev.aurakai.auraframefx.romtools//package dev.aurakai.auraframefx.romtools
+package dev.aurakai.auraframefx.romtools
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THIS FILE IS INTENTIONALLY COMMENTED OUT
+// ═══════════════════════════════════════════════════════════════════════════
+// The fake implementation was replaced with the real implementation:
+// - RomToolsManager.kt (interface)
+// - RomToolsManagerImpl.kt (implementation)
+//
+// This file is kept for reference and potential future preview/testing needs.
+// ═══════════════════════════════════════════════════════════════════════════
+
+//package dev.aurakai.auraframefx.romtools
 //
 //import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 //import dev.aurakai.auraframefx.domains.genesis.models.AgentType
