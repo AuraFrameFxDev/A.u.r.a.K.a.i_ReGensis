@@ -1,5 +1,4 @@
-
-package dev.aurakai.auraframefx.common.orchestration
+package dev.aurakai.auraframefx.orchestration
 
 import kotlinx.coroutines.CoroutineScope
 

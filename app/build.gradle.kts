@@ -259,12 +259,10 @@ dependencies {
         exclude(group = "dev.rikka.rikkax.appcompat", module = "appcompat")
     }
 
-    implementation("com.highcapable.yukihookapi:api:1.3.1") {
-        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
-    }
-    ksp("com.highcapable.yukihookapi:ksp-xposed:1.3.1") {
-        exclude(group = "com.highcapable.yukihookapi", module = "api")
-    }
+    // YukiHook: ONLY use api for runtime (contains all needed classes)
+    // ksp-xposed is ONLY for annotation processing at compile time
+    implementation("com.highcapable.yukihookapi:api:1.3.1")
+    ksp("com.highcapable.yukihookapi:ksp-xposed:1.3.1")
     // Force resolution of conflicting dependencies
     configurations.all {
          resolutionStrategy {
@@ -403,3 +401,10 @@ configurations.all {
         force("org.jetbrains:annotations:26.0.2-1")
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// YUKIHOOK DUPLICATE CLASS FIX
+// ═══════════════════════════════════════════════════════════════════════════
+// Both api and ksp-xposed contain YukiHookAPIProperties.class
+// Tell Gradle to accept duplicates and pick the first one
+

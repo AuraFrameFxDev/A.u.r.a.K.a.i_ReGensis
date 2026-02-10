@@ -1,17 +1,14 @@
 
 package dev.aurakai.auraframefx.cascade
 
+import android.util.Log
+import dev.aurakai.auraframefx.agent.AgentType
+import dev.aurakai.auraframefx.agent.BaseAgent
+import dev.aurakai.auraframefx.agent.OrchestratableMessage
 import dev.aurakai.auraframefx.common.orchestration.OrchestratableAgent
-import dev.aurakai.auraframefx.agent.BaseAgent // Import BaseAgent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.util.Log
-
-import dev.aurakai.auraframefx.agent.AgentType
-import dev.aurakai.auraframefx.agent.OrchestratableMessage
-import dev.aurakai.auraframefx.agent.Message
-import dev.aurakai.auraframefx.agent.MessageType
 
 private const val TAG = "CascadeAgent"
 
@@ -46,10 +43,10 @@ class CascadeAgent : OrchestratableAgent, BaseAgent() { // Inherit from BaseAgen
 
     override suspend fun initialize(scope: CoroutineScope) {
         Log.i(TAG, "CascadeAgent: initialize() called.")
-        if (!BaseAgent.isOrchestratorInitialized) {
+        if (!isOrchestratorInitialized) {
             this.agentScope = scope
             setupCascadeSystems()
-            BaseAgent.isOrchestratorInitialized = true // Set the unified flag
+            isOrchestratorInitialized = true // Set the unified flag
             Log.d(TAG, "CascadeAgent: Orchestrator initialized.")
         } else {
             Log.i(TAG, "CascadeAgent: Orchestrator already initialized. Skipping.")
@@ -58,7 +55,7 @@ class CascadeAgent : OrchestratableAgent, BaseAgent() { // Inherit from BaseAgen
 
     override suspend fun start() {
         Log.i(TAG, "CascadeAgent: start() called.")
-        if (BaseAgent.isOrchestratorInitialized) {
+        if (isOrchestratorInitialized) {
             agentScope?.launch(Dispatchers.Default) {
                 startCascadeProcessing()
             } ?: Log.e(TAG, "CascadeAgent: agentScope is null. Cannot start processing.")
@@ -79,10 +76,10 @@ class CascadeAgent : OrchestratableAgent, BaseAgent() { // Inherit from BaseAgen
 
     override suspend fun shutdown() {
         Log.i(TAG, "CascadeAgent: shutdown() called.")
-        if (BaseAgent.isOrchestratorInitialized) {
+        if (isOrchestratorInitialized) {
             shutdownCascadeSystems()
             agentScope = null // Clear the scope upon shutdown
-            BaseAgent.isOrchestratorInitialized = false // Reset the unified flag
+            isOrchestratorInitialized = false // Reset the unified flag
             Log.d(TAG, "CascadeAgent: Orchestrator shut down.")
         } else {
             Log.i(TAG, "CascadeAgent: Orchestrator not initialized. Skipping shutdown logic.")

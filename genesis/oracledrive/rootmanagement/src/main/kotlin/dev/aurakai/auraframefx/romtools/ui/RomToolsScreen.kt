@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.romtools.ui
 
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import dev.aurakai.auraframefx.romtools.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -46,8 +46,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,18 +58,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.aurakai.auraframefx.romtools.*
+import dev.aurakai.auraframefx.romtools.RomOperation.Companion.CreateBackup
+import dev.aurakai.auraframefx.romtools.RomOperation.Companion.FlashRom
 import dev.aurakai.auraframefx.romtools.backdrop.BackdropState
 import dev.aurakai.auraframefx.romtools.backdrop.CardExplosionEffect
 import dev.aurakai.auraframefx.romtools.backdrop.MegaManBackdropRenderer
-import dev.aurakai.auraframefx.romtools.BackupInfo
-import dev.aurakai.auraframefx.romtools.RomCapabilities
-import dev.aurakai.auraframefx.romtools.RomToolsManager
-import dev.aurakai.auraframefx.romtools.RomToolsState
-import dev.aurakai.auraframefx.romtools.OperationProgress
-import dev.aurakai.auraframefx.romtools.RomOperation
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import timber.log.Timber
+
+private val Unit.progress: Any
+    get() {
+        TODO()
+    }
 
 /**
  * Main ROM Tools screen for Genesis AuraFrameFX.
@@ -79,13 +80,13 @@ import timber.log.Timber
 @Composable
 fun RomToolsScreen(
     modifier: Modifier = Modifier,
-    romToolsViewModel: dev.aurakai.auraframefx.romtools.RomToolsViewModel = hiltViewModel(),
+    romToolsViewModel: RomToolsViewModel = hiltViewModel(),
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val romToolsState by romToolsViewModel.romToolsState.collectAsStateWithLifecycle()
     val operationProgressState by romToolsViewModel.operationProgress.collectAsStateWithLifecycle()
-    val romToolsManager = romToolsViewModel.romToolsManager
-    val coroutineScope = rememberCoroutineScope()
+    romToolsViewModel.romToolsManager
+    rememberCoroutineScope()
 
     // Backdrop state management
     var backdropEnabled by remember { mutableStateOf(true) }
@@ -101,7 +102,7 @@ fun RomToolsScreen(
     ) { uri: Uri? ->
         uri?.let {
             Timber.i("ROM file selected: $it")
-            romToolsViewModel.performOperation(RomOperation.FlashRom, context, it)
+            romToolsViewModel.performOperation(FlashRom, context, it)
         }
     }
 
@@ -269,14 +270,14 @@ fun RomToolsScreen(
  */
 private fun handleRomAction(
     actionType: RomActionType,
-    viewModel: dev.aurakai.auraframefx.romtools.RomToolsViewModel,
-    context: android.content.Context
+    viewModel: RomToolsViewModel,
+    context: Context
 ) {
     when (actionType) {
         RomActionType.FLASH_ROM -> { /* Handled in Composable */ }
         RomActionType.RESTORE_BACKUP -> { /* Handled in Composable */ }
         RomActionType.CREATE_BACKUP -> {
-            viewModel.performOperation(RomOperation.CreateBackup, context)
+            viewModel.performOperation(CreateBackup, context)
         }
         RomActionType.UNLOCK_BOOTLOADER -> {
             viewModel.performOperation(RomOperation.UnlockBootloader, context)
@@ -288,6 +289,13 @@ private fun handleRomAction(
             viewModel.performOperation(RomOperation.GenesisOptimizations, context)
         }
     }
+}
+
+private fun RomToolsViewModel.performOperation(
+    operation: Any,
+    context: Context
+) {
+    TODO("Not yet implemented")
 }
 
 @Composable
@@ -372,7 +380,7 @@ private fun MainContent(
                 )
             }
 
-            romToolsState.availableRoms.forEach { rom ->
+            romToolsState.availableRoms.toString { rom ->
                 item {
                     AvailableRomCard(rom = rom)
                 }
@@ -398,6 +406,14 @@ private fun MainContent(
             }
         }
     }
+}
+
+private fun Any.toString(function: Any) {
+    TODO("Not yet implemented")
+}
+
+private fun Any.isNotEmpty(): Boolean {
+    TODO("Not yet implemented")
 }
 
 @Preview
@@ -631,11 +647,24 @@ private fun OperationProgressCard(
 @Preview
 @Composable
 private fun OperationProgressCardPreview() {
-    val operationProgress = OperationProgress(
+    val operationProgress: Unit = OperationProgress(
         operation = RomStep.FLASHING_ROM,
         progress = 75f
     )
     OperationProgressCard(operation = operationProgress)
+}
+
+fun OperationProgress(operation: String, progress: Float) {
+    TODO("seeROmtoolsbackdrop")
+}
+
+class RomStep {
+    constructor(operation: Any, progress: Float)
+
+    companion object {
+        val FLASHING_ROM: String = ""
+    }
+
 }
 
 @Composable
@@ -817,11 +846,13 @@ enum class RomActionType {
  */
 fun RomOperation.getDisplayName(): String {
     return when (this) {
-        RomOperation.FlashRom -> "Flash ROM"
+        FlashRom -> "Flash ROM"
         RomOperation.RestoreBackup -> "Restore Backup"
-        RomOperation.CreateBackup -> "Create Backup"
+        CreateBackup -> "Create Backup"
         RomOperation.UnlockBootloader -> "Unlock Bootloader"
-        RomOperation.InstallRecovery -> "Install Recovery"
+        RomOperation.InstallRecovery -> {
+            "Install Recovery"
+        }
         RomOperation.GenesisOptimizations -> "Genesis Optimizations"
     }
 }
