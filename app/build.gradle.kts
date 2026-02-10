@@ -406,5 +406,12 @@ configurations.all {
 // YUKIHOOK DUPLICATE CLASS FIX
 // ═══════════════════════════════════════════════════════════════════════════
 // Both api and ksp-xposed contain YukiHookAPIProperties.class
-// Tell Gradle to accept duplicates and pick the first one
+// ksp-xposed should ONLY be on the KSP processor classpath, NOT runtime/compile
+configurations.configureEach {
+    if (name.contains("runtimeClasspath", ignoreCase = true) ||
+        name.contains("compileClasspath", ignoreCase = true)
+    ) {
+        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+    }
+}
 

@@ -58,19 +58,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.aurakai.auraframefx.romtools.*
-import dev.aurakai.auraframefx.romtools.RomOperation.Companion.CreateBackup
-import dev.aurakai.auraframefx.romtools.RomOperation.Companion.FlashRom
+import dev.aurakai.auraframefx.romtools.BackupInfo
+import dev.aurakai.auraframefx.romtools.OperationProgress
+import dev.aurakai.auraframefx.romtools.RomCapabilities
+import dev.aurakai.auraframefx.romtools.RomOperation
+import dev.aurakai.auraframefx.romtools.RomOperation.CreateBackup
+import dev.aurakai.auraframefx.romtools.RomOperation.FlashRom
+import dev.aurakai.auraframefx.romtools.RomToolsState
+import dev.aurakai.auraframefx.romtools.RomToolsViewModel
 import dev.aurakai.auraframefx.romtools.backdrop.BackdropState
 import dev.aurakai.auraframefx.romtools.backdrop.CardExplosionEffect
 import dev.aurakai.auraframefx.romtools.backdrop.MegaManBackdropRenderer
 import kotlinx.coroutines.delay
 import timber.log.Timber
-
-private val Unit.progress: Any
-    get() {
-        TODO()
-    }
 
 /**
  * Main ROM Tools screen for Genesis AuraFrameFX.
@@ -380,7 +380,7 @@ private fun MainContent(
                 )
             }
 
-            romToolsState.availableRoms.toString { rom ->
+            romToolsState.availableRoms.forEach { rom ->
                 item {
                     AvailableRomCard(rom = rom)
                 }
@@ -406,14 +406,6 @@ private fun MainContent(
             }
         }
     }
-}
-
-private fun Any.toString(function: Any) {
-    TODO("Not yet implemented")
-}
-
-private fun Any.isNotEmpty(): Boolean {
-    TODO("Not yet implemented")
 }
 
 @Preview
@@ -458,8 +450,9 @@ private fun MainContentPreview() {
         )
     )
     val operationProgress = OperationProgress(
-        operation = RomStep.FLASHING_ROM,
-        progress = 75f
+        operation = "Flashing ROM",
+        progress = 75f,
+        status = "Flashing..."
     )
     MainContent(romToolsState = romToolsState, operationProgress = operationProgress)
 }
@@ -621,7 +614,7 @@ private fun OperationProgressCard(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = operation.operation.getDisplayName(),
+                text = operation.operation,
                 color = Color(0xFFFF6B35),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
@@ -647,24 +640,12 @@ private fun OperationProgressCard(
 @Preview
 @Composable
 private fun OperationProgressCardPreview() {
-    val operationProgress: Unit = OperationProgress(
-        operation = RomStep.FLASHING_ROM,
-        progress = 75f
+    val operationProgress = OperationProgress(
+        operation = "Flashing ROM",
+        progress = 75f,
+        status = "Flashing..."
     )
     OperationProgressCard(operation = operationProgress)
-}
-
-fun OperationProgress(operation: String, progress: Float) {
-    TODO("seeROmtoolsbackdrop")
-}
-
-class RomStep {
-    constructor(operation: Any, progress: Float)
-
-    companion object {
-        val FLASHING_ROM: String = ""
-    }
-
 }
 
 @Composable

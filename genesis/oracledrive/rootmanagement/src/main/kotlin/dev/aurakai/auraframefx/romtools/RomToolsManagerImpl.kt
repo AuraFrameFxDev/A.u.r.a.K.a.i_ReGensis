@@ -77,7 +77,7 @@ class RomToolsManagerImpl @Inject constructor(
             // TODO: Implement actual operation routing based on request.operation type
 
             AgentResponse.success(
-                message = "ROM operation processed successfully",
+                content = "ROM operation processed successfully",
                 agentName = "RomTools",
                 agentType = AgentType.GENESIS
             )
