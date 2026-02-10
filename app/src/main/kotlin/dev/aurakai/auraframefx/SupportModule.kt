@@ -5,22 +5,22 @@ import android.content.pm.PackageManager
 import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportDatabase
-import dev.aurakai.auraframefx.domains.genesis.network.SupportApi
-import dev.aurakai.auraframefx.domains.genesis.SupportRepository
-import dev.aurakai.auraframefx.domains.nexus.preferences.DataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.domains.aura.SupportNetwork
+import dev.aurakai.auraframefx.domains.genesis.SupportRepository
+import dev.aurakai.auraframefx.domains.genesis.network.SupportApi
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportDatabase
+import dev.aurakai.auraframefx.domains.nexus.preferences.DataStoreManager
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Class.forName
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -49,7 +49,7 @@ object SupportModule {
 
         // BuildConfig (may be injected by Gradle manifestPlaceholders or buildConfigField)
         val buildConfigKey = try {
-            val clazz = Class.forName(ctx.packageName + ".BuildConfig")
+            val clazz = forName(ctx.packageName + ".BuildConfig")
             val field = clazz.getField("VERTEX_API_KEY")
             val v = field.get(null) as? String
             if (!v.isNullOrBlank()) v else null
@@ -64,7 +64,7 @@ object SupportModule {
         val apiKey = listOf(manifestKey, resKey, buildConfigKey, envKey, propKey).firstOrNull { !it.isNullOrBlank() }
 
         val authInterceptor = Interceptor { chain ->
-            val original: Request = chain.request()
+            val original = chain.request()
             val builder = original.newBuilder()
             apiKey?.let {
                 builder.addHeader("Authorization", "Bearer $it")
@@ -75,7 +75,7 @@ object SupportModule {
 
         // Add logging interceptor only in debug builds (detect BuildConfig.DEBUG via reflection)
         val loggingInterceptor = try {
-            val buildConfigClazz = Class.forName(ctx.packageName + ".BuildConfig")
+            val buildConfigClazz = forName(ctx.packageName + ".BuildConfig")
             val debugField = buildConfigClazz.getField("DEBUG")
             val isDebug = (debugField.getBoolean(null))
             HttpLoggingInterceptor().apply {
@@ -90,6 +90,14 @@ object SupportModule {
             .addInterceptor(loggingInterceptor)
             .build()
     }
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class SupportNetwork
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class SupportRetrofit
 
     @Provides
     @Singleton
