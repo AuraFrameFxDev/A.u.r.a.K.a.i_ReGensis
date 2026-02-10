@@ -1,12 +1,7 @@
 package dev.aurakai.auraframefx.embodiment.cutscenes
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import dev.aurakai.auraframefx.embodiment.*
 import kotlin.time.Duration.Companion.seconds
-import kotlin.random.Random
 
 /**
  * Annoyance Cutscenes
