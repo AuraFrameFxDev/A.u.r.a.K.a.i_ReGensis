@@ -38,7 +38,11 @@ fun UnifiedBackground(
 ) {
     LocalContext.current
 
-    Box(modifier = modifier.fillMaxSize().background(Color.Black)) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
         // 1. Logic to determine if we use Animation, Image, or Gradient
         // This is where the "Wiring" happens
         when (domain) {

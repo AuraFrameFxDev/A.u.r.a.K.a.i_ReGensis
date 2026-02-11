@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
 import dev.aurakai.auraframefx.domains.aura.LauncherConfiguration
 import dev.aurakai.auraframefx.domains.aura.MonetConfiguration
 import dev.aurakai.auraframefx.domains.aura.SystemUIConfiguration
+import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

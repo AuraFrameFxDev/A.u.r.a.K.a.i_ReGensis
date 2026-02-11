@@ -1,6 +1,11 @@
 package dev.aurakai.auraframefx.embodiment.cutscenes
 
-import dev.aurakai.auraframefx.embodiment.*
+import dev.aurakai.auraframefx.embodiment.AuraState
+import dev.aurakai.auraframefx.embodiment.Character
+import dev.aurakai.auraframefx.embodiment.KaiState
+import dev.aurakai.auraframefx.embodiment.ManifestationPosition
+import dev.aurakai.auraframefx.embodiment.MovementBehavior
+import dev.aurakai.auraframefx.embodiment.MovementPresets
 import kotlin.time.Duration.Companion.seconds
 
 /**

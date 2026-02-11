@@ -22,7 +22,10 @@ object ShizukuManager {
             Log.d(TAG, "Shizuku.pingBinder() returned true: Shizuku service is available.")
             true
         } catch (e: Throwable) {
-            Log.e(TAG, "Shizuku.pingBinder() failed: Shizuku service not available or error occurred. " + e.message)
+            Log.e(
+                TAG,
+                "Shizuku.pingBinder() failed: Shizuku service not available or error occurred. " + e.message
+            )
             false
         }
     }
@@ -114,7 +117,10 @@ object ShizukuManager {
                 }
             }
         } else {
-            Log.e(TAG, "Shizuku is not available. Please ensure Shizuku app is installed and running.")
+            Log.e(
+                TAG,
+                "Shizuku is not available. Please ensure Shizuku app is installed and running."
+            )
         }
     }
 }

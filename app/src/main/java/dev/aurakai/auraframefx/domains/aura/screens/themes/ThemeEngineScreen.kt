@@ -203,10 +203,12 @@ fun ThemeEngineScreen(
 
             Card(
                 colors = CardDefaults.cardColors(containerColor = CyberGlow.cardBackground),
-                modifier = Modifier.fillMaxWidth().graphicsLayer {
-                    scaleX = scaleAnim.value
-                    scaleY = scaleAnim.value
-                }) {
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .graphicsLayer {
+                        scaleX = scaleAnim.value
+                        scaleY = scaleAnim.value
+                    }) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = {

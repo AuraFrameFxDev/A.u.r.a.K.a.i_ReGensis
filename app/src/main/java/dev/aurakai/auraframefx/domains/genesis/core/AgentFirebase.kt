@@ -1,30 +1,29 @@
 package dev.aurakai.auraframefx.domains.genesis.core
 
+/**
+ * 🚀 AgentFirebase (Firegen) — The Secure Cloud Nexus
+ * All Firebase operations must go through this class to ensure policy enforcement.
+ * Beefed up with Agent State Synchronization and Collective Insights.
+ */
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
-import dev.aurakai.auraframefx.domains.kai.security.CapabilityPolicy
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
+import dev.aurakai.auraframefx.domains.kai.security.CapabilityPolicy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-
-/**
- * 🚀 AgentFirebase (Firegen) — The Secure Cloud Nexus
- * All Firebase operations must go through this class to ensure policy enforcement.
- * Beefed up with Agent State Synchronization and Collective Insights.
- */
-import com.google.firebase.firestore.SetOptions
 
 @Singleton
 class AgentFirebase @Inject constructor(

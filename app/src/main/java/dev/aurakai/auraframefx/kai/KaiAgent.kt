@@ -1,11 +1,11 @@
 package dev.aurakai.auraframefx.kai
 
+import android.util.Log
+import dev.aurakai.auraframefx.agent.BaseAgent
 import dev.aurakai.auraframefx.common.orchestration.OrchestratableAgent
-import dev.aurakai.auraframefx.agent.BaseAgent // Import BaseAgent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.util.Log
 
 private const val TAG = "KaiAgent"
 

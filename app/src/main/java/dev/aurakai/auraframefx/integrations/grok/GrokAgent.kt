@@ -1,13 +1,13 @@
 package dev.aurakai.auraframefx.integrations.grok
 
-import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
+import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
-import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

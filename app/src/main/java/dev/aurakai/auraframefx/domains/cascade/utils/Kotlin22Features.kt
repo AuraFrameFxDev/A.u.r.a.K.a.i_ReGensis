@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -10,7 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 /**
  * Kotlin 2.2.0 + Java 24 Feature Demonstration

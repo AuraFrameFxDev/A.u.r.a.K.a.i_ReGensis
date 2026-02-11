@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.screens.uxui_engine
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -78,17 +77,17 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.customization.ComponentEditor
-import dev.aurakai.auraframefx.domains.aura.ui.customization.ComponentType
-import dev.aurakai.auraframefx.domains.aura.ui.customization.CustomizationState
-import dev.aurakai.auraframefx.domains.aura.ui.customization.CustomizationViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.customization.UIComponent
-import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkCyan
-import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPink
-import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPurple
-import dev.aurakai.auraframefx.domains.cascade.utils.GyroscopeManager
-import dev.aurakai.auraframefx.domains.cascade.utils.VoiceState
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.ui.customization.ComponentEditor
+import dev.aurakai.auraframefx.ui.customization.ComponentType
+import dev.aurakai.auraframefx.ui.customization.CustomizationState
+import dev.aurakai.auraframefx.ui.customization.CustomizationViewModel
+import dev.aurakai.auraframefx.ui.customization.UIComponent
+import dev.aurakai.auraframefx.ui.theme.CyberpunkCyan
+import dev.aurakai.auraframefx.ui.theme.CyberpunkPink
+import dev.aurakai.auraframefx.ui.theme.CyberpunkPurple
+import dev.aurakai.auraframefx.utils.GyroscopeManager
+import dev.aurakai.auraframefx.utils.VoiceState
 import kotlin.math.PI
 import kotlin.math.sin
 

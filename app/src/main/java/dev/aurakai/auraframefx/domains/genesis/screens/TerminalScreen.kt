@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.genesis.screens
+package dev.aurakai.auraframefx.aura.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -220,3 +221,5 @@ private fun processCommand(cmd: String, history: MutableList<TerminalLine>) {
     }
 }
 
+data class TerminalLine(val content: String, val type: TerminalType)
+enum class TerminalType { COMMAND, INFO, ERROR, SUCCESS }

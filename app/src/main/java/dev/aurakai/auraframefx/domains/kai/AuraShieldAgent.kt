@@ -2,21 +2,19 @@ package dev.aurakai.auraframefx.domains.kai
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
-import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
-import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
-import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
-import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
-import dev.aurakai.auraframefx.domains.genesis.models.AgentType
-import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
-import javax.inject.Inject
-import javax.inject.Singleton
-import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.cascade.ScanEvent
 import dev.aurakai.auraframefx.domains.cascade.SecurityContextState
 import dev.aurakai.auraframefx.domains.cascade.SecurityMode
+import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
+import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
+import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.kai.models.ActiveThreat
+import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.kai.models.ThreatStatus
 import dev.aurakai.auraframefx.securecomm.protocol.SecureChannel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +23,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import java.util.UUID
-import kotlin.collections.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * AuraShieldAgent: The Security Sentinel of the ReGenesis Collective.

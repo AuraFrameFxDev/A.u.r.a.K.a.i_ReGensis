@@ -66,8 +66,17 @@ fun PartyScreen(
         },
         containerColor = Color.Transparent
     ) { padding ->
-        Box(modifier = Modifier.fillMaxSize().background(bgGradient).padding(padding)) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(bgGradient)
+                .padding(padding)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
                 // Synergy Meter
                 SynergyMeter(synergy)
 
@@ -96,7 +105,9 @@ fun PartyScreen(
 
                 Button(
                     onClick = { /* Deploy Mission */ },
-                    modifier = Modifier.fillMaxWidth().height(60.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan),
                     shape = RoundedCornerShape(12.dp)
                 ) {
@@ -127,7 +138,10 @@ fun SynergyMeter(level: Float) {
             Spacer(modifier = Modifier.height(12.dp))
             LinearProgressIndicator(
                 progress = { level },
-                modifier = Modifier.fillMaxWidth().height(12.dp).clip(RoundedCornerShape(6.dp)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp)
+                    .clip(RoundedCornerShape(6.dp)),
                 color = Color.Cyan,
                 trackColor = Color.Gray.copy(alpha = 0.2f)
             )

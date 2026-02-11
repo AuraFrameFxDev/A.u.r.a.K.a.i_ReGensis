@@ -76,7 +76,11 @@ fun MonitoringHUDsScreen(
         containerColor = Color.Transparent
     ) { padding ->
         Column(
-            modifier = Modifier.fillMaxSize().background(bgGradient).padding(padding).padding(16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(bgGradient)
+                .padding(padding)
+                .padding(16.dp)
         ) {
 
             // Integrity Pulse Matrix
@@ -128,7 +132,9 @@ fun MonitoringHUDsScreen(
 @Composable
 fun IntegrityPulseCard(integrity: Float) {
     Card(
-        modifier = Modifier.fillMaxWidth().height(120.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         border = androidx.compose.foundation.BorderStroke(1.dp, Color.Cyan.copy(alpha = 0.3f))
     ) {
@@ -166,7 +172,10 @@ fun IntegrityPulseCard(integrity: Float) {
                     progress = { integrity },
                     color = Color.Cyan,
                     trackColor = Color.Gray.copy(alpha = 0.2f),
-                    modifier = Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp))
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(4.dp)
+                        .clip(RoundedCornerShape(2.dp))
                 )
             }
         }
@@ -187,7 +196,9 @@ fun HudGaugeCard(
         border = androidx.compose.foundation.BorderStroke(1.dp, accentColor.copy(alpha = 0.2f))
     ) {
         Column(
-            modifier = Modifier.padding(16.dp).fillMaxSize(),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -201,11 +212,15 @@ fun HudGaugeCard(
             Text(value, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Black)
 
             Box(
-                modifier = Modifier.fillMaxWidth().height(4.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(4.dp)
                     .background(Color.Gray.copy(alpha = 0.1f))
             ) {
                 Box(
-                    modifier = Modifier.fillMaxWidth(progress).fillMaxHeight()
+                    modifier = Modifier
+                        .fillMaxWidth(progress)
+                        .fillMaxHeight()
                         .background(accentColor)
                 )
             }

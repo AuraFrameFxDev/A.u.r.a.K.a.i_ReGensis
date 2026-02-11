@@ -2,11 +2,11 @@ package dev.aurakai.auraframefx.domains.aura.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.aura.UIDesign
 import dev.aurakai.auraframefx.domains.aura.repository.CollaborativeWorkspaceRepository
 import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
-import dev.aurakai.auraframefx.domains.aura.UIDesign
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber

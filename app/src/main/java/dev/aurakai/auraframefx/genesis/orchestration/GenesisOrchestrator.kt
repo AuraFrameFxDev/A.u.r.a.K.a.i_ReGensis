@@ -1,4 +1,3 @@
-
 package dev.aurakai.auraframefx.genesis.orchestration
 
 import android.util.Log
@@ -44,7 +43,10 @@ class GenesisOrchestrator : OrchestratableAgent, BaseAgent() {
                 // Actual orchestration processing start logic
             } ?: Log.e(TAG, "GenesisOrchestrator: agentScope is null. Cannot start processing.")
         } else {
-            Log.w(TAG, "GenesisOrchestrator: Orchestrator not initialized. Cannot start processing.")
+            Log.w(
+                TAG,
+                "GenesisOrchestrator: Orchestrator not initialized. Cannot start processing."
+            )
         }
     }
 
@@ -66,7 +68,10 @@ class GenesisOrchestrator : OrchestratableAgent, BaseAgent() {
             isOrchestratorInitialized = false
             Log.d(TAG, "GenesisOrchestrator: Orchestrator shut down.")
         } else {
-            Log.i(TAG, "GenesisOrchestrator: Orchestrator not initialized. Skipping shutdown logic.")
+            Log.i(
+                TAG,
+                "GenesisOrchestrator: Orchestrator not initialized. Skipping shutdown logic."
+            )
         }
     }
 

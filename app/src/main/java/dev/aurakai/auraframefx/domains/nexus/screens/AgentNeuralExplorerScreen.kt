@@ -51,9 +51,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlin.math.cos
 import kotlin.math.sin
 

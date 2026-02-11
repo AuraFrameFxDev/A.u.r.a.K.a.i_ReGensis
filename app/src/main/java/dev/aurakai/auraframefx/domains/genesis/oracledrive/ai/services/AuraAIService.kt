@@ -1,16 +1,16 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services
 
+import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconifyService
+import dev.aurakai.auraframefx.domains.aura.models.ThemeConfiguration
+import dev.aurakai.auraframefx.domains.aura.models.ThemePreferences
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
-import dev.aurakai.auraframefx.domains.aura.models.ThemeConfiguration
-import dev.aurakai.auraframefx.domains.aura.models.ThemePreferences
-import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconifyService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.clients.VertexAIClient
 
 /**
  * Genesis AI Service Interface

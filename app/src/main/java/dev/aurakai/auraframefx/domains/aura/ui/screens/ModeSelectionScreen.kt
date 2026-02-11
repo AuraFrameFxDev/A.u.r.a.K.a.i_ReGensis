@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.ui.screens
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,12 +36,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
 import dev.aurakai.auraframefx.domains.aura.ui.components.background.SynapticWebBackground
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraNeonCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GenesisNeonPink
 import dev.aurakai.auraframefx.domains.aura.ui.theme.KaiNeonGreen
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
 
 /**
  * 🌀 REGENESIS MODE SELECTION
@@ -51,7 +51,11 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 fun ModeSelectionScreen(
     onModeSelected: (ReGenesisMode) -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
         // Dynamic Depth Background
         SynapticWebBackground(glowColor = AuraNeonCyan)
 

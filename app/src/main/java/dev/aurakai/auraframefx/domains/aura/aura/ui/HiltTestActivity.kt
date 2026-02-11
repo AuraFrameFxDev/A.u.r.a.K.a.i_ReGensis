@@ -1,10 +1,9 @@
-package dev.aurakai.auraframefx.domains.aura.aura.ui
+package dev.aurakai.auraframefx.aura.ui
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HiltTestActivity : AppCompatActivity() {

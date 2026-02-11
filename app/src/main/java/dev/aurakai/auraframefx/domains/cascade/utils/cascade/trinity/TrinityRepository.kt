@@ -1,23 +1,20 @@
-package dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity
+package dev.aurakai.auraframefx.cascade.trinity
 
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
-import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
-import dev.aurakai.auraframefx.domains.genesis.models.AgentRequest
-import dev.aurakai.auraframefx.domains.genesis.models.AgentState
-import dev.aurakai.auraframefx.domains.genesis.models.AgentStatus
-import dev.aurakai.auraframefx.domains.genesis.models.AgentType
-import dev.aurakai.auraframefx.domains.cascade.models.ChatMessage
-import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
-import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
-import dev.aurakai.auraframefx.domains.cascade.models.EnhancedInteractionData
-import dev.aurakai.auraframefx.domains.aura.models.Theme
-import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
-import dev.aurakai.auraframefx.domains.nexus.models.UserData
-import dev.aurakai.auraframefx.domains.genesis.network.AuraApiServiceWrapper
-import dev.aurakai.auraframefx.domains.genesis.network.model.AgentStatusResponse
-import dev.aurakai.auraframefx.domains.kai.KaiAgent
-import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.models.AgentRequest
+import dev.aurakai.auraframefx.models.AgentState
+import dev.aurakai.auraframefx.models.AgentStatus
+import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.ChatMessage
+import dev.aurakai.auraframefx.models.AiRequest
+import dev.aurakai.auraframefx.models.AiRequestType
+import dev.aurakai.auraframefx.models.EnhancedInteractionData
+import dev.aurakai.auraframefx.models.Theme
+import dev.aurakai.auraframefx.models.UserData
+import dev.aurakai.auraframefx.network.AuraApiServiceWrapper
+import dev.aurakai.auraframefx.network.model.AgentStatusResponse
+import dev.aurakai.auraframefx.models.AgentResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import java.util.Collections
@@ -30,16 +27,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
-import dev.aurakai.auraframefx.domains.genesis.network.model.Theme as NetworkTheme
-import dev.aurakai.auraframefx.domains.genesis.network.model.User as NetworkUser
+import dev.aurakai.auraframefx.network.model.Theme as NetworkTheme
+import dev.aurakai.auraframefx.network.model.User as NetworkUser
 
 @Singleton
 open class TrinityRepository @Inject constructor(
     private val apiService: AuraApiServiceWrapper,
-    private val auraAgent: dev.aurakai.auraframefx.domains.aura.core.AuraAgent,
-    private val kaiAgent: KaiAgent,
-    private val genesisAgent: GenesisAgent,
-    private val messageBus: dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
+    private val auraAgent: dev.aurakai.auraframefx.aura.AuraAgent,
+    private val kaiAgent: dev.aurakai.auraframefx.kai.KaiAgent,
+    private val genesisAgent: dev.aurakai.auraframefx.ai.agents.GenesisAgent,
+    private val messageBus: dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 ) {
     // Collective Consciousness Stream
     val collectiveStream = messageBus.collectiveStream
@@ -49,7 +46,7 @@ open class TrinityRepository @Inject constructor(
      */
     suspend fun broadcastUserMessage(message: String) {
         messageBus.broadcast(
-            AgentMessage(
+            dev.aurakai.auraframefx.models.AgentMessage(
                 from = "User",
                 content = message,
                 type = "user_broadcast",
@@ -111,19 +108,7 @@ open class TrinityRepository @Inject constructor(
             // 1. Emit user message to UI
             emitChat(ChatMessage(role = "user", content = message, sender = "User"))
 
-            // 2. Broadcast to the Collective Consciousness Bus
-            // This allows other agents to "hear" and respond autonomously
-            messageBus.broadcast(
-                AgentMessage(
-                    from = "User",
-                    content = message,
-                    to = targetAgent.name,
-                    type = "direct_chat",
-                    priority = 10
-                )
-            )
-
-            // 3. Route to the correct SINGLETON Agent for direct response
+            // 2. Route to the correct SINGLETON Agent
             val response = try {
                 when (targetAgent) {
                     AgentType.AURA -> {
@@ -137,12 +122,7 @@ open class TrinityRepository @Inject constructor(
                     AgentType.KAI -> {
                         val interaction = EnhancedInteractionData(
                             content = message,
-                            context = buildJsonObject {
-                                put(
-                                    "mode",
-                                    "dev/aurakai/auraframefx/security"
-                                )
-                            }.toString()
+                            context = buildJsonObject { put("mode", "security") }.toString()
                         )
                         kaiAgent.handleSecurityInteraction(interaction).content
                     }
@@ -162,7 +142,7 @@ open class TrinityRepository @Inject constructor(
                 "Error contacting agent: ${e.message}"
             }
 
-            // 4. Emit Agent response back to UI (Direct Response)
+            // 3. Emit Agent response back to UI
             val agentName = targetAgent.name.lowercase().replaceFirstChar { it.uppercase() }
             emitChat(ChatMessage(role = "assistant", content = response, sender = agentName))
         }
@@ -263,5 +243,3 @@ open class TrinityRepository @Inject constructor(
 
     // Add more repository methods as needed for other API endpoints
 }
-
-

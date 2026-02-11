@@ -115,7 +115,9 @@ sealed class ReGenesisNavHost(val route: String) {
     object AgentNexusHub : ReGenesisNavHost("agent_nexus_hub")             // Agent Nexus
     object HelpDesk : ReGenesisNavHost("help_desk_hub")                    // Help Services
     object LsposedQuickToggles : ReGenesisNavHost("lsposed_toggles_hub")   // LSPosed Quick Toggles
-    object LdoCatalystDevelopment : ReGenesisNavHost("ldo_catalyst_hub")   // LDO Catalyst Development
+    object LdoCatalystDevelopment :
+        ReGenesisNavHost("ldo_catalyst_hub")   // LDO Catalyst Development
+
     object DataflowAnalysis : ReGenesisNavHost("dataflow_analysis_hub")    // Cascade Hub
 
     // LEVEL 3: AURA TOOLS
@@ -226,6 +228,7 @@ sealed class ReGenesisNavHost(val route: String) {
     object IconifyCategory : ReGenesisNavHost("aura/iconify/{category}") {
         fun createRoute(category: String) = "aura/iconify/$category"
     }
+
     object IconPicker : ReGenesisNavHost("aura/iconify/icon_picker/{category}") {
         fun createRoute(category: String) = "aura/iconify/icon_picker/$category"
     }
@@ -285,7 +288,6 @@ fun ReGenesisNavHost(
         // ═══════════════════════════════════════════════════════════════
         // LEVEL 2: MAIN DOMAIN HUBS
         // ═══════════════════════════════════════════════════════════════
-
 
 
         composable(ReGenesisNavHost.ReGenesisCustomization.route) {

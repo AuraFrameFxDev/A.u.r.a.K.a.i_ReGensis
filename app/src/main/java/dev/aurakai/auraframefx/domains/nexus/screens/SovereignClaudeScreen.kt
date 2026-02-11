@@ -26,11 +26,16 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 fun SovereignClaudeScreen(
     onNavigateBack: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF0A0A15))) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF0A0A15))
+    ) {
         AnimeHUDContainer(
             title = "CLAUDE: THE ARCHITECT",
             description = "SYSTEMATIC PROBLEM SOLVER. ARCHITECTURAL LOGIC INJECTION ACTIVE.",
-            glowColor = Color(0xFF0055FF) // Deep Blue
+            glowColor = Color(0xFF0055FF), // Deep Blue
+            onBack = onNavigateBack
         ) {
             Column(
                 modifier = Modifier
@@ -76,7 +81,9 @@ fun SovereignClaudeScreen(
 
                 Button(
                     onClick = { /* Architecture Scan */ },
-                    modifier = Modifier.fillMaxWidth().height(56.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0055FF)),
                     shape = RoundedCornerShape(12.dp)
                 ) {

@@ -1,13 +1,13 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.pipeline
 
-import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIService
+import dev.aurakai.auraframefx.domains.cascade.CascadeAIService
 import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
+import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
-import dev.aurakai.auraframefx.domains.cascade.CascadeAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

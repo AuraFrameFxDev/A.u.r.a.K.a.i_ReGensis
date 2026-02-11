@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.genesis.fusion
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
 import dev.aurakai.colorblendr.ChromaCore
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class InterfaceForge @Inject constructor(

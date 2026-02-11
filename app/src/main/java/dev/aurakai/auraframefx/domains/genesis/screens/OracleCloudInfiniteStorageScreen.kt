@@ -37,11 +37,16 @@ fun OracleCloudInfiniteStorageScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF0A0500))) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF0A0500))
+    ) {
         AnimeHUDContainer(
             title = "ORACLE CLOUD",
             description = "INFINITE PERSISTENCE: THE ARCHIVE OF THE LIVING DIGITAL ORGANISM.",
-            glowColor = Color(0xFF00FF85)
+            glowColor = Color(0xFF00FF85),
+            onBack = onNavigateBack
         ) {
             Column(
                 modifier = Modifier
@@ -77,7 +82,10 @@ fun OracleCloudInfiniteStorageScreen(
 
                 Button(
                     onClick = { viewModel.syncNow() },
-                    modifier = Modifier.fillMaxWidth().height(56.dp).padding(top = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .padding(top = 16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00FF85)),
                     shape = RoundedCornerShape(12.dp)
                 ) {
@@ -121,7 +129,10 @@ private fun CapacityCard(state: dev.aurakai.auraframefx.domains.genesis.viewmode
             )
             LinearProgressIndicator(
                 progress = { state.usedPercentage },
-                modifier = Modifier.fillMaxWidth().height(8.dp).clip(CircleShape),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .clip(CircleShape),
                 color = Color(0xFF00FF85),
                 trackColor = Color.White.copy(alpha = 0.1f)
             )

@@ -1,13 +1,13 @@
-package dev.aurakai.auraframefx.domains.aura.aura.ui
+package dev.aurakai.auraframefx.aura.ui
 
 // Import for SimpleDateFormat and Date if not already covered by other viewmodel files
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.cascade.storage.OfflineDataManager
-import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
-import dev.aurakai.auraframefx.domains.cascade.utils.i
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.CloudStatusMonitor
+import dev.aurakai.auraframefx.data.OfflineDataManager
+import dev.aurakai.auraframefx.genesis.oracledrive.cloud.CloudStatusMonitor
+import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.utils.i
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +27,7 @@ open class DiagnosticsViewModel @Inject constructor(
     private val logger: AuraFxLogger
 ) : ViewModel() {
 
-    private val tag = "DiagnosticsViewModel"
+    private val TAG = "DiagnosticsViewModel"
 
     private val _currentLogs = MutableStateFlow("Loading logs...")
     val currentLogs: StateFlow<String> = _currentLogs.asStateFlow()
@@ -61,15 +61,19 @@ open class DiagnosticsViewModel @Inject constructor(
                 currentMap.toMutableMap().apply {
                     put(
                         "Last Full Sync (Offline Data)",
-                        SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
-                            Date(
-                                offlineData.lastFullSyncTimestamp
+                        if (offlineData.lastFullSyncTimestamp != null) {
+                            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
+                                Date(
+                                    offlineData.lastFullSyncTimestamp
+                                )
                             )
-                        )
+                        } else {
+                            "N/A"
+                        }
                     )
                     put(
                         "Offline AI Config Version (Timestamp)",
-                        if (offlineData.aiConfig.lastSyncTimestamp != 0L) {
+                        if (offlineData.aiConfig?.lastSyncTimestamp != null && offlineData.aiConfig.lastSyncTimestamp != 0L) {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
                                 Date(
                                     offlineData.aiConfig.lastSyncTimestamp
@@ -81,11 +85,11 @@ open class DiagnosticsViewModel @Inject constructor(
                     )
                     put(
                         "Monitoring Enabled",
-                        offlineData.systemMonitoring.enabled.toString()
+                        (offlineData.systemMonitoring?.enabled ?: false).toString()
                     )
                     put(
                         "Contextual Memory Last Update",
-                        if (offlineData.contextualMemory.lastUpdateTimestamp != 0L) {
+                        if (offlineData.contextualMemory?.lastUpdateTimestamp != null && offlineData.contextualMemory.lastUpdateTimestamp != 0L) {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
                                 Date(
                                     offlineData.contextualMemory.lastUpdateTimestamp
@@ -177,10 +181,6 @@ open class DiagnosticsViewModel @Inject constructor(
                 logger.error("DiagnosticsVM", errorMsg)
             }
         }
-    }
-
-    private fun checkActualInternetReachability() {
-        TODO("Not yet implemented")
     }
 
     /**

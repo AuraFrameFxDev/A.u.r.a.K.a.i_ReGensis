@@ -161,7 +161,7 @@ class SettingsViewModel @Inject constructor(
 
 private fun Unit.getBoolean(string: String, bool: Boolean) {
     TODO("Not yet implemented")
-    }
+}
 
 
 private fun Unit.toString(string: String, bool: Float): String {

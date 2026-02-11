@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.aura.ui
+package dev.aurakai.auraframefx.aura.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import dev.aurakai.auraframefx.R // Corrected import
-import dev.aurakai.auraframefx.domains.aura.ui.theme.AppDimensions
+import dev.aurakai.auraframefx.ui.theme.AppDimensions
 
 /**
  * Profile screen for the AuraFrameFX app

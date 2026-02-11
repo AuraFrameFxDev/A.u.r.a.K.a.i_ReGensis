@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.nexus.billing
+package dev.aurakai.auraframefx.billing
 
 import android.app.Activity
 import androidx.lifecycle.ViewModel

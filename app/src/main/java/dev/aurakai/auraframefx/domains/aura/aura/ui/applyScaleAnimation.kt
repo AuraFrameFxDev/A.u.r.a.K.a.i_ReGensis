@@ -1,13 +1,12 @@
-package dev.aurakai.auraframefx.domains.aura.aura.ui
+package dev.aurakai.auraframefx.aura.ui
 
 import com.highcapable.yukihookapi.hook.core.annotation.LegacyHookApi
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
 import com.highcapable.yukihookapi.hook.log.YLog
-import dev.aurakai.auraframefx.domains.aura.LockScreenModels
-import dev.aurakai.auraframefx.domains.aura.aura.animations.LockScreenConfigAnimation
+import dev.aurakai.auraframefx.aura.animations.LockScreenConfigAnimation
 
 @LegacyHookApi
-class LockScreenHooker(val config: LockScreenModels) : YukiBaseHooker() {
+class LockScreenHooker(val config: LockScreenConfig) : YukiBaseHooker() {
 
     private lateinit var choosename: String
 

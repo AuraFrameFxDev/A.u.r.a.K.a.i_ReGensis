@@ -274,17 +274,24 @@ private fun handleRomAction(
     context: Context
 ) {
     when (actionType) {
-        RomActionType.FLASH_ROM -> { /* Handled in Composable */ }
-        RomActionType.RESTORE_BACKUP -> { /* Handled in Composable */ }
+        RomActionType.FLASH_ROM -> { /* Handled in Composable */
+        }
+
+        RomActionType.RESTORE_BACKUP -> { /* Handled in Composable */
+        }
+
         RomActionType.CREATE_BACKUP -> {
             viewModel.performOperation(CreateBackup, context)
         }
+
         RomActionType.UNLOCK_BOOTLOADER -> {
             viewModel.performOperation(RomOperation.UnlockBootloader, context)
         }
+
         RomActionType.INSTALL_RECOVERY -> {
             viewModel.performOperation(RomOperation.InstallRecovery, context)
         }
+
         RomActionType.GENESIS_OPTIMIZATIONS -> {
             viewModel.performOperation(RomOperation.GenesisOptimizations, context)
         }
@@ -834,6 +841,7 @@ fun RomOperation.getDisplayName(): String {
         RomOperation.InstallRecovery -> {
             "Install Recovery"
         }
+
         RomOperation.GenesisOptimizations -> "Genesis Optimizations"
     }
 }

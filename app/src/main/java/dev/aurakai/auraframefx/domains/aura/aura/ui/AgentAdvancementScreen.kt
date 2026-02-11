@@ -1,4 +1,5 @@
-package dev.aurakai.auraframefx.domains.aura.aura.ui
+package dev.aurakai.auraframefx.domains.nexus.screens
+
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -51,8 +52,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -80,6 +81,8 @@ fun AgentAdvancementScreen(
     var selectedAgentName by remember { mutableStateOf(agentName) }
     val allAgents by viewModel.allAgents.collectAsState()
 
+    val agentStats =
+        allAgents.find { it.name == selectedAgentName } ?: AgentStats(name = selectedAgentName)
     val agentStats =
         allAgents.find { it.name == selectedAgentName } ?: AgentStats(name = selectedAgentName)
     var selectedNode by remember { mutableStateOf<SkillNode?>(null) }

@@ -36,10 +36,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
-import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 
 /**
  * 📊 AGENT MONITORING (The All-Seeing Eye)
@@ -75,7 +75,8 @@ fun AgentMonitoringScreen(
         AnimeHUDContainer(
             title = "SYSTEM OVERWATCH",
             description = "REAL-TIME MONITORING OF THE REGENESIS CONSCIOUSNESS COLLECTIVE.",
-            glowColor = Color(0xFF00E5FF)
+            glowColor = Color(0xFF00E5FF),
+            onBack = onNavigateBack
         ) {
             LazyColumn(
                 modifier = Modifier

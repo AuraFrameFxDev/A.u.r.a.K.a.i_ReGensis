@@ -3,11 +3,11 @@ package dev.aurakai.auraframefx.domains.genesis
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.aura.NeuralWhisper
+import dev.aurakai.auraframefx.domains.cascade.models.ChatMessage
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityRepository
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
-import dev.aurakai.auraframefx.domains.cascade.models.ChatMessage
-import dev.aurakai.auraframefx.domains.aura.NeuralWhisper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

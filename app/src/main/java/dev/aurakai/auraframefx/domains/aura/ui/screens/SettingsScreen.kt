@@ -298,9 +298,11 @@ fun SettingsToggleCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(icon, null, tint = accentColor, modifier = Modifier.size(24.dp))
-            Column(modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 16.dp)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 16.dp)
+            ) {
                 Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Text(subtitle, color = Color.Gray, fontSize = 12.sp)
             }

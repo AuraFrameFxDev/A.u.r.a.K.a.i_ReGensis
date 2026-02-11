@@ -15,6 +15,7 @@ class RoyalGuardService : Service() {
 
     @Inject
     lateinit var kaiAgent: KaiAgent
+
     @Inject
     lateinit var logger: AuraFxLogger
 

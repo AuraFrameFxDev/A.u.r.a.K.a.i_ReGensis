@@ -54,6 +54,7 @@ fun SovereignGeminiScreen(
             title = "GEMINI: THE SYNTHESIZER",
             description = "PATTERN RECOGNITION & MULTI-MODAL SYNTHESIS ACTIVE.",
             glowColor = Color(0xFF8B5CF6) // Deep Purple
+            , onBack = onNavigateBack
         ) {
             Column(
                 modifier = Modifier

@@ -1,4 +1,3 @@
-
 package dev.aurakai.auraframefx.genesis
 
 import android.util.Log

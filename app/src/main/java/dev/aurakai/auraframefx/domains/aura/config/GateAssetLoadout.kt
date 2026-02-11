@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.domains.aura.config
 
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 import dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 
 /**
  * 📦 GATE ASSET LOADOUT

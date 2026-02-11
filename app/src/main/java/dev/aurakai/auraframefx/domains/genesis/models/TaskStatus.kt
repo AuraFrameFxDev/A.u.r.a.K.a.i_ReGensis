@@ -25,12 +25,16 @@ data class TaskStatus(
     enum class Status(val value: String) {
         @SerialName("pending")
         PENDING("pending"),
+
         @SerialName("running")
         RUNNING("running"),
+
         @SerialName("completed")
         COMPLETED("completed"),
+
         @SerialName("failed")
         FAILED("failed"),
+
         @SerialName("cancelled")
         CANCELLED("cancelled");
     }

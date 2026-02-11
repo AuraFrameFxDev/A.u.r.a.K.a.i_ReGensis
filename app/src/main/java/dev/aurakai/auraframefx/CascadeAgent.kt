@@ -1,4 +1,3 @@
-
 package dev.aurakai.auraframefx.cascade
 
 import dev.aurakai.auraframefx.agent.AgentType

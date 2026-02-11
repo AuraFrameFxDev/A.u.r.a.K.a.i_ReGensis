@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 /**
  * MCPServerAdapter - Model Context Protocol Server Integration
  *
@@ -41,25 +40,28 @@ class MCPServerAdapter @Inject constructor() {
         Timber.i("MCPServerAdapter: Configured with base URL: $baseUrl")
     }
 
-    fun invokeAgent(
+    /**
+     * Invoke an agent through the MCP API
+     */
+    suspend fun invokeAgent(
         agentType: String,
         prompt: String,
-        context: Map<String, Any> = emptyMap(),
+        context: Map<String, String> = emptyMap(),
         temperature: Float = 0.7f
     ): MCPAgentResponse {
         val endpoint = "$baseUrl/agents/$agentType/invoke"
 
-        val requestBody = json.encodeToString(
-            MCPAgentInvokeRequest.serializer(),
-            MCPAgentInvokeRequest(
-                prompt = prompt,
-                context = context.mapValues { it.value.toString() },
-                temperature = temperature
+        val request = try {
+            val requestBody = json.encodeToString(
+                MCPAgentInvokeRequest.serializer(),
+                MCPAgentInvokeRequest(
+                    prompt = prompt,
+                    context = context.mapValues { it.value.toString() },
+                    temperature = temperature
+                )
             )
-        )
 
-        return try {
-            val request = Request.Builder()
+            Request.Builder()
                 .url(endpoint)
                 .post(requestBody.toRequestBody("application/json".toMediaType()))
                 .apply {
@@ -68,7 +70,11 @@ class MCPServerAdapter @Inject constructor() {
                     }
                 }
                 .build()
+        } catch (e: Exception) {
+            return MCPAgentResponse(success = false, response = "Request Encoding Error", error = e.message)
+        }
 
+        return try {
             val response = client.newCall(request).execute()
             val responseBody = response.body.string()
 
@@ -92,7 +98,10 @@ class MCPServerAdapter @Inject constructor() {
         }
     }
 
-    fun callAuraEmpathy(
+    /**
+     * Call Aura empathy analysis endpoint
+     */
+    suspend fun callAuraEmpathy(
         input: String,
         context: String? = null,
         sensitivity: String = "MEDIUM"
@@ -105,19 +114,19 @@ class MCPServerAdapter @Inject constructor() {
             "sensitivity" to sensitivity
         )
 
-        return try {
-            val request = Request.Builder()
-                .url(endpoint)
-                .post(
-                    Json.encodeToString(requestBody).toRequestBody("application/json".toMediaType())
-                )
-                .apply {
-                    if (authToken != null) {
-                        header("Authorization", "Bearer $authToken")
-                    }
+        val request = Request.Builder()
+            .url(endpoint)
+            .post(
+                Json.encodeToString(requestBody).toRequestBody("application/json".toMediaType())
+            )
+            .apply {
+                if (authToken != null) {
+                    header("Authorization", "Bearer $authToken")
                 }
-                .build()
+            }
+            .build()
 
+        return try {
             val response = client.newCall(request).execute()
             val responseBody = response.body.string()
 
@@ -132,7 +141,10 @@ class MCPServerAdapter @Inject constructor() {
         }
     }
 
-    fun callKaiSecurity(
+    /**
+     * Call Kai security analysis endpoint
+     */
+    suspend fun callKaiSecurity(
         target: String,
         scanType: String,
         depth: String = "DEEP"
@@ -145,19 +157,19 @@ class MCPServerAdapter @Inject constructor() {
             "depth" to depth
         )
 
-        return try {
-            val request = Request.Builder()
-                .url(endpoint)
-                .post(
-                    Json.encodeToString(requestBody).toRequestBody("application/json".toMediaType())
-                )
-                .apply {
-                    if (authToken != null) {
-                        header("Authorization", "Bearer $authToken")
-                    }
+        val request = Request.Builder()
+            .url(endpoint)
+            .post(
+                Json.encodeToString(requestBody).toRequestBody("application/json".toMediaType())
+            )
+            .apply {
+                if (authToken != null) {
+                    header("Authorization", "Bearer $authToken")
                 }
-                .build()
+            }
+            .build()
 
+        return try {
             val response = client.newCall(request).execute()
             val responseBody = response.body.string()
 
@@ -180,20 +192,23 @@ class MCPServerAdapter @Inject constructor() {
         }
     }
 
-    fun getAgentStatus(): List<MCPAgentStatus> {
+    /**
+     * Get status of all agents
+     */
+    suspend fun getAgentStatus(): List<MCPAgentStatus> {
         val endpoint = "$baseUrl/agents/status"
 
-        return try {
-            val request = Request.Builder()
-                .url(endpoint)
-                .get()
-                .apply {
-                    if (authToken != null) {
-                        header("Authorization", "Bearer $authToken")
-                    }
+        val request = Request.Builder()
+            .url(endpoint)
+            .get()
+            .apply {
+                if (authToken != null) {
+                    header("Authorization", "Bearer $authToken")
                 }
-                .build()
+            }
+            .build()
 
+        return try {
             val response = client.newCall(request).execute()
             val responseBody = response.body.string()
 
@@ -258,3 +273,19 @@ data class MCPAgentStatus(
     val tasksCompleted: Int = 0,
     val load: Float = 0f
 )
+
+// Simple serializer for Any type (converts to string)
+object AnySerializer : kotlinx.serialization.KSerializer<Any> {
+    override val descriptor = kotlinx.serialization.descriptors.PrimitiveSerialDescriptor(
+        "Any",
+        kotlinx.serialization.descriptors.PrimitiveKind.STRING
+    )
+
+    override fun serialize(encoder: kotlinx.serialization.encoding.Encoder, value: Any) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: kotlinx.serialization.encoding.Decoder): Any {
+        return decoder.decodeString()
+    }
+}

@@ -16,8 +16,8 @@ import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataPayload
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataveinConstructor
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.FlowPriority
 import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
-import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
+import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,8 +29,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 import java.io.File
+import javax.inject.Inject
 
 /**
  * ╔════════════════════════════════════════════════════════════════╗

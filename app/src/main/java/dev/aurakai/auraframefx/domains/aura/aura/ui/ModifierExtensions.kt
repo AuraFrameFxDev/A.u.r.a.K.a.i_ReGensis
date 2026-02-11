@@ -1,7 +1,5 @@
 package dev.aurakai.auraframefx.domains.aura.aura.ui
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent

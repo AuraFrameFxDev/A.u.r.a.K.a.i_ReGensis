@@ -22,10 +22,13 @@ package dev.aurakai.auraframefx.navigation
  */
 sealed class NavDestination(val route: String) {
 
-    // ═══════════════════════════════════════════════════════════════
-    // LEVEL 0: EXODUS HUD (Main Gate Carousel)
-    // ═══════════════════════════════════════════════════════════════
-    data object HomeGateCarousel : ReGenesisNavHost("exodus_hud")
+    // Agent Hub
+    object AgentHub : NavDestination("agent_hub", "Agent Hub", null)
+    object DirectChat : NavDestination("direct_chat", "Direct Chat", null)
+    object TaskAssignment : NavDestination("task_assignment", "Task Assignment", null)
+    object AgentMonitoring : NavDestination("agent_monitoring", "Agent Monitoring", null)
+    object FusionMode : NavDestination("fusion", "Fusion Mode", null)
+    object CodeAssist : NavDestination("code_assist", "Code Assist", null)
 
     // ═══════════════════════════════════════════════════════════════
     // LEVEL 1: PRIMARY GATES (Main Entry Points)
@@ -67,6 +70,7 @@ sealed class NavDestination(val route: String) {
     data object IconifyCategory : ReGenesisNavHost("aura/iconify/{category}") {
         fun createRoute(category: String) = "aura/iconify/$category"
     }
+
     data object IconifyIconPacks : ReGenesisNavHost("aura/iconify/icon_packs")
     data object IconifyBatteryStyles : ReGenesisNavHost("aura/iconify/battery_styles")
     data object IconifyBrightnessBars : ReGenesisNavHost("aura/iconify/brightness_bars")

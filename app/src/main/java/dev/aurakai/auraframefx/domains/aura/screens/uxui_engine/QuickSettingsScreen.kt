@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.screens.uxui_engine
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

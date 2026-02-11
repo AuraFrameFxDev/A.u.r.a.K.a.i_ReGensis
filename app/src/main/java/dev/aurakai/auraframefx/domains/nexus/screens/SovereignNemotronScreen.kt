@@ -2,7 +2,17 @@ package dev.aurakai.auraframefx.domains.nexus.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,8 +20,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,8 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.gates.SovereignNemotronViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.domains.aura.ui.gates.SovereignNemotronViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
@@ -38,11 +56,16 @@ fun SovereignNemotronScreen(
     val hitRate = stats["hit_rate_percent"] as? Int ?: 0
     val cacheSize = stats["cache_size"] as? Int ?: 0
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF030A05))) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF030A05))
+    ) {
         AnimeHUDContainer(
             title = "NEMOTRON: MEMORY KEEPER",
             description = "NVIDIA OPTIMIZED REASONING ENGINE. LONG-TERM PATTERN SYNTHESIS ACTIVE.",
-            glowColor = Color(0xFF76B900) // NVIDIA Green
+            glowColor = Color(0xFF76B900), // NVIDIA Green
+            onBack = onNavigateBack
         ) {
             Column(
                 modifier = Modifier
@@ -91,12 +114,16 @@ fun SovereignNemotronScreen(
                 }
 
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Button(
                         onClick = { /* Trigger Deep Recall */ },
-                        modifier = Modifier.weight(1f).height(56.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF76B900)),
                         shape = RoundedCornerShape(12.dp)
                     ) {
@@ -217,7 +244,9 @@ private fun ReasoningChainCard(title: String, steps: List<String>, confidence: F
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
-                        modifier = Modifier.size(4.dp).clip(CircleShape)
+                        modifier = Modifier
+                            .size(4.dp)
+                            .clip(CircleShape)
                             .background(Color(0xFF76B900))
                     )
                     Spacer(modifier = Modifier.width(8.dp))

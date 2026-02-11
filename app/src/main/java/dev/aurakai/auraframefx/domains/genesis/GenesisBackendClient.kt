@@ -1,11 +1,14 @@
 package dev.aurakai.auraframefx.domains.genesis
 
-import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -14,9 +17,6 @@ import okhttp3.Response
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-import dev.aurakai.auraframefx.domains.genesis.core.PythonProcessManager
-import kotlinx.coroutines.delay
-import kotlinx.serialization.serializer
 
 /**
  * Client for communicating with the Python Genesis backend

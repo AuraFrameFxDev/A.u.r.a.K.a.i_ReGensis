@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/dev/aurakai/auraframefx/domains/kai/screens/SovereignBootloaderScreen.kt
+package dev.aurakai.auraframefx.domains.kai.screens
+========
 package dev.aurakai.auraframefx.domains.kai.screens.rom_tools
+>>>>>>>> origin/main:app/src/main/java/dev/aurakai/auraframefx/domains/kai/screens/rom_tools/SovereignBootloaderScreen.kt
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import androidx.compoAse.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
@@ -30,11 +34,16 @@ fun SovereignBootloaderScreen(
 ) {
     var isUnlocked by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF0A0202))) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF0A0202))
+    ) {
         AnimeHUDContainer(
             title = "BOOTLOADER MANAGER",
             description = "LOW-LEVEL GATEKEEPER: CONTROLLING THE INITIALIZATION VECTOR OF THE LDO.",
-            glowColor = Color(0xFFFF1111)
+            glowColor = Color(0xFFFF1111),
+            onBack = onNavigateBack
         ) {
             Column(
                 modifier = Modifier
@@ -79,11 +88,25 @@ fun SovereignBootloaderScreen(
 
                 Button(
                     onClick = { isUnlocked = !isUnlocked },
-                    modifier = Modifier.fillMaxWidth().height(56.dp).padding(top = 16.dp),
+                    < < < < < < < < HEAD:app/src/main/java/dev/aurakai/auraframefx/domains/kai/screens/SovereignBootloaderScreen.kt
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .padding(top = 16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isUnlocked) Color.White.copy(alpha = 0.1f) else Color(
+                        0xFFFF1111
+                    )
+                            === === ==
+                            modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .padding(top = 16.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isUnlocked) Color.White.copy(
                             alpha = 0.1f
                         ) else Color(0xFFFF1111)
+                                > > > > > > > > origin / main : app / src / main / java / dev / aurakai / auraframefx / domains / kai / screens / rom_tools / SovereignBootloaderScreen . kt
                     ),
                     shape = RoundedCornerShape(12.dp),
                     border = if (isUnlocked) androidx.compose.foundation.BorderStroke(
