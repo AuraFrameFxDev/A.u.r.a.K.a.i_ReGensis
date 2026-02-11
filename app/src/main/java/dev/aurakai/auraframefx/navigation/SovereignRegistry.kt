@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.navigation
 
 import android.content.Context
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.config.GateAssetConfig
+import dev.aurakai.auraframefx.domains.aura.config.GateAssetConfig
 
 /**
  * 🛰️ THE SOVEREIGN REGISTRY (5 AGENT DOMAINS)

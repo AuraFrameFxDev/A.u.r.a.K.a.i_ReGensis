@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.domains.genesis
 
-import dev.aurakai.auraframefx.data.DataStoreManager
-import dev.aurakai.auraframefx.data.MessageStatus
-import dev.aurakai.auraframefx.data.SupportMessageDao
-import dev.aurakai.auraframefx.data.SupportMessageEntity
+import dev.aurakai.auraframefx.domains.nexus.preferences.DataStoreManager
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.MessageStatus
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportMessageDao
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportMessageEntity
 import dev.aurakai.auraframefx.domains.genesis.network.SupportApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

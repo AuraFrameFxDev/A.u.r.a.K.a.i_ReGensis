@@ -37,8 +37,8 @@ class SecurityContext @Inject constructor(
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private val _securityState = MutableStateFlow(SecurityState())
-    val securityState: StateFlow<SecurityState> = _securityState.asStateFlow()
+    private val _securityState = MutableStateFlow(LocalSecurityState())
+    val securityState: StateFlow<LocalSecurityState> = _securityState.asStateFlow()
 
     private val _threatDetectionActive = MutableStateFlow(false)
     val threatDetectionActive: StateFlow<Boolean> = _threatDetectionActive.asStateFlow()
@@ -319,7 +319,7 @@ class SecurityContext @Inject constructor(
 }
 
 @Serializable
-data class SecurityState(
+data class LocalSecurityState(
     val detectedThreats: List<SecurityThreat> = emptyList(),
     val threatLevel: ThreatLevel = ThreatLevel.LOW,
     val lastScanTime: Long = 0,

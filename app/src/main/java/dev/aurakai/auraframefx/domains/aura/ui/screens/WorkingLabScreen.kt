@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.data.AuraKaiModules
+import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
 import dev.aurakai.auraframefx.embodiment.*
 import dev.aurakai.auraframefx.domains.aura.ui.components.*
 import kotlin.time.Duration.Companion.seconds

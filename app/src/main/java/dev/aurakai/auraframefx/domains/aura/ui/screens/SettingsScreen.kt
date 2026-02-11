@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +31,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.SettingsViewModel
  * Aesthetic: Refractive Neon Brutalism
  * Features global preferences for Haptics, AI Ethics, Sync, and Security.
  */
+@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
@@ -71,7 +73,11 @@ fun SettingsScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -136,7 +142,11 @@ fun SettingsScreen(
                         icon = Icons.Default.Sync,
                         selectedValue = "${syncInterval}m",
                         options = listOf("1m", "5m", "15m", "30m", "60m"),
-                        onOptionSelected = { viewModel.setSyncInterval(it.replace("m", "").toInt()) },
+                        onOptionSelected = {
+                            viewModel.setSyncInterval(
+                                it.replace("m", "").toInt()
+                            )
+                        },
                         accentColor = Color.Green
                     )
                 }
@@ -204,16 +214,32 @@ fun SettingsScreen(
 }
 
 @Composable
-fun SettingsSectionHeader(title: String) {
+fun SettingsSectionHeader(text: String) {
     Text(
-        text = title,
-        style = MaterialTheme.typography.labelLarge.copy(
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.5.sp
+        text = text,
+        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+        style = MaterialTheme.typography.labelMedium.copy(
+            letterSpacing = 3.sp,
+            fontWeight = FontWeight.Black
         ),
-        color = Color.White.copy(alpha = 0.6f),
-        modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+        color = Color.Cyan.copy(alpha = 0.7f)
     )
+}
+
+@Composable
+fun BrutalistCard(
+    accentColor: Color,
+    content: @Composable () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(4.dp))
+            .background(Color.White.copy(alpha = 0.05f))
+            .border(1.dp, accentColor.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
+    ) {
+        content()
+    }
 }
 
 @Composable
@@ -225,35 +251,18 @@ fun SettingsToggleCard(
     onCheckedChange: (Boolean) -> Unit,
     accentColor: Color
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, accentColor.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
-        shape = RoundedCornerShape(12.dp)
-    ) {
+    BrutalistCard(accentColor) {
         Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(accentColor.copy(alpha = 0.2f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(icon, contentDescription = null, tint = accentColor)
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(1f)) {
+            Icon(icon, null, tint = accentColor, modifier = Modifier.size(24.dp))
+            Column(modifier = Modifier.weight(1f).padding(horizontal = 16.dp)) {
                 Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Text(subtitle, color = Color.Gray, fontSize = 12.sp)
             }
             Switch(
-                checked = checked,
+                checked = checked, 
                 onCheckedChange = onCheckedChange,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = accentColor,
@@ -273,24 +282,10 @@ fun SettingsSliderCard(
     onValueChange: (Float) -> Unit,
     accentColor: Color
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, accentColor.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
-        shape = RoundedCornerShape(12.dp)
-    ) {
+    BrutalistCard(accentColor) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(accentColor.copy(alpha = 0.2f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(icon, contentDescription = null, tint = accentColor)
-                }
+                Icon(icon, null, tint = accentColor, modifier = Modifier.size(24.dp))
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -328,13 +323,7 @@ fun SettingsDropdownCard(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, accentColor.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
-        shape = RoundedCornerShape(12.dp)
-    ) {
+    BrutalistCard(accentColor) {
         Box {
             Row(
                 modifier = Modifier
@@ -342,15 +331,7 @@ fun SettingsDropdownCard(
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(accentColor.copy(alpha = 0.2f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(icon, contentDescription = null, tint = accentColor)
-                }
+                Icon(icon, null, tint = accentColor, modifier = Modifier.size(24.dp))
                 Spacer(modifier = Modifier.width(16.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -389,28 +370,14 @@ fun SettingsActionCard(
     onClick: () -> Unit,
     accentColor: Color
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(1.dp, accentColor.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
-        shape = RoundedCornerShape(12.dp)
-    ) {
+    BrutalistCard(accentColor) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(accentColor.copy(alpha = 0.2f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(icon, contentDescription = null, tint = accentColor)
-            }
+            Icon(icon, null, tint = accentColor, modifier = Modifier.size(24.dp))
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -419,11 +386,10 @@ fun SettingsActionCard(
             Button(
                 onClick = onClick,
                 colors = ButtonDefaults.buttonColors(containerColor = accentColor),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(4.dp)
             ) {
                 Text(actionLabel, color = Color.Black, fontWeight = FontWeight.ExtraBold)
             }
         }
     }
 }
-

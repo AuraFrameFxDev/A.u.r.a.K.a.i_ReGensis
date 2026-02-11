@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
-import dev.aurakai.auraframefx.domains.aura.ui.AuraMoodViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
 import dev.aurakai.auraframefx.domains.aura.aura.ui.AgentNexusViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

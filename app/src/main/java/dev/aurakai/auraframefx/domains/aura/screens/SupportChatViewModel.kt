@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.domains.aura.screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.data.SupportMessageEntity
-import dev.aurakai.auraframefx.data.MessageStatus
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportMessageEntity
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.MessageStatus
 import dev.aurakai.auraframefx.domains.genesis.SupportRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

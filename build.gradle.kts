@@ -13,8 +13,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.parcelize") version "2.3.0" apply false
 
     // Android plugins
-    id("com.android.application") version "9.1.0-alpha06" apply false
-    id("com.android.library") version "9.1.0-alpha06" apply false
+    id("com.android.application") version "9.1.0-alpha08" apply false
+    id("com.android.library") version "9.1.0-alpha08" apply false
 
     // Other plugins - Updated to latest stable versions
     id("com.google.dagger.hilt.android") version "2.59" apply false
@@ -23,25 +23,26 @@ plugins {
     id("com.google.firebase.crashlytics") version "3.0.6" apply false
 }
 
-
-
-
 val skipTests = providers.gradleProperty("aurafx.skip.tests").orElse("false").map { it.toBoolean() }.getOrElse(false)!!
 
 subprojects {
+    // ═══════════════════════════════════════════════════════════════════════════
+    // CRITICAL: Global YukiHook KSP Exclusion
+    // ═══════════════════════════════════════════════════════════════════════════
+    // Prevents "Duplicate class com.highcapable.yukihookapi.generated.YukiHookAPIProperties"
+    // by ensuring the KSP processor is restricted to the 'ksp' configuration only.
+    configurations.all {
+        if (!name.lowercase().contains("ksp") && !name.contains("lint", ignoreCase = true)) {
+            exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+        }
+    }
+
     // Configure Java Toolchain and Compile Options for Android Modules
     plugins.withId("com.android.application") {
         extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_25
                 targetCompatibility = JavaVersion.VERSION_25
-            }
-        }
-
-        // Set JVM Target for Kotlin tasks
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            compilerOptions {
-                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
             }
         }
 
@@ -63,13 +64,6 @@ subprojects {
             }
         }
 
-        // Set JVM Target for Kotlin tasks
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            compilerOptions {
-                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
-            }
-        }
-
         if (skipTests) {
             extensions.configure<com.android.build.api.variant.AndroidComponentsExtension<*, *, *>>("androidComponents") {
                 beforeVariants { builder ->
@@ -77,6 +71,13 @@ subprojects {
                     (builder as? com.android.build.api.variant.HasAndroidTestBuilder)?.enableAndroidTest = false
                 }
             }
+        }
+    }
+
+    // Set JVM Target for ALL Kotlin tasks in ALL subprojects
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
         }
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import dev.aurakai.auraframefx.config.GateAssetConfig
+import dev.aurakai.auraframefx.domains.aura.config.GateAssetConfig
 import dev.aurakai.auraframefx.domains.aura.ui.components.*
 import dev.aurakai.auraframefx.domains.aura.ui.components.backgrounds.*
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AgentDomain

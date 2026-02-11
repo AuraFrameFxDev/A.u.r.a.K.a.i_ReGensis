@@ -23,7 +23,7 @@ import javax.inject.Inject
 open class AgentNexusViewModel @Inject constructor(
     private val webExplorationService: AgentWebExplorationService,
     private val genesisBridge: GenesisBridgeService,
-    private val claudeEnvConfig: dev.aurakai.auraframefx.config.ClaudeEnvConfig
+    private val claudeEnvConfig: dev.aurakai.auraframefx.domains.genesis.config.ClaudeEnvConfig
 ) : ViewModel() {
 
     // Agent selection state

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.data.preferences.UserPreferencesManager
+import dev.aurakai.auraframefx.domains.nexus.preferences.UserPreferencesManager
 import dev.aurakai.auraframefx.domains.aura.screens.GenderIdentity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
