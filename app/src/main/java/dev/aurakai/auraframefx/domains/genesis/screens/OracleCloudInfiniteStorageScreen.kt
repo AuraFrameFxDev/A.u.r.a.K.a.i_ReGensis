@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,15 +17,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.genesis.viewmodels.OracleCloudViewModel
-import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
  * 🌌 ORACLE CLOUD: INFINITE STORAGE
@@ -106,11 +104,19 @@ private fun CapacityCard(state: dev.aurakai.auraframefx.domains.genesis.viewmode
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00FF85).copy(alpha = 0.2f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            Color(0xFF00FF85).copy(alpha = 0.2f)
+        )
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.CloudCircle, null, tint = Color(0xFF00FF85), modifier = Modifier.size(32.dp))
+                Icon(
+                    Icons.Default.CloudCircle,
+                    null,
+                    tint = Color(0xFF00FF85),
+                    modifier = Modifier.size(32.dp)
+                )
                 Spacer(Modifier.width(12.dp))
                 Text(state.tier, fontFamily = LEDFontFamily, color = Color(0xFF00FF85))
             }
@@ -151,7 +157,12 @@ private fun InfoBox(label: String, value: String, modifier: Modifier) {
         border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.05f))
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Text(label, fontSize = 8.sp, color = Color.White.copy(alpha = 0.4f), fontWeight = FontWeight.Bold)
+            Text(
+                label,
+                fontSize = 8.sp,
+                color = Color.White.copy(alpha = 0.4f),
+                fontWeight = FontWeight.Bold
+            )
             Text(value, fontSize = 12.sp, color = Color.White, fontWeight = FontWeight.ExtraBold)
         }
     }
@@ -172,8 +183,13 @@ private fun FileItem(file: dev.aurakai.auraframefx.domains.genesis.viewmodels.St
             Spacer(Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(file.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                Text("${file.size} • ${file.time}", color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp)
+                Text(
+                    "${file.size} • ${file.time}",
+                    color = Color.White.copy(alpha = 0.4f),
+                    fontSize = 10.sp
+                )
             }
         }
     }
 }
+

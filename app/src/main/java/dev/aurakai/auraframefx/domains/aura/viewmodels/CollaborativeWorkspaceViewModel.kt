@@ -2,14 +2,13 @@ package dev.aurakai.auraframefx.domains.aura.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
-import dev.aurakai.auraframefx.domains.aura.repository.CollaborativeWorkspaceRepository
-import dev.aurakai.auraframefx.models.AgentMessage
-import dev.aurakai.auraframefx.models.aura.UIDesign
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.aura.UIDesign
+import dev.aurakai.auraframefx.domains.aura.repository.CollaborativeWorkspaceRepository
+import dev.aurakai.auraframefx.domains.cascade.models.AgentMessage
+import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -69,8 +68,10 @@ class CollaborativeWorkspaceViewModel @Inject constructor(
 
     fun exportToClipboard(context: android.content.Context, design: UIDesign) {
         val json = repository.exportToJson(design)
-        val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        val clipboard =
+            context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
         val clip = android.content.ClipData.newPlainText("UI Design Export", json)
         clipboard.setPrimaryClip(clip)
     }
 }
+

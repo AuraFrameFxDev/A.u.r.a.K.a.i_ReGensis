@@ -85,7 +85,15 @@ class GenesisLibraryHiltPlugin : Plugin<Project> {
                 }
             }
 
-            // 4. Dependencies
+            // 4. YukiHook KSP Configuration
+            extensions.configure(com.google.devtools.ksp.gradle.KspExtension::class.java) {
+                // Generate a unique package name per module based on its full Gradle path
+                val uniquePackage = "dev.aurakai.auraframefx.generated." +
+                        project.path.removePrefix(":").replace(":", ".").replace("-", "_")
+                arg("yukihookapi.modulePackageName", uniquePackage)
+            }
+
+            // 5. Dependencies
             dependencies.apply {
                 // Hilt
                 add("implementation", "com.google.dagger:hilt-android:2.57.2")
@@ -98,7 +106,10 @@ class GenesisLibraryHiltPlugin : Plugin<Project> {
                 add("api", "androidx.compose.material3:material3")
 
                 // YukiHook & Xposed
-                add("implementation", "com.highcapable.yukihookapi:api:1.3.1")
+                val yukiDep = add("implementation", "com.highcapable.yukihookapi:api:1.3.1")
+                (yukiDep as? org.gradle.api.artifacts.ExternalModuleDependency)?.exclude(
+                    mapOf("group" to "com.highcapable.yukihookapi", "module" to "ksp-xposed")
+                )
                 add("ksp", "com.highcapable.yukihookapi:ksp-xposed:1.3.1")
                 add("compileOnly", "de.robv.android.xposed:api:82")
 

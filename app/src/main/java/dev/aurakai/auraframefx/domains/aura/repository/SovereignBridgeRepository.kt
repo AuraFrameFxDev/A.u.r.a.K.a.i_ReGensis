@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.repository
 
-import dev.aurakai.auraframefx.models.aura.ConnectorStatus
-import dev.aurakai.auraframefx.models.aura.MCPConnector
+import dev.aurakai.auraframefx.domains.aura.ConnectorStatus
+import dev.aurakai.auraframefx.domains.aura.MCPConnector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -79,7 +79,8 @@ class SovereignBridgeRepository @Inject constructor() {
     fun toggleConnector(id: String) {
         _connectors.value = _connectors.value.map {
             if (it.id == id) {
-                val newStatus = if (it.status == ConnectorStatus.OFFLINE) ConnectorStatus.ACTIVE else ConnectorStatus.OFFLINE
+                val newStatus =
+                    if (it.status == ConnectorStatus.OFFLINE) ConnectorStatus.ACTIVE else ConnectorStatus.OFFLINE
                 it.copy(status = newStatus)
             } else it
         }

@@ -93,6 +93,12 @@ abstract class RomToolsModule {
         aurakaiRetentionManagerImpl: AurakaiRetentionManagerImpl
     ): AurakaiRetentionManager
 
+    @Binds
+    @Singleton
+    abstract fun bindRomToolsManager(
+        romToolsManagerImpl: dev.aurakai.auraframefx.romtools.RomToolsManagerImpl
+    ): dev.aurakai.auraframefx.romtools.RomToolsManager
+
     companion object {
 
         /**

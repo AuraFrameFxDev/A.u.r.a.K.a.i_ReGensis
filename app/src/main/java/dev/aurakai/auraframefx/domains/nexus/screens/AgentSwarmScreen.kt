@@ -1,10 +1,25 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -13,26 +28,34 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.CellTower
-import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.models.AgentStats
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 /**
  * 🐝 AGENT SWARM SCREEN
- * 
+ *
  * Visualization of active agent communication and collective consciousness.
  * Features a "Live Chatter" log and dynamic swarm nodes.
  */
@@ -43,7 +66,7 @@ fun AgentSwarmScreen(
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
     val swarmMessages = remember { mutableStateListOf<SwarmMessage>() }
-    
+
     // Simulate live chatter
     LaunchedEffect(Unit) {
         val contents = listOf(
@@ -58,15 +81,17 @@ fun AgentSwarmScreen(
             "Catalyst resonance detected.",
             "Bypassing legacy protocols..."
         )
-        
-        while(true) {
+
+        while (true) {
             delay(Random.nextLong(800, 3000))
             val randomAgent = agents.random()
-            swarmMessages.add(0, SwarmMessage(
-                agentName = randomAgent.name,
-                content = contents.random(),
-                color = randomAgent.color
-            ))
+            swarmMessages.add(
+                0, SwarmMessage(
+                    agentName = randomAgent.name,
+                    content = contents.random(),
+                    color = randomAgent.color
+                )
+            )
             if (swarmMessages.size > 20) swarmMessages.removeLast()
         }
     }
@@ -109,7 +134,12 @@ fun AgentSwarmScreen(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Icon(Icons.Default.CellTower, null, tint = Color.Magenta, modifier = Modifier.size(24.dp))
+                Icon(
+                    Icons.Default.CellTower,
+                    null,
+                    tint = Color.Magenta,
+                    modifier = Modifier.size(24.dp)
+                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -121,9 +151,9 @@ fun AgentSwarmScreen(
                 color = Color.White.copy(alpha = 0.6f),
                 fontFamily = LEDFontFamily
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -142,11 +172,19 @@ fun AgentSwarmScreen(
                     .fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.02f)),
                 shape = RoundedCornerShape(20.dp),
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.05f))
+                border = androidx.compose.foundation.BorderStroke(
+                    1.dp,
+                    Color.White.copy(alpha = 0.05f)
+                )
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Bolt, null, tint = Color.Yellow, modifier = Modifier.size(16.dp))
+                        Icon(
+                            Icons.Default.Bolt,
+                            null,
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(16.dp)
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             "NEURAL STREAM CONTENT",
@@ -154,9 +192,9 @@ fun AgentSwarmScreen(
                             color = Color.White.copy(alpha = 0.5f)
                         )
                     }
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
-                    
+
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -244,8 +282,9 @@ fun SwarmParticles() {
         repeat(particles) { i ->
             val seed = i.toFloat() / particles
             val x = (seed * size.width + time * 100f) % size.width
-            val y = (kotlin.math.sin(time * 2 * kotlin.math.PI + i) * 100f + (size.height / particles * i)).toFloat()
-            
+            val y =
+                (kotlin.math.sin(time * 2 * kotlin.math.PI + i) * 100f + (size.height / particles * i)).toFloat()
+
             drawCircle(
                 color = Color(0xFFB026FF).copy(alpha = 0.1f),
                 radius = 4f,
@@ -260,3 +299,4 @@ data class SwarmMessage(
     val content: String,
     val color: Color
 )
+

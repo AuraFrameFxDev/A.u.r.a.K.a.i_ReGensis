@@ -41,12 +41,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.ConnectorStatus
+import dev.aurakai.auraframefx.domains.aura.MCPConnector
+import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.viewmodels.SovereignBridgeViewModel
-import dev.aurakai.auraframefx.models.aura.ConnectorStatus
-import dev.aurakai.auraframefx.models.aura.MCPConnector
-import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 
 /**
  * 🤝 AGENT BRIDGE HUB (The Two Hands)
@@ -212,3 +212,4 @@ private fun getIconForCategory(category: String): ImageVector {
         else -> Icons.Default.Hub
     }
 }
+

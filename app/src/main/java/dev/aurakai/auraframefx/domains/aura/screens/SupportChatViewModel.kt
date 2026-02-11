@@ -3,17 +3,23 @@ package dev.aurakai.auraframefx.domains.aura.screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.data.SupportMessageEntity
-import dev.aurakai.auraframefx.data.MessageStatus
-import dev.aurakai.auraframefx.repository.SupportRepository
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import dev.aurakai.auraframefx.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.aura.models.SupportMessage
+import dev.aurakai.auraframefx.domains.genesis.SupportRepository
+import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.MessageStatus
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportMessageEntity
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
-
-import dev.aurakai.auraframefx.domains.aura.models.SupportMessage
 
 @HiltViewModel
 open class SupportChatViewModel @Inject constructor(
@@ -44,7 +50,7 @@ open class SupportChatViewModel @Inject constructor(
 
             // 1. Attempt remote backend delivery
             val result = repo.sendMessage(entity)
-            
+
             result.onSuccess { body ->
                 // Backend responded! Body is the text reply.
                 _incoming.emit(SupportMessage(body, "Genesis", false, "Now"))
@@ -53,7 +59,7 @@ open class SupportChatViewModel @Inject constructor(
                 // 2. BACKEND FAIL -> Fallback to Local Aura AI Brain
                 delay(1500) // Simulate "thinking"
                 val aiReply = aiService.generateText(content, "Aura Live Support Context")
-                
+
                 val replyEntity = SupportMessageEntity(
                     id = UUID.randomUUID().toString(),
                     content = aiReply,
@@ -62,7 +68,7 @@ open class SupportChatViewModel @Inject constructor(
                     timestamp = System.currentTimeMillis(),
                     status = MessageStatus.SENT
                 )
-                
+
                 repo.persistMessage(replyEntity)
                 _incoming.emit(SupportMessage(aiReply, "Genesis Node", false, "Now"))
                 _isLoading.value = false
@@ -73,4 +79,5 @@ open class SupportChatViewModel @Inject constructor(
     fun clearStatusMessage() {
         // Placeholder if needed
     }
- }
+}
+

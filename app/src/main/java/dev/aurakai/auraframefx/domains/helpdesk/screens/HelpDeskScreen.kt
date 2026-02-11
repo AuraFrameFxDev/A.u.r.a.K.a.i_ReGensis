@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.helpdesk.screens
+package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

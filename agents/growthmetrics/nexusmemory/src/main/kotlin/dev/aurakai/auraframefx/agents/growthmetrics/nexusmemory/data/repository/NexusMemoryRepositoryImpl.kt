@@ -4,21 +4,39 @@ import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.dao.M
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entity.MemoryEntity
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entity.MemoryType
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.domain.repository.NexusMemoryRepository
+import dev.aurakai.auraframefx.securecomm.crypto.CryptoManager
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.crypto.spec.SecretKeySpec
+import android.util.Base64
 
 class NexusMemoryRepositoryImpl @Inject constructor(
-    private val memoryDao: MemoryDao
+    private val memoryDao: MemoryDao,
+    private val cryptoManager: CryptoManager
 ) : NexusMemoryRepository {
 
+    // Derived key for memory encryption (in a production app, this would be managed more securely)
+    private val memoryKey = SecretKeySpec("NexusMemoryCrypt0SystemKey32Bytes!".toByteArray(), "AES")
+
     override suspend fun saveMemory(content: String, type: MemoryType, tags: List<String>, importance: Float, key: String?): Long {
+        val sensitive = tags.contains("sensitive") || tags.contains("secure")
+
+        val finalContent = if (sensitive) {
+            val (encrypted, iv) = cryptoManager.encrypt(content.toByteArray(), memoryKey)
+            // Store as IV:Ciphertext in Base64
+            Base64.encodeToString(iv + encrypted, Base64.NO_WRAP)
+        } else {
+            content
+        }
+
         val memory = MemoryEntity(
             key = key,
-            content = content,
+            content = finalContent,
             timestamp = System.currentTimeMillis(),
             type = type,
             tags = tags,
-            importance = importance
+            importance = importance,
+            isEncrypted = sensitive
         )
         return memoryDao.insertMemory(memory)
     }

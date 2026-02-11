@@ -55,9 +55,20 @@ fun ModuleCreationScreen(
     val generationProgress = remember { mutableStateOf(0f) }
 
     val moduleTypes =
-        listOf("UI Component", "Data Repository", "Network Service", "Security Module", "AI Agent", "System Utility")
+        listOf(
+            "UI Component",
+            "Data Repository",
+            "Network Service",
+            "Security Module",
+            "AI Agent",
+            "System Utility"
+        )
     val templates = listOf(
-        ModuleTemplate("Basic UI Card", "Simple card component with customizable content", "UI Component"),
+        ModuleTemplate(
+            "Basic UI Card",
+            "Simple card component with customizable content",
+            "UI Component"
+        ),
         ModuleTemplate("Data Repository", "CRUD operations with local storage", "Data Repository"),
         ModuleTemplate("API Service", "RESTful API client with error handling", "Network Service"),
         ModuleTemplate("Authentication", "Secure login and session management", "Security Module"),
@@ -217,7 +228,8 @@ fun ModuleCreationScreen(
                     template = template,
                     isSelected = selectedTemplate.value == template.name,
                     onClick = {
-                        selectedTemplate.value = if (selectedTemplate.value == template.name) null else template.name
+                        selectedTemplate.value =
+                            if (selectedTemplate.value == template.name) null else template.name
                     }
                 )
             }

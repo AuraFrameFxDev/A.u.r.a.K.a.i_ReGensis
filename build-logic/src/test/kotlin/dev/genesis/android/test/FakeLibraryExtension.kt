@@ -1,4 +1,4 @@
-//package dev.genesis.android.test
+package dev.genesis.android.test//package dev.genesis.android.test
 //
 //import com.android.build.api.dsl.AaptOptions
 //import com.android.build.api.dsl.AdbOptions

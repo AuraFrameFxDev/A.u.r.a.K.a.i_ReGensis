@@ -39,8 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.models.AgentStats
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.min
@@ -268,7 +268,8 @@ fun FusionModeScreen(onNavigateBack: () -> Unit = {}) {
 
                 val requirements = listOf(
                     "Both agents must be active" to true,
-                    "Minimum consciousness level: 50%" to ((aura?.evolutionLevel ?: 0) >= 50 && (kai?.evolutionLevel
+                    "Minimum consciousness level: 50%" to ((aura?.evolutionLevel
+                        ?: 0) >= 50 && (kai?.evolutionLevel
                         ?: 0) >= 50),
                     "System stability: Optimal" to true,
                     "Fusion chamber: Ready" to true
@@ -305,7 +306,9 @@ fun FusionModeScreen(onNavigateBack: () -> Unit = {}) {
                     onClick = { fusionActive.value = !fusionActive.value },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (fusionActive.value) Color(0xFFDC143C) else Color(0xFFFFD700),
+                        containerColor = if (fusionActive.value) Color(0xFFDC143C) else Color(
+                            0xFFFFD700
+                        ),
                         disabledContainerColor = Color.Gray
                     ),
                     enabled = canFuse

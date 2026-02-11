@@ -3,7 +3,17 @@ package dev.aurakai.auraframefx.domains.nexus.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -13,20 +23,36 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.viewmodel.MetaInstructViewModel
-import dev.aurakai.auraframefx.ui.components.hologram.AnimeHUDContainer
-import dev.aurakai.auraframefx.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
  * 🛰️ SOVEREIGN META-INSTRUCT (The Evolution Hub)
@@ -90,7 +116,11 @@ fun SovereignMetaInstructScreen(
                                     .padding(40.dp),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text("NO INSTRUCTIONS ACTIVE", color = Color.White.copy(alpha = 0.3f), fontSize = 12.sp)
+                                Text(
+                                    "NO INSTRUCTIONS ACTIVE",
+                                    color = Color.White.copy(alpha = 0.3f),
+                                    fontSize = 12.sp
+                                )
                             }
                         }
                     }
@@ -124,7 +154,11 @@ fun SovereignMetaInstructScreen(
                             .size(56.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .background(Color.White.copy(alpha = 0.05f))
-                            .border(1.dp, Color(0xFF00FFD4).copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                            .border(
+                                1.dp,
+                                Color(0xFF00FFD4).copy(alpha = 0.3f),
+                                RoundedCornerShape(12.dp)
+                            )
                     ) {
                         Icon(Icons.Default.AutoAwesome, null, tint = Color(0xFF00FFD4))
                     }
@@ -183,7 +217,11 @@ private fun AgentSelector(activeAgent: String, onAgentSelected: (String) -> Unit
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(if (isSelected) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.White.copy(alpha = 0.03f))
+                    .background(
+                        if (isSelected) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.White.copy(
+                            alpha = 0.03f
+                        )
+                    )
                     .border(
                         1.dp,
                         if (isSelected) Color(0xFF00FFD4) else Color.White.copy(alpha = 0.1f),
@@ -221,7 +259,11 @@ private fun EvolutionStatusCard(isActive: Boolean, onToggle: () -> Unit) {
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(if (isActive) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.Gray.copy(alpha = 0.1f)),
+                    .background(
+                        if (isActive) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.Gray.copy(
+                            alpha = 0.1f
+                        )
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -232,7 +274,12 @@ private fun EvolutionStatusCard(isActive: Boolean, onToggle: () -> Unit) {
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text("EVOLUTIONARY LOOP", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Text(
+                    "EVOLUTIONARY LOOP",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp
+                )
                 Text(
                     if (isActive) "ACTIVE: Learning & adapting to feedback." else "STANDBY: No current evolution.",
                     color = if (isActive) Color(0xFF00FFD4).copy(alpha = 0.7f) else Color.Gray,
@@ -257,6 +304,7 @@ private fun InstructionItem(instruction: dev.aurakai.auraframefx.agents.growthme
         dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.CORE -> Color(0xFF00FFD4)
         dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.SELF_CORRECTION -> Color(
             0xFFFFCC00
+
         )
 
         dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.EVOLUTIONARY -> Color(
@@ -278,7 +326,12 @@ private fun InstructionItem(instruction: dev.aurakai.auraframefx.agents.growthme
                     .background(layerColor.copy(alpha = 0.1f)),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.Terminal, null, tint = layerColor, modifier = Modifier.size(16.dp))
+                Icon(
+                    Icons.Default.Terminal,
+                    null,
+                    tint = layerColor,
+                    modifier = Modifier.size(16.dp)
+                )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column {
@@ -289,8 +342,14 @@ private fun InstructionItem(instruction: dev.aurakai.auraframefx.agents.growthme
                     fontWeight = FontWeight.Black,
                     letterSpacing = 1.sp
                 )
-                Text(instruction.instruction, color = Color.White, fontSize = 13.sp, lineHeight = 18.sp)
+                Text(
+                    instruction.instruction,
+                    color = Color.White,
+                    fontSize = 13.sp,
+                    lineHeight = 18.sp
+                )
             }
         }
     }
 }
+

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.helpdesk.screens
+package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,11 +18,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.ui.components.SubmenuScaffold
-import dev.aurakai.auraframefx.ui.gates.SubmenuItem
+
+/**
+ * Data class for submenu items
+ */
+data class SubmenuItem(
+    val title: String,
+    val description: String,
+    val icon: ImageVector,
+    val route: String,
+    val color: Color
+)
 
 /**
  * Help Desk Gate Submenu
@@ -139,3 +150,4 @@ fun HelpDeskSubmenuScreen(
         }
     )
 }
+

@@ -2,9 +2,9 @@ package dev.aurakai.auraframefx.domains.kai.viewmodels
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.models.kai.ModuleStatus
-import dev.aurakai.auraframefx.models.kai.ModuleType
-import dev.aurakai.auraframefx.models.kai.SovereignModule
+import dev.aurakai.auraframefx.domains.kai.ModuleStatus
+import dev.aurakai.auraframefx.domains.kai.ModuleType
+import dev.aurakai.auraframefx.domains.kai.SovereignModule
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -67,7 +67,8 @@ class SovereignModuleViewModel @Inject constructor() : ViewModel() {
     fun toggleModule(id: String) {
         _modules.value = _modules.value.map {
             if (it.id == id) {
-                val newStatus = if (it.status == ModuleStatus.ACTIVE) ModuleStatus.INACTIVE else ModuleStatus.ACTIVE
+                val newStatus =
+                    if (it.status == ModuleStatus.ACTIVE) ModuleStatus.INACTIVE else ModuleStatus.ACTIVE
                 it.copy(status = newStatus)
             } else it
         }

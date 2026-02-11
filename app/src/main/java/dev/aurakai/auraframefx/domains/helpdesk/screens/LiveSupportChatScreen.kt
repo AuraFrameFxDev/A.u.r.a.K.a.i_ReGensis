@@ -206,7 +206,8 @@ fun LiveSupportChatScreen(
         )
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            val quickActions = listOf("Report Bug", "Feature Request", "Account Issue", "Technical Help")
+            val quickActions =
+                listOf("Report Bug", "Feature Request", "Account Issue", "Technical Help")
             quickActions.forEach { action ->
                 Button(
                     onClick = {
@@ -284,7 +285,9 @@ fun LiveSupportChatScreen(
                                                         .size(4.dp)
                                                         .padding(horizontal = 1.dp),
                                                     colors = CardDefaults.cardColors(
-                                                        containerColor = Color(0xFF32CD32).copy(alpha = 0.5f)
+                                                        containerColor = Color(0xFF32CD32).copy(
+                                                            alpha = 0.5f
+                                                        )
                                                     ),
                                                     shape = CircleShape
                                                 ) {}

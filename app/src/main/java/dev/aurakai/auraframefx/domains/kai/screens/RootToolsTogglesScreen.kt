@@ -1,9 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -225,7 +223,8 @@ fun RootToolsTogglesScreen(
                                 // TODO: Implement Magisk module toggle
                                 kotlinx.coroutines.delay(1500)
                                 magiskEnabled = enabled
-                                statusMessage = "Magisk modules ${if (enabled) "enabled" else "disabled"}"
+                                statusMessage =
+                                    "Magisk modules ${if (enabled) "enabled" else "disabled"}"
                                 isProcessing = false
                             }
                         },
@@ -252,7 +251,8 @@ fun RootToolsTogglesScreen(
                                 // TODO: Implement root permission toggle
                                 kotlinx.coroutines.delay(1500)
                                 rootGranted = enabled
-                                statusMessage = "Root access ${if (enabled) "granted" else "revoked"}"
+                                statusMessage =
+                                    "Root access ${if (enabled) "granted" else "revoked"}"
                                 isProcessing = false
                             }
                         },
@@ -422,7 +422,9 @@ private fun RootToggleCard(
                     enabled = !isProcessing,
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = if (isDangerous) Color.Red else Color.Cyan,
-                        checkedTrackColor = if (isDangerous) Color.Red.copy(alpha = 0.5f) else Color.Cyan.copy(alpha = 0.5f),
+                        checkedTrackColor = if (isDangerous) Color.Red.copy(alpha = 0.5f) else Color.Cyan.copy(
+                            alpha = 0.5f
+                        ),
                         uncheckedThumbColor = Color.Gray,
                         uncheckedTrackColor = Color.Gray.copy(alpha = 0.3f)
                     )

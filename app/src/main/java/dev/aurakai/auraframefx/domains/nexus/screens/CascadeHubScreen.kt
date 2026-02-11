@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.nexus.screens
+package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

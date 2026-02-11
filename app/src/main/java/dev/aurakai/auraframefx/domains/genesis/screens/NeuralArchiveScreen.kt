@@ -53,11 +53,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entity.MemoryEntity
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entity.MemoryType
-import dev.aurakai.auraframefx.ui.viewmodels.NeuralArchiveViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.NeuralArchiveViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -594,7 +594,10 @@ private fun MemoryDetailDialog(
                 }
 
                 HorizontalDivider(color = primaryColor.copy(alpha = 0.2f))
-                Text("Importance: ${(memory.importance * 100).toInt()}%", color = primaryColor.copy(alpha = 0.7f))
+                Text(
+                    "Importance: ${(memory.importance * 100).toInt()}%",
+                    color = primaryColor.copy(alpha = 0.7f)
+                )
                 ImportanceIndicator(importance = memory.importance, color = primaryColor)
             }
         },
@@ -634,3 +637,4 @@ private fun formatTimestamp(timestamp: Long): String {
 private fun formatFullTimestamp(timestamp: Long): String {
     return SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault()).format(Date(timestamp))
 }
+

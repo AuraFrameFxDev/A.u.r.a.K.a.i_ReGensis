@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.nexus.screens
+package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -24,8 +24,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -108,20 +106,6 @@ fun ConstellationScreen(
             }
 
             Spacer(modifier = Modifier.height(100.dp)) // Padding for scroll
-        }
-
-        // Back Button
-        IconButton(
-            onClick = { navController.popBackStack() },
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(16.dp),
-        ) {
-            androidx.compose.material3.Icon(
-                imageVector = androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = neonCyan
-            )
         }
 
         // HUD: Top-right corner
@@ -256,7 +240,10 @@ fun SwordNode(
             Box(
                 modifier = Modifier
                     .size(10.dp)
-                    .background(Color.Gray.copy(alpha = 0.2f), androidx.compose.foundation.shape.CircleShape)
+                    .background(
+                        Color.Gray.copy(alpha = 0.2f),
+                        androidx.compose.foundation.shape.CircleShape
+                    )
             )
         }
     }

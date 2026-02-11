@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.nexus.screens
+package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -14,11 +14,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -54,25 +52,12 @@ fun SphereGridScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.Start
     ) {
         // Header
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            androidx.compose.material3.IconButton(onClick = { navController.popBackStack() }) {
-                androidx.compose.material3.Icon(
-                    imageVector = androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color(0xFFFF69B4)
-                )
-            }
-            androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "🔮 SPHERE GRID",
-                style = MaterialTheme.typography.headlineMedium,
-                color = Color(0xFFFF69B4),
-                fontWeight = FontWeight.Bold
-            )
-        }
+        Text(
+            text = "🔮 SPHERE GRID",
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color(0xFFFF69B4),
+            fontWeight = FontWeight.Bold
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
 

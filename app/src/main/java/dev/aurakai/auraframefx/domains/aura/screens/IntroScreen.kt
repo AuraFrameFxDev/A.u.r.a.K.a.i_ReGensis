@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.screens
+package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

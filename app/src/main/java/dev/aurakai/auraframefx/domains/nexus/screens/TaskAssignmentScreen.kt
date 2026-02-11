@@ -41,9 +41,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
 
 /**
  * Task Assignment Screen
@@ -77,11 +77,11 @@ fun TaskAssignmentScreen(
             agent = task.agentName,
             priority = task.priority.name.lowercase().replaceFirstChar { it.uppercase() },
             status = when (task.status) {
-                AgentViewModel.TaskStatus.PENDING -> "Pending"
-                AgentViewModel.TaskStatus.IN_PROGRESS -> "In Progress"
-                AgentViewModel.TaskStatus.COMPLETED -> "Completed"
-                AgentViewModel.TaskStatus.CANCELLED -> "Cancelled"
-                AgentViewModel.TaskStatus.FAILED -> "Failed"
+                AgentViewModel.AgentTaskStatus.PENDING -> "Pending"
+                AgentViewModel.AgentTaskStatus.IN_PROGRESS -> "In Progress"
+                AgentViewModel.AgentTaskStatus.COMPLETED -> "Completed"
+                AgentViewModel.AgentTaskStatus.CANCELLED -> "Cancelled"
+                AgentViewModel.AgentTaskStatus.FAILED -> "Failed"
             },
             priorityColor = agent?.color ?: Color.Gray
         )
@@ -351,7 +351,10 @@ private fun TaskCard(task: Task) {
         colors = CardDefaults.cardColors(
             containerColor = Color.Black.copy(alpha = 0.6f)
         ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, task.priorityColor.copy(alpha = 0.3f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            task.priorityColor.copy(alpha = 0.3f)
+        )
     ) {
         Row(
             modifier = Modifier
@@ -420,3 +423,4 @@ data class Task(
     val status: String,
     val priorityColor: Color
 )
+

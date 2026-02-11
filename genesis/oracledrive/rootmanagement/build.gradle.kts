@@ -25,6 +25,8 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.compose.ui.test.junit4)
+    implementation(libs.firebase.vertexai)
+    implementation(libs.androidx.media3.exoplayer)
     debugImplementation(libs.compose.ui.tooling)
 
     // Compose / Lifecycle / Navigation / Hilt integrations (Extension modules)
@@ -42,10 +44,13 @@ dependencies {
     implementation(libs.libsu.service)
 
     // YukiHook API 1.3.0+ stack
-    implementation(libs.yukihookapi.api)
+    implementation(libs.yukihookapi.api) {
+        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+    }
     ksp(libs.yukihookapi.ksp)
     // Serialization
     implementation(libs.kotlinx.serialization.json)
+    implementation(project(":core-module"))
     testImplementation(libs.kotlin.test)
 }
 

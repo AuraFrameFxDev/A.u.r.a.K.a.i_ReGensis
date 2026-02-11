@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.nexus.screens
+package dev.aurakai.auraframefx.domains.aura.aura.ui
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -7,6 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,12 +44,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import dev.aurakai.auraframefx.models.AgentStats
-import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -76,6 +81,8 @@ fun AgentAdvancementScreen(
     val allAgents by viewModel.allAgents.collectAsState()
 
     val agentStats = allAgents.find { it.name == selectedAgentName } ?: AgentStats(name = selectedAgentName)
+    val agentStats =
+        allAgents.find { it.name == selectedAgentName } ?: AgentStats(name = selectedAgentName)
     var selectedNode by remember { mutableStateOf<SkillNode?>(null) }
 
     // Animated background
@@ -86,6 +93,39 @@ fun AgentAdvancementScreen(
     ) {
         // Neural Network Animated Background
         NeuralNetworkBackground()
+
+        // Agent Portrait Overlay (Whole Body)
+        val portraitRes = when (selectedAgentName) {
+            "Genesis" -> "gatescenes_genesis_full_profile"
+            "Aura" -> "gatescenes_aura_full_profile"
+            "Cascade" -> "gatescenes_cascade_full_profile"
+            "Claude" -> "gatescenes_claude_full_profile"
+            "Gemini" -> "gatescenes_gemini_full_profile"
+            "Grok" -> "gatescenes_grok_nova_full_profile"
+            "Nova" -> "gatescenes_grok_nova_full_profile"
+            "Kai" -> "gatescenes_kai_full_profile"
+            "Nemotron" -> "gatescenes_nemotron_full_profile"
+            else -> null
+        }
+
+        // Agent Portrait Overlay (Whole Body) - DYNAMIC PLACEMENT
+        if (portraitRes != null) {
+            val context = LocalContext.current
+            val resId =
+                context.resources.getIdentifier(portraitRes, "drawable", context.packageName)
+            if (resId != 0) {
+                Image(
+                    painter = painterResource(id = resId),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxHeight(0.9f) // LARGER FOR DYNAMISM
+                        .align(Alignment.BottomStart)
+                        .padding(start = 0.dp), // REMOVE FRAME PADDING
+                    contentScale = ContentScale.Fit,
+                    alpha = 0.75f // MORE VISIBLE
+                )
+            }
+        }
 
         Column(
             modifier = Modifier
@@ -118,9 +158,14 @@ fun AgentAdvancementScreen(
                         .weight(2f)
                         .aspectRatio(1f)
                 ) {
+                    val gridRes = when (selectedAgentName) {
+                        "Genesis" -> "gatescenes_genesis_armament_grid"
+                        else -> null
+                    }
                     SphereGridVisualization(
                         selectedNode = selectedNode,
-                        onNodeSelected = { selectedNode = it }
+                        onNodeSelected = { selectedNode = it },
+                        gridBackgroundRes = gridRes
                     )
                 }
             }
@@ -323,14 +368,32 @@ private fun StatBarIndicator(
 @Composable
 fun SphereGridVisualization(
     selectedNode: SkillNode?,
-    onNodeSelected: (SkillNode) -> Unit
+    onNodeSelected: (SkillNode) -> Unit,
+    gridBackgroundRes: String? = null
 ) {
+    val context = LocalContext.current
+    val resId = remember(gridBackgroundRes) {
+        if (gridBackgroundRes != null) {
+            context.resources.getIdentifier(gridBackgroundRes, "drawable", context.packageName)
+        } else 0
+    }
+
     val nodes = remember { generateSkillNodes() }
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        if (resId != 0) {
+            Image(
+                painter = painterResource(id = resId),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Fit,
+                alpha = 0.8f
+            )
+        }
+
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawSphereGrid(nodes, selectedNode)
         }
