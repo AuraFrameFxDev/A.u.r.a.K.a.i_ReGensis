@@ -370,7 +370,7 @@ fun SphereGridVisualization(
     onNodeSelected: (SkillNode) -> Unit,
     gridBackgroundRes: String? = null
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val resId = remember(gridBackgroundRes) {
         if (gridBackgroundRes != null) {
             context.resources.getIdentifier(gridBackgroundRes, "drawable", context.packageName)

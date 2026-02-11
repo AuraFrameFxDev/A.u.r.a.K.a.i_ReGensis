@@ -14,8 +14,6 @@ enum class AuraCustomizationRoute {
         fallbackDrawable: String,
         route: Any,
         accentColor: Color
-    ) {
-
-    }
+    )
 
 }

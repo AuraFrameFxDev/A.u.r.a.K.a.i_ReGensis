@@ -676,10 +676,10 @@ class ApiServiceTest {
         fun shouldSupportTokenRotationScenario() {
             // When - Simulating token rotation
             apiService.setApiToken("old-token")
-            val service1 = apiService.createService()
+            apiService.createService()
 
             apiService.setApiToken("new-token")
-            val service2 = apiService.createService()
+            apiService.createService()
 
             // Then
             val apiTokenField = ApiService::class.java.getDeclaredField("apiToken")

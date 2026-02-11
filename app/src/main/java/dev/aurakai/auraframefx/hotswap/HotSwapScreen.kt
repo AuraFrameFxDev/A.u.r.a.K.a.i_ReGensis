@@ -504,7 +504,7 @@ private fun ShortcutsTab(viewModel: HotSwapViewModel) {
                     Text("Floating Panel", color = Color.White)
                     Text("Show quick access overlay", fontSize = 12.sp, color = Color.Gray)
                 }
-                androidx.compose.material3.Switch(
+                Switch(
                     checked = config.quickAccessEnabled,
                     onCheckedChange = { viewModel.toggleQuickAccess() }
                 )
@@ -519,11 +519,11 @@ private fun ShortcutsTab(viewModel: HotSwapViewModel) {
             ) {
                 listOf("top_left", "top_right", "bottom_left", "bottom_right").forEach { pos ->
                     val isSelected = config.quickAccessPosition == pos
-                    androidx.compose.material3.FilterChip(
+                    FilterChip(
                         selected = isSelected,
                         onClick = { viewModel.updateQuickAccessPosition(pos) },
                         label = { Text(pos.replace("_", " ").uppercase()) },
-                        colors = androidx.compose.material3.FilterChipDefaults.filterChipColors(
+                        colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = Color(0xFFFF8C00)
                         )
                     )

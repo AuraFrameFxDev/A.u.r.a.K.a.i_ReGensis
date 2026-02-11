@@ -406,7 +406,7 @@ fun IconifyCategoryDetailScreen(
 
 @Composable
 fun SettingItem(
-    setting: dev.aurakai.auraframefx.domains.aura.ui.screens.aura.SettingItem,
+    setting: SettingItem,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -544,10 +544,6 @@ fun ColorBlendrScreen(
     modifier: Modifier = Modifier
 ) {
     var selectedStyle by remember { mutableStateOf(MonetSettings.MonetStyle.TONAL_SPOT) }
-    var accentSaturation by remember { mutableStateOf(1.0f) }
-    var backgroundSaturation by remember { mutableStateOf(1.0f) }
-    var backgroundLightness by remember { mutableStateOf(1.0f) }
-    var pitchBlack by remember { mutableStateOf(false) }
     var primaryColor by remember { mutableStateOf(Color(0xFF6200EE)) }
 
     Box(modifier = modifier.fillMaxSize()) {

@@ -36,7 +36,7 @@ fun UnifiedBackground(
     useStyleB: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
+    LocalContext.current
 
     Box(modifier = modifier.fillMaxSize().background(Color.Black)) {
         // 1. Logic to determine if we use Animation, Image, or Gradient

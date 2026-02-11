@@ -15,7 +15,7 @@ class ChromaCoreHooker : YukiBaseHooker() {
 
     override fun onHook() {
         // Load the shared preferences synchronized by ChromaCoreManager
-        val prefs = prefs("chromacore_xposed_prefs")
+        prefs("chromacore_xposed_prefs")
 
         // --- STATUS BAR HOOKS (Iconify) ---
         hookStatusbarLogo()
