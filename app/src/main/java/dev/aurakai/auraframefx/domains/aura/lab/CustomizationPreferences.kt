@@ -1,22 +1,22 @@
 package dev.aurakai.auraframefx.domains.aura.lab
 
 import android.content.Context
+import android.net.Uri
+import androidx.compose.ui.layout.ContentScale
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
+import com.google.gson.Gson
 import dev.aurakai.auraframefx.domains.aura.LauncherConfiguration
 import dev.aurakai.auraframefx.domains.aura.MonetConfiguration
 import dev.aurakai.auraframefx.domains.aura.SystemUIConfiguration
+import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import android.net.Uri
 import androidx.core.content.edit as sharedPrefsEdit
-import com.google.gson.Gson
-import androidx.compose.ui.layout.ContentScale
 
 private val Context.customizationDataStore by preferencesDataStore(name = "customization_prefs")
 
@@ -425,6 +425,15 @@ object CustomizationPreferences {
     fun getNotchBarBackgroundBlendMode(context: Context): String {
         return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
             .getString(KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE, "SrcOver") ?: "SrcOver"
+    }
+
+    fun saveNotchBarBackgroundSettings(
+        context: Context,
+        enabled: Boolean,
+        uri: Uri?,
+        opacity: Float
+    ) {
+        TODO("Not yet implemented")
     }
 }
 
