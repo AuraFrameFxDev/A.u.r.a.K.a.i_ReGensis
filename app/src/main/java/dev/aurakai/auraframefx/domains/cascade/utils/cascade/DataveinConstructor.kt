@@ -1,7 +1,5 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade
 
-import dev.aurakai.auraframefx.domains.genesis.core.graph.GraphNode
-import dev.aurakai.auraframefx.domains.genesis.core.graph.NodeType
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import kotlinx.coroutines.channels.Channel

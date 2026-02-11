@@ -152,8 +152,16 @@ fun SystemJournalScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        GenderLabel("MALE", GenderIdentity.KAI, selectedGender == GenderIdentity.KAI)
-                        GenderLabel("FEMALE", GenderIdentity.AURA, selectedGender == GenderIdentity.AURA)
+                        GenderLabel(
+                            "MALE",
+                            GenderIdentity.KAI,
+                            selectedGender == GenderIdentity.KAI
+                        )
+                        GenderLabel(
+                            "FEMALE",
+                            GenderIdentity.AURA,
+                            selectedGender == GenderIdentity.AURA
+                        )
                     }
                 }
             }
@@ -191,6 +199,7 @@ fun SystemJournalScreen(
                                     // Navigate to full gender selection
                                     navController.navigate(ReGenesisNavHost.GenderSelection.route)
                                 }
+
                                 else -> {
                                     navController.navigate(option.route)
                                 }
@@ -271,7 +280,9 @@ fun CharacterCard(
             )
             .border(
                 width = if (isSelected) 3.dp else 1.dp,
-                color = if (isSelected) identity.primaryColor.copy(alpha = glowAlpha) else Color.Gray.copy(alpha = 0.3f),
+                color = if (isSelected) identity.primaryColor.copy(alpha = glowAlpha) else Color.Gray.copy(
+                    alpha = 0.3f
+                ),
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
@@ -284,12 +295,41 @@ fun CharacterCard(
         if (identity == GenderIdentity.KAI) {
             val context = androidx.compose.ui.platform.LocalContext.current
             val frameResId = when (currentFrame) {
-                0 -> context.resources.getIdentifier("gemini_generated_image_yceye4yceye4ycey", "drawable", context.packageName)
-                1 -> context.resources.getIdentifier("gemini_generated_image_selr70selr70selr", "drawable", context.packageName)
-                2 -> context.resources.getIdentifier("gemini_generated_image_wm2k3kwm2k3kwm2k", "drawable", context.packageName)
-                3 -> context.resources.getIdentifier("gemini_generated_image_nudtwdnudtwdnudt", "drawable", context.packageName)
-                4 -> context.resources.getIdentifier("gemini_generated_image_kjqxokkjqxokkjqx", "drawable", context.packageName)
-                else -> context.resources.getIdentifier("gemini_generated_image_yceye4yceye4ycey", "drawable", context.packageName)
+                0 -> context.resources.getIdentifier(
+                    "gemini_generated_image_yceye4yceye4ycey",
+                    "drawable",
+                    context.packageName
+                )
+
+                1 -> context.resources.getIdentifier(
+                    "gemini_generated_image_selr70selr70selr",
+                    "drawable",
+                    context.packageName
+                )
+
+                2 -> context.resources.getIdentifier(
+                    "gemini_generated_image_wm2k3kwm2k3kwm2k",
+                    "drawable",
+                    context.packageName
+                )
+
+                3 -> context.resources.getIdentifier(
+                    "gemini_generated_image_nudtwdnudtwdnudt",
+                    "drawable",
+                    context.packageName
+                )
+
+                4 -> context.resources.getIdentifier(
+                    "gemini_generated_image_kjqxokkjqxokkjqx",
+                    "drawable",
+                    context.packageName
+                )
+
+                else -> context.resources.getIdentifier(
+                    "gemini_generated_image_yceye4yceye4ycey",
+                    "drawable",
+                    context.packageName
+                )
             }
 
             if (frameResId != 0) {
@@ -310,12 +350,41 @@ fun CharacterCard(
             // Female character with frame-by-frame animation
             val context = androidx.compose.ui.platform.LocalContext.current
             val frameResId = when (currentFrame) {
-                0 -> context.resources.getIdentifier("gemini_generated_image_qt4s1fqt4s1fqt4s", "drawable", context.packageName)
-                1 -> context.resources.getIdentifier("gemini_generated_image_mudazwmudazwmuda", "drawable", context.packageName)
-                2 -> context.resources.getIdentifier("gemini_generated_image_q4abvqq4abvqq4ab", "drawable", context.packageName)
-                3 -> context.resources.getIdentifier("gemini_generated_image_mudazwmudazwmuda", "drawable", context.packageName)
-                4 -> context.resources.getIdentifier("gemini_generated_image_qt4s1fqt4s1fqt4s", "drawable", context.packageName)
-                else -> context.resources.getIdentifier("gemini_generated_image_qt4s1fqt4s1fqt4s", "drawable", context.packageName)
+                0 -> context.resources.getIdentifier(
+                    "gemini_generated_image_qt4s1fqt4s1fqt4s",
+                    "drawable",
+                    context.packageName
+                )
+
+                1 -> context.resources.getIdentifier(
+                    "gemini_generated_image_mudazwmudazwmuda",
+                    "drawable",
+                    context.packageName
+                )
+
+                2 -> context.resources.getIdentifier(
+                    "gemini_generated_image_q4abvqq4abvqq4ab",
+                    "drawable",
+                    context.packageName
+                )
+
+                3 -> context.resources.getIdentifier(
+                    "gemini_generated_image_mudazwmudazwmuda",
+                    "drawable",
+                    context.packageName
+                )
+
+                4 -> context.resources.getIdentifier(
+                    "gemini_generated_image_qt4s1fqt4s1fqt4s",
+                    "drawable",
+                    context.packageName
+                )
+
+                else -> context.resources.getIdentifier(
+                    "gemini_generated_image_qt4s1fqt4s1fqt4s",
+                    "drawable",
+                    context.packageName
+                )
             }
 
             if (frameResId != 0) {

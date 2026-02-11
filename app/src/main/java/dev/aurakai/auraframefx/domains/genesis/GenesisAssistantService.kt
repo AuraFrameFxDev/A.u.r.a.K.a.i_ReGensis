@@ -5,7 +5,6 @@ import android.service.voice.VoiceInteractionSession
 import android.service.voice.VoiceInteractionSessionService
 import android.os.Bundle
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 
 class GenesisAssistantService : VoiceInteractionService() {

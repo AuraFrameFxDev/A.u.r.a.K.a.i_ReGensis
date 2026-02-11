@@ -31,7 +31,9 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 fun CascadeVisionScreen(
     onNavigateBack: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF020205))) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xFF020205))) {
         AnimeHUDContainer(
             title = "CASCADE VISION",
             description = "PATTERN RECOGNITION & SPATIAL ANALYSIS MODULE. MULTI-LAYER DEPTH ACTIVE.",
@@ -71,12 +73,16 @@ fun CascadeVisionScreen(
                 }
 
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Button(
                         onClick = { /* Analyze Current Frame */ },
-                        modifier = Modifier.weight(1f).height(56.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(56.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00FFD4)),
                         shape = RoundedCornerShape(12.dp)
                     ) {
@@ -127,13 +133,23 @@ private fun VisionViewport() {
                 .fillMaxWidth()
                 .height(2.dp)
                 .align(Alignment.Center)
-                .background(Brush.horizontalGradient(listOf(Color.Transparent, Color(0xFF00FFD4), Color.Transparent)))
+                .background(
+                    Brush.horizontalGradient(
+                        listOf(
+                            Color.Transparent,
+                            Color(0xFF00FFD4),
+                            Color.Transparent
+                        )
+                    )
+                )
         )
 
         // Overlay Text
         Text(
             "SPATIAL RECOGNITION ACTIVE",
-            modifier = Modifier.align(Alignment.BottomStart).padding(16.dp),
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(16.dp),
             fontFamily = LEDFontFamily,
             fontSize = 10.sp,
             color = Color(0xFF00FFD4)
@@ -152,10 +168,25 @@ private fun DetectedVectorCard(label: String, confidence: Float) {
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.Default.BlurOn, null, tint = Color(0xFF00FFD4), modifier = Modifier.size(20.dp))
+            Icon(
+                Icons.Default.BlurOn,
+                null,
+                tint = Color(0xFF00FFD4),
+                modifier = Modifier.size(20.dp)
+            )
             Spacer(modifier = Modifier.width(16.dp))
-            Text(label, color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-            Text("${(confidence * 100).toInt()}%", color = Color(0xFF00FFD4), fontFamily = LEDFontFamily, fontSize = 14.sp)
+            Text(
+                label,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                "${(confidence * 100).toInt()}%",
+                color = Color(0xFF00FFD4),
+                fontFamily = LEDFontFamily,
+                fontSize = 14.sp
+            )
         }
     }
 }

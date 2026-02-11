@@ -420,7 +420,11 @@ class TaskExecutionManager @Inject constructor(
         return when {
             execution.type.contains("creative", ignoreCase = true) -> AgentType.AURA
             execution.type.contains("ui", ignoreCase = true) -> AgentType.AURA
-            execution.type.contains("security", ignoreCase = true) -> AgentType.KAI
+            execution.type.contains(
+                "dev/aurakai/auraframefx/security",
+                ignoreCase = true
+            ) -> AgentType.KAI
+
             execution.type.contains("analysis", ignoreCase = true) -> AgentType.KAI
             execution.type.contains("complex", ignoreCase = true) -> AgentType.GENESIS
             execution.type.contains("fusion", ignoreCase = true) -> AgentType.GENESIS
@@ -476,7 +480,8 @@ class TaskExecutionManager @Inject constructor(
     private fun calculateAverageExecutionTime(): Long {
         val executions = completedExecutions.values
         return if (executions.isNotEmpty()) {
-            executions.filterIsInstance<TaskResult.Success>().map { (it.data as AgentResponse).timestamp }.average()
+            executions.filterIsInstance<TaskResult.Success>()
+                .map { (it.data as AgentResponse).timestamp }.average()
                 .toLong()
         } else 0L
     }

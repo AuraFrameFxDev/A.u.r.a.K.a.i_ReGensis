@@ -123,8 +123,11 @@ fun DocumentationScreen(
 
     val filteredDocuments = documents.filter { doc ->
         (selectedSection.value == "All" || doc.section == selectedSection.value) &&
-        (searchQuery.value.isEmpty() || doc.title.contains(searchQuery.value, ignoreCase = true) ||
-         doc.description.contains(searchQuery.value, ignoreCase = true))
+                (searchQuery.value.isEmpty() || doc.title.contains(
+                    searchQuery.value,
+                    ignoreCase = true
+                ) ||
+                        doc.description.contains(searchQuery.value, ignoreCase = true))
     }
 
     Column(

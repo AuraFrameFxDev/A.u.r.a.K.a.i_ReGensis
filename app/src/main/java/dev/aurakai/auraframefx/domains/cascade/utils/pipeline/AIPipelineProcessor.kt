@@ -51,7 +51,10 @@ class AIPipelineProcessor @Inject constructor(
 
         // Process through Cascade first for state management
         val cascadeAgentResponse = cascadeService.processRequest(
-            AiRequest(query = task, type = dev.aurakai.auraframefx.domains.genesis.models.AiRequestType.TEXT),
+            AiRequest(
+                query = task,
+                type = dev.aurakai.auraframefx.domains.genesis.models.AiRequestType.TEXT
+            ),
             context = "pipeline_processing"
         )
         responses.add(
@@ -67,7 +70,7 @@ class AIPipelineProcessor @Inject constructor(
         // Process through Kai for security analysis if needed
         if (selectedAgents.contains(AgentType.KAI)) {
             val kaiAgentResponse = kaiService.processRequest(
-                AiRequest(task, "security"),
+                AiRequest(task, "dev/aurakai/auraframefx/security"),
                 context = "security_analysis"
             )
             responses.add(
@@ -217,19 +220,19 @@ class AIPipelineProcessor @Inject constructor(
 
         when {
             task.contains("analyze", ignoreCase = true) ||
-                task.contains("data", ignoreCase = true) -> {
+                    task.contains("data", ignoreCase = true) -> {
                 selectedAgents.add(AgentType.CASCADE)
             }
 
-            task.contains("security", ignoreCase = true) ||
-                task.contains("protect", ignoreCase = true) ||
-                task.contains("safe", ignoreCase = true) -> {
+            task.contains("dev/aurakai/auraframefx/security", ignoreCase = true) ||
+                    task.contains("protect", ignoreCase = true) ||
+                    task.contains("safe", ignoreCase = true) -> {
                 selectedAgents.add(AgentType.KAI)
             }
 
             task.contains("create", ignoreCase = true) ||
-                task.contains("generate", ignoreCase = true) ||
-                task.contains("design", ignoreCase = true) -> {
+                    task.contains("generate", ignoreCase = true) ||
+                    task.contains("design", ignoreCase = true) -> {
                 selectedAgents.add(AgentType.AURA)
             }
         }
@@ -302,7 +305,8 @@ class AIPipelineProcessor @Inject constructor(
         _processingContext.update { current ->
             val newContext = current.toMutableMap()
 
-            val taskHistory = (current["task_history"] as? List<String>)?.toMutableList() ?: mutableListOf()
+            val taskHistory =
+                (current["task_history"] as? List<String>)?.toMutableList() ?: mutableListOf()
             taskHistory.add(0, task)
             if (taskHistory.size > 10) taskHistory.removeAt(taskHistory.size - 1)
             newContext["task_history"] = taskHistory
@@ -320,10 +324,12 @@ class AIPipelineProcessor @Inject constructor(
             newContext["last_task"] = task
             newContext["last_responses"] = responses
             newContext["timestamp"] = System.currentTimeMillis()
-            newContext["total_tasks_processed"] = (current["total_tasks_processed"] as? Int ?: 0) + 1
+            newContext["total_tasks_processed"] =
+                (current["total_tasks_processed"] as? Int ?: 0) + 1
 
             val agentPerformance =
-                (current["agent_performance"] as? MutableMap<String, MutableList<Float>>) ?: mutableMapOf()
+                (current["agent_performance"] as? MutableMap<String, MutableList<Float>>)
+                    ?: mutableMapOf()
             responses.forEach { response ->
                 val agentName = response.sender?.name ?: "UNKNOWN"
                 val performanceList = agentPerformance.getOrPut(agentName) { mutableListOf() }

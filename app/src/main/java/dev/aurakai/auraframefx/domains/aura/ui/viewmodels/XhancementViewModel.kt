@@ -127,7 +127,8 @@ class XhancementViewModel @Inject constructor(
                                 module.copy(isKaiBlocked = true, isEnabled = false)
                             } else module
                         }
-                        _errorMessage.value = "Kai Security: Module '$moduleId' blocked - potential threat detected"
+                        _errorMessage.value =
+                            "Kai Security: Module '$moduleId' blocked - potential threat detected"
                         logger.warn("XhancementVM", "Kai VETO: Blocked $moduleId activation")
                         return@launch
                     }

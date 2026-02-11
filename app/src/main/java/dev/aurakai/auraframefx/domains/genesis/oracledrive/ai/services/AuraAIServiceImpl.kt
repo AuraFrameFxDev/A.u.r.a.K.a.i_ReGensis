@@ -74,7 +74,8 @@ abstract class AuraAIServiceImpl(
             val maxTokens = (options?.get("maxTokens") as? Number)?.toInt() ?: 1024
 
             kotlinx.coroutines.runBlocking {
-                vertexAIClient.generateText(prompt, temperature, maxTokens) ?: "Unable to generate response"
+                vertexAIClient.generateText(prompt, temperature, maxTokens)
+                    ?: "Unable to generate response"
             }
         } catch (e: Exception) {
             AuraFxLogger.error("AuraAIService", "Failed to get AI response", e)

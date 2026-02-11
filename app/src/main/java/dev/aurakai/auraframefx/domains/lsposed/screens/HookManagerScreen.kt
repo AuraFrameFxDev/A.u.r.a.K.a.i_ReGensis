@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.lsposed.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,19 +24,78 @@ import androidx.compose.ui.unit.sp
 fun HookManagerScreen(
     onNavigateBack: () -> Unit = {}
 ) {
-    val hooks = remember { mutableStateListOf(
-        MethodHook("SystemUI", "com.android.systemui.statusbar.StatusBarIconView", "setVisible", "Status bar icon visibility", true, "UI"),
-        MethodHook("Settings", "com.android.settings.DisplaySettings", "onCreate", "Display settings initialization", true, "System"),
-        MethodHook("YouTube", "com.google.android.youtube.player.Player", "showAds", "Ad display override", false, "Media"),
-        MethodHook("Chrome", "org.chromium.chrome.browser.tab.Tab", "loadUrl", "URL loading hook", true, "Browser"),
-        MethodHook("Camera", "android.hardware.Camera", "takePicture", "Camera capture hook", false, "Hardware"),
-        MethodHook("Battery", "android.os.BatteryManager", "getIntProperty", "Battery status override", true, "System"),
-        MethodHook("Location", "android.location.LocationManager", "getLastKnownLocation", "Location spoofing", false, "Privacy"),
-        MethodHook("Network", "android.net.ConnectivityManager", "getActiveNetworkInfo", "Network status hook", true, "Network")
-    )}
+    val hooks = remember {
+        mutableStateListOf(
+            MethodHook(
+                "SystemUI",
+                "com.android.systemui.statusbar.StatusBarIconView",
+                "setVisible",
+                "Status bar icon visibility",
+                true,
+                "UI"
+            ),
+            MethodHook(
+                "Settings",
+                "com.android.settings.DisplaySettings",
+                "onCreate",
+                "Display settings initialization",
+                true,
+                "System"
+            ),
+            MethodHook(
+                "YouTube",
+                "com.google.android.youtube.player.Player",
+                "showAds",
+                "Ad display override",
+                false,
+                "Media"
+            ),
+            MethodHook(
+                "Chrome",
+                "org.chromium.chrome.browser.tab.Tab",
+                "loadUrl",
+                "URL loading hook",
+                true,
+                "Browser"
+            ),
+            MethodHook(
+                "Camera",
+                "android.hardware.Camera",
+                "takePicture",
+                "Camera capture hook",
+                false,
+                "Hardware"
+            ),
+            MethodHook(
+                "Battery",
+                "android.os.BatteryManager",
+                "getIntProperty",
+                "Battery status override",
+                true,
+                "System"
+            ),
+            MethodHook(
+                "Location",
+                "android.location.LocationManager",
+                "getLastKnownLocation",
+                "Location spoofing",
+                false,
+                "Privacy"
+            ),
+            MethodHook(
+                "Network",
+                "android.net.ConnectivityManager",
+                "getActiveNetworkInfo",
+                "Network status hook",
+                true,
+                "Network"
+            )
+        )
+    }
 
     val selectedCategory = remember { mutableStateOf("All") }
-    val categories = listOf("All", "UI", "System", "Media", "Browser", "Hardware", "Privacy", "Network")
+    val categories =
+        listOf("All", "UI", "System", "Media", "Browser", "Hardware", "Privacy", "Network")
 
     val filteredHooks = hooks.filter { hook ->
         selectedCategory.value == "All" || hook.category == selectedCategory.value

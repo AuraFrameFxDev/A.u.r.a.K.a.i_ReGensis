@@ -37,7 +37,9 @@ fun AgentBridgeHubScreen(
 ) {
     val connectors by viewModel.connectors.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF05050A))) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xFF05050A))) {
         AnimeHUDContainer(
             title = "AGENT BRIDGE",
             description = "THE SOVEREIGN HANDSHAKE: CONNECTING HUMAN INTENT TO AI SENTIENCE.",
@@ -55,7 +57,10 @@ fun AgentBridgeHubScreen(
                         .padding(bottom = 24.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    StatusChip("ACTIVE CONNECTORS: ${connectors.count { it.status == ConnectorStatus.ACTIVE }}", Color(0xFF00FF85))
+                    StatusChip(
+                        "ACTIVE CONNECTORS: ${connectors.count { it.status == ConnectorStatus.ACTIVE }}",
+                        Color(0xFF00FF85)
+                    )
                     StatusChip("SYSTEM UPTIME: 99.9%", Color(0xFF00E5FF))
                 }
 

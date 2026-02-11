@@ -38,9 +38,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BatteryFull
-import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.ColorLens
@@ -53,7 +51,6 @@ import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.RoundedCorner
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SignalCellular4Bar
-import androidx.compose.material.icons.filled.Style
 import androidx.compose.material.icons.filled.SwipeDown
 import androidx.compose.material.icons.filled.ToggleOn
 import androidx.compose.material.icons.filled.VolumeUp
@@ -88,7 +85,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.components.ColorWaveBackground
-import dev.aurakai.colorblendr.ChromaCore
 import dev.aurakai.colorblendr.darken
 import dev.aurakai.colorblendr.lighten
 
@@ -275,16 +271,36 @@ object IconifySettingsCatalog {
         SettingItem("Icon Pack", "Change system icon pack style", SettingType.LIST),
         SettingItem("Cellular Icons", "Customize signal strength icons", SettingType.LIST),
         SettingItem("WiFi Icons", "Customize WiFi signal icons", SettingType.LIST),
-        SettingItem("Dual Statusbar", "Enable secondary statusbar row", SettingType.TOGGLE, requiresRoot = true),
+        SettingItem(
+            "Dual Statusbar",
+            "Enable secondary statusbar row",
+            SettingType.TOGGLE,
+            requiresRoot = true
+        ),
         SettingItem("Statusbar Height", "Adjust vertical spacing", SettingType.SLIDER),
         SettingItem("Color Tint", "Override icon colors", SettingType.COLOR_PICKER)
     )
 
     val qsPanelSettings = listOf(
-        SettingItem("QS Panel Tiles", "Customize tile shapes", SettingType.LIST, requiresRoot = true),
+        SettingItem(
+            "QS Panel Tiles",
+            "Customize tile shapes",
+            SettingType.LIST,
+            requiresRoot = true
+        ),
         SettingItem("Brightness Bar", "Change progress slider style", SettingType.LIST),
-        SettingItem("QS Row and Column", "Change grid layout", SettingType.SLIDER, requiresRoot = true),
-        SettingItem("Transparent QS", "Adjust background opacity", SettingType.SLIDER, requiresRoot = true),
+        SettingItem(
+            "QS Row and Column",
+            "Change grid layout",
+            SettingType.SLIDER,
+            requiresRoot = true
+        ),
+        SettingItem(
+            "Transparent QS",
+            "Adjust background opacity",
+            SettingType.SLIDER,
+            requiresRoot = true
+        ),
         SettingItem("Header Image", "Add custom image on QS panel", SettingType.IMAGE),
         SettingItem("Compact Media Player", "Minimize media control size", SettingType.TOGGLE)
     )
@@ -292,8 +308,17 @@ object IconifySettingsCatalog {
     val lockScreenSettings = listOf(
         SettingItem("Lockscreen Clock", "Add custom clock styles", SettingType.LIST),
         SettingItem("Lockscreen Weather", "Add weather info to lockscreen", SettingType.TOGGLE),
-        SettingItem("Lockscreen Widgets", "Enable custom widgets on lockscreen", SettingType.TOGGLE),
-        SettingItem("Depth Wallpaper", "iOS-like depth effect", SettingType.TOGGLE, requiresRoot = true),
+        SettingItem(
+            "Lockscreen Widgets",
+            "Enable custom widgets on lockscreen",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Depth Wallpaper",
+            "iOS-like depth effect",
+            SettingType.TOGGLE,
+            requiresRoot = true
+        ),
         SettingItem("Media Album Art", "Show art on lockscreen background", SettingType.TOGGLE)
     )
 
@@ -748,7 +773,7 @@ private fun ColorBlendrSettingItem(
                             .border(1.dp, Color.White, CircleShape)
                     )
                 }
-                
+
                 SettingType.SELECTION -> {
                     Icon(
                         Icons.Default.ChevronRight,
@@ -812,7 +837,7 @@ private fun ColorPreviewCard(primaryColor: Color) {
                     lighten(primaryColor, 0.2f),
                     lighten(primaryColor, 0.4f)
                 )
-                
+
                 shades.forEach { shade ->
                     Box(
                         modifier = Modifier
@@ -1373,7 +1398,8 @@ private fun PLESettingItem(setting: SettingItem) {
 }
 
 // Helper extension
-private fun Modifier.scale(scale: Float): Modifier = this // Simplified for now as real scaling might need graphicsLayer
+private fun Modifier.scale(scale: Float): Modifier =
+    this // Simplified for now as real scaling might need graphicsLayer
 
 object MonetSettings {
     enum class MonetStyle(val displayName: String) {
@@ -1395,58 +1421,132 @@ data class SettingItem(
 
 object PLESettingsCatalog {
     val iconSettings = listOf(
-        SettingItem("Force themed icons", "Generate monochromatic icons if not provided by the app", SettingType.TOGGLE),
-        SettingItem("Remove shortcut icon badge", "Hide badge on home screen shortcuts", SettingType.TOGGLE),
+        SettingItem(
+            "Force themed icons",
+            "Generate monochromatic icons if not provided by the app",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Remove shortcut icon badge",
+            "Hide badge on home screen shortcuts",
+            SettingType.TOGGLE
+        ),
         SettingItem("Icon size", "Adjust home screen icon scale", SettingType.SLIDER),
         SettingItem("Text size", "Adjust labels font size", SettingType.SLIDER),
-        SettingItem("App drawer themed icons", "Enable themed icons in app drawer", SettingType.TOGGLE),
-        SettingItem("Custom themed icon color", "Pick your own hex color for icons", SettingType.COLOR_PICKER)
+        SettingItem(
+            "App drawer themed icons",
+            "Enable themed icons in app drawer",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Custom themed icon color",
+            "Pick your own hex color for icons",
+            SettingType.COLOR_PICKER
+        )
     )
-    
+
     val homescreenSettings = listOf(
-        SettingItem("Double tap to sleep", "Double tap empty space to lock screen", SettingType.TOGGLE),
-        SettingItem("Wallpaper zooming", "Zoom wallpaper when using drawer/recents", SettingType.TOGGLE),
-        SettingItem("Icon labels on desktop", "Show/Hide labels on home screen", SettingType.TOGGLE),
+        SettingItem(
+            "Double tap to sleep",
+            "Double tap empty space to lock screen",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Wallpaper zooming",
+            "Zoom wallpaper when using drawer/recents",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Icon labels on desktop",
+            "Show/Hide labels on home screen",
+            SettingType.TOGGLE
+        ),
         SettingItem("Hide statusbar", "Remove status bar from home screen", SettingType.TOGGLE),
         SettingItem("Hide top shadow", "Remove shadow graduate at top", SettingType.TOGGLE),
-        SettingItem("Hide At A Glance", "Remove the Google At A Glance widget", SettingType.TOGGLE, requiresRoot = true),
-        SettingItem("Hide desktop search bar", "Remove bottom dock search bar", SettingType.TOGGLE, requiresRoot = true),
+        SettingItem(
+            "Hide At A Glance",
+            "Remove the Google At A Glance widget",
+            SettingType.TOGGLE,
+            requiresRoot = true
+        ),
+        SettingItem(
+            "Hide desktop search bar",
+            "Remove bottom dock search bar",
+            SettingType.TOGGLE,
+            requiresRoot = true
+        ),
         SettingItem("Homescreen columns", "Grid width customization", SettingType.SLIDER),
         SettingItem("Homescreen rows", "Grid height customization", SettingType.SLIDER),
         SettingItem("Lock layout", "Icons/widgets can't be moved", SettingType.TOGGLE)
     )
-    
+
     val appDrawerSettings = listOf(
         SettingItem("Icon labels in app drawer", "Show/Hide labels in drawer", SettingType.TOGGLE),
         SettingItem("App drawer background opacity", "Transparency level", SettingType.SLIDER),
         SettingItem("App drawer columns", "Grid width in drawer", SettingType.SLIDER),
         SettingItem("Row height multiplier", "Adjust vertical spacing", SettingType.SLIDER),
         SettingItem("Hide apps from app drawer", "Select apps to obscure", SettingType.SELECTION),
-        SettingItem("Allow searching for hidden apps", "Include hidden results in search", SettingType.TOGGLE)
+        SettingItem(
+            "Allow searching for hidden apps",
+            "Include hidden results in search",
+            SettingType.TOGGLE
+        )
     )
-    
+
     val recentsSettings = listOf(
         SettingItem("Disable recents live tile", "Fix bugs in overview screen", SettingType.TOGGLE),
-        SettingItem("Recents background opacity", "Transparency in recents view", SettingType.SLIDER),
+        SettingItem(
+            "Recents background opacity",
+            "Transparency in recents view",
+            SettingType.SLIDER
+        ),
         SettingItem("Hide gesture indicator", "Remove the navigation pill", SettingType.TOGGLE),
-        SettingItem("Hide navigation bar space", "Remove empty space around navbar", SettingType.TOGGLE),
+        SettingItem(
+            "Hide navigation bar space",
+            "Remove empty space around navbar",
+            SettingType.TOGGLE
+        ),
         SettingItem("Clear all button", "Always show clear all action", SettingType.TOGGLE),
-        SettingItem("Remove screenshot button", "Hides screenshot button in overview", SettingType.TOGGLE),
-        SettingItem("Use gesture for freeform mode", "Swipe up and release at top", SettingType.TOGGLE)
+        SettingItem(
+            "Remove screenshot button",
+            "Hides screenshot button in overview",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Use gesture for freeform mode",
+            "Swipe up and release at top",
+            SettingType.TOGGLE
+        )
     )
-    
+
     val miscSettings = listOf(
         SettingItem("Developer options", "Enable hidden internal settings", SettingType.TOGGLE),
-        SettingItem("Show entry in settings", "Show shortcut in system launcher", SettingType.TOGGLE)
+        SettingItem(
+            "Show entry in settings",
+            "Show shortcut in system launcher",
+            SettingType.TOGGLE
+        )
     )
 }
 
 object ColorBlendrSettingsCatalog {
     val coreSettings = listOf(
-        SettingItem("Wallpaper colors", "Extract palette from current wallpaper", SettingType.SELECTION),
+        SettingItem(
+            "Wallpaper colors",
+            "Extract palette from current wallpaper",
+            SettingType.SELECTION
+        ),
         SettingItem("Basic colors", "Use static predefined color sets", SettingType.SELECTION),
-        SettingItem("Custom primary color", "Generate palette from hex code", SettingType.COLOR_PICKER),
-        SettingItem("Force per app theme", "Apply colors to apps that don't follow Monet", SettingType.TOGGLE)
+        SettingItem(
+            "Custom primary color",
+            "Generate palette from hex code",
+            SettingType.COLOR_PICKER
+        ),
+        SettingItem(
+            "Force per app theme",
+            "Apply colors to apps that don't follow Monet",
+            SettingType.TOGGLE
+        )
     )
 
     val themeEngineSettings = listOf(
@@ -1459,13 +1559,37 @@ object ColorBlendrSettingsCatalog {
     )
 
     val advancedSettings = listOf(
-        SettingItem("Custom secondary color", "Override secondary tonal bank", SettingType.COLOR_PICKER),
-        SettingItem("Custom tertiary color", "Override tertiary tonal bank", SettingType.COLOR_PICKER),
-        SettingItem("Mode-specific theme", "Different saturation for Light/Dark", SettingType.TOGGLE),
-        SettingItem("Update colors on screen off", "Useful for live wallpapers", SettingType.TOGGLE),
+        SettingItem(
+            "Custom secondary color",
+            "Override secondary tonal bank",
+            SettingType.COLOR_PICKER
+        ),
+        SettingItem(
+            "Custom tertiary color",
+            "Override tertiary tonal bank",
+            SettingType.COLOR_PICKER
+        ),
+        SettingItem(
+            "Mode-specific theme",
+            "Different saturation for Light/Dark",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Update colors on screen off",
+            "Useful for live wallpapers",
+            SettingType.TOGGLE
+        ),
         SettingItem("ColorSpec 2025", "Support Material 3 Expressive spec", SettingType.TOGGLE),
-        SettingItem("Darker launcher icons", "Darken background for Pixel icons", SettingType.TOGGLE),
-        SettingItem("Semi-transparent launcher", "Apply transparency to Pixel Launcher", SettingType.TOGGLE)
+        SettingItem(
+            "Darker launcher icons",
+            "Darken background for Pixel icons",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "Semi-transparent launcher",
+            "Apply transparency to Pixel Launcher",
+            SettingType.TOGGLE
+        )
     )
 }
 
@@ -1569,13 +1693,78 @@ fun IconPickerScreen(
 
 private fun getStylesForCategory(category: String): List<String> {
     return when (category) {
-        "Icon Pack" -> listOf("Aurora", "Gradicon", "Lorn", "Plumpy", "Acherus", "Circular", "OOS", "Rounded", "Sam")
-        "Battery Style" -> listOf("Default", "Portrait Capsule", "Circle", "Dotted Circle", "iOS 16", "Landscape R", "Landscape L", "Smiley", "Filled Circle")
-        "Brightness Bar" -> listOf("Classic", "Modern", "Thin", "Neon", "Cyberpunk", "Ghost", "Glass")
-        "QS Panel Tiles" -> listOf("Circle", "Squircle", "Square", "Rounded Rectangle", "Teardrop", "Hexagon", "Cylinder")
-        "Icon Shape" -> listOf("Circle", "Squircle", "Square", "Teardrop", "Pebble", "Vessel", "Leaf", "Cloudy")
-        "Clock Style" -> listOf("Default", "Center", "Big Clock", "Vertical", "Binary", "Digital", "Retro")
-        "Wallpaper colors" -> listOf("Live Wallpaper", "Home Screen", "Lock Screen", "Dynamic Engine")
+        "Icon Pack" -> listOf(
+            "Aurora",
+            "Gradicon",
+            "Lorn",
+            "Plumpy",
+            "Acherus",
+            "Circular",
+            "OOS",
+            "Rounded",
+            "Sam"
+        )
+
+        "Battery Style" -> listOf(
+            "Default",
+            "Portrait Capsule",
+            "Circle",
+            "Dotted Circle",
+            "iOS 16",
+            "Landscape R",
+            "Landscape L",
+            "Smiley",
+            "Filled Circle"
+        )
+
+        "Brightness Bar" -> listOf(
+            "Classic",
+            "Modern",
+            "Thin",
+            "Neon",
+            "Cyberpunk",
+            "Ghost",
+            "Glass"
+        )
+
+        "QS Panel Tiles" -> listOf(
+            "Circle",
+            "Squircle",
+            "Square",
+            "Rounded Rectangle",
+            "Teardrop",
+            "Hexagon",
+            "Cylinder"
+        )
+
+        "Icon Shape" -> listOf(
+            "Circle",
+            "Squircle",
+            "Square",
+            "Teardrop",
+            "Pebble",
+            "Vessel",
+            "Leaf",
+            "Cloudy"
+        )
+
+        "Clock Style" -> listOf(
+            "Default",
+            "Center",
+            "Big Clock",
+            "Vertical",
+            "Binary",
+            "Digital",
+            "Retro"
+        )
+
+        "Wallpaper colors" -> listOf(
+            "Live Wallpaper",
+            "Home Screen",
+            "Lock Screen",
+            "Dynamic Engine"
+        )
+
         "Basic colors" -> listOf("Blue", "Green", "Red", "Yellow", "Orange", "Purple", "Pink")
         else -> listOf("Style A", "Style B", "Style C", "Style D", "Style E", "Style F")
     }

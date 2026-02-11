@@ -80,7 +80,8 @@ fun AgentAdvancementScreen(
     var selectedAgentName by remember { mutableStateOf(agentName) }
     val allAgents by viewModel.allAgents.collectAsState()
 
-    val agentStats = allAgents.find { it.name == selectedAgentName } ?: AgentStats(name = selectedAgentName)
+    val agentStats =
+        allAgents.find { it.name == selectedAgentName } ?: AgentStats(name = selectedAgentName)
     var selectedNode by remember { mutableStateOf<SkillNode?>(null) }
 
     // Animated background
@@ -109,7 +110,8 @@ fun AgentAdvancementScreen(
         // Agent Portrait Overlay (Whole Body) - DYNAMIC PLACEMENT
         if (portraitRes != null) {
             val context = LocalContext.current
-            val resId = context.resources.getIdentifier(portraitRes, "drawable", context.packageName)
+            val resId =
+                context.resources.getIdentifier(portraitRes, "drawable", context.packageName)
             if (resId != 0) {
                 Image(
                     painter = painterResource(id = resId),
@@ -257,7 +259,9 @@ fun AgentHeader(
     onAgentSelected: (String) -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {

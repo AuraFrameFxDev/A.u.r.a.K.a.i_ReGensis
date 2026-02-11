@@ -27,7 +27,6 @@ data class ClockConfig(
 )
 
 
-
 /**
  * Animation configuration for lock screen
  */

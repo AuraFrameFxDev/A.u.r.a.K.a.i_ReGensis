@@ -131,7 +131,10 @@ class TrinityCoordinatorService @Inject constructor(
                 }
 
                 RoutingDecision.GENESIS_FUSION -> {
-                    AuraFxLogger.debug("Trinity", "🧠 Activating Genesis fusion: ${analysisResult.fusionType}")
+                    AuraFxLogger.debug(
+                        "Trinity",
+                        "🧠 Activating Genesis fusion: ${analysisResult.fusionType}"
+                    )
                     val response = genesisBridgeService.processRequest(
                         AiRequest(
                             query = request.query,
@@ -149,8 +152,10 @@ class TrinityCoordinatorService @Inject constructor(
                     AuraFxLogger.debug("Trinity", "🔄 Parallel processing with multiple personas")
 
                     try {
-                        val kaiDeferred = scope.async { kaiAIService.processRequestFlow(request).first() }
-                        val auraDeferred = scope.async { auraAIService.processRequestFlow(request).first() }
+                        val kaiDeferred =
+                            scope.async { kaiAIService.processRequestFlow(request).first() }
+                        val auraDeferred =
+                            scope.async { auraAIService.processRequestFlow(request).first() }
 
                         val results = awaitAll(kaiDeferred, auraDeferred)
                         val kaiResponse = results[0]

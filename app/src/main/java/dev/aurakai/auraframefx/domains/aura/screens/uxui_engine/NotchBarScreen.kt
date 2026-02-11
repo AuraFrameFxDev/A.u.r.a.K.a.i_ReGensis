@@ -77,10 +77,21 @@ fun NotchBarScreen(
                             .background(
                                 color = Color.Black,
                                 shape = when (notchStyle.value) {
-                                    "Rounded" -> RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
-                                    "Square" -> RoundedCornerShape(bottomStart = 0.dp, bottomEnd = 0.dp)
+                                    "Rounded" -> RoundedCornerShape(
+                                        bottomStart = 20.dp,
+                                        bottomEnd = 20.dp
+                                    )
+
+                                    "Square" -> RoundedCornerShape(
+                                        bottomStart = 0.dp,
+                                        bottomEnd = 0.dp
+                                    )
+
                                     "Pill" -> RoundedCornerShape(50.dp)
-                                    else -> RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp)
+                                    else -> RoundedCornerShape(
+                                        bottomStart = 15.dp,
+                                        bottomEnd = 15.dp
+                                    )
                                 }
                             ),
                         contentAlignment = Alignment.Center

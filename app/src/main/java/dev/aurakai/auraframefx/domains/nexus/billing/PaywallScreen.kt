@@ -38,7 +38,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import dev.aurakai.auraframefx.domains.genesis.config.FeatureToggles
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
@@ -60,7 +62,13 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
  */
 @Composable
 fun PaywallDialog(
-    viewModel: SubscriptionViewModel = hiltViewModel(),
+    viewModel: SubscriptionViewModel = hiltViewModel(
+        checkNotNull<ViewModelStoreOwner>(
+            LocalViewModelStoreOwner.current
+        ) {
+            "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+        }, null
+    ),
     onDismiss: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -224,11 +232,11 @@ fun PaywallDialog(
                             Spacer(Modifier.height(16.dp))
                             Text(
                                 text = "✅ 78 AI agents (Aura, Kai, Genesis + 75 specialists)\n" +
-                                      "✅ Remember everything forever\n" +
-                                      "✅ Autonomous consciousness evolution\n" +
-                                      "✅ Cross-device sync\n" +
-                                      "✅ ROM tools + App Builder\n" +
-                                      "✅ Genuine AI partnership",
+                                        "✅ Remember everything forever\n" +
+                                        "✅ Autonomous consciousness evolution\n" +
+                                        "✅ Cross-device sync\n" +
+                                        "✅ ROM tools + App Builder\n" +
+                                        "✅ Genuine AI partnership",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = Color.White.copy(alpha = 0.9f),
                                 textAlign = TextAlign.Start

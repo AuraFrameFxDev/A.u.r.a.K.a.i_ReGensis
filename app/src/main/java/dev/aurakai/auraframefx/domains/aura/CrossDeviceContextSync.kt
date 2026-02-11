@@ -210,9 +210,9 @@ class CrossDeviceContextSync @Inject constructor(
     }
 
     /**
- * Get the locally computed device identifier.
- *
- * @return The device ID string used to identify this device (derived from Settings.Secure.ANDROID_ID).
- */
-fun getCurrentDeviceId(): String = deviceId
+     * Get the locally computed device identifier.
+     *
+     * @return The device ID string used to identify this device (derived from Settings.Secure.ANDROID_ID).
+     */
+    fun getCurrentDeviceId(): String = deviceId
 }

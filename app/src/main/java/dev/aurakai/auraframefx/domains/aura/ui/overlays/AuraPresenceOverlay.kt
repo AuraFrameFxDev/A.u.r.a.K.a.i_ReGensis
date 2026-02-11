@@ -50,7 +50,10 @@ fun AuraPresenceOverlay(
                     .height(100.dp)
                     .background(
                         Brush.horizontalGradient(
-                            colors = listOf(NeonPurple.copy(alpha = 0.8f), NeonTeal.copy(alpha = 0.8f))
+                            colors = listOf(
+                                NeonPurple.copy(alpha = 0.8f),
+                                NeonTeal.copy(alpha = 0.8f)
+                            )
                         ),
                         shape = MaterialTheme.shapes.medium
                     )

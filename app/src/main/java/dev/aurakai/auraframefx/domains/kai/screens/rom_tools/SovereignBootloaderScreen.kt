@@ -1,11 +1,8 @@
 package dev.aurakai.auraframefx.domains.kai.screens.rom_tools
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -83,11 +80,22 @@ fun SovereignBootloaderScreen(
                 Button(
                     onClick = { isUnlocked = !isUnlocked },
                     modifier = Modifier.fillMaxWidth().height(56.dp).padding(top = 16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = if (isUnlocked) Color.White.copy(alpha = 0.1f) else Color(0xFFFF1111)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isUnlocked) Color.White.copy(
+                            alpha = 0.1f
+                        ) else Color(0xFFFF1111)
+                    ),
                     shape = RoundedCornerShape(12.dp),
-                    border = if (isUnlocked) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF1111)) else null
+                    border = if (isUnlocked) androidx.compose.foundation.BorderStroke(
+                        1.dp,
+                        Color(0xFFFF1111)
+                    ) else null
                 ) {
-                    Text(if (isUnlocked) "LOCK BOOTLOADER" else "UNLOCK BOOTLOADER", color = if (isUnlocked) Color(0xFFFF1111) else Color.White, fontWeight = FontWeight.Bold)
+                    Text(
+                        if (isUnlocked) "LOCK BOOTLOADER" else "UNLOCK BOOTLOADER",
+                        color = if (isUnlocked) Color(0xFFFF1111) else Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
@@ -100,7 +108,10 @@ private fun StatusCard(isUnlocked: Boolean) {
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, if (isUnlocked) Color(0xFF00FF85).copy(alpha = 0.3f) else Color(0xFFFF1111).copy(alpha = 0.3f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            if (isUnlocked) Color(0xFF00FF85).copy(alpha = 0.3f) else Color(0xFFFF1111).copy(alpha = 0.3f)
+        )
     ) {
         Row(modifier = Modifier.padding(24.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -111,7 +122,12 @@ private fun StatusCard(isUnlocked: Boolean) {
             )
             Spacer(modifier = Modifier.width(20.dp))
             Column {
-                Text("STATUS", fontSize = 10.sp, color = Color.White.copy(alpha = 0.4f), fontWeight = FontWeight.Bold)
+                Text(
+                    "STATUS",
+                    fontSize = 10.sp,
+                    color = Color.White.copy(alpha = 0.4f),
+                    fontWeight = FontWeight.Bold
+                )
                 Text(
                     if (isUnlocked) "UNLOCKED" else "LOCKED (SECURE)",
                     style = MaterialTheme.typography.headlineSmall,
@@ -129,10 +145,18 @@ private fun WarningPanel() {
     Surface(
         color = Color(0xFFFF1111).copy(alpha = 0.05f),
         shape = RoundedCornerShape(12.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF1111).copy(alpha = 0.2f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            Color(0xFFFF1111).copy(alpha = 0.2f)
+        )
     ) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Warning, null, tint = Color(0xFFFF1111), modifier = Modifier.size(20.dp))
+            Icon(
+                Icons.Default.Warning,
+                null,
+                tint = Color(0xFFFF1111),
+                modifier = Modifier.size(20.dp)
+            )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 "Warning: Modifying bootloader state will trigger a factory reset and purge all local LDO context.",

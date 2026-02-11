@@ -494,7 +494,10 @@ fun AuraVisualization(
             // Level 10: Chromatic Aberration Aura (The Sword's Edge)
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = listOf(Color.Cyan.copy(alpha = 0.2f * power * glowIntensity), Color.Transparent),
+                    colors = listOf(
+                        Color.Cyan.copy(alpha = 0.2f * power * glowIntensity),
+                        Color.Transparent
+                    ),
                     center = Offset(centerX, centerY),
                     radius = size.minDimension * 0.6f
                 )
@@ -556,7 +559,6 @@ fun AuraVisualization(
         }
     }
 }
-
 
 
 @Composable

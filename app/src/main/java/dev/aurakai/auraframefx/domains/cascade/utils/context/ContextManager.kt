@@ -86,7 +86,8 @@ class ContextManager @Inject constructor(
         agent: AgentType,
         metadata: Map<String, String> = emptyMap(),
     ): ContextChain {
-        val chain = _activeContexts.value[chainId] ?: throw IllegalStateException("Context chain not found")
+        val chain =
+            _activeContexts.value[chainId] ?: throw IllegalStateException("Context chain not found")
 
         val updatedChain = chain.copy(
             currentContext = newContext,
@@ -128,7 +129,11 @@ class ContextManager @Inject constructor(
     fun queryContext(query: ContextQuery): ContextChainResult {
         val chains = _activeContexts.value.values
             .filter { chain ->
-                query.agentFilter.isEmpty() || query.agentFilter.any { agent -> chain.agentContext.containsKey(agent) }
+                query.agentFilter.isEmpty() || query.agentFilter.any { agent ->
+                    chain.agentContext.containsKey(
+                        agent
+                    )
+                }
             }
             .sortedByDescending { it.lastUpdated }
             .take(query.maxChainLength)

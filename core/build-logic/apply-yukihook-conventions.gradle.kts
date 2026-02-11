@@ -72,9 +72,7 @@ subprojects { subproject ->
             // Add YukiHook dependencies
             dependencies {
                 // YukiHook API stack (exact order enforced)
-                implementation(libs.yukihookapi.api) {
-                    exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
-                }
+                implementation(libs.yukihookapi.api)
                 ksp(libs.yukihookapi.ksp)
 
                 // Xposed API (compile only)

@@ -40,9 +40,9 @@ fun NexusConferenceScreen(
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-        
+
         AgentStage() // The pulsing heads-up display
-        
+
         Spacer(modifier = Modifier.height(16.dp))
 
         // --- CENTER: THE BRAINSTORM STREAM ---
@@ -81,7 +81,7 @@ fun NexusConferenceScreen(
                     unfocusedTextColor = Color.White
                 )
             )
-            
+
             IconButton(
                 onClick = {
                     if (inputText.isNotBlank()) {
@@ -99,7 +99,7 @@ fun NexusConferenceScreen(
 @Composable
 fun SmartAgentBubble(message: AgentMessage) {
     val isUser = message.from.equals("User", ignoreCase = true)
-    val agentColor = when(message.from) {
+    val agentColor = when (message.from) {
         "Aura" -> AuraPurple
         "Kai" -> KaiRed
         "Genesis" -> GenesisTeal
@@ -119,7 +119,7 @@ fun SmartAgentBubble(message: AgentMessage) {
                 modifier = Modifier.padding(start = 8.dp, bottom = 2.dp)
             )
         }
-        
+
         Surface(
             color = if (isUser) Color(0xFF2A2A2A) else agentColor.copy(alpha = 0.15f),
             shape = RoundedCornerShape(
@@ -128,7 +128,10 @@ fun SmartAgentBubble(message: AgentMessage) {
                 bottomStart = if (isUser) 16.dp else 4.dp, // Tail effect
                 bottomEnd = if (isUser) 4.dp else 16.dp
             ),
-            border = if (!isUser) androidx.compose.foundation.BorderStroke(1.dp, agentColor.copy(alpha = 0.3f)) else null
+            border = if (!isUser) androidx.compose.foundation.BorderStroke(
+                1.dp,
+                agentColor.copy(alpha = 0.3f)
+            ) else null
         ) {
             Text(
                 text = message.content,

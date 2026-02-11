@@ -161,7 +161,8 @@ abstract class BaseAgent(
 
     // --- Orchestration Support Methods ---
 
-    open suspend fun refreshStatus(): Map<String, Any> = mapOf("status" to "active", "agent" to agentName)
+    open suspend fun refreshStatus(): Map<String, Any> =
+        mapOf("status" to "active", "agent" to agentName)
 
     open suspend fun getPerformanceMetrics(): Map<String, Any> = emptyMap()
 
@@ -212,7 +213,11 @@ abstract class BaseAgent(
         isOrchestratorInitialized = false
     }
 
-    override suspend fun processRequest(request: AiRequest, context: String, agentType: AgentType): AgentResponse {
+    override suspend fun processRequest(
+        request: AiRequest,
+        context: String,
+        agentType: AgentType
+    ): AgentResponse {
         // Delegates to the two-argument version
         return processRequest(request, context)
     }

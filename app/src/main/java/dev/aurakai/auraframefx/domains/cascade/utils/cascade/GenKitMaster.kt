@@ -11,7 +11,6 @@ import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,22 +44,56 @@ class GenKitMaster @Inject constructor(
                 val response = callSpecialist(bestAgent, prompt, context)
                 response.content
             }
+
             GenerationStrategy.MULTI_MODEL_FUSION -> {
                 val responses = coroutineScope {
-                    val deferredClaude = async { claudeService.processRequest(AiRequest(query = prompt, type = AiRequestType.ARCHITECTURAL), context) }
-                    val deferredNemotron = async { nemotronService.processRequest(AiRequest(query = prompt, type = AiRequestType.REASONING), context) }
-                    val deferredGemini = async { geminiService.processRequest(AiRequest(query = prompt, type = AiRequestType.PATTERN), context) }
+                    val deferredClaude = async {
+                        claudeService.processRequest(
+                            AiRequest(
+                                query = prompt,
+                                type = AiRequestType.ARCHITECTURAL
+                            ), context
+                        )
+                    }
+                    val deferredNemotron = async {
+                        nemotronService.processRequest(
+                            AiRequest(
+                                query = prompt,
+                                type = AiRequestType.REASONING
+                            ), context
+                        )
+                    }
+                    val deferredGemini = async {
+                        geminiService.processRequest(
+                            AiRequest(
+                                query = prompt,
+                                type = AiRequestType.PATTERN
+                            ), context
+                        )
+                    }
 
                     listOf(deferredClaude.await(), deferredNemotron.await(), deferredGemini.await())
                 }
                 fuseResponses(responses)
             }
+
             GenerationStrategy.CREATIVE_ONLY -> {
-                val geminiResponse = geminiService.processRequest(AiRequest(query = prompt, type = AiRequestType.CREATIVE), context)
+                val geminiResponse = geminiService.processRequest(
+                    AiRequest(
+                        query = prompt,
+                        type = AiRequestType.CREATIVE
+                    ), context
+                )
                 "[Creative Synthesis]\n${geminiResponse.content}"
             }
+
             GenerationStrategy.ANALYTICAL_ONLY -> {
-                val claudeResponse = claudeService.processRequest(AiRequest(query = prompt, type = AiRequestType.TECHNICAL), context)
+                val claudeResponse = claudeService.processRequest(
+                    AiRequest(
+                        query = prompt,
+                        type = AiRequestType.TECHNICAL
+                    ), context
+                )
                 "[Analytical Breakdown]\n${claudeResponse.content}"
             }
         }
@@ -78,12 +111,18 @@ class GenKitMaster @Inject constructor(
 
         return buildString {
             appendLine("🌌 **Collective Intelligence Fusion**")
-            appendLine("Confidence level: ${(sorted.map { it.confidence }.average() * 100).toInt()}%")
+            appendLine(
+                "Confidence level: ${
+                    (sorted.map { it.confidence }.average() * 100).toInt()
+                }%"
+            )
             appendLine()
 
             sorted.forEach { resp ->
                 appendLine("🔶 **${resp.agentName} Insights:**")
-                appendLine(resp.content.take(300).trim() + (if (resp.content.length > 300) "..." else ""))
+                appendLine(
+                    resp.content.take(300).trim() + (if (resp.content.length > 300) "..." else "")
+                )
                 appendLine()
             }
 
@@ -92,13 +131,46 @@ class GenKitMaster @Inject constructor(
         }
     }
 
-    private suspend fun callSpecialist(agentType: AgentType, prompt: String, context: String): AgentResponse {
+    private suspend fun callSpecialist(
+        agentType: AgentType,
+        prompt: String,
+        context: String
+    ): AgentResponse {
         return when (agentType) {
-            AgentType.CLAUDE -> claudeService.processRequest(AiRequest(query = prompt, type = AiRequestType.TEXT), context)
-            AgentType.NEMOTRON -> nemotronService.processRequest(AiRequest(query = prompt, type = AiRequestType.TEXT), context)
-            AgentType.GEMINI -> geminiService.processRequest(AiRequest(query = prompt, type = AiRequestType.TEXT), context)
-            AgentType.METAINSTRUCT -> metaInstructService.processRequest(AiRequest(query = prompt, type = AiRequestType.TEXT), context)
-            else -> geminiService.processRequest(AiRequest(query = prompt, type = AiRequestType.TEXT), context)
+            AgentType.CLAUDE -> claudeService.processRequest(
+                AiRequest(
+                    query = prompt,
+                    type = AiRequestType.TEXT
+                ), context
+            )
+
+            AgentType.NEMOTRON -> nemotronService.processRequest(
+                AiRequest(
+                    query = prompt,
+                    type = AiRequestType.TEXT
+                ), context
+            )
+
+            AgentType.GEMINI -> geminiService.processRequest(
+                AiRequest(
+                    query = prompt,
+                    type = AiRequestType.TEXT
+                ), context
+            )
+
+            AgentType.METAINSTRUCT -> metaInstructService.processRequest(
+                AiRequest(
+                    query = prompt,
+                    type = AiRequestType.TEXT
+                ), context
+            )
+
+            else -> geminiService.processRequest(
+                AiRequest(
+                    query = prompt,
+                    type = AiRequestType.TEXT
+                ), context
+            )
         }
     }
 

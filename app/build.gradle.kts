@@ -90,6 +90,8 @@ extensions.configure<ApplicationExtension> {
             excludes += "/META-INF/NOTICE.md"
             excludes += "**/kotlin/**"
             excludes += "**/*.txt"
+            // YukiHook: Pick first occurrence of duplicate class
+            pickFirsts += "**/YukiHookAPIProperties.class"
         }
         jniLibs {
             useLegacyPackaging = false
@@ -261,12 +263,12 @@ dependencies {
         exclude(group = "dev.rikka.rikkax.appcompat", module = "appcompat")
     }
 
-    // YukiHook API
-    compileOnly(libs.yukihookapi.api) {
+    // YukiHook: ONLY use api for runtime (contains all needed classes)
+    // ksp-xposed is ONLY for annotation processing at compile time
+    implementation("com.highcapable.yukihookapi:api:1.3.1") {
         exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
     }
-    ksp(libs.yukihookapi.ksp)
-
+    ksp("com.highcapable.yukihookapi:ksp-xposed:1.3.1")
     // Force resolution of conflicting dependencies
     configurations.all {
          resolutionStrategy {
@@ -360,6 +362,12 @@ dependencies {
     implementation(project(":aura:reactivedesign:collabcanvas"))
     implementation(project(":aura:reactivedesign:chromacore"))
     implementation(project(":aura:reactivedesign:customization"))
+    implementation(project(":extendsysa"))
+    implementation(project(":extendsysb"))
+    implementation(project(":extendsysc"))
+    implementation(project(":extendsysd"))
+    implementation(project(":extendsyse"))
+    implementation(project(":extendsysf"))
 
     // Kai → SentinelsFortress (Security & Threat Monitoring)
     implementation(project(":kai:sentinelsfortress:security"))
@@ -404,3 +412,17 @@ configurations.all {
         force("org.jetbrains:annotations:26.0.2-1")
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// YUKIHOOK DUPLICATE CLASS FIX
+// ═══════════════════════════════════════════════════════════════════════════
+// Both api and ksp-xposed contain YukiHookAPIProperties.class
+// ksp-xposed should ONLY be on the KSP processor classpath, NOT runtime/compile
+configurations.configureEach {
+    if (name.contains("runtimeClasspath", ignoreCase = true) ||
+        name.contains("compileClasspath", ignoreCase = true)
+    ) {
+        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+    }
+}
+

@@ -24,7 +24,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class KtorClient @Inject constructor() {
-    
+
     /**
      * Configured Ktor HTTP client instance.
      */
@@ -34,11 +34,11 @@ class KtorClient @Inject constructor() {
             // Set default headers
             headers.append("Accept", "application/json")
             headers.append("Content-Type", "application/json")
-            
+
             // Configure timeouts
             url.protocol = URLProtocol.HTTPS
         }
-        
+
         // JSON configuration
         install(ContentNegotiation) {
             json(Json {
@@ -48,7 +48,7 @@ class KtorClient @Inject constructor() {
                 explicitNulls = false
             })
         }
-        
+
         // Logging (only in debug builds)
         if (BuildConfig.DEBUG) {
             install(Logging) {
@@ -61,14 +61,14 @@ class KtorClient @Inject constructor() {
                 }
             }
         }
-        
+
         // Timeout configuration
         install(HttpTimeout) {
             requestTimeoutMillis = 30_000L
             connectTimeoutMillis = 10_000L
             socketTimeoutMillis = 30_000L
         }
-        
+
         // Handle HTTP status codes
         HttpResponseValidator {
             validateResponse { response ->

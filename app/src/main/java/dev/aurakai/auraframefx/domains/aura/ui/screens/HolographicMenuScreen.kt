@@ -149,6 +149,7 @@ fun WalkingCharactersOverlay() {
                             )
                         }
                     }
+
                     Character.KAI -> {
                         val painter = engine.loadAsset(
                             (manifest.state as? KaiState)?.assetPath ?: "kai/idle.png",
@@ -384,9 +385,19 @@ fun FloatingModuleCards(
 ) {
     val modules = remember {
         listOf(
-            AuraKaiModules.CollabCanvas to Position3D(x = -0.6f, y = -0.5f, z = 0.8f, rotationY = 15f),
+            AuraKaiModules.CollabCanvas to Position3D(
+                x = -0.6f,
+                y = -0.5f,
+                z = 0.8f,
+                rotationY = 15f
+            ),
             AuraKaiModules.ROMTools to Position3D(x = 0.6f, y = -0.5f, z = 0.8f, rotationY = -15f),
-            AuraKaiModules.SystemMonitor to Position3D(x = -0.6f, y = 0.5f, z = 0.7f, rotationY = 10f),
+            AuraKaiModules.SystemMonitor to Position3D(
+                x = -0.6f,
+                y = 0.5f,
+                z = 0.7f,
+                rotationY = 10f
+            ),
             AuraKaiModules.SecureComms to Position3D(x = 0.6f, y = 0.5f, z = 0.7f, rotationY = -10f)
         )
     }

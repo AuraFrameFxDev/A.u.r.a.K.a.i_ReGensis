@@ -10,10 +10,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPink
@@ -107,7 +104,8 @@ fun CameraEffectOverlay(
             .onSizeChanged { size = it }
     ) {
         when (effect) {
-            CameraEffect.NONE -> { /* No effect */ }
+            CameraEffect.NONE -> { /* No effect */
+            }
 
             CameraEffect.FISH_EYE -> {
                 FishEyeEffect(

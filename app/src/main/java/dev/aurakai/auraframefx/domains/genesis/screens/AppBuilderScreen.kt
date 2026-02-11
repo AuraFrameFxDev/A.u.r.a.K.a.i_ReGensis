@@ -21,10 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aurakai.auraframefx.domains.genesis.fusion.ForgeState
 import dev.aurakai.auraframefx.domains.genesis.fusion.InterfaceForgeViewModel
@@ -61,9 +61,11 @@ fun AppBuilderScreen(
                 viewModel.resetForge()
                 onNavigateBack()
             }
+
             is ForgeState.Error -> {
                 // Error display is handled in ForgeExecution
             }
+
             else -> {}
         }
     }
@@ -101,7 +103,7 @@ fun AppBuilderScreen(
                     targetState = step,
                     transitionSpec = {
                         slideInHorizontally { it } + fadeIn() togetherWith
-                        slideOutHorizontally { -it } + fadeOut()
+                                slideOutHorizontally { -it } + fadeOut()
                     },
                     label = "step_transition"
                 ) { currentStep ->
@@ -111,11 +113,13 @@ fun AppBuilderScreen(
                             options = architectures,
                             onSelect = { targetArch = it; step = 2 }
                         )
+
                         2 -> FeatureDefinition(
                             value = featureName,
                             onValueChange = { featureName = it },
                             onNext = { step = 3 }
                         )
+
                         3 -> ForgeExecution(
                             forgeState = forgeState,
                             isForging = isForging,
@@ -163,7 +167,12 @@ fun ForgeStepIndicator(currentStep: Int) {
 @Composable
 fun ArchitectureSelection(selected: String, options: List<String>, onSelect: (String) -> Unit) {
     Column {
-        Text("SELECT TARGET ARCHITECTURE", fontFamily = LEDFontFamily, color = Color.White, fontSize = 18.sp)
+        Text(
+            "SELECT TARGET ARCHITECTURE",
+            fontFamily = LEDFontFamily,
+            color = Color.White,
+            fontSize = 18.sp
+        )
         Spacer(modifier = Modifier.height(24.dp))
 
         options.forEach { opt ->
@@ -173,7 +182,9 @@ fun ArchitectureSelection(selected: String, options: List<String>, onSelect: (St
                     .padding(vertical = 8.dp)
                     .clickable { onSelect(opt) },
                 colors = CardDefaults.cardColors(
-                    containerColor = if (selected == opt) Color(0xFF0055FF).copy(alpha = 0.2f) else Color.White.copy(alpha = 0.05f)
+                    containerColor = if (selected == opt) Color(0xFF0055FF).copy(alpha = 0.2f) else Color.White.copy(
+                        alpha = 0.05f
+                    )
                 ),
                 border = androidx.compose.foundation.BorderStroke(
                     1.dp,
@@ -181,7 +192,10 @@ fun ArchitectureSelection(selected: String, options: List<String>, onSelect: (St
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
-                Row(modifier = Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Icon(
                         if (opt.contains("Mobile")) Icons.Default.Layers else Icons.Default.Code,
                         null,
@@ -198,14 +212,26 @@ fun ArchitectureSelection(selected: String, options: List<String>, onSelect: (St
 @Composable
 fun FeatureDefinition(value: String, onValueChange: (String) -> Unit, onNext: () -> Unit) {
     Column {
-        Text("DEFINE CORE MODULE PURPOSE", fontFamily = LEDFontFamily, color = Color.White, fontSize = 18.sp)
+        Text(
+            "DEFINE CORE MODULE PURPOSE",
+            fontFamily = LEDFontFamily,
+            color = Color.White,
+            fontSize = 18.sp
+        )
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth().height(150.dp),
-            placeholder = { Text("Describe the app feature or system module...", color = Color.Gray) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp),
+            placeholder = {
+                Text(
+                    "Describe the app feature or system module...",
+                    color = Color.Gray
+                )
+            },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFF0055FF),
                 unfocusedBorderColor = Color.White.copy(alpha = 0.2f),
@@ -218,7 +244,9 @@ fun FeatureDefinition(value: String, onValueChange: (String) -> Unit, onNext: ()
 
         Button(
             onClick = onNext,
-            modifier = Modifier.fillMaxWidth().height(56.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0055FF)),
             shape = RoundedCornerShape(12.dp),
             enabled = value.isNotBlank()
@@ -236,7 +264,12 @@ fun ForgeExecution(
     onStart: () -> Unit
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("NEURAL CONVERGENCE READY", fontFamily = LEDFontFamily, color = Color.White, fontSize = 18.sp)
+        Text(
+            "NEURAL CONVERGENCE READY",
+            fontFamily = LEDFontFamily,
+            color = Color.White,
+            fontSize = 18.sp
+        )
         Spacer(modifier = Modifier.height(48.dp))
 
         // Error display
@@ -255,13 +288,25 @@ fun ForgeExecution(
                 modifier = Modifier
                     .size(200.dp)
                     .clip(androidx.compose.foundation.shape.CircleShape)
-                    .background(Brush.radialGradient(listOf(Color(0xFF0055FF).copy(alpha = 0.2f), Color.Transparent)))
+                    .background(
+                        Brush.radialGradient(
+                            listOf(
+                                Color(0xFF0055FF).copy(alpha = 0.2f),
+                                Color.Transparent
+                            )
+                        )
+                    )
                     .border(2.dp, Color(0xFF0055FF), androidx.compose.foundation.shape.CircleShape)
                     .clickable { onStart() },
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(Icons.Default.Build, null, tint = Color.White, modifier = Modifier.size(48.dp))
+                    Icon(
+                        Icons.Default.Build,
+                        null,
+                        tint = Color.White,
+                        modifier = Modifier.size(48.dp)
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text("START FORGE", fontWeight = FontWeight.Black, color = Color.White)
                 }

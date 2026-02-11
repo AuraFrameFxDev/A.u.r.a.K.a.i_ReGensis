@@ -32,7 +32,10 @@ class AgentImpl : Agent {
         context: String
     ): AgentResponse {
         Timber.e("AgentImpl: processRequest() invoked. This is a placeholder.")
-        return AgentResponse.error("FallbackAgent: Processing not implemented", agentName = "FallbackAgent")
+        return AgentResponse.error(
+            "FallbackAgent: Processing not implemented",
+            agentName = "FallbackAgent"
+        )
     }
 
     /**
@@ -43,6 +46,11 @@ class AgentImpl : Agent {
      */
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> {
         Timber.e("AgentImpl: processRequestFlow() invoked. This is a placeholder.")
-        return flowOf(AgentResponse.error("FallbackAgent: Stream processing not implemented", agentName = "FallbackAgent"))
+        return flowOf(
+            AgentResponse.error(
+                "FallbackAgent: Stream processing not implemented",
+                agentName = "FallbackAgent"
+            )
+        )
     }
 }

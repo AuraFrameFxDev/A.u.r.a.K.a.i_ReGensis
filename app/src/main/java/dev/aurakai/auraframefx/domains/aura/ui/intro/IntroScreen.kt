@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import kotlin.math.sin
 import kotlin.random.Random
 
 /**
@@ -89,9 +88,11 @@ fun IntroScreen(
             IntroPhase.AURAKAI_REVEAL -> {
                 AuraKaiRevealText(progress = revealProgress)
             }
+
             IntroPhase.GLITCH_VANISH -> {
                 AuraKaiGlitchText(glitchIntensity = glitchIntensity)
             }
+
             IntroPhase.REGENESIS_REVEAL -> {
                 ReGenesisText(alpha = regenesisAlpha)
             }

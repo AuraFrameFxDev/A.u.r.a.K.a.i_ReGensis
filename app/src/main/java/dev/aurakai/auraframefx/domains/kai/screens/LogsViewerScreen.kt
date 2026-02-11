@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 /**
  * Logs Viewer Screen
@@ -26,18 +24,68 @@ import androidx.compose.ui.unit.sp
 fun LogsViewerScreen(
     onNavigateBack: () -> Unit = {}
 ) {
-    val logs = remember { mutableStateListOf(
-        LogEntry("INFO", "LSPosed", "Framework initialized successfully", "10:30:15", Color(0xFF4ECDC4)),
-        LogEntry("WARN", "GravityBox", "System UI hook applied", "10:29:42", Color(0xFFFFD93D)),
-        LogEntry("ERROR", "XPrivacyLua", "Permission denied for location access", "10:28:33", Color(0xFFDC143C)),
-        LogEntry("INFO", "App Settings", "Per-app configuration loaded", "10:27:18", Color(0xFF4ECDC4)),
-        LogEntry("DEBUG", "YouTube AdAway", "Ad detection algorithm updated", "10:26:55", Color(0xFF9370DB)),
-        LogEntry("INFO", "BootManager", "Startup optimization completed", "10:25:12", Color(0xFF4ECDC4)),
-        LogEntry("WARN", "Amplify", "Battery calibration required", "10:24:38", Color(0xFFFFD93D)),
-        LogEntry("INFO", "System", "All hooks loaded successfully", "10:23:05", Color(0xFF4ECDC4)),
-        LogEntry("ERROR", "FakeID", "Device ID spoofing failed", "10:22:29", Color(0xFFDC143C)),
-        LogEntry("DEBUG", "Network", "VPN connection established", "10:21:47", Color(0xFF9370DB))
-    )}
+    val logs = remember {
+        mutableStateListOf(
+            LogEntry(
+                "INFO",
+                "LSPosed",
+                "Framework initialized successfully",
+                "10:30:15",
+                Color(0xFF4ECDC4)
+            ),
+            LogEntry("WARN", "GravityBox", "System UI hook applied", "10:29:42", Color(0xFFFFD93D)),
+            LogEntry(
+                "ERROR",
+                "XPrivacyLua",
+                "Permission denied for location access",
+                "10:28:33",
+                Color(0xFFDC143C)
+            ),
+            LogEntry(
+                "INFO",
+                "App Settings",
+                "Per-app configuration loaded",
+                "10:27:18",
+                Color(0xFF4ECDC4)
+            ),
+            LogEntry(
+                "DEBUG",
+                "YouTube AdAway",
+                "Ad detection algorithm updated",
+                "10:26:55",
+                Color(0xFF9370DB)
+            ),
+            LogEntry(
+                "INFO",
+                "BootManager",
+                "Startup optimization completed",
+                "10:25:12",
+                Color(0xFF4ECDC4)
+            ),
+            LogEntry(
+                "WARN",
+                "Amplify",
+                "Battery calibration required",
+                "10:24:38",
+                Color(0xFFFFD93D)
+            ),
+            LogEntry(
+                "INFO",
+                "System",
+                "All hooks loaded successfully",
+                "10:23:05",
+                Color(0xFF4ECDC4)
+            ),
+            LogEntry("ERROR", "FakeID", "Device ID spoofing failed", "10:22:29", Color(0xFFDC143C)),
+            LogEntry(
+                "DEBUG",
+                "Network",
+                "VPN connection established",
+                "10:21:47",
+                Color(0xFF9370DB)
+            )
+        )
+    }
 
     val selectedLevel = remember { mutableStateOf("All") }
     val logLevels = listOf("All", "DEBUG", "INFO", "WARN", "ERROR")
@@ -45,8 +93,11 @@ fun LogsViewerScreen(
 
     val filteredLogs = logs.filter { log ->
         (selectedLevel.value == "All" || log.level == selectedLevel.value) &&
-        (searchQuery.value.isEmpty() || log.message.contains(searchQuery.value, ignoreCase = true) ||
-         log.source.contains(searchQuery.value, ignoreCase = true))
+                (searchQuery.value.isEmpty() || log.message.contains(
+                    searchQuery.value,
+                    ignoreCase = true
+                ) ||
+                        log.source.contains(searchQuery.value, ignoreCase = true))
     }
 
     Column(

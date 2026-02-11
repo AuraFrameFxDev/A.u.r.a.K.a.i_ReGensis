@@ -118,7 +118,7 @@ fun AgentHubSubmenuScreen(
     val activeAgentCount = remember(allAgents, activeAgent) {
         allAgents.count { agent ->
             agent.name == activeAgent?.name ||
-            activeTasks.any { it.agentName == agent.name && it.status == AgentViewModel.AgentTaskStatus.IN_PROGRESS }
+                    activeTasks.any { it.agentName == agent.name && it.status == AgentViewModel.AgentTaskStatus.IN_PROGRESS }
         }
     }
 

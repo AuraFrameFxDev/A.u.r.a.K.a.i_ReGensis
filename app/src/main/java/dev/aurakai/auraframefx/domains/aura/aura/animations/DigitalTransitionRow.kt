@@ -13,10 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.domains.aura.aura.animations.HomeScreenTransitionType
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonTeal
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
 import timber.log.Timber
 
 /**

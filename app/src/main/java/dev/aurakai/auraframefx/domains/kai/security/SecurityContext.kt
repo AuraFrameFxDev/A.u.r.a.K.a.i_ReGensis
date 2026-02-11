@@ -37,8 +37,8 @@ class SecurityContext @Inject constructor(
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private val _securityState = MutableStateFlow(LocalSecurityState())
-    val securityState: StateFlow<LocalSecurityState> = _securityState.asStateFlow()
+    private val _securityState = MutableStateFlow(SecurityState())
+    val securityState: StateFlow<SecurityState> = _securityState.asStateFlow()
 
     private val _threatDetectionActive = MutableStateFlow(false)
     val threatDetectionActive: StateFlow<Boolean> = _threatDetectionActive.asStateFlow()
@@ -46,7 +46,8 @@ class SecurityContext @Inject constructor(
     private val _permissionsState = MutableStateFlow<Map<String, Boolean>>(emptyMap())
     val permissionsState: StateFlow<Map<String, Boolean>> = _permissionsState.asStateFlow()
 
-    private val _encryptionStatus = MutableStateFlow<EncryptionStatus>(EncryptionStatus.NOT_INITIALIZED)
+    private val _encryptionStatus =
+        MutableStateFlow<EncryptionStatus>(EncryptionStatus.NOT_INITIALIZED)
     val encryptionStatus: StateFlow<EncryptionStatus> = _encryptionStatus.asStateFlow()
 
     init {
@@ -215,8 +216,9 @@ class SecurityContext @Inject constructor(
                 PackageManager.PackageInfoFlags.of(GET_SIGNATURES.toLong())
             )
 
-            val signatureBytes = packageInfo.signingInfo?.apkContentsSigners?.getOrNull(0)?.toByteArray()
-                ?: throw Exception("No signature found")
+            val signatureBytes =
+                packageInfo.signingInfo?.apkContentsSigners?.getOrNull(0)?.toByteArray()
+                    ?: throw Exception("No signature found")
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
@@ -319,7 +321,7 @@ class SecurityContext @Inject constructor(
 }
 
 @Serializable
-data class LocalSecurityState(
+data class SecurityState(
     val detectedThreats: List<SecurityThreat> = emptyList(),
     val threatLevel: ThreatLevel = ThreatLevel.LOW,
     val lastScanTime: Long = 0,

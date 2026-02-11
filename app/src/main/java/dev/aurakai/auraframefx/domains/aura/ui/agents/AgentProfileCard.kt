@@ -13,14 +13,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.aura.ui.theme.AgentColors
 
 /**
  * AgentProfileCard - Holographic Agent Display (No Avatar)
@@ -40,7 +38,11 @@ fun AgentProfileCard(
     level: Int = 5,
     bondProgress: Float = 1.0f, // 0.0 to 3.0 (300%)
     trinityProgress: Float = 0.5f, // 0.0 to 1.0
-    abilityIcons: List<ImageVector> = listOf(Icons.Default.Settings, Icons.Default.Favorite, Icons.Default.Star),
+    abilityIcons: List<ImageVector> = listOf(
+        Icons.Default.Settings,
+        Icons.Default.Favorite,
+        Icons.Default.Star
+    ),
     actionButtons: List<AgentAction> = emptyList(),
     onActionClick: (AgentAction) -> Unit = {},
     modifier: Modifier = Modifier
@@ -182,7 +184,11 @@ fun AgentProfileCard(
                         .width(100.dp)
                         .height(10.dp)
                         .background(Color(0xFF1A1A1A), RoundedCornerShape(2.dp))
-                        .border(1.dp, Color(0xFFFFB000).copy(alpha = 0.5f), RoundedCornerShape(2.dp))
+                        .border(
+                            1.dp,
+                            Color(0xFFFFB000).copy(alpha = 0.5f),
+                            RoundedCornerShape(2.dp)
+                        )
                 ) {
                     Box(
                         modifier = Modifier
@@ -331,7 +337,8 @@ object AgentActions {
 
     // Genesis actions
     val GENESIS_PROMPT = AgentAction("genesis_prompt", "PROMPT", "Talk to Genesis")
-    val GENESIS_ORCHESTRATE = AgentAction("genesis_orchestrate", "ORCHESTRATE", "Multi-agent coordination")
+    val GENESIS_ORCHESTRATE =
+        AgentAction("genesis_orchestrate", "ORCHESTRATE", "Multi-agent coordination")
     val GENESIS_CREATE = AgentAction("genesis_create", "CREATE", "Create agent/module")
     val GENESIS_FUSION = AgentAction("genesis_fusion", "FUSION", "Fusion mode")
 

@@ -108,7 +108,14 @@ fun ChromaCoreColorPicker(
                 // Rotate hue using ChromaCore
                 val baseColor = Color.Red // Reference point for 0 degrees
                 val newColor = ChromaCore.rotateHue(baseColor, newHue * 360f)
-                onColorChange(ChromaCore.adjustSaturation(ChromaCore.adjustBrightness(newColor, brightness), saturation))
+                onColorChange(
+                    ChromaCore.adjustSaturation(
+                        ChromaCore.adjustBrightness(
+                            newColor,
+                            brightness
+                        ), saturation
+                    )
+                )
             },
             modifier = Modifier
                 .fillMaxWidth()

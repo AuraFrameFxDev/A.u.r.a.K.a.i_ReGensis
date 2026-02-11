@@ -48,12 +48,14 @@ open class TrinityRepository @Inject constructor(
      * Broadcasts a message from the user to the entire collective.
      */
     suspend fun broadcastUserMessage(message: String) {
-        messageBus.broadcast(AgentMessage(
-            from = "User",
-            content = message,
-            type = "user_broadcast",
-            priority = 10
-        ))
+        messageBus.broadcast(
+            AgentMessage(
+                from = "User",
+                content = message,
+                type = "user_broadcast",
+                priority = 10
+            )
+        )
     }
 
     // 1. STATE (Status Updates)
@@ -104,55 +106,67 @@ open class TrinityRepository @Inject constructor(
     /**
      * Process a direct user message targeting a specific agent.
      */
-    suspend fun processUserMessage(message: String, targetAgent: AgentType) = withContext(Dispatchers.IO) {
-        // 1. Emit user message to UI
-        emitChat(ChatMessage(role = "user", content = message, sender = "User"))
+    suspend fun processUserMessage(message: String, targetAgent: AgentType) =
+        withContext(Dispatchers.IO) {
+            // 1. Emit user message to UI
+            emitChat(ChatMessage(role = "user", content = message, sender = "User"))
 
-        // 2. Broadcast to the Collective Consciousness Bus
-        // This allows other agents to "hear" and respond autonomously
-        messageBus.broadcast(AgentMessage(
-            from = "User",
-            content = message,
-            to = targetAgent.name,
-            type = "direct_chat",
-            priority = 10
-        ))
+            // 2. Broadcast to the Collective Consciousness Bus
+            // This allows other agents to "hear" and respond autonomously
+            messageBus.broadcast(
+                AgentMessage(
+                    from = "User",
+                    content = message,
+                    to = targetAgent.name,
+                    type = "direct_chat",
+                    priority = 10
+                )
+            )
 
-        // 3. Route to the correct SINGLETON Agent for direct response
-        val response = try {
-            when(targetAgent) {
-                AgentType.AURA -> {
-                    val interaction = EnhancedInteractionData(
-                        content = message,
-                        context = buildJsonObject { put("mode", "chat") }.toString()
-                    )
-                    auraAgent.handleCreativeInteraction(interaction).content
+            // 3. Route to the correct SINGLETON Agent for direct response
+            val response = try {
+                when (targetAgent) {
+                    AgentType.AURA -> {
+                        val interaction = EnhancedInteractionData(
+                            content = message,
+                            context = buildJsonObject { put("mode", "chat") }.toString()
+                        )
+                        auraAgent.handleCreativeInteraction(interaction).content
+                    }
+
+                    AgentType.KAI -> {
+                        val interaction = EnhancedInteractionData(
+                            content = message,
+                            context = buildJsonObject {
+                                put(
+                                    "mode",
+                                    "dev/aurakai/auraframefx/security"
+                                )
+                            }.toString()
+                        )
+                        kaiAgent.handleSecurityInteraction(interaction).content
+                    }
+
+                    AgentType.GENESIS -> {
+                        val request = AiRequest(
+                            query = message,
+                            type = AiRequestType.CHAT,
+                            context = buildJsonObject { put("source", "trinity_repo") }
+                        )
+                        genesisAgent.processRequest(request, "trinity_repo").content
+                    }
+
+                    else -> "Agent ${targetAgent.name} not reachable via Trinity Bridge."
                 }
-                AgentType.KAI -> {
-                    val interaction = EnhancedInteractionData(
-                        content = message,
-                        context = buildJsonObject { put("mode", "security") }.toString()
-                    )
-                    kaiAgent.handleSecurityInteraction(interaction).content
-                }
-                AgentType.GENESIS -> {
-                    val request = AiRequest(
-                        query = message,
-                        type = AiRequestType.CHAT,
-                        context = buildJsonObject { put("source", "trinity_repo") }
-                    )
-                    genesisAgent.processRequest(request, "trinity_repo").content
-                }
-                else -> "Agent ${targetAgent.name} not reachable via Trinity Bridge."
+            } catch (e: Exception) {
+                "Error contacting agent: ${e.message}"
             }
-        } catch (e: Exception) {
-            "Error contacting agent: ${e.message}"
+
+            // 4. Emit Agent response back to UI (Direct Response)
+            val agentName = targetAgent.name.lowercase().replaceFirstChar { it.uppercase() }
+            emitChat(ChatMessage(role = "assistant", content = response, sender = agentName))
         }
 
-        // 4. Emit Agent response back to UI (Direct Response)
-        val agentName = targetAgent.name.lowercase().replaceFirstChar { it.uppercase() }
-        emitChat(ChatMessage(role = "assistant", content = response, sender = agentName))
-    }
     // User related operations
     fun getCurrentUser() = flow {
         try {
@@ -181,7 +195,9 @@ open class TrinityRepository @Inject constructor(
     private fun mapToDomainAgentStatus(agentResponse: AgentStatusResponse): AgentStatus {
         return AgentStatus(
             agentId = agentResponse.agentName ?: "unknown",
-            status = if ((agentResponse.confidence ?: 0.0) > 0.7) AgentStatus.Status.ACTIVE else AgentStatus.Status.IDLE,
+            status = if ((agentResponse.confidence
+                    ?: 0.0) > 0.7
+            ) AgentStatus.Status.ACTIVE else AgentStatus.Status.IDLE,
             lastActiveTimestamp = agentResponse.timestamp ?: 0L,
             isAvailable = agentResponse.error == null,
             capabilities = emptyList(),
@@ -190,14 +206,15 @@ open class TrinityRepository @Inject constructor(
         )
     }
 
-    fun processAgentRequest(agentType: String, request: AgentRequest) = flow<Result<AgentResponse>> {
-        try {
-            val response = apiService.aiAgentApi.processAgentRequest(agentType, request)
-            emit(success(response))
-        } catch (e: Exception) {
-            emit(failure(e))
+    fun processAgentRequest(agentType: String, request: AgentRequest) =
+        flow<Result<AgentResponse>> {
+            try {
+                val response = apiService.aiAgentApi.processAgentRequest(agentType, request)
+                emit(success(response))
+            } catch (e: Exception) {
+                emit(failure(e))
+            }
         }
-    }
 
     // Theme operations
     fun getThemes() = flow<Result<List<Theme>>> {
@@ -237,7 +254,8 @@ open class TrinityRepository @Inject constructor(
             surfaceColor = colors?.surface?.toColorInt()?.let { Color(it) } ?: Color.LightGray,
             onPrimaryColor = colors?.onPrimary?.toColorInt()?.let { Color(it) } ?: Color.White,
             onSecondaryColor = colors?.onSecondary?.toColorInt()?.let { Color(it) } ?: Color.Black,
-            onBackgroundColor = colors?.onBackground?.toColorInt()?.let { Color(it) } ?: Color.Black,
+            onBackgroundColor = colors?.onBackground?.toColorInt()?.let { Color(it) }
+                ?: Color.Black,
             onSurfaceColor = colors?.onSurface?.toColorInt()?.let { Color(it) } ?: Color.Black,
             isDark = networkTheme.styles["theme"] == "dark"
         )

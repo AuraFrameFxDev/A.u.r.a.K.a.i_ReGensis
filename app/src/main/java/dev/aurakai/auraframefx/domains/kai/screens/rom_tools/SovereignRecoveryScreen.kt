@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.screens.rom_tools
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -99,7 +98,10 @@ fun SovereignRecoveryScreen(
                         modifier = Modifier.weight(1f).height(56.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.1f)),
                         shape = RoundedCornerShape(12.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00E5FF).copy(alpha = 0.5f))
+                        border = androidx.compose.foundation.BorderStroke(
+                            1.dp,
+                            Color(0xFF00E5FF).copy(alpha = 0.5f)
+                        )
                     ) {
                         Icon(Icons.Default.Restore, null, tint = Color(0xFF00E5FF))
                         Spacer(Modifier.width(8.dp))
@@ -117,17 +119,35 @@ private fun RecoveryHeader(state: dev.aurakai.auraframefx.domains.kai.viewmodels
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00E5FF).copy(alpha = 0.2f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            Color(0xFF00E5FF).copy(alpha = 0.2f)
+        )
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Terminal, null, tint = Color(0xFF00E5FF), modifier = Modifier.size(24.dp))
+                Icon(
+                    Icons.Default.Terminal,
+                    null,
+                    tint = Color(0xFF00E5FF),
+                    modifier = Modifier.size(24.dp)
+                )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(state.recoveryType, fontFamily = LEDFontFamily, color = Color(0xFF00E5FF))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(state.status, style = MaterialTheme.typography.headlineMedium, color = Color.White, fontWeight = FontWeight.Black)
-            Text("ENCRYPTION: ${state.encryptionStatus}", color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+            Text(
+                state.status,
+                style = MaterialTheme.typography.headlineMedium,
+                color = Color.White,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                "ENCRYPTION: ${state.encryptionStatus}",
+                color = Color.White.copy(alpha = 0.4f),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -144,10 +164,16 @@ private fun PartitionItem(partition: dev.aurakai.auraframefx.domains.kai.viewmod
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
-                modifier = Modifier.size(8.dp).clip(CircleShape).background(if (partition.isHealthy) Color(0xFF00FF85) else Color.Red)
+                modifier = Modifier.size(8.dp).clip(CircleShape)
+                    .background(if (partition.isHealthy) Color(0xFF00FF85) else Color.Red)
             )
             Spacer(modifier = Modifier.width(16.dp))
-            Text(partition.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(
+                partition.name,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp
+            )
             Spacer(modifier = Modifier.weight(1f))
             Text(partition.size, color = Color.White.copy(alpha = 0.4f), fontSize = 12.sp)
         }

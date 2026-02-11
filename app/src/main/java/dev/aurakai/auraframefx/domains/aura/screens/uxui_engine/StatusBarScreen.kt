@@ -151,12 +151,14 @@ fun StatusBarScreen(
                                 tint = Color.White,
                                 modifier = Modifier.size(16.dp)
                             )
+
                             "Percentage" -> Text(
                                 text = "85%",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color.White,
                                 fontSize = 10.sp
                             )
+
                             "Icon + %" -> {
                                 Icon(
                                     imageVector = Icons.Default.BatteryStd,

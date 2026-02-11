@@ -2,12 +2,10 @@ package dev.aurakai.auraframefx.domains.kai.screens.security_shield
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.GppBad
 import androidx.compose.material.icons.filled.PrivacyTip
@@ -21,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,6 +28,8 @@ import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignShieldViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import androidx.compose.foundation.shape.CircleShape
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 
 /**
  * 🛡️ SOVEREIGN SHIELD (The Anti-Big-Tech Standard)
@@ -40,7 +39,13 @@ import androidx.compose.foundation.shape.CircleShape
 @Composable
 fun SovereignShieldScreen(
     onNavigateBack: () -> Unit,
-    viewModel: SovereignShieldViewModel = hiltViewModel()
+    viewModel: SovereignShieldViewModel = hiltViewModel(
+        checkNotNull<ViewModelStoreOwner>(
+            LocalViewModelStoreOwner.current
+        ) {
+            "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+        }, null
+    )
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -62,7 +67,7 @@ fun SovereignShieldScreen(
                 ) {
                     Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
                 }
-                
+
                 // Privacy Score readout
                 PrivacyScoreDisplay(state.privacyScore)
 
@@ -141,7 +146,10 @@ private fun PrivacyScoreDisplay(score: Int) {
         shape = RoundedCornerShape(24.dp),
         border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
     ) {
-        Column(modifier = Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Text(
                 "SOVEREIGNTY RATING",
                 fontFamily = LEDFontFamily,
@@ -175,8 +183,10 @@ private fun ShieldToggleItem(
     onToggle: () -> Unit,
     accentColor: Color
 ) {
-    val backgroundColor = if (isActive) accentColor.copy(alpha = 0.08f) else Color.White.copy(alpha = 0.02f)
-    val borderColor = if (isActive) accentColor.copy(alpha = 0.4f) else Color.White.copy(alpha = 0.1f)
+    val backgroundColor =
+        if (isActive) accentColor.copy(alpha = 0.08f) else Color.White.copy(alpha = 0.02f)
+    val borderColor =
+        if (isActive) accentColor.copy(alpha = 0.4f) else Color.White.copy(alpha = 0.1f)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -202,7 +212,12 @@ private fun ShieldToggleItem(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text(description, color = Color.White.copy(alpha = 0.5f), fontSize = 11.sp, lineHeight = 14.sp)
+                Text(
+                    description,
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 11.sp,
+                    lineHeight = 14.sp
+                )
             }
 
             Switch(

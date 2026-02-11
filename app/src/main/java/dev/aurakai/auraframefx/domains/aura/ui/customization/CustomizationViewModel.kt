@@ -110,12 +110,14 @@ open class CustomizationViewModel @Inject constructor(
                 Timber.d("Broadcasting neural pulse: $prompt")
 
                 // Broadcast to the Collective Consciousness
-                messageBus.broadcast(dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
-                    from = "User",
-                    content = prompt,
-                    type = "ui_customization_request",
-                    metadata = mapOf("context" to "3d_lab")
-                ))
+                messageBus.broadcast(
+                    dev.aurakai.auraframefx.domains.cascade.models.AgentMessage(
+                        from = "User",
+                        content = prompt,
+                        type = "ui_customization_request",
+                        metadata = mapOf("context" to "3d_lab")
+                    )
+                )
 
                 // Legacy rule-based fallback (kept for offline stability)
                 val customization = parsePromptToCustomization(prompt)
@@ -153,6 +155,7 @@ open class CustomizationViewModel @Inject constructor(
                     isProcessing = false
                 )
             }
+
             "cyberpunk" in lowercasePrompt -> {
                 CustomizationState(
                     primaryColor = CyberpunkCyan,
@@ -175,6 +178,7 @@ open class CustomizationViewModel @Inject constructor(
                     isProcessing = false
                 )
             }
+
             "dark" in lowercasePrompt -> {
                 CustomizationState(
                     primaryColor = Color(0xFF0A0A0A),
@@ -236,7 +240,8 @@ open class CustomizationViewModel @Inject constructor(
 
             // Default: Cyberpunk theme
             else -> {
-                _aiResponse.value = "Applied default cyberpunk theme. Try: 'Dark neon theme', 'Minimal white', 'Matrix green', etc."
+                _aiResponse.value =
+                    "Applied default cyberpunk theme. Try: 'Dark neon theme', 'Minimal white', 'Matrix green', etc."
                 CustomizationState(
                     primaryColor = CyberpunkCyan,
                     secondaryColor = CyberpunkPurple,
@@ -373,7 +378,11 @@ open class CustomizationViewModel @Inject constructor(
 
                     is VoiceCommand.MoveComponent -> {
                         _aiResponse.value = "Moving ${command.componentName} ${command.direction}"
-                        moveComponentByVoice(command.componentName, command.direction, command.amount)
+                        moveComponentByVoice(
+                            command.componentName,
+                            command.direction,
+                            command.amount
+                        )
                     }
 
                     is VoiceCommand.RotateComponent -> {

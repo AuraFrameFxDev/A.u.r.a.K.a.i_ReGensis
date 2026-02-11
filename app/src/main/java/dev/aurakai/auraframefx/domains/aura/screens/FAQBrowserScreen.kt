@@ -28,7 +28,8 @@ fun FAQBrowserScreen(
 ) {
     val searchQuery = remember { mutableStateOf("") }
     val selectedCategory = remember { mutableStateOf("All") }
-    val categories = listOf("All", "Getting Started", "Features", "Troubleshooting", "Security", "Advanced")
+    val categories =
+        listOf("All", "Getting Started", "Features", "Troubleshooting", "Security", "Advanced")
 
     val faqs = listOf(
         FAQ(
@@ -75,8 +76,11 @@ fun FAQBrowserScreen(
 
     val filteredFAQs = faqs.filter { faq ->
         (selectedCategory.value == "All" || faq.category == selectedCategory.value) &&
-        (searchQuery.value.isEmpty() || faq.question.contains(searchQuery.value, ignoreCase = true) ||
-         faq.answer.contains(searchQuery.value, ignoreCase = true))
+                (searchQuery.value.isEmpty() || faq.question.contains(
+                    searchQuery.value,
+                    ignoreCase = true
+                ) ||
+                        faq.answer.contains(searchQuery.value, ignoreCase = true))
     }
 
     Column(
@@ -260,7 +264,10 @@ private fun FAQCard(faq: FAQ) {
         colors = CardDefaults.cardColors(
             containerColor = Color.Black.copy(alpha = 0.6f)
         ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF4169E1).copy(alpha = 0.3f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            Color(0xFF4169E1).copy(alpha = 0.3f)
+        )
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             // Question Header

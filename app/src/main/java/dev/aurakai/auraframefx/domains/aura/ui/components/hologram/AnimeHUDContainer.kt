@@ -191,8 +191,18 @@ fun AnimeHUDContainer(
 
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val dotSize = 2.dp.toPx()
-                    drawCircle(interfaceColor, dotSize, Offset(10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
-                    drawCircle(interfaceColor, dotSize, Offset(size.width - 10.dp.toPx(), 10.dp.toPx()), alpha = pulseAlpha)
+                    drawCircle(
+                        interfaceColor,
+                        dotSize,
+                        Offset(10.dp.toPx(), 10.dp.toPx()),
+                        alpha = pulseAlpha
+                    )
+                    drawCircle(
+                        interfaceColor,
+                        dotSize,
+                        Offset(size.width - 10.dp.toPx(), 10.dp.toPx()),
+                        alpha = pulseAlpha
+                    )
                 }
             }
         }
@@ -376,7 +386,10 @@ fun FloatingArcaneRunes(glowColor: Color) {
                 translate(left = x - image.width / 2, top = y - image.height / 2) {
                     drawImage(
                         image = image,
-                        colorFilter = ColorFilter.tint(glowColor.copy(alpha = pulse), BlendMode.SrcIn)
+                        colorFilter = ColorFilter.tint(
+                            glowColor.copy(alpha = pulse),
+                            BlendMode.SrcIn
+                        )
                     )
                 }
             }

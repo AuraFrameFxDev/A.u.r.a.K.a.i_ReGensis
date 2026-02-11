@@ -570,7 +570,10 @@ private fun MemoryDetailDialog(
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(text = "Type: ${memory.type.name}", color = primaryColor.copy(alpha = 0.8f))
-                Text(text = "Created: ${formatFullTimestamp(memory.timestamp)}", color = primaryColor.copy(alpha = 0.6f))
+                Text(
+                    text = "Created: ${formatFullTimestamp(memory.timestamp)}",
+                    color = primaryColor.copy(alpha = 0.6f)
+                )
 
                 HorizontalDivider(color = primaryColor.copy(alpha = 0.2f))
 
@@ -591,7 +594,10 @@ private fun MemoryDetailDialog(
                 }
 
                 HorizontalDivider(color = primaryColor.copy(alpha = 0.2f))
-                Text("Importance: ${(memory.importance * 100).toInt()}%", color = primaryColor.copy(alpha = 0.7f))
+                Text(
+                    "Importance: ${(memory.importance * 100).toInt()}%",
+                    color = primaryColor.copy(alpha = 0.7f)
+                )
                 ImportanceIndicator(importance = memory.importance, color = primaryColor)
             }
         },

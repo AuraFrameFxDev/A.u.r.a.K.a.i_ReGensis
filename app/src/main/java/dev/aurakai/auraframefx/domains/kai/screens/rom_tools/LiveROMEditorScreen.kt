@@ -28,7 +28,12 @@ fun LiveROMEditorScreen(
     val systemFiles = listOf(
         SystemFile("/system/build.prop", "Build properties", "Modified", Color(0xFFFF4500)),
         SystemFile("/system/etc/hosts", "Hosts file", "Clean", Color(0xFF32CD32)),
-        SystemFile("/system/framework/framework.jar", "Framework JAR", "Modified", Color(0xFFFF4500)),
+        SystemFile(
+            "/system/framework/framework.jar",
+            "Framework JAR",
+            "Modified",
+            Color(0xFFFF4500)
+        ),
         SystemFile("/system/app/Settings.apk", "Settings APK", "Clean", Color(0xFF32CD32)),
         SystemFile("/system/lib/libandroid.so", "Android library", "Clean", Color(0xFF32CD32)),
         SystemFile("/system/etc/init.rc", "Init script", "Modified", Color(0xFFFF4500))
@@ -111,7 +116,8 @@ fun LiveROMEditorScreen(
                     file = file,
                     onClick = {
                         selectedFile.value = file
-                        editContent.value = "# Sample content for ${file.path}\n# This is a mock file editor\n\nro.build.version.release=14\nro.build.version.sdk=34\n"
+                        editContent.value =
+                            "# Sample content for ${file.path}\n# This is a mock file editor\n\nro.build.version.release=14\nro.build.version.sdk=34\n"
                         isEditing.value = true
                     }
                 )

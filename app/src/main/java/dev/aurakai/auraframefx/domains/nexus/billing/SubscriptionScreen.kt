@@ -125,6 +125,7 @@ private fun StatusCard(state: SubscriptionState) {
                         NeonCyan
                     )
                 }
+
                 is SubscriptionState.InTrial -> {
                     Tuple4(
                         Icons.Default.Schedule,
@@ -133,6 +134,7 @@ private fun StatusCard(state: SubscriptionState) {
                         NeonPurple
                     )
                 }
+
                 is SubscriptionState.Free -> {
                     Tuple4(
                         Icons.Default.Info,
@@ -141,6 +143,7 @@ private fun StatusCard(state: SubscriptionState) {
                         MaterialTheme.colorScheme.onSurface
                     )
                 }
+
                 is SubscriptionState.Loading -> {
                     Tuple4(
                         Icons.Default.Refresh,
@@ -149,6 +152,7 @@ private fun StatusCard(state: SubscriptionState) {
                         MaterialTheme.colorScheme.onSurface
                     )
                 }
+
                 is SubscriptionState.Error -> {
                     Tuple4(
                         Icons.Default.Error,

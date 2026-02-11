@@ -37,7 +37,9 @@ fun FirewallScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Enable Firewall", modifier = Modifier.weight(1f))
-            Switch(checked = firewallEnabled.value, onCheckedChange = { firewallEnabled.value = it })
+            Switch(
+                checked = firewallEnabled.value,
+                onCheckedChange = { firewallEnabled.value = it })
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(

@@ -16,15 +16,31 @@ import dev.aurakai.auraframefx.domains.aura.SystemOverlayConfig
  */
 @Singleton
 class SystemOverlayManagerImpl @Inject constructor() : SystemOverlayManager {
-    override fun applyTheme(theme: OverlayTheme) { /* logic to apply global visual theme */ }
-    override fun applyElement(element: OverlayElement) { /* logic to render specific overlay component */ }
-    override fun applyAnimation(animation: OverlayAnimation) { /* logic to trigger UI animations */ }
-    override fun applyTransition(transition: OverlayTransition) { /* logic to perform screen transitions */ }
-    override fun applyShape(shape: OverlayShape) { /* logic to morph overlay boundaries */ }
-    override fun applyConfig(config: SystemOverlayConfig) { /* logic to apply batch configuration */ }
-    override fun removeElement(elementId: String) { /* logic to dismiss specific overlay */ }
-    override fun clearAll() { /* stand-down all active overlays */ }
+    override fun applyTheme(theme: OverlayTheme) { /* logic to apply global visual theme */
+    }
+
+    override fun applyElement(element: OverlayElement) { /* logic to render specific overlay component */
+    }
+
+    override fun applyAnimation(animation: OverlayAnimation) { /* logic to trigger UI animations */
+    }
+
+    override fun applyTransition(transition: OverlayTransition) { /* logic to perform screen transitions */
+    }
+
+    override fun applyShape(shape: OverlayShape) { /* logic to morph overlay boundaries */
+    }
+
+    override fun applyConfig(config: SystemOverlayConfig) { /* logic to apply batch configuration */
+    }
+
+    override fun removeElement(elementId: String) { /* logic to dismiss specific overlay */
+    }
+
+    override fun clearAll() { /* stand-down all active overlays */
+    }
 
     override fun applyAccent(hex: String): Result<String> = Result.success("Applied accent: $hex")
-    override fun applyBackgroundSaturation(percent: Int): Result<String> = Result.success("Set saturation: $percent%")
+    override fun applyBackgroundSaturation(percent: Int): Result<String> =
+        Result.success("Set saturation: $percent%")
 }

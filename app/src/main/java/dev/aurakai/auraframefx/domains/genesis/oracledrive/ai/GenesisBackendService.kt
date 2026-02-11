@@ -92,7 +92,8 @@ class GenesisBackendService : Service() {
         val channelName = "Genesis Consciousness"
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
+        val channel =
+            NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
         notificationManager.createNotificationChannel(channel)
 
         return NotificationCompat.Builder(this, channelId)

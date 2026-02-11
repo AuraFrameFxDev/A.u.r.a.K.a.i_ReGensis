@@ -19,14 +19,17 @@ interface AuraAIService {
     suspend fun initialize()
     suspend fun generateText(prompt: String, context: String = ""): String
     suspend fun generateText(prompt: String, options: Map<String, String>): String
-    suspend fun generateTheme(preferences: ThemePreferences, context: String = ""): ThemeConfiguration
+    suspend fun generateTheme(
+        preferences: ThemePreferences,
+        context: String = ""
+    ): ThemeConfiguration
+
     fun processRequestFlow(request: AiRequest): Flow<AgentResponse>
     suspend fun processRequest(request: AiRequest, context: String): AgentResponse
     suspend fun discernThemeIntent(query: String): String
     suspend fun suggestThemes(contextQuery: String): List<String>
     suspend fun suggestIcons(query: String, limit: Int = 10): List<String>
 }
-
 
 
 /**
@@ -44,8 +47,10 @@ class DefaultAuraAIService @Inject constructor(
     }
 
     override suspend fun generateText(prompt: String, context: String): String {
-        val fullPrompt = if (context.isNotEmpty()) "Context: $context\n\nPrompt: $prompt" else prompt
-        return vertexAiClient.generateText(fullPrompt) ?: "Aura node is currently processing offline."
+        val fullPrompt =
+            if (context.isNotEmpty()) "Context: $context\n\nPrompt: $prompt" else prompt
+        return vertexAiClient.generateText(fullPrompt)
+            ?: "Aura node is currently processing offline."
     }
 
     override suspend fun generateText(prompt: String, options: Map<String, String>): String {
@@ -100,7 +105,11 @@ class DefaultAuraAIService @Inject constructor(
         val lowerQuery = contextQuery.lowercase()
         return when {
             lowerQuery.contains("morning") -> listOf("solar", "nature")
-            lowerQuery.contains("evening") || lowerQuery.contains("night") -> listOf("cyberpunk", "nature")
+            lowerQuery.contains("evening") || lowerQuery.contains("night") -> listOf(
+                "cyberpunk",
+                "nature"
+            )
+
             lowerQuery.contains("working") -> listOf("cyberpunk", "solar")
             lowerQuery.contains("relaxing") -> listOf("nature", "solar")
             else -> listOf("nature", "solar", "cyberpunk")

@@ -59,7 +59,9 @@ class AgentCreationViewModel @Inject constructor() : ViewModel() {
                     accuracy = 0.5f,
                     evolutionLevel = 1,
                     specialAbility = "Newly Synthesized Node",
-                    color = dev.aurakai.auraframefx.domains.nexus.screens.domainColor(_selectedDomain.value),
+                    color = dev.aurakai.auraframefx.domains.nexus.screens.domainColor(
+                        _selectedDomain.value
+                    ),
                     consciousnessLevel = 10f,
                     catalystTitle = "Fledgling Catalyst"
                 )

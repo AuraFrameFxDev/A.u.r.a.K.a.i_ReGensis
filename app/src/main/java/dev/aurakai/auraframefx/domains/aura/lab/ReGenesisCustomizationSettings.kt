@@ -132,9 +132,20 @@ data class BrightnessBarStyle(
 ) {
     companion object {
         val STOCK = BrightnessBarStyle("stock", "Stock", "Default brightness bar")
-        val ROUNDED_CLIP = BrightnessBarStyle("rounded_clip", "Rounded Clip", "Rounded ends brightness bar")
-        val GRADIENT = BrightnessBarStyle("gradient", "Gradient", "Gradient fill brightness bar", hasGradient = true)
-        val OUTLINED = BrightnessBarStyle("outlined", "Outlined", "Outline only brightness bar", isOutlined = true)
+        val ROUNDED_CLIP =
+            BrightnessBarStyle("rounded_clip", "Rounded Clip", "Rounded ends brightness bar")
+        val GRADIENT = BrightnessBarStyle(
+            "gradient",
+            "Gradient",
+            "Gradient fill brightness bar",
+            hasGradient = true
+        )
+        val OUTLINED = BrightnessBarStyle(
+            "outlined",
+            "Outlined",
+            "Outline only brightness bar",
+            isOutlined = true
+        )
         val TRANSLUCENT_OUTLINED = BrightnessBarStyle(
             "translucent_outlined", "Translucent Outlined",
             "Semi-transparent outline style", isOutlined = true, isTranslucent = true
@@ -146,7 +157,16 @@ data class BrightnessBarStyle(
         val LIGHTY = BrightnessBarStyle("lighty", "Lighty", "Light, airy style")
         val FLUID = BrightnessBarStyle("fluid", "Fluid", "Fluid/liquid-like appearance")
 
-        val ALL = listOf(STOCK, ROUNDED_CLIP, GRADIENT, OUTLINED, TRANSLUCENT_OUTLINED, SEMI_TRANSPARENT, LIGHTY, FLUID)
+        val ALL = listOf(
+            STOCK,
+            ROUNDED_CLIP,
+            GRADIENT,
+            OUTLINED,
+            TRANSLUCENT_OUTLINED,
+            SEMI_TRANSPARENT,
+            LIGHTY,
+            FLUID
+        )
     }
 }
 
@@ -168,16 +188,24 @@ data class QSTileStyle(
     companion object {
         val STOCK = QSTileStyle("stock", "Stock", "Default QS tiles")
         val OUTLINE = QSTileStyle("outline", "Outline", "Outlined tiles only", hasOutline = true)
-        val TRANSLUCENT = QSTileStyle("translucent", "Translucent", "Semi-transparent tiles", isTranslucent = true)
+        val TRANSLUCENT = QSTileStyle(
+            "translucent",
+            "Translucent",
+            "Semi-transparent tiles",
+            isTranslucent = true
+        )
         val TRANSLUCENT_OUTLINE = QSTileStyle(
             "translucent_outline", "Translucent Outline",
             "Translucent with outline", isTranslucent = true, hasOutline = true
         )
-        val CIRCULAR = QSTileStyle("circular", "Circular", "Round circular tiles", shape = TileShape.CIRCLE)
-        val SQUIRCLE = QSTileStyle("squircle", "Squircle", "Squircle-shaped tiles", shape = TileShape.SQUIRCLE)
+        val CIRCULAR =
+            QSTileStyle("circular", "Circular", "Round circular tiles", shape = TileShape.CIRCLE)
+        val SQUIRCLE =
+            QSTileStyle("squircle", "Squircle", "Squircle-shaped tiles", shape = TileShape.SQUIRCLE)
         val FLUID = QSTileStyle("fluid", "Fluid Theme", "Fluid material style")
 
-        val ALL = listOf(STOCK, OUTLINE, TRANSLUCENT, TRANSLUCENT_OUTLINE, CIRCULAR, SQUIRCLE, FLUID)
+        val ALL =
+            listOf(STOCK, OUTLINE, TRANSLUCENT, TRANSLUCENT_OUTLINE, CIRCULAR, SQUIRCLE, FLUID)
     }
 }
 
@@ -255,11 +283,15 @@ sealed class IconifyXposedSetting(
     )
 
     object HideCarrierName : IconifyXposedSetting(
-        "hide_carrier_lockscreen", "Hide Carrier on Lockscreen", "Remove carrier name from lockscreen"
+        "hide_carrier_lockscreen",
+        "Hide Carrier on Lockscreen",
+        "Remove carrier name from lockscreen"
     )
 
     object HideStatusbarLockscreen : IconifyXposedSetting(
-        "hide_statusbar_lockscreen", "Hide Statusbar on Lockscreen", "Remove status bar from lockscreen"
+        "hide_statusbar_lockscreen",
+        "Hide Statusbar on Lockscreen",
+        "Remove status bar from lockscreen"
     )
 
     // Notification Theming
@@ -575,110 +607,395 @@ data class ReGenesisCustomizationConfig(
 object IconifySettingsCatalog {
 
     val iconPackSettings = listOf(
-        SettingItem("aurora_icons", "Aurora Icon Pack", "Rounded, colorful system icons", SettingType.SELECTION),
-        SettingItem("gradient_icons", "Gradient Icon Pack", "Gradient-filled system icons", SettingType.SELECTION),
+        SettingItem(
+            "aurora_icons",
+            "Aurora Icon Pack",
+            "Rounded, colorful system icons",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "gradient_icons",
+            "Gradient Icon Pack",
+            "Gradient-filled system icons",
+            SettingType.SELECTION
+        ),
         SettingItem("lorn_icons", "Lorn Icon Pack", "Minimalist line icons", SettingType.SELECTION),
         SettingItem("plumpy_icons", "Plumpy Icon Pack", "Bold filled icons", SettingType.SELECTION),
-        SettingItem("acherus_icons", "Acherus Icon Pack", "Sharp angular icons", SettingType.SELECTION),
-        SettingItem("circular_icons", "Circular Icon Pack", "Circle-based icons", SettingType.SELECTION),
+        SettingItem(
+            "acherus_icons",
+            "Acherus Icon Pack",
+            "Sharp angular icons",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "circular_icons",
+            "Circular Icon Pack",
+            "Circle-based icons",
+            SettingType.SELECTION
+        ),
         SettingItem("vector_icons", "Vector Icon Pack", "Clean vector icons", SettingType.SELECTION)
     )
 
     val batteryStyleSettings = listOf(
-        SettingItem("battery_circle", "Circle Battery", "Circular battery indicator", SettingType.SELECTION),
-        SettingItem("battery_dotted_circle", "Dotted Circle Battery", "Dotted circular battery", SettingType.SELECTION),
+        SettingItem(
+            "battery_circle",
+            "Circle Battery",
+            "Circular battery indicator",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "battery_dotted_circle",
+            "Dotted Circle Battery",
+            "Dotted circular battery",
+            SettingType.SELECTION
+        ),
         SettingItem("battery_ios15", "iOS 15 Battery", "Apple iOS 15 style", SettingType.SELECTION),
         SettingItem("battery_ios16", "iOS 16 Battery", "Apple iOS 16 style", SettingType.SELECTION),
-        SettingItem("battery_filled", "Filled Battery", "Solid filled style", SettingType.SELECTION),
-        SettingItem("battery_landscape", "Landscape Battery", "Horizontal battery icon", SettingType.SELECTION),
-        SettingItem("battery_hide_percentage", "Hide Battery Percentage", "Remove percentage text", SettingType.TOGGLE),
-        SettingItem("battery_percentage_inside", "Percentage Inside Icon", "Show % inside battery", SettingType.TOGGLE),
-        SettingItem("battery_charging_icon", "Custom Charging Icon", "Custom icon when charging", SettingType.SELECTION)
+        SettingItem(
+            "battery_filled",
+            "Filled Battery",
+            "Solid filled style",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "battery_landscape",
+            "Landscape Battery",
+            "Horizontal battery icon",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "battery_hide_percentage",
+            "Hide Battery Percentage",
+            "Remove percentage text",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "battery_percentage_inside",
+            "Percentage Inside Icon",
+            "Show % inside battery",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "battery_charging_icon",
+            "Custom Charging Icon",
+            "Custom icon when charging",
+            SettingType.SELECTION
+        )
     )
 
     val brightnessBarSettings = listOf(
-        SettingItem("brightness_stock", "Stock Brightness Bar", "Default system style", SettingType.SELECTION),
-        SettingItem("brightness_rounded", "Rounded Brightness Bar", "Rounded end caps", SettingType.SELECTION),
-        SettingItem("brightness_gradient", "Gradient Brightness Bar", "Gradient fill style", SettingType.SELECTION),
-        SettingItem("brightness_outlined", "Outlined Brightness Bar", "Outline only style", SettingType.SELECTION),
-        SettingItem("brightness_lighty", "Lighty Brightness Bar", "Light airy style", SettingType.SELECTION),
-        SettingItem("brightness_fluid", "Fluid Brightness Bar", "Fluid theme style", SettingType.SELECTION)
+        SettingItem(
+            "brightness_stock",
+            "Stock Brightness Bar",
+            "Default system style",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "brightness_rounded",
+            "Rounded Brightness Bar",
+            "Rounded end caps",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "brightness_gradient",
+            "Gradient Brightness Bar",
+            "Gradient fill style",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "brightness_outlined",
+            "Outlined Brightness Bar",
+            "Outline only style",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "brightness_lighty",
+            "Lighty Brightness Bar",
+            "Light airy style",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "brightness_fluid",
+            "Fluid Brightness Bar",
+            "Fluid theme style",
+            SettingType.SELECTION
+        )
     )
 
     val qsSettings = listOf(
-        SettingItem("qs_tile_style", "QS Tile Style", "Quick settings tile appearance", SettingType.SELECTION),
-        SettingItem("qs_tile_rows", "QS Tile Rows", "Number of rows in expanded QS", SettingType.SLIDER),
-        SettingItem("qs_tile_columns", "QS Tile Columns", "Number of columns in QS", SettingType.SLIDER),
-        SettingItem("qs_icon_label_style", "QS Icon & Label", "Customize QS icons and labels", SettingType.SELECTION),
-        SettingItem("qs_footer_chips", "QS Footer Chips", "Style footer action chips", SettingType.SELECTION),
-        SettingItem("qs_blur_enabled", "QS Background Blur", "Enable blur behind QS", SettingType.TOGGLE),
-        SettingItem("qs_blur_intensity", "QS Blur Intensity", "Adjust blur amount", SettingType.SLIDER),
+        SettingItem(
+            "qs_tile_style",
+            "QS Tile Style",
+            "Quick settings tile appearance",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "qs_tile_rows",
+            "QS Tile Rows",
+            "Number of rows in expanded QS",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "qs_tile_columns",
+            "QS Tile Columns",
+            "Number of columns in QS",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "qs_icon_label_style",
+            "QS Icon & Label",
+            "Customize QS icons and labels",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "qs_footer_chips",
+            "QS Footer Chips",
+            "Style footer action chips",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "qs_blur_enabled",
+            "QS Background Blur",
+            "Enable blur behind QS",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "qs_blur_intensity",
+            "QS Blur Intensity",
+            "Adjust blur amount",
+            SettingType.SLIDER
+        ),
         SettingItem("qs_top_margin", "QS Top Margin", "Adjust top spacing", SettingType.SLIDER)
     )
 
     val notificationSettings = listOf(
-        SettingItem("notification_style", "Notification Style", "Notification card appearance", SettingType.SELECTION),
-        SettingItem("notification_transparency", "Notification Transparency", "Transparency level", SettingType.SLIDER),
-        SettingItem("themed_notifications", "Themed Notifications", "Apply Material You colors", SettingType.TOGGLE)
+        SettingItem(
+            "notification_style",
+            "Notification Style",
+            "Notification card appearance",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "notification_transparency",
+            "Notification Transparency",
+            "Transparency level",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "themed_notifications",
+            "Themed Notifications",
+            "Apply Material You colors",
+            SettingType.TOGGLE
+        )
     )
 
     val volumePanelSettings = listOf(
-        SettingItem("volume_panel_style", "Volume Panel Style", "Volume slider appearance", SettingType.SELECTION),
-        SettingItem("volume_panel_track", "Volume Track Style", "Track customization", SettingType.SELECTION),
-        SettingItem("volume_panel_icons", "Volume Panel Icons", "Icon style for volume", SettingType.SELECTION),
-        SettingItem("volume_panel_roundness", "Volume Panel Roundness", "Corner radius", SettingType.SLIDER)
+        SettingItem(
+            "volume_panel_style",
+            "Volume Panel Style",
+            "Volume slider appearance",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "volume_panel_track",
+            "Volume Track Style",
+            "Track customization",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "volume_panel_icons",
+            "Volume Panel Icons",
+            "Icon style for volume",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "volume_panel_roundness",
+            "Volume Panel Roundness",
+            "Corner radius",
+            SettingType.SLIDER
+        )
     )
 
     val navigationBarSettings = listOf(
-        SettingItem("hide_navbar", "Hide Navigation Bar", "Completely hide nav bar", SettingType.TOGGLE),
-        SettingItem("navbar_pill_width", "Nav Pill Width", "Gesture pill width", SettingType.SLIDER),
-        SettingItem("navbar_pill_thickness", "Nav Pill Thickness", "Gesture pill height", SettingType.SLIDER),
-        SettingItem("navbar_pill_color", "Nav Pill Color", "Custom pill color", SettingType.COLOR_PICKER),
+        SettingItem(
+            "hide_navbar",
+            "Hide Navigation Bar",
+            "Completely hide nav bar",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "navbar_pill_width",
+            "Nav Pill Width",
+            "Gesture pill width",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "navbar_pill_thickness",
+            "Nav Pill Thickness",
+            "Gesture pill height",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "navbar_pill_color",
+            "Nav Pill Color",
+            "Custom pill color",
+            SettingType.COLOR_PICKER
+        ),
         SettingItem("gcam_lag_fix", "GCam Lag Fix", "Fix navbar lag in GCam", SettingType.TOGGLE),
-        SettingItem("immersive_navbar", "Immersive Navigation", "Hide navbar in apps", SettingType.TOGGLE)
+        SettingItem(
+            "immersive_navbar",
+            "Immersive Navigation",
+            "Hide navbar in apps",
+            SettingType.TOGGLE
+        )
     )
 
     val uiRoundnessSettings = listOf(
-        SettingItem("corner_radius", "UI Corner Radius", "System-wide corner roundness", SettingType.SLIDER),
-        SettingItem("volume_roundness", "Volume Panel Roundness", "Volume panel corners", SettingType.SLIDER),
-        SettingItem("media_roundness", "Media Player Roundness", "Media controls corners", SettingType.SLIDER),
-        SettingItem("qs_tile_roundness", "QS Tile Roundness", "Quick settings tile corners", SettingType.SLIDER)
+        SettingItem(
+            "corner_radius",
+            "UI Corner Radius",
+            "System-wide corner roundness",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "volume_roundness",
+            "Volume Panel Roundness",
+            "Volume panel corners",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "media_roundness",
+            "Media Player Roundness",
+            "Media controls corners",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "qs_tile_roundness",
+            "QS Tile Roundness",
+            "Quick settings tile corners",
+            SettingType.SLIDER
+        )
     )
 
     val iconShapeSettings = listOf(
         SettingItem("icon_shape", "Icon Shape", "App icon mask shape", SettingType.SELECTION),
-        SettingItem("icon_size", "Settings Icon Size", "Settings menu icon size", SettingType.SLIDER),
-        SettingItem("settings_icon_shape", "Settings Icon Shape", "Settings menu icon shape", SettingType.SELECTION)
+        SettingItem(
+            "icon_size",
+            "Settings Icon Size",
+            "Settings menu icon size",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "settings_icon_shape",
+            "Settings Icon Shape",
+            "Settings menu icon shape",
+            SettingType.SELECTION
+        )
     )
 
     val switchSettings = listOf(
-        SettingItem("switch_style", "Switch Style", "Toggle switch appearance", SettingType.SELECTION)
+        SettingItem(
+            "switch_style",
+            "Switch Style",
+            "Toggle switch appearance",
+            SettingType.SELECTION
+        )
     )
 
     val progressBarSettings = listOf(
-        SettingItem("progress_style", "Progress Bar Style", "Loading bar appearance", SettingType.SELECTION)
+        SettingItem(
+            "progress_style",
+            "Progress Bar Style",
+            "Loading bar appearance",
+            SettingType.SELECTION
+        )
     )
 
     val statusBarSettings = listOf(
-        SettingItem("statusbar_clock_chip", "Clock Chip", "Chip behind status bar clock", SettingType.TOGGLE),
-        SettingItem("statusbar_tint", "Status Bar Tint", "Custom status bar colors", SettingType.COLOR_PICKER),
-        SettingItem("statusbar_padding", "Status Bar Padding", "Left/right padding", SettingType.SLIDER)
+        SettingItem(
+            "statusbar_clock_chip",
+            "Clock Chip",
+            "Chip behind status bar clock",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "statusbar_tint",
+            "Status Bar Tint",
+            "Custom status bar colors",
+            SettingType.COLOR_PICKER
+        ),
+        SettingItem(
+            "statusbar_padding",
+            "Status Bar Padding",
+            "Left/right padding",
+            SettingType.SLIDER
+        )
     )
 
     val xposedSettings = listOf(
-        SettingItem("header_clock", "Header Clock", "Custom QS header clock style", SettingType.SELECTION),
-        SettingItem("lockscreen_clock", "Lockscreen Clock", "Custom lockscreen clock", SettingType.SELECTION),
-        SettingItem("header_image", "Header Image", "Custom QS header background", SettingType.IMAGE_PICKER),
-        SettingItem("depth_wallpaper", "Depth Wallpaper", "iOS-style depth effect", SettingType.TOGGLE),
-        SettingItem("hide_carrier_lockscreen", "Hide Carrier", "Remove carrier text on lockscreen", SettingType.TOGGLE),
-        SettingItem("hide_lock_icon", "Hide Lock Icon", "Remove lock icon on lockscreen", SettingType.TOGGLE),
-        SettingItem("compact_media_player", "Compact Media Player", "Smaller media controls", SettingType.TOGGLE),
-        SettingItem("album_art_qs", "Album Art in QS", "Show album art in quick settings", SettingType.TOGGLE)
+        SettingItem(
+            "header_clock",
+            "Header Clock",
+            "Custom QS header clock style",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "lockscreen_clock",
+            "Lockscreen Clock",
+            "Custom lockscreen clock",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "header_image",
+            "Header Image",
+            "Custom QS header background",
+            SettingType.IMAGE_PICKER
+        ),
+        SettingItem(
+            "depth_wallpaper",
+            "Depth Wallpaper",
+            "iOS-style depth effect",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "hide_carrier_lockscreen",
+            "Hide Carrier",
+            "Remove carrier text on lockscreen",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "hide_lock_icon",
+            "Hide Lock Icon",
+            "Remove lock icon on lockscreen",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "compact_media_player",
+            "Compact Media Player",
+            "Smaller media controls",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "album_art_qs",
+            "Album Art in QS",
+            "Show album art in quick settings",
+            SettingType.TOGGLE
+        )
     )
 
     val colorEngineSettings = listOf(
-        SettingItem("enable_monet", "Enable Monet", "Enable/disable system Monet", SettingType.TOGGLE),
-        SettingItem("monet_style", "Monet Style", "Color generation algorithm", SettingType.SELECTION)
+        SettingItem(
+            "enable_monet",
+            "Enable Monet",
+            "Enable/disable system Monet",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "monet_style",
+            "Monet Style",
+            "Color generation algorithm",
+            SettingType.SELECTION
+        )
     )
 
     val allCategories = mapOf(
@@ -708,33 +1025,103 @@ object IconifySettingsCatalog {
 object ColorBlendrSettingsCatalog {
 
     val colorSettings = listOf(
-        SettingItem("primary_color", "Primary Accent Color", "Main accent color", SettingType.COLOR_PICKER),
-        SettingItem("secondary_color", "Secondary Accent Color", "Secondary accent", SettingType.COLOR_PICKER),
-        SettingItem("tertiary_color", "Tertiary Accent Color", "Tertiary accent", SettingType.COLOR_PICKER)
+        SettingItem(
+            "primary_color",
+            "Primary Accent Color",
+            "Main accent color",
+            SettingType.COLOR_PICKER
+        ),
+        SettingItem(
+            "secondary_color",
+            "Secondary Accent Color",
+            "Secondary accent",
+            SettingType.COLOR_PICKER
+        ),
+        SettingItem(
+            "tertiary_color",
+            "Tertiary Accent Color",
+            "Tertiary accent",
+            SettingType.COLOR_PICKER
+        )
     )
 
     val saturationSettings = listOf(
-        SettingItem("accent_saturation", "Accent Saturation", "Intensity of accent colors", SettingType.SLIDER),
-        SettingItem("background_saturation", "Background Saturation", "Background color intensity", SettingType.SLIDER),
-        SettingItem("background_lightness", "Background Lightness", "Background brightness", SettingType.SLIDER)
+        SettingItem(
+            "accent_saturation",
+            "Accent Saturation",
+            "Intensity of accent colors",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "background_saturation",
+            "Background Saturation",
+            "Background color intensity",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "background_lightness",
+            "Background Lightness",
+            "Background brightness",
+            SettingType.SLIDER
+        )
     )
 
     val themeSettings = listOf(
-        SettingItem("pitch_black", "Pitch Black Mode", "Pure black backgrounds", SettingType.TOGGLE),
-        SettingItem("pitch_black_amoled", "AMOLED Black", "True black for AMOLED", SettingType.TOGGLE),
-        SettingItem("override_system", "Override System Colors", "Force color changes", SettingType.TOGGLE)
+        SettingItem(
+            "pitch_black",
+            "Pitch Black Mode",
+            "Pure black backgrounds",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "pitch_black_amoled",
+            "AMOLED Black",
+            "True black for AMOLED",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "override_system",
+            "Override System Colors",
+            "Force color changes",
+            SettingType.TOGGLE
+        )
     )
 
     val monetSettings = listOf(
-        SettingItem("monet_style", "Monet Style", "Color generation algorithm", SettingType.SELECTION),
+        SettingItem(
+            "monet_style",
+            "Monet Style",
+            "Color generation algorithm",
+            SettingType.SELECTION
+        ),
         SettingItem("chroma_multiplier", "Chroma Multiplier", "Color vibrancy", SettingType.SLIDER),
-        SettingItem("accurate_shades", "Accurate Shades", "Precise shade generation", SettingType.TOGGLE),
-        SettingItem("white_luminance", "White Luminance", "Light mode brightness", SettingType.SLIDER),
-        SettingItem("wallpaper_colors", "Use Wallpaper Colors", "Extract from wallpaper", SettingType.TOGGLE)
+        SettingItem(
+            "accurate_shades",
+            "Accurate Shades",
+            "Precise shade generation",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "white_luminance",
+            "White Luminance",
+            "Light mode brightness",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "wallpaper_colors",
+            "Use Wallpaper Colors",
+            "Extract from wallpaper",
+            SettingType.TOGGLE
+        )
     )
 
     val perAppSettings = listOf(
-        SettingItem("per_app_theming", "Per-App Theming", "Individual app colors", SettingType.TOGGLE),
+        SettingItem(
+            "per_app_theming",
+            "Per-App Theming",
+            "Individual app colors",
+            SettingType.TOGGLE
+        ),
         SettingItem("themed_apps", "Themed Apps", "Select apps to theme", SettingType.APP_SELECTOR)
     )
 
@@ -753,8 +1140,18 @@ object ColorBlendrSettingsCatalog {
 object PLESettingsCatalog {
 
     val iconSettings = listOf(
-        SettingItem("force_themed_icons", "Force Themed Icons", "Apply themed icons to all apps", SettingType.TOGGLE),
-        SettingItem("hide_shortcut_badge", "Hide Shortcut Badge", "Remove shortcut indicator", SettingType.TOGGLE),
+        SettingItem(
+            "force_themed_icons",
+            "Force Themed Icons",
+            "Apply themed icons to all apps",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "hide_shortcut_badge",
+            "Hide Shortcut Badge",
+            "Remove shortcut indicator",
+            SettingType.TOGGLE
+        ),
         SettingItem("icon_size", "Icon Size", "Scale app icons", SettingType.SLIDER),
         SettingItem("icon_text_size", "Icon Text Size", "Label font size", SettingType.SLIDER),
         SettingItem("hide_icon_labels", "Hide Icon Labels", "Remove app names", SettingType.TOGGLE)
@@ -762,38 +1159,113 @@ object PLESettingsCatalog {
 
     val homescreenSettings = listOf(
         SettingItem("lock_layout", "Lock Layout", "Prevent accidental changes", SettingType.TOGGLE),
-        SettingItem("double_tap_sleep", "Double Tap to Sleep", "DT2S on home screen (root)", SettingType.TOGGLE),
+        SettingItem(
+            "double_tap_sleep",
+            "Double Tap to Sleep",
+            "DT2S on home screen (root)",
+            SettingType.TOGGLE
+        ),
         SettingItem("hide_statusbar", "Hide Status Bar", "Remove status bar", SettingType.TOGGLE),
-        SettingItem("hide_top_shadow", "Hide Top Shadow", "Remove gradient shadow", SettingType.TOGGLE),
-        SettingItem("homescreen_columns", "Home Screen Columns", "Icon grid columns", SettingType.SLIDER),
+        SettingItem(
+            "hide_top_shadow",
+            "Hide Top Shadow",
+            "Remove gradient shadow",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "homescreen_columns",
+            "Home Screen Columns",
+            "Icon grid columns",
+            SettingType.SLIDER
+        ),
         SettingItem("homescreen_rows", "Home Screen Rows", "Icon grid rows", SettingType.SLIDER),
         SettingItem("hide_at_a_glance", "Hide At A Glance", "Remove widget", SettingType.TOGGLE),
         SettingItem("hide_search_bar", "Hide Search Bar", "Remove dock search", SettingType.TOGGLE),
-        SettingItem("search_bar_style", "Search Bar Style", "Dock search appearance", SettingType.SELECTION),
-        SettingItem("show_desktop_labels", "Show Desktop Labels", "Icon labels on home", SettingType.TOGGLE)
+        SettingItem(
+            "search_bar_style",
+            "Search Bar Style",
+            "Dock search appearance",
+            SettingType.SELECTION
+        ),
+        SettingItem(
+            "show_desktop_labels",
+            "Show Desktop Labels",
+            "Icon labels on home",
+            SettingType.TOGGLE
+        )
     )
 
     val appDrawerSettings = listOf(
         SettingItem("drawer_columns", "App Drawer Columns", "Grid columns", SettingType.SLIDER),
         SettingItem("drawer_rows", "App Drawer Rows", "Grid rows per page", SettingType.SLIDER),
-        SettingItem("hide_drawer_search", "Hide Drawer Search", "Remove search bar", SettingType.TOGGLE),
-        SettingItem("drawer_opacity", "Drawer Background Opacity", "Transparency level", SettingType.SLIDER),
-        SettingItem("app_suggestions", "Show App Suggestions", "Predicted apps", SettingType.TOGGLE),
-        SettingItem("sort_alphabetically", "Sort Alphabetically", "A-Z app order", SettingType.TOGGLE)
+        SettingItem(
+            "hide_drawer_search",
+            "Hide Drawer Search",
+            "Remove search bar",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "drawer_opacity",
+            "Drawer Background Opacity",
+            "Transparency level",
+            SettingType.SLIDER
+        ),
+        SettingItem(
+            "app_suggestions",
+            "Show App Suggestions",
+            "Predicted apps",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "sort_alphabetically",
+            "Sort Alphabetically",
+            "A-Z app order",
+            SettingType.TOGGLE
+        )
     )
 
     val recentsSettings = listOf(
-        SettingItem("clear_all_button", "Show Clear All Button", "Add clear all in recents", SettingType.TOGGLE),
-        SettingItem("clear_all_position", "Clear All Position", "Button location", SettingType.SELECTION),
+        SettingItem(
+            "clear_all_button",
+            "Show Clear All Button",
+            "Add clear all in recents",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "clear_all_position",
+            "Clear All Position",
+            "Button location",
+            SettingType.SELECTION
+        ),
         SettingItem("recents_blur", "Recents Blur", "Blur background", SettingType.TOGGLE),
         SettingItem("recents_blur_intensity", "Blur Intensity", "Blur amount", SettingType.SLIDER),
-        SettingItem("hide_recents_statusbar", "Hide Recents Statusbar", "Remove status bar", SettingType.TOGGLE)
+        SettingItem(
+            "hide_recents_statusbar",
+            "Hide Recents Statusbar",
+            "Remove status bar",
+            SettingType.TOGGLE
+        )
     )
 
     val miscSettings = listOf(
-        SettingItem("module_in_settings", "Show in Launcher Settings", "Module entry point", SettingType.TOGGLE),
-        SettingItem("developer_options", "Enable Developer Options", "Hidden flags (Pixel only)", SettingType.TOGGLE),
-        SettingItem("restart_on_apply", "Restart Launcher on Apply", "Auto-restart", SettingType.TOGGLE)
+        SettingItem(
+            "module_in_settings",
+            "Show in Launcher Settings",
+            "Module entry point",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "developer_options",
+            "Enable Developer Options",
+            "Hidden flags (Pixel only)",
+            SettingType.TOGGLE
+        ),
+        SettingItem(
+            "restart_on_apply",
+            "Restart Launcher on Apply",
+            "Auto-restart",
+            SettingType.TOGGLE
+        )
     )
 
     val allCategories = mapOf(
@@ -839,10 +1311,13 @@ data class SettingItem(
  */
 object AuraCustomizationSummary {
     val iconifySettingsCount = IconifySettingsCatalog.totalSettingsCount  // ~80+ settings
-    val colorBlendrSettingsCount = ColorBlendrSettingsCatalog.allCategories.values.sumOf { it.size }  // ~15 settings
-    val pixelLauncherSettingsCount = PLESettingsCatalog.allCategories.values.sumOf { it.size }  // ~30 settings
+    val colorBlendrSettingsCount =
+        ColorBlendrSettingsCatalog.allCategories.values.sumOf { it.size }  // ~15 settings
+    val pixelLauncherSettingsCount =
+        PLESettingsCatalog.allCategories.values.sumOf { it.size }  // ~30 settings
 
-    val totalSettingsCount = iconifySettingsCount + colorBlendrSettingsCount + pixelLauncherSettingsCount
+    val totalSettingsCount =
+        iconifySettingsCount + colorBlendrSettingsCount + pixelLauncherSettingsCount
 
     fun getSummary(): String {
         return """

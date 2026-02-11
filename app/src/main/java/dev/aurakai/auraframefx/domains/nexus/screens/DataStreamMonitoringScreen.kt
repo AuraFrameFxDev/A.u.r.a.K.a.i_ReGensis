@@ -106,7 +106,14 @@ fun DataStreamMonitoringScreen(onNavigateBack: () -> Unit) {
             )
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(listOf("Sovereign Link", "Pattern Buffer", "Memory Core", "Ethics Engine")) { channel ->
+                items(
+                    listOf(
+                        "Sovereign Link",
+                        "Pattern Buffer",
+                        "Memory Core",
+                        "Ethics Engine"
+                    )
+                ) { channel ->
                     ChannelRow(channel)
                 }
             }

@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -89,7 +88,10 @@ fun SovereignNeuralArchiveScreen(
                         modifier = Modifier.weight(1f).height(56.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.1f)),
                         shape = RoundedCornerShape(12.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFB026FF).copy(alpha = 0.5f))
+                        border = androidx.compose.foundation.BorderStroke(
+                            1.dp,
+                            Color(0xFFB026FF).copy(alpha = 0.5f)
+                        )
                     ) {
                         Text("PURGE CLOUD", color = Color(0xFFB026FF), fontWeight = FontWeight.Bold)
                     }
@@ -105,31 +107,69 @@ private fun MemoryStatsWall(state: dev.aurakai.auraframefx.domains.genesis.viewm
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFB026FF).copy(alpha = 0.2f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            Color(0xFFB026FF).copy(alpha = 0.2f)
+        )
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Column {
-                    Text("ACTIVE VECTORS", fontSize = 10.sp, color = Color.White.copy(alpha = 0.4f), fontWeight = FontWeight.Bold)
-                    Text(state.activeVectors.toString(), style = MaterialTheme.typography.displaySmall, color = Color.White, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+                    Text(
+                        "ACTIVE VECTORS",
+                        fontSize = 10.sp,
+                        color = Color.White.copy(alpha = 0.4f),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        state.activeVectors.toString(),
+                        style = MaterialTheme.typography.displaySmall,
+                        color = Color.White,
+                        fontWeight = FontWeight.Black,
+                        fontFamily = LEDFontFamily
+                    )
                 }
                 Box(
                     modifier = Modifier
                         .size(60.dp)
                         .clip(CircleShape)
-                        .background(Brush.radialGradient(listOf(Color(0xFFB026FF).copy(alpha = 0.4f), Color.Transparent))),
+                        .background(
+                            Brush.radialGradient(
+                                listOf(
+                                    Color(0xFFB026FF).copy(alpha = 0.4f),
+                                    Color.Transparent
+                                )
+                            )
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Default.Memory, null, tint = Color(0xFFB026FF), modifier = Modifier.size(32.dp))
+                    Icon(
+                        Icons.Default.Memory,
+                        null,
+                        tint = Color(0xFFB026FF),
+                        modifier = Modifier.size(32.dp)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("SOVEREIGNTY INDEX:", fontSize = 10.sp, color = Color.White.copy(alpha = 0.4f))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("${state.sovereigntyIndex}%", color = Color(0xFF00FF85), fontWeight = FontWeight.Black, fontSize = 12.sp)
+                Text(
+                    "${state.sovereigntyIndex}%",
+                    color = Color(0xFF00FF85),
+                    fontWeight = FontWeight.Black,
+                    fontSize = 12.sp
+                )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(state.totalMemoryUsage, color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp)
+                Text(
+                    state.totalMemoryUsage,
+                    color = Color.White.copy(alpha = 0.4f),
+                    fontSize = 10.sp
+                )
             }
         }
     }
@@ -145,17 +185,42 @@ private fun MemoryShardItem(shard: dev.aurakai.auraframefx.domains.genesis.viewm
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(shard.title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text(
+                    shard.title,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 15.sp
+                )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(shard.size, color = Color(0xFFB026FF), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    shard.size,
+                    color = Color(0xFFB026FF),
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
             Spacer(modifier = Modifier.height(4.dp))
-            Text(shard.summary, color = Color.White.copy(alpha = 0.5f), fontSize = 11.sp, lineHeight = 14.sp)
+            Text(
+                shard.summary,
+                color = Color.White.copy(alpha = 0.5f),
+                fontSize = 11.sp,
+                lineHeight = 14.sp
+            )
             Spacer(modifier = Modifier.height(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Storage, null, tint = Color.White.copy(alpha = 0.3f), modifier = Modifier.size(10.dp))
+                Icon(
+                    Icons.Default.Storage,
+                    null,
+                    tint = Color.White.copy(alpha = 0.3f),
+                    modifier = Modifier.size(10.dp)
+                )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("${shard.sovereigntyLevel}% LOCAL", color = Color.White.copy(alpha = 0.3f), fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    "${shard.sovereigntyLevel}% LOCAL",
+                    color = Color.White.copy(alpha = 0.3f),
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(shard.timestamp, color = Color.White.copy(alpha = 0.2f), fontSize = 9.sp)
             }

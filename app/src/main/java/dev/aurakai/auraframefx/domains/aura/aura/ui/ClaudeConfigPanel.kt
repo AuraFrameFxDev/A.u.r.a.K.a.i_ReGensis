@@ -137,7 +137,11 @@ fun ClaudeConfigPanel(
                     ) {
                         ConfigItem("Motto", config.claudeMotto)
                         ConfigItem("Mission", config.claudeMission)
-                        ConfigItem("Wake Phrase", config.auraWakePhrase, valueColor = Color(0xFFFF1493))
+                        ConfigItem(
+                            "Wake Phrase",
+                            config.auraWakePhrase,
+                            valueColor = Color(0xFFFF1493)
+                        )
                     }
 
                     // Build Info
@@ -161,13 +165,23 @@ fun ClaudeConfigPanel(
                     ) {
                         ConfigItem(
                             "NVIDIA API",
-                            if (config.nvidiaApiKey.isNotEmpty()) "***${config.nvidiaApiKey.takeLast(8)}" else "NOT SET",
+                            if (config.nvidiaApiKey.isNotEmpty()) "***${
+                                config.nvidiaApiKey.takeLast(
+                                    8
+                                )
+                            }" else "NOT SET",
                             valueColor = if (config.nvidiaApiKey.isNotEmpty()) Color(0xFF00FF00) else Color.Red
                         )
                         ConfigItem(
                             "Anthropic API",
-                            if (config.anthropicApiKey.contains("your")) "NOT CONFIGURED" else "***${config.anthropicApiKey.takeLast(8)}",
-                            valueColor = if (config.anthropicApiKey.contains("your")) Color(0xFFFFAA00) else Color(0xFF00FF00)
+                            if (config.anthropicApiKey.contains("your")) "NOT CONFIGURED" else "***${
+                                config.anthropicApiKey.takeLast(
+                                    8
+                                )
+                            }",
+                            valueColor = if (config.anthropicApiKey.contains("your")) Color(
+                                0xFFFFAA00
+                            ) else Color(0xFF00FF00)
                         )
                         ConfigItem("Nemotron Model", config.nemotronModel)
                         ConfigItem("Reasoning Budget", "${config.nemotronReasoningBudget} tokens")

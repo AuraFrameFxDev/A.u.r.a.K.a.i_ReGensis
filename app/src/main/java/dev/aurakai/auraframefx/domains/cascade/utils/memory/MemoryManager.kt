@@ -69,8 +69,10 @@ open class MemoryManager @Inject constructor(
     }
 
     private fun updateStats() {
-        val oldest = memoryStore.values.minByOrNull { it.timestamp.toEpochMilliseconds() }?.timestamp?.toEpochMilliseconds()
-        val newest = memoryStore.values.maxByOrNull { it.timestamp.toEpochMilliseconds() }?.timestamp?.toEpochMilliseconds()
+        val oldest =
+            memoryStore.values.minByOrNull { it.timestamp.toEpochMilliseconds() }?.timestamp?.toEpochMilliseconds()
+        val newest =
+            memoryStore.values.maxByOrNull { it.timestamp.toEpochMilliseconds() }?.timestamp?.toEpochMilliseconds()
 
         _memoryStats.value = MemoryStats(
             totalItems = memoryStore.size,

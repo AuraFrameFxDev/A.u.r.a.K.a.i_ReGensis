@@ -30,7 +30,7 @@ class SupportChatViewModel @Inject constructor() : ViewModel() {
 
             _isLoading.value = true
             kotlinx.coroutines.delay(1000)
-            
+
             val aiMessage = ChatMessage(
                 id = (System.currentTimeMillis() + 1).toString(),
                 content = "I'm here to help! How can I assist you?",

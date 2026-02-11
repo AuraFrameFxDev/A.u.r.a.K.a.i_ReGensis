@@ -70,9 +70,9 @@ fun StubScreen(
                     modifier = Modifier.size(100.dp)
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(32.dp))
-            
+
             // Title
             Text(
                 text = title,
@@ -83,9 +83,9 @@ fun StubScreen(
                 color = Color.White,
                 textAlign = TextAlign.Center
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             // Icon name
             Text(
                 text = iconName,
@@ -94,9 +94,9 @@ fun StubScreen(
                 ),
                 color = Color(0xFF00D9FF)
             )
-            
+
             Spacer(modifier = Modifier.height(24.dp))
-            
+
             // Description or coming soon
             Card(
                 modifier = Modifier.fillMaxWidth(0.9f),
@@ -115,9 +115,9 @@ fun StubScreen(
                         ),
                         color = Color(0xFF00D9FF)
                     )
-                    
+
                     Spacer(modifier = Modifier.height(12.dp))
-                    
+
                     Text(
                         text = description ?: "This feature is currently under development",
                         style = MaterialTheme.typography.bodyMedium,
@@ -126,11 +126,11 @@ fun StubScreen(
                     )
                 }
             }
-            
+
             // Back Button
             if (navController != null) {
                 Spacer(modifier = Modifier.height(32.dp))
-                
+
                 Button(
                     onClick = { navController.popBackStack() },
                     colors = ButtonDefaults.buttonColors(

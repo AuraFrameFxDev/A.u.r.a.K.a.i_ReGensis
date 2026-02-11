@@ -56,14 +56,16 @@ fun AgentSwarmScreen(
             "Bypassing legacy protocols..."
         )
 
-        while(true) {
+        while (true) {
             delay(Random.nextLong(800, 3000))
             val randomAgent = agents.random()
-            swarmMessages.add(0, SwarmMessage(
-                agentName = randomAgent.name,
-                content = contents.random(),
-                color = randomAgent.color
-            ))
+            swarmMessages.add(
+                0, SwarmMessage(
+                    agentName = randomAgent.name,
+                    content = contents.random(),
+                    color = randomAgent.color
+                )
+            )
             if (swarmMessages.size > 20) swarmMessages.removeLast()
         }
     }
@@ -106,7 +108,12 @@ fun AgentSwarmScreen(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Icon(Icons.Default.CellTower, null, tint = Color.Magenta, modifier = Modifier.size(24.dp))
+                Icon(
+                    Icons.Default.CellTower,
+                    null,
+                    tint = Color.Magenta,
+                    modifier = Modifier.size(24.dp)
+                )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -139,11 +146,19 @@ fun AgentSwarmScreen(
                     .fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.02f)),
                 shape = RoundedCornerShape(20.dp),
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.05f))
+                border = androidx.compose.foundation.BorderStroke(
+                    1.dp,
+                    Color.White.copy(alpha = 0.05f)
+                )
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Bolt, null, tint = Color.Yellow, modifier = Modifier.size(16.dp))
+                        Icon(
+                            Icons.Default.Bolt,
+                            null,
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(16.dp)
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             "NEURAL STREAM CONTENT",
@@ -241,7 +256,8 @@ fun SwarmParticles() {
         repeat(particles) { i ->
             val seed = i.toFloat() / particles
             val x = (seed * size.width + time * 100f) % size.width
-            val y = (kotlin.math.sin(time * 2 * kotlin.math.PI + i) * 100f + (size.height / particles * i)).toFloat()
+            val y =
+                (kotlin.math.sin(time * 2 * kotlin.math.PI + i) * 100f + (size.height / particles * i)).toFloat()
 
             drawCircle(
                 color = Color(0xFFB026FF).copy(alpha = 0.1f),

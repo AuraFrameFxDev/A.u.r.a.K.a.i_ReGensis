@@ -20,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignModuleViewModel
 import dev.aurakai.auraframefx.domains.kai.ModuleStatus
 import dev.aurakai.auraframefx.domains.kai.ModuleType
@@ -35,7 +37,13 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 @Composable
 fun SovereignModuleManagerScreen(
     onNavigateBack: () -> Unit,
-    viewModel: SovereignModuleViewModel = hiltViewModel()
+    viewModel: SovereignModuleViewModel = hiltViewModel(
+        checkNotNull<ViewModelStoreOwner>(
+            LocalViewModelStoreOwner.current
+        ) {
+            "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+        }, null
+    )
 ) {
     val modules by viewModel.modules.collectAsState()
 
@@ -51,8 +59,15 @@ fun SovereignModuleManagerScreen(
                     .padding(24.dp)
             ) {
                 // Stats
-                Row(modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    ModuleStat("ACTIVE", modules.count { it.status == ModuleStatus.ACTIVE }.toString(), Color(0xFF00FF85))
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    ModuleStat(
+                        "ACTIVE",
+                        modules.count { it.status == ModuleStatus.ACTIVE }.toString(),
+                        Color(0xFF00FF85)
+                    )
                     ModuleStat("TOTAL", modules.size.toString(), Color.White)
                 }
 
@@ -77,9 +92,23 @@ private fun ModuleStat(label: String, value: String, color: Color) {
         border = androidx.compose.foundation.BorderStroke(1.dp, color.copy(alpha = 0.2f)),
         modifier = Modifier.width(100.dp)
     ) {
-        Column(modifier = Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(label, fontSize = 8.sp, color = color.copy(alpha = 0.6f), fontWeight = FontWeight.Bold)
-            Text(value, fontSize = 18.sp, color = color, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                label,
+                fontSize = 8.sp,
+                color = color.copy(alpha = 0.6f),
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                value,
+                fontSize = 18.sp,
+                color = color,
+                fontWeight = FontWeight.Black,
+                fontFamily = LEDFontFamily
+            )
         }
     }
 }
@@ -98,7 +127,12 @@ private fun ModuleItem(module: SovereignModule, onToggle: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.03f)),
         shape = RoundedCornerShape(16.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, if (module.status == ModuleStatus.ACTIVE) accentColor.copy(alpha = 0.4f) else Color.White.copy(alpha = 0.1f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            if (module.status == ModuleStatus.ACTIVE) accentColor.copy(alpha = 0.4f) else Color.White.copy(
+                alpha = 0.1f
+            )
+        )
     ) {
         Row(
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
@@ -118,14 +152,34 @@ private fun ModuleItem(module: SovereignModule, onToggle: () -> Unit) {
 
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(module.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(
+                        module.name,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
                     if (module.isCrucial) {
                         Spacer(Modifier.width(8.dp))
-                        Icon(Icons.Default.Build, null, tint = Color.Yellow, modifier = Modifier.size(12.dp))
+                        Icon(
+                            Icons.Default.Build,
+                            null,
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(12.dp)
+                        )
                     }
                 }
-                Text(module.description, color = Color.White.copy(alpha = 0.5f), fontSize = 11.sp, lineHeight = 14.sp)
-                Text("v${module.version} • BY ${module.author}", color = accentColor, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    module.description,
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 11.sp,
+                    lineHeight = 14.sp
+                )
+                Text(
+                    "v${module.version} • BY ${module.author}",
+                    color = accentColor,
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             Switch(

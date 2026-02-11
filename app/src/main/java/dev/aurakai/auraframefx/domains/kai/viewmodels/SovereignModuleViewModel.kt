@@ -67,7 +67,8 @@ class SovereignModuleViewModel @Inject constructor() : ViewModel() {
     fun toggleModule(id: String) {
         _modules.value = _modules.value.map {
             if (it.id == id) {
-                val newStatus = if (it.status == ModuleStatus.ACTIVE) ModuleStatus.INACTIVE else ModuleStatus.ACTIVE
+                val newStatus =
+                    if (it.status == ModuleStatus.ACTIVE) ModuleStatus.INACTIVE else ModuleStatus.ACTIVE
                 it.copy(status = newStatus)
             } else it
         }

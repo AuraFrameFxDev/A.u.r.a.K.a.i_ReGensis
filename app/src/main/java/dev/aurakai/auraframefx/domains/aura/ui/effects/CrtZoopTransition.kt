@@ -37,7 +37,7 @@ fun <T> CrtZoopTransition(
     content: @Composable (T) -> Unit
 ) {
     val transition = updateTransition(targetState, label = "CrtZoopMachine")
-    
+
     transition.AnimatedContent(
         transitionSpec = {
             // PNEUMATIC ENTRY: Fast slide in with a heavy recoil (spring)
@@ -63,7 +63,7 @@ fun <T> CrtZoopTransition(
     ) { state ->
         // WRAPPER FOR CHROMATIC ABERRATION & SCANLINES
         Box(modifier = Modifier.fillMaxSize()) {
-            
+
             // CONTENT LAYER WITH OPTIONAL RENDER EFFECT
             Box(
                 modifier = Modifier
@@ -93,7 +93,7 @@ fun <T> CrtZoopTransition(
                     )
                     y += lineHeight + gap
                 }
-                
+
                 // Vignette / Tube Edge
                 drawRect(
                     brush = androidx.compose.ui.graphics.Brush.radialGradient(

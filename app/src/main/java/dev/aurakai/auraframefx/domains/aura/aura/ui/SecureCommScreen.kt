@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
 /**
@@ -83,7 +82,10 @@ fun SecureCommScreen() {
             colors = CardDefaults.cardColors(
                 containerColor = Color(0xFF1A1A2E)
             ),
-            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00FF00).copy(alpha = 0.3f))
+            border = androidx.compose.foundation.BorderStroke(
+                1.dp,
+                Color(0xFF00FF00).copy(alpha = 0.3f)
+            )
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
@@ -125,13 +127,15 @@ fun SecureCommScreen() {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(listOf(
-                SecureContact("Genesis Core", "Online", true),
-                SecureContact("Aura Creative", "Idle", true),
-                SecureContact("Kai Sentinel", "Patrolling", true),
-                SecureContact("Cascade Analytics", "Processing", false),
-                SecureContact("Oracle Cloud", "Syncing", true)
-            )) { contact ->
+            items(
+                listOf(
+                    SecureContact("Genesis Core", "Online", true),
+                    SecureContact("Aura Creative", "Idle", true),
+                    SecureContact("Kai Sentinel", "Patrolling", true),
+                    SecureContact("Cascade Analytics", "Processing", false),
+                    SecureContact("Oracle Cloud", "Syncing", true)
+                )
+            ) { contact ->
                 SecureContactCard(contact)
             }
         }

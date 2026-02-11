@@ -28,8 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPickerViewModel
 
@@ -416,7 +416,11 @@ private fun HeroBanner() {
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Icon(Icons.Default.AutoAwesome, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Icon(
+                        Icons.Default.AutoAwesome,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp)
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Quick Start", fontFamily = LEDFontFamily)
                 }
@@ -545,7 +549,11 @@ private fun CategoryCard(
                         .size(44.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(category.accentColor.copy(alpha = 0.15f))
-                        .border(1.dp, category.accentColor.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
+                        .border(
+                            1.dp,
+                            category.accentColor.copy(alpha = 0.3f),
+                            RoundedCornerShape(12.dp)
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -790,30 +798,170 @@ private fun XposedWarningBanner() {
 // ═══════════════════════════════════════════════════════════════════════════
 
 private val homeCategories = listOf(
-    IconifyCategory("icon_pack", "Icon Pack", "Change system icon pack", Icons.Default.Palette, 7, IconifyColors.AuraPrimary),
-    IconifyCategory("brightness_bar", "Brightness Bar", "Customize progress slider", Icons.Default.WbSunny, 8, IconifyColors.AuraSecondary),
-    IconifyCategory("qs_panel", "QS Panel Tiles", "Customize QS panel tiles", Icons.Default.GridView, 12, IconifyColors.NeonPink),
-    IconifyCategory("notification", "Notification", "Customize notification style", Icons.Default.Notifications, 5, IconifyColors.NeonGreen)
+    IconifyCategory(
+        "icon_pack",
+        "Icon Pack",
+        "Change system icon pack",
+        Icons.Default.Palette,
+        7,
+        IconifyColors.AuraPrimary
+    ),
+    IconifyCategory(
+        "brightness_bar",
+        "Brightness Bar",
+        "Customize progress slider",
+        Icons.Default.WbSunny,
+        8,
+        IconifyColors.AuraSecondary
+    ),
+    IconifyCategory(
+        "qs_panel",
+        "QS Panel Tiles",
+        "Customize QS panel tiles",
+        Icons.Default.GridView,
+        12,
+        IconifyColors.NeonPink
+    ),
+    IconifyCategory(
+        "notification",
+        "Notification",
+        "Customize notification style",
+        Icons.Default.Notifications,
+        5,
+        IconifyColors.NeonGreen
+    )
 )
 
 private val tweaksCategories = listOf(
-    IconifyCategory("color_engine", "Color Engine", "Have control over colors", Icons.Default.ColorLens, 15, IconifyColors.AuraPrimary),
-    IconifyCategory("ui_roundness", "UI Roundness", "Change corner radius of interface", Icons.Default.RoundedCorner, 8, IconifyColors.AuraSecondary),
-    IconifyCategory("row_column", "Row and Column", "Change QS tile rows and columns", Icons.Default.ViewModule, 4, IconifyColors.NeonPink),
-    IconifyCategory("icon_label", "Icon and Label", "Change icon and label options", Icons.Default.TextFields, 6, IconifyColors.NeonGreen),
-    IconifyCategory("qs_tile_size", "QS Tile Size", "Change height of QS panel tile", Icons.Default.AspectRatio, 3, Color(0xFFFF9800)),
-    IconifyCategory("qs_panel_margin", "QS Panel Margin", "Modify quick settings margins", Icons.Default.FormatIndentIncrease, 4, Color(0xFF00BCD4)),
-    IconifyCategory("statusbar", "Statusbar", "Modify statusbar interface", Icons.Default.SignalCellularAlt, 12, Color(0xFF9C27B0)),
-    IconifyCategory("navigation_bar", "Navigation Bar", "Tweak navigation options", Icons.Default.Navigation, 8, Color(0xFFE91E63))
+    IconifyCategory(
+        "color_engine",
+        "Color Engine",
+        "Have control over colors",
+        Icons.Default.ColorLens,
+        15,
+        IconifyColors.AuraPrimary
+    ),
+    IconifyCategory(
+        "ui_roundness",
+        "UI Roundness",
+        "Change corner radius of interface",
+        Icons.Default.RoundedCorner,
+        8,
+        IconifyColors.AuraSecondary
+    ),
+    IconifyCategory(
+        "row_column",
+        "Row and Column",
+        "Change QS tile rows and columns",
+        Icons.Default.ViewModule,
+        4,
+        IconifyColors.NeonPink
+    ),
+    IconifyCategory(
+        "icon_label",
+        "Icon and Label",
+        "Change icon and label options",
+        Icons.Default.TextFields,
+        6,
+        IconifyColors.NeonGreen
+    ),
+    IconifyCategory(
+        "qs_tile_size",
+        "QS Tile Size",
+        "Change height of QS panel tile",
+        Icons.Default.AspectRatio,
+        3,
+        Color(0xFFFF9800)
+    ),
+    IconifyCategory(
+        "qs_panel_margin",
+        "QS Panel Margin",
+        "Modify quick settings margins",
+        Icons.Default.FormatIndentIncrease,
+        4,
+        Color(0xFF00BCD4)
+    ),
+    IconifyCategory(
+        "statusbar",
+        "Statusbar",
+        "Modify statusbar interface",
+        Icons.Default.SignalCellularAlt,
+        12,
+        Color(0xFF9C27B0)
+    ),
+    IconifyCategory(
+        "navigation_bar",
+        "Navigation Bar",
+        "Tweak navigation options",
+        Icons.Default.Navigation,
+        8,
+        Color(0xFFE91E63)
+    )
 )
 
 private val xposedCategories = listOf(
-    IconifyCategory("transparency_blur", "Transparency & Blur", "Enable QS blur and transparency", Icons.Default.BlurOn, 6, IconifyColors.Warning, requiresXposed = true),
-    IconifyCategory("quick_settings_x", "Quick Settings", "Tweaks related to QS panel", Icons.Default.SettingsApplications, 10, IconifyColors.Warning, requiresXposed = true),
-    IconifyCategory("themes", "Themes", "Personalize with themes", Icons.Default.Style, 8, IconifyColors.Warning, requiresXposed = true),
-    IconifyCategory("battery_style", "Battery Style", "Customize battery icon view", Icons.Default.BatteryFull, 34, IconifyColors.Warning, requiresXposed = true),
-    IconifyCategory("header_image", "Header Image", "Add custom image on QS panel", Icons.Default.Image, 3, IconifyColors.Warning, requiresXposed = true),
-    IconifyCategory("header_clock", "Header Clock", "Add custom clock on QS panel", Icons.Default.Schedule, 12, IconifyColors.Warning, requiresXposed = true),
-    IconifyCategory("lockscreen_clock", "Lockscreen Clock", "Add custom clock on lockscreen", Icons.Default.Lock, 15, IconifyColors.Warning, requiresXposed = true)
+    IconifyCategory(
+        "transparency_blur",
+        "Transparency & Blur",
+        "Enable QS blur and transparency",
+        Icons.Default.BlurOn,
+        6,
+        IconifyColors.Warning,
+        requiresXposed = true
+    ),
+    IconifyCategory(
+        "quick_settings_x",
+        "Quick Settings",
+        "Tweaks related to QS panel",
+        Icons.Default.SettingsApplications,
+        10,
+        IconifyColors.Warning,
+        requiresXposed = true
+    ),
+    IconifyCategory(
+        "themes",
+        "Themes",
+        "Personalize with themes",
+        Icons.Default.Style,
+        8,
+        IconifyColors.Warning,
+        requiresXposed = true
+    ),
+    IconifyCategory(
+        "battery_style",
+        "Battery Style",
+        "Customize battery icon view",
+        Icons.Default.BatteryFull,
+        34,
+        IconifyColors.Warning,
+        requiresXposed = true
+    ),
+    IconifyCategory(
+        "header_image",
+        "Header Image",
+        "Add custom image on QS panel",
+        Icons.Default.Image,
+        3,
+        IconifyColors.Warning,
+        requiresXposed = true
+    ),
+    IconifyCategory(
+        "header_clock",
+        "Header Clock",
+        "Add custom clock on QS panel",
+        Icons.Default.Schedule,
+        12,
+        IconifyColors.Warning,
+        requiresXposed = true
+    ),
+    IconifyCategory(
+        "lockscreen_clock",
+        "Lockscreen Clock",
+        "Add custom clock on lockscreen",
+        Icons.Default.Lock,
+        15,
+        IconifyColors.Warning,
+        requiresXposed = true
+    )
 )
 

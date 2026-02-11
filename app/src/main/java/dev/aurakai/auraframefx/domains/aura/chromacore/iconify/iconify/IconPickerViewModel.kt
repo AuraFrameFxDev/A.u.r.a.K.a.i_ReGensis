@@ -11,7 +11,9 @@ import javax.inject.Inject
 sealed class IconState {
     object Idle : IconState()
     object Loading : IconState()
-    data class Success(val icons: List<String>, val collections: Map<String, IconCollection>) : IconState()
+    data class Success(val icons: List<String>, val collections: Map<String, IconCollection>) :
+        IconState()
+
     data class Error(val message: String) : IconState()
 }
 

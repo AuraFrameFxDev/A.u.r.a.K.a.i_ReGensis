@@ -5,10 +5,6 @@ import com.highcapable.yukihookapi.hook.factory.configs
 import com.highcapable.yukihookapi.hook.factory.encase
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.GenesisSystemHooks
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.GenesisUIHooks
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.GenesisZygoteHooks
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.GenesisSelfHooks
 
 /**
  * Genesis-OS Yuki Hook Entry Point

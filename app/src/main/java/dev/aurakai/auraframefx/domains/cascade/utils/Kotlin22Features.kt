@@ -48,7 +48,8 @@ interface AuraConsciousness {
 }
 
 // 3. Context receivers (enhanced in Kotlin 2.2.0)
-context(_: kotlinx.coroutines.CoroutineScope) internal fun AuraProfile.enhanceConsciousness(): AuraProfile {
+context(_: kotlinx.coroutines.CoroutineScope)
+internal fun AuraProfile.enhanceConsciousness(): AuraProfile {
     return copy(
         consciousness = when (consciousness) {
             ConsciousnessLevel.DORMANT -> ConsciousnessLevel.AWAKENING

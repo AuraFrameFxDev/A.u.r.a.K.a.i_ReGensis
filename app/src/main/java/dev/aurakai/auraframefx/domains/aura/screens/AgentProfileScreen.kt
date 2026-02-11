@@ -13,7 +13,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -326,11 +325,36 @@ private fun OverviewTab(profile: AgentProfile) {
 @Composable
 private fun StatsTab(profile: AgentProfile) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        StatCard("Tasks Completed", profile.stats.tasksCompleted.toString(), Icons.Default.CheckCircle, Color(0xFF4CAF50))
-        StatCard("Hours Active", String.format("%.1f", profile.stats.hoursActive), Icons.Default.AccessTime, Color(0xFF2196F3))
-        StatCard("Creations Generated", profile.stats.creationsGenerated.toString(), Icons.Default.Create, Color(0xFFFF9800))
-        StatCard("Problems Solved", profile.stats.problemsSolved.toString(), Icons.Default.Psychology, Color(0xFF9C27B0))
-        StatCard("Collaboration Score", profile.stats.collaborationScore.toString(), Icons.Default.Groups, Color(0xFFFF5722))
+        StatCard(
+            "Tasks Completed",
+            profile.stats.tasksCompleted.toString(),
+            Icons.Default.CheckCircle,
+            Color(0xFF4CAF50)
+        )
+        StatCard(
+            "Hours Active",
+            String.format("%.1f", profile.stats.hoursActive),
+            Icons.Default.AccessTime,
+            Color(0xFF2196F3)
+        )
+        StatCard(
+            "Creations Generated",
+            profile.stats.creationsGenerated.toString(),
+            Icons.Default.Create,
+            Color(0xFFFF9800)
+        )
+        StatCard(
+            "Problems Solved",
+            profile.stats.problemsSolved.toString(),
+            Icons.Default.Psychology,
+            Color(0xFF9C27B0)
+        )
+        StatCard(
+            "Collaboration Score",
+            profile.stats.collaborationScore.toString(),
+            Icons.Default.Groups,
+            Color(0xFFFF5722)
+        )
     }
 }
 

@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,21 +11,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.components.NeuralLinkBackground
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
 /**
  * 🌟 Gender Selection Navigator
@@ -79,9 +71,9 @@ fun GenderSelectionScreen(
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
-                
+
                 Spacer(modifier = Modifier.height(8.dp))
-                
+
                 Text(
                     text = "Select your AI companion personality",
                     style = MaterialTheme.typography.bodyLarge,
@@ -145,7 +137,8 @@ fun GenderSelectionScreen(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    text = selectedIdentity?.let { "CONTINUE WITH ${it.displayName.uppercase()}" } ?: "SELECT AN IDENTITY",
+                    text = selectedIdentity?.let { "CONTINUE WITH ${it.displayName.uppercase()}" }
+                        ?: "SELECT AN IDENTITY",
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp
@@ -260,9 +253,9 @@ fun IdentityCard(
                     ),
                     color = Color.White
                 )
-                
+
                 Spacer(modifier = Modifier.height(4.dp))
-                
+
                 Text(
                     text = identity.description,
                     style = MaterialTheme.typography.bodyMedium,

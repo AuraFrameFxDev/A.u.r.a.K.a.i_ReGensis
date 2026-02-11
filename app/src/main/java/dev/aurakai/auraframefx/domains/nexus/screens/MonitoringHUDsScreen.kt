@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.domains.nexus.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -52,41 +51,74 @@ fun MonitoringHUDsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("REAL-TIME DASHBOARDS", fontWeight = FontWeight.Bold, letterSpacing = 2.sp) },
+                title = {
+                    Text(
+                        "REAL-TIME DASHBOARDS",
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent, titleContentColor = Color.White)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    titleContentColor = Color.White
+                )
             )
         },
         containerColor = Color.Transparent
     ) { padding ->
-        Column(modifier = Modifier.fillMaxSize().background(bgGradient).padding(padding).padding(16.dp)) {
-            
+        Column(
+            modifier = Modifier.fillMaxSize().background(bgGradient).padding(padding).padding(16.dp)
+        ) {
+
             // Integrity Pulse Matrix
             IntegrityPulseCard(integrity)
-            
+
             Spacer(modifier = Modifier.height(24.dp))
-            
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                item { 
-                    HudGaugeCard("CPU LOAD", "${cpu.toInt()}%", cpu / 100f, Icons.Default.Speed, Color.Cyan) 
+                item {
+                    HudGaugeCard(
+                        "CPU LOAD",
+                        "${cpu.toInt()}%",
+                        cpu / 100f,
+                        Icons.Default.Speed,
+                        Color.Cyan
+                    )
                 }
-                item { 
-                    HudGaugeCard("RAM USAGE", "${String.format("%.1f", ram)}GB", ram / 4f, Icons.Default.Memory, Color.Magenta) 
+                item {
+                    HudGaugeCard(
+                        "RAM USAGE",
+                        "${String.format("%.1f", ram)}GB",
+                        ram / 4f,
+                        Icons.Default.Memory,
+                        Color.Magenta
+                    )
                 }
-                item { 
-                    HudGaugeCard("LATENCY", "${latency}ms", (latency / 500f).coerceIn(0f, 1f), Icons.Default.Public, Color.Green) 
+                item {
+                    HudGaugeCard(
+                        "LATENCY",
+                        "${latency}ms",
+                        (latency / 500f).coerceIn(0f, 1f),
+                        Icons.Default.Public,
+                        Color.Green
+                    )
                 }
-                item { 
-                    HudGaugeCard("THREATS", "0 DETECTED", 0f, Icons.Default.Warning, Color.Red) 
+                item {
+                    HudGaugeCard("THREATS", "0 DETECTED", 0f, Icons.Default.Warning, Color.Red)
                 }
             }
         }
@@ -115,12 +147,20 @@ fun IntegrityPulseCard(integrity: Float) {
                         style = Stroke(width = 4.dp.toPx())
                     )
                 }
-                Text("${(integrity * 100).toInt()}%", color = Color.Cyan, fontWeight = FontWeight.Bold)
+                Text(
+                    "${(integrity * 100).toInt()}%",
+                    color = Color.Cyan,
+                    fontWeight = FontWeight.Bold
+                )
             }
             Spacer(modifier = Modifier.width(24.dp))
             Column {
                 Text("SYSTEM INTEGRITY", color = Color.White, fontWeight = FontWeight.ExtraBold)
-                Text("All cores operational. Genesis bridge stable.", color = Color.Gray, fontSize = 12.sp)
+                Text(
+                    "All cores operational. Genesis bridge stable.",
+                    color = Color.Gray,
+                    fontSize = 12.sp
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 LinearProgressIndicator(
                     progress = { integrity },
@@ -134,7 +174,13 @@ fun IntegrityPulseCard(integrity: Float) {
 }
 
 @Composable
-fun HudGaugeCard(title: String, value: String, progress: Float, icon: ImageVector, accentColor: Color) {
+fun HudGaugeCard(
+    title: String,
+    value: String,
+    progress: Float,
+    icon: ImageVector,
+    accentColor: Color
+) {
     Card(
         modifier = Modifier.aspectRatio(1f),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
@@ -145,12 +191,23 @@ fun HudGaugeCard(title: String, value: String, progress: Float, icon: ImageVecto
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(icon, contentDescription = null, tint = accentColor, modifier = Modifier.size(32.dp))
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = accentColor,
+                modifier = Modifier.size(32.dp)
+            )
             Text(title, color = Color.Gray, fontSize = 10.sp, fontWeight = FontWeight.Bold)
             Text(value, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Black)
-            
-            Box(modifier = Modifier.fillMaxWidth().height(4.dp).background(Color.Gray.copy(alpha = 0.1f))) {
-                Box(modifier = Modifier.fillMaxWidth(progress).fillMaxHeight().background(accentColor))
+
+            Box(
+                modifier = Modifier.fillMaxWidth().height(4.dp)
+                    .background(Color.Gray.copy(alpha = 0.1f))
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(progress).fillMaxHeight()
+                        .background(accentColor)
+                )
             }
         }
     }

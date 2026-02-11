@@ -47,11 +47,16 @@ fun DomainSubGateCarousel(
         pageSpacing = 16.dp
     ) { page ->
         val gate = subGates[page]
-        val pageOffset = ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
+        val pageOffset =
+            ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).absoluteValue
 
         val scale = lerp(0.85f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
         val alpha = lerp(0.5f, 1f, 1f - pageOffset.coerceIn(0f, 1f))
-        val rotationY = lerp(0f, 30f, pageOffset.coerceIn(0f, 1f)) * (if (page < pagerState.currentPage) 1f else -1f)
+        val rotationY = lerp(
+            0f,
+            30f,
+            pageOffset.coerceIn(0f, 1f)
+        ) * (if (page < pagerState.currentPage) 1f else -1f)
 
         Card(
             modifier = Modifier
@@ -78,8 +83,8 @@ fun DomainSubGateCarousel(
                 // Background Image (Style A or B)
                 val drawableName = if (useStyleB) gate.styleBDrawable else gate.styleADrawable
                 val resId = context.resources.getIdentifier(
-                    drawableName, 
-                    "drawable", 
+                    drawableName,
+                    "drawable",
                     context.packageName
                 )
 
@@ -126,9 +131,9 @@ fun DomainSubGateCarousel(
                         color = domainColor,
                         letterSpacing = 1.sp
                     )
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
-                    
+
                     Text(
                         text = "ACCESS GATE",
                         style = MaterialTheme.typography.labelMedium,

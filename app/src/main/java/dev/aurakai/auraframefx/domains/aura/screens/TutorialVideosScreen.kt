@@ -254,7 +254,8 @@ fun TutorialVideosScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                val learningPath = listOf("Getting Started", "Features", "Troubleshooting", "Advanced")
+                val learningPath =
+                    listOf("Getting Started", "Features", "Troubleshooting", "Advanced")
                 learningPath.forEachIndexed { index, category ->
                     Row(
                         modifier = Modifier
@@ -298,7 +299,9 @@ fun TutorialVideosScreen(
                         Text(
                             text = "$watchedCount/${categoryVideos.size}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = if (watchedCount == categoryVideos.size) Color(0xFF32CD32) else Color(0xFFFFD700)
+                            color = if (watchedCount == categoryVideos.size) Color(0xFF32CD32) else Color(
+                                0xFFFFD700
+                            )
                         )
                     }
                 }

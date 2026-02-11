@@ -62,10 +62,17 @@ class LockScreenCustomizer @Inject constructor(
             initializeSecurityFeatures()
 
             isInitialized = true
-            AuraFxLogger.info("LockScreenCustomizer", "✅ LockScreen customizer initialized successfully")
+            AuraFxLogger.info(
+                "LockScreenCustomizer",
+                "✅ LockScreen customizer initialized successfully"
+            )
 
         } catch (e: Exception) {
-            AuraFxLogger.error("LockScreenCustomizer", "Failed to initialize lock screen customizer", e)
+            AuraFxLogger.error(
+                "LockScreenCustomizer",
+                "Failed to initialize lock screen customizer",
+                e
+            )
             throw e
         }
     }
@@ -323,7 +330,10 @@ class LockScreenCustomizer @Inject constructor(
         elementType: LockScreenElementType,
         animation: LockScreenAnimation
     ) {
-        AuraFxLogger.debug("LockScreenCustomizer", "Applying element animation change: $elementType")
+        AuraFxLogger.debug(
+            "LockScreenCustomizer",
+            "Applying element animation change: $elementType"
+        )
         // Implementation for applying animation changes
     }
 
@@ -352,7 +362,10 @@ class LockScreenCustomizer @Inject constructor(
         position: Pair<Float, Float>,
         properties: Map<String, Any>
     ) {
-        AuraFxLogger.debug("LockScreenCustomizer", "Adding notification element at position: $position")
+        AuraFxLogger.debug(
+            "LockScreenCustomizer",
+            "Adding notification element at position: $position"
+        )
         // Implementation for adding notification element
     }
 

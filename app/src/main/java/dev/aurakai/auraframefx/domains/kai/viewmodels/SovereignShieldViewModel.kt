@@ -41,6 +41,7 @@ class SovereignShieldViewModel @Inject constructor() : ViewModel() {
     }
 
     fun toggleShizukuBridge() {
-        _state.value = _state.value.copy(isShizukuBridgeActive = !_state.value.isShizukuBridgeActive)
+        _state.value =
+            _state.value.copy(isShizukuBridgeActive = !_state.value.isShizukuBridgeActive)
     }
 }

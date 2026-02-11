@@ -66,7 +66,11 @@ class OracleDriveServiceImpl @Inject constructor(
         // Oracle Drive can respond to storage requests or state inquiries here
     }
 
-    override suspend fun processRequest(request: AiRequest, context: String, agentType: AgentType): AgentResponse {
+    override suspend fun processRequest(
+        request: AiRequest,
+        context: String,
+        agentType: AgentType
+    ): AgentResponse {
         Timber.d("OracleDrive processing request: ${request.query}")
         // Integrate with Genesis core for sentient storage queries
         return AgentResponse(

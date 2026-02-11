@@ -129,7 +129,10 @@ fun AuraLabScreen(
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFF1A0A14)),
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF69B4).copy(alpha = 0.5f))
+                border = androidx.compose.foundation.BorderStroke(
+                    1.dp,
+                    Color(0xFFFF69B4).copy(alpha = 0.5f)
+                )
             ) {
                 Row(
                     modifier = Modifier.padding(16.dp),
@@ -233,7 +236,7 @@ fun AuraLabScreen(
 
 @Composable
 fun SandboxCard(sandbox: SandboxItem) {
-    val safetyColor = when(sandbox.safetyLevel) {
+    val safetyColor = when (sandbox.safetyLevel) {
         "SAFE" -> Color.Green
         "WARNING" -> Color.Yellow
         "DANGER" -> Color.Red
@@ -328,7 +331,13 @@ fun CreateSandboxDialog(
                 // Sandbox Type Selection
                 Text("Sandbox Type:", style = MaterialTheme.typography.labelMedium)
 
-                val types = listOf("UI_THEMING", "PERFORMANCE", "SECURITY", "CUSTOM_ROM", "SYSTEM_MODIFICATION")
+                val types = listOf(
+                    "UI_THEMING",
+                    "PERFORMANCE",
+                    "SECURITY",
+                    "CUSTOM_ROM",
+                    "SYSTEM_MODIFICATION"
+                )
                 types.forEach { type ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),

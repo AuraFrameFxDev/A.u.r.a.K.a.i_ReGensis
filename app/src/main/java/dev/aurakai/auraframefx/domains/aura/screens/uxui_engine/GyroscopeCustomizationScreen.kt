@@ -144,10 +144,12 @@ fun GyroscopeCustomizationScreen(
                 viewModel.processVoiceCommand(state.text)
                 viewModel.stopVoiceListening()
             }
+
             is VoiceState.Error -> {
                 // Auto-stop on error
                 viewModel.stopVoiceListening()
             }
+
             else -> {}
         }
     }
@@ -308,24 +310,28 @@ fun GyroscopeCustomizationScreen(
                                 color = Color.Red
                             )
                         }
+
                         is VoiceState.Processing -> {
                             VoiceStatusCard(
                                 message = "⚙️ Processing your command...",
                                 color = Color.Yellow
                             )
                         }
+
                         is VoiceState.PartialResult -> {
                             VoiceStatusCard(
                                 message = "📝 ${state.text}",
                                 color = CyberpunkCyan
                             )
                         }
+
                         is VoiceState.Error -> {
                             VoiceStatusCard(
                                 message = "❌ ${state.message}",
                                 color = Color.Red.copy(alpha = 0.7f)
                             )
                         }
+
                         else -> {}
                     }
 
@@ -466,12 +472,18 @@ fun Phone3DPreview(
                 val compY = centerY + component.y + tiltY
 
                 // Apply component rotation
-                rotate(degrees = component.rotation, pivot = Offset(compX + component.width/2, compY + component.height/2)) {
+                rotate(
+                    degrees = component.rotation,
+                    pivot = Offset(compX + component.width / 2, compY + component.height / 2)
+                ) {
                     // Background
                     drawRoundRect(
                         color = component.backgroundColor.copy(alpha = component.opacity),
                         topLeft = Offset(compX, compY),
-                        size = Size(component.width * component.scale, component.height * component.scale),
+                        size = Size(
+                            component.width * component.scale,
+                            component.height * component.scale
+                        ),
                         cornerRadius = CornerRadius(component.cornerRadius)
                     )
 
@@ -480,7 +492,10 @@ fun Phone3DPreview(
                         drawRoundRect(
                             color = if (isSelected) CyberpunkPink else component.borderColor,
                             topLeft = Offset(compX, compY),
-                            size = Size(component.width * component.scale, component.height * component.scale),
+                            size = Size(
+                                component.width * component.scale,
+                                component.height * component.scale
+                            ),
                             cornerRadius = CornerRadius(component.cornerRadius),
                             style = Stroke(width = if (isSelected) 4f else component.borderWidth)
                         )
@@ -555,7 +570,10 @@ fun ComponentListItem(
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) CyberpunkPink.copy(alpha = 0.2f) else Color(0xFF2A2A2A)
         ),
-        border = if (isSelected) androidx.compose.foundation.BorderStroke(1.dp, CyberpunkPink) else null,
+        border = if (isSelected) androidx.compose.foundation.BorderStroke(
+            1.dp,
+            CyberpunkPink
+        ) else null,
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
@@ -565,7 +583,7 @@ fun ComponentListItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = when(component.type) {
+                imageVector = when (component.type) {
                     ComponentType.STATUS_BAR -> Icons.Default.Wifi
                     ComponentType.NAVIGATION_BAR -> Icons.Default.SpaceBar
                     ComponentType.WIDGET -> Icons.Default.Widgets
@@ -757,7 +775,10 @@ fun AIPromptBar(
                     colors = CardDefaults.cardColors(
                         containerColor = CyberpunkCyan.copy(alpha = 0.1f)
                     ),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, CyberpunkCyan.copy(alpha = 0.3f))
+                    border = androidx.compose.foundation.BorderStroke(
+                        1.dp,
+                        CyberpunkCyan.copy(alpha = 0.3f)
+                    )
                 ) {
                     Row(
                         modifier = Modifier.padding(12.dp),
@@ -834,8 +855,12 @@ fun AIPromptBar(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 QuickPromptChip("Cyberpunk", onClick = { onPromptChange("Cyberpunk neon theme") })
-                QuickPromptChip("Dark Mode", onClick = { onPromptChange("Dark theme with purple accents") })
-                QuickPromptChip("Minimal", onClick = { onPromptChange("Minimal white and gray theme") })
+                QuickPromptChip(
+                    "Dark Mode",
+                    onClick = { onPromptChange("Dark theme with purple accents") })
+                QuickPromptChip(
+                    "Minimal",
+                    onClick = { onPromptChange("Minimal white and gray theme") })
             }
         }
     }

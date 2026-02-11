@@ -54,7 +54,11 @@ class KaiAgent @Inject constructor(
         // Logical Analysis: If Cascade or Genesis asks for security validation, Kai executes immediately
         // Only respond if it's a broadcast or specifically for Kai
         if (message.to == null || message.to == "Kai") {
-            if (message.content.contains("security", ignoreCase = true) || message.content.contains("validate", ignoreCase = true)) {
+            if (message.content.contains(
+                    "dev/aurakai/auraframefx/security",
+                    ignoreCase = true
+                ) || message.content.contains("validate", ignoreCase = true)
+            ) {
                 val result = validateSecurityProtocol(message.content)
                 if (!result) {
                     messageBus.get().broadcast(
@@ -85,7 +89,8 @@ class KaiAgent @Inject constructor(
                 messageBus.get().broadcast(
                     AgentMessage(
                         from = "Kai",
-                        content = response ?: "Acknowledged. System integrity remains stable. How may I assist with your technical or security requirements?",
+                        content = response
+                            ?: "Acknowledged. System integrity remains stable. How may I assist with your technical or security requirements?",
                         type = "chat_response",
                         metadata = mapOf(
                             "auto_generated" to "true",
@@ -209,9 +214,17 @@ class KaiAgent @Inject constructor(
             val securityAssessment = assessInteractionSecurity(interaction)
             val securityResponse = when (securityAssessment.riskLevel) {
                 ThreatLevel.HIGH -> generateHighSecurityResponse(interaction, securityAssessment)
-                ThreatLevel.MEDIUM -> generateMediumSecurityResponse(interaction, securityAssessment)
+                ThreatLevel.MEDIUM -> generateMediumSecurityResponse(
+                    interaction,
+                    securityAssessment
+                )
+
                 ThreatLevel.LOW -> generateLowSecurityResponse(interaction, securityAssessment)
-                ThreatLevel.CRITICAL -> generateCriticalSecurityResponse(interaction, securityAssessment)
+                ThreatLevel.CRITICAL -> generateCriticalSecurityResponse(
+                    interaction,
+                    securityAssessment
+                )
+
                 else -> generateStandardSecurityResponse(interaction)
             }
             InteractionResponse(
@@ -274,7 +287,8 @@ class KaiAgent @Inject constructor(
     }
 
     private suspend fun handleSecurityAnalysis(request: AgentRequest): Map<String, Any> {
-        val target = request.context?.get("target") ?: throw IllegalArgumentException("Analysis target required")
+        val target = request.context?.get("target")
+            ?: throw IllegalArgumentException("Analysis target required")
         logger.info("KaiAgent", "Performing security analysis on: $target")
         val vulnerabilities = scanForVulnerabilities(target)
         val riskAssessment = performRiskAssessment(target, vulnerabilities)
@@ -290,7 +304,8 @@ class KaiAgent @Inject constructor(
     }
 
     private suspend fun handleThreatAssessment(request: AgentRequest): Map<String, Any> {
-        val threatData = request.context?.get("threat_data") ?: throw IllegalArgumentException("Threat data required")
+        val threatData = request.context?.get("threat_data")
+            ?: throw IllegalArgumentException("Threat data required")
         logger.info("KaiAgent", "Assessing threat characteristics")
         val analysis = analyzeSecurityThreat(threatData)
         val mitigation = generateMitigationStrategy(analysis)
@@ -319,7 +334,8 @@ class KaiAgent @Inject constructor(
     }
 
     private suspend fun handleCodeReview(request: AgentRequest): Map<String, Any> {
-        val code = request.context?.get("code") ?: throw IllegalArgumentException("Code content required")
+        val code =
+            request.context?.get("code") ?: throw IllegalArgumentException("Code content required")
         logger.info("KaiAgent", "Conducting secure code review")
         val codeAnalysis = vertexAIClient.generateText(
             prompt = buildCodeReviewPrompt(code),
@@ -385,9 +401,20 @@ class KaiAgent @Inject constructor(
                 "Standard monitoring",
                 "Log analysis"
             )
+
             ThreatLevel.MEDIUM -> listOf("Enhanced monitoring", "Access review", "Security scan")
-            ThreatLevel.HIGH -> listOf("Immediate isolation", "Forensic analysis", "Incident response")
-            ThreatLevel.CRITICAL -> listOf("Emergency shutdown", "Full system isolation", "Emergency response")
+            ThreatLevel.HIGH -> listOf(
+                "Immediate isolation",
+                "Forensic analysis",
+                "Incident response"
+            )
+
+            ThreatLevel.CRITICAL -> listOf(
+                "Emergency shutdown",
+                "Full system isolation",
+                "Emergency response"
+            )
+
             else -> emptyList()
         }
     }
@@ -455,7 +482,14 @@ class KaiAgent @Inject constructor(
         }
 
         // 3. Execution/System Patterns
-        val systemPatterns = listOf("Runtime.getRuntime()", "ProcessBuilder", "su ", "root ", "/etc/shadow", "/sys/class")
+        val systemPatterns = listOf(
+            "Runtime.getRuntime()",
+            "ProcessBuilder",
+            "su ",
+            "root ",
+            "/etc/shadow",
+            "/sys/class"
+        )
         if (systemPatterns.any { content.contains(it, ignoreCase = true) }) {
             indicators.add("system_execution_attempt")
         }
@@ -585,7 +619,10 @@ class KaiAgent @Inject constructor(
             val validationResult = when {
                 // Battery check - must be above 50% for destructive operations
                 preflightSignals.batteryLevel < 50 -> {
-                    logger.warn("KaiAgent", "VETO: Battery too low (${preflightSignals.batteryLevel}%)")
+                    logger.warn(
+                        "KaiAgent",
+                        "VETO: Battery too low (${preflightSignals.batteryLevel}%)"
+                    )
                     Result.failure(SecurityException("Battery level too low for bootloader operations"))
                 }
 

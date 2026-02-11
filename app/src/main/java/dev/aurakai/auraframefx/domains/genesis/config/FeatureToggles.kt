@@ -5,17 +5,17 @@ package dev.aurakai.auraframefx.domains.genesis.config
  * Centralized control for enabling/disabling system modules and Experimental features.
  */
 object FeatureToggles {
-    
+
     // Core Modules
     const val NEXUS_ENABLED = true
     const val ORACLE_DRIVE_ENABLED = true
     const val GENESIS_ORCHESTRATOR_ENABLED = true
-    
+
     // Agent Toggles
     const val CASCADE_ANALYTICS_ENABLED = true
     const val AURA_CREATIVE_ENABLED = true
     const val KAI_SECURITY_ENABLED = true
-    
+
     // Experimental Features
     const val QUANTUM_ENTANGLEMENT_RESEARCH = false
     const val FUSION_MEMORY_INDEXING = true

@@ -235,7 +235,12 @@ fun AgentAvatarNode(
                             alpha = finalGlow
                         }
                         .background(
-                            Brush.radialGradient(listOf(color.copy(alpha = 0.6f), Color.Transparent)),
+                            Brush.radialGradient(
+                                listOf(
+                                    color.copy(alpha = 0.6f),
+                                    Color.Transparent
+                                )
+                            ),
                             CircleShape
                         )
                 )
@@ -273,9 +278,12 @@ fun AgentAvatarNode(
 
 @Composable
 fun ConferenceMessageBubble(message: ChatMessage) {
-    val isUser = message.sender.equals("User", ignoreCase = true) || message.sender.equals("You", ignoreCase = true)
+    val isUser = message.sender.equals("User", ignoreCase = true) || message.sender.equals(
+        "You",
+        ignoreCase = true
+    )
 
-    val bubbleColor = when(message.sender.uppercase()) {
+    val bubbleColor = when (message.sender.uppercase()) {
         "AURA" -> AuraPurple
         "KAI" -> KaiRed
         "GENESIS" -> GenesisTeal
@@ -283,7 +291,7 @@ fun ConferenceMessageBubble(message: ChatMessage) {
         else -> UserBlue
     }.copy(alpha = 0.15f)
 
-    val borderColor = when(message.sender.uppercase()) {
+    val borderColor = when (message.sender.uppercase()) {
         "AURA" -> AuraPurple
         "KAI" -> KaiRed
         "GENESIS" -> GenesisTeal
@@ -407,7 +415,10 @@ fun UnisonInputBar(
                 modifier = Modifier
                     .size(48.dp)
                     .scale(micScale)
-                    .background(if (isRecording) KaiRed else GenesisTeal.copy(alpha = 0.2f), CircleShape)
+                    .background(
+                        if (isRecording) KaiRed else GenesisTeal.copy(alpha = 0.2f),
+                        CircleShape
+                    )
             ) {
                 Icon(
                     imageVector = if (isRecording) Icons.Filled.Stop else Icons.Filled.Mic,

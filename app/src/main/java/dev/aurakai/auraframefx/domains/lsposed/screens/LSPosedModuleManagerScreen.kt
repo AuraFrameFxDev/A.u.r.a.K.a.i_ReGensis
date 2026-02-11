@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 /**
  * Data class for XposedModule information in LSPosed Module Manager
  */
@@ -62,16 +63,60 @@ private data class XposedModuleInfo(
  */
 @Composable
 internal fun LSPosedModuleManagerScreen(onNavigateBack: () -> Boolean) {
-    val modules = remember { mutableStateListOf(
-        XposedModuleInfo("GravityBox", "Advanced system tweaks and modifications", "2.9.5", true, "System"),
-        XposedModuleInfo("XPrivacyLua", "Fine-grained privacy control", "1.30", true, "Privacy"),
-        XposedModuleInfo("App Settings", "Per-app settings and modifications", "2.1", false, "System"),
-        XposedModuleInfo("YouTube AdAway", "Remove YouTube ads and overlays", "1.2.1", true, "Media"),
-        XposedModuleInfo("Greenify", "Aggressive Doze mode for apps", "4.3.1", false, "Performance"),
-        XposedModuleInfo("BootManager", "Control app startup behavior", "1.0.2", true, "System"),
-        XposedModuleInfo("Amplify", "Battery and performance tweaks", "2.0.1", true, "Performance"),
-        XposedModuleInfo("FakeID", "Spoof device identification", "1.1.0", false, "Security")
-    )}
+    val modules = remember {
+        mutableStateListOf(
+            XposedModuleInfo(
+                "GravityBox",
+                "Advanced system tweaks and modifications",
+                "2.9.5",
+                true,
+                "System"
+            ),
+            XposedModuleInfo(
+                "XPrivacyLua",
+                "Fine-grained privacy control",
+                "1.30",
+                true,
+                "Privacy"
+            ),
+            XposedModuleInfo(
+                "App Settings",
+                "Per-app settings and modifications",
+                "2.1",
+                false,
+                "System"
+            ),
+            XposedModuleInfo(
+                "YouTube AdAway",
+                "Remove YouTube ads and overlays",
+                "1.2.1",
+                true,
+                "Media"
+            ),
+            XposedModuleInfo(
+                "Greenify",
+                "Aggressive Doze mode for apps",
+                "4.3.1",
+                false,
+                "Performance"
+            ),
+            XposedModuleInfo(
+                "BootManager",
+                "Control app startup behavior",
+                "1.0.2",
+                true,
+                "System"
+            ),
+            XposedModuleInfo(
+                "Amplify",
+                "Battery and performance tweaks",
+                "2.0.1",
+                true,
+                "Performance"
+            ),
+            XposedModuleInfo("FakeID", "Spoof device identification", "1.1.0", false, "Security")
+        )
+    }
 
     val searchQuery = remember { mutableStateOf("") }
     val selectedCategory = remember { mutableStateOf("All") }
@@ -79,8 +124,11 @@ internal fun LSPosedModuleManagerScreen(onNavigateBack: () -> Boolean) {
 
     val filteredModules = modules.filter { module ->
         (selectedCategory.value == "All" || module.category == selectedCategory.value) &&
-        (searchQuery.value.isEmpty() || module.name.contains(searchQuery.value, ignoreCase = true) ||
-         module.description.contains(searchQuery.value, ignoreCase = true))
+                (searchQuery.value.isEmpty() || module.name.contains(
+                    searchQuery.value,
+                    ignoreCase = true
+                ) ||
+                        module.description.contains(searchQuery.value, ignoreCase = true))
     }
 
     Column(
@@ -336,7 +384,9 @@ private fun ModuleCard(
         ),
         border = androidx.compose.foundation.BorderStroke(
             1.dp,
-            if (module.enabled) Color(0xFF4ECDC4).copy(alpha = 0.5f) else Color(0xFFDC143C).copy(alpha = 0.5f)
+            if (module.enabled) Color(0xFF4ECDC4).copy(alpha = 0.5f) else Color(0xFFDC143C).copy(
+                alpha = 0.5f
+            )
         )
     ) {
         Row(

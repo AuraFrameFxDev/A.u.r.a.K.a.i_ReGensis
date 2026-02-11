@@ -41,16 +41,20 @@ fun ChromaCoreHubScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { 
+                title = {
                     Text(
-                        "ChromaCore Engine", 
+                        "ChromaCore Engine",
                         fontWeight = FontWeight.Bold,
                         color = Color.White
-                    ) 
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -60,11 +64,15 @@ fun ChromaCoreHubScreen(
         },
         containerColor = Color(0xFF0F0F0F)
     ) { padding ->
-        Box(modifier = Modifier.fillMaxSize().background(
-            Brush.verticalGradient(
-                listOf(Color(0xFF1A1A2E), Color(0xFF0F0F0F))
-            )
-        )) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(Color(0xFF1A1A2E), Color(0xFF0F0F0F))
+                    )
+                )
+        ) {
             Column(
                 modifier = Modifier
                     .padding(padding)
@@ -97,7 +105,7 @@ fun ChromaCoreHubScreen(
                         )
                     }
                 }
-                
+
                 // Active Engine Indicator
                 Box(
                     modifier = Modifier
@@ -109,9 +117,18 @@ fun ChromaCoreHubScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Shield, contentDescription = null, tint = Color(0xFF00E5FF), modifier = Modifier.size(16.dp))
+                        Icon(
+                            Icons.Default.Shield,
+                            contentDescription = null,
+                            tint = Color(0xFF00E5FF),
+                            modifier = Modifier.size(16.dp)
+                        )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("RGSS Protected :: 100% Software Functional", color = Color.Gray, fontSize = 12.sp)
+                        Text(
+                            "RGSS Protected :: 100% Software Functional",
+                            color = Color.Gray,
+                            fontSize = 12.sp
+                        )
                     }
                 }
             }
@@ -128,19 +145,36 @@ fun ChromaStatusCard(settings: ChromaCoreConfig) {
             .clip(RoundedCornerShape(24.dp))
             .background(
                 Brush.linearGradient(
-                    listOf(Color(0xFF6200EE).copy(alpha = 0.8f), Color(0xFF00B0FF).copy(alpha = 0.8f))
+                    listOf(
+                        Color(0xFF6200EE).copy(alpha = 0.8f),
+                        Color(0xFF00B0FF).copy(alpha = 0.8f)
+                    )
                 )
             )
             .padding(20.dp)
     ) {
         Column {
             Text("Engine Status", color = Color.White.copy(alpha = 0.7f), fontSize = 14.sp)
-            Text("Stabilized Blueprints", color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold)
+            Text(
+                "Stabilized Blueprints",
+                color = Color.White,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(8.dp).clip(RoundedCornerShape(4.dp)).background(Color.Green))
+                Box(
+                    modifier = Modifier
+                        .size(8.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(Color.Green)
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("A.U.R.A.K.A.I. Core Active", color = Color.White.copy(alpha = 0.9f), fontSize = 12.sp)
+                Text(
+                    "A.U.R.A.K.A.I. Core Active",
+                    color = Color.White.copy(alpha = 0.9f),
+                    fontSize = 12.sp
+                )
             }
         }
     }
@@ -155,12 +189,48 @@ data class ChromaCategory(
 )
 
 val chromaCategories = listOf(
-    ChromaCategory("statusbar", "Status Bar", Icons.Default.SignalCellularAlt, Color(0xFFBB86FC), "Iconify Icons & Layout"),
-    ChromaCategory("launcher", "Launcher", Icons.Default.Apps, Color(0xFF03DAC6), "PLE Grid & Icon Tweaks"),
-    ChromaCategory("colors", "Color Engine", Icons.Default.Palette, Color(0xFF00B0FF), "Material You Blending"),
-    ChromaCategory("lockscreen", "Lock Screen", Icons.Default.Lock, Color(0xFFFF4081), "Clocks & Dynamic Keyguard"),
-    ChromaCategory("qs_tiles", "Quick Settings", Icons.Default.SettingsInputComponent, Color(0xFFFFD600), "Tiles, Rows & Columns"),
-    ChromaCategory("animations", "Animations", Icons.Default.Animation, Color(0xFFFF6F00), "SysUI & App Transitions")
+    ChromaCategory(
+        "statusbar",
+        "Status Bar",
+        Icons.Default.SignalCellularAlt,
+        Color(0xFFBB86FC),
+        "Iconify Icons & Layout"
+    ),
+    ChromaCategory(
+        "launcher",
+        "Launcher",
+        Icons.Default.Apps,
+        Color(0xFF03DAC6),
+        "PLE Grid & Icon Tweaks"
+    ),
+    ChromaCategory(
+        "colors",
+        "Color Engine",
+        Icons.Default.Palette,
+        Color(0xFF00B0FF),
+        "Material You Blending"
+    ),
+    ChromaCategory(
+        "lockscreen",
+        "Lock Screen",
+        Icons.Default.Lock,
+        Color(0xFFFF4081),
+        "Clocks & Dynamic Keyguard"
+    ),
+    ChromaCategory(
+        "qs_tiles",
+        "Quick Settings",
+        Icons.Default.SettingsInputComponent,
+        Color(0xFFFFD600),
+        "Tiles, Rows & Columns"
+    ),
+    ChromaCategory(
+        "animations",
+        "Animations",
+        Icons.Default.Animation,
+        Color(0xFFFF6F00),
+        "SysUI & App Transitions"
+    )
 )
 
 @Composable
@@ -175,7 +245,9 @@ fun ChromaCategoryCard(category: ChromaCategory, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Icon(
@@ -185,7 +257,12 @@ fun ChromaCategoryCard(category: ChromaCategory, onClick: () -> Unit) {
                 modifier = Modifier.size(28.dp)
             )
             Column {
-                Text(category.name, fontWeight = FontWeight.Bold, color = Color.White, fontSize = 16.sp)
+                Text(
+                    category.name,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    fontSize = 16.sp
+                )
                 Text(category.desc, color = Color.Gray, fontSize = 11.sp, lineHeight = 14.sp)
             }
         }

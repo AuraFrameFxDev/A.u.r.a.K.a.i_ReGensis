@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 /**
  * Bootloader Manager Screen
@@ -29,9 +28,24 @@ fun BootloaderManagerScreen(
 
     val partitions = listOf(
         PartitionInfo("Boot", "/dev/block/bootdevice/by-name/boot", "Active", Color(0xFFDC143C)),
-        PartitionInfo("System", "/dev/block/bootdevice/by-name/system", "Read-Only", Color(0xFFDC143C)),
-        PartitionInfo("Vendor", "/dev/block/bootdevice/by-name/vendor", "Read-Only", Color(0xFFDC143C)),
-        PartitionInfo("Recovery", "/dev/block/bootdevice/by-name/recovery", "Stock", Color(0xFFFFD700))
+        PartitionInfo(
+            "System",
+            "/dev/block/bootdevice/by-name/system",
+            "Read-Only",
+            Color(0xFFDC143C)
+        ),
+        PartitionInfo(
+            "Vendor",
+            "/dev/block/bootdevice/by-name/vendor",
+            "Read-Only",
+            Color(0xFFDC143C)
+        ),
+        PartitionInfo(
+            "Recovery",
+            "/dev/block/bootdevice/by-name/recovery",
+            "Stock",
+            Color(0xFFFFD700)
+        )
     )
 
     LaunchedEffect(isProcessing.value) {
@@ -42,7 +56,8 @@ fun BootloaderManagerScreen(
             }
             isProcessing.value = false
             processProgress.value = 0f
-            bootloaderStatus.value = if (bootloaderStatus.value == "Locked") "Unlocked" else "Locked"
+            bootloaderStatus.value =
+                if (bootloaderStatus.value == "Locked") "Unlocked" else "Locked"
             showSuccessDialog.value = true
         }
     }
@@ -51,7 +66,12 @@ fun BootloaderManagerScreen(
         AlertDialog(
             onDismissRequest = { showSuccessDialog.value = false },
             title = { Text("Success", color = Color.White) },
-            text = { Text("Bootloader ${bootloaderStatus.value} successfully.", color = Color.White) },
+            text = {
+                Text(
+                    "Bootloader ${bootloaderStatus.value} successfully.",
+                    color = Color.White
+                )
+            },
             confirmButton = {
                 TextButton(onClick = { showSuccessDialog.value = false }) {
                     Text("OK", color = Color(0xFFDC143C))
@@ -103,7 +123,9 @@ fun BootloaderManagerScreen(
                 Icon(
                     imageVector = if (bootloaderStatus.value == "Locked") Icons.Default.Lock else Icons.Default.LockOpen,
                     contentDescription = "Bootloader Status",
-                    tint = if (bootloaderStatus.value == "Locked") Color(0xFFDC143C) else Color(0xFF32CD32),
+                    tint = if (bootloaderStatus.value == "Locked") Color(0xFFDC143C) else Color(
+                        0xFF32CD32
+                    ),
                     modifier = Modifier.size(48.dp)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
@@ -116,7 +138,9 @@ fun BootloaderManagerScreen(
                     Text(
                         text = bootloaderStatus.value,
                         style = MaterialTheme.typography.headlineSmall,
-                        color = if (bootloaderStatus.value == "Locked") Color(0xFFDC143C) else Color(0xFF32CD32),
+                        color = if (bootloaderStatus.value == "Locked") Color(0xFFDC143C) else Color(
+                            0xFF32CD32
+                        ),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -261,7 +285,9 @@ fun BootloaderManagerScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isProcessing.value,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (bootloaderStatus.value == "Locked") Color(0xFFDC143C) else Color(0xFF32CD32)
+                    containerColor = if (bootloaderStatus.value == "Locked") Color(0xFFDC143C) else Color(
+                        0xFF32CD32
+                    )
                 )
             ) {
                 Text(

@@ -19,10 +19,10 @@ class ChromaCoreHooker : YukiBaseHooker() {
 
         // --- STATUS BAR HOOKS (Iconify) ---
         hookStatusbarLogo()
-        
+
         // --- LAUNCHER HOOKS (Pixel Launcher Enhanced) ---
         hookLauncherGrid()
-        
+
         // --- COLOR ENGINE HOOKS (ColorBlendr) ---
         hookDynamicColors()
     }

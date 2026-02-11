@@ -288,7 +288,7 @@ private fun ThemeItem(theme: Theme, onThemeSelected: () -> Unit) {
             }
 
             if (theme.isDark) {
-                 Text("Dark", style = MaterialTheme.typography.labelSmall)
+                Text("Dark", style = MaterialTheme.typography.labelSmall)
             }
         }
     }

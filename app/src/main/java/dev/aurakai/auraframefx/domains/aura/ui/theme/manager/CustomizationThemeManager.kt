@@ -13,8 +13,10 @@ object CustomizationThemeManager {
     @Composable
     fun auraThemeState(context: Context): State<ThemeState> {
         val dark = CustomizationPreferences.themeDarkFlow(context).collectAsState(initial = true)
-        val name = CustomizationPreferences.themeNameFlow(context).collectAsState(initial = "CyberGlow")
-        val accent = CustomizationPreferences.themeAccentFlow(context).collectAsState(initial = "NeonBlue")
+        val name =
+            CustomizationPreferences.themeNameFlow(context).collectAsState(initial = "CyberGlow")
+        val accent =
+            CustomizationPreferences.themeAccentFlow(context).collectAsState(initial = "NeonBlue")
         return remember(dark.value, name.value, accent.value) {
             object : State<ThemeState> {
                 override val value: ThemeState = ThemeState(dark.value, name.value, accent.value)

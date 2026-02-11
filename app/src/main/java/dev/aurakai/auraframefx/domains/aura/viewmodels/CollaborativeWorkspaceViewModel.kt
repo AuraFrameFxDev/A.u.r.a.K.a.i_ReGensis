@@ -68,7 +68,8 @@ class CollaborativeWorkspaceViewModel @Inject constructor(
 
     fun exportToClipboard(context: android.content.Context, design: UIDesign) {
         val json = repository.exportToJson(design)
-        val clipboard = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        val clipboard =
+            context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
         val clip = android.content.ClipData.newPlainText("UI Design Export", json)
         clipboard.setPrimaryClip(clip)
     }

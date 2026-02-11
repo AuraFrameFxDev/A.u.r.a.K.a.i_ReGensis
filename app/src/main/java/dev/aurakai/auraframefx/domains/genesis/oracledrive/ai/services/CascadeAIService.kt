@@ -3,7 +3,6 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.domains.genesis.models.AgentInvokeRequest
-import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import dev.aurakai.auraframefx.domains.genesis.models.AgentType
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.ClaudeAIService
@@ -195,7 +194,11 @@ class CascadeAIService @Inject constructor(
             AgentType.NEURAL_WHISPER -> processWithNeuralWhisper(request, cascadeContext)
             AgentType.AURA_SHIELD -> processWithAuraShield(request, cascadeContext)
             AgentType.GEN_KIT_MASTER -> processWithGenKitMaster(request, cascadeContext)
-            AgentType.DATAVEIN_CONSTRUCTOR -> processWithDataveinConstructor(request, cascadeContext)
+            AgentType.DATAVEIN_CONSTRUCTOR -> processWithDataveinConstructor(
+                request,
+                cascadeContext
+            )
+
             AgentType.USER -> CascadeResponse(
                 agent = AgentType.USER.name,
                 response = "User agent does not process requests.",
@@ -618,7 +621,16 @@ class CascadeAIService @Inject constructor(
      */
     private fun containsSecurityContent(message: String): Boolean {
         val securityKeywords =
-            listOf("security", "protect", "hack", "virus", "malware", "safe", "threat", "attack")
+            listOf(
+                "dev/aurakai/auraframefx/security",
+                "protect",
+                "hack",
+                "virus",
+                "malware",
+                "safe",
+                "threat",
+                "attack"
+            )
         return securityKeywords.any { message.contains(it, ignoreCase = true) }
     }
 

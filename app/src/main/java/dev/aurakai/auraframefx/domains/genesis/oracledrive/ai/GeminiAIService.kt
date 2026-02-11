@@ -241,7 +241,9 @@ class GeminiAIService @Inject constructor(
     private fun generateInsights(patterns: List<Pattern>): List<String> {
         return listOf(
             "Pattern convergence indicates high-confidence understanding",
-            "Multimodal context enriches pattern reliability by ${(patterns.map { it.confidence }.average() * 100).toInt()}%",
+            "Multimodal context enriches pattern reliability by ${
+                (patterns.map { it.confidence }.average() * 100).toInt()
+            }%",
             "Cross-modal pattern validation confirms consistency",
             "Vertex AI integration enables 1M token context window"
         )

@@ -351,7 +351,10 @@ private fun TaskCard(task: Task) {
         colors = CardDefaults.cardColors(
             containerColor = Color.Black.copy(alpha = 0.6f)
         ),
-        border = androidx.compose.foundation.BorderStroke(1.dp, task.priorityColor.copy(alpha = 0.3f))
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            task.priorityColor.copy(alpha = 0.3f)
+        )
     ) {
         Row(
             modifier = Modifier

@@ -7,24 +7,16 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.R
-import dev.aurakai.auraframefx.domains.aura.ui.theme.ChessFontFamily
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 enum class CardStyle {
     ARTSY,      // Aura: Paint splatter, messy, beautiful
@@ -89,7 +81,11 @@ fun HolographicCard(
                 // AURA: Paint Splatter & Messy Beauty
                 Canvas(modifier = Modifier.fillMaxSize().padding(12.dp)) {
                     // Draw random "splatter" blobs
-                    val splatterColors = listOf(finalGlowColor, finalGlowColor.copy(alpha = 0.5f), Color.White.copy(alpha = 0.3f))
+                    val splatterColors = listOf(
+                        finalGlowColor,
+                        finalGlowColor.copy(alpha = 0.5f),
+                        Color.White.copy(alpha = 0.3f)
+                    )
                     val random = kotlin.random.Random(42) // Consistent splatter
                     repeat(12) {
                         drawCircle(
@@ -102,7 +98,7 @@ fun HolographicCard(
                             alpha = 0.4f
                         )
                     }
-                    
+
                     // Messy Border
                     drawRoundRect(
                         color = finalGlowColor,
@@ -113,6 +109,7 @@ fun HolographicCard(
                     )
                 }
             }
+
             CardStyle.PROTECTIVE -> {
                 // KAI: Bulky Industrial Frame
                 Box(
@@ -121,7 +118,12 @@ fun HolographicCard(
                         .padding(4.dp)
                         .border(
                             width = 6.dp, // THICK
-                            brush = Brush.verticalGradient(listOf(finalGlowColor, finalGlowColor.copy(alpha = 0.4f))),
+                            brush = Brush.verticalGradient(
+                                listOf(
+                                    finalGlowColor,
+                                    finalGlowColor.copy(alpha = 0.4f)
+                                )
+                            ),
                             shape = RoundedCornerShape(8.dp) // BLOCKY
                         )
                         .padding(6.dp)
@@ -132,6 +134,7 @@ fun HolographicCard(
                         )
                 )
             }
+
             CardStyle.MYTHICAL -> {
                 // GENESIS: Ornate Boss Frame
                 Box(
@@ -140,7 +143,13 @@ fun HolographicCard(
                         .padding(8.dp)
                         .border(
                             2.dp,
-                            Brush.sweepGradient(listOf(finalGlowColor, Color.White, finalGlowColor)),
+                            Brush.sweepGradient(
+                                listOf(
+                                    finalGlowColor,
+                                    Color.White,
+                                    finalGlowColor
+                                )
+                            ),
                             RoundedCornerShape(12.dp)
                         )
                 ) {
@@ -148,11 +157,31 @@ fun HolographicCard(
                     Canvas(modifier = Modifier.fillMaxSize()) {
                         val length = 40f
                         // Top Left
-                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(0f, 0f), androidx.compose.ui.geometry.Offset(length, 0f), strokeWidth = 8f)
-                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(0f, 0f), androidx.compose.ui.geometry.Offset(0f, length), strokeWidth = 8f)
+                        drawLine(
+                            finalGlowColor,
+                            androidx.compose.ui.geometry.Offset(0f, 0f),
+                            androidx.compose.ui.geometry.Offset(length, 0f),
+                            strokeWidth = 8f
+                        )
+                        drawLine(
+                            finalGlowColor,
+                            androidx.compose.ui.geometry.Offset(0f, 0f),
+                            androidx.compose.ui.geometry.Offset(0f, length),
+                            strokeWidth = 8f
+                        )
                         // Bottom Right
-                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(size.width, size.height), androidx.compose.ui.geometry.Offset(size.width - length, size.height), strokeWidth = 8f)
-                        drawLine(finalGlowColor, androidx.compose.ui.geometry.Offset(size.width, size.height), androidx.compose.ui.geometry.Offset(size.width, size.height - length), strokeWidth = 8f)
+                        drawLine(
+                            finalGlowColor,
+                            androidx.compose.ui.geometry.Offset(size.width, size.height),
+                            androidx.compose.ui.geometry.Offset(size.width - length, size.height),
+                            strokeWidth = 8f
+                        )
+                        drawLine(
+                            finalGlowColor,
+                            androidx.compose.ui.geometry.Offset(size.width, size.height),
+                            androidx.compose.ui.geometry.Offset(size.width, size.height - length),
+                            strokeWidth = 8f
+                        )
                     }
                 }
             }

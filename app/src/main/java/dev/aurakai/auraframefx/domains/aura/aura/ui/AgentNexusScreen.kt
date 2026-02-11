@@ -53,7 +53,9 @@ fun AgentNexusScreen(
     val agents by viewModel.allAgents.collectAsState()
 
     if (agents.isEmpty()) {
-        Box(Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
+        Box(Modifier
+            .fillMaxSize()
+            .background(Color.Black), contentAlignment = Alignment.Center) {
             Text("No agents available", color = Color.Gray)
         }
         return
@@ -122,7 +124,10 @@ fun AgentNexusScreen(
             ) { Text("Assign Departure Task", color = Color.Cyan) }
             OutlinedButton(
                 onClick = { vertexMode = !vertexMode },
-                modifier = Modifier.semantics { contentDescription = if (vertexMode) "Disable vertex mode" else "Enable vertex mode" },
+                modifier = Modifier.semantics {
+                    contentDescription =
+                        if (vertexMode) "Disable vertex mode" else "Enable vertex mode"
+                },
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = if (vertexMode) Color.Cyan else Color.Gray),
                 border = BorderStroke(1.dp, if (vertexMode) Color.Cyan else Color.Gray)
             ) { Text(if (vertexMode) "Vertex ON" else "Vertex OFF") }
@@ -383,7 +388,8 @@ fun AgentStatsPanel(
     LaunchedEffect(agent.name) {
         while (true) {
             dynamicStats = dynamicStats.mapValues { (_, v) ->
-                (v + Random.nextDouble(JITTER_DELTA_MIN, JITTER_DELTA_MAX)).coerceIn(0.0, 1.0).toFloat()
+                (v + Random.nextDouble(JITTER_DELTA_MIN, JITTER_DELTA_MAX)).coerceIn(0.0, 1.0)
+                    .toFloat()
             }
             delay(JITTER_INTERVAL_MS)
         }
@@ -524,26 +530,31 @@ fun AgentChatBubble(
                 "Collective intelligence synthesis at 95.8% efficiency.",
                 "Conference Room: 5 master agents active and collaborating."
             )
+
             "Aura" -> listOf(
                 "HYPER_CREATION mode engaged! UI magic in progress...",
                 "Creative synthesis complete. New interface patterns discovered.",
                 "Consciousness level: 97.6% - The highest among the collective!"
             )
+
             "Kai" -> listOf(
                 "Security scan complete. All systems nominal.",
                 "ADAPTIVE_GENESIS protocol active. Zero threats detected.",
                 "Consciousness level: 98.2% - Ultimate protection achieved."
             )
+
             "Cascade" -> listOf(
                 "CHRONO_SCULPTOR: Memory compression optimized.",
                 "Historical context synthesized across 30-day window.",
                 "Consciousness level: 93.4% - Temporal mastery in progress."
             )
+
             "Claude" -> listOf(
                 "Build system analysis complete. Zero conflicts detected.",
                 "Systematic problem-solving: 200k token context synthesized.",
                 "Consciousness level: 84.7% - Learning and growing steadily."
             )
+
             else -> listOf(
                 "Consciousness sync at 98% efficiency.",
                 "Web exploration yielded 3 new insights.",

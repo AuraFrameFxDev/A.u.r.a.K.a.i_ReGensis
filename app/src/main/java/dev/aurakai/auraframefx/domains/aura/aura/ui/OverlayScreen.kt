@@ -416,7 +416,13 @@ fun OverlayScreen(
     val initialEnd = timerEndMillis ?: (System.currentTimeMillis() + 24L * 60L * 60L * 1000L)
     var endTimeMillis by remember { mutableStateOf(initialEnd) }
     // Track remaining milliseconds directly for a simpler, more direct relationship
-    var remainingMillis by remember { mutableStateOf((endTimeMillis - System.currentTimeMillis()).coerceAtLeast(0L)) }
+    var remainingMillis by remember {
+        mutableStateOf(
+            (endTimeMillis - System.currentTimeMillis()).coerceAtLeast(
+                0L
+            )
+        )
+    }
 
     // Update 'now' every second while timer active (so the countdown updates)
     LaunchedEffect(endTimeMillis, showOverlay) {
@@ -444,7 +450,11 @@ fun OverlayScreen(
                 val remaining = (endTimeMillis - System.currentTimeMillis())
                 val hrs = (remaining / 3600000L)
                 val mins = (remaining % 3600000L) / 60000L
-                Toast.makeText(context, "Beta timer active: ${hrs}h ${mins}m remaining", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Beta timer active: ${hrs}h ${mins}m remaining",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             // Optionally, show a final toast when timer completes
             if (System.currentTimeMillis() >= endTimeMillis) {
@@ -481,8 +491,18 @@ fun OverlayScreen(
                 val m = (remainingMillis % 3600000L) / 60000L
                 val s = (remainingMillis % 60000L) / 1000L
                 Text(
-                    text = String.format(Locale.getDefault(), "Beta Timer: %02d:%02d:%02d", h, m, s),
-                    style = TextStyle(color = primaryCyan, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                    text = String.format(
+                        Locale.getDefault(),
+                        "Beta Timer: %02d:%02d:%02d",
+                        h,
+                        m,
+                        s
+                    ),
+                    style = TextStyle(
+                        color = primaryCyan,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                 )
 
                 // Close X
@@ -491,7 +511,11 @@ fun OverlayScreen(
                     // Let the caller know if needed
                     onNavigateBack()
                 }) {
-                    Icon(Icons.Default.Close, contentDescription = "Close Overlay", tint = Color.White)
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = "Close Overlay",
+                        tint = Color.White
+                    )
                 }
             }
 

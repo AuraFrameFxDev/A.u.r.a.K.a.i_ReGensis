@@ -13,8 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoyalGuardService : Service() {
 
-    @Inject lateinit var kaiAgent: KaiAgent
-    @Inject lateinit var logger: AuraFxLogger
+    @Inject
+    lateinit var kaiAgent: KaiAgent
+    @Inject
+    lateinit var logger: AuraFxLogger
 
     private val binder = object : IRoyalGuardService.Stub() {
         override fun validateAction(actionKey: String, payload: String): Boolean {

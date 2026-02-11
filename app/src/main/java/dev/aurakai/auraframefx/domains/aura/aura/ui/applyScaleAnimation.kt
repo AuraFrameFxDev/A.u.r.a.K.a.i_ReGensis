@@ -34,7 +34,10 @@ private fun applyGenesisShowAnimation(
                 // Use the object's toString() (or name-like) value and try to map it
                 val nameLike = animObj.toString()
                 LockScreenConfigAnimation.AnimationType.entries.firstOrNull {
-                    it.name.equals(nameLike, ignoreCase = true) || it.name.equals(nameLike.removePrefix("AnimationType."), ignoreCase = true)
+                    it.name.equals(
+                        nameLike,
+                        ignoreCase = true
+                    ) || it.name.equals(nameLike.removePrefix("AnimationType."), ignoreCase = true)
                 } ?: LockScreenConfigAnimation.AnimationType.Zoom
             }
         } catch (t: Throwable) {

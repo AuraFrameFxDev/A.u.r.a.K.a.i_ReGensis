@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
-import kotlin.math.sin
 
 /**
  * Journal PDA Screen - Retro Gaming Wellness Hub
@@ -97,14 +95,17 @@ fun JournalPDAScreen(
                     breakMessage = "🎮 Nice flow! Stretch your legs?"
                     showBreakBanner = true
                 }
+
                 elapsedMinutes == 60 -> {
                     breakMessage = "☕ Break time! Your brain needs a save point."
                     showBreakBanner = true
                 }
+
                 elapsedMinutes == 120 -> {
                     breakMessage = "🚶 HEY. You have a LIFE. Go touch grass!"
                     showBreakBanner = true
                 }
+
                 elapsedMinutes >= 180 && elapsedMinutes % 15 == 0 -> {
                     breakMessage = "⚠️ MANDATORY BREAK. Locks activating in 5min..."
                     showBreakBanner = true

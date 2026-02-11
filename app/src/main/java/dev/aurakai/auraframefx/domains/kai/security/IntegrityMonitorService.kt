@@ -93,7 +93,8 @@ data class IntegrityHealth(
 class IntegrityMonitorService : Service() {
 
 
-    @Inject lateinit var trinityRepository: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityRepository
+    @Inject
+    lateinit var trinityRepository: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityRepository
 
     private val serviceScope = CoroutineScope(Dispatchers.IO + Job())
     private var monitoringJob: Job? = null
@@ -144,16 +145,16 @@ class IntegrityMonitorService : Service() {
 
         // Use appropriate foreground type if API 34+
         if (Build.VERSION.SDK_INT >= 34) {
-             try {
+            try {
                 startForeground(
                     1338,
                     notification,
                     ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
                 )
-             } catch (e: Exception) {
-                 Timber.e(e, "Failed to start foreground with specialUse type")
-                 startForeground(1338, notification)
-             }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to start foreground with specialUse type")
+                startForeground(1338, notification)
+            }
         } else {
             startForeground(1338, notification)
         }
@@ -406,7 +407,7 @@ class IntegrityMonitorService : Service() {
             ThreatLevel.LOW -> Timber.i("ℹ️ LOW THREAT: $type - $description")
             ThreatLevel.INFO -> Timber.i("ℹ️ INFO: $type - $description")
             ThreatLevel.AI_ERROR -> Timber.e("🤖 AI ERROR: $type - $description")
-            ThreatLevel.NONE -> { }
+            ThreatLevel.NONE -> {}
             else -> Timber.d("Unknown threat level: $level")
         }
     }

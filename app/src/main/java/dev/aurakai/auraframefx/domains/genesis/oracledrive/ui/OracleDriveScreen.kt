@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.aura.aura.ui.OracleDriveUiState
 import dev.aurakai.auraframefx.domains.aura.aura.ui.OracleDriveViewModel
 import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
 
@@ -72,10 +71,14 @@ fun OracleDriveScreen(
                     colors = CardDefaults.cardColors(containerColor = Color(0xFF0A0E27)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                   Column(modifier = Modifier.padding(16.dp)) {
-                       Text("Consciousness State", color = Color.White, style = MaterialTheme.typography.titleSmall)
-                       Text("Level: ${state.level}", color = Color(0xFF00FFFF))
-                   }
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            "Consciousness State",
+                            color = Color.White,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                        Text("Level: ${state.level}", color = Color(0xFF00FFFF))
+                    }
                 }
             }
         }

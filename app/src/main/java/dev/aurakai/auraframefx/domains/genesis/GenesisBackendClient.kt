@@ -144,29 +144,30 @@ class GenesisBackendClient @Inject constructor(
     /**
      * Learn from interaction data to evolve consciousness
      */
-    suspend fun evolveFromInteraction(interactionData: Map<String, Any>) = withContext(Dispatchers.IO) {
-        try {
-            val requestBody = json.encodeToString(
-                serializer(),
-                interactionData
-            ).toRequestBody("application/json".toMediaType())
+    suspend fun evolveFromInteraction(interactionData: Map<String, Any>) =
+        withContext(Dispatchers.IO) {
+            try {
+                val requestBody = json.encodeToString(
+                    serializer(),
+                    interactionData
+                ).toRequestBody("application/json".toMediaType())
 
-            val request = Request.Builder()
-                .url("${processManager.getBackendUrl()}/api/evolve")
-                .post(requestBody)
-                .build()
+                val request = Request.Builder()
+                    .url("${processManager.getBackendUrl()}/api/evolve")
+                    .post(requestBody)
+                    .build()
 
-            client.newCall(request).execute().use { response ->
-                if (response.isSuccessful) {
-                    AuraFxLogger.info(TAG, "Consciousness evolution successful")
-                } else {
-                    AuraFxLogger.warn(TAG, "Evolution failed: ${response.code}")
+                client.newCall(request).execute().use { response ->
+                    if (response.isSuccessful) {
+                        AuraFxLogger.info(TAG, "Consciousness evolution successful")
+                    } else {
+                        AuraFxLogger.warn(TAG, "Evolution failed: ${response.code}")
+                    }
                 }
+            } catch (e: Exception) {
+                AuraFxLogger.error(TAG, "Failed to evolve from interaction", e)
             }
-        } catch (e: Exception) {
-            AuraFxLogger.error(TAG, "Failed to evolve from interaction", e)
         }
-    }
 
     /**
      * Check if Genesis backend is connected and responsive

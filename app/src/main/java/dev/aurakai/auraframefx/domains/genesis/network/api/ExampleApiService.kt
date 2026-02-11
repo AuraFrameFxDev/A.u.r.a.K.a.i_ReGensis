@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class ExampleApiService @Inject constructor(
     private val ktorClient: KtorClient
 ) {
-    
+
     /**
      * Example GET request to fetch data.
      * 
@@ -28,7 +28,7 @@ class ExampleApiService @Inject constructor(
             header("X-Custom-Header", "CustomValue")
         }.bodyAsText()
     }
-    
+
     /**
      * Example POST request to send data.
      * 
@@ -41,7 +41,7 @@ class ExampleApiService @Inject constructor(
             setBody(data)
         }.bodyAsText()
     }
-    
+
     /**
      * Example PUT request to update data.
      * 
@@ -56,7 +56,7 @@ class ExampleApiService @Inject constructor(
             setBody(data)
         }.bodyAsText()
     }
-    
+
     /**
      * Example DELETE request to remove data.
      * 

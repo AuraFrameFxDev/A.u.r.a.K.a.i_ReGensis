@@ -1,22 +1,22 @@
 package dev.aurakai.auraframefx.domains.aura.lab
 
 import android.content.Context
+import android.net.Uri
+import androidx.compose.ui.layout.ContentScale
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
+import com.google.gson.Gson
 import dev.aurakai.auraframefx.domains.aura.LauncherConfiguration
 import dev.aurakai.auraframefx.domains.aura.MonetConfiguration
 import dev.aurakai.auraframefx.domains.aura.SystemUIConfiguration
+import dev.aurakai.auraframefx.domains.genesis.models.ReGenesisMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import android.net.Uri
 import androidx.core.content.edit as sharedPrefsEdit
-import com.google.gson.Gson
-import androidx.compose.ui.layout.ContentScale
 
 private val Context.customizationDataStore by preferencesDataStore(name = "customization_prefs")
 
@@ -161,7 +161,12 @@ object CustomizationPreferences {
         }
     }
 
-    suspend fun setGlass(context: Context, enabled: Boolean, blurRadiusDp: Float, surfaceAlpha: Float) {
+    suspend fun setGlass(
+        context: Context,
+        enabled: Boolean,
+        blurRadiusDp: Float,
+        surfaceAlpha: Float
+    ) {
         context.customizationDataStore.edit {
             it[KEY_GLASS_ENABLED] = enabled
             it[KEY_GLASS_BLUR_RADIUS_DP] = blurRadiusDp
@@ -176,7 +181,12 @@ object CustomizationPreferences {
         }
     }
 
-    suspend fun setUiElements(context: Context, showStatusBar: Boolean, showNotchBar: Boolean, showOverlayMenus: Boolean) {
+    suspend fun setUiElements(
+        context: Context,
+        showStatusBar: Boolean,
+        showNotchBar: Boolean,
+        showOverlayMenus: Boolean
+    ) {
         context.customizationDataStore.edit {
             it[KEY_SHOW_STATUS_BAR] = showStatusBar
             it[KEY_SHOW_NOTCH_BAR] = showNotchBar
@@ -281,7 +291,13 @@ object CustomizationPreferences {
     private const val KEY_CUSTOM_QS_BACKGROUND_OPACITY = "custom_qs_background_opacity"
     private const val KEY_CUSTOM_QS_BACKGROUND_BLEND_MODE = "custom_qs_background_blend_mode"
 
-    fun saveCustomQsBackgroundSettings(context: Context, enabled: Boolean, uri: Uri?, opacity: Float, blendMode: String) {
+    fun saveCustomQsBackgroundSettings(
+        context: Context,
+        enabled: Boolean,
+        uri: Uri?,
+        opacity: Float,
+        blendMode: String
+    ) {
         context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE).sharedPrefsEdit {
             putBoolean(KEY_CUSTOM_QS_BACKGROUND_ENABLED, enabled)
             putString(KEY_CUSTOM_QS_BACKGROUND_URI, uri?.toString())
@@ -359,10 +375,13 @@ object CustomizationPreferences {
         val allUris = mutableSetOf<Uri>()
 
         sharedPrefs.getString(KEY_HEADER_IMAGE_URI, null)?.let { allUris.add(Uri.parse(it)) }
-        sharedPrefs.getString(KEY_CUSTOM_QS_BACKGROUND_URI, null)?.let { allUris.add(Uri.parse(it)) }
-        sharedPrefs.getString(KEY_NAV_DRAWER_BACKGROUND_URI, null)?.let { allUris.add(Uri.parse(it)) }
+        sharedPrefs.getString(KEY_CUSTOM_QS_BACKGROUND_URI, null)
+            ?.let { allUris.add(Uri.parse(it)) }
+        sharedPrefs.getString(KEY_NAV_DRAWER_BACKGROUND_URI, null)
+            ?.let { allUris.add(Uri.parse(it)) }
         sharedPrefs.getString(KEY_SPLASH_SCREEN_IMAGE_URI, null)?.let { allUris.add(Uri.parse(it)) }
-        sharedPrefs.getString(KEY_NOTCH_BAR_BACKGROUND_URI, null)?.let { allUris.add(Uri.parse(it)) }
+        sharedPrefs.getString(KEY_NOTCH_BAR_BACKGROUND_URI, null)
+            ?.let { allUris.add(Uri.parse(it)) }
 
         return allUris
     }
@@ -406,6 +425,15 @@ object CustomizationPreferences {
     fun getNotchBarBackgroundBlendMode(context: Context): String {
         return context.getSharedPreferences("customization_prefs", Context.MODE_PRIVATE)
             .getString(KEY_NOTCH_BAR_BACKGROUND_BLEND_MODE, "SrcOver") ?: "SrcOver"
+    }
+
+    fun saveNotchBarBackgroundSettings(
+        context: Context,
+        enabled: Boolean,
+        uri: Uri?,
+        opacity: Float
+    ) {
+        TODO("Not yet implemented")
     }
 }
 

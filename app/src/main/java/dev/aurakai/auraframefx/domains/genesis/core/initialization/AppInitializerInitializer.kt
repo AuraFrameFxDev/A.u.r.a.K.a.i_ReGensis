@@ -99,12 +99,13 @@ class AppInitializerInitializer : Initializer<Unit> {
         try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
             val versionName = packageInfo.versionName
-            val versionCode = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                packageInfo.longVersionCode
-            } else {
-                @Suppress("DEPRECATION")
-                packageInfo.versionCode.toLong()
-            }
+            val versionCode =
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    packageInfo.longVersionCode
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageInfo.versionCode.toLong()
+                }
 
             Timber.i("AppInitializerInitializer: Genesis Protocol v$versionName ($versionCode)")
             Timber.i("AppInitializerInitializer: Android SDK ${android.os.Build.VERSION.SDK_INT}")

@@ -91,7 +91,7 @@ class AuraShieldAgentTest {
         @DisplayName("Should initialize with correct agent name and type")
         fun shouldInitializeWithCorrectMetadata() {
             assertEquals("AuraShield", auraShieldAgent.agentName)
-            assertEquals("security", auraShieldAgent.agentType)
+            assertEquals("dev/aurakai/auraframefx/security", auraShieldAgent.agentType)
         }
 
         @Test
@@ -704,7 +704,7 @@ class AuraShieldAgentTest {
         @Test
         @DisplayName("Should handle very long prompts")
         fun shouldHandleVeryLongPrompts() = runTest {
-            val longPrompt = "security ".repeat(1000)
+            val longPrompt = "dev/aurakai/auraframefx/security ".repeat(1000)
             val request = AiRequest(
                 prompt = longPrompt,
                 userId = "test_user",

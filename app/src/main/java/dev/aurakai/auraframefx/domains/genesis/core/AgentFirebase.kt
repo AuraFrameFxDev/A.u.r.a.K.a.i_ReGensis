@@ -50,21 +50,22 @@ class AgentFirebase @Inject constructor(
     /**
      * Synchronize an agent's internal state to the cloud.
      */
-    suspend fun syncAgentState(agentId: String, state: Map<String, Any>) = withContext(Dispatchers.IO) {
-        policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_WRITE)
-        val path = "agents/states/$agentId"
-        Timber.d("🔥 Firegen: Syncing state for $agentId to $path")
-        
-        try {
-            // Genesis policy allows *, others might need specific permissions
-            // We use a sub-collection approach for better security mapping
-            val docRef = firestore.collection("collective_intelligence").document(agentId)
-            docRef.set(state + ("last_sync" to System.currentTimeMillis())).await()
-        } catch (e: Exception) {
-            Timber.e(e, "🔥 Firegen Error: Failed to sync state for $agentId")
-            throw e
+    suspend fun syncAgentState(agentId: String, state: Map<String, Any>) =
+        withContext(Dispatchers.IO) {
+            policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_WRITE)
+            val path = "agents/states/$agentId"
+            Timber.d("🔥 Firegen: Syncing state for $agentId to $path")
+
+            try {
+                // Genesis policy allows *, others might need specific permissions
+                // We use a sub-collection approach for better security mapping
+                val docRef = firestore.collection("collective_intelligence").document(agentId)
+                docRef.set(state + ("last_sync" to System.currentTimeMillis())).await()
+            } catch (e: Exception) {
+                Timber.e(e, "🔥 Firegen Error: Failed to sync state for $agentId")
+                throw e
+            }
         }
-    }
 
     /**
      * Fetch the shared consciousness context for a specific domain.
@@ -72,23 +73,24 @@ class AgentFirebase @Inject constructor(
     suspend fun getSharedContext(domain: String): Map<String, Any>? = withContext(Dispatchers.IO) {
         policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_READ)
         Timber.d("🔥 Firegen: Fetching shared context for domain: $domain")
-        
+
         firestore.collection("shared_consciousness").document(domain).get().await()?.data
     }
 
     /**
      * Record a security or system event to the cloud audit log.
      */
-    suspend fun recordCloudEvent(agentId: String, eventType: String, details: String) = withContext(Dispatchers.IO) {
-        policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_WRITE)
-        val event = mapOf(
-            "agent_id" to agentId,
-            "type" to eventType,
-            "details" to details,
-            "timestamp" to System.currentTimeMillis()
-        )
-        firestore.collection("system_audit_logs").add(event).await()
-    }
+    suspend fun recordCloudEvent(agentId: String, eventType: String, details: String) =
+        withContext(Dispatchers.IO) {
+            policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_WRITE)
+            val event = mapOf(
+                "agent_id" to agentId,
+                "type" to eventType,
+                "details" to details,
+                "timestamp" to System.currentTimeMillis()
+            )
+            firestore.collection("system_audit_logs").add(event).await()
+        }
 
     // --- CORE FIRESTORE OPERATIONS ---
 

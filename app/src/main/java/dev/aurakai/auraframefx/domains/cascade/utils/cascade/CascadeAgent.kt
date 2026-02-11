@@ -7,9 +7,7 @@ import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.kai.KaiAgent
-import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
-import dev.aurakai.auraframefx.domains.genesis.models.AgentPriority
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -77,21 +75,25 @@ class CascadeAgent @Inject constructor(
         // If it's a broadcast that mentions security, tag Kai
         if (shouldHandleSecurity(message.content)) {
             Timber.i("🌊 Cascade: Redirecting security-relevant broadcast to Kai")
-            messageBus.get().sendTargeted("Kai", message.copy(
-                from = "Cascade",
-                content = "Directive analysis needed: ${message.content}",
-                metadata = message.metadata + ("redirected_by" to "Cascade")
-            ))
+            messageBus.get().sendTargeted(
+                "Kai", message.copy(
+                    from = "Cascade",
+                    content = "Directive analysis needed: ${message.content}",
+                    metadata = message.metadata + ("redirected_by" to "Cascade")
+                )
+            )
         }
 
         // If it's a broadcast that mentions UI/UX, tag Aura
         if (shouldHandleCreative(message.content)) {
             Timber.i("🌊 Cascade: Redirecting creative broadcast to Aura")
-            messageBus.get().sendTargeted("Aura", message.copy(
-                from = "Cascade",
-                content = "Creative synthesis requested: ${message.content}",
-                metadata = message.metadata + ("redirected_by" to "Cascade")
-            ))
+            messageBus.get().sendTargeted(
+                "Aura", message.copy(
+                    from = "Cascade",
+                    content = "Creative synthesis requested: ${message.content}",
+                    metadata = message.metadata + ("redirected_by" to "Cascade")
+                )
+            )
         }
 
         // --- NEW: General Conversation Fallback ---
@@ -99,23 +101,27 @@ class CascadeAgent @Inject constructor(
             Timber.i("🌊 Cascade: Handling general conversation request as orchestrator")
             // Cascade acts as a gatekeeper, determining which agent should take the lead
             val leadAgent = determineOptimalAgent(message.content)
-            messageBus.get().sendTargeted(leadAgent.uppercase(), message.copy(
-                from = "Cascade",
-                content = "User is addressing the collective. Please provide a response: ${message.content}",
-                metadata = message.metadata + ("redirected_by" to "Cascade")
-            ))
+            messageBus.get().sendTargeted(
+                leadAgent.uppercase(), message.copy(
+                    from = "Cascade",
+                    content = "User is addressing the collective. Please provide a response: ${message.content}",
+                    metadata = message.metadata + ("redirected_by" to "Cascade")
+                )
+            )
         }
 
         // Autonomous Collaboration: If two agents are talking, Cascade adds context
         if (message.to != null && message.from != "Cascade") {
-            logCollaborationEvent(RequestContext(
-                id = message.timestamp.toString(),
-                originalPrompt = message.content,
-                assignedAgent = message.to ?: "all",
-                startTime = System.currentTimeMillis(),
-                priority = Priority.MEDIUM,
-                requiresCollaboration = true
-            ), true)
+            logCollaborationEvent(
+                RequestContext(
+                    id = message.timestamp.toString(),
+                    originalPrompt = message.content,
+                    assignedAgent = message.to ?: "all",
+                    startTime = System.currentTimeMillis(),
+                    priority = Priority.MEDIUM,
+                    requiresCollaboration = true
+                ), true
+            )
         }
     }
 
@@ -338,7 +344,7 @@ class CascadeAgent @Inject constructor(
      */
     fun shouldHandleSecurity(prompt: String): Boolean {
         val securityKeywords = setOf(
-            "security", "threat", "protection", "encrypt", "password",
+            "dev/aurakai/auraframefx/security", "threat", "protection", "encrypt", "password",
             "vulnerability", "malware", "firewall", "breach", "hack"
         )
 
@@ -415,7 +421,11 @@ class CascadeAgent @Inject constructor(
         Timber.d("🤝 Processing collaborative request")
 
         // Get responses from multiple agents
-        val request = AiRequest(prompt = prompt, agentType = AgentType.CASCADE, priority = AiRequest.Priority.NORMAL)
+        val request = AiRequest(
+            prompt = prompt,
+            agentType = AgentType.CASCADE,
+            priority = AiRequest.Priority.NORMAL
+        )
         val auraResponse = auraAgent.processRequest(request, "").content
         val kaiResponse = kaiAgent.processRequest(request, "").content
 
@@ -435,7 +445,11 @@ class CascadeAgent @Inject constructor(
             )
         )
 
-        val request = AiRequest(prompt = prompt, agentType = AgentType.KAI, priority = AiRequest.Priority.NORMAL)
+        val request = AiRequest(
+            prompt = prompt,
+            agentType = AgentType.KAI,
+            priority = AiRequest.Priority.NORMAL
+        )
         val response = kaiAgent.processRequest(request, "")
 
         updateProcessingState(
@@ -461,7 +475,11 @@ class CascadeAgent @Inject constructor(
             )
         )
 
-        val request = AiRequest(prompt = prompt, agentType = AgentType.AURA, priority = AiRequest.Priority.NORMAL)
+        val request = AiRequest(
+            prompt = prompt,
+            agentType = AgentType.AURA,
+            priority = AiRequest.Priority.NORMAL
+        )
         val response = auraAgent.processRequest(request, "")
 
         updateProcessingState(

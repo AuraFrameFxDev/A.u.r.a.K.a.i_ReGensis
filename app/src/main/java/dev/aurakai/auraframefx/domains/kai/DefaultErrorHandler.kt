@@ -6,11 +6,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
-  * Default implementation of ErrorHandler for the AuraFrameFx system.
-  *
-  * Provides centralized error handling with logging and optional recovery strategies.
-  * This implementation serves as the primary error handler throughout the application.
-  */
+ * Default implementation of ErrorHandler for the AuraFrameFx system.
+ *
+ * Provides centralized error handling with logging and optional recovery strategies.
+ * This implementation serves as the primary error handler throughout the application.
+ */
 @Singleton
 class DefaultErrorHandler @Inject constructor(
     private val logger: AuraFxLogger
@@ -25,8 +25,17 @@ class DefaultErrorHandler @Inject constructor(
         handleCriticalActions(error)
     }
 
-    override fun handleError(error: Throwable, agent: AgentType, context: String, metadata: Map<String, String>) {
-        logger.error(TAG, "Error from agent $agent in context: $context (Metadata: $metadata)", error)
+    override fun handleError(
+        error: Throwable,
+        agent: AgentType,
+        context: String,
+        metadata: Map<String, String>
+    ) {
+        logger.error(
+            TAG,
+            "Error from agent $agent in context: $context (Metadata: $metadata)",
+            error
+        )
         handleCriticalActions(error)
     }
 

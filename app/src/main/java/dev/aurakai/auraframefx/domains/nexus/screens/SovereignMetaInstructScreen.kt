@@ -18,7 +18,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -83,7 +82,11 @@ fun SovereignMetaInstructScreen(
                                 modifier = Modifier.fillMaxWidth().padding(40.dp),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text("NO INSTRUCTIONS ACTIVE", color = Color.White.copy(alpha = 0.3f), fontSize = 12.sp)
+                                Text(
+                                    "NO INSTRUCTIONS ACTIVE",
+                                    color = Color.White.copy(alpha = 0.3f),
+                                    fontSize = 12.sp
+                                )
                             }
                         }
                     }
@@ -106,14 +109,18 @@ fun SovereignMetaInstructScreen(
                         Spacer(Modifier.width(8.dp))
                         Text("NEW INSTRUCTION", color = Color.Black, fontWeight = FontWeight.Bold)
                     }
-                    
+
                     IconButton(
                         onClick = { viewModel.injectInitialProtocols() },
                         modifier = Modifier
                             .size(56.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .background(Color.White.copy(alpha = 0.05f))
-                            .border(1.dp, Color(0xFF00FFD4).copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                            .border(
+                                1.dp,
+                                Color(0xFF00FFD4).copy(alpha = 0.3f),
+                                RoundedCornerShape(12.dp)
+                            )
                     ) {
                         Icon(Icons.Default.AutoAwesome, null, tint = Color(0xFF00FFD4))
                     }
@@ -172,10 +179,14 @@ private fun AgentSelector(activeAgent: String, onAgentSelected: (String) -> Unit
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(if (isSelected) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.White.copy(alpha = 0.03f))
+                    .background(
+                        if (isSelected) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.White.copy(
+                            alpha = 0.03f
+                        )
+                    )
                     .border(
-                        1.dp, 
-                        if (isSelected) Color(0xFF00FFD4) else Color.White.copy(alpha = 0.1f), 
+                        1.dp,
+                        if (isSelected) Color(0xFF00FFD4) else Color.White.copy(alpha = 0.1f),
                         RoundedCornerShape(12.dp)
                     )
                     .clickable { onAgentSelected(agent) }
@@ -210,18 +221,27 @@ private fun EvolutionStatusCard(isActive: Boolean, onToggle: () -> Unit) {
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(if (isActive) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.Gray.copy(alpha = 0.1f)),
+                    .background(
+                        if (isActive) Color(0xFF00FFD4).copy(alpha = 0.1f) else Color.Gray.copy(
+                            alpha = 0.1f
+                        )
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    Icons.Default.Psychology, 
-                    null, 
+                    Icons.Default.Psychology,
+                    null,
                     tint = if (isActive) Color(0xFF00FFD4) else Color.Gray
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text("EVOLUTIONARY LOOP", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Text(
+                    "EVOLUTIONARY LOOP",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp
+                )
                 Text(
                     if (isActive) "ACTIVE: Learning & adapting to feedback." else "STANDBY: No current evolution.",
                     color = if (isActive) Color(0xFF00FFD4).copy(alpha = 0.7f) else Color.Gray,
@@ -243,9 +263,17 @@ private fun EvolutionStatusCard(isActive: Boolean, onToggle: () -> Unit) {
 @Composable
 private fun InstructionItem(instruction: dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.MetaInstruction) {
     val layerColor = when (instruction.layer) {
-        dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.CORE -> Color(0xFF00FFD4)
-        dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.SELF_CORRECTION -> Color(0xFFFFCC00)
-        dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.EVOLUTIONARY -> Color(0xFFB026FF)
+        dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.CORE -> Color(
+            0xFF00FFD4
+        )
+
+        dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.SELF_CORRECTION -> Color(
+            0xFFFFCC00
+        )
+
+        dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer.EVOLUTIONARY -> Color(
+            0xFFB026FF
+        )
     }
 
     Card(
@@ -262,18 +290,28 @@ private fun InstructionItem(instruction: dev.aurakai.auraframefx.agents.growthme
                     .background(layerColor.copy(alpha = 0.1f)),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.Terminal, null, tint = layerColor, modifier = Modifier.size(16.dp))
+                Icon(
+                    Icons.Default.Terminal,
+                    null,
+                    tint = layerColor,
+                    modifier = Modifier.size(16.dp)
+                )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
-                    instruction.layer.name, 
-                    color = layerColor, 
-                    fontSize = 9.sp, 
+                    instruction.layer.name,
+                    color = layerColor,
+                    fontSize = 9.sp,
                     fontWeight = FontWeight.Black,
                     letterSpacing = 1.sp
                 )
-                Text(instruction.instruction, color = Color.White, fontSize = 13.sp, lineHeight = 18.sp)
+                Text(
+                    instruction.instruction,
+                    color = Color.White,
+                    fontSize = 13.sp,
+                    lineHeight = 18.sp
+                )
             }
         }
     }

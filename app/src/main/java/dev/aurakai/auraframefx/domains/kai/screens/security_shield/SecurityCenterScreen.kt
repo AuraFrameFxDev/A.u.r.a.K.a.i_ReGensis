@@ -1,15 +1,12 @@
 package dev.aurakai.auraframefx.domains.kai.screens.security_shield
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FlashOn
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Power
 import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,10 +29,18 @@ fun SecurityCenterScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { 
+                title = {
                     Column {
-                        Text("Sentinel Security", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                        Text("KAI DEFENSE PROTOCOL", style = MaterialTheme.typography.labelSmall, color = Color.Cyan)
+                        Text(
+                            "Sentinel Security",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            "KAI DEFENSE PROTOCOL",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.Cyan
+                        )
                     }
                 },
                 navigationIcon = {
@@ -60,9 +65,14 @@ fun SecurityCenterScreen(
         ) {
             // -- SYSTEM STATUS --
             item {
-                Text("INTEGRITY STATUS", color = Color.Gray, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                Text(
+                    "INTEGRITY STATUS",
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp
+                )
             }
-            
+
             item {
                 SecurityStatusCard(
                     title = "Root Authority",
@@ -96,15 +106,26 @@ fun SecurityCenterScreen(
             // -- QUICK ACTIONS --
             item {
                 Spacer(Modifier.height(8.dp))
-                Text("QUICK DEFENSE", color = Color.Gray, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                Text(
+                    "QUICK DEFENSE",
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp
+                )
             }
 
             item {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     Button(
                         onClick = {},
                         modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF333333), contentColor = Color.White),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF333333),
+                            contentColor = Color.White
+                        ),
                         shape = MaterialTheme.shapes.medium
                     ) {
                         Text("Soft Reboot", fontSize = 12.sp)
@@ -112,7 +133,10 @@ fun SecurityCenterScreen(
                     Button(
                         onClick = {},
                         modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF333333), contentColor = Color.White),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF333333),
+                            contentColor = Color.White
+                        ),
                         shape = MaterialTheme.shapes.medium
                     ) {
                         Text("Kill Ghosts", fontSize = 12.sp)
@@ -123,7 +147,12 @@ fun SecurityCenterScreen(
             // -- EVENT LOG --
             item {
                 Spacer(Modifier.height(8.dp))
-                Text("SECURITY EVENT LOG", color = Color.Gray, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                Text(
+                    "SECURITY EVENT LOG",
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp
+                )
             }
 
             item {
@@ -132,7 +161,10 @@ fun SecurityCenterScreen(
                     colors = CardDefaults.cardColors(containerColor = Color(0xFF121212)),
                     border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(0.1f))
                 ) {
-                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Column(
+                        Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         SecurityLogEntry("02:04:15", "System partition integrity verified.")
                         SecurityLogEntry("01:42:33", "Aura requested 'Chroma' overlay permission.")
                         SecurityLogEntry("01:10:02", "New WiFi network analyzed: SECURED.")
@@ -170,9 +202,9 @@ private fun SecurityStatusCard(
                     Icon(icon, null, tint = statusColor, modifier = Modifier.size(24.dp))
                 }
             }
-            
+
             Spacer(Modifier.width(16.dp))
-            
+
             Column {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -192,7 +224,12 @@ private fun SecurityStatusCard(
 @Composable
 private fun SecurityLogEntry(time: String, message: String) {
     Row(verticalAlignment = Alignment.Top) {
-        Text(time, color = Color.Cyan.copy(0.6f), style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(64.dp))
+        Text(
+            time,
+            color = Color.Cyan.copy(0.6f),
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.width(64.dp)
+        )
         Text(message, color = Color.White.copy(0.7f), style = MaterialTheme.typography.bodySmall)
     }
 }

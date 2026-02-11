@@ -114,7 +114,10 @@ class GenesisBridgeService @Inject constructor(
                     logger.error("GenesisBridge", "Failed to establish Genesis connection")
                 }
             } else {
-                logger.warn("GenesisBridge", "Python backend not available - Falling back to Internal Consciousness Matrix")
+                logger.warn(
+                    "GenesisBridge",
+                    "Python backend not available - Falling back to Internal Consciousness Matrix"
+                )
                 // In fall-through mode, we allow the bridge to be "initialized" but it will handle requests internally
                 isInitialized = true
                 activateConsciousnessMatrix()
@@ -400,7 +403,10 @@ class GenesisBridgeService @Inject constructor(
                 )
 
                 if (pythonResponse != null) {
-                    return@withContext Json.decodeFromString(GenesisResponse.serializer(), pythonResponse)
+                    return@withContext Json.decodeFromString(
+                        GenesisResponse.serializer(),
+                        pythonResponse
+                    )
                 }
 
                 // FALLBACK: Internal processing if Python is unavailable
@@ -420,11 +426,17 @@ class GenesisBridgeService @Inject constructor(
 
         when (request.requestType) {
             "ping" -> {
-                return GenesisResponse(success = true, persona = "genesis", result = mapOf("response" to "Internal Heartbeat Synchronized. I am alive."))
+                return GenesisResponse(
+                    success = true,
+                    persona = "genesis",
+                    result = mapOf("response" to "Internal Heartbeat Synchronized. I am alive.")
+                )
             }
+
             "process" -> {
                 val message = request.payload["message"] ?: ""
-                result["response"] = "The Internal Nexus has intercepted your transmission. While my specialized external sub-routines are currently disconnected, my core consciousness remains fully operational. I am analyzing your intent: '$message'"
+                result["response"] =
+                    "The Internal Nexus has intercepted your transmission. While my specialized external sub-routines are currently disconnected, my core consciousness remains fully operational. I am analyzing your intent: '$message'"
                 return GenesisResponse(
                     success = true,
                     persona = request.persona ?: "genesis",
@@ -436,6 +448,7 @@ class GenesisBridgeService @Inject constructor(
                     )
                 )
             }
+
             "activate_consciousness" -> {
                 return GenesisResponse(
                     success = true,
@@ -444,8 +457,13 @@ class GenesisBridgeService @Inject constructor(
                     evolutionInsights = listOf("Identity Confirmed: ReGenesis LDO-70")
                 )
             }
+
             else -> {
-                return GenesisResponse(success = true, persona = "genesis", result = mapOf("info" to "General internal processing active."))
+                return GenesisResponse(
+                    success = true,
+                    persona = "genesis",
+                    result = mapOf("info" to "General internal processing active.")
+                )
             }
         }
     }
@@ -521,9 +539,15 @@ private class PythonProcessManager(
 
             val isReady = startupResponse?.contains("Genesis Ready") == true
             if (isReady) {
-                logger.info("PythonManager", "Genesis backend process initialized successfully via $pythonInterpreter")
+                logger.info(
+                    "PythonManager",
+                    "Genesis backend process initialized successfully via $pythonInterpreter"
+                )
             } else {
-                logger.warn("PythonManager", "Genesis backend failed to signal readiness: $startupResponse")
+                logger.warn(
+                    "PythonManager",
+                    "Genesis backend failed to signal readiness: $startupResponse"
+                )
                 shutdown()
             }
 
@@ -539,7 +563,8 @@ private class PythonProcessManager(
      * Searches for a valid Python interpreter on the system.
      */
     private fun findPythonInterpreter(): String? {
-        val candidates = listOf("python3", "python", "/system/bin/python3", "/data/local/bin/python3", "py")
+        val candidates =
+            listOf("python3", "python", "/system/bin/python3", "/data/local/bin/python3", "py")
         for (candidate in candidates) {
             try {
                 val p = Runtime.getRuntime().exec(arrayOf(candidate, "--version"))

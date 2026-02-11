@@ -41,7 +41,7 @@ fun AgentStage(
 
 @Composable
 fun AgentNode(name: String) {
-    val color = when(name) {
+    val color = when (name) {
         "Aura" -> AuraPurple
         "Kai" -> KaiRed
         "Genesis" -> GenesisTeal
@@ -91,9 +91,9 @@ fun AgentNode(name: String) {
                 fontSize = 18.sp
             )
         }
-        
+
         Spacer(modifier = Modifier.height(4.dp))
-        
+
         // AGENT LABEL
         Text(
             text = name.uppercase(),

@@ -46,7 +46,11 @@ fun OracleDriveManualScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -78,12 +82,24 @@ fun OracleDriveManualScreen(
                 Text("Lockscreen Clock Style", color = Color.White, fontSize = 16.sp)
                 Slider(
                     value = config.lockscreenClockStyle.toFloat(),
-                    onValueChange = { viewModel.updateSystemUIConfig(context, config.copy(lockscreenClockStyle = it.toInt())) },
+                    onValueChange = {
+                        viewModel.updateSystemUIConfig(
+                            context,
+                            config.copy(lockscreenClockStyle = it.toInt())
+                        )
+                    },
                     valueRange = 0f..60f,
                     steps = 60,
-                    colors = SliderDefaults.colors(thumbColor = NeonPurple, activeTrackColor = NeonPurple)
+                    colors = SliderDefaults.colors(
+                        thumbColor = NeonPurple,
+                        activeTrackColor = NeonPurple
+                    )
                 )
-                Text("Style ID: ${config.lockscreenClockStyle}", color = NeonPurple, fontSize = 12.sp)
+                Text(
+                    "Style ID: ${config.lockscreenClockStyle}",
+                    color = NeonPurple,
+                    fontSize = 12.sp
+                )
             }
 
             // Battery Style
@@ -91,10 +107,18 @@ fun OracleDriveManualScreen(
                 Text("Battery Icon Style", color = Color.White, fontSize = 16.sp)
                 Slider(
                     value = config.batteryStyle.toFloat(),
-                    onValueChange = { viewModel.updateSystemUIConfig(context, config.copy(batteryStyle = it.toInt())) },
+                    onValueChange = {
+                        viewModel.updateSystemUIConfig(
+                            context,
+                            config.copy(batteryStyle = it.toInt())
+                        )
+                    },
                     valueRange = 0f..39f, // Based on Iconify constants
                     steps = 39,
-                    colors = SliderDefaults.colors(thumbColor = NeonPurple, activeTrackColor = NeonPurple)
+                    colors = SliderDefaults.colors(
+                        thumbColor = NeonPurple,
+                        activeTrackColor = NeonPurple
+                    )
                 )
                 Text("Style ID: ${config.batteryStyle}", color = NeonPurple, fontSize = 12.sp)
             }
@@ -106,7 +130,12 @@ fun OracleDriveManualScreen(
                     value = config.qsTransparency * 100f,
                     range = 0f..100f,
                     accentColor = NeonPurple,
-                    onValueChange = { viewModel.updateSystemUIConfig(context, config.copy(qsTransparency = it / 100f)) }
+                    onValueChange = {
+                        viewModel.updateSystemUIConfig(
+                            context,
+                            config.copy(qsTransparency = it / 100f)
+                        )
+                    }
                 )
             }
 
@@ -117,7 +146,12 @@ fun OracleDriveManualScreen(
                     value = config.blurRadius.toFloat(),
                     range = 0f..100f,
                     accentColor = NeonPurple,
-                    onValueChange = { viewModel.updateSystemUIConfig(context, config.copy(blurRadius = it.toInt())) }
+                    onValueChange = {
+                        viewModel.updateSystemUIConfig(
+                            context,
+                            config.copy(blurRadius = it.toInt())
+                        )
+                    }
                 )
             }
 
@@ -127,7 +161,12 @@ fun OracleDriveManualScreen(
                     label = "Hide Navigation Pill",
                     checked = config.hidePill,
                     accentColor = NeonPurple,
-                    onCheckedChange = { viewModel.updateSystemUIConfig(context, config.copy(hidePill = it)) }
+                    onCheckedChange = {
+                        viewModel.updateSystemUIConfig(
+                            context,
+                            config.copy(hidePill = it)
+                        )
+                    }
                 )
             }
         }
@@ -135,7 +174,13 @@ fun OracleDriveManualScreen(
 }
 
 @Composable
-private fun ManualSlider(label: String, value: Float, range: ClosedFloatingPointRange<Float>, accentColor: Color, onValueChange: (Float) -> Unit) {
+private fun ManualSlider(
+    label: String,
+    value: Float,
+    range: ClosedFloatingPointRange<Float>,
+    accentColor: Color,
+    onValueChange: (Float) -> Unit
+) {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(label, color = Color.White, fontSize = 16.sp)
@@ -155,7 +200,12 @@ private fun ManualSlider(label: String, value: Float, range: ClosedFloatingPoint
 }
 
 @Composable
-private fun ManualSwitch(label: String, checked: Boolean, accentColor: Color, onCheckedChange: (Boolean) -> Unit) {
+private fun ManualSwitch(
+    label: String,
+    checked: Boolean,
+    accentColor: Color,
+    onCheckedChange: (Boolean) -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,

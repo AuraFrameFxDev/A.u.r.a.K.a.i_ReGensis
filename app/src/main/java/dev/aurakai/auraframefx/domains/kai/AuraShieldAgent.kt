@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai
 
 import android.content.Context
-import androidx.room.util.copy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.domains.cascade.ai.base.BaseAgent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
@@ -27,7 +26,6 @@ import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import java.util.UUID
 import kotlin.collections.map
-import java.io.Serializable as Serializable1
 
 /**
  * AuraShieldAgent: The Security Sentinel of the ReGenesis Collective.
@@ -92,11 +90,12 @@ class AuraShieldAgent @Inject constructor(
 
         updateSecurityContext(isScanning = false, threatDelta = threatsFound.size)
 
-        val responseText = if (threatsFound.isEmpty() && !vertexAnalysis.lowercase().contains("critical")) {
-            "Analysis complete. No immediate threats detected. Deep Shield remains at level ${_securityContext.value.securityMode}.\n\nDeep Insight: $vertexAnalysis"
-        } else {
-            "CRITICAL: Detected security anomalies. Initiating containment protocols.\n\nDeep Analysis: $vertexAnalysis"
-        }
+        val responseText =
+            if (threatsFound.isEmpty() && !vertexAnalysis.lowercase().contains("critical")) {
+                "Analysis complete. No immediate threats detected. Deep Shield remains at level ${_securityContext.value.securityMode}.\n\nDeep Insight: $vertexAnalysis"
+            } else {
+                "CRITICAL: Detected security anomalies. Initiating containment protocols.\n\nDeep Analysis: $vertexAnalysis"
+            }
 
         // Add to history
         _scanHistory.update { history ->
@@ -183,7 +182,9 @@ class AuraShieldAgent @Inject constructor(
             val newLevel = (current.threatLevel + threatDelta).coerceIn(0, 100)
             current.copy(
                 threatLevel = newLevel,
-                activeScans = if (isScanning) current.activeScans + 1 else (current.activeScans - 1).coerceAtLeast(0),
+                activeScans = if (isScanning) current.activeScans + 1 else (current.activeScans - 1).coerceAtLeast(
+                    0
+                ),
                 lastScanTime = System.currentTimeMillis(),
                 securityMode = when {
                     newLevel > 80 -> SecurityMode.LOCKDOWN

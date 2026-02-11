@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.delay
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AurasLabViewModel
 
 /**
@@ -87,12 +87,12 @@ fun AurasLabScreen(
                     Tab(
                         selected = selectedTab == index,
                         onClick = { selectedTab = index },
-                        text = { 
+                        text = {
                             Text(
-                                title, 
+                                title,
                                 color = if (selectedTab == index) Color(0xFF00FFFF) else Color.Gray,
                                 fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
-                            ) 
+                            )
                         }
                     )
                 }
@@ -126,7 +126,7 @@ private fun ForgeTab(viewModel: AurasLabViewModel) {
             fontWeight = FontWeight.Bold,
             color = Color(0xFF00FFFF)
         )
-        
+
         Text(
             "Wield the Creative Sword. Describe a system modification, and Aura will forge it into existence.",
             style = MaterialTheme.typography.bodyMedium,
@@ -173,7 +173,7 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    imageVector = when(state) {
+                    imageVector = when (state) {
                         is AurasLabViewModel.ForgeState.Idle -> Icons.Default.Info
                         is AurasLabViewModel.ForgeState.Forging -> Icons.Default.Build
                         is AurasLabViewModel.ForgeState.Validating -> Icons.Default.Shield
@@ -182,7 +182,7 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
                         is AurasLabViewModel.ForgeState.Error -> Icons.Default.Error
                     },
                     contentDescription = null,
-                    tint = when(state) {
+                    tint = when (state) {
                         is AurasLabViewModel.ForgeState.Success -> Color.Green
                         is AurasLabViewModel.ForgeState.Error -> Color.Red
                         else -> Color(0xFF00FFFF)
@@ -190,7 +190,7 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = when(state) {
+                    text = when (state) {
                         is AurasLabViewModel.ForgeState.Idle -> "Waiting for Directive"
                         is AurasLabViewModel.ForgeState.Forging -> "Aura is Wielding Evex Core..."
                         is AurasLabViewModel.ForgeState.Validating -> "Kai is Vetting the Creation..."
@@ -203,7 +203,7 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
                     color = Color.White
                 )
             }
-            
+
             if (state is AurasLabViewModel.ForgeState.Success || state is AurasLabViewModel.ForgeState.Validating || state is AurasLabViewModel.ForgeState.Deploying) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Box(
@@ -214,7 +214,7 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
                         .padding(8.dp)
                 ) {
                     Text(
-                        text = when(state) {
+                        text = when (state) {
                             is AurasLabViewModel.ForgeState.Validating -> (state as AurasLabViewModel.ForgeState.Validating).code
                             is AurasLabViewModel.ForgeState.Deploying -> (state as AurasLabViewModel.ForgeState.Deploying).code
                             is AurasLabViewModel.ForgeState.Success -> (state as AurasLabViewModel.ForgeState.Success).code
@@ -226,7 +226,7 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
                     )
                 }
             }
-            
+
             if (state is AurasLabViewModel.ForgeState.Error) {
                 Text(
                     text = (state as AurasLabViewModel.ForgeState.Error).message,
@@ -242,10 +242,20 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
 @Composable
 private fun ChaosAnalysisTab() {
     Column(modifier = Modifier.padding(16.dp)) {
-        Text("Grok Chaos Analysis", style = MaterialTheme.typography.headlineSmall, color = Color.Magenta)
+        Text(
+            "Grok Chaos Analysis",
+            style = MaterialTheme.typography.headlineSmall,
+            color = Color.Magenta
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Text("Stability Index: 98.4%", color = Color.White)
-        LinearProgressIndicator(progress = { 0.984f }, modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp), color = Color.Magenta)
+        LinearProgressIndicator(
+            progress = { 0.984f },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            color = Color.Magenta
+        )
         Text("Threat Matrix: NEGATIVE", color = Color.Green)
     }
 }

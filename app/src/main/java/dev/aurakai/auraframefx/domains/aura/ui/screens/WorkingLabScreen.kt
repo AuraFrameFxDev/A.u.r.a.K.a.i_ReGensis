@@ -149,9 +149,11 @@ fun WorkingLabScreen(
                                         state = step.sprite as? AuraState ?: AuraState.IDLE_WALK
                                     )
                                 }
+
                                 else -> {
                                     engine.manifestAura(
-                                        state = step.sprite as? AuraState ?: AuraState.SCIENTIST_MODE,
+                                        state = step.sprite as? AuraState
+                                            ?: AuraState.SCIENTIST_MODE,
                                         config = ManifestationDefaults.DEFAULT_CONFIG.copy(
                                             duration = step.duration
                                         )
@@ -180,9 +182,11 @@ fun WorkingLabScreen(
                                         state = step.sprite as? KaiState ?: KaiState.SHIELD_NEUTRAL
                                     )
                                 }
+
                                 else -> {
                                     engine.manifestKai(
-                                        state = step.sprite as? KaiState ?: KaiState.HOLOGRAPHIC_INTERFACE,
+                                        state = step.sprite as? KaiState
+                                            ?: KaiState.HOLOGRAPHIC_INTERFACE,
                                         config = ManifestationDefaults.DEFAULT_CONFIG.copy(
                                             duration = step.duration
                                         )

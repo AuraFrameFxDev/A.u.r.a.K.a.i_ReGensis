@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.screens.uxui_engine
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,9 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -135,13 +136,27 @@ fun UISettingsScreen(
                 )
             }
 
-            // Theme Section
-            SettingsSection(title = "Theme") {
-                SettingsToggleItem(
-                    title = "Dark Mode",
-                    subtitle = "Toggle between light and dark theme",
-                    isChecked = isDarkMode,
-                    onCheckedChange = { isDarkMode = it }
+            // Customization Section
+            SettingsSection(title = "Customization Hub") {
+                SettingsClickItem(
+                    title = "Gate Customization",
+                    subtitle = "Splash and Drawer images",
+                    onClick = { navController.navigate("gate_customization") }
+                )
+                SettingsClickItem(
+                    title = "Notch Bar",
+                    subtitle = "Status bar neural layer",
+                    onClick = { navController.navigate("notch_bar_customization") }
+                )
+                SettingsClickItem(
+                    title = "Quick Settings",
+                    subtitle = "QS background assets",
+                    onClick = { navController.navigate("qs_customization") }
+                )
+                SettingsClickItem(
+                    title = "Chroma Core",
+                    subtitle = "Re-calibrate system colors",
+                    onClick = { navController.navigate("chroma_core_colors") }
                 )
             }
 
@@ -193,6 +208,40 @@ private fun SettingsSection(
         ) {
             content()
         }
+    }
+}
+
+@Composable
+private fun SettingsClickItem(
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Icon(
+            imageVector = Icons.Default.ChevronRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 

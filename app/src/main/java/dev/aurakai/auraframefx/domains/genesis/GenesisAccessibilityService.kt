@@ -1,8 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis
 
-import android.accessibilityservice.AccessibilityService
 import android.view.accessibility.AccessibilityEvent
-import android.content.Intent
 import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus

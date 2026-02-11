@@ -23,7 +23,7 @@ import dev.aurakai.auraframefx.domains.aura.QuickSettingsConfigManager
 import dev.aurakai.auraframefx.domains.aura.ui.QuickSettingsBackground
 import dev.aurakai.auraframefx.domains.aura.QuickSettingsConfig as SystemQuickSettingsConfig
 import dev.aurakai.auraframefx.domains.aura.QuickSettingsTileConfig as SystemQuickSettingsTileConfig
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,7 +34,7 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class QuickSettingsConfigActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityQuickSettingsConfigBinding
+    private var binding: ActivityQuickSettingsConfigBinding? = null
     lateinit var configManager: QuickSettingsConfigManager
     private lateinit var adapter: TileConfigAdapter
     var currentConfig: SystemQuickSettingsConfig? = null
@@ -42,7 +42,7 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuickSettingsConfigBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding!!.root)
 
         // Initialize the config manager
         configManager = QuickSettingsConfigManager.getInstance(applicationContext)
@@ -61,7 +61,7 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
             onItemClick = { tile -> showTileConfigDialog(tile) }
         )
 
-        binding.tilesRecyclerView.apply {
+        binding!!.tilesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@QuickSettingsConfigActivity)
             this.adapter = this@QuickSettingsConfigActivity.adapter
             setHasFixedSize(true)
@@ -69,7 +69,7 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
     }
 
     private fun loadConfig() {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             val config = withContext(Dispatchers.IO) {
                 configManager.loadConfig()
             }
@@ -80,7 +80,7 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        binding.resetButton.setOnClickListener {
+        binding!!.resetButton.setOnClickListener {
             showResetConfirmationDialog()
         }
     }
@@ -178,7 +178,7 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
     }
 
     private fun resetToDefault() {
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             val success = withContext(Dispatchers.IO) {
                 configManager.resetToDefault()
             }
@@ -239,7 +239,10 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
             }
         }
 
-        private fun applyTileStyle(cardView: MaterialCardView, tile: SystemQuickSettingsTileConfig) {
+        private fun applyTileStyle(
+            cardView: MaterialCardView,
+            tile: SystemQuickSettingsTileConfig
+        ) {
             // Apply background color based on tile state
             val backgroundColor = if (tile.enabled) {
                 ContextCompat.getColor(cardView.context, R.color.primary)
@@ -268,6 +271,11 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
         override fun getItemCount(): Int = tiles.size
     }
 
+    override fun onDestroy() {
+        binding = null  // Prevent memory leaks
+        super.onDestroy()
+    }
+
     companion object {
         fun createIntent(context: Context): Intent {
             return Intent(context, QuickSettingsConfigActivity::class.java)
@@ -277,7 +285,7 @@ class QuickSettingsConfigActivity : AppCompatActivity() {
 
 private fun saveConfig(quickSettingsConfigActivity: QuickSettingsConfigActivity) {
     quickSettingsConfigActivity.currentConfig?.let { config ->
-        CoroutineScope(Dispatchers.Main).launch {
+        quickSettingsConfigActivity.lifecycleScope.launch {
             val success = withContext(Dispatchers.IO) {
                 return@withContext quickSettingsConfigActivity.configManager.saveConfig(config)
             }

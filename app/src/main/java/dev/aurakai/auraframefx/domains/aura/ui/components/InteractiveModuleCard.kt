@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kotlin.math.abs
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -72,7 +71,11 @@ fun InteractiveModuleCard(
     // Calculate proximity
     val proximity = remember(characterPosition, character, cardPosition) {
         characterPosition?.let {
-            calculateProximity(cardPosition, it, character ?: dev.aurakai.auraframefx.embodiment.Character.AURA)
+            calculateProximity(
+                cardPosition,
+                it,
+                character ?: dev.aurakai.auraframefx.embodiment.Character.AURA
+            )
         }
     }
 

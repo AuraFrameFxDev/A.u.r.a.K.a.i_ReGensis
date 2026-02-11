@@ -404,7 +404,10 @@ fun ComponentEditor(
                                 .clickable { showBackgroundColorPicker = true }
                         )
                         Text(
-                            text = "#${editingComponent.backgroundColor.toArgb().toUInt().toString(16).uppercase().takeLast(6)}",
+                            text = "#${
+                                editingComponent.backgroundColor.toArgb().toUInt().toString(16)
+                                    .uppercase().takeLast(6)
+                            }",
                             fontSize = 12.sp,
                             color = Color.Gray,
                             modifier = Modifier.padding(start = 8.dp)
@@ -432,7 +435,10 @@ fun ComponentEditor(
                                 .clickable { showBorderColorPicker = true }
                         )
                         Text(
-                            text = "#${editingComponent.borderColor.toArgb().toUInt().toString(16).uppercase().takeLast(6)}",
+                            text = "#${
+                                editingComponent.borderColor.toArgb().toUInt().toString(16)
+                                    .uppercase().takeLast(6)
+                            }",
                             fontSize = 12.sp,
                             color = Color.Gray,
                             modifier = Modifier.padding(start = 8.dp)

@@ -73,5 +73,5 @@ open class SupportChatViewModel @Inject constructor(
     fun clearStatusMessage() {
         // Placeholder if needed
     }
- }
+}
 

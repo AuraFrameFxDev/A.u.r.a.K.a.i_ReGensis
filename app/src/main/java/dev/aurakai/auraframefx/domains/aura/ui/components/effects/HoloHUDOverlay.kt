@@ -22,7 +22,9 @@ fun HoloHUDOverlay(
         0f, 360f, infiniteRepeatable(tween(4000, easing = LinearEasing)), label = "sweep"
     )
     val pulse by inf.animateFloat(
-        0.15f, 0.45f, infiniteRepeatable(tween(1800, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+        0.15f,
+        0.45f,
+        infiniteRepeatable(tween(1800, easing = FastOutSlowInEasing), RepeatMode.Reverse),
         label = "pulse"
     )
 
@@ -33,8 +35,10 @@ fun HoloHUDOverlay(
         // radial rings
         for (i in 1..ringCount) {
             val r = i / ringCount.toFloat() * maxR
-            drawCircle(color.copy(alpha = 0.25f * (1f - i / (ringCount + 1f))),
-                radius = r, center = c, style = Stroke(1.5f))
+            drawCircle(
+                color.copy(alpha = 0.25f * (1f - i / (ringCount + 1f))),
+                radius = r, center = c, style = Stroke(1.5f)
+            )
         }
 
         // rotating scanner arc
@@ -58,11 +62,15 @@ fun HoloHUDOverlay(
 
         // subtle top/bottom data bars
         val barAlpha = pulse
-        drawRect(color.copy(alpha = barAlpha * 0.35f),
-            topLeft = Offset(0f, 0f), size = androidx.compose.ui.geometry.Size(size.width, 2f))
-        drawRect(color.copy(alpha = barAlpha * 0.25f),
+        drawRect(
+            color.copy(alpha = barAlpha * 0.35f),
+            topLeft = Offset(0f, 0f), size = androidx.compose.ui.geometry.Size(size.width, 2f)
+        )
+        drawRect(
+            color.copy(alpha = barAlpha * 0.25f),
             topLeft = Offset(0f, size.height - 2f),
-            size = androidx.compose.ui.geometry.Size(size.width, 2f))
+            size = androidx.compose.ui.geometry.Size(size.width, 2f)
+        )
     }
 }
 

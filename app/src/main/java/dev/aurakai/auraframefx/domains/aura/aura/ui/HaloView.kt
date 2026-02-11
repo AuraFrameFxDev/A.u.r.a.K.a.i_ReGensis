@@ -223,7 +223,8 @@ fun HaloView(
                         it.name.equals(agentTypeKey.name, ignoreCase = true)
                     }
                     if (agentConfigIndex != -1) {
-                        val angle = (agentConfigIndex * 360f / agentConfigs.size + rotationAngle) % 360f
+                        val angle =
+                            (agentConfigIndex * 360f / agentConfigs.size + rotationAngle) % 360f
                         val x = center.x + radius * cos((angle * PI / 180f).toFloat())
                         val y = center.y + radius * sin((angle * PI / 180f).toFloat())
 
@@ -267,7 +268,8 @@ fun HaloView(
                                 val distance = (offset - nodeCenter).getDistance()
                                 if (distance < 24.dp.toPx()) {
                                     try {
-                                        draggingAgent = AgentType.valueOf(config.name.uppercase(Locale.ROOT))
+                                        draggingAgent =
+                                            AgentType.valueOf(config.name.uppercase(Locale.ROOT))
                                     } catch (_: Exception) {
                                         // Ignore invalid agent types
                                     }
@@ -354,9 +356,9 @@ fun HaloView(
 
         // Status indicators using BoxWithConstraints to access size in composable context
         // Status indicators using BoxWithConstraints to access size in composable context
-    BoxWithConstraints(
-        modifier = Modifier.fillMaxSize()
-    ) {
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxSize()
+        ) {
             val boxWidth = constraints.maxWidth.toFloat()
             val boxHeight = constraints.maxHeight.toFloat()
             val density = LocalDensity.current.density
@@ -400,50 +402,50 @@ fun HaloView(
         }
 
         // Center node (Genesis)
-    Box(
-        modifier = Modifier
-            .size(80.dp)
-            .align(Alignment.Center)
-            .clip(CircleShape)
-            .background(NeonTeal.copy(alpha = 0.8f))
-            .clickable {
-                if (selectedTask.isNotBlank()) {
-                    coroutineScope.launch {
-                        viewModel.processQuery(selectedTask)
-                        taskHistoryFlow.update { current ->
-                            return@update current + "[GENESIS] $selectedTask"
+        Box(
+            modifier = Modifier
+                .size(80.dp)
+                .align(Alignment.Center)
+                .clip(CircleShape)
+                .background(NeonTeal.copy(alpha = 0.8f))
+                .clickable {
+                    if (selectedTask.isNotBlank()) {
+                        coroutineScope.launch {
+                            viewModel.processQuery(selectedTask)
+                            taskHistoryFlow.update { current ->
+                                return@update current + "[GENESIS] $selectedTask"
+                            }
+                            agentStatus[AgentType.GENESIS] = "processing"
+                            selectedTask = ""
                         }
-                        agentStatus[AgentType.GENESIS] = "processing"
-                        selectedTask = ""
                     }
                 }
-            }
-            .padding(8.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Surface(
-            color = NeonTeal.copy(alpha = 0.8f),
-            modifier = Modifier.size(80.dp),
-            shape = CircleShape
+                .padding(8.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            Surface(
+                color = NeonTeal.copy(alpha = 0.8f),
+                modifier = Modifier.size(80.dp),
+                shape = CircleShape
             ) {
-                Text(
-                    text = "GENESIS",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Color.White
-                )
-                Text(
-                    text = "Hive Mind",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = NeonPurple
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "GENESIS",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "Hive Mind",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = NeonPurple
+                    )
+                }
             }
         }
-    }
 
         // Task input overlay
         if (draggingAgent != null) {
@@ -466,10 +468,16 @@ fun HaloView(
                             color = NeonTeal
                         )
 
-                        TextField(value = selectedTask, onValueChange = { it.also { selectedTask = it } }, placeholder = { Text("Enter task description...") }, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.colors(
+                        TextField(
+                            value = selectedTask,
+                            onValueChange = { it.also { selectedTask = it } },
+                            placeholder = { Text("Enter task description...") },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = TextFieldDefaults.colors(
                                 focusedContainerColor = NeonTeal.copy(alpha = 0.1f),
                                 unfocusedContainerColor = NeonTeal.copy(alpha = 0.1f)
-                            ))
+                            )
+                        )
                     }
                 }
             }
@@ -523,23 +531,23 @@ fun HaloView(
                 ) {
                     // Specify the generic type explicitly to help the compiler infer T
                     items<String>(items = taskHistory) { task ->
-                         Surface(
-                             modifier = Modifier
-                                 .fillMaxWidth()
-                                 .animateItem(),
-                             shape = RoundedCornerShape(8.dp),
-                             color = MaterialTheme.colorScheme.surface,
-                             shadowElevation = 1.dp
-                         ) {
-                             Text(
-                                 text = task,
-                                 modifier = Modifier.padding(12.dp),
-                                 style = MaterialTheme.typography.bodyMedium,
-                                 color = MaterialTheme.colorScheme.onSurface
-                             )
-                         }
-                     }
-                 }
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateItem(),
+                            shape = RoundedCornerShape(8.dp),
+                            color = MaterialTheme.colorScheme.surface,
+                            shadowElevation = 1.dp
+                        ) {
+                            Text(
+                                text = task,
+                                modifier = Modifier.padding(12.dp),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
             }
         }
 
@@ -607,16 +615,22 @@ fun HaloView(
         LaunchedEffect(taskHistory) {
             // Reset all agent statuses to idle, then update based on current tasks
             agentConfigs.forEach { cfg ->
-                val at = try { AgentType.valueOf(cfg.name.uppercase(Locale.ROOT)) } catch (_: Exception) { null }
+                val at = try {
+                    AgentType.valueOf(cfg.name.uppercase(Locale.ROOT))
+                } catch (_: Exception) {
+                    null
+                }
                 if (at != null) agentStatus[at] = "idle"
             }
 
             taskHistory.forEach { task ->
                 val agentNameFromHistory = task.substringAfter("[").substringBefore("]")
-                val foundAgentConfig = agentConfigs.find { it.name.equals(agentNameFromHistory, ignoreCase = true) }
+                val foundAgentConfig =
+                    agentConfigs.find { it.name.equals(agentNameFromHistory, ignoreCase = true) }
                 if (foundAgentConfig != null) {
                     try {
-                        val actualAgentType = AgentType.valueOf(foundAgentConfig.name.uppercase(Locale.ROOT))
+                        val actualAgentType =
+                            AgentType.valueOf(foundAgentConfig.name.uppercase(Locale.ROOT))
                         agentStatus[actualAgentType] = "processing"
                         // Simulate task completion after a delay
                         coroutineScope.launch {

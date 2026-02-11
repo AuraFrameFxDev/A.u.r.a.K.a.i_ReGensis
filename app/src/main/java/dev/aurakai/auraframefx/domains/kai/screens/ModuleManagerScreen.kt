@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,21 +22,30 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun ModuleManagerScreen() {
-    val modules = remember { mutableStateListOf(
-        Module("UI Components", "User interface elements and layouts", true, "2.1.0", "UI"),
-        Module("Data Storage", "Local data persistence and caching", true, "1.8.3", "Data"),
-        Module("Network Services", "API clients and connectivity", true, "3.0.1", "Network"),
-        Module("Security Framework", "Authentication and encryption", true, "2.4.2", "Security"),
-        Module("AI Agents", "Intelligent assistants and automation", true, "1.9.5", "AI"),
-        Module("Analytics", "Usage tracking and reporting", false, "1.2.0", "Analytics"),
-        Module("Cloud Sync", "Remote data synchronization", false, "2.0.0", "Cloud"),
-        Module("Notifications", "Push notifications and alerts", true, "1.5.3", "System"),
-        Module("File Manager", "File operations and storage", true, "1.7.1", "System"),
-        Module("Backup Service", "Automated data backup", false, "1.3.2", "Data")
-    )}
+    val modules = remember {
+        mutableStateListOf(
+            Module("UI Components", "User interface elements and layouts", true, "2.1.0", "UI"),
+            Module("Data Storage", "Local data persistence and caching", true, "1.8.3", "Data"),
+            Module("Network Services", "API clients and connectivity", true, "3.0.1", "Network"),
+            Module(
+                "Security Framework",
+                "Authentication and encryption",
+                true,
+                "2.4.2",
+                "Security"
+            ),
+            Module("AI Agents", "Intelligent assistants and automation", true, "1.9.5", "AI"),
+            Module("Analytics", "Usage tracking and reporting", false, "1.2.0", "Analytics"),
+            Module("Cloud Sync", "Remote data synchronization", false, "2.0.0", "Cloud"),
+            Module("Notifications", "Push notifications and alerts", true, "1.5.3", "System"),
+            Module("File Manager", "File operations and storage", true, "1.7.1", "System"),
+            Module("Backup Service", "Automated data backup", false, "1.3.2", "Data")
+        )
+    }
 
     val selectedCategory = remember { mutableStateOf("All") }
-    val categories = listOf("All", "UI", "Data", "Network", "Security", "AI", "Analytics", "Cloud", "System")
+    val categories =
+        listOf("All", "UI", "Data", "Network", "Security", "AI", "Analytics", "Cloud", "System")
 
     val filteredModules = if (selectedCategory.value == "All") {
         modules
@@ -259,7 +267,9 @@ private fun ModuleCard(
         ),
         border = androidx.compose.foundation.BorderStroke(
             1.dp,
-            if (module.enabled) Color(0xFF32CD32).copy(alpha = 0.5f) else Color(0xFFDC143C).copy(alpha = 0.5f)
+            if (module.enabled) Color(0xFF32CD32).copy(alpha = 0.5f) else Color(0xFFDC143C).copy(
+                alpha = 0.5f
+            )
         )
     ) {
         Row(

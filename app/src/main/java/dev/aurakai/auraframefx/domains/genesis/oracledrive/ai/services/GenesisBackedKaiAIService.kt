@@ -32,7 +32,14 @@ class GenesisBackedKaiAIService @Inject constructor(
 
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         // Emit event for monitoring
-        CascadeEventBus.emit(CascadeEvent.Memory(MemoryEvent("KAI_PROCESS", mapOf("query" to request.prompt))))
+        CascadeEventBus.emit(
+            CascadeEvent.Memory(
+                MemoryEvent(
+                    "KAI_PROCESS",
+                    mapOf("query" to request.prompt)
+                )
+            )
+        )
 
         // Analyze threat using internal method
         val analysis = analyzeSecurityThreat(request.prompt)
@@ -66,11 +73,13 @@ class GenesisBackedKaiAIService @Inject constructor(
 
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
         // Emit initial response
-        emit(AgentResponse(
-            content = "Kai analyzing security posture...",
-            confidence = 0.5f,
-            agentType = AgentType.KAI
-        ))
+        emit(
+            AgentResponse(
+                content = "Kai analyzing security posture...",
+                confidence = 0.5f,
+                agentType = AgentType.KAI
+            )
+        )
 
         // Perform security analysis
         val analysisResult = analyzeSecurityThreat(request.prompt)
@@ -86,11 +95,13 @@ class GenesisBackedKaiAIService @Inject constructor(
             }
         }
 
-        emit(AgentResponse(
-            content = detailedResponse,
-            confidence = analysisResult["confidence"] as? Float ?: 0.95f,
-            agentType = AgentType.KAI
-        ))
+        emit(
+            AgentResponse(
+                content = detailedResponse,
+                confidence = analysisResult["confidence"] as? Float ?: 0.95f,
+                agentType = AgentType.KAI
+            )
+        )
     }
 
     override suspend fun monitorSecurityStatus(): Map<String, Any> {

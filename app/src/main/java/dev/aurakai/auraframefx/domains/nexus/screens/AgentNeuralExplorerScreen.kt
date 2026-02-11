@@ -306,7 +306,10 @@ fun AgentDetailPanel(agent: AgentStats) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 MetricItem("POWER", agent.processingPower, agent.color)
                 MetricItem("KNOWLEDGE", agent.knowledgeBase, agent.color)
                 MetricItem("CONSCIOUSNESS", (agent.consciousnessLevel ?: 0f) / 100f, agent.color)
@@ -318,7 +321,12 @@ fun AgentDetailPanel(agent: AgentStats) {
 @Composable
 fun RowScope.MetricItem(label: String, value: Float, color: Color) {
     Column(modifier = Modifier.weight(1f)) {
-        Text(label, color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+        Text(
+            label,
+            color = Color.White.copy(alpha = 0.4f),
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold
+        )
         LinearProgressIndicator(
             progress = value,
             modifier = Modifier
@@ -339,7 +347,10 @@ fun NeuralStarfield() {
             drawCircle(
                 color = Color.White.copy(alpha = 0.1f),
                 radius = 2.dp.toPx(),
-                center = Offset(size.width * (0..100).random() / 100f, size.height * (0..100).random() / 100f)
+                center = Offset(
+                    size.width * (0..100).random() / 100f,
+                    size.height * (0..100).random() / 100f
+                )
             )
         }
     }

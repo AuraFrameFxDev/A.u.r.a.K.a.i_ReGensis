@@ -2,11 +2,9 @@ package dev.aurakai.auraframefx.domains.aura.ui.overlays
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -17,16 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -42,7 +34,7 @@ fun AgentSidebarMenu(
     onAgentAction: (String, String) -> Unit = { _, _ -> }
 ) {
     var offsetX by remember { mutableFloatStateOf(if (isVisible) 0f else -400f) }
-    
+
     // Slide animation
     LaunchedEffect(isVisible) {
         offsetX = if (isVisible) 0f else -400f
@@ -268,7 +260,11 @@ private fun AgentCard(
             ) {
                 ActionButton("Voice", Icons.Default.Mic, primaryColor) { onAction("voice") }
                 ActionButton("Connect", Icons.Default.Link, primaryColor) { onAction("connect") }
-                ActionButton("Assign", Icons.Default.Assignment, primaryColor) { onAction("assign") }
+                ActionButton(
+                    "Assign",
+                    Icons.Default.Assignment,
+                    primaryColor
+                ) { onAction("assign") }
                 ActionButton("Design", Icons.Default.Palette, primaryColor) { onAction("design") }
                 ActionButton("Create", Icons.Default.Add, primaryColor) { onAction("create") }
             }

@@ -84,14 +84,19 @@ fun CodeAssistScreen(navController: NavHostController) {
                 .weight(1f)
                 .fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = editorBg),
-            border = androidx.compose.foundation.BorderStroke(1.dp, accentPurple.copy(alpha = 0.3f)),
+            border = androidx.compose.foundation.BorderStroke(
+                1.dp,
+                accentPurple.copy(alpha = 0.3f)
+            ),
             shape = RoundedCornerShape(12.dp)
         ) {
             Column {
                 // Editor Tabs
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White.copy(alpha = 0.05f))) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White.copy(alpha = 0.05f))
+                ) {
                     Text(
                         "Main.kt",
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
@@ -144,7 +149,12 @@ fun CodeAssistScreen(navController: NavHostController) {
                     TextField(
                         value = promptInput,
                         onValueChange = { promptInput = it },
-                        placeholder = { Text("Fix null safety, Refactor to LDO...", color = Color.Gray) },
+                        placeholder = {
+                            Text(
+                                "Fix null safety, Refactor to LDO...",
+                                color = Color.Gray
+                            )
+                        },
                         modifier = Modifier.weight(1f),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.White.copy(alpha = 0.05f),
@@ -163,9 +173,16 @@ fun CodeAssistScreen(navController: NavHostController) {
                         modifier = Modifier.height(50.dp)
                     ) {
                         if (isProcessing) {
-                            CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.Black)
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp),
+                                color = Color.Black
+                            )
                         } else {
-                            Icon(Icons.Default.AutoAwesome, contentDescription = "Generate", tint = Color.Black)
+                            Icon(
+                                Icons.Default.AutoAwesome,
+                                contentDescription = "Generate",
+                                tint = Color.Black
+                            )
                         }
                     }
                 }
@@ -180,13 +197,24 @@ fun CodeAssistScreen(navController: NavHostController) {
                 }
 
                 // Self-Modification Capability (Mock)
-                if (promptInput.contains("mod", ignoreCase = true) || promptInput.contains("self", ignoreCase = true)) {
+                if (promptInput.contains("mod", ignoreCase = true) || promptInput.contains(
+                        "self",
+                        ignoreCase = true
+                    )
+                ) {
                     Spacer(modifier = Modifier.height(12.dp))
                     Card(
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFC678DD).copy(alpha = 0.1f)),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(0xFFC678DD).copy(
+                                alpha = 0.1f
+                            )
+                        ),
                         border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC678DD))
                     ) {
-                        Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            modifier = Modifier.padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Icon(
                                 Icons.Default.Security,
                                 "Safety",

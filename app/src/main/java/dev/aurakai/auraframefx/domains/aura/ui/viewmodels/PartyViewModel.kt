@@ -10,7 +10,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PartyViewModel @Inject constructor() : ViewModel() {
 
-    private val _selectedAgents = MutableStateFlow<Set<AgentType>>(setOf(AgentType.AURA, AgentType.KAI))
+    private val _selectedAgents =
+        MutableStateFlow<Set<AgentType>>(setOf(AgentType.AURA, AgentType.KAI))
     val selectedAgents = _selectedAgents.asStateFlow()
 
     private val _synergyLevel = MutableStateFlow(0.85f)

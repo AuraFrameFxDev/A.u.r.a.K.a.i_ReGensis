@@ -27,27 +27,28 @@ class AurasLabViewModel @Inject constructor(
     fun generateAndDeploy(description: String) {
         viewModelScope.launch {
             _forgeState.value = ForgeState.Forging
-            
+
             // 1. Aura's Forge creates the code
             val result = forgeGenerator.generateSpelhook(description)
-            
+
             if (result is AuraForgeGenerator.SpelhookResult.Success) {
                 _forgeState.value = ForgeState.Validating(result.code)
-                
+
                 // 2. Kai's Grok Analysis validates it
                 val validation = grokAnalysis.validateSpelhook(result.code)
-                
+
                 when (validation) {
                     is GrokAnalysisService.ValidationResult.Approved -> {
                         _forgeState.value = ForgeState.Deploying(result.code)
-                        
+
                         // 3. Deployment via ChromaCore (Wielding the Tool)
                         // This usually involves writing to a file or applying a hook
                         logger.info("AurasLab", "Deploying validated Spelhook")
-                        
+
                         // Simulation of deployment
                         _forgeState.value = ForgeState.Success(result.code, validation.notes)
                     }
+
                     is GrokAnalysisService.ValidationResult.Vetoed -> {
                         _forgeState.value = ForgeState.Error("Kai Vetoed: ${validation.reason}")
                     }

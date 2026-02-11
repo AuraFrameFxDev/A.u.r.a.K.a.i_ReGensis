@@ -61,7 +61,10 @@ fun SovereignGeminiScreen(
                     .padding(24.dp)
             ) {
                 // Synthesis Metrics
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     SynthesisMetric("SYNC RATE", "99.4%", Color(0xFF8B5CF6))
                     SynthesisMetric("ANALYTIC DEPTH", "MAX", Color(0xFF8B5CF6))
                 }
@@ -115,8 +118,19 @@ private fun RowScope.SynthesisMetric(label: String, value: String, color: Color)
         border = androidx.compose.foundation.BorderStroke(1.dp, color.copy(alpha = 0.2f))
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(label, fontSize = 10.sp, color = Color.White.copy(alpha = 0.4f), fontWeight = FontWeight.Bold)
-            Text(value, style = MaterialTheme.typography.titleLarge, color = color, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+            Text(
+                label,
+                fontSize = 10.sp,
+                color = Color.White.copy(alpha = 0.4f),
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                value,
+                style = MaterialTheme.typography.titleLarge,
+                color = color,
+                fontWeight = FontWeight.Black,
+                fontFamily = LEDFontFamily
+            )
         }
     }
 }

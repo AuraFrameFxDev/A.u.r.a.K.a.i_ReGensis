@@ -24,9 +24,7 @@ dependencies {
     api(libs.androidx.core.ktx)
 
     // YukiHook API 1.3.0+ with KavaRef
-    implementation(libs.yukihookapi.api) {
-        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
-    }
+    implementation(libs.yukihookapi.api)
 
 
     // Compose UI

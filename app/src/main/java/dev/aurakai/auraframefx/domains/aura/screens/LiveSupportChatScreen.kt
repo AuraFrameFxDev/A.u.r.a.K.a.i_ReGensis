@@ -37,7 +37,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -47,7 +46,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -114,7 +112,7 @@ fun LiveSupportChatScreen(
             title = { Text(text = "LIVE SUPPORT", color = Color.White) },
             navigationIcon = {
                 IconButton(onClick = { onNavigateBack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Black)
@@ -209,7 +207,8 @@ fun LiveSupportChatScreen(
         )
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            val quickActions = listOf("Report Bug", "Feature Request", "Account Issue", "Technical Help")
+            val quickActions =
+                listOf("Report Bug", "Feature Request", "Account Issue", "Technical Help")
             quickActions.forEach { action ->
                 Button(
                     onClick = {
@@ -287,7 +286,9 @@ fun LiveSupportChatScreen(
                                                         .size(4.dp)
                                                         .padding(horizontal = 1.dp),
                                                     colors = CardDefaults.cardColors(
-                                                        containerColor = Color(0xFF32CD32).copy(alpha = 0.5f)
+                                                        containerColor = Color(0xFF32CD32).copy(
+                                                            alpha = 0.5f
+                                                        )
                                                     ),
                                                     shape = CircleShape
                                                 ) {}
@@ -337,8 +338,8 @@ fun LiveSupportChatScreen(
 
                                 // Use ViewModel to send message (persists + posts to backend)
                                 viewModel.sendMessage(toSend)
-                             }
-                         },
+                            }
+                        },
                         modifier = Modifier.size(48.dp),
                         colors = IconButtonDefaults.iconButtonColors(
                             containerColor = Color(0xFF32CD32)

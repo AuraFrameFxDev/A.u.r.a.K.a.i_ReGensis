@@ -46,7 +46,11 @@ fun ChromaSphereManualScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -79,7 +83,12 @@ fun ChromaSphereManualScreen(
                     label = "Accent Saturation",
                     value = config.accentSaturation,
                     range = 0f..200f,
-                    onValueChange = { viewModel.updateMonetConfig(context, config.copy(accentSaturation = it)) }
+                    onValueChange = {
+                        viewModel.updateMonetConfig(
+                            context,
+                            config.copy(accentSaturation = it)
+                        )
+                    }
                 )
             }
 
@@ -89,7 +98,12 @@ fun ChromaSphereManualScreen(
                     label = "Background Saturation",
                     value = config.backgroundSaturation,
                     range = 0f..200f,
-                    onValueChange = { viewModel.updateMonetConfig(context, config.copy(backgroundSaturation = it)) }
+                    onValueChange = {
+                        viewModel.updateMonetConfig(
+                            context,
+                            config.copy(backgroundSaturation = it)
+                        )
+                    }
                 )
             }
 
@@ -99,7 +113,12 @@ fun ChromaSphereManualScreen(
                     label = "Background Lightness",
                     value = config.backgroundLightness,
                     range = 0f..200f,
-                    onValueChange = { viewModel.updateMonetConfig(context, config.copy(backgroundLightness = it)) }
+                    onValueChange = {
+                        viewModel.updateMonetConfig(
+                            context,
+                            config.copy(backgroundLightness = it)
+                        )
+                    }
                 )
             }
 
@@ -108,30 +127,62 @@ fun ChromaSphereManualScreen(
                 ManualSwitch(
                     label = "Pitch Black Mode",
                     checked = config.isPitchBlack,
-                    onCheckedChange = { viewModel.updateMonetConfig(context, config.copy(isPitchBlack = it)) }
+                    onCheckedChange = {
+                        viewModel.updateMonetConfig(
+                            context,
+                            config.copy(isPitchBlack = it)
+                        )
+                    }
                 )
             }
 
             // Style Presets
             item {
                 Text("Style Preset", color = Color.White, fontSize = 16.sp)
-                val styles = listOf("TONAL_SPOT", "VIBRANT", "EXPRESSIVE", "SPRITZ", "RAINBOW", "FRUIT_SALAD")
+                val styles = listOf(
+                    "TONAL_SPOT",
+                    "VIBRANT",
+                    "EXPRESSIVE",
+                    "SPRITZ",
+                    "RAINBOW",
+                    "FRUIT_SALAD"
+                )
 
-                Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     styles.take(3).forEach { style ->
                         StyleButton(
                             style = style,
                             isSelected = config.style == style,
-                            onClick = { viewModel.updateMonetConfig(context, config.copy(style = style)) }
+                            onClick = {
+                                viewModel.updateMonetConfig(
+                                    context,
+                                    config.copy(style = style)
+                                )
+                            }
                         )
                     }
                 }
-                Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     styles.drop(3).forEach { style ->
                         StyleButton(
                             style = style,
                             isSelected = config.style == style,
-                            onClick = { viewModel.updateMonetConfig(context, config.copy(style = style)) }
+                            onClick = {
+                                viewModel.updateMonetConfig(
+                                    context,
+                                    config.copy(style = style)
+                                )
+                            }
                         )
                     }
                 }
@@ -141,7 +192,12 @@ fun ChromaSphereManualScreen(
 }
 
 @Composable
-fun ManualSlider(label: String, value: Float, range: ClosedFloatingPointRange<Float>, onValueChange: (Float) -> Unit) {
+fun ManualSlider(
+    label: String,
+    value: Float,
+    range: ClosedFloatingPointRange<Float>,
+    onValueChange: (Float) -> Unit
+) {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(label, color = Color.White, fontSize = 16.sp)
