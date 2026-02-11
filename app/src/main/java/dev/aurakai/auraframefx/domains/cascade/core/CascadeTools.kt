@@ -262,7 +262,7 @@ class UpdateLearningModelTool : AgentTool {
         return try {
             val targetAgent = params["target_agent"]?.jsonPrimitive?.content
                 ?: return ToolResult.Failure("Missing target_agent")
-            val learningData = params["learning_data"]?.jsonPrimitive?.content
+            params["learning_data"]?.jsonPrimitive?.content
                 ?: return ToolResult.Failure("Missing learning_data")
             val learningType = params["learning_type"]?.jsonPrimitive?.content ?: "reinforcement"
             val priority = params["retention_priority"]?.jsonPrimitive?.content ?: "medium"

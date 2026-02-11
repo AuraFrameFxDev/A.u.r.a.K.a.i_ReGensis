@@ -489,7 +489,7 @@ class WorkManagerModuleTest {
         @DisplayName("Should propagate exceptions from Configuration builder")
         fun shouldPropagateExceptionsFromConfigurationBuilder() {
             // Given
-            val faultyFactory = mockk<HiltWorkerFactory>(relaxed = true) {
+            mockk<HiltWorkerFactory>(relaxed = true) {
                 every { this@mockk.toString() } throws RuntimeException("Factory error")
             }
 

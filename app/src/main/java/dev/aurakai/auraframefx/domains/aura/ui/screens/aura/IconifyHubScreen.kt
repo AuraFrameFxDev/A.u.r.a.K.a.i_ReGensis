@@ -90,9 +90,6 @@ fun IconifyHubScreen(
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Home", "Tweaks", "Xposed")
 
-    val iconState by viewModel.iconState.collectAsStateWithLifecycle()
-    val selectedIcon by viewModel.selectedIcon.collectAsStateWithLifecycle()
-
     // Animated background pulse
     val infiniteTransition = rememberInfiniteTransition(label = "bgPulse")
     val pulseAlpha by infiniteTransition.animateFloat(
@@ -274,7 +271,7 @@ private fun IconifyBottomNav(
 
 @Composable
 private fun HomeTab(onNavigateToCategory: (String) -> Unit) {
-    val context = LocalContext.current
+    LocalContext.current
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -332,15 +329,6 @@ private fun HomeTab(onNavigateToCategory: (String) -> Unit) {
 @Composable
 private fun HeroBanner() {
     val infiniteTransition = rememberInfiniteTransition(label = "heroBanner")
-    val shimmer by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "shimmer"
-    )
 
     Card(
         modifier = Modifier

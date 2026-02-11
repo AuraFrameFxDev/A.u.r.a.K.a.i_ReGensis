@@ -52,7 +52,7 @@ object OracleDriveModule {
     fun provideGenesisCryptographyManager(
         @ApplicationContext context: Context,
     ): CryptographyManager {
-        return CryptographyManager.Companion.getInstance(context)
+        return CryptographyManager.getInstance(context)
     }
 
     @Provides
@@ -61,7 +61,7 @@ object OracleDriveModule {
         @ApplicationContext context: Context,
         cryptoManager: CryptographyManager,
     ): SecureStorage {
-        return SecureStorage.Companion.getInstance(context, cryptoManager)
+        return SecureStorage.getInstance(context, cryptoManager)
     }
 
     @Provides

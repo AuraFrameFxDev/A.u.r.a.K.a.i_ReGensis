@@ -129,7 +129,7 @@ class OrchestrateTool : AgentTool {
 
     override suspend fun execute(params: JsonObject, agentId: String): ToolResult {
         return try {
-            val taskDescription = params["task_description"]?.jsonPrimitive?.content
+            params["task_description"]?.jsonPrimitive?.content
                 ?: return ToolResult.Failure("Missing task_description")
             val mode = params["mode"]?.jsonPrimitive?.content ?: "consensus"
             val priority = params["priority"]?.jsonPrimitive?.content ?: "medium"

@@ -22,7 +22,6 @@ fun ChromaAnimationMenu(
     onNavigateBack: () -> Unit,
     viewModel: ChromaCoreViewModel = hiltViewModel()
 ) {
-    val settings by viewModel.settings.collectAsState()
 
     Scaffold(
         topBar = {

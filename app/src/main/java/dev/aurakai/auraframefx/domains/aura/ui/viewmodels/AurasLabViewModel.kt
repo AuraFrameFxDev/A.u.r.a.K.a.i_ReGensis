@@ -35,9 +35,7 @@ class AurasLabViewModel @Inject constructor(
                 _forgeState.value = ForgeState.Validating(result.code)
 
                 // 2. Kai's Grok Analysis validates it
-                val validation = grokAnalysis.validateSpelhook(result.code)
-
-                when (validation) {
+                when (val validation = grokAnalysis.validateSpelhook(result.code)) {
                     is GrokAnalysisService.ValidationResult.Approved -> {
                         _forgeState.value = ForgeState.Deploying(result.code)
 

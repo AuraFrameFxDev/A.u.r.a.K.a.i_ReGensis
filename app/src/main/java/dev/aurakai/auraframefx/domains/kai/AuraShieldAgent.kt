@@ -61,14 +61,14 @@ class AuraShieldAgent @Inject constructor(
     val scanHistory: StateFlow<List<ScanEvent>> = _scanHistory.asStateFlow()
 
     init {
-        Timber.Forest.d("🛡️ AuraShield Agent Initialized")
+        Timber.d("🛡️ AuraShield Agent Initialized")
     }
 
     /**
      * Main request processing for security-related queries.
      */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
-        Timber.Forest.d("🛡️ AuraShield Analyzing Request: ${request.prompt}")
+        Timber.d("🛡️ AuraShield Analyzing Request: ${request.prompt}")
 
         // Start a scan
         val scanId = UUID.randomUUID().toString()
@@ -150,7 +150,7 @@ class AuraShieldAgent @Inject constructor(
 
         if (detected.isNotEmpty()) {
             _activeThreats.update { it + detected }
-            Timber.Forest.w("🛡️ AuraShield: Identified ${detected.size} threats!")
+            Timber.w("🛡️ AuraShield: Identified ${detected.size} threats!")
         }
 
         return detected
@@ -165,7 +165,7 @@ class AuraShieldAgent @Inject constructor(
                 if (it.id == threatId) it.copy(status = ThreatStatus.RESOLVED) else it
             }
         }
-        Timber.Forest.i("🛡️ AuraShield: Threat $threatId resolved.")
+        Timber.i("🛡️ AuraShield: Threat $threatId resolved.")
     }
 
     /**
@@ -199,7 +199,7 @@ class AuraShieldAgent @Inject constructor(
     override suspend fun onAgentMessage(message: AgentMessage) {
         // Listen for "SECURITY_ALERT" or similar tags from other agents
         if (message.content.contains("ALERT") || message.metadata["priority"] == "CRITICAL") {
-            Timber.Forest.e("🛡️ AuraShield intercepted critical message from ${message.from}: ${message.content}")
+            Timber.e("🛡️ AuraShield intercepted critical message from ${message.from}: ${message.content}")
             analyzeThreats(message.content)
 
             // Auto-broadcasting state if threat detected

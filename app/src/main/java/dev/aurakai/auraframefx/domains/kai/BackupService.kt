@@ -15,19 +15,19 @@ class BackupService @Inject constructor() : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Timber.Forest.tag(tag).d("BackupService created.")
+        Timber.tag(tag).d("BackupService created.")
         // TODO: Initialization logic for the backup service.
     }
 
     override fun onBind(_intent: Intent?): IBinder? {
-        Timber.Forest.tag(tag).d("onBind called, returning null.")
+        Timber.tag(tag).d("onBind called, returning null.")
         // This service does not support binding by default.
         // TODO: Implement if binding is necessary for a specific use case.
         return null
     }
 
     override fun onStartCommand(_intent: Intent?, _flags: Int, _startId: Int): Int {
-        Timber.Forest.tag(tag).d("onStartCommand called.")
+        Timber.tag(tag).d("onStartCommand called.")
         // TODO: Implement backup logic here.
         // Consider running in a separate thread if tasks are long-running.
         // Use _intent, _flags, _startId if needed by the actual implementation.
@@ -36,7 +36,7 @@ class BackupService @Inject constructor() : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.Forest.tag(tag).d("BackupService destroyed.")
+        Timber.tag(tag).d("BackupService destroyed.")
         // TODO: Cleanup logic, if any.
     }
 }
