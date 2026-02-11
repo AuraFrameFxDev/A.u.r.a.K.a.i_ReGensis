@@ -5,8 +5,8 @@
 // kotlinOptions replaced with KotlinAndroidProjectExtension.compilerOptions
 
 import com.android.build.api.dsl.LibraryExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 subprojects { subproject ->
     // Skip build-logic and other non-Android modules
@@ -72,7 +72,8 @@ subprojects { subproject ->
             // Add YukiHook dependencies
             dependencies {
                 // YukiHook API stack (exact order enforced)
-                implementation(libs.yukihookapi.api)
+                exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+            } implementation (libs.yukihookapi.api)
                 ksp(libs.yukihookapi.ksp)
 
                 // Xposed API (compile only)
