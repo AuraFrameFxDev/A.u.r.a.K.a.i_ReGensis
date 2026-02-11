@@ -143,6 +143,10 @@ extensions.configure<ApplicationExtension> {
         aidl = true
     }
 
+    ksp {
+        arg("yukihookapi.modulePackageName", "dev.aurakai.auraframefx.generated.app")
+    }
+
     // ═══════════════════════════════════════════════════════════════════════════
     // DEDUPLICATION: Exclude duplicate files to fix compile collisions
     // ═══════════════════════════════════════════════════════════════════════════
@@ -261,7 +265,9 @@ dependencies {
 
     // YukiHook: ONLY use api for runtime (contains all needed classes)
     // ksp-xposed is ONLY for annotation processing at compile time
-    implementation("com.highcapable.yukihookapi:api:1.3.1")
+    implementation("com.highcapable.yukihookapi:api:1.3.1") {
+        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+    }
     ksp("com.highcapable.yukihookapi:ksp-xposed:1.3.1")
     // Force resolution of conflicting dependencies
     configurations.all {
@@ -390,11 +396,16 @@ dependencies {
     implementation(project(":core-module"))
 }
 
-// Force a single annotations artifact to avoid duplicate-class errors
+// Force a single annotations artifact and exclude YukiHook KSP from runtime to avoid duplicate-class errors
 configurations.all {
     // Skip androidTest configurations to avoid issues with local JARs
     if (name.contains("AndroidTest")) {
         return@all
+    }
+
+    // Exclude YukiHook KSP processor from runtime classpaths to prevent collisions with the API
+    if (name.contains("RuntimeClasspath", ignoreCase = true)) {
+        exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
     }
 
     resolutionStrategy {

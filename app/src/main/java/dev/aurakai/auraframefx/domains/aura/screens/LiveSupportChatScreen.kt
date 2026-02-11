@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
 import dev.aurakai.auraframefx.domains.aura.models.SupportMessage
+import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportMessageEntity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
