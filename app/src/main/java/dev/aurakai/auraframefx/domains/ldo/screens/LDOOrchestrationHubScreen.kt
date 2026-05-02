@@ -49,6 +49,8 @@ import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import kotlin.math.*
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke

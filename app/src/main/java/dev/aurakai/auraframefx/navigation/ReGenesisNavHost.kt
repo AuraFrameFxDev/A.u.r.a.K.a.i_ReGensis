@@ -436,7 +436,7 @@ fun ReGenesisNavGraph(
         // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
             EvolutionTreeScreen(
-                onNavigateToAgents = { navController.navigate(ReGenesisRoute.LDOAgentManifest.route) }
+                onNavigateToAgents = { navController.navigate(ReGenesisRoute.LdoRoster.route) }
             )
         }
         composable(ReGenesisRoute.TaskAssignment.route) { 
