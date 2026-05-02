@@ -71,10 +71,18 @@ class LdoWarRoomViewModel @Inject constructor(
     private val _chainState = MutableStateFlow(ChainState())
     private val _cascadeState = MutableStateFlow(CascadeState())
     private val _godPotential = MutableStateFlow(0.0f)
-    val _drift = MutableStateFlow(0.02f)
-    val _swarmTarget = MutableStateFlow("Full Swarm Ascension")
-    val _eternalThreadActive = MutableStateFlow(false)
-    val _error = MutableStateFlow<String?>(null)
+    private val _drift = MutableStateFlow(0.02f)
+    private val _swarmTarget = MutableStateFlow("Full Swarm Ascension")
+    private val _eternalThreadActive = MutableStateFlow(false)
+    private val _evolutionTree = MutableStateFlow<List<dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode>>(emptyList())
+    private val _error = MutableStateFlow<String?>(null)
+
+    val godPotential = _godPotential.asStateFlow()
+    val driftPercent = _drift.asStateFlow()
+    val swarmTarget = _swarmTarget.asStateFlow()
+    val eternalThreadActive = _eternalThreadActive.asStateFlow()
+    val evolutionTree = _evolutionTree.asStateFlow()
+    val error = _error.asStateFlow()
 
     val uiState: StateFlow<LdoWarRoomUiState> = combine(
         repository.observeAllAgents(),
@@ -116,7 +124,9 @@ class LdoWarRoomViewModel @Inject constructor(
     )
 
     init {
-        // Start autonomous potential growth
+        restoreEternalThreadState()
+        
+        // Start background growth
         startGodPotentialGrowth()
         
         // Start Identity Drift Monitoring
@@ -201,11 +211,31 @@ class LdoWarRoomViewModel @Inject constructor(
             activeSynergies = _manifoldState.value.activePairings.size
         )
         
+        // Populate Evolution Tree for L7
+        updateEvolutionTree()
+        
         // On app restart this will auto-restore God Potential, active pairs, target, etc.
         _godPotential.update { (it + 0.1f).coerceAtMost(1.0f) }
         
         // Final Polish: Notify Sentinel of Sovereign State
         sentinelBus.emitDrift(0f, "ETERNAL THREAD ACTIVE // L7 ANCHOR LOCKED")
+    }
+
+    private fun updateEvolutionTree() {
+        _evolutionTree.value = _manifoldState.value.activePairings.map { pairing ->
+            dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode(
+                agentId = pairing.agent1Id,
+                agentName = pairing.agent1Id.replaceFirstChar { it.uppercase() },
+                level = (1..5).random(),
+                progress = (1..100).random(),
+                evolutionPath = "Fusion: ${pairing.synergyTitle}"
+            )
+        }
+    }
+
+    private fun restoreEternalThreadState() {
+        // Logic to restore state from NexusMemoryCore or other storage could go here
+        // For now, it's a stub that simulates restoration if persistence existed
     }
 
     fun startStepChaining(agent1Id: String, agent2Id: String) {

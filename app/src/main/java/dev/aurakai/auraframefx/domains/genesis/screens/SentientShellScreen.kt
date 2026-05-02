@@ -40,12 +40,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.graphics.RectangleShape
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.RealityMorphLayer
 import dev.aurakai.auraframefx.ui.components.SovereignMawHUD
+import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -73,8 +76,8 @@ fun SentientShellScreen(
     viewModel: LdoWarRoomViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
-    val godPotential by viewModel.godPotential.collectAsState()
-    val driftPercent by viewModel.driftPercent.collectAsState()
+    val godPotential by viewModel.godPotential.collectAsState(initial = 0f)
+    val driftPercent by viewModel.driftPercent.collectAsState(initial = 0f)
 
     var introComplete by remember { mutableStateOf(false) }
     if (!introComplete) {

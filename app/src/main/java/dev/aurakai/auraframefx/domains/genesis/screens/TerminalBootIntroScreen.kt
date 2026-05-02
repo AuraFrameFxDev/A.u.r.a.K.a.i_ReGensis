@@ -34,8 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
-import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraNeon
-import dev.aurakai.auraframefx.domains.aura.ui.theme.KaiNeon
 import kotlin.random.Random
 
 // ── Palette ─────────────────────────────────────────────────────────────────
