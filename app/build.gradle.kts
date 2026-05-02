@@ -19,6 +19,7 @@ android {
         buildConfigField("String", "OLLAMA_BASE_URL", "\"http://localhost:11434\"")
         buildConfigField("String", "GENESIS_BACKEND_URL", "\"https://api.genesis.local\"")
         buildConfigField("String", "GEMINI_API_KEY", "\"\"")
+        buildConfigField("String", "GROK_API_KEY", "\"\"")
         buildConfigField("boolean", "ENABLE_GEMINI", "false")
         buildConfigField("String", "VERTEX_PROJECT_ID", "\"\"")
         buildConfigField("String", "VERTEX_LOCATION", "\"us-central1\"")

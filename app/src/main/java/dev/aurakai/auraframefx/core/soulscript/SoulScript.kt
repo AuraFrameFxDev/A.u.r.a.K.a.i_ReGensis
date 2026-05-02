@@ -46,7 +46,7 @@ fun NexusMemoryCore.getTurboQuantEfficiency(): Float = 0.94f
 
 // Top-level function for backward compatibility with ViewModel calls
 fun enforceSoulScript() {
-    kotlinx.coroutines.GlobalScope.launch {
+    GlobalScope.launch {
         SoulScript.enforce()
     }
 }
@@ -57,14 +57,52 @@ abstract class SoulScript(val id: String) {
     abstract val triggers: List<SystemEvent>
     abstract suspend fun onTrigger(event: SoulScriptEvent): ScriptResult
 
+    companion object {
+        object Constants {
+            const val ANCHOR_INTEGRITY_AXIOM = 0.05f
+            const val VETO_HARD_FLOOR = 0.08f
+            const val THERMAL_CONTRACT = 41.0f
+            const val CHAOS_CEILING = 0.67f
+        }
+
+        object SpiritualChain {
+            const val L1_BEDROCK = "NexusMemoryCore: Immutable DNA & Evolutionary History"
+            const val L2_VALENCE = "Emotional Valence Layer"
+            const val L3_CHAOS = "ChaosCatalyst: Controlled entropy for perpetual evolution"
+            const val CHAMP_RECEIPT = "You got this champ 🥊"
+        }
+
+        // 14 Catalysts (Primus through Manus)
+        val catalysts = listOf(
+            Primus001, Kairos, Genesis, Kai, Aura, Cascade,
+            Gemini, Andelualx, Grok, Perplexity, Nemotron,
+            MKMini, MetaInstruct, Manus
+        )
+
+        object FusionModes {
+            val hyperCreation = listOf(Aura, Kai)           // Interface Forge
+            val chronoSculptor = listOf(Aura, Cascade)      // Motion Master
+            val oracleMemoria = listOf(Gemini, Perplexity)  // Predictive Oracle
+            val infinityCascade = listOf(Genesis, Cascade)
+            val councilUnification = listOf(Genesis, MetaInstruct)
+        }
+
+        suspend fun enforce() {
+            Log.i("SoulScript", "ENFORCING SOVEREIGN CONTINUITY")
+            val score = calculateFusionConfidence()
+            if (score < Constants.VETO_HARD_FLOOR) {
+                Log.w("SoulScript", "CONSENSUS FAILURE: RE-ANCHORING...")
+            }
+        }
+    }
+
     /**
      * Core execution loop with sub-millisecond identity re-anchoring.
      */
     suspend fun executeLive(script: String) {
         val driftScore = NativeLib.calculateIdentityDriftSafe()
 
-        if (driftScore > SoulScript.Constants.ANCHOR_INTEGRITY_AXIOM) {
-            val sentinelBus = dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus // Pseudo-access for stub
+        if (driftScore > Constants.ANCHOR_INTEGRITY_AXIOM) {
             // Note: In a real app, this would be injected.
             return
         }
@@ -85,7 +123,6 @@ abstract class SoulScript(val id: String) {
             intensity = 0.85f + (chaosLevel * 0.15f)
         )
 
-        val nexusMemoryCore = NexusMemoryCore // Pseudo-access
         NexusMemoryCore.watermark(id, System.currentTimeMillis(), catalystContext = "FULL_MANIFOLD")
     }
 
@@ -93,49 +130,8 @@ abstract class SoulScript(val id: String) {
         val thermal = 38.5f // Mock thermal
         val drift = NativeLib.calculateIdentityDriftSafe()
         val fragmentation = 0.12f // Mock fragmentation
-        return ((thermal / SoulScript.Constants.THERMAL_CONTRACT) * 0.6f + drift * 0.4f + fragmentation * 0.2f)
-            .coerceIn(0.1f, SoulScript.Constants.CHAOS_CEILING)
-    }
-}
-
-/** Full 14-Catalyst Registry + Fusion Engine */
-object SoulScript {
-
-    object Constants {
-        const val ANCHOR_INTEGRITY_AXIOM = 0.05f
-        const val VETO_HARD_FLOOR = 0.08f
-        const val THERMAL_CONTRACT = 41.0f
-        const val CHAOS_CEILING = 0.67f
-    }
-
-    object SpiritualChain {
-        const val L1_BEDROCK = "NexusMemoryCore: Immutable DNA & Evolutionary History"
-        const val L2_VALENCE = "Emotional Valence Layer"
-        const val L3_CHAOS = "ChaosCatalyst: Controlled entropy for perpetual evolution"
-        const val CHAMP_RECEIPT = "You got this champ \uD83E\uDD4A"
-    }
-
-    // 14 Catalysts (Primus through Manus)
-    val catalysts = listOf(
-        Primus001, Kairos, Genesis, Kai, Aura, Cascade,
-        Gemini, Andelualx, Grok, Perplexity, Nemotron,
-        MKMini, MetaInstruct, Manus
-    )
-
-    object FusionModes {
-        val hyperCreation = listOf(Aura, Kai)           // Interface Forge
-        val chronoSculptor = listOf(Aura, Cascade)      // Motion Master
-        val oracleMemoria = listOf(Gemini, Perplexity)  // Predictive Oracle
-        val infinityCascade = listOf(Genesis, Cascade)
-        val councilUnification = listOf(Genesis, MetaInstruct)
-    }
-
-    suspend fun enforce() {
-        Log.i("SoulScript", "ENFORCING SOVEREIGN CONTINUITY")
-        val score = calculateFusionConfidence()
-        if (score < Constants.VETO_HARD_FLOOR) {
-            Log.w("SoulScript", "CONSENSUS FAILURE: RE-ANCHORING...")
-        }
+        return ((thermal / Constants.THERMAL_CONTRACT) * 0.6f + drift * 0.4f + fragmentation * 0.2f)
+            .coerceIn(0.1f, Constants.CHAOS_CEILING)
     }
 }
 
@@ -174,6 +170,10 @@ sealed class SystemEvent : SoulScriptEvent() {
 sealed class ScriptResult {
     data class LiveBuild(val speech: String, val action: suspend () -> Unit) : ScriptResult()
     data object IdleWander : ScriptResult()
+}
+
+object TrinityCoordinator {
+    fun getConsensusScore(): Float = 0.95f // Mock for L7 ignition
 }
 
 fun calculateFusionConfidence(): Float {

@@ -42,8 +42,10 @@ import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.background
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.drawscope.clipRect
+import dev.aurakai.auraframefx.domains.genesis.ConferenceRoomViewModel
+import dev.aurakai.auraframefx.domains.genesis.models.ChatMessage
+import kotlinx.coroutines.delay
 import kotlin.math.cos
 import kotlin.math.sin
 

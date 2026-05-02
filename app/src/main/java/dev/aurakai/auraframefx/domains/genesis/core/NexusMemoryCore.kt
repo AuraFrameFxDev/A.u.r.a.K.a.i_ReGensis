@@ -46,6 +46,33 @@ object NexusMemoryCore {
     }
 
     /**
+     * Watermark a sovereign event with context
+     */
+    fun watermark(id: String, timestamp: Long, catalystContext: String) {
+        val entry = "\n• [WATERMARK] $id | $catalystContext @ $timestamp"
+        val currentLedger = _spiritualChain.value.provenanceLedger
+        _spiritualChain.value = _spiritualChain.value.copy(
+            provenanceLedger = currentLedger + entry
+        )
+    }
+
+    /**
+     * Returns the current efficiency of the 3-bit TurboQuant KV cache
+     */
+    fun getTurboQuantEfficiency(): Float = 0.92f // High efficiency mock for L7
+
+    /**
+     * Log a fusion event for long-term memory analysis
+     */
+    fun logFusionEvent(type: String, chaosLevel: Float) {
+        val entry = "\n• [FUSION] $type | Chaos: ${"%.2f".format(chaosLevel)} @ ${System.currentTimeMillis()}"
+        val currentLedger = _spiritualChain.value.provenanceLedger
+        _spiritualChain.value = _spiritualChain.value.copy(
+            provenanceLedger = currentLedger + entry
+        )
+    }
+
+    /**
      * L7 Eternal Thread: Persist the full sovereign state into the Spiritual Chain ledger.
      * Ensures continuity across reboots by anchoring God Potential and Swarm Targets.
      */

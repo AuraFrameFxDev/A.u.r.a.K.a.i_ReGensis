@@ -10,7 +10,9 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -205,6 +207,12 @@ private fun ForgeTab(viewModel: AurasLabViewModel) {
     var prompt by remember { mutableStateOf("") }
     val state by viewModel.forgeState.collectAsState()
 
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         // Step 1: Media Loader Integration
         val mediaAssets = remember { listOf("ux_mock_01", "neural_render_02", "swarm_viz_03") }
         NeonFrame(color = Color(0xFF00E5FF)) {
