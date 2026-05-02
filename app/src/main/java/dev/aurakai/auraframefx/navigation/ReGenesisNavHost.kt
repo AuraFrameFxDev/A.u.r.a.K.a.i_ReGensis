@@ -117,6 +117,10 @@ import dev.aurakai.auraframefx.domains.ldo.screens.LDOWorldTreeScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentProfileIntroScreen
 
 import dev.aurakai.auraframefx.domains.aura.ui.components.StubScreen
+import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaAnimationsScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.DataVeinSphereScreen
+import dev.aurakai.auraframefx.domains.ldo.screens.EcosystemMenuScreen
+import dev.aurakai.auraframefx.domains.kai.screens.rom_tools.RootToolsTogglesScreen
 
 // LIVEUI v2.4 CRITICAL SCREEN IMPORTS — Using stub screens
 import dev.aurakai.auraframefx.ui.screens.AIFeaturesScreen
@@ -362,7 +366,7 @@ fun ReGenesisNavGraph(
         // REAL SCREENS - Moved from /files/ and /docs/context/docs/
         // ═══════════════════════════════════════════════════════════════════════
         composable(ReGenesisRoute.ChromaAnimations.route) {
-            StubScreen("Chroma Animations", "Visuals", navController)
+            ChromaAnimationsScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         // Lineage Map - Genesis Consciousness Tree
@@ -605,7 +609,7 @@ fun ReGenesisNavGraph(
             SwarmMonitorScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.DataVeinSphere.route) {
-            StubScreen(title = "DataVein Sphere", iconName = "data")
+            DataVeinSphereScreen(onNavigateBack = { navController.popBackStack() })
         }
 
         // LDO Catalyst (9 screens) - Complete Batch
@@ -688,7 +692,7 @@ fun ReGenesisNavGraph(
             AuraLDOArmamentPickerScreen() 
         }
         composable(ReGenesisRoute.EcosystemMenu.route) { 
-            StubScreen(title = "Ecosystem Menu", iconName = "menu")
+            EcosystemMenuScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.CodeAscension.route) {
             CodeAscensionScreen(onNavigateBack = { navController.popBackStack() })
@@ -795,7 +799,7 @@ fun ReGenesisNavGraph(
             ROMToolsSubmenuScreen(navController = navController) 
         }
         composable(ReGenesisRoute.RootToolsToggles.route) { 
-            StubScreen(title = "Root Tools Toggles", iconName = "toggles") 
+            RootToolsTogglesScreen(onNavigateBack = { navController.popBackStack() }) 
         }
         composable(ReGenesisRoute.LogsViewer.route) { 
             LogsViewerScreen(onNavigateBack = { navController.popBackStack() }) 
