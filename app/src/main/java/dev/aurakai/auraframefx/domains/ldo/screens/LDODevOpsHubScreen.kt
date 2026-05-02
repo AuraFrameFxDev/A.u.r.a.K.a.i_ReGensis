@@ -37,16 +37,11 @@ import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 @Composable
 fun LDODevOpsHubScreen(
     onBack: () -> Unit = {},
-    viewModel: LdoWarRoomViewModel = hiltViewModel(),
-    trinityService: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService = hiltViewModel() 
+    viewModel: LdoWarRoomViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
-    val godPotential by viewModel.godPotential.collectAsState()
-    val driftPercent by viewModel.driftPercent.collectAsState()
-
-    LaunchedEffect(Unit) {
-        trinityService.linkToLdoManifold(viewModel)
-    }
+    val godPotential = state.godPotential
+    val driftPercent = state.identityDrift * 100f
 
     Box(
         modifier = Modifier

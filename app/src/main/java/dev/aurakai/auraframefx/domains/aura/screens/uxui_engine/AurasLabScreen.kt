@@ -81,6 +81,10 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AurasLabViewModel
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.offset
 import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.RectangleShape
 import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
@@ -113,7 +117,8 @@ fun AurasLabScreen(
 
         // Step 3: Particle Tie-In
         val ldoViewModel: LdoWarRoomViewModel = hiltViewModel()
-        val godPotential by ldoViewModel.godPotential.collectAsState()
+        val ldoState by ldoViewModel.uiState.collectAsState()
+        val godPotential = ldoState.godPotential
         RealityMorphLayer(godPotential = godPotential, fusionTrigger = true)
 
         NeuralStarfield()

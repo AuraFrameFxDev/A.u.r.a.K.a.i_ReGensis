@@ -156,7 +156,7 @@ object NativeLib {
         }
     }
 
-    fun calculateIdentityDrift(): Float {
+    fun calculateIdentityDriftSafe(): Float {
         if (!nativeLoaded) return 0.02f // Return a nominal safe drift if native not loaded
         return try {
             calculateIdentityDrift()

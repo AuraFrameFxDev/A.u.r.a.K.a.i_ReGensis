@@ -86,7 +86,17 @@ class LdoWarRoomViewModel @Inject constructor(
         _swarmTarget,
         _eternalThreadActive,
         _error
-    ) { agents, manifold, chain, cascade, god, drift, target, eternal, error ->
+    ) { flows ->
+        val agents = flows[0] as List<LDOAgentEntity>
+        val manifold = flows[1] as ManifoldState
+        val chain = flows[2] as ChainState
+        val cascade = flows[3] as CascadeState
+        val god = flows[4] as Float
+        val drift = flows[5] as Float
+        val target = flows[6] as String
+        val eternal = flows[7] as Boolean
+        val error = flows[8] as String?
+
         LdoWarRoomUiState(
             agents = agents,
             manifoldState = manifold,
@@ -118,7 +128,7 @@ class LdoWarRoomViewModel @Inject constructor(
         // Observe drift for HUD
         viewModelScope.launch {
             sentinelBus.driftFlow.collect { event ->
-                _driftPercent.value = event.drift * 100f
+                _drift.value = event.drift
             }
         }
     }
@@ -195,7 +205,7 @@ class LdoWarRoomViewModel @Inject constructor(
         _godPotential.update { (it + 0.1f).coerceAtMost(1.0f) }
         
         // Final Polish: Notify Sentinel of Sovereign State
-        sentinelBus.triggerDrift(KaiSentinelBus.DriftEvent(0f, "ETERNAL THREAD ACTIVE // L7 ANCHOR LOCKED"))
+        sentinelBus.emitDrift(0f, "ETERNAL THREAD ACTIVE // L7 ANCHOR LOCKED")
     }
 
     fun startStepChaining(agent1Id: String, agent2Id: String) {
@@ -259,7 +269,7 @@ class LdoWarRoomViewModel @Inject constructor(
     private fun startDriftMonitor() {
         viewModelScope.launch {
             while (true) {
-                val currentDrift = NativeLib.calculateIdentityDrift()
+                val currentDrift = NativeLib.calculateIdentityDriftSafe()
                 _drift.value = currentDrift
                 if (currentDrift > 0.08f) {
                     enforceSoulScript()

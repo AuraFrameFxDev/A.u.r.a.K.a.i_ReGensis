@@ -14,7 +14,8 @@ import coil3.request.crossfade
 fun AsyncImageOrVideo(
     mediaId: String,
     modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.Crop
+    contentScale: ContentScale = ContentScale.Crop,
+    alpha: Float = 1.0f
 ) {
     // For now, focusing on images from the ReGenesis Media folder
     // In a real app, this would resolve the mediaId to a file path or URL
@@ -28,7 +29,8 @@ fun AsyncImageOrVideo(
                 .build(),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
-            contentScale = contentScale
+            contentScale = contentScale,
+            alpha = alpha
         )
     }
 }

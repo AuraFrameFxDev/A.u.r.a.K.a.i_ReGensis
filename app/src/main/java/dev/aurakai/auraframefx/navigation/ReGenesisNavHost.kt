@@ -436,8 +436,7 @@ fun ReGenesisNavGraph(
         // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
             EvolutionTreeScreen(
-                onNavigateToAgents = { navController.navigate(ReGenesisRoute.AgentNexusHub.route) },
-                onNavigateToFusion = { navController.navigate(ReGenesisRoute.FusionMode.route) }
+                onNavigateToAgents = { navController.navigate(ReGenesisRoute.LDOAgentManifest.route) }
             )
         }
         composable(ReGenesisRoute.TaskAssignment.route) { 
@@ -706,9 +705,6 @@ fun ReGenesisNavGraph(
         }
         composable(ReGenesisRoute.WorkingLab.route) {
             WorkingLabScreen(navController = navController)
-        }
-        composable(ReGenesisRoute.OverlayMenus.route) {
-            OverlayMenusScreen(navController = navController)
         }
 
         // ═══════════════════════════════════════════════════════════════════════

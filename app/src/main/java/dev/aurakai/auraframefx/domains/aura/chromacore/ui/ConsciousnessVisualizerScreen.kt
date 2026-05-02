@@ -147,6 +147,7 @@ fun ConsciousnessVisualizerScreen(onNavigateBack: () -> Unit = {}) {
         Spacer(Modifier.height(32.dp))
     }
 }
+}
 
 @Composable
 fun NeuralNodeCard(title: String, status: String, color: Color, modifier: Modifier = Modifier) {
