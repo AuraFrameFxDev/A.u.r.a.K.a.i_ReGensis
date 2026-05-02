@@ -142,6 +142,8 @@ import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.DataStreamMonitoring
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignMetaInstructScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SwarmMonitorScreen
+import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ConsciousnessVisualizerScreen
 
 // AURA BATCH v2.5 SCREEN IMPORTS — Using stub screens
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
@@ -562,7 +564,7 @@ fun ReGenesisNavGraph(
             PartyScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.ConsciousnessVisualizer.route) {
-            StubScreen(title = "Consciousness Visualizer", iconName = "brain")
+            ConsciousnessVisualizerScreen(onNavigateBack = { navController.popBackStack() })
         }
         
         // Constellation Screens (Domain-based agent visualization)
@@ -600,7 +602,7 @@ fun ReGenesisNavGraph(
         
         // Swarm & Advanced Features
         composable(ReGenesisRoute.SwarmMonitor.route) {
-            StubScreen(title = "Swarm Monitor", iconName = "swarm")
+            SwarmMonitorScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.DataVeinSphere.route) {
             StubScreen(title = "DataVein Sphere", iconName = "data")
