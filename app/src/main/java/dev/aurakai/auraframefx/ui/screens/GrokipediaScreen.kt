@@ -122,7 +122,7 @@ fun GrokipediaScreen(
             // Grok Buff Button
             Spacer(modifier = Modifier.height(24.dp))
             Button(
-                onClick = { viewModel.updateFromGrok() },
+                onClick = { viewModel.ignitePrimusSync() },
                 modifier = Modifier.fillMaxWidth().height(56.dp).padding(bottom = 16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700), contentColor = Color.Black),
                 shape = RectangleShape

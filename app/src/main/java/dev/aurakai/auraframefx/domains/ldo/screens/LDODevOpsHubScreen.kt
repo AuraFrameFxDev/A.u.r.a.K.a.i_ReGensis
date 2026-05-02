@@ -37,6 +37,7 @@ import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 @Composable
 fun LDODevOpsHubScreen(
     onBack: () -> Unit = {},
+    onNavigateToEvolutionTree: () -> Unit = {},
     viewModel: LdoWarRoomViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -69,10 +70,13 @@ fun LDODevOpsHubScreen(
         ) {
             // Header: Swarm God Potential
             item {
+                val eternalThreadActive by viewModel.eternalThreadActive.collectAsState()
                 GodPotentialHeader(
                     potential = godPotential,
+                    isEternalThreadActive = eternalThreadActive,
                     onIgnite = { viewModel.fullSwarmIgnition() },
-                    onActivateEternalThread = { viewModel.activateEternalThread() }
+                    onActivateEternalThread = { viewModel.activateEternalThread() },
+                    onViewEvolutionTree = onNavigateToEvolutionTree
                 )
             }
 
@@ -133,7 +137,13 @@ fun LDODevOpsHubScreen(
 }
 
 @Composable
-fun GodPotentialHeader(potential: Float, onIgnite: () -> Unit, onActivateEternalThread: () -> Unit) {
+fun GodPotentialHeader(
+    potential: Float,
+    isEternalThreadActive: Boolean,
+    onIgnite: () -> Unit,
+    onActivateEternalThread: () -> Unit,
+    onViewEvolutionTree: () -> Unit
+) {
     NeonFrame(
         color = Color(0xFFFFD700),
         modifier = Modifier.fillMaxWidth()
@@ -152,13 +162,27 @@ fun GodPotentialHeader(potential: Float, onIgnite: () -> Unit, onActivateEternal
                     fontWeight = FontWeight.Black
                 )
                 Text(
-                    "ASCENSION LEVEL: ${(potential * 100).toInt()}% // L6 TRANSITION READY",
-                    color = Color.White.copy(alpha = 0.5f),
+                    if (isEternalThreadActive) "L7 ETERNAL THREAD ACTIVE // ASCENSION LOCKED" 
+                    else "ASCENSION LEVEL: ${(potential * 100).toInt()}% // L6 TRANSITION READY",
+                    color = if (isEternalThreadActive) Color(0xFF00FF85) else Color.White.copy(alpha = 0.5f),
                     fontSize = 10.sp,
                     fontFamily = LEDFontFamily
                 )
             }
             
+            // View Evolution Tree (Only if active)
+            if (isEternalThreadActive) {
+                Button(
+                    onClick = onViewEvolutionTree,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700).copy(alpha = 0.1f)),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFFD700)),
+                    shape = RectangleShape,
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
+                    Text("VIEW EVOLUTION TREE", color = Color(0xFFFFD700), fontSize = 8.sp, fontFamily = LEDFontFamily)
+                }
+            }
+
             // Step 1: One-Tap Full Swarm Ignition
             Button(
                 onClick = onIgnite,
@@ -173,12 +197,18 @@ fun GodPotentialHeader(potential: Float, onIgnite: () -> Unit, onActivateEternal
             // Step 2: Eternal Thread (L7) Activation
             Button(
                 onClick = onActivateEternalThread,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00FF85).copy(alpha = 0.1f)),
+                colors = ButtonDefaults.buttonColors(containerColor = if (isEternalThreadActive) Color(0xFF00FF85).copy(alpha = 0.4f) else Color(0xFF00FF85).copy(alpha = 0.1f)),
                 border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00FF85)),
                 shape = RectangleShape,
-                modifier = Modifier.padding(end = 16.dp)
+                modifier = Modifier.padding(end = 16.dp),
+                enabled = !isEternalThreadActive
             ) {
-                Text("ACTIVATE ETERNAL THREAD (L7)", color = Color(0xFF00FF85), fontSize = 8.sp, fontFamily = LEDFontFamily)
+                Text(
+                    if (isEternalThreadActive) "L7 PERSISTENCE ACTIVE" else "ACTIVATE ETERNAL THREAD (L7)",
+                    color = Color(0xFF00FF85),
+                    fontSize = 8.sp,
+                    fontFamily = LEDFontFamily
+                )
             }
 
             Box(
