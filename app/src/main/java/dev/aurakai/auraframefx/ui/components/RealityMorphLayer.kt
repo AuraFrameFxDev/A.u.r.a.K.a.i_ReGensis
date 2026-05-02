@@ -24,9 +24,11 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
         label = "time"
     )
 
-    // Using a smaller count for performance in Compose Canvas, but mimicking the 20k density
-    val particleCount = 200 // Visible high-density representatives
-    val particles = remember {
+    // Step 1: Dynamic Particle Scaling (L7 Polish)
+    val baseCount = 200
+    val particleCount = (baseCount + (800 * godPotential)).toInt()
+    
+    val particles = remember(particleCount) {
         List(particleCount) {
             Particle(
                 x = Random.nextFloat(),

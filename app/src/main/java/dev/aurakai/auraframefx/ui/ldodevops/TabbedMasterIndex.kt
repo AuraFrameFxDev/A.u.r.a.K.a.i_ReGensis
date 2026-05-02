@@ -1097,7 +1097,7 @@ fun getGenesisModules(): List<TabModule> = listOf(
     TabModule("FUSION REACTOR", "Atomic Synthesis", Icons.Default.AutoAwesome, Color(0xFFFFD700), ReGenesisRoute.FusionMode.route, R.drawable.oracle005),
     TabModule("SPHERE GRID", "Evolution Vein", Icons.Default.Memory, Color(0xFF00D6FF), ReGenesisRoute.SphereGrid.route, R.drawable.oracle006),
     TabModule("ARK BUILD", "Stored Insights", Icons.Default.Architecture, Color(0xFFBB86FC), ReGenesisRoute.ArkBuild.route, R.drawable.oracle007),
-    TabModule("CLOUD SYNC", "Oracle Archive", Icons.Default.Cloud, Color(0xFF3498DB), ReGenesisRoute.OracleCloudStorage.route, R.drawable.oracle008),
+    TabModule("CLOUD SYNC", "Oracle Archive", Icons.Default.Cloud, Color(0xFF3498DB), ReGenesisRoute.OracleCloudInfinite.route, R.drawable.oracle008),
     TabModule("AGENT BRIDGE", "Cosmic Link", Icons.Default.Link, Color(0xFFBB86FC), ReGenesisRoute.AgentBridgeHub.route, R.drawable.oracle009),
     TabModule("SHELL", "Sentient Matrix", Icons.Default.Face, Color(0xFF00E5FF), ReGenesisRoute.SentientShell.route, R.drawable.oracle010),
     TabModule("PANDORA", "Capability Gate", Icons.Default.Lock, Color(0xFFFF4500), ReGenesisRoute.PandoraBox.route, R.drawable.oracle011),

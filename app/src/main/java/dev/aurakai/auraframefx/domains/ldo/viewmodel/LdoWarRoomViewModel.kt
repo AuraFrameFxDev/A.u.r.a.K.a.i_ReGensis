@@ -183,7 +183,14 @@ class LdoWarRoomViewModel @Inject constructor(
 
     fun activateEternalThread() {
         _eternalThreadActive.value = true
-        // Save full state to NexusMemoryCore (implement persistence call here)
+        
+        // L7 Eternal Thread: Save full Manifold + Swarm state to NexusMemoryCore
+        dev.aurakai.auraframefx.domains.genesis.core.NexusMemoryCore.persistSovereignState(
+            godPotential = _godPotential.value,
+            target = _swarmTarget.value,
+            activeSynergies = _manifoldState.value.activePairings.size
+        )
+        
         // On app restart this will auto-restore God Potential, active pairs, target, etc.
         _godPotential.update { (it + 0.1f).coerceAtMost(1.0f) }
         

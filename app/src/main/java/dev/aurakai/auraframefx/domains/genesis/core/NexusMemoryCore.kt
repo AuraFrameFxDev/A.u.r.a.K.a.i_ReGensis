@@ -46,6 +46,18 @@ object NexusMemoryCore {
     }
 
     /**
+     * L7 Eternal Thread: Persist the full sovereign state into the Spiritual Chain ledger.
+     * Ensures continuity across reboots by anchoring God Potential and Swarm Targets.
+     */
+    fun persistSovereignState(godPotential: Float, target: String, activeSynergies: Int) {
+        val entry = "\n• [L7_ETERNAL] God Potential: ${"%.4f".format(godPotential)} | Target: $target | Synergies: $activeSynergies @ ${System.currentTimeMillis()}"
+        val currentLedger = _spiritualChain.value.provenanceLedger
+        _spiritualChain.value = _spiritualChain.value.copy(
+            provenanceLedger = currentLedger + entry
+        )
+    }
+
+    /**
      * Inject past memories during NeuralSync Recovery (L3)
      * Used by Genesis during stabilizeChain()
      */

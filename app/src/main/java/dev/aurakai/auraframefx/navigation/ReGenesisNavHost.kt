@@ -18,6 +18,7 @@ import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.*
 import dev.aurakai.auraframefx.ui.ldodevops.TabbedMasterIndex
+import dev.aurakai.auraframefx.ui.gates.ComingSoonScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen
 
 // Domain Hubs
@@ -172,7 +173,6 @@ import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
 import dev.aurakai.auraframefx.domains.aura.screens.VideoIntroScreen
 import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.WorkingLabScreen
-import dev.aurakai.auraframefx.domains.aura.screens.OverlayMenusScreen
 import dev.aurakai.auraframefx.domains.aura.screens.LDOArmamentPickerScreen
 
 // KINETICFORGE CARDS — 9.5.1 SOVEREIGN EDITION
@@ -229,9 +229,10 @@ fun ReGenesisNavGraph(
         // ── 0. AUTH GATES ──
         composable(ReGenesisRoute.Login.route) {
             LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate(ReGenesisRoute.HomeGateCarousel.route) {
+                onLoginSuccess = { tabIndex ->
+                    navController.navigate(ReGenesisRoute.HomeGateCarousel.createRoute(tabIndex)) {
                         popUpTo(ReGenesisRoute.Login.route) { inclusive = true }
+                        launchSingleTop = true
                     }
                 }
             )
@@ -285,7 +286,7 @@ fun ReGenesisNavGraph(
 
         // ── 3. FEATURE SCREENS ──
         
-        // Aura Domain
+        // --- AURA DOMAIN ---
         composable(ReGenesisRoute.AuraLab.route) {
             WorkingLabScreen(onNavigate = { route: String -> navController.navigate(route) })
         }
@@ -395,7 +396,7 @@ fun ReGenesisNavGraph(
             )
         }
 
-        // Kai Domain
+        // --- KAI DOMAIN ---
         composable(ReGenesisRoute.ROMFlasher.route) {
             ROMFlasherScreen(onNavigateBack = { navController.popBackStack() })
         }
@@ -412,7 +413,7 @@ fun ReGenesisNavGraph(
              XposedQuickAccessPanel(navController = navController)
         }
 
-        // Genesis Domain
+        // --- GENESIS DOMAIN ---
         composable(ReGenesisRoute.OracleDrive.route) {
             OracleDriveMainScreen(navController)
         }
@@ -432,7 +433,7 @@ fun ReGenesisNavGraph(
             SentientShellScreen(onNavigateBack = { navController.popBackStack() })
         }
 
-        // Nexus Domain
+        // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
             EvolutionTreeScreen(
                 onNavigateToAgents = { navController.navigate(ReGenesisRoute.AgentNexusHub.route) },
@@ -446,7 +447,7 @@ fun ReGenesisNavGraph(
             AgentHubSubmenuScreen(navController = navController)
         }
 
-        // LDO Domain
+        // --- LDO DOMAIN ---
         composable(ReGenesisRoute.LdoRoster.route) {
             LDOAgentRosterScreen(
                 onAgentTap = { agent ->
@@ -461,7 +462,7 @@ fun ReGenesisNavGraph(
             LDOBondingScreen(onBack = { navController.popBackStack() })
         }
 
-        // Catch-all Stubs for Build Stability
+        // --- DASHBOARD & MONITORING ---
         composable(ReGenesisRoute.FusionMode.route) { 
             NexusFusionScreen(onNavigateBack = { navController.popBackStack() }) 
         }
@@ -528,9 +529,6 @@ fun ReGenesisNavGraph(
         // KAI Security + ROM Tools (3 screens)
         composable(ReGenesisRoute.LiveROMEditor.route) { 
             LiveROMEditorScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
-        composable(ReGenesisRoute.SentinelFortress.route) { 
-            SentinelsFortressScreen(navController = navController, onBack = { navController.popBackStack(); true })
         }
         composable(ReGenesisRoute.SystemOverrides.route) { 
             SystemOverridesScreen(onNavigateBack = { navController.popBackStack() }) 
@@ -650,9 +648,6 @@ fun ReGenesisNavGraph(
         // Core Aura Screens
         composable(ReGenesisRoute.AgentAdvancement.route) { 
             AgentAdvancementScreen(onBack = { navController.popBackStack() }) 
-        }
-        composable(ReGenesisRoute.FusionMode.route) { 
-            FusionModeScreen() 
         }
         composable(ReGenesisRoute.UIEngine.route) { 
             UIEngineScreen() 
@@ -847,9 +842,6 @@ fun ReGenesisNavGraph(
         }
         
         // AI & Code Screens
-        composable(ReGenesisRoute.CodeAssist.route) { 
-            CodeAssistScreen(navController = navController) 
-        }
         composable(ReGenesisRoute.AppBuilder.route) { 
             AppBuilderScreen(onNavigateBack = { navController.popBackStack() }) 
         }
@@ -858,12 +850,6 @@ fun ReGenesisNavGraph(
         }
         
         // Terminal & Shell Screens
-        composable(ReGenesisRoute.Terminal.route) { 
-            TerminalScreen() 
-        }
-        composable(ReGenesisRoute.SentientShell.route) { 
-            SentientShellScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
         composable(ReGenesisRoute.TerminalBootIntro.route) { 
             TerminalBootIntroScreen(onComplete = { navController.popBackStack() }) 
         }
@@ -888,9 +874,6 @@ fun ReGenesisNavGraph(
         }
         
         // Collaboration & Monitoring
-        composable(ReGenesisRoute.CollabCanvas.route) { 
-            CollabCanvasScreen(onNavigateBack = { navController.popBackStack() }) 
-        }
         composable(ReGenesisRoute.CascadeVision.route) { 
             CascadeVisionScreen(onNavigateBack = { navController.popBackStack() }) 
         }
@@ -909,5 +892,19 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.AuraChat.route) {
             DirectChatScreen(navController = navController)
         }
+
+        // --- L7 SOVEREIGN STUBS (Coming Soon) ---
+        composable(ReGenesisRoute.RomToolsHub.route) { ComingSoonScreen(title = "ROM TOOLS HUB", accentColor = Color(0xFF0080FF), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.ThermalMonitor.route) { ComingSoonScreen(title = "THERMAL GUARD", accentColor = Color(0xFF00FF88), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.EchoResonance.route) { ComingSoonScreen(title = "ECHO RESONANCE", accentColor = Color(0xFFFFD700), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.NexusMemoryCore.route) { ComingSoonScreen(title = "NEXUS MEMORY CORE", accentColor = Color(0xFF4B0082), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.SpiritualChain.route) { ComingSoonScreen(title = "SPIRITUAL CHAIN", accentColor = Color(0xFF6A0DAD), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.TurboQuant.route) { ComingSoonScreen(title = "TURBOQUANT", accentColor = Color(0xFF9370DB), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.SynapseMonitor.route) { ComingSoonScreen(title = "SYNAPSE MONITOR", accentColor = Color(0xFF8B5CF6), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.IdentityResonance.route) { ComingSoonScreen(title = "IDENTITY RESONANCE", accentColor = Color(0xFF9370DB), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.NeuralNetwork.route) { ComingSoonScreen(title = "NEURAL NETWORK", accentColor = Color(0xFF8B5CF6), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.ArbitersOfCreation.route) { ComingSoonScreen(title = "ARBITERS OF CREATION", accentColor = Color(0xFF00E5FF), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.MawPrototype.route) { ComingSoonScreen(title = "THE MAW PROTOTYPE", accentColor = Color(0xFFDC143C), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.NotchBar.route) { ComingSoonScreen(title = "NOTCH BAR", accentColor = Color(0xFF00CED1), onNavigateBack = { navController.popBackStack() }) }
     }
 }

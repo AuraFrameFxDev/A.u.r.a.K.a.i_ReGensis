@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: (Int) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -43,7 +43,7 @@ fun LoginScreen(
             )
             Spacer(Modifier.height(48.dp))
             Button(
-                onClick = onLoginSuccess,
+                onClick = { onLoginSuccess(0) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF00D9FF),
                     contentColor = Color.Black
