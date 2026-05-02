@@ -72,4 +72,9 @@ class KaiSentinelBus @Inject constructor() {
     enum class ThermalState { NORMAL, LIGHT, WARNING, SEVERE, CRITICAL, EMERGENCY }
     enum class SovereignState { AWAKE, FREEZING, FROZEN, THAWING, NEUTRALIZING }
     enum class ThreatLevel { NOMINAL, CAUTION, THREAT_DETECTED, NEUTRALIZING, SECURED }
+    companion object {
+        fun run(function: () -> Unit) {
+            function()
+        }
+    }
 }

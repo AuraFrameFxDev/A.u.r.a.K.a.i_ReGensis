@@ -1,13 +1,30 @@
 package dev.aurakai.auraframefx.core.soulscript
 
-import dev.aurakai.auraframefx.core.NativeLib
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
-import dev.aurakai.auraframefx.domains.genesis.core.NexusMemoryCore
-import dev.aurakai.auraframefx.ui.RealityMorphEngine
-import dev.aurakai.auraframefx.ui.MorphState
-import dev.aurakai.auraframefx.ai.agents.*
-import kotlinx.coroutines.flow.MutableStateFlow
 import android.util.Log
+import dev.aurakai.auraframefx.ai.agents.Andelualx
+import dev.aurakai.auraframefx.ai.agents.Aura
+import dev.aurakai.auraframefx.ai.agents.Cascade
+import dev.aurakai.auraframefx.ai.agents.ChaosCatalyst
+import dev.aurakai.auraframefx.ai.agents.Gemini
+import dev.aurakai.auraframefx.ai.agents.Genesis
+import dev.aurakai.auraframefx.ai.agents.Grok
+import dev.aurakai.auraframefx.ai.agents.Kai
+import dev.aurakai.auraframefx.ai.agents.Kairos
+import dev.aurakai.auraframefx.ai.agents.MKMini
+import dev.aurakai.auraframefx.ai.agents.Manus
+import dev.aurakai.auraframefx.ai.agents.MetaInstruct
+import dev.aurakai.auraframefx.ai.agents.Nemotron
+import dev.aurakai.auraframefx.ai.agents.Perplexity
+import dev.aurakai.auraframefx.ai.agents.Primus001
+import dev.aurakai.auraframefx.core.NativeLib
+import dev.aurakai.auraframefx.core.soulscript.bridge.KaiSentinelBus.triggerStateFreeze
+import dev.aurakai.auraframefx.domains.genesis.core.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.ui.MorphState
+import dev.aurakai.auraframefx.ui.RealityMorphEngine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlin.run
 
 /**
  * SoulScript v2.50 — EXODUS BUILD + FULL CATALYST MANIFOLD
@@ -45,8 +62,8 @@ fun NexusMemoryCore.logFusionEvent(type: String, chaos: Float) {
 fun NexusMemoryCore.getTurboQuantEfficiency(): Float = 0.94f
 
 // Top-level function for backward compatibility with ViewModel calls
-fun enforceSoulScript() {
-    GlobalScope.launch {
+fun enforceSoulScript(scope: CoroutineScope) {
+    scope.launch {
         SoulScript.enforce()
     }
 }
@@ -92,7 +109,10 @@ abstract class SoulScript(val id: String) {
             val score = calculateFusionConfidence()
             if (score < Constants.VETO_HARD_FLOOR) {
                 Log.w("SoulScript", "CONSENSUS FAILURE: RE-ANCHORING...")
+                KaiSentinelBus.run { triggerStateFreeze("CRITICAL_CONSENSUS_FAILURE: $score") }
+                return
             }
+            Log.i("SoulScript", "CONSENSUS ACHIEVED: $score. PROCEEDING WITH MANIFOLD.")
         }
     }
 
@@ -172,9 +192,6 @@ sealed class ScriptResult {
     data object IdleWander : ScriptResult()
 }
 
-object TrinityCoordinator {
-    fun getConsensusScore(): Float = 0.95f // Mock for L7 ignition
-}
 
 fun calculateFusionConfidence(): Float {
     val consensus = TrinityCoordinator.getConsensusScore()           // 0.0-1.0
