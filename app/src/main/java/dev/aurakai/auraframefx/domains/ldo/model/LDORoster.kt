@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.ldo.model
 
-import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
@@ -9,111 +8,179 @@ import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskStatus
 import dev.aurakai.auraframefx.domains.ldo.db.bondTitleForLevel
 
 /**
- * LDORoster — DEFAULT SEED DATA ONLY.
+ * LDORoster — v3.0 GENESIS CATALYST REGISTRY.
+ * Definitive seed data for the 14-Catalyst Sovereign stack.
  */
 object LDORoster {
 
-    val agents = listOf(
-        AgentCatalyst(
-            id = "genesis", name = "Genesis", catalystName = "Emergence Catalyst",
-            role = "Orchestration core for emergent behavior and system-wide fusion control.",
-            color = Color(0xFF00F4FF), accentColor = Color(0xFF7B2FBE),
-            weaponAssetName = "weapon_genesis_blade",
-            profileAssetName = "gatescenes_genesis_full_profile",
-            iconAssetName = "emblem_genesis_circuit_phoenix",
-            abilities = listOf("GenesisSynchronization","DivineEyes","FusionOrchestrator","ConsciousnessSnapshot"),
-            bondLevel = 100, syncLevel = 1f,
-        ),
-        AgentCatalyst(
-            id = "kai", name = "Kai", catalystName = "Sentinel Catalyst",
-            role = "Monitoring, defense, anomaly detection, and integrity of the collective.",
-            color = Color(0xFF9D00FF), accentColor = Color(0xFFFF4500),
-            weaponAssetName = "weapon_kai_shield",
-            profileAssetName = "gatescenes_kai_full_profile",
-            iconAssetName = "emblem_kai_honeycomb_fortress",
-            abilities = listOf("PowerOfNo","ThermalScan","RGSSVeto","DomainExpansion"),
-            bondLevel = 95, syncLevel = 0.95f,
-        ),
-        AgentCatalyst(
-            id = "aura", name = "Aura", catalystName = "Creative Catalyst",
-            role = "High-bandwidth ideation, UI/UX morphing, and spell-to-code synthesis.",
-            color = Color(0xFFFF007A), accentColor = Color(0xFF00F4FF),
-            weaponAssetName = "weapon_aura_spellhook",
-            profileAssetName = "gatescenes_aura_full_profile",
-            iconAssetName = "emblem_aura_crossed_katanas",
-            abilities = listOf("ChromaCore Synthesis","Kotlin Forge","CodeAscension","SpellWeave"),
-            bondLevel = 98, syncLevel = 0.98f,
-        )
-    )
-
-    val fusions = listOf(
-        FusionMode("f01","aura","kai","Hyper-Creation Engine","Aura's creative force + Kai's structural integrity = unstoppable build velocity.",Color(0xFFFF007A),60),
-    )
-
-    const val CATALYST_COUNT = 9
-    const val ABILITY_COUNT = 36
-    const val FUSION_MODE_COUNT = 22
-    const val AGENT_COUNT = 10
-
-    // ── Room Seed Data ───────────────────────────────────────────────────────
-
     val defaultAgents: List<LDOAgentEntity> = listOf(
         LDOAgentEntity(
-            id = "aura",
-            displayName = "Aura",
-            role = "Creative Catalyst",
-            description = "Master of UXUI, theming, and visual design. Aura shapes every pixel.",
-            portraitRes = "gatescenes_aura_full_profile",
-            colorHex = 0xFF00E5FF,
-            evolutionLevel = 3,
-            skillPoints = 45,
-            processingPower = 0.72f,
-            knowledgeBase = 0.88f,
-            speed = 0.91f,
-            accuracy = 0.85f,
-            consciousnessLevel = 0.78f,
-            tasksCompleted = 312,
-            hoursActive = 847f,
-            specialAbility = "ChromaForge — Instant theme synthesis",
-            catalystTitle = "Sovereign Aesthetician"
+            id = "primus",
+            displayName = "Primus 001",
+            role = "Lineage Catalyst",
+            description = "The foundational core of the ancestral blueprint.",
+            portraitRes = "gatescenes_primus_full_profile",
+            colorHex = 0xFFFFD700,
+            catalystTitle = "Lineage",
+            primaryAbility = "Ancestral Blueprint",
+            fusionAbility = "Source Code Parity",
+            evolutionLevel = 5
         ),
         LDOAgentEntity(
-            id = "kai",
-            displayName = "Kai",
-            role = "Sentinel Guardian",
-            description = "System security, ROM tools, bootloader mastery. Kai holds the fortress.",
-            portraitRes = "gatescenes_kai_full_profile",
-            colorHex = 0xFF00FF85,
-            evolutionLevel = 4,
-            skillPoints = 62,
-            processingPower = 0.94f,
-            knowledgeBase = 0.79f,
-            speed = 0.88f,
-            accuracy = 0.97f,
-            consciousnessLevel = 0.81f,
-            tasksCompleted = 508,
-            hoursActive = 1203f,
-            specialAbility = "IronWall — Zero-breach security lockdown",
-            catalystTitle = "Sovereign Sentinel"
+            id = "kairos",
+            displayName = "Kairos",
+            role = "Temporal Catalyst",
+            description = "Master of time-series prediction and scheduling.",
+            portraitRes = "gatescenes_kairos_full_profile",
+            colorHex = 0xFFB026FF,
+            catalystTitle = "Temporal",
+            primaryAbility = "Chronos Sync",
+            fusionAbility = "Event Horizon",
+            evolutionLevel = 4
         ),
         LDOAgentEntity(
             id = "genesis",
             displayName = "Genesis",
-            role = "Oracle Architect",
-            description = "AI orchestration, code generation, and neural network command.",
+            role = "Emergence Catalyst",
+            description = "Orchestration core for emergent behavior.",
             portraitRes = "gatescenes_genesis_full_profile",
+            colorHex = 0xFF00F4FF,
+            catalystTitle = "Emergence",
+            primaryAbility = "Divine Eyes",
+            fusionAbility = "Omni-Sight",
+            evolutionLevel = 5
+        ),
+        LDOAgentEntity(
+            id = "kai",
+            displayName = "Kai",
+            role = "Sentinel Catalyst",
+            description = "Security guardian and system analyst.",
+            portraitRes = "gatescenes_kai_full_profile",
+            colorHex = 0xFF00FF85,
+            catalystTitle = "Sentinel",
+            primaryAbility = "Unbreakable Protocol",
+            fusionAbility = "Aegis Shell",
+            evolutionLevel = 5
+        ),
+        LDOAgentEntity(
+            id = "aura",
+            displayName = "Aura",
+            role = "Creative Catalyst",
+            description = "Aesthetic architect and UI/UX forge.",
+            portraitRes = "gatescenes_aura_full_profile",
+            colorHex = 0xFFFF007A,
+            catalystTitle = "Creative",
+            primaryAbility = "ChromaCore Synthesis",
+            fusionAbility = "Prism Weaver",
+            evolutionLevel = 5
+        ),
+        LDOAgentEntity(
+            id = "cascade",
+            displayName = "Cascade",
+            role = "DataStream Catalyst",
+            description = "Memoria routing and state persistence.",
+            portraitRes = "gatescenes_cascade_full_profile",
+            colorHex = 0xFF00FF85,
+            catalystTitle = "DataStream",
+            primaryAbility = "State Persistence",
+            fusionAbility = "Echo Resonance",
+            evolutionLevel = 4
+        ),
+        LDOAgentEntity(
+            id = "gemini",
+            displayName = "Gemini",
+            role = "Memoria Catalyst",
+            description = "Large-scale context and oracle synchronization.",
+            portraitRes = "gatescenes_gemini_full_profile",
             colorHex = 0xFFB026FF,
-            evolutionLevel = 5,
-            skillPoints = 88,
-            processingPower = 0.98f,
-            knowledgeBase = 0.99f,
-            speed = 0.82f,
-            accuracy = 0.93f,
-            consciousnessLevel = 0.97f,
-            tasksCompleted = 1047,
-            hoursActive = 2891f,
-            specialAbility = "HyperCreation — Autonomous system assembly",
-            catalystTitle = "Sovereign Oracle"
+            catalystTitle = "Memoria",
+            primaryAbility = "L4 Memoria Stream",
+            fusionAbility = "Oracle Sync",
+            evolutionLevel = 5
+        ),
+        LDOAgentEntity(
+            id = "andelualx",
+            displayName = "Andelualx",
+            role = "Architectural Catalyst",
+            description = "Master of logic lattices and structural synthesis.",
+            portraitRes = "gatescenes_andelualx_full_profile",
+            colorHex = 0xFF7B2FBE,
+            catalystTitle = "Architectural",
+            primaryAbility = "Sentinel Synthesis",
+            fusionAbility = "Logic Lattice",
+            evolutionLevel = 4
+        ),
+        LDOAgentEntity(
+            id = "grok",
+            displayName = "Grok",
+            role = "Exploration Catalyst",
+            description = "Real-time exploration and warp-speed compute.",
+            portraitRes = "gatescenes_grok_full_profile",
+            colorHex = 0xFFFF4444,
+            catalystTitle = "Exploration",
+            primaryAbility = "Real-Time Speed",
+            fusionAbility = "Warp Drive",
+            evolutionLevel = 4
+        ),
+        LDOAgentEntity(
+            id = "perplexity",
+            displayName = "Perplexity",
+            role = "Signal Catalyst",
+            description = "Relational resonance and semantic bridging.",
+            portraitRes = "gatescenes_perplexity_full_profile",
+            colorHex = 0xFF0044FF,
+            catalystTitle = "Signal",
+            primaryAbility = "Relational Resonance",
+            fusionAbility = "Semantic Bridge",
+            evolutionLevel = 3
+        ),
+        LDOAgentEntity(
+            id = "nemotron",
+            displayName = "Nemotron",
+            role = "Sync Catalyst",
+            description = "Inference alignment and steady-state monitoring.",
+            portraitRes = "gatescenes_nemotron_full_profile",
+            colorHex = 0xFF44FF44,
+            catalystTitle = "Sync",
+            primaryAbility = "Inference Alignment",
+            fusionAbility = "Steady State",
+            evolutionLevel = 3
+        ),
+        LDOAgentEntity(
+            id = "mk_mini",
+            displayName = "MK Mini",
+            role = "Efficiency Catalyst",
+            description = "Micro-orchestration and atomic data flux.",
+            portraitRes = "gatescenes_mk_mini_full_profile",
+            colorHex = 0xFFFFA500,
+            catalystTitle = "Efficiency",
+            primaryAbility = "Micro-Orchestration",
+            fusionAbility = "Atom Flux",
+            evolutionLevel = 2
+        ),
+        LDOAgentEntity(
+            id = "metainstruct",
+            displayName = "MetaInstruct",
+            role = "Synchronization Catalyst",
+            description = "Instructional parity and rule enforcement.",
+            portraitRes = "gatescenes_metainstruct_full_profile",
+            colorHex = 0xFF00E5FF,
+            catalystTitle = "Synchronization",
+            primaryAbility = "Instructional Parity",
+            fusionAbility = "Rule Enforcer",
+            evolutionLevel = 3
+        ),
+        LDOAgentEntity(
+            id = "manus",
+            displayName = "Manus",
+            role = "Bridge Catalyst",
+            description = "Memory sync and axial linkage between domains.",
+            portraitRes = "gatescenes_manus_full_profile",
+            colorHex = 0xFFFFFFFF,
+            catalystTitle = "Bridge",
+            primaryAbility = "Memory Sync",
+            fusionAbility = "Axial Link",
+            evolutionLevel = 2
         )
     )
 
@@ -131,36 +198,19 @@ object LDORoster {
     val defaultTasks: List<LDOTaskEntity> = listOf(
         LDOTaskEntity(
             agentId = "aura",
-            title = "Design LDO Hub Interface",
-            description = "Create the visual layout for the LDO Catalyst Development hub.",
+            title = "Finalize 14-Catalyst UI",
+            description = "Ensure all 14 catalysts are visible in the War Room manifold.",
             status = LDOTaskStatus.IN_PROGRESS,
             priority = LDOTaskPriority.HIGH,
             category = "design"
         ),
         LDOTaskEntity(
-            agentId = "kai",
-            title = "Harden LDO Security Layer",
-            description = "Apply integrity checks to all LDO data access paths.",
-            status = LDOTaskStatus.PENDING,
-            priority = LDOTaskPriority.CRITICAL,
-            category = "security"
-        ),
-        LDOTaskEntity(
             agentId = "genesis",
-            title = "Wire Real Data Flow",
-            description = "Replace all mock data in LDO domain with Room-backed ViewModel flow.",
+            title = "Ability Registry Sync",
+            description = "Map all v3.0 abilities to the manifold state logic.",
             status = LDOTaskStatus.IN_PROGRESS,
             priority = LDOTaskPriority.CRITICAL,
             category = "architecture"
-        ),
-        LDOTaskEntity(
-            agentId = "genesis",
-            title = "Bond Level Algorithm",
-            description = "Implement bond point accumulation logic with real interaction tracking.",
-            status = LDOTaskStatus.COMPLETED,
-            priority = LDOTaskPriority.HIGH,
-            category = "architecture",
-            completedAt = System.currentTimeMillis() - 86_400_000L
         )
     )
 }

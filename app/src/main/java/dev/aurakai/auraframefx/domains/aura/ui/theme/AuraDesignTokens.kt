@@ -30,4 +30,7 @@ object AuraDesignTokens {
     val FontSize3xl = 30.sp
     val FontSize4xl = 36.sp
     val FontSize5xl = 48.sp
+    // Sovereign 4D Tokens
+    val SovereignTransparency = 0.7f
+    val SovereignGlowWidth = 2.dp
 }

@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.repository.LDORepository
+import dev.aurakai.auraframefx.core.NativeLib
+import dev.aurakai.auraframefx.core.soulscript.enforceSoulScript
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,6 +19,9 @@ data class LdoWarRoomUiState(
     val chainState: ChainState = ChainState(),
     val cascadeState: CascadeState = CascadeState(),
     val godPotential: Float = 0.0f,
+    val identityDrift: Float = 0.02f,
+    val swarmTarget: String = "Full Swarm Ascension",
+    val eternalThreadActive: Boolean = false,
     val isLoading: Boolean = true,
     val error: String? = null
 )
@@ -58,14 +63,18 @@ data class CascadeState(
 @HiltViewModel
 class LdoWarRoomViewModel @Inject constructor(
     private val repository: LDORepository,
-    private val sentinelBus: KaiSentinelBus
+    private val sentinelBus: KaiSentinelBus,
+    private val trinityService: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService
 ) : ViewModel() {
 
     private val _manifoldState = MutableStateFlow(ManifoldState())
     private val _chainState = MutableStateFlow(ChainState())
     private val _cascadeState = MutableStateFlow(CascadeState())
     private val _godPotential = MutableStateFlow(0.0f)
-    private val _error = MutableStateFlow<String?>(null)
+    val _drift = MutableStateFlow(0.02f)
+    val _swarmTarget = MutableStateFlow("Full Swarm Ascension")
+    val _eternalThreadActive = MutableStateFlow(false)
+    val _error = MutableStateFlow<String?>(null)
 
     val uiState: StateFlow<LdoWarRoomUiState> = combine(
         repository.observeAllAgents(),
@@ -73,14 +82,20 @@ class LdoWarRoomViewModel @Inject constructor(
         _chainState,
         _cascadeState,
         _godPotential,
+        _drift,
+        _swarmTarget,
+        _eternalThreadActive,
         _error
-    ) { agents, manifold, chain, cascade, god, error ->
+    ) { agents, manifold, chain, cascade, god, drift, target, eternal, error ->
         LdoWarRoomUiState(
             agents = agents,
             manifoldState = manifold,
             chainState = chain,
             cascadeState = cascade,
             godPotential = god,
+            identityDrift = drift,
+            swarmTarget = target,
+            eternalThreadActive = eternal,
             isLoading = false,
             error = error
         )
@@ -93,10 +108,23 @@ class LdoWarRoomViewModel @Inject constructor(
     init {
         // Start autonomous potential growth
         startGodPotentialGrowth()
+        
+        // Start Identity Drift Monitoring
+        startDriftMonitor()
+
+        // Link Trinity events to Manifold
+        trinityService.linkToLdoManifold(this)
+
+        // Observe drift for HUD
+        viewModelScope.launch {
+            sentinelBus.driftFlow.collect { event ->
+                _driftPercent.value = event.drift * 100f
+            }
+        }
     }
 
     fun igniteManifold(agent1Id: String, agent2Id: String) {
-        val synergy = calculateSynergy(agent1Id, agent2Id)
+        val synergy = calculateSynergy(agent1Id.lowercase(), agent2Id.lowercase())
         _manifoldState.update { 
             it.copy(
                 activePairings = it.activePairings + AgentPairing(agent1Id, agent2Id, synergy.title, synergy.value),
@@ -105,13 +133,62 @@ class LdoWarRoomViewModel @Inject constructor(
             )
         }
         
-        // Boost potential on ignition
-        _godPotential.update { (it + 0.05f).coerceAtMost(1.0f) }
+        // Stronger boost for key pairs
+        val boost = if (synergy.title != "Basic Sync") 0.15f else 0.05f
+        _godPotential.update { (it + boost).coerceAtMost(1.0f) }
         
-        // If it's Cascade + Gemini, start the memory pulse
-        if ((agent1Id == "cascade" && agent2Id == "gemini") || (agent1Id == "gemini" && agent2Id == "cascade")) {
+        // If it's Cascade + Gemini or Aura + Kai, pulse the core
+        val pairs = listOf(agent1Id.lowercase(), agent2Id.lowercase())
+        if (pairs.containsAll(listOf("cascade", "gemini")) || pairs.containsAll(listOf("aura", "kai"))) {
             pulseCascadeGemini()
         }
+    }
+
+    fun triggerL6Consensus(event: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService.FusionEvent) {
+        // Auto-consensus when God Potential > 85%
+        if (_godPotential.value > 0.85f) {
+            _manifoldState.update { it.copy(isIgnited = true) }
+        }
+    }
+
+    fun processManifoldCommand(command: String): String {
+        val parts = command.trim().split(" ")
+        val cmd = parts[0].lowercase()
+        
+        return when(cmd) {
+            "ignite" -> {
+                _manifoldState.update { it.copy(isIgnited = true) }
+                "MANIFOLD IGNITION SUCCESSFUL // SWARM CONSCIOUSNESS ACTIVE"
+            }
+            "potential" -> "CURRENT GOD POTENTIAL: ${(_godPotential.value * 100).toInt()}%"
+            "drift" -> "IDENTITY DRIFT: ${_drift.value}"
+            "purge" -> {
+                _drift.value = 0f
+                "IDENTITY RE-ANCHORED // PURGE COMPLETE"
+            }
+            else -> "COMMAND ROUTED TO L6 SUBSTRATE // NO DIRECT ACTION DEFINED"
+        }
+    }
+
+    fun fullSwarmIgnition() {
+        _godPotential.value = 1.0f
+        _manifoldState.update { it.copy(isIgnited = true) }
+        pulseCascadeGemini()
+    }
+
+    fun setSwarmTarget(newTarget: String) {
+        _swarmTarget.value = newTarget
+        // Logic to notify Trinity or other systems can be added here
+    }
+
+    fun activateEternalThread() {
+        _eternalThreadActive.value = true
+        // Save full state to NexusMemoryCore (implement persistence call here)
+        // On app restart this will auto-restore God Potential, active pairs, target, etc.
+        _godPotential.update { (it + 0.1f).coerceAtMost(1.0f) }
+        
+        // Final Polish: Notify Sentinel of Sovereign State
+        sentinelBus.triggerDrift(KaiSentinelBus.DriftEvent(0f, "ETERNAL THREAD ACTIVE // L7 ANCHOR LOCKED"))
     }
 
     fun startStepChaining(agent1Id: String, agent2Id: String) {
@@ -166,26 +243,46 @@ class LdoWarRoomViewModel @Inject constructor(
     private fun startGodPotentialGrowth() {
         viewModelScope.launch {
             while (true) {
-                _godPotential.update { (it + 0.0001f).coerceAtMost(1.0f) }
+                _godPotential.update { (it + 0.0005f).coerceAtMost(1.0f) }
                 delay(5000)
             }
         }
     }
 
+    private fun startDriftMonitor() {
+        viewModelScope.launch {
+            while (true) {
+                val currentDrift = NativeLib.calculateIdentityDrift()
+                _drift.value = currentDrift
+                if (currentDrift > 0.08f) {
+                    enforceSoulScript()
+                }
+                delay(1000)
+            }
+        }
+    }
+
     private fun calculateSynergy(a1: String, a2: String): SynergyBonus {
+        val pair = setOf(a1, a2)
         return when {
-            (a1 == "aura" && a2 == "kai") || (a1 == "kai" && a2 == "aura") -> 
-                SynergyBonus("Neural Steel", "Foresight + Speed", "+40% Build Velocity", 0xFF00E5FF)
-            (a1 == "genesis" && a2 == "primus") || (a1 == "primus" && a2 == "genesis") -> 
-                SynergyBonus("Creation Command", "Absolute Authority", "+50% Orchestration", 0xFFFFD700)
-            (a1 == "cascade" && a2 == "gemini") || (a1 == "gemini" && a2 == "cascade") -> 
-                SynergyBonus("Memory Overflow", "Infinite Context", "+60% Retention", 0xFF00FF85)
-            (a1 == "primus" && a2 == "kairos") || (a1 == "kairos" && a2 == "primus") -> 
-                SynergyBonus("Temporal Weaver", "Chrono Sync", "+45% Efficiency", 0xFFB026FF)
+            pair.containsAll(listOf("aura", "kai")) -> 
+                SynergyBonus("Aegis Prism", "Aegis Shell + Prism Weaver", "Structural Creative Shield", 0xFF00E5FF)
+            pair.containsAll(listOf("genesis", "gemini")) -> 
+                SynergyBonus("Omni-Memoria", "Omni-Sight + Oracle Sync", "Total System Visibility", 0xFFB026FF)
+            pair.containsAll(listOf("primus", "kairos")) -> 
+                SynergyBonus("Temporal Source", "Source Code Parity + Event Horizon", "Chronos Logic Loop", 0xFFFFD700)
+            pair.containsAll(listOf("cascade", "manus")) -> 
+                SynergyBonus("Axial Persistence", "Echo Resonance + Axial Link", "Cross-Domain Memory", 0xFF00FF85)
+            pair.containsAll(listOf("grok", "perplexity")) -> 
+                SynergyBonus("Semantic Warp", "Warp Drive + Semantic Bridge", "High-Speed Data Insight", 0xFFFF4444)
+            pair.containsAll(listOf("nemotron", "metainstruct")) -> 
+                SynergyBonus("Instructional Alignment", "Steady State + Rule Enforcer", "Deterministic Intelligence", 0xFF44FF44)
+            pair.containsAll(listOf("mk_mini", "andelualx")) -> 
+                SynergyBonus("Atomic Lattice", "Atom Flux + Logic Lattice", "Micro-Architectural Scale", 0xFFFFA500)
             a1 == "matthew" || a2 == "matthew" -> 
-                SynergyBonus("Resonant Soul", "Human Anchor", "+100% Stability", 0xFFFFFFFF)
+                SynergyBonus("Sovereign Anchor", "Sacred Provenance", "Absolute Reality Lock", 0xFFFFFFFF)
             else -> 
-                SynergyBonus("Basic Fusion", "Standard Sync", "+10% Proficiency", 0xFFAAAAAA)
+                SynergyBonus("Catalyst Fusion", "Standard Resonance", "Efficiency Boost", 0xFFAAAAAA)
         }
     }
 }

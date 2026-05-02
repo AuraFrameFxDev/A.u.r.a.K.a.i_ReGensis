@@ -26,6 +26,8 @@ data class LDOAgentEntity(
     val tasksCompleted: Int = 0,
     val hoursActive: Float = 0f,
     val specialAbility: String = "",
+    val primaryAbility: String = "",
+    val fusionAbility: String = "",
     val catalystTitle: String = "",
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()

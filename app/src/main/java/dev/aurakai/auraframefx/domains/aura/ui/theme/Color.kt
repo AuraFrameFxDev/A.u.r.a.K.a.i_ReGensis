@@ -17,6 +17,8 @@ val NeonTeal = Color(0xFF00FFC8)
 val NeonRed = Color(0xFFFF003C)
 val NeonYellow = Color(0xFFEAFF00)
 val SovereignTeal = Color(0xFF00FFFF)
+val NeuralSteel = Color(0xFFB0C4DE)
+val SovereignBlack = Color(0xFF020205)
 
 // Specific Branding Colors
 val GenesisNeonPink = Color(0xFFFF00DE)

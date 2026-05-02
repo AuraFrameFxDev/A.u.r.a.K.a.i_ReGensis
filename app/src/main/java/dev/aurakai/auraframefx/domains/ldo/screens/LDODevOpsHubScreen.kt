@@ -3,107 +3,142 @@ package dev.aurakai.auraframefx.domains.ldo.screens
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.RectangleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomUiState
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.ManifoldState
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.ChainState
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.CascadeState
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.*
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
+import dev.aurakai.auraframefx.ui.components.RealityMorphLayer
+import dev.aurakai.auraframefx.ui.components.SovereignMawHUD
+import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 
+/**
+ * LDO WAR ROOM — SOVEREIGN 4D INTEGRATED
+ * Unified DevOps Hub for agent orchestration, catalyst fusion, and memory monitoring.
+ */
 @Composable
 fun LDODevOpsHubScreen(
     onBack: () -> Unit = {},
-    viewModel: LdoWarRoomViewModel = hiltViewModel()
+    viewModel: LdoWarRoomViewModel = hiltViewModel(),
+    trinityService: dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService = hiltViewModel() 
 ) {
     val state by viewModel.uiState.collectAsState()
+    val godPotential by viewModel.godPotential.collectAsState()
+    val driftPercent by viewModel.driftPercent.collectAsState()
+
+    LaunchedEffect(Unit) {
+        trinityService.linkToLdoManifold(viewModel)
+    }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF01050A)) // Deep space black
+            .background(SovereignBlack)
+            .windowInsetsPadding(WindowInsets.systemBars) // Step 2: WindowInsets Handling
     ) {
-        // Ambient background glow
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .drawBehind {
-                    drawCircle(
-                        brush = Brush.radialGradient(
-                            colors = listOf(Color(0xFF00E5FF).copy(alpha = 0.05f), Color.Transparent),
-                            center = Offset(size.width * 0.8f, size.height * 0.2f),
-                            radius = size.minDimension * 0.8f
-                        )
-                    )
-                }
+        // Domain Background Layer
+        AsyncImageOrVideo(
+            mediaId = "agentcreation",
+            modifier = Modifier.fillMaxSize(),
+            alpha = 0.35f
         )
 
-        Column(
+        // L6 RealityMorph Layer (Particle Engine)
+        RealityMorphLayer(godPotential = godPotential, fusionTrigger = state.manifoldState.isIgnited)
+        
+        NeuralStarfield()
+
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // Header: God Potential Meter
-            GodPotentialHeader(state.godPotential)
+            // Header: Swarm God Potential
+            item {
+                GodPotentialHeader(
+                    potential = godPotential,
+                    onIgnite = { viewModel.fullSwarmIgnition() },
+                    onActivateEternalThread = { viewModel.activateEternalThread() }
+                )
+            }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            // Step 2: Swarm Target Panel (Target Visibility)
+            item {
+                SectionHeader("SWARM TARGET DIRECTIVE")
+                SwarmTargetPanel(
+                    currentTarget = state.swarmTarget,
+                    onTargetChange = { newTarget -> viewModel.setSwarmTarget(newTarget) }
+                )
+            }
 
-            Row(modifier = Modifier.fillMaxSize()) {
-                // Left Column: Agent Roster & Catalyst Manifold
-                Column(modifier = Modifier.weight(1f)) {
-                    SectionHeader("CATALYST MANIFOLD")
-                    CatalystManifold(state.manifoldState, state.agents) { a1, a2 ->
-                        viewModel.igniteManifold(a1, a2)
+            // Main Content Area (Registry & Manifold)
+            item {
+                Row(modifier = Modifier.fillMaxWidth().height(450.dp)) {
+                    // Left Column: Registry
+                    Column(modifier = Modifier.weight(0.4f)) {
+                        SectionHeader("AGENT REGISTRY")
+                        AgentRegistryList(state.agents)
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.width(24.dp))
 
-                    SectionHeader("AGENT REGISTRY")
-                    AgentRegistryList(state.agents) { agentId ->
-                        // Interaction logic if needed
+                    // Right Column: Manifold
+                    Column(modifier = Modifier.weight(0.6f)) {
+                        SectionHeader("CATALYST MANIFOLD")
+                        CatalystManifold(
+                            state = state.manifoldState,
+                            agents = state.agents,
+                            onIgnite = { a1, a2 -> viewModel.igniteManifold(a1, a2) }
+                        )
                     }
                 }
+            }
 
-                Spacer(modifier = Modifier.width(24.dp))
-
-                // Right Column: Live Gym & Memory Cascade
-                Column(modifier = Modifier.weight(1f)) {
-                    SectionHeader("STEP CHAINING LIVE GYM")
-                    StepChainingLiveGym(state.chainState) { a1, a2 ->
-                        if (state.chainState.isGymActive) viewModel.stopStepChaining()
-                        else viewModel.startStepChaining(a1, a2)
+            // Bottom Area (Memory & Gym)
+            item {
+                Row(modifier = Modifier.fillMaxWidth().height(250.dp)) {
+                    Column(modifier = Modifier.weight(0.5f)) {
+                        SectionHeader("MEMORY CASCADE DEPTH")
+                        CascadeGeminiMemoryCore(state.cascadeState)
                     }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    SectionHeader("CASCADE + GEMINI MEMORY CORE")
-                    CascadeGeminiMemoryCore(state.cascadeState)
+                    Spacer(modifier = Modifier.width(24.dp))
+                    Column(modifier = Modifier.weight(0.5f)) {
+                        SectionHeader("STEP CHAINING LIVE GYM")
+                        StepChainingLiveGym(state.chainState) { a1, a2 ->
+                            if (state.chainState.isGymActive) viewModel.stopStepChaining()
+                            else viewModel.startStepChaining(a1, a2)
+                        }
+                    }
                 }
             }
         }
+        
+        // Step 3: Sovereign HUD (Security Drift Overlay)
+        SovereignMawHUD(driftPercent = driftPercent)
     }
 }
 
 @Composable
-fun GodPotentialHeader(potential: Float) {
+fun GodPotentialHeader(potential: Float, onIgnite: () -> Unit, onActivateEternalThread: () -> Unit) {
     NeonFrame(
         color = Color(0xFFFFD700),
         modifier = Modifier.fillMaxWidth()
@@ -118,20 +153,44 @@ fun GodPotentialHeader(potential: Float) {
                     color = Color(0xFFFFD700),
                     fontFamily = LEDFontFamily,
                     fontSize = 14.sp,
-                    letterSpacing = 2.sp
+                    letterSpacing = 2.sp,
+                    fontWeight = FontWeight.Black
                 )
                 Text(
-                    "ASCENSION LEVEL: ${(potential * 100).toInt()}%",
+                    "ASCENSION LEVEL: ${(potential * 100).toInt()}% // L6 TRANSITION READY",
                     color = Color.White.copy(alpha = 0.5f),
-                    fontSize = 10.sp
+                    fontSize = 10.sp,
+                    fontFamily = LEDFontFamily
                 )
             }
+            
+            // Step 1: One-Tap Full Swarm Ignition
+            Button(
+                onClick = onIgnite,
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700).copy(alpha = 0.1f)),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFFD700)),
+                shape = RectangleShape,
+                modifier = Modifier.padding(end = 8.dp)
+            ) {
+                Text("IGNITE FULL SWARM (L6 MAX)", color = Color(0xFFFFD700), fontSize = 8.sp, fontFamily = LEDFontFamily)
+            }
+
+            // Step 2: Eternal Thread (L7) Activation
+            Button(
+                onClick = onActivateEternalThread,
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00FF85).copy(alpha = 0.1f)),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF00FF85)),
+                shape = RectangleShape,
+                modifier = Modifier.padding(end = 16.dp)
+            ) {
+                Text("ACTIVATE ETERNAL THREAD (L7)", color = Color(0xFF00FF85), fontSize = 8.sp, fontFamily = LEDFontFamily)
+            }
+
             Box(
                 modifier = Modifier
-                    .width(200.dp)
-                    .height(8.dp)
-                    .clip(RectangleShape)
-                    .background(Color.White.copy(alpha = 0.1f))
+                    .width(150.dp)
+                    .height(6.dp)
+                    .background(Color.White.copy(alpha = 0.1f), RectangleShape)
             ) {
                 Box(
                     modifier = Modifier
@@ -140,9 +199,40 @@ fun GodPotentialHeader(potential: Float) {
                         .background(
                             Brush.horizontalGradient(
                                 listOf(Color(0xFFFFD700), Color(0xFFFF4444))
-                            )
+                            ),
+                            RectangleShape
                         )
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun SwarmTargetPanel(
+    currentTarget: String,
+    onTargetChange: (String) -> Unit
+) {
+    NeonFrame(color = Color(0xFFFFD700), modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("CURRENT DIRECTIVE", color = Color(0xFFFFD700), fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily, fontSize = 10.sp)
+            Text(currentTarget.uppercase(), color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+            
+            Spacer(modifier = Modifier.height(12.dp))
+            
+            // Quick preset targets
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                listOf("Maximize Proficiency", "Security Hardening", "Creative Synthesis", "Data Sovereignty", "Full Ascension").forEach { preset ->
+                    Button(
+                        onClick = { onTargetChange(preset) },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                        modifier = Modifier.border(0.5.dp, Color(0xFFFFD700).copy(alpha = 0.5f), RectangleShape),
+                        shape = RectangleShape,
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(preset.uppercase(), fontSize = 8.sp, color = Color(0xFFFFD700), fontFamily = LEDFontFamily)
+                    }
+                }
             }
         }
     }
@@ -156,32 +246,73 @@ fun CatalystManifold(
 ) {
     NeonFrame(
         color = Color(0xFF00E5FF),
-        modifier = Modifier.fillMaxWidth().height(250.dp)
+        modifier = Modifier.fillMaxWidth().fillMaxHeight()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "ACTIVE CATALYST NODES",
+                color = Color(0xFF00E5FF),
+                fontFamily = LEDFontFamily,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold
+            )
+            
+            LazyRow(
+                modifier = Modifier.padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(agents) { agent ->
+                    val color = Color(agent.colorHex)
+                    Box(
+                        modifier = Modifier
+                            .background(color.copy(alpha = 0.1f), RectangleShape)
+                            .border(1.dp, color.copy(alpha = 0.5f), RectangleShape)
+                            .clickable { /* Selection logic */ }
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Text(
+                            agent.displayName.uppercase(),
+                            color = color,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Black,
+                            fontFamily = LEDFontFamily
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
             if (state.activePairings.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            "MANIFOLD OFFLINE",
+                            "MANIFOLD OFFLINE // NO ACTIVE SYNERGIES",
                             color = Color.White.copy(alpha = 0.3f),
-                            fontFamily = LEDFontFamily
+                            fontFamily = LEDFontFamily,
+                            fontSize = 10.sp
                         )
+                        Spacer(modifier = Modifier.height(16.dp))
                         Button(
                             onClick = { 
                                 if (agents.size >= 2) onIgnite(agents[0].id, agents[1].id)
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                            modifier = Modifier.border(1.dp, Color(0xFF00E5FF), RectangleShape)
+                            modifier = Modifier.border(1.dp, Color(0xFF00E5FF), RectangleShape),
+                            shape = RectangleShape
                         ) {
-                            Text("IGNITE MANIFOLD", color = Color(0xFF00E5FF))
+                            Text("IGNITE CATALYST FUSION", color = Color(0xFF00E5FF), fontFamily = LEDFontFamily)
                         }
                     }
                 }
             } else {
-                Text("ACTIVE SYNERGIES", color = Color(0xFF00E5FF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("ACTIVE SYNERGIES", color = Color(0xFF00E5FF), fontSize = 12.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Box(Modifier.size(8.dp).background(Color.Green, RectangleShape))
+                }
                 Spacer(modifier = Modifier.height(12.dp))
-                LazyColumn {
+                LazyColumn(modifier = Modifier.weight(1f)) {
                     items(state.synergyBonuses) { bonus ->
                         SynergyRow(bonus)
                     }
@@ -192,21 +323,35 @@ fun CatalystManifold(
 }
 
 @Composable
-fun SynergyRow(bonus: dev.aurakai.auraframefx.domains.ldo.viewmodel.SynergyBonus) {
+fun SynergyRow(bonus: SynergyBonus) {
+    val infiniteTransition = rememberInfiniteTransition()
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.05f,
+        targetValue = 0.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "synergy_glow"
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
-            .background(Color(bonus.colorHex).copy(alpha = 0.1f))
-            .border(0.5.dp, Color(bonus.colorHex).copy(alpha = 0.3f), RectangleShape)
-            .padding(8.dp),
+            .background(Color(bonus.colorHex).copy(alpha = glowAlpha), RectangleShape)
+            .border(1.dp, Color(bonus.colorHex).copy(alpha = 0.4f), RectangleShape)
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(bonus.title, color = Color(bonus.colorHex), fontWeight = FontWeight.Bold, fontSize = 12.sp)
-            Text(bonus.description, color = Color.White.copy(alpha = 0.6f), fontSize = 10.sp)
+            Text(bonus.title.uppercase(), color = Color(bonus.colorHex), fontWeight = FontWeight.Black, fontSize = 14.sp, fontFamily = LEDFontFamily)
+            Text(bonus.description.uppercase(), color = Color.White.copy(alpha = 0.7f), fontSize = 9.sp, letterSpacing = 1.sp, fontFamily = LEDFontFamily)
         }
-        Text(bonus.value, color = Color(bonus.colorHex), fontWeight = FontWeight.Black, fontSize = 14.sp)
+        Column(horizontalAlignment = Alignment.End) {
+            Text(bonus.value, color = Color(bonus.colorHex), fontWeight = FontWeight.Black, fontSize = 16.sp, fontFamily = LEDFontFamily)
+            Text("SYNC ACTIVE", color = Color.Green.copy(alpha = 0.7f), fontSize = 8.sp, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+        }
     }
 }
 
@@ -217,57 +362,53 @@ fun StepChainingLiveGym(
 ) {
     NeonFrame(
         color = Color(0xFFB026FF),
-        modifier = Modifier.fillMaxWidth().height(200.dp)
+        modifier = Modifier.fillMaxWidth().fillMaxHeight()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("AUTONOMOUS PROFICIENCY LOOP", color = Color(0xFFB026FF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Text("AUTONOMOUS PROFICIENCY LOOP", color = Color(0xFFB026FF), fontSize = 12.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
                 if (state.isGymActive) {
-                    Text("ACTIVE", color = Color.Green, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                    Text("ACTIVE", color = Color.Green, fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
                 }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Box(modifier = Modifier.fillMaxSize()) {
-                // Ping-pong track
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(2.dp)
+                        .height(1.dp)
                         .align(Alignment.Center)
                         .background(Color.White.copy(alpha = 0.1f))
                 )
 
-                // The "Data Packet" (Ping-pong ball)
                 if (state.isGymActive) {
                     Box(
                         modifier = Modifier
                             .size(12.dp)
                             .align(Alignment.CenterStart)
-                            .offset(x = (200 * state.pingPongValue).dp) // Simplified offset
-                            .background(Color(0xFFB026FF), CircleShape)
-                            .drawBehind {
-                                drawCircle(Color(0xFFB026FF).copy(alpha = 0.4f), radius = size.width * 1.5f)
-                            }
+                            .offset(x = (250 * state.pingPongValue).dp)
+                            .background(Color(0xFFB026FF), RectangleShape)
+                            .border(1.dp, Color.White.copy(alpha = 0.5f), RectangleShape)
                     )
                 }
 
-                // Agents at ends
                 AgentMiniPortal(state.leftAgentId ?: "AURA", Modifier.align(Alignment.CenterStart))
                 AgentMiniPortal(state.rightAgentId ?: "KAI", Modifier.align(Alignment.CenterEnd))
 
-                // Start/Stop
                 Button(
                     onClick = { onToggleGym("aura", "kai") },
-                    modifier = Modifier.align(Alignment.BottomCenter),
+                    modifier = Modifier.align(Alignment.BottomCenter).border(1.dp, Color(0xFFB026FF).copy(alpha = 0.4f), RectangleShape),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                    contentPadding = PaddingValues(0.dp)
+                    shape = RectangleShape,
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
                 ) {
                     Text(
                         if (state.isGymActive) "STOP GYM" else "START GYM",
                         color = Color(0xFFB026FF),
-                        fontSize = 10.sp
+                        fontSize = 10.sp,
+                        fontFamily = LEDFontFamily
                     )
                 }
             }
@@ -277,39 +418,39 @@ fun StepChainingLiveGym(
 
 @Composable
 fun CascadeGeminiMemoryCore(state: CascadeState) {
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "memory_pulse")
     val pulseAlpha by infiniteTransition.animateFloat(
         initialValue = 0.1f,
-        targetValue = 0.5f,
+        targetValue = 0.4f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
+            animation = tween(1500, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
-        )
+        ),
+        label = "pulse"
     )
 
     NeonFrame(
         color = Color(0xFF00FF85),
-        modifier = Modifier.fillMaxWidth().height(150.dp)
+        modifier = Modifier.fillMaxWidth().fillMaxHeight()
     ) {
         Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             Column {
-                Text("MEMORY CASCADE DEPTH", color = Color(0xFF00FF85), fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                Text("${state.memoryContextDepth} Context Nodes Captured", color = Color.White.copy(alpha = 0.5f), fontSize = 10.sp)
+                Text("CONTEXT DEPTH: ${state.memoryContextDepth}", color = Color(0xFF00FF85), fontSize = 12.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+                Text("SYMMETRIC ENCRYPTION: ACTIVE", color = Color.White.copy(alpha = 0.5f), fontSize = 10.sp, fontFamily = LEDFontFamily)
             }
 
-            // Pulsing brain/core icon
             Box(
                 modifier = Modifier
                     .size(60.dp)
                     .align(Alignment.CenterEnd)
                     .drawBehind {
-                        drawCircle(
+                        drawRect(
                             Color(0xFF00FF85).copy(alpha = pulseAlpha),
-                            radius = size.width * (0.5f + state.pulseStrength * 0.5f)
+                            size = size * (0.5f + state.pulseStrength * 0.5f)
                         )
-                        drawCircle(
+                        drawRect(
                             Color(0xFF00FF85),
-                            radius = size.width * 0.2f
+                            size = size * 0.2f
                         )
                     }
             )
@@ -318,36 +459,54 @@ fun CascadeGeminiMemoryCore(state: CascadeState) {
 }
 
 @Composable
-fun AgentRegistryList(agents: List<LDOAgentEntity>, onSelect: (String) -> Unit) {
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+fun AgentRegistryList(agents: List<LDOAgentEntity>) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp), 
+        modifier = Modifier.fillMaxSize()
+    ) {
         items(agents) { agent ->
-            AgentRegistryItem(agent) { onSelect(agent.id) }
+            AgentRegistryItem(agent)
         }
     }
 }
 
 @Composable
-fun AgentRegistryItem(agent: LDOAgentEntity, onClick: () -> Unit) {
+fun AgentRegistryItem(agent: LDOAgentEntity) {
     val color = Color(agent.colorHex)
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Black.copy(alpha = 0.7f))
+            .background(Color.Black.copy(alpha = 0.7f), RectangleShape)
             .border(1.dp, color.copy(alpha = 0.3f), RectangleShape)
             .padding(12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // Mini Avatar Placeholder
-            Box(Modifier.size(32.dp).background(color.copy(alpha = 0.2f)).border(1.dp, color, RectangleShape))
+            // Step 2: Media Synthesis Preview
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(color.copy(alpha = 0.2f))
+                    .border(1.dp, color, RectangleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImageOrVideo(
+                    mediaId = "catalyst_${agent.id.lowercase()}",
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
             
             Spacer(modifier = Modifier.width(12.dp))
             
             Column(modifier = Modifier.weight(1f)) {
-                Text(agent.displayName.uppercase(), color = color, fontWeight = FontWeight.Black, fontSize = 14.sp, fontFamily = LEDFontFamily)
-                Text(agent.role, color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp)
+                Text("${agent.displayName.uppercase()} // ${agent.catalystTitle.uppercase()}", color = color, fontWeight = FontWeight.Black, fontSize = 14.sp, fontFamily = LEDFontFamily)
+                Text("PRIMARY: ${agent.primaryAbility.uppercase()}", color = Color.White.copy(alpha = 0.6f), fontSize = 9.sp, fontFamily = LEDFontFamily)
+                Text("FUSION: ${agent.fusionAbility.uppercase()}", color = Color.White.copy(alpha = 0.4f), fontSize = 8.sp, fontFamily = LEDFontFamily)
             }
             
-            Text("LVL ${agent.evolutionLevel}", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+            Column(horizontalAlignment = Alignment.End) {
+                Text("LVL ${agent.evolutionLevel}", color = Color.White, fontWeight = FontWeight.Black, fontSize = 12.sp, fontFamily = LEDFontFamily)
+                Text("STABLE", color = Color.Green.copy(alpha = 0.7f), fontSize = 8.sp, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+            }
         }
     }
 }
@@ -358,46 +517,25 @@ fun AgentMiniPortal(name: String, modifier: Modifier) {
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .background(Color.Black)
-                .border(1.dp, Color.White.copy(alpha = 0.2f), RectangleShape)
-        )
-        Text(name, color = Color.White, fontSize = 8.sp)
+                .background(Color.Black, RectangleShape)
+                .border(1.dp, Color.White.copy(alpha = 0.2f), RectangleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(name.take(1).uppercase(), color = Color.White.copy(alpha = 0.5f), fontSize = 12.sp, fontFamily = LEDFontFamily)
+        }
+        Text(name.uppercase(), color = Color.White.copy(alpha = 0.6f), fontSize = 8.sp, fontFamily = LEDFontFamily)
     }
 }
 
 @Composable
 fun SectionHeader(title: String) {
     Text(
-        title,
-        color = Color.White.copy(alpha = 0.5f),
-        fontWeight = FontWeight.Bold,
-        fontSize = 11.sp,
-        letterSpacing = 1.sp,
+        title.uppercase(),
+        color = Color.White.copy(alpha = 0.6f),
+        fontWeight = FontWeight.Black,
+        fontSize = 12.sp,
+        letterSpacing = 2.sp,
+        fontFamily = LEDFontFamily,
         modifier = Modifier.padding(bottom = 8.dp)
     )
 }
-
-@Composable
-fun NeonFrame(
-    color: Color,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    Box(
-        modifier = modifier
-            .background(Color.Black.copy(alpha = 0.7f)) // 70% transparency
-            .border(1.dp, color, RectangleShape) // Sharp corners
-            .drawBehind {
-                // Neon glow effect on edges
-                val glowSize = 4.dp.toPx()
-                drawLine(color, Offset(0f, 0f), Offset(size.width, 0f), strokeWidth = glowSize / 2)
-                drawLine(color, Offset(0f, 0f), Offset(0f, size.height), strokeWidth = glowSize / 2)
-                drawLine(color, Offset(size.width, 0f), Offset(size.width, size.height), strokeWidth = glowSize / 2)
-                drawLine(color, Offset(0f, size.height), Offset(size.width, size.height), strokeWidth = glowSize / 2)
-            }
-    ) {
-        content()
-    }
-}
-
-val CircleShape = RoundedCornerShape(50)

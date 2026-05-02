@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
 import kotlin.math.cos
 import kotlin.math.sin
@@ -70,14 +71,11 @@ fun SwarmMonitorScreen(onNavigateBack: () -> Unit = {}) {
         }
 
         // Swarm Visualizer Canvas
-        Box(
+        NeonFrame(
+            color = Color(0xFF00D6FF),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color.Black)
-                .border(1.dp, Color(0xFF00D6FF).copy(alpha = 0.3f), RoundedCornerShape(16.dp)),
-            contentAlignment = Alignment.Center
         ) {
             SwarmCanvas(isActive = swarmActive.value)
             
@@ -141,9 +139,9 @@ fun SwarmMonitorScreen(onNavigateBack: () -> Unit = {}) {
             onClick = { swarmActive.value = !swarmActive.value },
             modifier = Modifier.fillMaxWidth().height(56.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if (swarmActive.value) Color(0xFFDC143C).copy(alpha = 0.2f) else Color(0xFF00FF88).copy(alpha = 0.2f)
+                containerColor = Color.Black.copy(alpha = 0.7f)
             ),
-            shape = RoundedCornerShape(12.dp),
+            shape = RectangleShape,
             border = androidx.compose.foundation.BorderStroke(
                 1.dp, 
                 if (swarmActive.value) Color(0xFFDC143C) else Color(0xFF00FF88)
@@ -163,17 +161,18 @@ fun SwarmMonitorScreen(onNavigateBack: () -> Unit = {}) {
 
 @Composable
 fun SwarmMetricCard(title: String, value: String, color: Color, modifier: Modifier = Modifier) {
-    Column(
+    NeonFrame(
+        color = color,
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(Color.White.copy(alpha = 0.05f))
-            .border(0.5.dp, color.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
-            .padding(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(title, color = Color.White.copy(alpha = 0.5f), fontSize = 10.sp)
-        Spacer(Modifier.height(4.dp))
-        Text(value, color = color, fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(title, color = Color.White.copy(alpha = 0.5f), fontSize = 10.sp)
+            Spacer(Modifier.height(4.dp))
+            Text(value, color = color, fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+        }
     }
 }
 

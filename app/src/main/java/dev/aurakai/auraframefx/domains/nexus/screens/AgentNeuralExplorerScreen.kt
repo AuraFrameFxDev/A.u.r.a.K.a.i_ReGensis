@@ -25,7 +25,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.RectangleShape
+import dev.aurakai.auraframefx.ui.components.NeonFrame
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Hub
@@ -52,6 +53,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 import kotlin.math.cos
@@ -85,7 +87,7 @@ fun AgentNeuralExplorerScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF050510))
+            .background(dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack)
     ) {
         // Starfield / Grid Background
         NeuralStarfield()
@@ -150,25 +152,22 @@ fun AgentNeuralExplorerScreen(
                     )
                 }
 
-                // Central Core (Genesis)
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .background(
-                            Brush.radialGradient(
-                                listOf(Color(0xFF00FFFF).copy(alpha = 0.2f), Color.Transparent)
-                            )
-                        )
-                        .border(1.dp, Color(0xFF00FFFF).copy(alpha = 0.5f), CircleShape),
-                    contentAlignment = Alignment.Center
+                // Central Core (Genesis) - Overhauled to Sharp Neon
+                NeonFrame(
+                    color = Color(0xFF00FFFF),
+                    modifier = Modifier.size(80.dp)
                 ) {
-                    Icon(
-                        Icons.Default.Hub,
-                        contentDescription = null,
-                        tint = Color(0xFF00FFFF),
-                        modifier = Modifier.size(40.dp)
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Default.Hub,
+                            contentDescription = null,
+                            tint = Color(0xFF00FFFF),
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
                 }
             }
 
@@ -210,14 +209,13 @@ fun AgentNode(
     Column(
         modifier = modifier
             .size(60.dp)
-            .clip(CircleShape)
             .background(Color.Black.copy(alpha = 0.8f))
             .border(
                 width = 2.dp,
                 brush = Brush.radialGradient(
                     listOf(agent.color, Color.Transparent)
                 ),
-                shape = CircleShape
+                shape = RectangleShape
             )
             .clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -270,13 +268,11 @@ fun ConstellationWeb(agents: List<AgentStats>, rotation: Float) {
 
 @Composable
 fun AgentDetailPanel(agent: AgentStats) {
-    Card(
+    NeonFrame(
+        color = agent.color,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
-        shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, agent.color.copy(alpha = 0.3f))
+            .padding(bottom = 16.dp)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -331,27 +327,12 @@ fun RowScope.MetricItem(label: String, value: Float, color: Color) {
             progress = { value },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(4.dp)
+                .height(6.dp)
                 .padding(vertical = 4.dp)
-                .clip(CircleShape),
+                .clip(RectangleShape),
             color = color,
             trackColor = Color.White.copy(alpha = 0.1f)
         )
     }
 }
 
-@Composable
-fun NeuralStarfield() {
-    Canvas(modifier = Modifier.fillMaxSize()) {
-        repeat(50) {
-            drawCircle(
-                color = Color.White.copy(alpha = 0.1f),
-                radius = 2.dp.toPx(),
-                center = Offset(
-                    size.width * (0..100).random() / 100f,
-                    size.height * (0..100).random() / 100f
-                )
-            )
-        }
-    }
-}

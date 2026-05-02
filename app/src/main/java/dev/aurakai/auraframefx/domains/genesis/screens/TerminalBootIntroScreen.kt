@@ -32,15 +32,20 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraNeon
+import dev.aurakai.auraframefx.domains.aura.ui.theme.KaiNeon
 import kotlin.random.Random
 
 // ── Palette ─────────────────────────────────────────────────────────────────
 
 private val C_GREEN  = Color(0xFF00FF41)
 private val C_CYAN   = Color(0xFF00FFFF)
-private val C_DARK   = Color(0xFF003800)
+private val C_MAGENTA = Color(0xFFFF00FF)
+private val C_DARK   = Color(0xFF001A00)
 private val C_GLOW   = Color(0xFFAAFFCC)
-private val C_BLACK  = Color(0xFF000000)
+private val C_BLACK  = Color(0xFF050708)
 
 // ── Matrix charset ───────────────────────────────────────────────────────────
 
@@ -198,7 +203,7 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(C_BLACK)
+            .background(SovereignBlack)
             .clickable(interactionSource = null, indication = null) {
                 skipped = true
             }
@@ -256,8 +261,12 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                     if (charY < -colW || charY > size.height) return@forEachIndexed
                     val fade  = (1f - idx.toFloat() / col.trail.size.coerceAtLeast(1))
                     val alpha = (fade * rainAlpha * if (idx == 0) 1f else 0.78f).coerceIn(0f, 1f)
-                    val color = if (idx == 0) Color.White.copy(alpha = alpha)
-                                else C_GREEN.copy(alpha = alpha)
+                    val color = when {
+                        idx == 0 -> Color.White.copy(alpha = alpha)
+                        idx < 3 -> C_CYAN.copy(alpha = alpha)
+                        idx % 7 == 0 -> C_MAGENTA.copy(alpha = alpha * 0.5f)
+                        else -> C_GREEN.copy(alpha = alpha)
+                    }
                     drawText(
                         textMeasurer = textMeasurer,
                         text         = ch.toString(),
@@ -266,6 +275,7 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                             color      = color,
                             fontFamily = FontFamily.Monospace,
                             fontSize   = 13.sp,
+                            fontWeight = if (idx == 0) FontWeight.Bold else FontWeight.Normal
                         ),
                     )
                 }
@@ -393,15 +403,15 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             Text(
                 text       = "◈  G E N E S I S - O S  ◈",
                 color      = C_GREEN,
-                fontFamily = FontFamily.Monospace,
-                fontWeight = FontWeight.Bold,
-                fontSize   = 15.sp,
-                letterSpacing = 2.sp,
+                fontFamily = LEDFontFamily,
+                fontWeight = FontWeight.Black,
+                fontSize   = 16.sp,
+                letterSpacing = 4.sp,
                 textAlign  = TextAlign.Center,
                 modifier   = Modifier
                     .fillMaxWidth()
                     .align(Alignment.TopCenter)
-                    .padding(top = 18.dp),
+                    .padding(top = 24.dp),
             )
         }
 

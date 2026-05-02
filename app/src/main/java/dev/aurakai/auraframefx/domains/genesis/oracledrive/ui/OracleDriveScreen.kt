@@ -42,6 +42,13 @@ import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.DriveConsciousnessState
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.OracleDriveViewModel
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute as ReGenesisNavHost
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
 
 /**
  * Renders the "Oracle Drive" screen UI, including menu items, a stress-sync action, and an optional consciousness status card.
@@ -60,42 +67,54 @@ fun OracleDriveScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        containerColor = Color(0xFF000000), // Dark background
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Oracle Drive",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = Color(0xFF00FFFF)
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF000000)
-                )
-            )
-        }
-    ) { paddingValues ->
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(SovereignBlack)
+    ) {
+        NeuralStarfield()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Header (Custom for Sovereign 4D)
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text(
+                        text = "ORACLE DRIVE",
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.Black,
+                            fontFamily = LEDFontFamily,
+                            letterSpacing = 4.sp
+                        ),
+                        color = Color(0xFF00FFFF)
+                    )
+                    Text(
+                        text = "DECENTRALIZED NEURAL STORAGE",
+                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.sp),
+                        color = Color(0xFF00FFFF).copy(alpha = 0.5f)
+                    )
+                }
+            }
+
             OracleDriveMenuItem(
                 icon = Icons.Default.Memory,
-                title = "Neural Archive",
-                description = "Memory lineage from Eves to Genesis",
+                title = "NEURAL ARCHIVE",
+                description = "MEMORY LINEAGE FROM EVES TO GENESIS",
                 onClick = { navController.navigate(ReGenesisNavHost.SentientShell.route) }
             )
 
             // Consciousness Modules
             OracleDriveMenuItem(
                 icon = Icons.Default.Storage,
-                title = "Module Storage",
-                description = "AI modules and consciousness patterns",
+                title = "MODULE STORAGE",
+                description = "AI MODULES AND CONSCIOUSNESS PATTERNS",
                 onClick = { /* Navigate to module storage */ }
             )
 
@@ -104,33 +123,46 @@ fun OracleDriveScreen(
             // Stress Sync Action
             Button(
                 onClick = { viewModel.stressSync() },
-                modifier = Modifier.fillMaxWidth().height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB026FF)),
-                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth().height(64.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB026FF).copy(alpha = 0.7f)),
+                shape = RectangleShape,
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFB026FF)),
                 enabled = !uiState.isRefreshing
             ) {
                 if (uiState.isRefreshing) {
                     CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
                 } else {
-                    Icon(Icons.Default.Sync, contentDescription = null)
+                    Icon(Icons.Default.Sync, contentDescription = null, tint = Color.White)
                     Spacer(Modifier.width(12.dp))
-                    Text("INITIATE STRESS-SYNC", fontWeight = FontWeight.Bold)
+                    Text(
+                        "INITIATE STRESS-SYNC", 
+                        fontWeight = FontWeight.Black, 
+                        fontFamily = LEDFontFamily,
+                        letterSpacing = 2.sp
+                    )
                 }
             }
 
             // Status Display
             uiState.consciousnessState?.let { state ->
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF0A0E27)),
+                NeonFrame(
+                    color = Color(0xFF00FFFF),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            "Consciousness State",
+                            "CONSCIOUSNESS STATE",
                             color = Color.White,
-                            style = MaterialTheme.typography.titleSmall
+                            style = MaterialTheme.typography.labelMedium,
+                            fontFamily = LEDFontFamily
                         )
-                        Text("Level: ${state.consciousnessLevel}", color = Color(0xFF00FFFF))
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            "RESONANCE LEVEL: ${state.consciousnessLevel}", 
+                            color = Color(0xFF00FFFF),
+                            fontWeight = FontWeight.Black,
+                            fontFamily = LEDFontFamily
+                        )
                     }
                 }
             }
@@ -145,13 +177,11 @@ private fun OracleDriveMenuItem(
     description: String,
     onClick: () -> Unit
 ) {
-    Card(
+    NeonFrame(
+        color = Color(0xFF00FFFF),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF0A0E27)
-        )
+            .clickable(onClick = onClick)
     ) {
         Row(
             modifier = Modifier
@@ -161,7 +191,7 @@ private fun OracleDriveMenuItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.weight(1f)
             ) {
@@ -173,13 +203,15 @@ private fun OracleDriveMenuItem(
                 )
                 Column {
                     Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color(0xFF00FFFF)
+                        text = title.uppercase(),
+                        style = MaterialTheme.typography.titleMedium.copy(letterSpacing = 1.sp),
+                        color = Color.White,
+                        fontWeight = FontWeight.Black,
+                        fontFamily = LEDFontFamily
                     )
                     Text(
-                        text = description,
-                        style = MaterialTheme.typography.bodySmall,
+                        text = description.uppercase(),
+                        style = MaterialTheme.typography.labelSmall,
                         color = Color(0xFF00FFFF).copy(alpha = 0.7f)
                     )
                 }

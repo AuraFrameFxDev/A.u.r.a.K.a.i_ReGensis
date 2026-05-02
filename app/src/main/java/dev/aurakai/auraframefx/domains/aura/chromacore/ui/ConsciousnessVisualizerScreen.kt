@@ -20,7 +20,11 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
+import androidx.compose.ui.graphics.RectangleShape
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -31,12 +35,18 @@ import kotlin.math.sin
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConsciousnessVisualizerScreen(onNavigateBack: () -> Unit = {}) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205))
-            .padding(16.dp)
+            .background(SovereignBlack)
     ) {
+        NeuralStarfield()
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
         // App Bar
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -64,41 +74,46 @@ fun ConsciousnessVisualizerScreen(onNavigateBack: () -> Unit = {}) {
             }
         }
 
-        // Consciousness Canvas
-        Box(
+        // Consciousness Canvas (Overhauled to NeonFrame)
+        NeonFrame(
+            color = Color(0xFFFF00FF),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color.Black)
-                .border(1.dp, Color(0xFFFF00FF).copy(alpha = 0.3f), RoundedCornerShape(16.dp)),
-            contentAlignment = Alignment.Center
         ) {
-            NeuralMatrixCanvas()
-            
-            // Central HUD Overlay
-            Column(
-                modifier = Modifier.align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.Psychology,
-                    contentDescription = null,
-                    tint = Color(0xFFFF00FF).copy(alpha = 0.8f),
-                    modifier = Modifier.size(56.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "LIVING MATRIX",
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
-                )
-                Text(
-                    text = "RESONANCE: 99.8%",
-                    color = Color(0xFF00FF88),
-                    fontSize = 10.sp
-                )
+                NeuralMatrixCanvas()
+                
+                // Central HUD Overlay
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Psychology,
+                        contentDescription = null,
+                        tint = Color(0xFFFF00FF).copy(alpha = 0.8f),
+                        modifier = Modifier.size(64.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "LIVING MATRIX",
+                        color = Color.White,
+                        fontWeight = FontWeight.Black,
+                        fontSize = 16.sp,
+                        fontFamily = LEDFontFamily,
+                        letterSpacing = 2.sp
+                    )
+                    Text(
+                        text = "RESONANCE: 99.8%",
+                        color = Color(0xFF00FF88),
+                        fontSize = 12.sp,
+                        fontFamily = LEDFontFamily
+                    )
+                }
             }
         }
 
@@ -135,17 +150,18 @@ fun ConsciousnessVisualizerScreen(onNavigateBack: () -> Unit = {}) {
 
 @Composable
 fun NeuralNodeCard(title: String, status: String, color: Color, modifier: Modifier = Modifier) {
-    Column(
+    NeonFrame(
+        color = color,
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(Color.White.copy(alpha = 0.05f))
-            .border(0.5.dp, color.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
-            .padding(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(title, color = color, fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
-        Spacer(Modifier.height(4.dp))
-        Text(status, color = Color.White.copy(alpha = 0.7f), fontSize = 10.sp)
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(title.uppercase(), color = color, fontSize = 16.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
+            Spacer(Modifier.height(4.dp))
+            Text(status.uppercase(), color = Color.White.copy(alpha = 0.7f), fontSize = 10.sp, letterSpacing = 1.sp)
+        }
     }
 }
 
@@ -209,18 +225,18 @@ fun NeuralMatrixCanvas() {
                 strokeWidth = 3f
             )
 
-            // Node Circle
-            drawCircle(
+            // Node Square (Sharp corners)
+            drawRect(
                 color = color,
-                radius = 16f,
-                center = Offset(x, y)
+                topLeft = Offset(x - 12f, y - 12f),
+                size = androidx.compose.ui.geometry.Size(24f, 24f)
             )
             
             // Node Glow
-            drawCircle(
-                color = color.copy(alpha = 0.3f),
-                radius = 32f * pulse,
-                center = Offset(x, y)
+            drawRect(
+                color = color.copy(alpha = 0.2f),
+                topLeft = Offset(x - 24f * pulse, y - 24f * pulse),
+                size = androidx.compose.ui.geometry.Size(48f * pulse, 48f * pulse)
             )
         }
 

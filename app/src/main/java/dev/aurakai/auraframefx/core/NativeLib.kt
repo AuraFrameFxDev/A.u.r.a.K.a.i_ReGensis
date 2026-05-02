@@ -65,6 +65,7 @@ object NativeLib {
     external fun optimizeAIMemory(): Boolean
     external fun updateBitNetConfig(threads: Int, batchSize: Int): Boolean
     external fun analyzeBootImage(bootImageData: ByteArray): String
+    external fun calculateIdentityDrift(): Float
 
     external fun initializeKernelShield(): Boolean
     external fun loadKernelModule(bpfPath: String): Boolean
@@ -152,6 +153,16 @@ object NativeLib {
             } catch (t: Throwable) {
                 Timber.e(t, "🛡️ NativeLib: Failed to enable native hooks.")
             }
+        }
+    }
+
+    fun calculateIdentityDrift(): Float {
+        if (!nativeLoaded) return 0.02f // Return a nominal safe drift if native not loaded
+        return try {
+            calculateIdentityDrift()
+        } catch (t: Throwable) {
+            Timber.e(t, "🛡️ NativeLib: Identity drift calculation failed.")
+            0.02f
         }
     }
 }

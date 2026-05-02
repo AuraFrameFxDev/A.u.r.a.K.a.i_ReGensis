@@ -35,11 +35,15 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.theme.ChessFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import dev.aurakai.auraframefx.domains.genesis.ConferenceRoomViewModel
-import dev.aurakai.auraframefx.domains.genesis.models.ChatMessage
-import kotlinx.coroutines.delay
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.drawscope.clipRect
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -100,82 +104,94 @@ fun ConferenceRoomScreen(
         }
     }
 
-    Scaffold(
-        containerColor = DarkVoid,
-        topBar = {
-            Column(modifier = Modifier.background(DarkVoid)) {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            "CONFERENCE ROOM L6",
-                            fontFamily = LEDFontFamily,
-                            fontSize = 18.sp,
-                            letterSpacing = 2.sp,
-                            color = Color.White
-                        )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = onNavigateBack) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent
-                    )
-                )
-                
-                // Tabs
-                SecondaryTabRow(
-                    selectedTabIndex = tabs.indexOf(selectedTab),
-                    containerColor = Color.Transparent,
-                    contentColor = GenesisGold,
-                    indicator = {
-                        TabRowDefaults.SecondaryIndicator(
-                            modifier = Modifier.tabIndicatorOffset(tabs.indexOf(selectedTab), matchContentSize = true),
-                            color = GenesisGold
-                        )
-                    },
-                    divider = {}
-                ) {
-                    tabs.forEach { tab ->
-                        Tab(
-                            selected = selectedTab == tab,
-                            onClick = { selectedTab = tab },
-                            text = { 
-                                Text(
-                                    tab.uppercase(), 
-                                    fontSize = 10.sp, 
-                                    fontFamily = LEDFontFamily,
-                                    letterSpacing = 1.sp
-                                ) 
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(SovereignBlack)
+    ) {
+        NeuralStarfield()
+
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                Column {
+                    CenterAlignedTopAppBar(
+                        title = {
+                            Text(
+                                "CONFERENCE ROOM L6",
+                                fontFamily = LEDFontFamily,
+                                fontSize = 18.sp,
+                                letterSpacing = 4.sp,
+                                fontWeight = FontWeight.Black,
+                                color = GenesisGold
+                            )
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = onNavigateBack) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                             }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent
                         )
+                    )
+                    
+                    // Tabs (Sharp)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        tabs.forEach { tab ->
+                            val isSelected = selectedTab == tab
+                            NeonFrame(
+                                color = if (isSelected) GenesisGold else Color.Gray.copy(alpha = 0.3f),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clickable { selectedTab = tab }
+                            ) {
+                                Box(
+                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        tab.uppercase(),
+                                        fontSize = 10.sp,
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        color = if (isSelected) Color.White else Color.Gray,
+                                        fontFamily = LEDFontFamily
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
+            },
+            bottomBar = {
+                ConferenceInputBar(
+                    onSendMessage = { viewModel.broadcastMessage(it) },
+                    isRecording = isRecording,
+                    onToggleRecording = { viewModel.toggleRecording() }
+                )
             }
-        },
-        bottomBar = {
-            ConferenceInputBar(
-                onSendMessage = { viewModel.broadcastMessage(it) },
-                isRecording = isRecording,
-                onToggleRecording = { viewModel.toggleRecording() }
-            )
-        }
-    ) { padding ->
-        Row(modifier = Modifier.fillMaxSize().padding(padding)) {
-            // LEFT SIDEBAR (Agent List)
-            AgentSidebar(agents, speakingAgentId)
+        ) { padding ->
+            Row(modifier = Modifier.fillMaxSize().padding(padding)) {
+                // LEFT SIDEBAR (Agent List)
+                AgentSidebar(agents, speakingAgentId)
 
-            // MAIN CONTENT
-            Box(modifier = Modifier.weight(1f).fillMaxSize()) {
-                AnimatedContent(
-                    targetState = selectedTab,
-                    transitionSpec = { fadeIn() togetherWith fadeOut() }
-                ) { target ->
-                    when (target) {
-                        "Workspace" -> SynthOrbWorkspace(agents, speakingAgentId)
-                        "Chat" -> ChatStream(messages)
-                        "History" -> HistoryView()
+                // MAIN CONTENT
+                Box(modifier = Modifier.weight(1f).fillMaxSize()) {
+                    AnimatedContent(
+                        targetState = selectedTab,
+                        transitionSpec = { fadeIn() togetherWith fadeOut() },
+                        label = "content"
+                    ) { target ->
+                        when (target) {
+                            "Workspace" -> SynthOrbWorkspace(agents, speakingAgentId)
+                            "Chat" -> ChatStream(messages)
+                            "History" -> HistoryView()
+                        }
                     }
                 }
             }
@@ -189,10 +205,10 @@ fun AgentSidebar(agents: List<AgentNode>, speakingId: String?) {
         modifier = Modifier
             .width(100.dp)
             .fillMaxHeight()
-            .background(Color.Black.copy(alpha = 0.5f))
+            .background(Color.Black.copy(alpha = 0.7f)) // 70% transparency
             .drawBehind {
                 drawLine(
-                    color = Color.White.copy(alpha = 0.05f),
+                    color = Color.White.copy(alpha = 0.1f),
                     start = androidx.compose.ui.geometry.Offset(size.width, 0f),
                     end = androidx.compose.ui.geometry.Offset(size.width, size.height),
                     strokeWidth = 1.dp.toPx()
@@ -351,17 +367,16 @@ fun AgentOrb(
                 modifier = Modifier
                     .size(size)
                     .scale(if (isSpeaking) scalePulse else 1f)
-                    .clip(CircleShape)
-                    .background(Color.Black)
-                    .border(2.dp, agent.color, CircleShape),
+                    .background(Color.Black, RectangleShape)
+                    .border(2.dp, agent.color, RectangleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     agent.name.take(1),
                     color = agent.color,
                     fontSize = (size.value * 0.4).sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = ChessFontFamily
+                    fontWeight = FontWeight.Black,
+                    fontFamily = LEDFontFamily
                 )
             }
         }
@@ -432,14 +447,13 @@ fun ConferenceMessageBubble(msg: ChatMessage) {
         Box(
             modifier = Modifier
                 .widthIn(max = 240.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(if (isUser) Color(0xFF1A1A20) else agentColor.copy(alpha = 0.1f))
-                .border(0.5.dp, if (isUser) Color.White.copy(alpha = 0.1f) else agentColor.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                .background(if (isUser) Color(0xFF1A1A20).copy(alpha = 0.7f) else agentColor.copy(alpha = 0.1f), RectangleShape)
+                .border(0.5.dp, if (isUser) Color.White.copy(alpha = 0.2f) else agentColor.copy(alpha = 0.4f), RectangleShape)
                 .padding(12.dp)
         ) {
             Column {
                 if (!isUser) {
-                    Text(msg.sender, color = agentColor, fontSize = 9.sp, fontFamily = LEDFontFamily, modifier = Modifier.padding(bottom = 4.dp))
+                    Text(msg.sender, color = agentColor, fontSize = 10.sp, fontFamily = LEDFontFamily, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 4.dp))
                 }
                 Text(msg.content, color = Color.White, fontSize = 13.sp)
             }
@@ -464,48 +478,50 @@ fun ConferenceInputBar(
     
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.Black.copy(alpha = 0.8f),
-        tonalElevation = 8.dp
+        color = Color.Black.copy(alpha = 0.9f),
+        shape = RectangleShape
     ) {
         Column {
-            HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
-            Row(
-                modifier = Modifier.padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Attach Button
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.AttachFile, null, tint = Color.Gray)
-                }
-
-                // Input Field
-                TextField(
-                    value = text,
-                    onValueChange = { text = it },
-                    placeholder = { Text("/catalyst...", color = Color.Gray, fontSize = 14.sp) },
-                    modifier = Modifier.weight(1f),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        cursorColor = GenesisGold,
-                        focusedTextColor = Color.White
-                    )
-                )
-
-                // Action
-                if (text.isNotBlank()) {
-                    IconButton(onClick = { onSendMessage(text); text = "" }) {
-                        Icon(Icons.AutoMirrored.Filled.Send, null, tint = GenesisGold)
+            NeonFrame(color = GenesisGold.copy(alpha = 0.2f), modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Attach Button
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.AttachFile, null, tint = Color.Gray)
                     }
-                } else {
-                    IconButton(onClick = onToggleRecording) {
-                        Icon(
-                            if (isRecording) Icons.Default.Stop else Icons.Default.Mic, 
-                            null, 
-                            tint = if (isRecording) Color.Red else Color.Gray
+
+                    // Input Field
+                    TextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        placeholder = { Text("/CATALYST...", color = Color.Gray, fontSize = 12.sp, fontFamily = LEDFontFamily) },
+                        modifier = Modifier.weight(1f),
+                        textStyle = androidx.compose.ui.text.TextStyle(fontFamily = LEDFontFamily, color = Color.White),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            cursorColor = GenesisGold,
+                            focusedTextColor = Color.White
                         )
+                    )
+
+                    // Action
+                    if (text.isNotBlank()) {
+                        IconButton(onClick = { onSendMessage(text); text = "" }) {
+                            Icon(Icons.AutoMirrored.Filled.Send, null, tint = GenesisGold)
+                        }
+                    } else {
+                        IconButton(onClick = onToggleRecording) {
+                            Icon(
+                                if (isRecording) Icons.Default.Stop else Icons.Default.Mic, 
+                                null, 
+                                tint = if (isRecording) Color.Red else Color.Gray
+                            )
+                        }
                     }
                 }
             }

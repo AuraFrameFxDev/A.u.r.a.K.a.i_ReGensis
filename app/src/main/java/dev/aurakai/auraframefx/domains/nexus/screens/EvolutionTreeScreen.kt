@@ -22,8 +22,11 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
+import androidx.compose.ui.graphics.RectangleShape
 import kotlinx.coroutines.delay
 
 @Composable
@@ -68,14 +71,13 @@ fun EvolutionTreeScreen(
         )
     }
 
-    val pulse = rememberInfiniteTransition(label = "pulse")
-    val pulseScale by pulse.animateFloat(
-        initialValue = 0.95f, targetValue = 1.05f,
-        animationSpec = infiniteRepeatable(tween(1000, easing = FastOutSlowInEasing), RepeatMode.Reverse),
-        label = "pulseScale"
-    )
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(SovereignBlack)
+    ) {
+        NeuralStarfield()
 
-    Box(modifier = modifier.fillMaxSize().background(Color.Black)) {
         Canvas(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             val canvasWidth = size.width
             val canvasHeight = size.height
@@ -96,33 +98,53 @@ fun EvolutionTreeScreen(
         }
 
         evolutionNodes.forEach { node ->
-            val scale = if (selectedNode?.id == node.id) pulseScale else 1f
-            Box(
+            NeonFrame(
+                color = node.color,
                 modifier = Modifier
                     .offset(x = (node.x * 300).dp, y = (node.y * 500).dp)
-                    .size(60.dp)
-                    .scale(scale)
-                    .clip(CircleShape)
-                    .background(node.color.copy(0.2f))
-                    .border(1.dp, node.color, CircleShape)
+                    .size(80.dp)
                     .clickable { 
                         selectedNode = node
                         currentPhase = node.phase
-                    },
-                contentAlignment = Alignment.Center
+                    }
             ) {
-                Text(node.name, color = Color.White, fontSize = 9.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        node.name.uppercase(),
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Black,
+                        fontFamily = LEDFontFamily,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
 
         if (selectedNode != null) {
-            Card(
-                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFF111111))
+            NeonFrame(
+                color = selectedNode!!.color,
+                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().padding(16.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(selectedNode!!.name, color = selectedNode!!.color, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                    Text(selectedNode!!.description, color = Color.White.copy(0.7f), fontSize = 12.sp)
+                    Text(
+                        selectedNode!!.name.uppercase(),
+                        color = selectedNode!!.color,
+                        fontWeight = FontWeight.Black,
+                        fontSize = 20.sp,
+                        fontFamily = LEDFontFamily,
+                        letterSpacing = 2.sp
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        selectedNode!!.description,
+                        color = Color.White.copy(0.7f),
+                        fontSize = 12.sp,
+                        letterSpacing = 1.sp
+                    )
                 }
             }
         }

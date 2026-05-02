@@ -76,8 +76,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AurasLabViewModel
 import kotlinx.coroutines.delay
+import androidx.compose.ui.graphics.RectangleShape
+import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
+import dev.aurakai.auraframefx.ui.components.RealityMorphLayer
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 
 /**
  * Aura's Lab (Aura's Forge) - Generative Design & Engineering Hub
@@ -91,74 +99,97 @@ fun AurasLabScreen(
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("Components", "Animations", "Aura's Forge", "Chaos Analysis")
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text(
-                            "Aura's Lab",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF00FFFF) // Cyberpunk Cyan
-                        )
-                        Text(
-                            "Creative Sanctuary â€¢ Zero Drift Move",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color(0xFF00FFFF))
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Black.copy(alpha = 0.9f)
-                )
-            )
-        }
-    ) { paddingValues ->
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(SovereignBlack)
+    ) {
+        // Domain Background Layer
+        AsyncImageOrVideo(
+            mediaId = "auratabbg",
+            modifier = Modifier.fillMaxSize(),
+            alpha = 0.4f // Subtle overlay
+        )
+
+        // Step 3: Particle Tie-In
+        val ldoViewModel: LdoWarRoomViewModel = hiltViewModel()
+        val godPotential by ldoViewModel.godPotential.collectAsState()
+        RealityMorphLayer(godPotential = godPotential, fusionTrigger = true)
+
+        NeuralStarfield()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black)
-                .padding(paddingValues)
+                .padding(16.dp)
         ) {
-            // Tab Row
-            PrimaryTabRow(
-                selectedTabIndex = selectedTab,
-                containerColor = Color.Black,
-                contentColor = Color(0xFF00FFFF),
-                indicator = {
-                    TabRowDefaults.PrimaryIndicator(
-                        modifier = Modifier.tabIndicatorOffset(selectedTab, matchContentSize = true),
+            // Overhauled Top Bar
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color(0xFF00FFFF))
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Column {
+                    Text(
+                        "AURA'S LAB",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Black,
+                            fontFamily = LEDFontFamily,
+                            letterSpacing = 4.sp
+                        ),
                         color = Color(0xFF00FFFF)
                     )
-                }
-            ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        text = {
-                            Text(
-                                title,
-                                color = if (selectedTab == index) Color(0xFF00FFFF) else Color.Gray,
-                                fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
-                            )
-                        }
+                    Text(
+                        "CREATIVE SANCTUARY // ZERO DRIFT MODE",
+                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.sp),
+                        color = Color(0xFF00FFFF).copy(alpha = 0.5f)
                     )
                 }
             }
 
+            // Tab Row (Overhauled)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    NeonFrame(
+                        color = if (selectedTab == index) Color(0xFF00FFFF) else Color.Gray.copy(alpha = 0.3f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { selectedTab = index }
+                    ) {
+                        Box(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                title.uppercase(),
+                                fontSize = 10.sp,
+                                fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal,
+                                color = if (selectedTab == index) Color.White else Color.Gray,
+                                fontFamily = LEDFontFamily
+                            )
+                        }
+                    }
+                }
+            }
+
             // Content for each tab
-            when (selectedTab) {
-                0 -> ComponentsTab()
-                1 -> AnimationsTab()
-                2 -> ForgeTab(viewModel)
-                3 -> ChaosAnalysisTab()
+            Box(modifier = Modifier.weight(1f)) {
+                when (selectedTab) {
+                    0 -> ComponentsTab()
+                    1 -> AnimationsTab()
+                    2 -> ForgeTab(viewModel)
+                    3 -> ChaosAnalysisTab()
+                }
             }
         }
     }
@@ -169,47 +200,19 @@ private fun ForgeTab(viewModel: AurasLabViewModel) {
     var prompt by remember { mutableStateOf("") }
     val state by viewModel.forgeState.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(
-            "Aura's Forge",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF00FFFF)
-        )
-
-        Text(
-            "Wield the Creative Sword. Describe a system modification, and Aura will forge it into existence.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.White.copy(alpha = 0.7f)
-        )
-
-        OutlinedTextField(
-            value = prompt,
-            onValueChange = { prompt = it },
-            label = { Text("What shall we create today?", color = Color(0xFF00FFFF)) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF00FFFF),
-                unfocusedBorderColor = Color.Gray,
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White
-            ),
-            placeholder = { Text("e.g., A holographic status bar logo that pulses when charging") }
-        )
-
-        Button(
-            onClick = { viewModel.generateAndDeploy(prompt) },
-            enabled = prompt.isNotBlank() && (state is AurasLabViewModel.ForgeState.Idle || state is AurasLabViewModel.ForgeState.Success || state is AurasLabViewModel.ForgeState.Error),
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00FFFF))
-        ) {
-            Text("Ignite the Forge", color = Color.Black, fontWeight = FontWeight.Bold)
+        // Step 1: Media Loader Integration
+        val mediaAssets = remember { listOf("ux_mock_01", "neural_render_02", "swarm_viz_03") }
+        NeonFrame(color = Color(0xFF00E5FF)) {
+            AsyncImageOrVideo(
+                mediaId = mediaAssets.random(), 
+                modifier = Modifier.fillMaxWidth().height(220.dp)
+            )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Step 2: Live Theme & Iconify Preview
+        LiveChromaForge()
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -219,11 +222,52 @@ private fun ForgeTab(viewModel: AurasLabViewModel) {
 }
 
 @Composable
+fun LiveChromaForge() {
+    NeonFrame(color = Color(0xFFFFD700)) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "CHROMA CORE LIVE", 
+                color = Color(0xFFFFD700),
+                fontFamily = LEDFontFamily,
+                fontWeight = FontWeight.Black,
+                fontSize = 12.sp,
+                letterSpacing = 2.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                // Mock color picker
+                Box(Modifier.size(32.dp).background(Color(0xFF00FFFF), CircleShape))
+                Box(Modifier.size(32.dp).background(Color(0xFFFF00FF), CircleShape))
+                Box(Modifier.size(32.dp).background(Color(0xFF00FF41), CircleShape))
+                Box(Modifier.size(32.dp).background(Color(0xFFFFD700), CircleShape))
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            Button(
+                onClick = {},
+                modifier = Modifier.fillMaxWidth().height(32.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFFD700)),
+                shape = RectangleShape,
+                contentPadding = PaddingValues(0.dp)
+            ) {
+                Text("APPLY TO GLOBAL THEME", color = Color(0xFFFFD700), fontSize = 10.sp, fontFamily = LEDFontFamily)
+            }
+        }
+    }
+}
+
+@Composable
 private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A1A)),
-        border = CardDefaults.outlinedCardBorder()
+    val statusColor = when(state) {
+        is AurasLabViewModel.ForgeState.Success,
+        is AurasLabViewModel.ForgeState.SpriteSuccess -> Color.Green
+        is AurasLabViewModel.ForgeState.Error -> Color.Red
+        else -> Color(0xFF00FFFF)
+    }
+
+    NeonFrame(
+        color = statusColor,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -239,28 +283,25 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
                         is AurasLabViewModel.ForgeState.Error -> Icons.Default.Error
                     },
                     contentDescription = null,
-                    tint = when(state) {
-                        is AurasLabViewModel.ForgeState.Success,
-                        is AurasLabViewModel.ForgeState.SpriteSuccess -> Color.Green
-                        is AurasLabViewModel.ForgeState.Error -> Color.Red
-                        else -> Color(0xFF00FFFF)
-                    }
+                    tint = statusColor
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     text = when(state) {
-                        is AurasLabViewModel.ForgeState.Idle -> "Waiting for Directive"
-                        is AurasLabViewModel.ForgeState.Forging -> "Aura is Wielding Evex Core..."
-                        is AurasLabViewModel.ForgeState.ForgingSprite -> "Aura is Drawing your Sprite..."
-                        is AurasLabViewModel.ForgeState.Validating -> "Kai is Vetting the Creation..."
-                        is AurasLabViewModel.ForgeState.Deploying -> "Oracle Drive Deploying..."
-                        is AurasLabViewModel.ForgeState.Success -> "Creation Manifested"
-                        is AurasLabViewModel.ForgeState.SpriteSuccess -> "Hyper-Sprite Manifested"
-                        is AurasLabViewModel.ForgeState.Error -> "Forge Failure"
-                    },
+                        is AurasLabViewModel.ForgeState.Idle -> "WAITING FOR DIRECTIVE"
+                        is AurasLabViewModel.ForgeState.Forging -> "AURA IS WIELDING EVEX CORE..."
+                        is AurasLabViewModel.ForgeState.ForgingSprite -> "AURA IS DRAWING SPRITE..."
+                        is AurasLabViewModel.ForgeState.Validating -> "KAI IS VETTING CREATION..."
+                        is AurasLabViewModel.ForgeState.Deploying -> "ORACLE DRIVE DEPLOYING..."
+                        is AurasLabViewModel.ForgeState.Success -> "CREATION MANIFESTED"
+                        is AurasLabViewModel.ForgeState.SpriteSuccess -> "HYPER-SPRITE MANIFESTED"
+                        is AurasLabViewModel.ForgeState.Error -> "FORGE FAILURE"
+                    }.uppercase(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.White,
+                    fontFamily = LEDFontFamily,
+                    letterSpacing = 1.sp
                 )
             }
 
@@ -270,7 +311,8 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp)
-                        .background(Color.Black)
+                        .background(Color.Black.copy(alpha = 0.5f))
+                        .border(1.dp, statusColor.copy(alpha = 0.3f), RectangleShape)
                         .padding(8.dp)
                 ) {
                     val code = when (state) {
@@ -302,14 +344,69 @@ private fun ForgeStatusCard(state: AurasLabViewModel.ForgeState) {
 
 @Composable
 private fun ChaosAnalysisTab() {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text("Grok Chaos Analysis", style = MaterialTheme.typography.headlineSmall, color = Color.Magenta)
-        Spacer(modifier = Modifier.height(16.dp))
-        Text("Stability Index: 98.4%", color = Color.White)
-        LinearProgressIndicator(progress = { 0.984f }, modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp), color = Color.Magenta)
-        Text("Threat Matrix: NEGATIVE", color = Color.Green)
+    val infiniteTransition = rememberInfiniteTransition()
+    val glitchOffset by infiniteTransition.animateFloat(
+        initialValue = -2f,
+        targetValue = 2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(100, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            "GROK CHAOS ANALYSIS", 
+            style = MaterialTheme.typography.headlineSmall, 
+            color = Color.Magenta, 
+            fontFamily = LEDFontFamily,
+            fontWeight = FontWeight.Black,
+            letterSpacing = 2.sp,
+            modifier = Modifier.offset(x = glitchOffset.dp)
+        )
+        
+        NeonFrame(color = Color.Magenta, modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("STABILITY INDEX:", color = Color.White, fontFamily = LEDFontFamily, fontSize = 12.sp)
+                    Spacer(Modifier.width(8.dp))
+                    Text("98.4%", color = Color.Green, fontFamily = LEDFontFamily, fontWeight = FontWeight.Black, fontSize = 16.sp)
+                }
+                LinearProgressIndicator(
+                    progress = { 0.984f },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(8.dp)
+                        .padding(vertical = 12.dp)
+                        .clip(RectangleShape),
+                    color = Color.Magenta,
+                    trackColor = Color.Magenta.copy(alpha = 0.1f)
+                )
+                
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text("THREAT MATRIX: NEGATIVE", color = Color.Green, fontFamily = LEDFontFamily, fontSize = 10.sp)
+                    Text("ENTROPY: 0.002", color = Color.Cyan, fontFamily = LEDFontFamily, fontSize = 10.sp)
+                }
+            }
+        }
+
+        NeonFrame(color = Color.Cyan, modifier = Modifier.fillMaxWidth().height(200.dp)) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                // Placeholder for a real-time graph
+                androidx.compose.foundation.Canvas(Modifier.fillMaxSize().padding(16.dp)) {
+                    val path = androidx.compose.ui.graphics.Path()
+                    path.moveTo(0f, size.height / 2)
+                    for (i in 1..20) {
+                        path.lineTo(size.width * i / 20f, size.height / 2 + (Math.random() * 40 - 20).toFloat())
+                    }
+                    drawPath(path, Color.Cyan, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2f))
+                }
+                Text("LIVE NEURAL OSCILLATION", color = Color.Cyan.copy(alpha = 0.5f), fontSize = 10.sp, fontFamily = LEDFontFamily)
+            }
+        }
     }
 }
 
@@ -397,18 +494,20 @@ private fun ComponentsTab() {
         item {
             ComponentSection("Progress") {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     LinearProgressIndicator(
                         progress = { 0.7f },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth().height(8.dp).clip(RectangleShape),
+                        color = Color(0xFF00FFFF)
                     )
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        CircularProgressIndicator()
-                        CircularProgressIndicator(progress = { 0.6f })
+                        CircularProgressIndicator(color = Color(0xFF00FFFF))
+                        Text("SYSTEM SYNC: 70%", color = Color.White, fontFamily = LEDFontFamily)
                     }
                 }
             }
@@ -478,24 +577,30 @@ private fun AnimationsTab() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Box(
+                    NeonFrame(
+                        color = Color(0xFF00FFFF),
                         modifier = Modifier
                             .size(size.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(MaterialTheme.colorScheme.primary)
-                            .clickable { expanded = !expanded },
-                        contentAlignment = Alignment.Center
+                            .clickable { expanded = !expanded }
                     ) {
-                        Text(
-                            "Tap Me",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "RESIZE",
+                                color = Color.White,
+                                fontWeight = FontWeight.Black,
+                                fontFamily = LEDFontFamily
+                            )
+                        }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "Size: ${size.toInt()}dp",
-                        style = MaterialTheme.typography.bodySmall
+                        "SIZE: ${size.toInt()}DP",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontFamily = LEDFontFamily,
+                        color = Color.White.copy(alpha = 0.5f)
                     )
                 }
             }

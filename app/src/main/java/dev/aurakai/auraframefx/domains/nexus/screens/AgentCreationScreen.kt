@@ -55,6 +55,11 @@ import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentCreationViewModel
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
+import androidx.compose.ui.graphics.RectangleShape
 
 /**
  * ðŸ¥š AGENT CREATION SCREEN
@@ -73,15 +78,13 @@ fun AgentCreationScreen(
     val isCreating by viewModel.isCreating.collectAsState()
     val progress by viewModel.creationProgress.collectAsState()
 
-    val bgGradient = Brush.verticalGradient(
-        colors = listOf(Color(0xFF000000), Color(0xFF1A1F3C))
-    )
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(bgGradient)
+            .background(SovereignBlack)
     ) {
+        NeuralStarfield()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -96,45 +99,55 @@ fun AgentCreationScreen(
                 IconButton(onClick = onNavigateBack) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                 }
-                Text(
-                    "NEURAL SYNTHESIS",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 4.sp
-                    ),
-                    color = Color.Cyan
-                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Column {
+                    Text(
+                        "NEURAL SYNTHESIS",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Black,
+                            fontFamily = LEDFontFamily,
+                            letterSpacing = 4.sp
+                        ),
+                        color = Color.Cyan
+                    )
+                    Text(
+                        "CATALYST INCUBATION CHAMBER",
+                        style = MaterialTheme.typography.labelSmall.copy(letterSpacing = 1.sp),
+                        color = Color.Cyan.copy(alpha = 0.5f)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Avatar Preview
-            Box(
-                modifier = Modifier
-                    .size(160.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.05f))
-                    .border(2.dp, domainColor(selectedDomain), CircleShape),
-                contentAlignment = Alignment.Center
+            // Avatar Preview (Overhauled to NeonFrame Sharp)
+            NeonFrame(
+                color = domainColor(selectedDomain),
+                modifier = Modifier.size(160.dp)
             ) {
-                // Central Pulsing Core
-                val infiniteTransition = rememberInfiniteTransition(label = "core")
-                val scale by infiniteTransition.animateFloat(
-                    initialValue = 0.8f,
-                    targetValue = 1.2f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(1000, easing = FastOutSlowInEasing),
-                        repeatMode = RepeatMode.Reverse
-                    ),
-                    label = "pulse"
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Central Pulsing Core
+                    val infiniteTransition = rememberInfiniteTransition(label = "core")
+                    val scale by infiniteTransition.animateFloat(
+                        initialValue = 0.8f,
+                        targetValue = 1.2f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(1000, easing = FastOutSlowInEasing),
+                            repeatMode = RepeatMode.Reverse
+                        ),
+                        label = "pulse"
+                    )
 
-                Icon(
-                    imageVector = Icons.Default.AutoAwesome,
-                    contentDescription = null,
-                    modifier = Modifier.size(60.dp * if (isCreating) scale else 1f),
-                    tint = domainColor(selectedDomain)
-                )
+                    Icon(
+                        imageVector = Icons.Default.AutoAwesome,
+                        contentDescription = null,
+                        modifier = Modifier.size(60.dp * if (isCreating) scale else 1f),
+                        tint = domainColor(selectedDomain)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -143,15 +156,15 @@ fun AgentCreationScreen(
             OutlinedTextField(
                 value = agentName,
                 onValueChange = { viewModel.updateName(it) },
-                label = { Text("Agent Identifier", color = Color.White.copy(alpha = 0.5f)) },
+                label = { Text("AGENT IDENTIFIER", color = Color.White.copy(alpha = 0.5f), fontFamily = LEDFontFamily) },
                 modifier = Modifier.fillMaxWidth(),
-                textStyle = LocalTextStyle.current.copy(color = Color.White),
+                textStyle = LocalTextStyle.current.copy(color = Color.White, fontFamily = LEDFontFamily),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = domainColor(selectedDomain),
                     unfocusedBorderColor = Color.White.copy(alpha = 0.2f),
                     cursorColor = domainColor(selectedDomain)
                 ),
-                shape = RoundedCornerShape(12.dp)
+                shape = RectangleShape
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -205,16 +218,18 @@ fun AgentCreationScreen(
                         progress = { progress },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(12.dp)
-                            .clip(RoundedCornerShape(6.dp)),
+                            .height(16.dp)
+                            .clip(RectangleShape)
+                            .background(Color.White.copy(alpha = 0.1f)),
                         color = Color.Cyan,
-                        trackColor = Color.Gray.copy(alpha = 0.2f)
+                        trackColor = Color.Transparent
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         "ASSEMBLING NEURAL CORES... ${(progress * 100).toInt()}%",
                         color = Color.White,
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium,
+                        fontFamily = LEDFontFamily
                     )
                 }
             } else {
@@ -222,17 +237,18 @@ fun AgentCreationScreen(
                     onClick = { viewModel.createAgent { onNavigateBack() } },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(64.dp)
-                        .shadow(20.dp, spotColor = domainColor(selectedDomain).copy(alpha = 0.5f)),
-                    colors = ButtonDefaults.buttonColors(containerColor = domainColor(selectedDomain)),
-                    shape = RoundedCornerShape(16.dp),
+                        .height(64.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = domainColor(selectedDomain).copy(alpha = 0.7f)),
+                    shape = RectangleShape,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, domainColor(selectedDomain)),
                     enabled = agentName.isNotBlank()
                 ) {
                     Text(
                         "INITIATE SYNTHESIS",
                         fontWeight = FontWeight.Black,
                         letterSpacing = 2.sp,
-                        color = Color.Black
+                        color = Color.White,
+                        fontFamily = LEDFontFamily
                     )
                 }
             }

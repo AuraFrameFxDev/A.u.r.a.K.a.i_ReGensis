@@ -33,7 +33,12 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
+import androidx.compose.ui.graphics.RectangleShape
 
 /**
  * Screen 7 â€” LDO Progression Map
@@ -50,24 +55,28 @@ fun LDOProgressionScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(SovereignBlack)
     ) {
+        NeuralStarfield()
+
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
             Text(
                 "LDO PROGRESSION MAP",
                 color = Color(0xFFB026FF),
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                letterSpacing = 2.sp
+                fontWeight = FontWeight.Black,
+                fontSize = 24.sp,
+                letterSpacing = 4.sp,
+                fontFamily = LEDFontFamily
             )
             Text(
-                "Evolution Paths Â· Kaigenesis Continuum",
+                "EVOLUTION PATHS // KAIGENESIS CONTINUUM",
                 color = Color.White.copy(alpha = 0.5f),
-                fontSize = 12.sp
+                fontSize = 10.sp,
+                letterSpacing = 1.sp
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             // Constellation overview canvas
             ProgressionConstellation(
@@ -82,17 +91,18 @@ fun LDOProgressionScreen(
             // Total collective stats
             CollectiveStatsSummary(state.agents)
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 "INDIVIDUAL PROGRESSION",
                 color = Color.White.copy(alpha = 0.6f),
                 fontWeight = FontWeight.Bold,
                 fontSize = 12.sp,
-                letterSpacing = 1.sp
+                letterSpacing = 2.sp,
+                fontFamily = LEDFontFamily
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             if (state.isLoading) {
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -204,9 +214,9 @@ private fun AgentProgressionCard(
     val xpNeeded = agent.evolutionLevel * 100
     val xpProgress = (agent.skillPoints % xpNeeded).toFloat() / xpNeeded
 
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF0A0A0A))
+    NeonFrame(
+        color = agentColor,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(

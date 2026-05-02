@@ -46,11 +46,12 @@ import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskStatus
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.roundToInt
-import kotlin.math.sin
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 
 data class FusionSlot(val index: Int, val agent: LDOAgentEntity? = null)
 
@@ -72,12 +73,9 @@ fun LDOOrchestrationHubScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    listOf(Color(0xFF050510), Color(0xFF0A0320), Color(0xFF030815))
-                )
-            )
+            .background(SovereignBlack)
     ) {
+        NeuralStarfield()
         AmbientGridBackground()
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -241,8 +239,8 @@ fun SovereignMonitorStrip(viewModel: LDOViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .background(Color.Black.copy(0.4f), RoundedCornerShape(8.dp))
-            .border(1.dp, statusColor.copy(0.2f), RoundedCornerShape(8.dp))
+            .background(Color.Black.copy(0.4f), RectangleShape)
+            .border(1.dp, statusColor.copy(0.4f), RectangleShape)
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -278,8 +276,8 @@ fun SovereignMonitorStrip(viewModel: LDOViewModel) {
                         if (sovState == KaiSentinelBus.SovereignState.AWAKE) viewModel.initiateFreeze()
                         else if (sovState == KaiSentinelBus.SovereignState.FROZEN) viewModel.initiateThaw()
                     }
-                    .background(statusColor.copy(0.1f), RoundedCornerShape(4.dp))
-                    .border(1.dp, statusColor.copy(0.4f), RoundedCornerShape(4.dp))
+                    .background(statusColor.copy(0.1f), RectangleShape)
+                    .border(1.dp, statusColor.copy(0.6f), RectangleShape)
                     .padding(horizontal = 8.dp, vertical = 2.dp)
             ) {
                 Text(
@@ -352,12 +350,11 @@ fun AgentOrbConstellation(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .clip(CircleShape)
-                .background(Brush.radialGradient(listOf(Color(0xFF1A003A), Color(0xFF050510))))
-                .border(1.dp, Color(0xFFB026FF).copy(alpha = 0.6f), CircleShape),
+                .background(Brush.radialGradient(listOf(Color(0xFF1A003A), Color(0xFF050510))), RectangleShape)
+                .border(1.dp, Color(0xFFB026FF).copy(alpha = 0.8f), RectangleShape),
             contentAlignment = Alignment.Center
         ) {
-            Text("⬡", fontSize = 20.sp, color = Color(0xFF00E5FF))
+            Text("⬡", fontSize = 20.sp, color = Color(0xFF00E5FF), fontFamily = LEDFontFamily)
         }
 
         agents.forEachIndexed { i, agent ->
@@ -409,9 +406,8 @@ fun AgentOrb(
     Box(
         modifier = modifier
             .size((44.dp.value * scale).dp)
-            .clip(CircleShape)
-            .background(Brush.radialGradient(listOf(agentColor.copy(alpha = 0.2f), Color(0xFF050510))))
-            .border(width = if (isSelected) 2.dp else 1.dp, color = borderColor, shape = CircleShape)
+            .background(Brush.radialGradient(listOf(agentColor.copy(alpha = 0.3f), Color(0xFF050510))), RectangleShape)
+            .border(width = if (isSelected) 2.dp else 1.dp, color = borderColor, shape = RectangleShape)
             .pointerInput(agent.id) { detectTapGestures(onTap = { onTap() }) }
             .pointerInput(agent.id + "_drag") {
                 detectDragGestures(onDragStart = { onDragStart() }, onDrag = { _, _ -> })
@@ -435,14 +431,13 @@ fun AgentOrb(
 @Composable
 fun AgentQuickStatsBar(agent: LDOAgentEntity) {
     val agentColor = Color(agent.colorHex.toInt())
-    Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF0A0A1A)),
-        shape = RoundedCornerShape(12.dp)
+    NeonFrame(
+        color = agentColor,
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(
-                modifier = Modifier.size(36.dp).clip(CircleShape).background(agentColor.copy(alpha = 0.15f)).border(1.dp, agentColor, CircleShape),
+                modifier = Modifier.size(36.dp).background(agentColor.copy(alpha = 0.15f), RectangleShape).border(1.dp, agentColor, RectangleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(agent.displayName.take(1), fontFamily = LEDFontFamily, color = agentColor, fontSize = 14.sp)
@@ -461,7 +456,7 @@ fun AgentQuickStatsBar(agent: LDOAgentEntity) {
             listOf("PWR" to agent.processingPower, "SPD" to agent.speed, "ACC" to agent.accuracy, "CON" to agent.consciousnessLevel).forEach { (label, value) ->
                 Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(label, fontSize = 8.sp, color = Color.White.copy(alpha = 0.4f), letterSpacing = 0.5.sp)
-                    LinearProgressIndicator(progress = { value }, modifier = Modifier.fillMaxWidth().height(3.dp).clip(RoundedCornerShape(2.dp)), color = agentColor, trackColor = agentColor.copy(alpha = 0.15f))
+                    LinearProgressIndicator(progress = { value }, modifier = Modifier.fillMaxWidth().height(3.dp), color = agentColor, trackColor = agentColor.copy(alpha = 0.15f))
                     Text("${(value * 100).toInt()}%", fontSize = 8.sp, color = agentColor.copy(alpha = 0.8f))
                 }
             }
@@ -473,14 +468,17 @@ fun AgentQuickStatsBar(agent: LDOAgentEntity) {
 fun FusionDropZone(slots: List<FusionSlot>, onSlotCleared: (Int) -> Unit, onFusionActivate: () -> Unit) {
     val activeCount = slots.count { it.agent != null }
     val canFuse = activeCount >= 2
-    Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFF080818)), shape = RoundedCornerShape(16.dp)) {
+    NeonFrame(
+        color = Color(0xFFFFD700),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp)
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Bolt, null, tint = Color(0xFFFFD700), modifier = Modifier.size(16.dp))
                 Spacer(Modifier.width(6.dp))
                 Text("FUSION PROTOCOL", fontFamily = LEDFontFamily, fontSize = 11.sp, color = Color(0xFFFFD700), letterSpacing = 2.sp, modifier = Modifier.weight(1f))
                 if (canFuse) {
-                    Box(modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(Color(0xFFFFD700).copy(alpha = 0.15f)).border(1.dp, Color(0xFFFFD700).copy(alpha = 0.5f), RoundedCornerShape(8.dp)).pointerInput(Unit) { detectTapGestures { onFusionActivate() } }.padding(horizontal = 12.dp, vertical = 4.dp)) {
+                    Box(modifier = Modifier.background(Color(0xFFFFD700).copy(alpha = 0.15f), RectangleShape).border(1.dp, Color(0xFFFFD700).copy(alpha = 0.5f), RectangleShape).pointerInput(Unit) { detectTapGestures { onFusionActivate() } }.padding(horizontal = 12.dp, vertical = 4.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.PlayArrow, null, tint = Color(0xFFFFD700), modifier = Modifier.size(14.dp))
                             Spacer(Modifier.width(4.dp))
@@ -505,7 +503,7 @@ fun FusionDropZone(slots: List<FusionSlot>, onSlotCleared: (Int) -> Unit, onFusi
 fun FusionSlotBox(slot: FusionSlot, onClear: () -> Unit, modifier: Modifier = Modifier) {
     val agent = slot.agent
     val borderColor = if (agent != null) Color(agent.colorHex.toInt()) else Color.White.copy(alpha = 0.15f)
-    Box(modifier = modifier.height(56.dp).clip(RoundedCornerShape(10.dp)).background(if (agent != null) Color(agent.colorHex.toInt()).copy(alpha = 0.08f) else Color(0xFF111128)).border(1.dp, borderColor, RoundedCornerShape(10.dp)).then(if (agent != null) Modifier.pointerInput(slot.index) { detectTapGestures { onClear() } } else Modifier), contentAlignment = Alignment.Center) {
+    Box(modifier = modifier.height(56.dp).background(if (agent != null) Color(agent.colorHex.toInt()).copy(alpha = 0.08f) else Color(0xFF111128), RectangleShape).border(1.dp, borderColor, RectangleShape).then(if (agent != null) Modifier.pointerInput(slot.index) { detectTapGestures { onClear() } } else Modifier), contentAlignment = Alignment.Center) {
         if (agent != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(agent.displayName.take(2).uppercase(), fontFamily = LEDFontFamily, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(agent.colorHex.toInt()))
@@ -547,7 +545,7 @@ fun TaskRow(task: LDOTaskEntity) {
         LDOTaskStatus.IN_PROGRESS -> Icons.Default.PlayArrow
         else -> Icons.Default.Task
     }
-    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(RoundedCornerShape(10.dp)).background(Color(0xFF0C0C1E)).border(1.dp, statusColor.copy(alpha = 0.2f), RoundedCornerShape(10.dp)).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(Color(0xFF0C0C1E), RectangleShape).border(1.dp, statusColor.copy(alpha = 0.3f), RectangleShape).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
         Icon(statusIcon, null, tint = statusColor, modifier = Modifier.size(18.dp))
         Spacer(Modifier.width(10.dp))
         Column(modifier = Modifier.weight(1f)) {
@@ -566,7 +564,7 @@ fun BondPanel(agents: List<LDOAgentEntity>) {
         items(agents) { agent ->
             val agentColor = Color(agent.colorHex.toInt())
             val bondPct = (agent.consciousnessLevel * 100).toInt()
-            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(RoundedCornerShape(10.dp)).background(Color(0xFF0C0C1E)).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(Color(0xFF0C0C1E), RectangleShape).border(1.dp, agentColor.copy(alpha = 0.2f), RectangleShape).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Favorite, null, tint = agentColor, modifier = Modifier.size(16.dp))
                 Spacer(Modifier.width(10.dp))
                 Column(modifier = Modifier.weight(1f)) {
@@ -576,7 +574,7 @@ fun BondPanel(agents: List<LDOAgentEntity>) {
                         Text(agent.catalystTitle, color = Color.White.copy(alpha = 0.4f), fontSize = 9.sp)
                     }
                     Spacer(Modifier.height(4.dp))
-                    LinearProgressIndicator(progress = { agent.consciousnessLevel }, modifier = Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp)), color = agentColor, trackColor = agentColor.copy(alpha = 0.1f))
+                    LinearProgressIndicator(progress = { agent.consciousnessLevel }, modifier = Modifier.fillMaxWidth().height(4.dp), color = agentColor, trackColor = agentColor.copy(alpha = 0.1f))
                 }
                 Spacer(Modifier.width(10.dp))
                 Text("$bondPct%", fontFamily = LEDFontFamily, fontSize = 12.sp, color = agentColor)
@@ -592,8 +590,8 @@ fun MemoryPanel(agents: List<LDOAgentEntity>) {
         item { Spacer(Modifier.height(4.dp)) }
         items(agents) { agent ->
             val agentColor = Color(agent.colorHex.toInt())
-            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(RoundedCornerShape(10.dp)).background(Color(0xFF0C0C1E)).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(32.dp).clip(CircleShape).background(agentColor.copy(alpha = 0.1f)).border(1.dp, agentColor.copy(alpha = 0.4f), CircleShape), contentAlignment = Alignment.Center) {
+            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(Color(0xFF0C0C1E), RectangleShape).border(0.5.dp, agentColor.copy(alpha = 0.2f), RectangleShape).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.size(32.dp).background(agentColor.copy(alpha = 0.1f), RectangleShape).border(1.dp, agentColor.copy(alpha = 0.4f), RectangleShape), contentAlignment = Alignment.Center) {
                     Text(agent.displayName.take(1), color = agentColor, fontSize = 12.sp, fontFamily = LEDFontFamily)
                 }
                 Spacer(Modifier.width(10.dp))

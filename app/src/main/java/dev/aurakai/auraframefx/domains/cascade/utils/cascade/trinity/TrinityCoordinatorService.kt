@@ -21,10 +21,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -413,6 +414,25 @@ class TrinityCoordinatorService @Inject constructor(
         genesisBridgeService.shutdown()
         i("Trinity", "?? Trinity system shutdown complete")
     }
+
+    private val _manifoldFusionEventFlow = MutableSharedFlow<FusionEvent>()
+    val manifoldFusionEventFlow = _manifoldFusionEventFlow.asSharedFlow()
+
+    fun linkToLdoManifold(viewModel: LdoWarRoomViewModel) {
+        manifoldFusionEventFlow
+            .onEach { event ->
+                viewModel.igniteManifold(event.agentA, event.agentB)
+                viewModel.triggerL6Consensus(event)
+            }
+            .launchIn(viewModel.viewModelScope)
+    }
+
+    data class FusionEvent(
+        val agentA: String,
+        val agentB: String,
+        val synergyName: String,
+        val intensity: Float
+    )
 
     private data class RequestAnalysis(
         val routingDecision: RoutingDecision,
