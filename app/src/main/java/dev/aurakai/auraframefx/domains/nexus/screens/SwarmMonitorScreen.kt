@@ -205,7 +205,7 @@ fun SwarmCanvas(isActive: Boolean) {
     Canvas(modifier = Modifier.fillMaxSize()) {
         val centerX = size.width / 2
         val centerY = size.height / 2
-        val maxRadius = min(size.width, size.height) / 2 * 0.9f
+        val maxRadius = size.minDimension / 2 * 0.9f
 
         // Draw connections
         for (i in 0 until 78 step 3) {
