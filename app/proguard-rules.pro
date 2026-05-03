@@ -108,3 +108,24 @@
     public static void d(...);
     public static void e(...);
 }
+
+# --- YukiHookAPI & Xposed Rules ---
+# Keep YukiHookAPI core classes
+-keep class com.highcapable.yukihookapi.** { *; }
+-dontwarn com.highcapable.yukihookapi.**
+
+# Keep Xposed API classes
+-keep class de.robv.android.xposed.** { *; }
+-dontwarn de.robv.android.xposed.**
+
+# Keep all hook entry points
+-keep class * implements com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit { *; }
+-keep class * implements de.robv.android.xposed.IXposedHookLoadPackage { *; }
+-keep class * implements de.robv.android.xposed.IXposedHookZygoteInit { *; }
+
+# Keep generated entry classes (e.g., GenesisXposedEntry)
+-keep class dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisXposedEntry { *; }
+
+# Keep KavaRef if used for reflection
+-keep class com.highcapable.kavaref.** { *; }
+-dontwarn com.highcapable.kavaref.**

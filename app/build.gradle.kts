@@ -120,7 +120,7 @@ dependencies {
     implementation(libs.libsu.core)
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
-    implementation(libs.xposed.api)
+    compileOnly(libs.xposed.api)
 
     // Logging
     implementation(libs.timber)

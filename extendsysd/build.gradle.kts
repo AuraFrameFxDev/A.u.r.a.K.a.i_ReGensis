@@ -27,6 +27,7 @@ dependencies {
     // YukiHook API 1.3.0+ with KavaRef
     implementation(libs.yukihookapi.api)
     ksp(libs.yukihookapi.ksp)
+    compileOnly(libs.xposed.api)
 
     // Compose UI
     implementation(platform(libs.androidx.compose.bom))

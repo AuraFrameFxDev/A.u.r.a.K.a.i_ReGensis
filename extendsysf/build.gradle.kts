@@ -31,6 +31,7 @@ dependencies {
     implementation(libs.yukihookapi.api) {
         exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
     }
+    compileOnly(libs.xposed.api)
 
     // Compose UI
     implementation(platform(libs.androidx.compose.bom))

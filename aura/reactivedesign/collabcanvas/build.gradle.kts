@@ -29,6 +29,7 @@ dependencies {
     implementation(libs.yukihookapi.api) {
         exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
     }
+    compileOnly(libs.xposed.api)
 
     // KavaRef
     implementation(libs.kavaref.core)
