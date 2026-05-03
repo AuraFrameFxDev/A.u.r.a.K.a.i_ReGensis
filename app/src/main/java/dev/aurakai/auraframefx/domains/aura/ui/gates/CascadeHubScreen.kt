@@ -48,14 +48,14 @@ fun CascadeHubScreen(controller: NavController) {
             title = "Cascade Vision",
             subtitle = "Pattern Recognition HUD",
             icon = Icons.Default.RemoveRedEye,
-            destination = ReGenesisRoute.CascadeHub.route, // Using Route as ReGenesisRoute
+            destination = ReGenesisRoute.CascadeVision.route,
             color = Color(0xFF00FFD4)
         ),
         CascadeTool(
             title = "Data Monitoring",
             subtitle = "Real-time Stream Analysis",
             icon = Icons.Default.StackedLineChart,
-            destination = ReGenesisRoute.DataflowAnalysis.route,
+            destination = ReGenesisRoute.DataStreamMonitoring.route,
             color = Color(0xFF00E5FF)
         ),
         CascadeTool(

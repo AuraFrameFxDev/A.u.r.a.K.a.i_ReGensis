@@ -172,7 +172,7 @@ object GateAssetLoadout {
             styleADrawable = GateAssetConfig.GenesisSubGates.CLOUD_STORAGE.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.CLOUD_STORAGE.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.CLOUD_STORAGE.fallback,
-            route = ReGenesisRoute.OracleCloudStorage.route,
+            route = ReGenesisRoute.OracleCloudInfinite.route,
             accentColor = Color(0xFF00B0FF)
         ),
         "sentient_shell" to SubGateCard(

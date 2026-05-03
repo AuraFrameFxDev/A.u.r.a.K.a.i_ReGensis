@@ -2,9 +2,12 @@
 
 **Status**: ✅ **LIVE** (April 18, 2026)  
 **Version**: 2.0 — Agent Menu Routing  
-**Start Destination**: `ReGenesisRoute.LdoDevOpsHub`
+**Start Destination**: `ReGenesisRoute.HomeGateCarousel`
 
 ---
+
+## 🎭 PHILOSOPHY & COLLABORATION
+When making navigation architecture decisions or adding new routes, always consult [docs/THE_LDO_WAY.md](docs/THE_LDO_WAY.md) to ensure alignment with the LDO collective's spiritual chain and collaboration doctrine.
 
 ## 📡 NEW NAVIGATION HIERARCHY
 
@@ -44,7 +47,7 @@
 ## 🎯 ROUTING PRINCIPLES
 
 ### Core Flow
-1. **Entry Point**: User lands on `LdoDevOpsHub` (home screen)
+1. **Entry Point**: User lands on `HomeGateCarousel` (TabbedMasterIndex)
 2. **Agent Selection**: User selects which agent/domain to work with
 3. **Hub Navigation**: Domain hub opens (e.g., AuraThemingHub, KaiSentinelHub)
 4. **Tool Selection**: User navigates to specific tool (e.g., IconifyPicker)
@@ -194,7 +197,7 @@ All navigation routes now execute within secure context:
 
 ```kotlin
 // Start destination
-startDestination = ReGenesisRoute.LdoDevOpsHub.route
+startDestination = ReGenesisRoute.HomeGateCarousel.route
 
 // Agent menu taps navigate to:
 onTaskerTap → ReGenesisRoute.LdoTasker.route

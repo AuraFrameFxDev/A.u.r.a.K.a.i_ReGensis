@@ -18,7 +18,8 @@ import dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen
 
 // Domain Hubs
 import dev.aurakai.auraframefx.domains.aura.ui.gates.AuraKineticForgeHub
-import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.domains.aura.screens.AurasLabScreen
+import dev.aurakai.auraframefx.domains.kai.screens.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.OracleDriveHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOOrchestrationHubScreen
@@ -29,7 +30,7 @@ import dev.aurakai.auraframefx.domains.aura.chronokineticforge.ChronoKineticForg
 // Domain Feature Screens
 import dev.aurakai.auraframefx.domains.aura.screens.MainScreen
 import dev.aurakai.auraframefx.domains.aura.ui.theme.ThemeViewModel
-import dev.aurakai.auraframefx.domains.aura.screens.chromacore.ChromaCoreColorsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.IconifyHubScreen
 import dev.aurakai.auraframefx.domains.aura.uxui_design_studio.chromacore.color.iconify.iconify.IconifyCategoryDetailScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.IconifyPickerScreen
@@ -243,23 +244,29 @@ fun ReGenesisNavGraph(
             )
         }
 
+        // --- CASCADE ---
         composable(ReGenesisRoute.DataflowAnalysis.route) {
             CascadeHubScreen(navController)
         }
 
         // ── 2. DOMAIN HUBS ──
+        // --- AURA ---
         composable(ReGenesisRoute.AuraThemingHub.route) {
             AuraKineticForgeHub(navController)
         }
+        // --- KAI ---
         composable(ReGenesisRoute.SentinelFortress.route) {
-            KaiSentinelHubScreen(navController)
+            KaiSentinelHubScreen(onNavigateBack = { navController.popBackStack() })
         }
+        // --- GENESIS ---
         composable(ReGenesisRoute.OracleDriveHub.route) {
             OracleDriveHubScreen(navController)
         }
+        // --- NEXUS ---
         composable(ReGenesisRoute.AgentNexusHub.route) {
             AgentNexusHubScreen(navController)
         }
+        // --- LDO ---
         composable(ReGenesisRoute.LdoOrchestrationHub.route) {
             LDOOrchestrationHubScreen(navController)
         }
@@ -268,7 +275,7 @@ fun ReGenesisNavGraph(
         
         // --- AURA DOMAIN ---
         composable(ReGenesisRoute.AuraLab.route) {
-            WorkingLabScreen(onNavigate = { route: String -> navController.navigate(route) })
+            AurasLabScreen(onBack = { navController.popBackStack() })
         }
         // ═══════════════════════════════════════════════════════════════
         // CHRONOKINETIC FORGE — Unified Visual Customization (99→6 files)
@@ -335,7 +342,7 @@ fun ReGenesisNavGraph(
             QuickSettingsScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.ChromaCoreColors.route) {
-            ChromaCoreColorsScreen(navController = navController, onNavigateBack = { navController.popBackStack() })
+            ChromaCoreColorsScreen()
         }
         composable(ReGenesisRoute.ColorBlendr.route) {
             ColorBlendrScreen(navController = navController)

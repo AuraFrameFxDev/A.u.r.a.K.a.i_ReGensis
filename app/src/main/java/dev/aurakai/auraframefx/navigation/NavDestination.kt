@@ -3,6 +3,9 @@ package dev.aurakai.auraframefx.navigation
 /**
  * 🌐 REGENESIS NAVIGATION DESTINATIONS
  *
+ * @deprecated Use [ReGenesisRoute] as the single source of truth for all navigation.
+ * No new routes should be added here.
+ *
  * CLEAN HIERARCHY - ZERO DRIFT:
  *
  * LEVEL 1: ExodusHUD (Main Gates)

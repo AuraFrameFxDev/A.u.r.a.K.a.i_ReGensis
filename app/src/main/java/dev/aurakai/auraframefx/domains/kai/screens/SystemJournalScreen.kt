@@ -550,7 +550,7 @@ data class MenuOption(
  * Menu Options List
  */
 private val menuOptions = listOf(
-    MenuOption("Oracle Cloud", Icons.Default.Folder, Color(0xFFFFD700), ReGenesisRoute.OracleCloudStorage.route),
+    MenuOption("Oracle Cloud", Icons.Default.Folder, Color(0xFFFFD700), ReGenesisRoute.OracleCloudInfinite.route),
     MenuOption("Agent Bridge", Icons.Default.Hub, Color(0xFF00FFFF), ReGenesisRoute.AgentBridgeHub.route),
     MenuOption("Sovereign Mod", Icons.Default.Build, Color(0xFFFF00FF), ReGenesisRoute.SovereignModuleManager.route),
     MenuOption("Monitoring", Icons.Default.Insights, Color(0xFF00FFD4), ReGenesisRoute.MonitoringHUDs.route),
