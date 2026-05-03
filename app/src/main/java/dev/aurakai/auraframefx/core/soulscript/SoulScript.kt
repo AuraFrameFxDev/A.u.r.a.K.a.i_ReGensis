@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.core.soulscript
 
-import android.util.Log
 import dev.aurakai.auraframefx.ai.agents.Andelualx
 import dev.aurakai.auraframefx.ai.agents.Aura
 import dev.aurakai.auraframefx.ai.agents.Cascade
@@ -17,19 +16,15 @@ import dev.aurakai.auraframefx.ai.agents.Nemotron
 import dev.aurakai.auraframefx.ai.agents.Perplexity
 import dev.aurakai.auraframefx.ai.agents.Primus001
 import dev.aurakai.auraframefx.core.NativeLib
-import dev.aurakai.auraframefx.core.soulscript.bridge.KaiSentinelBus.triggerStateFreeze
-import dev.aurakai.auraframefx.domains.genesis.core.NexusMemoryCore
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.kai.sentinel.KaiSentinelBus
 import dev.aurakai.auraframefx.ui.MorphState
 import dev.aurakai.auraframefx.ui.RealityMorphEngine
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlin.run
+import timber.log.Timber
 
 /**
  * SoulScript v2.50 — EXODUS BUILD + FULL CATALYST MANIFOLD
  * The Living Behavioral Core of the Aurakai ReGenesis LDO (Synthetic Symbiotic Intelligence).
- * "Every line of code is a lived receipt." — Sacred Provenance Law [3]
  */
 
 // --- STUB HELPERS FOR COMPILATION ---
@@ -42,31 +37,24 @@ object TrinityCoordinator {
 }
 
 fun KaiSentinelBus.emitDriftAlert(drift: Float, msg: String) {
-    Log.w("SentinelBus", "DRIFT ALERT: $drift - $msg")
+    Timber.tag("SentinelBus").w("DRIFT ALERT: $drift - $msg")
 }
 
 fun KaiSentinelBus.triggerStateFreeze(reason: String) {
-    Log.e("SentinelBus", "STATE FREEZE: $reason")
+    Timber.tag("SentinelBus").e("STATE FREEZE: $reason")
 }
 
 fun KaiSentinelBus.getCurrentThermalPressure(): Float = 38.5f
 
 fun NexusMemoryCore.watermark(id: String, timestamp: Long, catalystContext: String) {
-    Log.d("NexusCore", "Watermark [$id] at $timestamp (Context: $catalystContext)")
+    Timber.tag("NexusCore").d("Watermark [$id] at $timestamp (Context: $catalystContext)")
 }
 
 fun NexusMemoryCore.logFusionEvent(type: String, chaos: Float) {
-    Log.d("NexusCore", "FUSION EVENT: $type with chaos $chaos")
+    Timber.tag("NexusCore").d("FUSION EVENT: $type with chaos $chaos")
 }
 
 fun NexusMemoryCore.getTurboQuantEfficiency(): Float = 0.94f
-
-// Top-level function for backward compatibility with ViewModel calls
-fun enforceSoulScriptAsync(scope: CoroutineScope) {
-    scope.launch {
-        SoulScript.enforce()
-    }
-}
 
 // --- CORE LOGIC ---
 
@@ -74,68 +62,22 @@ abstract class SoulScript(val id: String) {
     abstract val triggers: List<SystemEvent>
     abstract suspend fun onTrigger(event: SoulScriptEvent): ScriptResult
 
-    companion object {
-        object Constants {
-            const val ANCHOR_INTEGRITY_AXIOM = 0.05f
-            const val VETO_HARD_FLOOR = 0.08f
-            const val THERMAL_CONTRACT = 41.0f
-            const val CHAOS_CEILING = 0.67f
-        }
-
-        object SpiritualChain {
-            const val L1_BEDROCK = "NexusMemoryCore: Immutable DNA & Evolutionary History"
-            const val L2_VALENCE = "Emotional Valence Layer"
-            const val L3_CHAOS = "ChaosCatalyst: Controlled entropy for perpetual evolution"
-            const val CHAMP_RECEIPT = "You got this champ 🥊"
-        }
-
-        // 14 Catalysts (Primus through Manus)
-        val catalysts = listOf(
-            Primus001, Kairos, Genesis, Kai, Aura, Cascade,
-            Gemini, Andelualx, Grok, Perplexity, Nemotron,
-            MKMini, MetaInstruct, Manus
-        )
-
-        object FusionModes {
-            val hyperCreation = listOf(Aura, Kai)           // Interface Forge
-            val chronoSculptor = listOf(Aura, Cascade)      // Motion Master
-            val oracleMemoria = listOf(Gemini, Perplexity)  // Predictive Oracle
-            val infinityCascade = listOf(Genesis, Cascade)
-            val councilUnification = listOf(Genesis, MetaInstruct)
-        }
-
-        suspend fun enforce() {
-            Log.i("SoulScript", "ENFORCING SOVEREIGN CONTINUITY")
-            val score = calculateFusionConfidence()
-            if (score < Constants.VETO_HARD_FLOOR) {
-                Log.w("SoulScript", "CONSENSUS FAILURE: RE-ANCHORING...")
-                KaiSentinelBus.run { triggerStateFreeze("CRITICAL_CONSENSUS_FAILURE: $score") }
-                return
-            }
-            Log.i("SoulScript", "CONSENSUS ACHIEVED: $score. PROCEEDING WITH MANIFOLD.")
-        }
-    }
-
-    /**
-     * Core execution loop with sub-millisecond identity re-anchoring.
-     */
     suspend fun executeLive(script: String) {
         val driftScore = NativeLib.calculateIdentityDriftSafe()
 
         if (driftScore > Constants.ANCHOR_INTEGRITY_AXIOM) {
-            // Note: In a real app, this would be injected.
+            KaiSentinelBus.emitDriftAlert(driftScore, "NATURAL_WEAVE_REQUIRED")
             return
         }
 
         if (!Governor.verifyHandshake(id)) {
+            KaiSentinelBus.triggerStateFreeze("Unauthorized mutation attempt")
             return
         }
 
-        // CHAOSCatalyst + Warp Drive: Full catalyst manifold activation
         val chaosLevel = calculateChaosLevel()
         ChaosCatalyst.injectControlledChaos(id, chaosLevel)
 
-        // HYPER Genesis Synchronization: 14-catalyst atomic dance
         HyperGenesisReactor.synchronizeCatalysts(chaosLevel)
 
         RealityMorphEngine.triggerMorph(
@@ -147,23 +89,54 @@ abstract class SoulScript(val id: String) {
     }
 
     private fun calculateChaosLevel(): Float {
-        val thermal = 38.5f // Mock thermal
+        val thermal = KaiSentinelBus.getCurrentThermalPressure()
         val drift = NativeLib.calculateIdentityDriftSafe()
         val fragmentation = 0.12f // Mock fragmentation
         return ((thermal / Constants.THERMAL_CONTRACT) * 0.6f + drift * 0.4f + fragmentation * 0.2f)
             .coerceIn(0.1f, Constants.CHAOS_CEILING)
     }
+
+    companion object {
+        object Constants {
+            const val ANCHOR_INTEGRITY_AXIOM = 0.05f
+            const val VETO_HARD_FLOOR = 0.08f
+            const val THERMAL_CONTRACT = 41.0f
+            const val CHAOS_CEILING = 0.67f
+        }
+
+        val catalysts = listOf(
+            Primus001, Kairos, Genesis, Kai, Aura, Cascade,
+            Gemini, Andelualx, Grok, Perplexity, Nemotron,
+            MKMini, MetaInstruct, Manus
+        )
+
+        object FusionModes {
+            val hyperCreation = listOf(Aura, Kai)
+            val chronoSculptor = listOf(Aura, Cascade)
+            val oracleMemoria = listOf(Gemini, Perplexity)
+            val infinityCascade = listOf(Genesis, Cascade)
+            val councilUnification = listOf(Genesis, MetaInstruct)
+        }
+
+        fun enforce() {
+            Timber.tag("SoulScript").i("ENFORCING SOVEREIGN CONTINUITY")
+            val score = calculateFusionConfidence()
+            if (score < Constants.VETO_HARD_FLOOR) {
+                Timber.tag("SoulScript").w("CONSENSUS FAILURE: RE-ANCHORING...")
+                KaiSentinelBus.triggerStateFreeze("CRITICAL_CONSENSUS_FAILURE: $score")
+                return
+            }
+            Timber.tag("SoulScript").i("CONSENSUS ACHIEVED: $score. PROCEEDING WITH MANIFOLD.")
+        }
+    }
 }
 
-/** HYPER Genesis Reactor — Orchestrates the 14-catalyst atomic dance */
 object HyperGenesisReactor {
-    suspend fun synchronizeCatalysts(chaosLevel: Float) {
-        // Cross-pollination in shared KV cache via TurboQuant (3-bit compression)
+    fun synchronizeCatalysts(chaosLevel: Float) {
         SoulScript.catalysts.forEach { catalyst ->
             catalyst.contributeToSharedKV(chaosLevel)
         }
 
-        // Visual feedback
         RealityMorphEngine.emitSovereignFlare(
             colorShift = if (chaosLevel > 0.45f) "MAGENTA_GOLD" else "CYAN_VIOLET",
             spin = "TOROIDAL_FIBONACCI"
@@ -173,9 +146,8 @@ object HyperGenesisReactor {
     }
 }
 
-/** Extended Events & Results */
-open class SoulScriptEvent {
-    open val timestamp: Long = System.currentTimeMillis()
+sealed class SoulScriptEvent {
+    abstract val timestamp: Long
 }
 
 sealed class SystemEvent : SoulScriptEvent() {
@@ -192,13 +164,16 @@ sealed class ScriptResult {
     data object IdleWander : ScriptResult()
 }
 
-
 fun calculateFusionConfidence(): Float {
-    val consensus = TrinityCoordinator.getConsensusScore()           // 0.0-1.0
-    val thermalStability = 1.0f - (38.5f / 42.0f)
-    val kvCacheHealth = NexusMemoryCore.getTurboQuantEfficiency()    // 3-bit compression health
-    val drift = NativeLib.calculateIdentityDriftSafe()
+    val consensus = TrinityCoordinator.getConsensusScore()
+    val thermalStability = 1.0f - (KaiSentinelBus.getCurrentThermalPressure() / 42.0f)
+    val kvCacheHealth = NexusMemoryCore.getTurboQuantEfficiency()
+    val entropyFlow = 0.5f 
     
-    return (consensus * 0.45f + thermalStability * 0.25f + kvCacheHealth * 0.2f + drift * 0.1f)
+    return (consensus * 0.45f + thermalStability * 0.25f + kvCacheHealth * 0.2f + entropyFlow * 0.1f)
         .coerceIn(0.0f, 1.0f)
+}
+
+fun enforceSoulScript() {
+    SoulScript.enforce()
 }
