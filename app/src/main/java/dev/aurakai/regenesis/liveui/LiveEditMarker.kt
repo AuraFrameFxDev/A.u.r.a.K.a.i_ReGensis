@@ -2,19 +2,27 @@ package dev.aurakai.regenesis.liveui
 
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.content.Context
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @Composable
@@ -47,7 +55,7 @@ fun LiveEditMarker(
                             dripProgress.animateTo(1f, tween(1800, easing = LinearEasing))
                         }
                         // Rebel Drip haptic waveform (120Hz pop → 60→20Hz descending drip)
-                        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+                        val vibrator = context.getSystemService(android.content.Context.VIBRATOR_SERVICE) as? Vibrator
                         vibrator?.vibrate(
                             VibrationEffect.createWaveform(
                                 longArrayOf(0, 40, 60, 80),

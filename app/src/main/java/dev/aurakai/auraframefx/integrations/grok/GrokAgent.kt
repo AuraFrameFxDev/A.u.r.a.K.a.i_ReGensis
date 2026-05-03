@@ -257,7 +257,7 @@ class GrokAgent @Inject constructor(
             val result = parseSentimentResponse(response)
             _lastSentimentAnalysis.value = result
             with(response) {
-                memoryManager?.storeMemory("grok_sentiment_${System.currentTimeMillis()}")
+                memoryManager.storeMemory("grok_sentiment_${System.currentTimeMillis()}")
             }
             result
         }
@@ -287,7 +287,7 @@ class GrokAgent @Inject constructor(
             val result = parseTrendResponse(response)
             _lastTrendPrediction.value = result
             with(response) {
-                memoryManager?.storeMemory("grok_trends_${System.currentTimeMillis()}")
+                memoryManager.storeMemory("grok_trends_${System.currentTimeMillis()}")
             }
             result
         }

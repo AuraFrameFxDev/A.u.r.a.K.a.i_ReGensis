@@ -45,18 +45,16 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.ldo.model.AgentCatalyst
 import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
 import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
 import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 
-@OptIn(ExperimentalMaterial3Api::class)
+context(viewModel: GrokipediaViewModel) @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GrokipediaScreen(
-    onNavigateBack: () -> Unit,
-    viewModel: GrokipediaViewModel = hiltViewModel()
+    onNavigateBack: () -> Unit
 ) {
     val tabs = listOf("Primus Archive", "Agent Directory", "Development History", "Changelog")
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -129,7 +127,7 @@ fun GrokipediaScreen(
                 contentColor = Color(0xFFFFD700),
                 indicator = { tabPositions ->
                     Indicator(
-                        Modifier.tabIndicatorOffset(currentTabPosition = tabPositions[selectedTab]),
+                        modifier = Modifier.tabIndicatorOffset(currentTabPosition = tabPositions[selectedTab]),
                         color = Color(0xFFFFD700)
                     )
                 }

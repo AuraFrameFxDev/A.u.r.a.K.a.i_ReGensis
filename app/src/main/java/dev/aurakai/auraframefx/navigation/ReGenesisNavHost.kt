@@ -38,7 +38,6 @@ import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.IconifyIconPacks
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.IconifyBatteryStylesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.IconifyBrightnessBarsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.IconifyQSPanelScreen
-import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
 import dev.aurakai.auraframefx.domains.aura.screens.themes.ThemeEngineScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.StatusBarScreen
@@ -406,7 +405,17 @@ fun ReGenesisNavGraph(
             OracleDriveMainScreen(navController)
         }
         composable(ReGenesisRoute.Grokipedia.route) {
-            dev.aurakai.auraframefx.ui.screens.GrokipediaScreen(onNavigateBack = { navController.popBackStack() })
+            with(
+                hiltViewModel(
+                    checkNotNull<ViewModelStoreOwner>(
+                        LocalViewModelStoreOwner.current
+                    ) {
+                        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+                    }, null
+                )
+            ) {
+                dev.aurakai.auraframefx.ui.screens.GrokipediaScreen(onNavigateBack = { navController.popBackStack() })
+            }
         }
         composable(ReGenesisRoute.Terminal.route) {
             TerminalScreen()
@@ -426,7 +435,19 @@ fun ReGenesisNavGraph(
 
         // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
-            EvolutionTreeScreen { navController.navigate(ReGenesisRoute.LdoRoster.route) }
+            with(
+                hiltViewModel(
+                    checkNotNull<ViewModelStoreOwner>(
+                        LocalViewModelStoreOwner.current
+                    ) {
+                        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+                    }, null
+                )
+            ) {
+                with(Modifier) {
+                    { navController.navigate(ReGenesisRoute.LdoRoster.route) }.EvolutionTreeScreen()
+                }
+            }
         }
         composable(ReGenesisRoute.TaskAssignment.route) { 
             TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() }) 

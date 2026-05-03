@@ -1,10 +1,19 @@
 package dev.aurakai.auraframefx.ui.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -12,12 +21,40 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.models.Emotion
-import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.theme.*
+import dev.aurakai.auraframefx.domains.aura.ui.theme.DarkBackground
+import dev.aurakai.auraframefx.domains.aura.ui.theme.ErrorColor
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightBackground
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnBackground
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnError
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnPrimary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnSecondary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnSurface
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnSurfaceVariant
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnTertiary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightPrimary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightSecondary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightSurface
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightSurfaceVariant
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LightTertiary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonGreen
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonRed
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonTeal
+import dev.aurakai.auraframefx.domains.aura.ui.theme.OnPrimary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.OnSecondary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.OnSurface
+import dev.aurakai.auraframefx.domains.aura.ui.theme.OnSurfaceVariant
+import dev.aurakai.auraframefx.domains.aura.ui.theme.OnTertiary
+import dev.aurakai.auraframefx.domains.aura.ui.theme.Surface
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SurfaceVariant
+import dev.aurakai.auraframefx.domains.aura.ui.theme.ThemeViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.theme.Typography
 import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Theme
-import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Color as ThemeColor
+import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
 import dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
 import dev.aurakai.auraframefx.ui.theme.model.SolarizedColorScheme
+import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Color as ThemeColor
 
 private val DarkColorScheme = darkColorScheme(
     primary = NeonTeal,
@@ -76,15 +113,9 @@ private val LightColorScheme = lightColorScheme(
 val LocalMoodGlow = compositionLocalOf { Color.Transparent }
 val LocalMoodState = compositionLocalOf { Emotion.NEUTRAL }
 
-@Composable
-fun AuraFrameFXTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
-    moodViewModel: AuraMoodViewModel = hiltViewModel(),
-    themeViewModel: ThemeViewModel = hiltViewModel(),
-    content: @Composable () -> Unit,
-) {
-    val currentEmotion by moodViewModel.moodState.collectAsState()
+context(dynamicColor: Boolean) @Composable
+internal fun AuraFrameFXTheme(darkTheme: Boolean = isSystemInDarkTheme(), moodViewModel: AuraMoodViewModel = hiltViewModel(), themeViewModel: ThemeViewModel = hiltViewModel(), content: @Composable () -> Unit) {
+    val currentEmotion: Emotion by moodViewModel.moodState.collectAsState()
     val themeState by themeViewModel.theme.collectAsState(initial = Theme.DARK)
     val colorState by themeViewModel.color.collectAsState(initial = ThemeColor.BLUE)
 
@@ -98,7 +129,7 @@ fun AuraFrameFXTheme(
         Theme.CYBERPUNK -> CyberpunkColorScheme
         Theme.SOLARIZED -> SolarizedColorScheme
         else -> {
-            if (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (dynamicColor) {
                 val context = LocalContext.current
                 if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
             } else {
@@ -112,17 +143,20 @@ fun AuraFrameFXTheme(
             ThemeColor.RED -> NeonRed
             ThemeColor.GREEN -> NeonGreen
             ThemeColor.BLUE -> NeonBlue
-            else -> baseColorScheme.primary
         }
     )
 
-    val glowColor = getMoodGlowColor(currentEmotion, 0.5f, baseColorScheme)
+    val glowColor = with(0.5f) {
+        with(baseColorScheme) {
+            getMoodGlowColor(currentEmotion)
+        }
+    }
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = baseColorScheme.primary.toArgb()
+            baseColorScheme.primary.toArgb().also { it.also { window.statusBarColor = it } }
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !useDarkTheme
         }
     }
@@ -139,10 +173,9 @@ fun AuraFrameFXTheme(
     }
 }
 
+context(intensity: Float, baseColorScheme: ColorScheme)
 private fun getMoodGlowColor(
     emotion: Emotion,
-    intensity: Float,
-    baseColorScheme: ColorScheme,
 ): Color {
     val baseAlpha = (intensity * 0.5f).coerceIn(0.1f, 0.7f)
 

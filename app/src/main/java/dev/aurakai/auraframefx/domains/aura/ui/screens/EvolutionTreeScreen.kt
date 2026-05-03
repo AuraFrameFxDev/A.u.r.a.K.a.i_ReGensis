@@ -14,10 +14,20 @@ fun EvolutionTreeScreen(
     onNavigateToFusion: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    NexusEvolutionTreeScreen(
-        onNavigateToAgents = onNavigateToAgents,
-        onNavigateToFusion = onNavigateToFusion,
-        modifier = modifier
-    )
+    with(
+        hiltViewModel(
+            checkNotNull<ViewModelStoreOwner>(
+                LocalViewModelStoreOwner.current
+            ) {
+                "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+            }, null
+        )
+    ) {
+        with(modifier) {
+            onNavigateToFusion.NexusEvolutionTreeScreen(
+                onNavigateToAgents = onNavigateToAgents
+            )
+        }
+    }
 }
 

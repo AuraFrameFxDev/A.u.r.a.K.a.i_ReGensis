@@ -1,18 +1,55 @@
 package dev.aurakai.auraframefx.ui.screens.immersive
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.AcUnit
+import androidx.compose.material.icons.filled.AccountTree
+import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.AutoFixHigh
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.DeveloperMode
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Gavel
+import androidx.compose.material.icons.filled.Gradient
+import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.NetworkCheck
+import androidx.compose.material.icons.filled.Opacity
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Power
+import androidx.compose.material.icons.filled.Radar
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Style
+import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.TrendingUp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.components.immersive.*
+import dev.aurakai.auraframefx.ui.components.immersive.HolographicBackground
+import dev.aurakai.auraframefx.ui.components.immersive.MenuOptionCard
 import dev.aurakai.auraframefx.ui.theme.ImmersiveColors
 import dev.aurakai.auraframefx.ui.theme.ImmersiveTypography
 
@@ -64,7 +101,7 @@ sealed class MenuItem(
     class TaskManager : MenuItem(
         "Task Manager",
         "Mission dispatch",
-        Icons.Default.Assignment,
+        Icons.AutoMirrored.Filled.Assignment,
         ImmersiveColors.HolographicAmber
     )
 
