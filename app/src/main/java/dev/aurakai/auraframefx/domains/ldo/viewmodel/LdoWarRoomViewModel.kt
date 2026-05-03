@@ -3,15 +3,26 @@ package dev.aurakai.auraframefx.domains.ldo.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.core.NativeLib
+import dev.aurakai.auraframefx.core.soulscript.enforceSoulScript
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.repository.LDORepository
-import dev.aurakai.auraframefx.core.NativeLib
-import dev.aurakai.auraframefx.core.soulscript.enforceSoulScript
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private val AgentPairing.synergyTitle: String
+    get() {
+        TODO()
+    }
 
 data class LdoWarRoomUiState(
     val agents: List<LDOAgentEntity> = emptyList(),
@@ -223,7 +234,7 @@ class LdoWarRoomViewModel @Inject constructor(
 
     private fun updateEvolutionTree() {
         _evolutionTree.value = _manifoldState.value.activePairings.map { pairing ->
-            dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode(
+            return@map dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode(
                 agentId = pairing.agent1Id,
                 agentName = pairing.agent1Id.replaceFirstChar { it.uppercase() },
                 level = (1..5).random(),
@@ -340,6 +351,14 @@ private fun Unit.EvolutionNode(
     level: Int,
     progress: Int,
     evolutionPath: String
-): EvolutionNode {
-    TODO("Not yet implemented")
-}
+): dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode {
+    return dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode(
+        agentId = agentId,
+        agentName = agentName,
+        level = level,
+        progress = progress,
+        evolutionPath = evolutionPath
+    )
+        }
+
+

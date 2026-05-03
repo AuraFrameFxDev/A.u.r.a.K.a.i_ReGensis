@@ -5,12 +5,10 @@ package dev.aurakai.auraframefx.domains.ldo.model
  */
 data class EvolutionNode(
     val agentId: String,
-    val name: String,
     val level: Int,
-    val progress: Float,           // 0.0 - 1.0
+    val progress: Int,           // 0.0 - 1.0
     val parentIds: List<String> = emptyList(),   // for branching
     val lastFusion: String? = null,
-    val agentName: String
-) {
+    val agentName: String,
     val evolutionPath: String
-}
+)

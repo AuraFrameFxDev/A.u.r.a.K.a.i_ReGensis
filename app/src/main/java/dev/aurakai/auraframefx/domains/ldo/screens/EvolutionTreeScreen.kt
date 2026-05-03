@@ -68,7 +68,7 @@ fun EvolutionNodeCard(node: EvolutionNode) {
                 fontSize = 14.sp
             )
             Text(
-                "PATH: ${node.evolutionPath}",
+                "PATH: " + node.evolutionPath,
                 color = Color.Gray,
                 fontSize = 10.sp,
                 modifier = Modifier.padding(top = 4.dp)
