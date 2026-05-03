@@ -11,6 +11,7 @@ import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.AgentMemoryD
 import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentStatsDao
 import dev.aurakai.auraframefx.domains.cascade.utils.room.AppDatabase
 import dev.aurakai.auraframefx.domains.cascade.utils.room.TaskHistoryDao
+import dev.aurakai.auraframefx.grokipedia.GrokipediaDao
 import javax.inject.Singleton
 
 @Module
@@ -57,5 +58,10 @@ object DatabaseModule {
     @Provides
     fun provideAgentStatsDao(database: AppDatabase): AgentStatsDao {
         return database.agentStatsDao()
+    }
+
+    @Provides
+    fun provideGrokipediaDao(database: AppDatabase): GrokipediaDao {
+        return database.grokipediaDao()
     }
 }

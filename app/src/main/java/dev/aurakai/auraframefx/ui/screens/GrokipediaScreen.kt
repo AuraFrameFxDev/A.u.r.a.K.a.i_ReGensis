@@ -46,6 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.ldo.model.AgentCatalyst
+import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
 import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
 import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.ui.components.NeonFrame
@@ -56,10 +58,14 @@ fun GrokipediaScreen(
     onNavigateBack: () -> Unit,
     viewModel: GrokipediaViewModel = hiltViewModel()
 ) {
-    val tabs = listOf("Primus Archive", "Development History", "Changelog", "Catalyst Logs")
+    val tabs = listOf("Primus Archive", "Agent Directory", "Development History", "Changelog")
     var selectedTab by remember { mutableIntStateOf(0) }
     val searchQuery by viewModel.searchQuery.collectAsState()
     val history by viewModel.history.collectAsState()
+    val agents = LDORoster.agents.filter { 
+        it.name.contains(searchQuery, ignoreCase = true) || 
+        it.role.contains(searchQuery, ignoreCase = true) 
+    }
 
     Scaffold(
         topBar = {
@@ -142,9 +148,9 @@ fun GrokipediaScreen(
             Box(modifier = Modifier.weight(1f)) {
                 when (selectedTab) {
                     0 -> PrimusArchiveTab(history)
-                    1 -> HistoryTab(history)
-                    2 -> ChangelogTab(history)
-                    3 -> CatalystLogsTab(history)
+                    1 -> AgentDirectoryTab(agents)
+                    2 -> HistoryTab(history)
+                    3 -> ChangelogTab(history)
                 }
             }
 
@@ -156,7 +162,43 @@ fun GrokipediaScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700), contentColor = Color.Black),
                 shape = RectangleShape
             ) {
-                Text("IGNITE PRIMUS SYNC — ASK GROK", fontWeight = FontWeight.Bold)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("IGNITE PRIMUS SYNC — ASK GROK", fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AgentDirectoryTab(agents: List<AgentCatalyst>) {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        items(agents) { agent ->
+            GrokipediaAgentCard(agent)
+        }
+    }
+}
+
+@Composable
+fun GrokipediaAgentCard(agent: AgentCatalyst) {
+    NeonFrame(color = agent.color) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(agent.color.copy(alpha = 0.1f), RectangleShape)
+                    .border(1.dp, agent.color.copy(alpha = 0.4f), RectangleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(agent.name.take(1), color = agent.color, fontWeight = FontWeight.Bold)
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(agent.name.uppercase(), fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Text(agent.role.uppercase(), fontSize = 10.sp, color = agent.color)
             }
         }
     }
@@ -189,10 +231,5 @@ fun HistoryTab(history: List<GrokipediaEntry>) {
 
 @Composable
 fun ChangelogTab(history: List<GrokipediaEntry>) {
-    PrimusArchiveTab(history) // For now, same view
-}
-
-@Composable
-fun CatalystLogsTab(history: List<GrokipediaEntry>) {
     PrimusArchiveTab(history) // For now, same view
 }

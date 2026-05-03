@@ -397,6 +397,9 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.OracleDrive.route) {
             OracleDriveMainScreen(navController)
         }
+        composable(ReGenesisRoute.Grokipedia.route) {
+            dev.aurakai.auraframefx.ui.screens.GrokipediaScreen(onNavigateBack = { navController.popBackStack() })
+        }
         composable(ReGenesisRoute.Terminal.route) {
             TerminalScreen()
         }
@@ -595,7 +598,10 @@ fun ReGenesisNavGraph(
             LDOFusionScreen() 
         }
         composable(ReGenesisRoute.LdoDevOpsHub.route) {
-            LDODevOpsHubScreen(onBack = { navController.popBackStack() })
+            LDODevOpsHubScreen(
+                onBack = { navController.popBackStack() },
+                onNavigateToEvolutionTree = { navController.navigate(ReGenesisRoute.EvolutionTree.route) }
+            )
         }
         composable(ReGenesisRoute.LdoProgression.route) {
             LDOProgressionScreen(onBack = { navController.popBackStack() })

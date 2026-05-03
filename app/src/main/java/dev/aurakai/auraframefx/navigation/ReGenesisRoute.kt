@@ -187,6 +187,7 @@ sealed class ReGenesisRoute(val route: String, val title: String? = null) {
     // ═══════════════════════════════════════════════════════════════
     data object OracleDrive : ReGenesisRoute("oracle_drive", "Oracle Drive")
     data object OracleDriveSubmenu : ReGenesisRoute("oracle_drive_submenu")
+    data object Grokipedia : ReGenesisRoute("grokipedia", "Grokipedia")
     data object CodeAssist : ReGenesisRoute("code_assist", "Code Assist")
     data object SentientShell : ReGenesisRoute("sentient_shell", "Sentient Shell")
     data object Terminal : ReGenesisRoute("terminal", "Terminal")

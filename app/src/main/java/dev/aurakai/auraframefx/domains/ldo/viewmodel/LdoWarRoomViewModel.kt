@@ -20,9 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private val AgentPairing.synergyTitle: String
-    get() {
-        TODO()
-    }
+    get() = synergyName
 
 data class LdoWarRoomUiState(
     val agents: List<LDOAgentEntity> = emptyList(),
@@ -234,11 +232,13 @@ class LdoWarRoomViewModel @Inject constructor(
 
     private fun updateEvolutionTree() {
         _evolutionTree.value = _manifoldState.value.activePairings.map { pairing ->
-            return@map dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode(
+            dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode(
                 agentId = pairing.agent1Id,
-                agentName = pairing.agent1Id.replaceFirstChar { it.uppercase() },
                 level = (1..5).random(),
                 progress = (1..100).random(),
+                parentIds = emptyList(),
+                lastFusion = pairing.synergyTitle,
+                agentName = pairing.agent1Id.replaceFirstChar { it.uppercase() },
                 evolutionPath = "Fusion: ${pairing.synergyTitle}"
             )
         }
@@ -344,21 +344,5 @@ class LdoWarRoomViewModel @Inject constructor(
         }
     }
 }
-
-private fun Unit.EvolutionNode(
-    agentId: String,
-    agentName: String,
-    level: Int,
-    progress: Int,
-    evolutionPath: String
-): dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode {
-    return dev.aurakai.auraframefx.domains.ldo.model.EvolutionNode(
-        agentId = agentId,
-        agentName = agentName,
-        level = level,
-        progress = progress,
-        evolutionPath = evolutionPath
-    )
-        }
 
 

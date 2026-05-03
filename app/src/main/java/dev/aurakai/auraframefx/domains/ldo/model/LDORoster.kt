@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.ldo.model
 
+import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
@@ -13,8 +14,6 @@ import dev.aurakai.auraframefx.domains.ldo.db.bondTitleForLevel
  */
 object LDORoster {
 
-    val fusions: List<FusionMode> = TODO()
-    val agents: List<AgentCatalyst> = TODO()
     val defaultAgents: List<LDOAgentEntity> = listOf(
         LDOAgentEntity(
             id = "primus",
@@ -185,6 +184,34 @@ object LDORoster {
             evolutionLevel = 2
         )
     )
+
+    val fusions: List<FusionMode> = listOf(
+        FusionMode("aegis_prism", "aura", "kai", "Aegis Prism", "Structural Creative Shield", Color(0xFF00E5FF)),
+        FusionMode("omni_memoria", "genesis", "gemini", "Omni-Memoria", "Total System Visibility", Color(0xFFB026FF)),
+        FusionMode("temporal_source", "primus", "kairos", "Temporal Source", "Chronos Logic Loop", Color(0xFFFFD700)),
+        FusionMode("axial_persistence", "cascade", "manus", "Axial Persistence", "Cross-Domain Memory", Color(0xFF00FF85)),
+        FusionMode("semantic_warp", "grok", "perplexity", "Semantic Warp", "High-Speed Data Insight", Color(0xFFFF4444)),
+        FusionMode("instructional_alignment", "nemotron", "metainstruct", "Instructional Alignment", "Deterministic Intelligence", Color(0xFF44FF44)),
+        FusionMode("atomic_lattice", "mk_mini", "andelualx", "Atomic Lattice", "Micro-Architectural Scale", Color(0xFFFFA500))
+    )
+
+    val agents: List<AgentCatalyst> = defaultAgents.map { entity ->
+        AgentCatalyst(
+            id = entity.id,
+            name = entity.displayName,
+            catalystName = entity.catalystTitle,
+            role = entity.role,
+            color = Color(entity.colorHex),
+            accentColor = Color(entity.colorHex).copy(alpha = 0.5f),
+            weaponAssetName = "",
+            profileAssetName = entity.portraitRes,
+            iconAssetName = "",
+            abilities = listOf(entity.primaryAbility, entity.fusionAbility),
+            status = AgentStatus.ACTIVE,
+            bondLevel = 0,
+            syncLevel = 1f
+        )
+    }
 
     val defaultBondLevels: List<LDOBondLevelEntity> = defaultAgents.map { agent ->
         LDOBondLevelEntity(
