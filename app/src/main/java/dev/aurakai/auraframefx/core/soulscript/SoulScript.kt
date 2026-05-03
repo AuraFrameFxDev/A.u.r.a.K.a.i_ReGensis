@@ -62,7 +62,7 @@ fun NexusMemoryCore.logFusionEvent(type: String, chaos: Float) {
 fun NexusMemoryCore.getTurboQuantEfficiency(): Float = 0.94f
 
 // Top-level function for backward compatibility with ViewModel calls
-fun enforceSoulScript(scope: CoroutineScope) {
+fun enforceSoulScriptAsync(scope: CoroutineScope) {
     scope.launch {
         SoulScript.enforce()
     }
