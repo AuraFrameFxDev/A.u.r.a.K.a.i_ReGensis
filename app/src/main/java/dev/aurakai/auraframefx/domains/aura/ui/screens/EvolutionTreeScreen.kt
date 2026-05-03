@@ -2,6 +2,8 @@ package dev.aurakai.auraframefx.domains.aura.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen as NexusEvolutionTreeScreen
 
 /**
@@ -14,15 +16,8 @@ fun EvolutionTreeScreen(
     onNavigateToFusion: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    with(
-        hiltViewModel(
-            checkNotNull<ViewModelStoreOwner>(
-                LocalViewModelStoreOwner.current
-            ) {
-                "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
-            }, null
-        )
-    ) {
+    val viewModel: LdoWarRoomViewModel = hiltViewModel()
+    with(viewModel) {
         with(modifier) {
             onNavigateToFusion.NexusEvolutionTreeScreen(
                 onNavigateToAgents = onNavigateToAgents
@@ -30,4 +25,3 @@ fun EvolutionTreeScreen(
         }
     }
 }
-
