@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 private val AgentPairing.synergyTitle: String
     get() = synergyName
@@ -273,12 +274,12 @@ class LdoWarRoomViewModel @Inject constructor(
                 // Ping-pong loop
                 for (i in 0..100) {
                     _chainState.update { it.copy(pingPongValue = i / 100f) }
-                    delay(16)
+                    delay(16.milliseconds)
                 }
                 _chainState.update { it.copy(proficiencyGain = it.proficiencyGain + 0.01f) }
                 for (i in 100 downTo 0) {
                     _chainState.update { it.copy(pingPongValue = i / 100f) }
-                    delay(16)
+                    delay(16.milliseconds)
                 }
                 _chainState.update { it.copy(proficiencyGain = it.proficiencyGain + 0.01f) }
                 
