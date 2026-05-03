@@ -18,13 +18,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "OLLAMA_BASE_URL", "\"http://localhost:11434\"")
         buildConfigField("String", "GENESIS_BACKEND_URL", "\"https://api.genesis.local\"")
-        buildConfigField("String", "GEMINI_API_KEY", "\"\"")
+        buildConfigField("String", "GEMINI_API_KEY", "\"AIzaSyDidYYvUTxJzATK9Zmee-gBievXUUVhDwc\"")
         buildConfigField("String", "GROK_API_KEY", "\"\"")
-        buildConfigField("boolean", "ENABLE_GEMINI", "false")
-        buildConfigField("String", "VERTEX_PROJECT_ID", "\"\"")
+        buildConfigField("boolean", "ENABLE_GEMINI", "true")
+        buildConfigField("String", "VERTEX_PROJECT_ID", "\"auraframefx\"")
         buildConfigField("String", "VERTEX_LOCATION", "\"us-central1\"")
         buildConfigField("String", "GEMINI_MODEL", "\"gemini-2.0-flash-exp\"")
-        buildConfigField("String", "OAUTH_SERVER_CLIENT_ID", "\"\"")
+        buildConfigField("String", "OAUTH_SERVER_CLIENT_ID", "\"35417750637-4m0mong9mjselgr4milhc4mamu5706nu.apps.googleusercontent.com\"")
     }
 
     buildTypes {

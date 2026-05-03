@@ -395,7 +395,13 @@ fun CollabCanvasGateScreen(navController: NavController, onNavigateBack: () -> U
                             .clip(RoundedCornerShape(8.dp))
                             .border(1.dp, color.copy(0.3f), RoundedCornerShape(8.dp))
                             .background(color.copy(0.07f))
-                            .clickable { }
+                            .clickable { 
+                                if (label == "Live Collaborative Drawing") {
+                                    navController.navigate(ReGenesisRoute.CollabCanvas.route)
+                                } else {
+                                    navController.navigate("coming_soon")
+                                }
+                            }
                             .padding(14.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically

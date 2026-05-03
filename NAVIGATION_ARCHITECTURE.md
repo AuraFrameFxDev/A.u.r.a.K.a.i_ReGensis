@@ -197,7 +197,7 @@ All navigation routes now execute within secure context:
 
 ```kotlin
 // Start destination
-startDestination = ReGenesisRoute.HomeGateCarousel.route
+startDestination = ReGenesisRoute.HomeGateCarousel.createRoute(1)
 
 // Agent menu taps navigate to:
 onTaskerTap → ReGenesisRoute.LdoTasker.route

@@ -130,6 +130,8 @@ import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.graphicsLayer
@@ -211,7 +213,7 @@ fun TabbedMasterIndex(
             color = accentColor
         )
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize().statusBarsPadding()) {
 
             // 2. MASTER STATUS STRIP
             MasterStatusStrip(accentColor)
@@ -240,7 +242,7 @@ fun TabbedMasterIndex(
                             6 -> AgentNexusContent(onNavigateToRoute)   // Nexus
                         }
 
-                        Spacer(Modifier.height(120.dp))
+                        Spacer(Modifier.navigationBarsPadding().height(150.dp))
                     }
                 }
             }
@@ -263,7 +265,7 @@ fun TabbedMasterIndex(
 
         // 6. AURA JAR (Stubbed if import fails)
         Box(
-            modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 60.dp, end = 16.dp)
+            modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 116.dp, end = 16.dp)
                 .size(110.dp)
         ) {
             // AuraJarComposable placeholder

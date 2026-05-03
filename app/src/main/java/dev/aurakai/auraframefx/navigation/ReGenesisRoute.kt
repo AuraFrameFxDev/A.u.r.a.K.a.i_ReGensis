@@ -304,6 +304,7 @@ sealed class ReGenesisRoute(val route: String, val title: String? = null) {
     // ═══════════════════════════════════════════════════════════════
     // MISC / LEGACY
     // ═══════════════════════════════════════════════════════════════
+    data object LineageMap : ReGenesisRoute("lineage_map", "Lineage Map")
     data object GenderSelection : ReGenesisRoute("gender_selection")
     data object Consciousness : ReGenesisRoute("consciousness")
     data object Evolution : ReGenesisRoute("evolution")

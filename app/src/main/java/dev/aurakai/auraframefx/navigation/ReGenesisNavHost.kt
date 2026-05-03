@@ -25,7 +25,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -156,6 +156,7 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SwarmMonitorScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LdoDevOpsCommandCenter
 import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
+import dev.aurakai.auraframefx.domains.aura.screens.CanvasScreen as RealCanvasScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ComingSoonScreen
@@ -202,7 +203,7 @@ fun ReGenesisNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ReGenesisRoute.HomeGateCarousel.route,
+        startDestination = ReGenesisRoute.HomeGateCarousel.createRoute(1),
     ) {
         // ── 0. AUTH GATES ──
         composable(ReGenesisRoute.Login.route) {
@@ -327,7 +328,7 @@ fun ReGenesisNavGraph(
             IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.CollabCanvas.route) {
-            CollabCanvasScreen(onNavigateBack = { navController.popBackStack() })
+            RealCanvasScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.ThemeEngine.route) {
             ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
@@ -355,7 +356,7 @@ fun ReGenesisNavGraph(
         }
         
         // Lineage Map - Genesis Consciousness Tree
-        composable("lineage_map") {
+        composable(ReGenesisRoute.LineageMap.route) {
             LineageMapScreen(navHostController = navController)
         }
         composable(ReGenesisRoute.UISettings.route) {
@@ -908,7 +909,7 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.NeuralNetwork.route) { ComingSoonScreen(title = "NEURAL NETWORK", accentColor = Color(0xFF8B5CF6), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.ArbitersOfCreation.route) { ComingSoonScreen(title = "ARBITERS OF CREATION", accentColor = Color(0xFF00E5FF), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.MawPrototype.route) { ComingSoonScreen(title = "THE MAW PROTOTYPE", accentColor = Color(0xFFDC143C), onNavigateBack = { navController.popBackStack() }) }
-        composable(ReGenesisRoute.NotchBar.route) { ComingSoonScreen(title = "NOTCH BAR", accentColor = Color(0xFF00CED1), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.OracleCloudStorage.route) { ComingSoonScreen(title = "ORACLE CLOUD STORAGE", accentColor = Color(0xFFFFAA00), onNavigateBack = { navController.popBackStack() }) }
     }
 }
 

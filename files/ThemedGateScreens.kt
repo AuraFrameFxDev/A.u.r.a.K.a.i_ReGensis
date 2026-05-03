@@ -172,9 +172,13 @@ fun HelpServicesGateScreen(navController: NavController, onNavigateBack: () -> U
                     HelpServiceTile(title = title, description = desc, color = color) {
                         // Navigation logic per tile
                         when (title) {
-                            "Live Support Chat" -> navController.navigate("live_support_chat")
                             "FAQ Browser"       -> navController.navigate("faq_browser")
-                            else -> {}
+                            "Live Support Chat" -> navController.navigate("live_support_chat")
+                            "Tutorial Videos"   -> navController.navigate("tutorial_videos")
+                            "Documentation Hub" -> navController.navigate("documentation")
+                            else -> {
+                                navController.navigate("coming_soon") // Or any fallback
+                            }
                         }
                     }
                 }
@@ -314,7 +318,17 @@ fun TerminalGateScreen(navController: NavController, onNavigateBack: () -> Unit 
                             .clip(RoundedCornerShape(6.dp))
                             .border(1.dp, Color(0xFF7B68EE).copy(0.3f), RoundedCornerShape(6.dp))
                             .background(Color(0xFF7B68EE).copy(0.07f))
-                            .clickable { navController.navigate("code_assist") }
+                            .clickable { 
+                                val route = when(title) {
+                                    "CODE ASSIST" -> "code_assist"
+                                    "KOTLIN ANALYSIS" -> "coming_soon"
+                                    "BUILD DOCTOR" -> "coming_soon"
+                                    "ARCH REVIEW" -> "coming_soon"
+                                    "API EXPLORER" -> "coming_soon"
+                                    else -> "code_assist"
+                                }
+                                navController.navigate(route)
+                            }
                             .padding(12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
