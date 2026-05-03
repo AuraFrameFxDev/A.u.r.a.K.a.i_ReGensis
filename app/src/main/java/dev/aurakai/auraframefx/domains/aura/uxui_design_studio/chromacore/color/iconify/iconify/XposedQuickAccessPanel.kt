@@ -22,6 +22,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPink
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkPurple
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.domains.cascade.utils.LSPosedDetector
 
 /**
  * 🎭 Xposed Quick Access Panel - Aurora's Chaos Interface
@@ -188,11 +189,15 @@ private fun ModuleCard(module: ModuleInfo) {
 
 @Composable
 private fun HooksTab() {
+    val isHooked = remember { LSPosedDetector.isAppHooked() }
+    val status = if (isHooked) "Hooked" else "Inactive"
+    val color = if (isHooked) CyberpunkCyan else Color.Gray
+
     val hooks = listOf(
-        HookInfo("ActivityManager", "Hooked", CyberpunkCyan),
-        HookInfo("PackageManager", "Active", CyberpunkPink),
-        HookInfo("WindowManager", "Standby", CyberpunkPurple),
-        HookInfo("SystemServer", "Hooked", NeonPurple)
+        HookInfo("ActivityManager", status, color),
+        HookInfo("PackageManager", status, color),
+        HookInfo("WindowManager", status, color),
+        HookInfo("SystemServer", status, color)
     )
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {

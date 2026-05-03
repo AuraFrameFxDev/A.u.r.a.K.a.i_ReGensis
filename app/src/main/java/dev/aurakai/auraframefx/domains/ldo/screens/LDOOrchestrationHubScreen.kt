@@ -175,7 +175,7 @@ fun LDOOrchestrationHubScreen(
                     val active = fusionSlots.mapNotNull { it.agent }
                     if (active.size >= 2) {
                         val ids = active.joinToString("+") { it.id }
-                        controller.navigate("armament_fusion/$ids")
+                        controller.navigate(ReGenesisRoute.LdoArmamentFusion.route + "/$ids")
                     }
                 }
             )

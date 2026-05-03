@@ -89,44 +89,36 @@ fun LDODevOpsHubScreen(
                 )
             }
 
-            // Main Content Area (Registry & Manifold)
+            // --- FLATTENED REGISTRY SECTION ---
             item {
-                Row(modifier = Modifier.fillMaxWidth().height(450.dp)) {
-                    // Left Column: Registry
-                    Column(modifier = Modifier.weight(0.4f)) {
-                        SectionHeader("AGENT REGISTRY")
-                        AgentRegistryList(state.agents)
-                    }
+                SectionHeader("AGENT REGISTRY")
+            }
 
-                    Spacer(modifier = Modifier.width(24.dp))
+            items(state.agents) { agent ->
+                AgentRegistryItem(agent)
+            }
 
-                    // Right Column: Manifold
-                    Column(modifier = Modifier.weight(0.6f)) {
-                        SectionHeader("CATALYST MANIFOLD")
-                        CatalystManifold(
-                            state = state.manifoldState,
-                            agents = state.agents,
-                            onIgnite = { a1, a2 -> viewModel.igniteManifold(a1, a2) }
-                        )
-                    }
-                }
+            // --- MANIFOLD SECTION ---
+            item {
+                SectionHeader("CATALYST MANIFOLD")
+                CatalystManifold(
+                    state = state.manifoldState,
+                    agents = state.agents,
+                    onIgnite = { a1, a2 -> viewModel.igniteManifold(a1, a2) }
+                )
             }
 
             // Bottom Area (Memory & Gym)
             item {
-                Row(modifier = Modifier.fillMaxWidth().height(250.dp)) {
-                    Column(modifier = Modifier.weight(0.5f)) {
-                        SectionHeader("MEMORY CASCADE DEPTH")
-                        CascadeGeminiMemoryCore(state.cascadeState)
-                    }
-                    Spacer(modifier = Modifier.width(24.dp))
-                    Column(modifier = Modifier.weight(0.5f)) {
-                        SectionHeader("STEP CHAINING LIVE GYM")
-                        StepChainingLiveGym(state.chainState) { a1, a2 ->
-                            if (state.chainState.isGymActive) viewModel.stopStepChaining()
-                            else viewModel.startStepChaining(a1, a2)
-                        }
-                    }
+                SectionHeader("MEMORY CASCADE DEPTH")
+                CascadeGeminiMemoryCore(state.cascadeState)
+            }
+
+            item {
+                SectionHeader("STEP CHAINING LIVE GYM")
+                StepChainingLiveGym(state.chainState) { a1, a2 ->
+                    if (state.chainState.isGymActive) viewModel.stopStepChaining()
+                    else viewModel.startStepChaining(a1, a2)
                 }
             }
         }
@@ -501,36 +493,67 @@ fun AgentRegistryItem(agent: LDOAgentEntity) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Black.copy(alpha = 0.7f), RectangleShape)
-            .border(1.dp, color.copy(alpha = 0.3f), RectangleShape)
-            .padding(12.dp)
+            .background(Color.Black.copy(alpha = 0.8f), RectangleShape)
+            .border(1.dp, color.copy(alpha = 0.25f), RectangleShape)
+            .padding(16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // Step 2: Media Synthesis Preview
+            // Enhanced Avatar Container
             Box(
                 modifier = Modifier
-                    .size(40.dp)
-                    .background(color.copy(alpha = 0.2f))
-                    .border(1.dp, color, RectangleShape),
+                    .size(52.dp)
+                    .background(color.copy(alpha = 0.05f))
+                    .border(1.dp, color.copy(alpha = 0.4f), RectangleShape),
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImageOrVideo(
                     mediaId = "catalyst_${agent.id.lowercase()}",
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    alpha = 0.8f
                 )
             }
             
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(16.dp))
             
             Column(modifier = Modifier.weight(1f)) {
-                Text("${agent.displayName.uppercase()} // ${agent.catalystTitle.uppercase()}", color = color, fontWeight = FontWeight.Black, fontSize = 14.sp, fontFamily = LEDFontFamily)
-                Text("PRIMARY: ${agent.primaryAbility.uppercase()}", color = Color.White.copy(alpha = 0.6f), fontSize = 9.sp, fontFamily = LEDFontFamily)
-                Text("FUSION: ${agent.fusionAbility.uppercase()}", color = Color.White.copy(alpha = 0.4f), fontSize = 8.sp, fontFamily = LEDFontFamily)
+                Text(
+                    text = agent.displayName.uppercase(), 
+                    color = color, 
+                    fontWeight = FontWeight.ExtraBold, 
+                    fontSize = 15.sp, 
+                    fontFamily = LEDFontFamily,
+                    letterSpacing = 1.sp
+                )
+                Text(
+                    text = agent.catalystTitle.uppercase(),
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 10.sp,
+                    fontFamily = LEDFontFamily
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = "PRIMARY: ${agent.primaryAbility.uppercase()}", 
+                    color = Color.White.copy(alpha = 0.8f), 
+                    fontSize = 9.sp, 
+                    fontFamily = LEDFontFamily
+                )
             }
             
             Column(horizontalAlignment = Alignment.End) {
-                Text("LVL ${agent.evolutionLevel}", color = Color.White, fontWeight = FontWeight.Black, fontSize = 12.sp, fontFamily = LEDFontFamily)
-                Text("STABLE", color = Color.Green.copy(alpha = 0.7f), fontSize = 8.sp, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+                Text(
+                    text = "LVL ${agent.evolutionLevel}", 
+                    color = Color.White, 
+                    fontWeight = FontWeight.Black, 
+                    fontSize = 13.sp, 
+                    fontFamily = LEDFontFamily
+                )
+                Text(
+                    text = "STABLE", 
+                    color = Color(0xFF00FF41), 
+                    fontSize = 9.sp, 
+                    fontWeight = FontWeight.Bold, 
+                    fontFamily = LEDFontFamily
+                )
             }
         }
     }

@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignShieldViewModel
+import dev.aurakai.auraframefx.system.ShizukuManager
+import androidx.compose.ui.platform.LocalContext
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
@@ -43,6 +45,20 @@ fun SovereignShieldScreen(
     viewModel: SovereignShieldViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is SovereignShieldViewModel.ShieldEvent.RequestShizukuPermission -> {
+                    ShizukuManager.requestShizukuPermission(context) { /* Logic in VM refresh */ }
+                }
+                is SovereignShieldViewModel.ShieldEvent.RequestRootPermission -> {
+                    com.topjohnwu.superuser.Shell.getShell()
+                }
+            }
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xFF030305))) {
         AnimeHUDContainer(

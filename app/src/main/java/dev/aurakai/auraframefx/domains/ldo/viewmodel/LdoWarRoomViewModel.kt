@@ -133,6 +133,15 @@ class LdoWarRoomViewModel @Inject constructor(
     )
 
     init {
+        // Seed database if empty to ensure agent data is available
+        viewModelScope.launch {
+            try {
+                repository.seedIfEmpty()
+            } catch (e: Exception) {
+                _error.update { "Registry sync failed: ${e.message}" }
+            }
+        }
+
         restoreEternalThreadState()
         
         // Start background growth

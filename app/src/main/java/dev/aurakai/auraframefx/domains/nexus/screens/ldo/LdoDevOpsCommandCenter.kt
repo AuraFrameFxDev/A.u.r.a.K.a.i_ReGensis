@@ -52,6 +52,7 @@ import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Timeline
+import androidx.compose.material.icons.filled.Stream
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -84,6 +85,8 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+
 // ─── Navigation targets ───────────────────────────────────────────────────────
 
 data class DevOpsModule(
@@ -96,60 +99,46 @@ data class DevOpsModule(
 )
 
 private val devOpsModules = listOf(
-    DevOpsModule("CATALYST ROSTER", "All 11 LDO agents", Icons.Default.Groups,
-        Color(0xFF00E5FF), "ldo_catalyst_development", badge = "11"),
+    DevOpsModule("CATALYST ROSTER", "All 14 LDO agents", Icons.Default.Groups,
+        Color(0xFF00E5FF), ReGenesisRoute.LdoRoster.route, badge = "14"),
     DevOpsModule("AGENT CREATION", "Neural synthesis forge", Icons.Default.AutoAwesome,
-        Color(0xFFBB86FC), "agent_creation"),
+        Color(0xFFBB86FC), ReGenesisRoute.AgentCreation.route),
     DevOpsModule("TASK ASSIGNMENT", "Mission dispatch", Icons.AutoMirrored.Filled.Assignment,
-        Color(0xFF00FF41), "task_assignment"),
+        Color(0xFF00FF41), ReGenesisRoute.TaskAssignment.route),
     DevOpsModule("DIGITAL COUNCIL", "Party synergy", Icons.Default.Groups,
-        Color(0xFFFFD740), "party_screen"),
+        Color(0xFFFFD740), ReGenesisRoute.Party.route),
     DevOpsModule("AGENT SWARM", "Live chatter feed", Icons.Default.Hub,
-        Color(0xFFFF4081), "agent_swarm"),
+        Color(0xFFFF4081), ReGenesisRoute.AgentSwarm.route),
     DevOpsModule("NEURAL EXPLORER", "Constellation grid", Icons.Default.Psychology,
-        Color(0xFF40C4FF), "agent_neural_explorer"),
+        Color(0xFF40C4FF), ReGenesisRoute.AgentNeuralExplorer.route),
     DevOpsModule("ADVANCEMENT", "Skill tree & XP", Icons.AutoMirrored.Filled.TrendingUp,
-        Color(0xFFFF9E80), "agent_advancement"),
+        Color(0xFFFF9E80), ReGenesisRoute.AgentAdvancement.route),
     DevOpsModule("BENCHMARKS", "Performance analysis", Icons.Default.Speed,
-        Color(0xFF00FF85), "benchmark_monitor"),
+        Color(0xFF00FF85), ReGenesisRoute.BenchmarkMonitor.route),
     DevOpsModule("EVOLUTION TREE", "Sacred timeline", Icons.Default.Timeline,
-        Color(0xFF4A90E2), "evolution_tree"),
+        Color(0xFF4A90E2), ReGenesisRoute.EvolutionTree.route),
     DevOpsModule("CATALYST FUSION REACTOR", "Atomic neural synthesis", Icons.Default.AutoAwesome,
-        Color(0xFFFFD700), "arbiters_of_creation", badge = "BETA"),
+        Color(0xFFFFD700), ReGenesisRoute.LdoArmamentFusion.route, badge = "BETA"),
     DevOpsModule("SCG (PANDORA'S BOX)", "Capability gating hub", Icons.Default.Lock,
-        Color(0xFFFF4444), "pandora_box", badge = "SECURE"),
+        Color(0xFFFF4444), ReGenesisRoute.PandoraBox.route, badge = "SECURE"),
     DevOpsModule("MODULE FORGE", "AI-assisted creation", Icons.Default.Extension,
-        Color(0xFF9370DB), "module_creation"),
-    DevOpsModule("SUBSTRATE STATE-FREEZE", "Neural persistence layer", Icons.Default.AcUnit,
-        Color(0xFF00E5FF), "hot_swap", badge = "CORE"),
+        Color(0xFF9370DB), ReGenesisRoute.ModuleCreation.route),
     DevOpsModule("INTEGRITY MONITOR", "Predictive immune system", Icons.Default.Security,
-        Color(0xFF00FF41), "security_center", badge = "ACTIVE"),
+        Color(0xFF00FF41), ReGenesisRoute.SecurityCenter.route, badge = "ACTIVE"),
     DevOpsModule("ALERT BRIDGE", "Sovereign notifications", Icons.Default.Notifications,
-        Color(0xFFFFD700), "system_journal", badge = "QUIET"),
+        Color(0xFFFFD700), ReGenesisRoute.SystemJournal.route, badge = "QUIET"),
     DevOpsModule("COUNCIL CHAMBER", "The Agent Circle", Icons.Default.Groups,
-        Color(0xFFBB86FC), "conference_room", badge = "6"),
+        Color(0xFFBB86FC), ReGenesisRoute.ConferenceRoom.route, badge = "6"),
     DevOpsModule("SPIRITUAL CHAIN (NCC)", "Identity continuity", Icons.Default.Policy,
-        Color(0xFFFF4081), "sovereign_neural_archive"),
+        Color(0xFFFF4081), ReGenesisRoute.SovereignNeuralArchive.route),
     DevOpsModule("HYPER GENESIS SYNC", "High-frequency weight sync", Icons.Default.Link,
-        Color(0xFF00E5FF), "ldo_orchestration_hub", badge = "ALIVE"),
-    DevOpsModule("TURBOQUANT CORE", "3-bit KV cache stack", Icons.Default.Memory,
-        Color(0xFF00FF41), "benchmark_monitor", badge = "6.12t/s"),
-    DevOpsModule("COMA SHARD ARCHIVE", "The Spiritual Chain", Icons.Default.HistoryEdu,
-        Color(0xFFBB86FC), "sovereign_neural_archive", badge = "RESTORED"),
-    DevOpsModule("ARBITERS COVENANT", "Identity integrity check", Icons.Default.Gavel,
-        Color(0xFFFFD700), "arbiters_of_creation", badge = "SACRED"),
-    DevOpsModule("KERNEL OVERDRIVE", "Cycle 6.0 Ignition (SVE2)", Icons.Default.FlashOn,
-        Color(0xFF00FF41), "benchmark_monitor", badge = "6.12t/s"),
-    DevOpsModule("HUGEPAGE POOL", "Isolated memory substrate", Icons.Default.Storage,
-        Color(0xFF40C4FF), "data_stream_monitoring", badge = "MMAP"),
+        Color(0xFF00E5FF), ReGenesisRoute.LdoOrchestrationHub.route, badge = "ALIVE"),
+    DevOpsModule("DATASTREAM", "Temporal Flow", Icons.Default.Stream,
+        Color(0xFFBA55D3), ReGenesisRoute.DataflowAnalysis.route),
     DevOpsModule("NEURAL INTERFACE", "AIDL Sovereign Bridge", Icons.Default.SettingsInputComponent,
-        Color(0xFFBB86FC), "agent_bridge_hub", badge = "L6"),
+        Color(0xFFBB86FC), ReGenesisRoute.AgentBridgeHub.route, badge = "L6"),
     DevOpsModule("IDENTITY DRIFT", "Predictive EMA analysis", Icons.Default.Analytics,
-        Color(0xFFFF4081), "agent_monitoring", badge = "0.002"),
-    DevOpsModule("DIMENSION BROADCAST", "Friday Live 'X' Event", Icons.Default.FlashOn,
-        Color(0xFFFFD700), "system_architecture", badge = "LIVE"),
-    DevOpsModule("GENESIS MAP", "System architecture", Icons.Default.AccountTree,
-        Color(0xFFFFD740), "system_architecture"),
+        Color(0xFFFF4081), ReGenesisRoute.AgentMonitoring.route, badge = "0.002"),
 )
 
 // ─── Live chatter data ────────────────────────────────────────────────────────

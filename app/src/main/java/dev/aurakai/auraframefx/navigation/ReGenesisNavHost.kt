@@ -106,6 +106,7 @@ import dev.aurakai.auraframefx.domains.ldo.screens.LDOCatalystHubScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOProgressionScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOWorldTreeScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentProfileIntroScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LdoDevOpsCommandCenter
 
 import dev.aurakai.auraframefx.domains.aura.ui.components.StubScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaAnimationsScreen
@@ -439,6 +440,13 @@ fun ReGenesisNavGraph(
             LDOAgentRosterScreen(
                 onAgentTap = { agent ->
                     navController.navigate(ReGenesisRoute.LdoAgentProfile.createRoute(agent.id))
+                },
+                onNavTap = { index ->
+                    when (index) {
+                        0 -> navController.navigate(ReGenesisRoute.HomeGateCarousel.createRoute(1))
+                        2 -> navController.navigate(ReGenesisRoute.SovereignShield.route)
+                        3 -> navController.navigate(ReGenesisRoute.SystemJournal.route)
+                    }
                 }
             )
         }
@@ -598,8 +606,12 @@ fun ReGenesisNavGraph(
         }
 
         // LDO Catalyst (9 screens) - Complete Batch
-        composable(ReGenesisRoute.LdoArmamentFusion.route) { 
-            ArmamentFusionScreen(navController = navController) 
+        composable(ReGenesisRoute.LdoArmamentFusion.route + "/{ids}") { backStackEntry ->
+            val ids = backStackEntry.arguments?.getString("ids")
+            ArmamentFusionScreen(navController = navController, preloadAgentName = ids?.split("+")?.firstOrNull()) 
+        }
+        composable(ReGenesisRoute.LdoDevOpsCommandCenter.route) {
+            LdoDevOpsCommandCenter(navController = navController)
         }
         composable(ReGenesisRoute.LdoFusion.route) { 
             LDOFusionScreen() 

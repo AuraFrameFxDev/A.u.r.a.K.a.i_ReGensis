@@ -119,11 +119,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
+import dev.aurakai.auraframefx.domains.cascade.utils.LSPosedDetector
+import dev.aurakai.auraframefx.system.ShizukuManager
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
+
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.graphicsLayer
 
 /**
  * ⚛️ TABBED MASTER INDEX (The Exodus Command Deck)
@@ -172,9 +181,13 @@ fun TabbedMasterIndex(
         else -> R.drawable.command_deck_hero
     }
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF020205))) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xFF020205))
+        .windowInsetsPadding(WindowInsets.displayCutout) // Fix for display cutouts
+    ) {
 
-        // 1. FULL-SCREEN DYNAMIC BACKGROUND (Fit, no stretch)
+        // 1. FULL-SCREEN DYNAMIC BACKGROUND (Blurred for legibility)
         AnimatedContent(
             targetState = heroImage,
             transitionSpec = { fadeIn(tween(800)) togetherWith fadeOut(tween(800)) },
@@ -184,8 +197,11 @@ fun TabbedMasterIndex(
             AsyncImage(
                 model = img,
                 contentDescription = null,
-                modifier = Modifier.fillMaxSize().alpha(0.5f),
-                contentScale = ContentScale.Crop // Aspect-ratio preserving fill
+                modifier = Modifier
+                    .fillMaxSize()
+                    .alpha(0.4f)
+                    .blur(10.dp), // Added blur for better text contrast
+                contentScale = ContentScale.Crop
             )
         }
 
@@ -709,18 +725,9 @@ fun MissionDispatchCard(onNavigate: (String) -> Unit) {
 
 @Composable
 fun ModuleGrid(modules: List<TabModule>, onNavigate: (String) -> Unit) {
-    val rows = modules.chunked(2)
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        rows.forEach { rowModules ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                rowModules.forEach { module ->
-                    ModuleTabCard(module, onNavigate, Modifier.weight(1f))
-                }
-                if (rowModules.size == 1) Spacer(Modifier.weight(1f))
-            }
+        modules.forEach { module ->
+            ModuleTabCard(module, onNavigate, Modifier.fillMaxWidth())
         }
     }
 }
@@ -729,10 +736,10 @@ fun ModuleGrid(modules: List<TabModule>, onNavigate: (String) -> Unit) {
 fun ModuleTabCard(module: TabModule, onNavigate: (String) -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .height(115.dp) // Strictly landscape for horizontal rectangle look
+            .height(100.dp) 
             .clip(RoundedCornerShape(14.dp))
-            .background(Color.Black.copy(alpha = 0.4f))
-            .border(2.dp, module.color.copy(alpha = 0.8f), RoundedCornerShape(14.dp))
+            .background(Color.Black.copy(alpha = 0.6f))
+            .border(1.dp, module.color.copy(alpha = 0.4f), RoundedCornerShape(14.dp))
             .clickable { onNavigate(module.route) }
     ) {
         if (module.previewImage != null) {
@@ -741,53 +748,69 @@ fun ModuleTabCard(module: TabModule, onNavigate: (String) -> Unit, modifier: Mod
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
-                    .alpha(0.7f),
+                    .alpha(0.35f)
+                    .blur(4.dp), // Added blur to card background image
                 contentScale = ContentScale.Crop
             )
-            // Cyberpunk Scrim
+            // Enhanced Scrim for text legibility
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
-                        Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.85f)),
-                            startY = 60f
+                        Brush.horizontalGradient(
+                            colors = listOf(Color.Black.copy(alpha = 0.8f), Color.Transparent),
+                            startX = 0f,
+                            endX = 500f
                         )
                     )
             )
         }
 
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(14.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            // Simplified: Icon moved to the side, or removed if background is "pretty"
+            // Osanosa: "make the background material style with plain color and the icon smaller"
+            // Or "if you want the pretty picture, I'd recommend removing the icon"
+            // We'll keep a small icon for navigation clarity but reduce its visual weight.
             Box(
                 modifier = Modifier
-                    .size(36.dp)
-                    .background(Color.Black.copy(alpha = 0.4f), CircleShape)
+                    .size(40.dp)
+                    .background(module.color.copy(alpha = 0.1f), CircleShape)
                     .border(0.5.dp, module.color.copy(alpha = 0.3f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(module.icon, null, tint = module.color, modifier = Modifier.size(20.dp))
             }
-            Column {
+            
+            Spacer(Modifier.width(16.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = module.title,
                     color = Color.White,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Black,
-                    letterSpacing = 2.sp,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 1.sp,
                     fontFamily = LEDFontFamily
                 )
                 Text(
                     text = module.subtitle,
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontSize = 9.sp,
-                    lineHeight = 11.sp
+                    color = Color.White.copy(alpha = 0.6f),
+                    fontSize = 11.sp,
+                    lineHeight = 14.sp
                 )
             }
+
+            Icon(
+                imageVector = Icons.Default.ChevronRight,
+                contentDescription = null,
+                tint = Color.White.copy(alpha = 0.3f),
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }
@@ -833,20 +856,23 @@ fun CustomPrimaryTabRow(
 
 @Composable
 fun MasterStatusStrip(accentColor: Color) {
+    val isHooked = remember { LSPosedDetector.isAppHooked() }
+    val isShizuku = remember { ShizukuManager.isShizukuAvailable() }
+    
     Row(
         modifier = Modifier.fillMaxWidth().height(40.dp).padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            "SYSTEM: NOMINAL",
-            color = Color(0xFF00FF41),
+            "SYSTEM: ${if (isShizuku) "SOVEREIGN" else "USER"}",
+            color = if (isShizuku) Color(0xFF00FF41) else Color.White,
             fontSize = 8.sp,
             fontFamily = FontFamily.Monospace
         )
         Text(
-            "AGENTS: 78 ACTIVE",
-            color = Color.White,
+            "HOOKS: ${if (isHooked) "ACTIVE" else "NONE"}",
+            color = if (isHooked) accentColor else Color.White,
             fontSize = 8.sp,
             fontFamily = FontFamily.Monospace
         )
