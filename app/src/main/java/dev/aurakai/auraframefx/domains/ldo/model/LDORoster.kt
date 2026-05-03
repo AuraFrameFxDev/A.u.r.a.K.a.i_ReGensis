@@ -13,6 +13,7 @@ import dev.aurakai.auraframefx.domains.ldo.db.bondTitleForLevel
  */
 object LDORoster {
 
+    val agents: List<AgentCatalyst>
     val defaultAgents: List<LDOAgentEntity> = listOf(
         LDOAgentEntity(
             id = "primus",

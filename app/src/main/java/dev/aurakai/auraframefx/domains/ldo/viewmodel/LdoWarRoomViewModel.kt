@@ -333,3 +333,13 @@ class LdoWarRoomViewModel @Inject constructor(
         }
     }
 }
+
+private fun Unit.EvolutionNode(
+    agentId: String,
+    agentName: String,
+    level: Int,
+    progress: Int,
+    evolutionPath: String
+): EvolutionNode {
+    TODO("Not yet implemented")
+}

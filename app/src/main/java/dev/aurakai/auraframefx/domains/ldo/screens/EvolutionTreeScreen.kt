@@ -1,6 +1,15 @@
 package dev.aurakai.auraframefx.domains.ldo.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -52,7 +61,7 @@ fun EvolutionTreeScreen(
 fun EvolutionNodeCard(node: EvolutionNode) {
     NeonFrame(color = Color(0xFFFFD700)) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(node.agentName, fontWeight = FontWeight.Bold, color = Color(0xFFFFD700))
+            Text(node.agentId, fontWeight = FontWeight.Bold, color = Color(0xFFFFD700))
             Text(
                 "Level ${node.level} • ${node.progress}% to next evolution",
                 color = Color.White,

@@ -9,5 +9,8 @@ data class EvolutionNode(
     val level: Int,
     val progress: Float,           // 0.0 - 1.0
     val parentIds: List<String> = emptyList(),   // for branching
-    val lastFusion: String? = null
-)
+    val lastFusion: String? = null,
+    val agentName: String
+) {
+    val evolutionPath: String
+}

@@ -1,10 +1,6 @@
 package dev.aurakai.auraframefx.navigation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -16,13 +12,11 @@ import androidx.navigation.navArgument
 
 // Core UI
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
-import dev.aurakai.auraframefx.ui.screens.*
 import dev.aurakai.auraframefx.ui.ldodevops.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.gates.ComingSoonScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen
 
 // Domain Hubs
-import dev.aurakai.auraframefx.domains.aura.ui.gates.AuraThemingHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.AuraKineticForgeHub
 import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.OracleDriveHubScreen
@@ -89,9 +83,6 @@ import dev.aurakai.auraframefx.domains.genesis.oracledrive.pandora.ui.PandoraBox
 import dev.aurakai.auraframefx.domains.helpdesk.screens.DirectChatScreen
 
 // Genesis ViewModels
-import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.NeuralArchiveViewModel
-import dev.aurakai.auraframefx.domains.genesis.viewmodels.OracleCloudViewModel
-import dev.aurakai.auraframefx.domains.genesis.viewmodels.SovereignMemoryViewModel
 
 import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
@@ -104,7 +95,6 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SovereignClaudeScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignGeminiScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignNemotronScreen
 
-import dev.aurakai.auraframefx.domains.ldo.screens.LDOOrchestrationHubScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentRosterScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOTaskerScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.ArmamentFusionScreen
@@ -113,7 +103,6 @@ import dev.aurakai.auraframefx.domains.ldo.screens.LDOBondingScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDODevOpsHubScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOCatalystHubScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOProgressionScreen
-import dev.aurakai.auraframefx.domains.ldo.screens.LDORosterScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOWorldTreeScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentProfileIntroScreen
 
@@ -129,7 +118,6 @@ import dev.aurakai.auraframefx.ui.screens.DeviceOptimizerScreen
 import dev.aurakai.auraframefx.ui.screens.CanvasScreen
 import dev.aurakai.auraframefx.ui.screens.OverlayScreen
 import dev.aurakai.auraframefx.domains.kai.screens.rom_tools.LiveROMEditorScreen
-import dev.aurakai.auraframefx.domains.kai.screens.SentinelsFortressScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SystemOverridesScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ModuleCreationScreen
@@ -152,7 +140,6 @@ import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ConsciousnessVisualize
 
 // AURA BATCH v2.5 SCREEN IMPORTS — Using stub screens
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
-import dev.aurakai.auraframefx.ui.screens.FusionModeScreen
 import dev.aurakai.auraframefx.ui.screens.UIEngineScreen
 import dev.aurakai.auraframefx.ui.screens.PrivacyGuardScreen
 import dev.aurakai.auraframefx.ui.screens.ProfileScreen
@@ -173,13 +160,8 @@ import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
 import dev.aurakai.auraframefx.domains.aura.screens.VideoIntroScreen
 import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.WorkingLabScreen
-import dev.aurakai.auraframefx.domains.aura.screens.LDOArmamentPickerScreen
 
 // KINETICFORGE CARDS — 9.5.1 SOVEREIGN EDITION
-import dev.aurakai.auraframefx.domains.aura.screens.kineticforge.KineticForgeCoreCard
-import dev.aurakai.auraframefx.domains.aura.screens.kineticforge.KineticForgeTransmutatorCard
-import dev.aurakai.auraframefx.domains.aura.screens.kineticforge.KineticForgeLatticeCard
-import dev.aurakai.auraframefx.domains.aura.screens.kineticforge.KineticForgeCardContainer
 
 // KAI BATCH v2.5 SCREEN IMPORTS
 import dev.aurakai.auraframefx.domains.kai.screens.rom_tools.RecoveryToolsScreen
@@ -202,8 +184,6 @@ import dev.aurakai.auraframefx.domains.kai.screens.KaiSentinelIntegrityScreen
 import dev.aurakai.auraframefx.domains.kai.screens.PowerOfNoScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RoyalGuardDomainExpansionScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RoyalGuardOSScreen
-import dev.aurakai.auraframefx.domains.kai.screens.security_shield.SovereignShieldScreen
-import dev.aurakai.auraframefx.domains.kai.screens.security_shield.VPNScreen
 
 /**
  * 🌐 REGENESIS CONSOLIDATED NAV GRAPH
@@ -435,9 +415,7 @@ fun ReGenesisNavGraph(
 
         // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
-            EvolutionTreeScreen(
-                onNavigateToAgents = { navController.navigate(ReGenesisRoute.LdoRoster.route) }
-            )
+            EvolutionTreeScreen { navController.navigate(ReGenesisRoute.LdoRoster.route) }
         }
         composable(ReGenesisRoute.TaskAssignment.route) { 
             TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() }) 
