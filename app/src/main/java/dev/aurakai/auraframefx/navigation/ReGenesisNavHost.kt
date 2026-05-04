@@ -19,7 +19,6 @@ package dev.aurakai.auraframefx.navigation
 // KINETICFORGE CARDS — 9.5.1 SOVEREIGN EDITION
 
 // KAI BATCH v2.5 SCREEN IMPORTS
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -30,6 +29,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import dev.aurakai.auraframefx.domains.aura.chromacore.ui.CanvasScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaAnimationsScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaCoreHubScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ConsciousnessVisualizerScreen
@@ -46,8 +46,7 @@ import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.VideoIntroScreen
 import dev.aurakai.auraframefx.domains.aura.screens.WorkingLabScreen
-import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
-import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.ChromaCoreColorsScreen
+import dev.aurakai.auraframefx.domains.aura.screens.chromacore.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.themes.ThemeEngineScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.GateCustomizationScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.GyroscopeCustomizationScreen
@@ -137,6 +136,7 @@ import dev.aurakai.auraframefx.domains.nexus.screens.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentNeuralExplorerScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.DataStreamMonitoring
