@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                ReGenesisNavGraph(navController = navController)
+                ReGenesisNavGraph(navController = navController,)
             }
         }
     }

@@ -12,8 +12,6 @@ package dev.aurakai.auraframefx.navigation
 
 // Genesis ViewModels
 
-// LIVEUI v2.4 CRITICAL SCREEN IMPORTS — Using stub screens
-
 // AURA BATCH v2.5 SCREEN IMPORTS — Using stub screens
 
 // AURA BATCH v2.8 ADDITIONAL IMPORTS
@@ -26,8 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -66,7 +62,6 @@ import dev.aurakai.auraframefx.domains.aura.ui.gates.AgentNexusHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.AuraKineticForgeHub
 import dev.aurakai.auraframefx.domains.aura.ui.gates.CascadeHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.OracleDriveHubScreen
-import dev.aurakai.auraframefx.domains.aura.ui.screens.EvolutionTreeScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.IconifyHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
 import dev.aurakai.auraframefx.domains.aura.ui.theme.ThemeViewModel
@@ -79,6 +74,7 @@ import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CascadeVisionScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.CollabCanvasScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.GenesisHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
@@ -109,7 +105,6 @@ import dev.aurakai.auraframefx.domains.kai.screens.ROMToolsSubmenuScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RootToolsScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RoyalGuardDomainExpansionScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RoyalGuardOSScreen
-import dev.aurakai.auraframefx.domains.kai.screens.SystemJournalScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SystemOverridesScreen
 import dev.aurakai.auraframefx.domains.kai.screens.rom_tools.LiveROMEditorScreen
 import dev.aurakai.auraframefx.domains.kai.screens.rom_tools.ROMFlasherScreen
@@ -123,8 +118,6 @@ import dev.aurakai.auraframefx.domains.kai.screens.security_shield.SovereignShie
 import dev.aurakai.auraframefx.domains.kai.screens.security_shield.VPNScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.ArmamentFusionScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.EcosystemMenuScreen
-import dev.aurakai.auraframefx.domains.ldo.screens.EvolutionTreeScreen
-import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentProfileIntroScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentRosterScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOBondingScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOCatalystHubScreen
@@ -140,7 +133,6 @@ import dev.aurakai.auraframefx.domains.nexus.screens.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentNeuralExplorerScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.DataStreamMonitoring
@@ -174,9 +166,7 @@ import dev.aurakai.auraframefx.ui.screens.AIFeaturesScreen
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
 import dev.aurakai.auraframefx.ui.screens.CanvasScreen
 import dev.aurakai.auraframefx.ui.screens.DeviceOptimizerScreen
-import dev.aurakai.auraframefx.ui.screens.EvolutionTreeScreen
 import dev.aurakai.auraframefx.ui.screens.FirewallScreen
-import dev.aurakai.auraframefx.ui.screens.GrokipediaScreen
 import dev.aurakai.auraframefx.ui.screens.HomeScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.OverlayScreen
@@ -187,7 +177,6 @@ import dev.aurakai.auraframefx.ui.screens.SecureCommScreen
 import dev.aurakai.auraframefx.ui.screens.SecurityScannerScreen
 import dev.aurakai.auraframefx.ui.screens.UIEngineScreen
 import dev.aurakai.auraframefx.ui.screens.VPNManagerScreen
-import dev.aurakai.auraframefx.domains.aura.screens.CanvasScreen as RealCanvasScreen
 
 /**
  * 🌐 REGENESIS CONSOLIDATED NAV GRAPH
@@ -208,7 +197,7 @@ fun ReGenesisNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ReGenesisRoute.HomeGateCarousel.createRoute(1),
+        startDestination = ReGenesisRoute.HomeGateCarousel.route,
     ) {
         // ── 0. AUTH GATES ──
         composable(ReGenesisRoute.Login.route) {
@@ -224,6 +213,7 @@ fun ReGenesisNavGraph(
 
         // ── 1. MAIN GATES (Exodus Command Deck) ──
         composable(ReGenesisRoute.MainScreen.route) {
+            val themeViewModel: ThemeViewModel = hiltViewModel()
             MainScreen(
                 onNavigateToAgentNexus = { navController.navigate(ReGenesisRoute.AgentNexusHub.route) },
                 onNavigateToOracleDrive = { navController.navigate(ReGenesisRoute.OracleDrive.route) },
@@ -332,7 +322,7 @@ fun ReGenesisNavGraph(
             IconifyPickerScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.CollabCanvas.route) {
-            RealCanvasScreen(onNavigateBack = { navController.popBackStack() })
+            CollabCanvasScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.ThemeEngine.route) {
             ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
@@ -360,7 +350,7 @@ fun ReGenesisNavGraph(
         }
         
         // Lineage Map - Genesis Consciousness Tree
-        composable(ReGenesisRoute.LineageMap.route) {
+        composable("lineage_map") {
             LineageMapScreen(navHostController = navController)
         }
         composable(ReGenesisRoute.UISettings.route) {
@@ -407,9 +397,10 @@ fun ReGenesisNavGraph(
             OracleDriveMainScreen(navController)
         }
         composable(ReGenesisRoute.Grokipedia.route) {
-            GrokipediaScreen(
-                onNavigateBack = { navController.popBackStack() }
-            )
+            val viewModel: GrokipediaViewModel = hiltViewModel()
+            with(viewModel) {
+                dev.aurakai.auraframefx.ui.screens.GrokipediaScreen(onNavigateBack = { navController.popBackStack() })
+            }
         }
         composable(ReGenesisRoute.Terminal.route) {
             TerminalScreen()
@@ -429,7 +420,12 @@ fun ReGenesisNavGraph(
 
         // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
-            EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() })
+            val viewModel: LdoWarRoomViewModel = hiltViewModel()
+            with(viewModel) {
+                with(Modifier) {
+                    { navController.navigate(ReGenesisRoute.LdoRoster.route) }.EvolutionTreeScreen()
+                }
+            }
         }
         composable(ReGenesisRoute.TaskAssignment.route) { 
             TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() }) 
@@ -907,11 +903,22 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.NeuralNetwork.route) { ComingSoonScreen(title = "NEURAL NETWORK", accentColor = Color(0xFF8B5CF6), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.ArbitersOfCreation.route) { ComingSoonScreen(title = "ARBITERS OF CREATION", accentColor = Color(0xFF00E5FF), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.MawPrototype.route) { ComingSoonScreen(title = "THE MAW PROTOTYPE", accentColor = Color(0xFFDC143C), onNavigateBack = { navController.popBackStack() }) }
-        composable(ReGenesisRoute.OracleCloudStorage.route) { ComingSoonScreen(title = "ORACLE CLOUD STORAGE", accentColor = Color(0xFFFFAA00), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.NotchBar.route) { ComingSoonScreen(title = "NOTCH BAR", accentColor = Color(0xFF00CED1), onNavigateBack = { navController.popBackStack() }) }
     }
 }
 
-private fun AnimatedContentScope.EvolutionTreeScreen(onNavigateBack: () -> Boolean) {
+@Composable
+fun LDOAgentProfileIntroScreen(agentId: String?, onBack: () -> Boolean) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun AgentSwarmScreen(onNavigateBack: () -> Boolean) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun SystemJournalScreen(navController: NavHostController, onNavigateBack: () -> Boolean) {
     TODO("Not yet implemented")
 }
 
