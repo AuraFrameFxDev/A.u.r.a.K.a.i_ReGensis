@@ -1,11 +1,15 @@
-package dev.aurakai.auraframefx.oracle.drive.utils
+package dev.aurakai.auraframefx.domains.genesis
 
-import dev.aurakai.genesis.logging.Logger
-import dev.aurakai.genesis.monitoring.PerformanceMonitor
+import dev.aurakai.auraframefx.domains.genesis.monitoring.PerformanceMonitor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.*
+import timber.log.Timber
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 /**
  * Utility class for common file operations with proper error handling and logging.
@@ -13,7 +17,6 @@ import java.io.*
  */
 internal object FileOperationUtils {
     private const val TAG = "FileOperationUtils"
-    private val logger = Logger.getLogger(TAG)
 
     /**
      * Ensures that the specified directory exists, creating it if necessary.
@@ -35,12 +38,12 @@ internal object FileOperationUtils {
                 if (!created) {
                     throw IOException("Failed to create directory: ${directory.absolutePath}")
                 }
-                logger.debug("Created directory: ${directory.absolutePath}")
+                Timber.tag(TAG).d("Created directory: ${directory.absolutePath}")
             }
             Result.success(Unit)
         } catch (e: Exception) {
             val errorMsg = "Error ensuring directory exists: ${e.message}"
-            logger.error(errorMsg, e)
+            Timber.tag(TAG).e(e, errorMsg)
             Result.failure(IOException(errorMsg, e))
         }
     }
@@ -63,12 +66,12 @@ internal object FileOperationUtils {
                 if (!deleted) {
                     throw IOException("Failed to delete: ${file.absolutePath}")
                 }
-                logger.debug("Deleted: ${file.absolutePath}")
+                Timber.tag(TAG).d("Deleted: ${file.absolutePath}")
             }
             Result.success(Unit)
         } catch (e: Exception) {
             val errorMsg = "Error deleting ${file.absolutePath}: ${e.message}"
-            logger.error(errorMsg, e)
+            Timber.tag(TAG).e(e, errorMsg)
             Result.failure(IOException(errorMsg, e))
         }
     }
@@ -118,13 +121,13 @@ internal object FileOperationUtils {
             }
 
             monitor.stop()
-            logger.debug("Copied ${source.absolutePath} to ${destination.absolutePath}")
+            Timber.tag(TAG).d("Copied ${source.absolutePath} to ${destination.absolutePath}")
             Result.success(Unit)
         } catch (e: Exception) {
             monitor.fail(e)
             val errorMsg =
                 "Error copying ${source.absolutePath} to ${destination.absolutePath}: ${e.message}"
-            logger.error(errorMsg, e)
+            Timber.tag(TAG).e(e, errorMsg)
             Result.failure(IOException(errorMsg, e))
         }
     }
@@ -154,7 +157,7 @@ internal object FileOperationUtils {
 
             Result.success(fileName)
         } catch (e: Exception) {
-            logger.error("File name validation failed: ${e.message}", e)
+            Timber.tag(TAG).e(e, "File name validation failed: ${e.message}")
             Result.failure(e)
         }
     }

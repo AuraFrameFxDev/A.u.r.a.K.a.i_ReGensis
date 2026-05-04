@@ -1,12 +1,14 @@
 package dev.aurakai.auraframefx.oracle.drive.utils
 
+import timber.log.Timber
+
 /**
  * PerformanceMonitor — System performance monitoring utility
  */
 object PerformanceMonitor {
     
     fun recordOperation(operation: String, durationMs: Long) {
-        Logger.d("Performance", "$operation: ${durationMs}ms")
+        Timber.tag("Performance").d("$operation: ${durationMs}ms")
     }
     
     fun getMemoryUsage(): Long {

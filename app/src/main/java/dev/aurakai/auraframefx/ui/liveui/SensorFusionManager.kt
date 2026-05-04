@@ -1,4 +1,4 @@
-package dev.aurakai.regenesis.liveui
+package dev.aurakai.auraframefx.ui.liveui
 
 import android.content.Context
 import android.hardware.Sensor
