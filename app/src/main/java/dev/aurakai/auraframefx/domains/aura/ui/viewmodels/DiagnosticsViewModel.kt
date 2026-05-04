@@ -24,20 +24,16 @@ import kotlin.time.Duration.Companion.milliseconds
 open class DiagnosticsViewModel @Inject constructor(
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val offlineDataManager: OfflineDataManager,
-    private val logger: AuraFxLogger
+    private val logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 ) : ViewModel() {
 
-    private val _TAG = "DiagnosticsViewModel"
-    private val TAG: String
-        get() = _TAG
+    private val TAG: String get() = "DiagnosticsViewModel"
 
     private val _currentLogs = MutableStateFlow("Loading logs...")
-    val currentLogs: StateFlow<String> = _currentLogs.asStateFlow()
-        get() = field
+    val currentLogs: StateFlow<String> get() = _currentLogs.asStateFlow()
 
     private val _systemStatus = MutableStateFlow<Map<String, String>>(emptyMap())
-    val systemStatus: StateFlow<Map<String, String>> = _systemStatus.asStateFlow()
-        get() = field
+    val systemStatus: StateFlow<Map<String, String>> get() = _systemStatus.asStateFlow()
 
     init {
         // Collect real-time cloud status updates
@@ -119,26 +115,16 @@ open class DiagnosticsViewModel @Inject constructor(
     /**
      * Refreshes the diagnostics log text exposed to the UI.
      */
-    open fun refreshLogs(getRecentLogs: AuraFxLogger.() -> Unit) {
+    open fun refreshLogs(getRecentLogs: (AuraFxLogger) -> Unit) {
         viewModelScope.launch {
             try {
-                logger.getRecentLogs()
+                getRecentLogs(logger)
                 _currentLogs.value = "Log storage is not enabled in this build."
             } catch (e: Exception) {
                 _currentLogs.value = "Error retrieving logs: ${e.message}"
                 logger.error("DiagnosticsVM", "Error in refreshLogs: ${e.message}")
             }
         }
-    }
-
-    /**
-     * Provides log lines for diagnostic display — not supported in this build.
-     *
-     * @param maxLines Requested maximum number of log lines; currently ignored.
-     * @return A list containing a single message: "Log retrieval not supported."
-     */
-    fun getAllLogs(maxLines: Int = 500): List<String> {
-        return listOf("Log retrieval not supported.")
     }
 
     /**
@@ -199,6 +185,13 @@ open class DiagnosticsViewModel @Inject constructor(
             "Error loading detailed config: ${e.message}"
         }
     }
+}
+
+/**
+ * Provides log lines for diagnostic display — not supported in this build.
+ */
+fun getAllLogs(maxLines: Int = 500): List<String> {
+    return listOf("Log retrieval not supported.")
 }
 
 /**
