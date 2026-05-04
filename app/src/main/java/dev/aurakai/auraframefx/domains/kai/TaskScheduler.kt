@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.domains.kai
 
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.core.logging.ErrorHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -79,12 +80,7 @@ class TaskScheduler @Inject constructor(
             _taskQueue.sortByDescending { it.metadata["total_score"]?.toFloatOrNull() ?: 0f }
             processQueue()
         } catch (e: Exception) {
-            errorHandler.handleError(
-                error = e,
-                agent = AgentType.GENESIS,
-                context = "Task scheduling error",
-                metadata = mapOf("taskId" to task.id)
-            )
+            errorHandler.handleError(e, "Task scheduling error (Task ID: ${task.id})")
         }
     }
 
@@ -179,12 +175,7 @@ class TaskScheduler @Inject constructor(
 
             TaskStatus.FAILED -> {
                 _activeTasks.remove(taskId)
-                errorHandler.handleError(
-                    error = Exception("Task execution failed"),
-                    agent = task.assignedAgents.firstOrNull() ?: AgentType.GENESIS,
-                    context = task.content,
-                    metadata = mapOf("taskId" to taskId)
-                )
+                errorHandler.handleError(Exception("Task execution failed"), "Failed task: ${task.content} (Task ID: $taskId)")
             }
 
             else -> {}

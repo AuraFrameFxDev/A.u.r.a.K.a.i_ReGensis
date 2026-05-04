@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.security.provenance
 
-import dev.aurakai.auraframefx.domains.kai.security.KeystoreManager
+import dev.aurakai.auraframefx.core.security.KeystoreManager
 import timber.log.Timber
 import java.security.SecureRandom
 import javax.crypto.Mac

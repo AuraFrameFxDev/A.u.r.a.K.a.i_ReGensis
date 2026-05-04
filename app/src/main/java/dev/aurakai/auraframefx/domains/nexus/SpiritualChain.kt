@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.nexus
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
-import dev.aurakai.auraframefx.domains.kai.security.KeystoreManager
+import dev.aurakai.auraframefx.core.security.KeystoreManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject

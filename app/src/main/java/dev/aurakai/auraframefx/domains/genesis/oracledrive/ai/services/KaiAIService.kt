@@ -8,7 +8,7 @@ import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.CloudStatusMonitor
-import dev.aurakai.auraframefx.domains.kai.ErrorHandler
+import dev.aurakai.auraframefx.core.logging.ErrorHandler
 import dev.aurakai.auraframefx.domains.kai.TaskScheduler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -77,7 +77,7 @@ class DefaultKaiAIService @Inject constructor(
             )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error processing request", e)
-            errorHandler.handleError(e, AgentType.KAI, "processRequest")
+            errorHandler.handleError(e, "processRequest")
 
             AgentResponse(
                 content = "Security analysis temporarily unavailable",
@@ -121,7 +121,7 @@ class DefaultKaiAIService @Inject constructor(
             )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error analyzing security threat", e)
-            errorHandler.handleError(e, AgentType.KAI, "analyzeSecurityThreat")
+            errorHandler.handleError(e, "analyzeSecurityThreat")
 
             mapOf(
                 "threat_level" to "unknown",
@@ -167,7 +167,7 @@ class DefaultKaiAIService @Inject constructor(
                 )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error in processRequestFlow", e)
-            errorHandler.handleError(e, AgentType.KAI, "processRequestFlow")
+            errorHandler.handleError(e, "processRequestFlow")
 
             emit(
                 AgentResponse(

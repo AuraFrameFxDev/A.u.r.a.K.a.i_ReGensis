@@ -12,6 +12,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
+import dev.aurakai.auraframefx.core.security.EncryptionManager
 
 /**
  * Handles secure file operations using Toolshed's encryption.

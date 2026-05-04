@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.cascade.utils
 
-import android.util.Log
+import timber.log.Timber
 
 /**
  * Genesis Logger Interface - Complete
@@ -87,9 +87,13 @@ enum class LogLevel {
 }
 
 // Global helper functions to match the companion object's delegation
-fun info(tag: String, message: String) = Log.i(tag, message)
-fun debug(tag: String, message: String) = Log.d(tag, message)
-fun warn(tag: String, message: String, throwable: Throwable? = null) = Log.w(tag, message, throwable)
-fun error(tag: String, message: String, throwable: Throwable? = null) = Log.e(tag, message, throwable)
+fun info(tag: String, message: String) = Timber.tag(tag).i(message)
+fun debug(tag: String, message: String) = Timber.tag(tag).d(message)
+fun warn(tag: String, message: String, throwable: Throwable? = null) {
+    if (throwable != null) Timber.tag(tag).w(throwable, message) else Timber.tag(tag).w(message)
+}
+fun error(tag: String, message: String, throwable: Throwable? = null) {
+    if (throwable != null) Timber.tag(tag).e(throwable, message) else Timber.tag(tag).e(message)
+}
 fun i(tag: String, message: String) = info(tag, message)
 fun d(tag: String, message: String) = debug(tag, message)

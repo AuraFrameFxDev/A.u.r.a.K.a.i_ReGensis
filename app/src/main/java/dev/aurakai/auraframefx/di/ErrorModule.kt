@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.domains.kai.DefaultErrorHandler
-import dev.aurakai.auraframefx.domains.kai.ErrorHandler
+import dev.aurakai.auraframefx.core.logging.SovereignErrorHandler
+import dev.aurakai.auraframefx.core.logging.ErrorHandler
 import javax.inject.Singleton
 
 @Module
@@ -21,5 +21,5 @@ abstract class ErrorModule {
      */
     @Binds
     @Singleton
-    abstract fun bindErrorHandler(impl: DefaultErrorHandler): ErrorHandler
+    abstract fun bindErrorHandler(impl: SovereignErrorHandler): ErrorHandler
 }
