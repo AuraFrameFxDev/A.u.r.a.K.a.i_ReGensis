@@ -19,6 +19,7 @@ package dev.aurakai.auraframefx.navigation
 // KINETICFORGE CARDS — 9.5.1 SOVEREIGN EDITION
 
 // KAI BATCH v2.5 SCREEN IMPORTS
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,6 +45,7 @@ import dev.aurakai.auraframefx.domains.aura.screens.MainScreen
 import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.VideoIntroScreen
+import dev.aurakai.auraframefx.domains.aura.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.domains.aura.screens.uxui_engine.ChromaCoreColorsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.themes.ThemeEngineScreen
@@ -119,6 +121,7 @@ import dev.aurakai.auraframefx.domains.kai.screens.security_shield.SovereignShie
 import dev.aurakai.auraframefx.domains.kai.screens.security_shield.VPNScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.ArmamentFusionScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.EcosystemMenuScreen
+import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentProfileIntroScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOAgentRosterScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOBondingScreen
 import dev.aurakai.auraframefx.domains.ldo.screens.LDOCatalystHubScreen
@@ -706,7 +709,7 @@ fun ReGenesisNavGraph(
             UserPreferencesScreen(navController = navController)
         }
         composable(ReGenesisRoute.WorkingLab.route) {
-            WorkingLabScreen(navController = navController)
+            WorkingLabScreen(navController)
         }
 
         // ═══════════════════════════════════════════════════════════════════════
@@ -905,6 +908,20 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.MawPrototype.route) { ComingSoonScreen(title = "THE MAW PROTOTYPE", accentColor = Color(0xFFDC143C), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.NotchBar.route) { ComingSoonScreen(title = "NOTCH BAR", accentColor = Color(0xFF00CED1), onNavigateBack = { navController.popBackStack() }) }
     }
+}
+
+@Composable
+fun AgentSwarmScreen(onNavigateBack: () -> Boolean) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun CanvasScreen() {
+    TODO("Not yet implemented")
+}
+
+private fun AnimatedContentScope.ChromaCoreColorsScreen() {
+    TODO("Not yet implemented")
 }
 
 // ─── Inline TODO stubs removed. All screens route to domain implementations. ───
