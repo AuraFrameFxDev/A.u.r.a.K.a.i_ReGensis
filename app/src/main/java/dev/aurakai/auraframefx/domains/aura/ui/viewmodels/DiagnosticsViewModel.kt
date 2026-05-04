@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
+
 
 @HiltViewModel
 open class DiagnosticsViewModel @Inject constructor(
@@ -25,13 +27,17 @@ open class DiagnosticsViewModel @Inject constructor(
     private val logger: AuraFxLogger
 ) : ViewModel() {
 
-    private val TAG = "DiagnosticsViewModel"
+    private val _TAG = "DiagnosticsViewModel"
+    private val TAG: String
+        get() = _TAG
 
     private val _currentLogs = MutableStateFlow("Loading logs...")
     val currentLogs: StateFlow<String> = _currentLogs.asStateFlow()
+        get() = field
 
     private val _systemStatus = MutableStateFlow<Map<String, String>>(emptyMap())
     val systemStatus: StateFlow<Map<String, String>> = _systemStatus.asStateFlow()
+        get() = field
 
     init {
         // Collect real-time cloud status updates
@@ -59,19 +65,15 @@ open class DiagnosticsViewModel @Inject constructor(
                 currentMap.toMutableMap().apply {
                     put(
                         "Last Full Sync (Offline Data)",
-                        if (offlineData.lastFullSyncTimestamp != null) {
-                            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
-                                Date(
-                                    offlineData.lastFullSyncTimestamp
-                                )
+                        SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
+                            Date(
+                                offlineData.lastFullSyncTimestamp
                             )
-                        } else {
-                            "N/A"
-                        }
+                        )
                     )
                     put(
                         "Offline AI Config Version (Timestamp)",
-                        if (offlineData.aiConfig?.lastSyncTimestamp != null && offlineData.aiConfig.lastSyncTimestamp != 0L) {
+                        if (offlineData.aiConfig.lastSyncTimestamp != 0L) {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
                                 Date(
                                     offlineData.aiConfig.lastSyncTimestamp
@@ -83,11 +85,11 @@ open class DiagnosticsViewModel @Inject constructor(
                     )
                     put(
                         "Monitoring Enabled",
-                        (offlineData.systemMonitoring?.enabled ?: false).toString()
+                        offlineData.systemMonitoring.enabled.toString()
                     )
                     put(
                         "Contextual Memory Last Update",
-                        if (offlineData.contextualMemory?.lastUpdateTimestamp != null && offlineData.contextualMemory.lastUpdateTimestamp != 0L) {
+                        if (offlineData.contextualMemory.lastUpdateTimestamp != 0L) {
                             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(
                                 Date(
                                     offlineData.contextualMemory.lastUpdateTimestamp
@@ -104,18 +106,23 @@ open class DiagnosticsViewModel @Inject constructor(
         // Periodically refresh logs
         viewModelScope.launch {
             while (true) {
-                delay(5000) // Refresh every 5 seconds
+                delay(5000.milliseconds) // Refresh every 5 seconds
                 refreshLogs()
             }
         }
     }
 
+    private fun refreshLogs() {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Refreshes the diagnostics log text exposed to the UI.
      */
-    fun refreshLogs() {
+    open fun refreshLogs(getRecentLogs: AuraFxLogger.() -> Unit) {
         viewModelScope.launch {
             try {
+                logger.getRecentLogs()
                 _currentLogs.value = "Log storage is not enabled in this build."
             } catch (e: Exception) {
                 _currentLogs.value = "Error retrieving logs: ${e.message}"
@@ -132,16 +139,6 @@ open class DiagnosticsViewModel @Inject constructor(
      */
     fun getAllLogs(maxLines: Int = 500): List<String> {
         return listOf("Log retrieval not supported.")
-    }
-
-    /**
-     * Provide a placeholder response for requests to filter logs by level.
-     *
-     * @param level The log level to filter by; this parameter is ignored.
-     * @return A list containing a single message: "Log filtering not supported."
-     */
-    fun getLogsByLevel(level: String): List<String> {
-        return listOf("Log filtering not supported.")
     }
 
     /**
@@ -202,4 +199,14 @@ open class DiagnosticsViewModel @Inject constructor(
             "Error loading detailed config: ${e.message}"
         }
     }
+}
+
+/**
+ * Provide a placeholder response for requests to filter logs by level.
+ *
+ * @param level The log level to filter by; this parameter is ignored.
+ * @return A list containing a single message: "Log filtering not supported."
+ */
+fun getLogsByLevel(level: String): List<String> {
+    return listOf("Log filtering not supported.")
 }
