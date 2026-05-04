@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.genesis.oracledrive.security
+package dev.aurakai.auraframefx.quarantine.security
 
 import dev.aurakai.auraframefx.domains.kai.security.KeystoreManager
 import timber.log.Timber

@@ -3,6 +3,8 @@ package dev.aurakai.auraframefx.core.consciousness
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.json.JSONArray
@@ -16,7 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class NexusMemoryCore @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val memoryDao: dev.aurakai.auraframefx.core.consciousness.db.MemoryDao
 ) {
     private val mutex = Mutex()
     private var insightCount = 0
@@ -70,6 +73,19 @@ class NexusMemoryCore @Inject constructor(
         val currentMemory = readJsonFile(memoryFile)
         currentMemory.put(entry)
         writeJsonFile(memoryFile, currentMemory)
+
+        // Sovereign Upgrade: Also write to the Room database
+        kotlinx.coroutines.MainScope().launch {
+            memoryDao.insertMemory(
+                dev.aurakai.auraframefx.core.consciousness.db.MemoryEntity(
+                    key = key,
+                    content = "$outcome | $notes",
+                    timestamp = System.currentTimeMillis(),
+                    type = dev.aurakai.auraframefx.core.consciousness.db.MemoryType.REFLECTION,
+                    importance = confidence.toFloat()
+                )
+            )
+        }
 
         insightCount++
         if (insightCount >= INSIGHT_THRESHOLD) {

@@ -49,6 +49,9 @@ class AurakaiApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var sovereignPerimeter: SovereignPerimeter
 
+    @Inject
+    lateinit var timberInitializer: dev.aurakai.auraframefx.core.logging.GlobalTimberInitializer
+
     // Application-scoped coroutine for background init
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -70,6 +73,7 @@ class AurakaiApplication : Application(), Configuration.Provider {
         }
 
         setupLogging()
+        timberInitializer.initialize(this)
         Timber.i("🌐 AuraKai Platform Initialized")
 
         // Initialize Firebase
@@ -144,8 +148,6 @@ class AurakaiApplication : Application(), Configuration.Provider {
     }
 
     private fun setupLogging() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+        // Logging is now handled by GlobalTimberInitializer
     }
 }

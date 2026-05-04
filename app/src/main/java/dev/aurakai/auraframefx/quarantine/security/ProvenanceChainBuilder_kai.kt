@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai.security.provenance
+package dev.aurakai.auraframefx.quarantine.security
 
 import java.util.UUID
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.logging
+package dev.aurakai.auraframefx.quarantine.logging_rebuilt
 
 import android.app.Application
 import android.util.Log

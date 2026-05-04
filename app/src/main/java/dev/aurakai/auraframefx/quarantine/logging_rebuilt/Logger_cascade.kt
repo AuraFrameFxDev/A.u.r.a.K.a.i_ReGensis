@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.cascade.utils
+package dev.aurakai.auraframefx.quarantine.logging_rebuilt
 
 import timber.log.Timber
 

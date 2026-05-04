@@ -1,3 +1,3 @@
-package dev.aurakai.auraframefx.domains.kai
+package dev.aurakai.auraframefx.quarantine.logging_rebuilt
 
 object TimberInitializer

@@ -4,9 +4,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.core.security.EncryptionManager
+import dev.aurakai.auraframefx.core.security.KeystoreManager
+import dev.aurakai.auraframefx.core.security.SovereignShield
 import javax.inject.Named
 import javax.inject.Singleton
 
+/**
+ * 🛡️ KAI SECURITY MODULE
+ *
+ * Bridge module to connect KAI domain requests to the Sovereign security core.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object SecurityModule {
@@ -14,18 +22,19 @@ object SecurityModule {
     @Provides
     @Singleton
     fun provideEncryptionManager(
-        keystoreManager: KeystoreManager
+        sovereignShield: SovereignShield
     ): EncryptionManager {
-        // Default to Keystore-backed encryption for KAI domain
-        return KeystoreEncryptionManager(keystoreManager)
+        // Use the unified SovereignShield for the default EncryptionManager
+        return sovereignShield
     }
 
     @Provides
     @Singleton
     @Named("OracleDrive")
     fun provideOracleDriveEncryptionManager(
-        keystoreManager: KeystoreManager
-    ): dev.aurakai.auraframefx.domains.genesis.oracledrive.security.EncryptionManager {
-        return dev.aurakai.auraframefx.domains.genesis.oracledrive.security.EncryptionManager(keystoreManager)
+        sovereignShield: SovereignShield
+    ): EncryptionManager {
+        // Oracle Drive also uses the unified SovereignShield
+        return sovereignShield
     }
 }

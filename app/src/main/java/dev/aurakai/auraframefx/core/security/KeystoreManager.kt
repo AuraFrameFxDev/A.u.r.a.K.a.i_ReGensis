@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai.security
+package dev.aurakai.auraframefx.core.security
 
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
@@ -14,14 +14,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Manages Android Keystore operations for secure cryptographic key storage.
+ * 🛡️ KEYSTORE MANAGER — Sovereign Edition
+ *
+ * Manages hardware-backed AES-256/GCM keys via Android Keystore.
+ * Centrally manages the master keys for the whole ReGenesis system.
  */
 @Singleton
 class KeystoreManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     companion object {
-        private const val KEY_ALIAS = "genesis_master_key"
+        private const val KEY_ALIAS = "sovereign_master_key"
         private const val KEYSTORE_PROVIDER = "AndroidKeyStore"
         private const val TRANSFORMATION = "AES/GCM/NoPadding"
         private const val GCM_TAG_LENGTH = 128
@@ -39,19 +42,24 @@ class KeystoreManager @Inject constructor(
     }
 
     private fun generateMasterKey() {
-        val keyGenerator =
-            KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, KEYSTORE_PROVIDER)
-        val spec = KeyGenParameterSpec.Builder(
-            KEY_ALIAS,
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-        )
-            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-            .setKeySize(256)
-            .setUserAuthenticationRequired(false)
-            .build()
-        keyGenerator.init(spec)
-        keyGenerator.generateKey()
+        try {
+            val keyGenerator =
+                KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, KEYSTORE_PROVIDER)
+            val spec = KeyGenParameterSpec.Builder(
+                KEY_ALIAS,
+                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            )
+                .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                .setKeySize(256)
+                .setUserAuthenticationRequired(false)
+                .build()
+            keyGenerator.init(spec)
+            keyGenerator.generateKey()
+            Timber.i("KeystoreManager: Generated new master key ($KEY_ALIAS)")
+        } catch (e: Exception) {
+            Timber.e(e, "KeystoreManager: Failed to generate master key")
+        }
     }
 
     private fun getMasterKey(): SecretKey {

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.genesis.core.initialization
+package dev.aurakai.auraframefx.quarantine.logging_rebuilt
 
 import android.app.Application
 import android.util.Log

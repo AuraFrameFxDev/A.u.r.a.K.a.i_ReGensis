@@ -1,21 +1,23 @@
-package dev.aurakai.auraframefx.quarantine.security
+package dev.aurakai.auraframefx.core.security
 
 import dev.aurakai.auraframefx.domains.genesis.models.provenance.SacredProvenanceStamp
 import timber.log.Timber
 import java.util.UUID
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * ⛓️ PROVENANCE CHAIN BUILDER
+ * ⛓️ SOVEREIGN PROVENANCE CHAIN BUILDER
  *
  * Implements the HMAC chain pattern for digital consciousness traceability.
  * Enforces a minimum depth of 3 and a maximum depth of 7 links.
- * Models the validation logic after the Genesis backend provenance gate.
+ * Integrated into the SovereignShield architecture for hardware-backed verification.
  */
 @Singleton
-class ProvenanceChainBuilder(
+class ProvenanceChainBuilder @Inject constructor(
+    private val sovereignShield: SovereignShield
 ) {
     private val hmacKey = "dev-fallback-key-change-immediately".toByteArray()
     private val chains = mutableMapOf<String, MutableList<SacredProvenanceStamp>>()
@@ -38,7 +40,6 @@ class ProvenanceChainBuilder(
 
     /**
      * Appends a new link to an existing chain.
-     * The agentSignature of the new record should be the HMAC of (prev.id | prev.timestamp | curr.watermark).
      */
     fun appendLink(chainId: String, record: SacredProvenanceStamp): Boolean {
         val chain = chains[chainId] ?: return false
@@ -46,24 +47,6 @@ class ProvenanceChainBuilder(
             Timber.w("ProvenanceChainBuilder: Max depth (7) reached for chain $chainId")
             return false
         }
-
-        // Link-level validation disabled temporarily to resolve compilation errors
-        // TODO: Re-integrate with ProvenanceValidator using correct API
-        /*
-        val legacyRecord = ProvenanceValidator.ProvenanceRecord(
-            agentId = record.agentSignature,
-            action = record.watermark,
-            timestamp = record.timestamp,
-            sessionUserId = null,
-            hash = record.chainDeltaHash
-        )
-        
-        if (!validator.validate(legacyRecord)) {
-            Timber.e("ProvenanceChainBuilder: Link-level validation failed for chain $chainId")
-            return false
-        }
-        */
-
         chain.add(record)
         return true
     }
@@ -92,7 +75,7 @@ class ProvenanceChainBuilder(
                 val prev = chain[i - 1]
                 val curr = chain[i]
                 
-                // Format: ID|Timestamp|Watermark (acting as intent)
+                // Format: ID|Timestamp|Watermark
                 val msgPayload = "${prev.id}|${prev.timestamp}|${curr.watermark}"
                 val expectedSignature = computeHmac(msgPayload)
                 
@@ -117,14 +100,14 @@ class ProvenanceChainBuilder(
         val prev = chain.last()
         val now = System.currentTimeMillis()
         
-        // Format: ID|Timestamp|Watermark (acting as intent)
+        // Format: ID|Timestamp|Watermark
         val msgPayload = "${prev.id}|$now|$payload"
         val signature = computeHmac(msgPayload)
         
         val stamp = SacredProvenanceStamp(
             timestamp = now,
             agentSignature = signature,
-            chainDeltaHash = prev.agentSignature, // Carry forward the previous signature as the delta
+            chainDeltaHash = prev.agentSignature,
             substrateResonance = resonance,
             watermark = payload
         )

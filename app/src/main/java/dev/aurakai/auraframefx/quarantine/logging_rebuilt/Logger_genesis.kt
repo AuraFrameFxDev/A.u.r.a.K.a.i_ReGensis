@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.genesis.logging
+package dev.aurakai.auraframefx.quarantine.logging_rebuilt
 
 import dev.aurakai.auraframefx.domains.cascade.utils.Logger as DomainLogger
 

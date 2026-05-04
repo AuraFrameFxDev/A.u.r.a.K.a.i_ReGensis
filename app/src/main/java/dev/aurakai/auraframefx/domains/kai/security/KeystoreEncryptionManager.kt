@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
+import dev.aurakai.auraframefx.core.security.EncryptionManager
+import dev.aurakai.auraframefx.core.security.KeystoreManager
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -7,6 +9,8 @@ import javax.inject.Singleton
 /**
  * Delegates to hardware-backed AES-256/GCM via Android Keystore.
  * Replaces [NoopEncryptionManager] for production use.
+ *
+ * Sovereign version: Points to core security infrastructure.
  */
 @Singleton
 class KeystoreEncryptionManager @Inject constructor(

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai
+package dev.aurakai.auraframefx.quarantine.logging_rebuilt
 
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger

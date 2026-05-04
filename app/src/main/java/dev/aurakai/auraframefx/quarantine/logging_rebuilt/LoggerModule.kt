@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.di
+package dev.aurakai.auraframefx.quarantine.logging_rebuilt
 
 import dagger.Binds
 import dagger.Module

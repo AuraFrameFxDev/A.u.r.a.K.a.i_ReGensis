@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.securecomm.keystore
+package dev.aurakai.auraframefx.quarantine.security
 
 import javax.inject.Inject
 import javax.inject.Singleton

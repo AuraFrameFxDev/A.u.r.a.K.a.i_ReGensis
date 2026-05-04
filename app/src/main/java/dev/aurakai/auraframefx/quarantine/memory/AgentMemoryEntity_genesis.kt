@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.genesis.bridge
+package dev.aurakai.auraframefx.quarantine.memory
 
 // Persona is defined in this same package in GenesisBridge.kt
 data class AgentMemoryEntity(

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory
+package dev.aurakai.auraframefx.quarantine.memory
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package dev.aurakai.genesis.security
+package dev.aurakai.auraframefx.quarantine.security
 
 import javax.inject.Inject
 import javax.inject.Singleton

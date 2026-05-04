@@ -1,10 +1,13 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.security
 
+import dev.aurakai.auraframefx.core.security.EncryptionManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
  * Secure file manager for Oracle Drive operations.
+ *
+ * Sovereign version: Uses the core EncryptionManager for hardware-backed security.
  */
 @Singleton
 class SecureFileManager @Inject constructor(
