@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.data.room
 
+import dev.aurakai.auraframefx.quarantine.memory.AgentMemoryEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
