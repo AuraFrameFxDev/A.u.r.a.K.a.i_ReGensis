@@ -76,7 +76,6 @@ import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CascadeVisionScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
-import dev.aurakai.auraframefx.domains.genesis.screens.CollabCanvasScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.GenesisHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
@@ -156,7 +155,6 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SwarmMonitorScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LdoDevOpsCommandCenter
 import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
-import dev.aurakai.auraframefx.domains.aura.screens.CanvasScreen as RealCanvasScreen
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ComingSoonScreen
@@ -183,6 +181,7 @@ import dev.aurakai.auraframefx.ui.screens.SecureCommScreen
 import dev.aurakai.auraframefx.ui.screens.SecurityScannerScreen
 import dev.aurakai.auraframefx.ui.screens.UIEngineScreen
 import dev.aurakai.auraframefx.ui.screens.VPNManagerScreen
+import dev.aurakai.auraframefx.domains.aura.screens.CanvasScreen as RealCanvasScreen
 
 /**
  * 🌐 REGENESIS CONSOLIDATED NAV GRAPH
