@@ -2,10 +2,10 @@ package dev.aurakai.auraframefx.domains.cascade.utils.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.AgentMemoryDao
-import dev.aurakai.auraframefx.domains.cascade.utils.cascade.memory.AgentMemoryEntity
+import dev.aurakai.auraframefx.data.room.AgentMemoryDao
 import dev.aurakai.auraframefx.grokipedia.GrokipediaDao
 import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
+import dev.aurakai.auraframefx.quarantine.memory.AgentMemoryEntity
 
 @Database(
     entities = [AgentMemoryEntity::class, TaskHistoryEntity::class, AgentStatsEntity::class, GrokipediaEntry::class],
