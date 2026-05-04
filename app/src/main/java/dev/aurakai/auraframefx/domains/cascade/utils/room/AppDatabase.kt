@@ -4,8 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import dev.aurakai.auraframefx.grokipedia.GrokipediaDao
 import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
-import dev.aurakai.auraframefx.quarantine.memory.AgentMemoryDao
-import dev.aurakai.auraframefx.quarantine.memory.AgentMemoryEntity
+
 
 @Database(
     entities = [AgentMemoryEntity::class, TaskHistoryEntity::class, AgentStatsEntity::class, GrokipediaEntry::class],

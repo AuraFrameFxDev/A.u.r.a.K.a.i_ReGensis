@@ -2,8 +2,8 @@ package dev.aurakai.auraframefx.oracle.drive.service
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.genesis.security.CryptographyManager
-import dev.aurakai.genesis.storage.SecureStorage
+import dev.aurakai.auraframefx.core.security.EncryptionManager
+import dev.aurakai.auraframefx.domains.genesis.storage.SecureStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class GenesisSecureFileService @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val cryptoManager: CryptographyManager,
+    private val cryptoManager: EncryptionManager,
     private val secureStorage: SecureStorage,
 ) : SecureFileService {
 
@@ -53,7 +53,7 @@ class GenesisSecureFileService @Inject constructor(
 
             // Encrypt data using Genesis crypto
             val encryptedData = withContext(Dispatchers.IO) {
-                cryptoManager.encrypt(data, getKeyAlias(fileName))
+                cryptoManager.encrypt(data)
             }
 
             val outputFile = File(targetDir, "$fileName$secureFileExtension")
@@ -106,7 +106,7 @@ class GenesisSecureFileService @Inject constructor(
             }
 
             // Decrypt data using Genesis crypto
-            val decryptedData = cryptoManager.decrypt(encryptedData, getKeyAlias(fileName))
+            val decryptedData = cryptoManager.decrypt(encryptedData)
             emit(FileOperationResult.Data(decryptedData, inputFile.nameWithoutExtension))
         } catch (e: Exception) {
             emit(FileOperationResult.Error("Failed to read file: ${e.message}", e))
@@ -135,7 +135,7 @@ class GenesisSecureFileService @Inject constructor(
             if (fileToDelete.delete()) {
                 // Clean up metadata and keys
                 secureStorage.removeMetadata(getMetadataKey(fileName))
-                cryptoManager.removeKey(getKeyAlias(fileName))
+                // Key removal not supported by core EncryptionManager
                 FileOperationResult.Success(fileToDelete)
             } else {
                 FileOperationResult.Error("Failed to delete file")

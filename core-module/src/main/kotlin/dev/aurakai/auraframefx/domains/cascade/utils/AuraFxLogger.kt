@@ -97,3 +97,5 @@ fun error(tag: String, message: String, throwable: Throwable? = null) {
 }
 fun i(tag: String, message: String) = info(tag, message)
 fun d(tag: String, message: String) = debug(tag, message)
+fun w(tag: String, message: String, throwable: Throwable? = null) = warn(tag, message, throwable)
+fun e(tag: String, message: String, throwable: Throwable? = null) = error(tag, message, throwable)

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.data.repository
 
-import dev.aurakai.auraframefx.data.room.AgentMemoryDao
-import dev.aurakai.auraframefx.data.room.AgentMemoryEntity
+import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentMemoryDao
+import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentMemoryEntity
 import kotlinx.coroutines.flow.Flow
 
 /**
