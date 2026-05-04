@@ -909,19 +909,3 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.NotchBar.route) { ComingSoonScreen(title = "NOTCH BAR", accentColor = Color(0xFF00CED1), onNavigateBack = { navController.popBackStack() }) }
     }
 }
-
-@Composable
-fun AgentSwarmScreen(onNavigateBack: () -> Boolean) {
-    TODO("Not yet implemented")
-}
-
-@Composable
-fun CanvasScreen() {
-    TODO("Not yet implemented")
-}
-
-private fun AnimatedContentScope.ChromaCoreColorsScreen() {
-    TODO("Not yet implemented")
-}
-
-// ─── Inline TODO stubs removed. All screens route to domain implementations. ───
