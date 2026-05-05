@@ -139,6 +139,16 @@ fun LaunchMatrixManualScreen(
                     }
                 )
             }
+            // Force Crash Button
+            item {
+                Button(
+                    onClick = { throw RuntimeException("LDO Forced Crash Test (Initiated via LaunchMatrixManualScreen)") },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
+                ) {
+                    Text("FORCE CRASH", color = Color.White, fontWeight = FontWeight.Bold)
+                }
+            }
         }
     }
 }
