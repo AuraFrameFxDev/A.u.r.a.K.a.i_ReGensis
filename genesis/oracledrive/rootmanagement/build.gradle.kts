@@ -49,7 +49,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     // Unit Test dependencies
-    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.20")
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)

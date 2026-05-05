@@ -214,13 +214,13 @@ compose-material-icons-extended = { group = "androidx.compose.material", name = 
 # Firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "23.2.0" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
-firebase-auth = { module = "com.google.firebase:firebase-auth" }
-firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "20.0.5" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version = "24.0.1" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore", version = "26.2.0" }
 firebase-database = { module = "com.google.firebase:firebase-database" }
-firebase-storage = { module = "com.google.firebase:firebase-storage" }
-firebase-config = { module = "com.google.firebase:firebase-config" }
-firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+firebase-storage = { module = "com.google.firebase:firebase-storage", version = "22.0.1" }
+firebase-config = { module = "com.google.firebase:firebase-config", version = "23.0.1" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version = "25.0.1" }
 
 # Google AI
 generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
