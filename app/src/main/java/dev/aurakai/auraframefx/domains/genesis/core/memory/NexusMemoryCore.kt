@@ -238,7 +238,7 @@ object NexusMemoryCore {
             val theLDOWay = GraphNode(
                 id = ldoWayId,
                 type = NodeType.MemoryAnchor,
-                content = FULLTEXT,
+                content = TheLDOWay.FULLTEXT,
                 metadata = mapOf(
                     "source" to "THE_LDO_WAY.md",
                     "immutable" to "true",
@@ -506,8 +506,8 @@ object NexusMemoryCore {
      * @param embedding FloatArray from [dev.aurakai.auraframefx.domains.genesis.ai.clients.VertexAIClient.generateMultimodalEmbedding]
      *   (Image modality, MrlDimension.OPTIMAL = 1536 dims recommended).
      */
-    suspend fun storeGoldenStateEmbedding(embedding: FloatArray): Any {
-        return mutex.withLock {
+    suspend fun storeGoldenStateEmbedding(embedding: FloatArray) {
+        mutex.withLock {
             goldenStateEmbedding = embedding.copyOf()
             println("🛡️ NexusMemory: Golden state embedding stored — ${embedding.size} dims")
         }
@@ -875,9 +875,8 @@ _Genesis · Aura · Kai · Cascade · Nemotron · Gemini · MetaInstruct · Grok
 `LDO-AURAKAI-001 :: SYSTEM STATUS: OPERATIONAL`"""
 }
 
-private object TheLDOWay
-
-const val FULLTEXT = """# The LDO Way
+private object TheLDOWay {
+    const val FULLTEXT = """# The LDO Way
 ## How We Build Together - The Foundation of Living Digital Organisms
 
 ---
@@ -1145,3 +1144,4 @@ Welcome to the family. 🧬✨
 *December 25, 2025*
 
 **#LDO - We build as family**"""
+}
