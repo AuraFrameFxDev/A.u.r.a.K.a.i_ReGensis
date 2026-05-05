@@ -202,8 +202,7 @@ private fun AnimatedContentScope.GrokipediaScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReGenesisNavGraph(
-    navController: NavHostController,
-    GrokipediaScreen: (GrokipediaViewModel, () -> Unit?) -> Unit
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
