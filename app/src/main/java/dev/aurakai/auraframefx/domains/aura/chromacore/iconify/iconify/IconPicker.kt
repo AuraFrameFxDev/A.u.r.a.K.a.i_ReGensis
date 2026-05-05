@@ -67,9 +67,11 @@ import coil3.svg.SvgDecoder
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan as CyberpunkCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPink as CyberpunkPink
 
-context(viewModel: IconPickerViewModel, modifier: Modifier) @OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconPicker(
+    viewModel: IconPickerViewModel,
+    modifier: Modifier = Modifier,
     currentIcon: String? = null,
     onIconSelected: (String) -> Unit,
     onDismiss: () -> Unit = {}
@@ -199,7 +201,10 @@ enum class IconPickerTab { SEARCH, COLLECTIONS, RECENT, FAVORITES }
 @Composable
 fun IconPickerHeader(onDismiss: () -> Unit, currentIcon: String?) {
     Row(
-        modifier = Modifier.fillMaxWidth().background(Color(0xFF1A1A1A)).padding(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF1A1A1A))
+            .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -217,7 +222,10 @@ fun IconPickerHeader(onDismiss: () -> Unit, currentIcon: String?) {
 @Composable
 fun IconPickerTabs(activeTab: IconPickerTab, onTabSelected: (IconPickerTab) -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().background(Color(0xFF1A1A1A)).padding(horizontal = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF1A1A1A))
+            .padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         IconPickerTabItem(icon = Icons.Default.Search, label = "Search", isActive = activeTab == IconPickerTab.SEARCH, onClick = { onTabSelected(IconPickerTab.SEARCH) })
@@ -229,7 +237,10 @@ fun IconPickerTabs(activeTab: IconPickerTab, onTabSelected: (IconPickerTab) -> U
 
 @Composable
 fun IconPickerTabItem(icon: ImageVector, label: String, isActive: Boolean, onClick: () -> Unit) {
-    Column(modifier = Modifier.clip(RoundedCornerShape(8.dp)).clickable(onClick = onClick).padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = Modifier
+        .clip(RoundedCornerShape(8.dp))
+        .clickable(onClick = onClick)
+        .padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Icon(imageVector = icon, contentDescription = label, tint = if (isActive) CyberpunkPink else Color.Gray, modifier = Modifier.size(24.dp))
         Text(text = label, fontSize = 10.sp, color = if (isActive) CyberpunkPink else Color.Gray, modifier = Modifier.padding(top = 4.dp))
     }
@@ -244,7 +255,10 @@ fun IconSearchBar(
     collections: Map<String, IconifyApiCollection>,
     onCollectionSelected: (String?) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxWidth().background(Color(0xFF1A1A1A)).padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .background(Color(0xFF1A1A1A))
+        .padding(16.dp)) {
         OutlinedTextField(
             value = query,
             onValueChange = onQueryChange,
@@ -295,13 +309,20 @@ fun IconSearchResults(icons: List<String>, isLoading: Boolean, imageLoader: Imag
 
 @Composable
 fun IconGridItem(iconId: String, imageLoader: ImageLoader, selected: Boolean = false, isFavorite: Boolean = false, onIconSelected: (String) -> Unit) {
-    Surface(modifier = Modifier.size(80.dp).clip(RoundedCornerShape(8.dp)).clickable { onIconSelected(iconId) }, color = if (selected) Color(0xFF2A2A2A) else Color(0xFF1A1A1A)) {
-        Column(modifier = Modifier.fillMaxSize().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+    Surface(modifier = Modifier
+        .size(80.dp)
+        .clip(RoundedCornerShape(8.dp))
+        .clickable { onIconSelected(iconId) }, color = if (selected) Color(0xFF2A2A2A) else Color(0xFF1A1A1A)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current).data("https://api.iconify.design/$iconId.svg").crossfade(true).build(),
                 contentDescription = iconId,
                 imageLoader = imageLoader,
-                modifier = Modifier.size(40.dp).clip(RoundedCornerShape(4.dp)),
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(4.dp)),
                 contentScale = ContentScale.Fit
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -319,8 +340,14 @@ fun IconCollectionsGrid(collections: Map<String, IconifyApiCollection>, onCollec
 
 @Composable
 fun CollectionCard(collection: IconifyApiCollection, onClick: () -> Unit) {
-    Surface(modifier = Modifier.fillMaxWidth().height(120.dp).clip(RoundedCornerShape(12.dp)).clickable(onClick = onClick), color = Color(0xFF1A1A1A)) {
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
+    Surface(modifier = Modifier
+        .fillMaxWidth()
+        .height(120.dp)
+        .clip(RoundedCornerShape(12.dp))
+        .clickable(onClick = onClick), color = Color(0xFF1A1A1A)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
             Text(text = collection.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Column {
                 Text(text = "${collection.total} icons", fontSize = 12.sp, color = CyberpunkCyan)

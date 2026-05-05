@@ -17,25 +17,21 @@ class DefaultMemoryManager @Inject constructor() : MemoryManager {
     private val _memoryStats = MutableStateFlow(MemoryStats())
     override val memoryStats: StateFlow<MemoryStats> = _memoryStats.asStateFlow()
 
-    context(value: String)
-    override fun storeMemory(key: String): String {
+    override fun storeMemory(key: String, value: String): String {
         val entry = MemoryEntry(key = key, value = value)
-        this@DefaultMemoryManager.memoryStore.put(key, entry)
-        this@DefaultMemoryManager.updateStats()
+        this.memoryStore.put(key, entry)
+        this.updateStats()
         return key
     }
 
-    override fun String.retrieveMemory(): String? {
-        return this@DefaultMemoryManager.memoryStore[this]?.value
+    override fun retrieveMemory(key: String): String? {
+        return this.memoryStore[key]?.value
     }
 
-    context(response: String)
-    override fun storeInteraction(prompt: String): String {
+    override fun storeInteraction(prompt: String, response: String): String {
         val key = "interaction_${System.currentTimeMillis()}"
         val value = "Prompt: $prompt\nResponse: $response"
-        return with(value) {
-            this@DefaultMemoryManager.storeMemory(key)
-        }
+        return this.storeMemory(key, value)
     }
 
     override suspend fun recordInsight(
@@ -46,9 +42,7 @@ class DefaultMemoryManager @Inject constructor() : MemoryManager {
     ): String {
         val key = "insight_${agentName}_${System.currentTimeMillis()}"
         val value = "Agent: $agentName\nPrompt: $prompt\nResponse: $response\nConfidence: $confidence"
-        return with(value) {
-            storeMemory(key)
-        }
+        return storeMemory(key, value)
     }
 
     override fun searchMemories(query: String): List<MemoryEntry> {

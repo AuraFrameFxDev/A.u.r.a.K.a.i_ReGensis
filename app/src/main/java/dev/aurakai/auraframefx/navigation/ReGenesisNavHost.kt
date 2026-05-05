@@ -21,7 +21,6 @@ package dev.aurakai.auraframefx.navigation
 // KAI BATCH v2.5 SCREEN IMPORTS
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -401,9 +400,10 @@ fun ReGenesisNavGraph(
         }
         composable(ReGenesisRoute.Grokipedia.route) {
             val viewModel: GrokipediaViewModel = hiltViewModel()
-            with(viewModel) {
-                dev.aurakai.auraframefx.ui.screens.GrokipediaScreen(onNavigateBack = { navController.popBackStack() })
-            }
+            dev.aurakai.auraframefx.ui.screens.GrokipediaScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
         composable(ReGenesisRoute.Terminal.route) {
             TerminalScreen()
@@ -424,11 +424,10 @@ fun ReGenesisNavGraph(
         // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
             val viewModel: LdoWarRoomViewModel = hiltViewModel()
-            with(viewModel) {
-                with(receiver = Modifier) {
-                    { navController.navigate(ReGenesisRoute.LdoRoster.route) }.EvolutionTreeScreen()
-                }
-            }
+            EvolutionTreeScreen(
+                viewModel = viewModel,
+                onNavigateToAgents = { navController.navigate(ReGenesisRoute.LdoRoster.route) }
+            )
         }
         composable(ReGenesisRoute.TaskAssignment.route) { 
             TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() }) 

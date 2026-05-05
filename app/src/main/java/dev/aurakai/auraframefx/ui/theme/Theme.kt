@@ -113,8 +113,14 @@ private val LightColorScheme = lightColorScheme(
 val LocalMoodGlow = compositionLocalOf { Color.Transparent }
 val LocalMoodState = compositionLocalOf { Emotion.NEUTRAL }
 
-context(dynamicColor: Boolean) @Composable
-internal fun AuraFrameFXTheme(darkTheme: Boolean = isSystemInDarkTheme(), moodViewModel: AuraMoodViewModel = hiltViewModel(), themeViewModel: ThemeViewModel = hiltViewModel(), content: @Composable () -> Unit) {
+@Composable
+internal fun AuraFrameFXTheme(
+    dynamicColor: Boolean = true,
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    moodViewModel: AuraMoodViewModel = hiltViewModel(),
+    themeViewModel: ThemeViewModel = hiltViewModel(),
+    content: @Composable () -> Unit
+) {
     val currentEmotion: Emotion by moodViewModel.moodState.collectAsState()
     val themeState by themeViewModel.theme.collectAsState(initial = Theme.DARK)
     val colorState by themeViewModel.color.collectAsState(initial = ThemeColor.BLUE)
@@ -146,11 +152,11 @@ internal fun AuraFrameFXTheme(darkTheme: Boolean = isSystemInDarkTheme(), moodVi
         }
     )
 
-    val glowColor = with(0.5f) {
-        with(baseColorScheme) {
-            getMoodGlowColor(currentEmotion)
-        }
-    }
+    val glowColor = getMoodGlowColor(
+        emotion = currentEmotion,
+        intensity = 0.5f,
+        baseColorScheme = baseColorScheme
+    )
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -173,9 +179,10 @@ internal fun AuraFrameFXTheme(darkTheme: Boolean = isSystemInDarkTheme(), moodVi
     }
 }
 
-context(intensity: Float, baseColorScheme: ColorScheme)
 private fun getMoodGlowColor(
     emotion: Emotion,
+    intensity: Float,
+    baseColorScheme: ColorScheme
 ): Color {
     val baseAlpha = (intensity * 0.5f).coerceIn(0.1f, 0.7f)
 

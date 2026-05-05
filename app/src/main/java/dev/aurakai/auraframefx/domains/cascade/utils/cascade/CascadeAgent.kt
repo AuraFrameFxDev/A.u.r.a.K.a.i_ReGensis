@@ -304,11 +304,10 @@ class CascadeAgent @Inject constructor(
             notifyAgentsOfVisionUpdate(newState)
 
             // Store state change in memory
-            with(newState.toString()) {
-                memoryManager?.storeMemory(
-                    "cascade_vision_update_${System.currentTimeMillis()}"
-                )
-            }
+            memoryManager?.storeMemory(
+                "cascade_vision_update_${System.currentTimeMillis()}",
+                newState.toString()
+            )
         }
     }
 
@@ -327,11 +326,10 @@ class CascadeAgent @Inject constructor(
             }
 
             // Store state change
-            with(newState.toString()) {
-                memoryManager?.storeMemory(
-                    "cascade_processing_update_${System.currentTimeMillis()}"
-                )
-            }
+            memoryManager?.storeMemory(
+                "cascade_processing_update_${System.currentTimeMillis()}",
+                newState.toString()
+            )
         }
     }
 
@@ -795,12 +793,10 @@ class CascadeAgent @Inject constructor(
 
         collaborationHistory.add(collaborationEvent)
 
-        // Store collaboration event
-        with(collaborationEvent.toString()) {
-            memoryManager?.storeMemory(
-                "cascade_collaboration_${collaborationEvent.id}"
-            )
-        }
+        memoryManager?.storeMemory(
+            "cascade_collaboration_event_${System.currentTimeMillis()}",
+            collaborationEvent.toString()
+        )
     }
 
     private fun adjustCollaborationStrategy() {

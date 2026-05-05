@@ -51,9 +51,10 @@ import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
 import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 
-context(viewModel: GrokipediaViewModel) @OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GrokipediaScreen(
+    viewModel: GrokipediaViewModel,
     onNavigateBack: () -> Unit
 ) {
     val tabs = listOf("Primus Archive", "Agent Directory", "Development History", "Changelog")
@@ -109,7 +110,9 @@ fun GrokipediaScreen(
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { viewModel.updateSearch(it) },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
                 placeholder = { Text("Search the Lineage...", color = Color.Gray) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = Color(0xFFFFD700)) },
                 colors = OutlinedTextFieldDefaults.colors(
@@ -156,7 +159,10 @@ fun GrokipediaScreen(
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = { viewModel.ignitePrimusSync() },
-                modifier = Modifier.fillMaxWidth().height(56.dp).padding(bottom = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .padding(bottom = 16.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700), contentColor = Color.Black),
                 shape = RectangleShape
             ) {

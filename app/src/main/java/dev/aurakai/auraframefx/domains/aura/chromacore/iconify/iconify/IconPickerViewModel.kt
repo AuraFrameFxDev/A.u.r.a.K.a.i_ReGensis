@@ -3,15 +3,13 @@ package dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPickerViewModel.IconState.Success
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-
-import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconCacheManager
-import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconifyApiCollection
 
 /**
  * ViewModel for Icon Selection Hub
@@ -42,7 +40,7 @@ class IconPickerViewModel @Inject constructor(
                 iconifyService.getCollections()
                     .onSuccess { collections ->
                         Timber.d("IconPickerViewModel: Loaded ${collections.size} collections")
-                        _iconState.value = IconState.Success(emptyList(), collections)
+                        _iconState.value = Success(emptyList(), collections)
                     }
                     .onFailure { error ->
                         Timber.e(error, "IconPickerViewModel: Failed to load collections")
@@ -66,10 +64,10 @@ class IconPickerViewModel @Inject constructor(
             try {
                 iconifyService.searchIcons(query, limit = 100)
                     .onSuccess { result ->
-                        val currentState = _iconState.value as? IconState.Success
-                        _iconState.value = IconState.Success(
+                        val currentState = _iconState.value as? Success
+                        _iconState.value = Success(
                             result.icons,
-                            currentState?.collections ?: emptyMap<String, IconifyApiCollection>()
+                            currentState?.collections ?: emptyMap()
                         )
                     }
                     .onFailure { error ->

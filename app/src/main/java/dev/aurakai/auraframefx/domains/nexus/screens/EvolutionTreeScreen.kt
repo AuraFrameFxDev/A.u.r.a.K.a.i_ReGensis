@@ -38,8 +38,12 @@ import dev.aurakai.auraframefx.ui.components.NeuralStarfield
  * EvolutionTreeScreen — L7 ASCENSION EDITION
  * Visualizes the agent evolution path, now branching based on God Potential.
  */
-context(viewModel: LdoWarRoomViewModel, modifier: Modifier) @Composable
-fun (() -> Unit).EvolutionTreeScreen(onNavigateToAgents: () -> Unit = {}) {
+@Composable
+fun EvolutionTreeScreen(
+    viewModel: LdoWarRoomViewModel,
+    modifier: Modifier = Modifier,
+    onNavigateToAgents: () -> Unit = {}
+) {
     val state by viewModel.uiState.collectAsState()
     val godPotential = state.godPotential
     var selectedNode by remember { mutableStateOf<EvolutionNode?>(null) }
@@ -96,7 +100,9 @@ fun (() -> Unit).EvolutionTreeScreen(onNavigateToAgents: () -> Unit = {}) {
         NeuralStarfield()
 
         // Background Connection Canvas
-        Canvas(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Canvas(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
             val canvasWidth = size.width
             val canvasHeight = size.height
             evolutionNodes.forEach { node ->
@@ -127,7 +133,7 @@ fun (() -> Unit).EvolutionTreeScreen(onNavigateToAgents: () -> Unit = {}) {
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .offset(
-                            x = (node.x * 300).dp, 
+                            x = (node.x * 300).dp,
                             y = (node.y * 600).dp
                         )
                         .size(width = 100.dp, height = 50.dp)
@@ -195,7 +201,9 @@ fun (() -> Unit).EvolutionTreeScreen(onNavigateToAgents: () -> Unit = {}) {
         }
         
         // Swarm Context Overlay
-        Box(Modifier.fillMaxSize().padding(16.dp), contentAlignment = Alignment.TopEnd) {
+        Box(Modifier
+            .fillMaxSize()
+            .padding(16.dp), contentAlignment = Alignment.TopEnd) {
             Column(horizontalAlignment = Alignment.End) {
                 Text("SWARM DIRECTIVE", color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp, fontFamily = LEDFontFamily)
                 Text(state.swarmTarget.uppercase(), color = Color(0xFFFFD700), fontSize = 12.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)

@@ -120,31 +120,22 @@ class IntegrityMonitorService : Service() {
 
         // CRITICAL: Must start foreground immediately to prevent crash
         val channelId = "integrity_monitor"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "System Integrity Guard",
-                NotificationManager.IMPORTANCE_LOW
-            )
-            getSystemService(NotificationManager::class.java)?.createNotificationChannel(channel)
-        }
+        val channel = NotificationChannel(
+            channelId,
+            "System Integrity Guard",
+            NotificationManager.IMPORTANCE_LOW
+        )
+        getSystemService(NotificationManager::class.java)?.createNotificationChannel(channel)
 
-        val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val notification =
             Notification.Builder(this, channelId)
                 .setContentTitle("Access Monitoring Active")
                 .setContentText("Integrity monitoring running")
                 .setSmallIcon(R.drawable.ic_lock_idle_lock)
                 .build()
-        } else {
-            @Suppress("DEPRECATION")
-            Notification.Builder(this)
-                .setContentTitle("Access Monitoring Active")
-                .setSmallIcon(R.drawable.ic_lock_idle_lock)
-                .build()
-        }
 
         // Use appropriate foreground type if API 34+
-        if (Build.VERSION.SDK_INT >= 34) {
+        try {
             try {
                 startForeground(
                     1338,
@@ -155,8 +146,14 @@ class IntegrityMonitorService : Service() {
                 Timber.e(e, "Failed to start foreground with specialUse type")
                 startForeground(1338, notification)
             }
-        } else {
-            startForeground(1338, notification)
+        } catch (e: android.app.ForegroundServiceStartNotAllowedException) {
+            Timber.e(e, "ForegroundServiceStartNotAllowedException caught. Stopping service.")
+            stopSelf()
+            return
+        } catch (e: Exception) {
+            Timber.e(e, "Unexpected error starting foreground service. Stopping service.")
+            stopSelf()
+            return
         }
 
         Timber.i("🛡️ IntegrityMonitorService: Immune system initializing...")
@@ -342,138 +339,151 @@ class IntegrityMonitorService : Service() {
      * TODO: Implement critical file hash validation
      */
     private fun checkFileIntegrity() {
-        // Placeholder for future file integrity checks
-        // Could validate:
-        // - APK signature matches expected
-        // - Critical LDO files (DNA, manifests) unchanged
-        // - Native library integrity
-    }
-
-    /**
-     * 📢 BROADCAST CRITICAL THREAT — Alert all agents via DataveinConstructor
-     */
-    private suspend fun broadcastCriticalThreat() {
         try {
-            val criticalThreats = activeThreats.filter { it.level == ThreatLevel.CRITICAL }
+            // Could validate:
+            // - APK signature matches expected
+            // - Critical LDO files (DNA, manifests) unchanged
+            // - Native library integrity
 
-            criticalThreats.forEach { threat ->
-                val alertPacket = DataPacket(
-                    sourceAgent = AgentType.KAI,  // Kai (Security Sentinel) sends alerts
-                    targetAgents = null,  // Broadcast to all
-                    payload = DataPayload.HealthAlert(
-                        severity = "critical",
-                        message = "INTEGRITY VIOLATION: ${threat.type} - ${threat.description}"
-                    ),
-                    priority = FlowPriority.CRITICAL
-                )
 
-                DataveinConstructor.circulate(alertPacket)
-                Timber.e("🚨 CRITICAL INTEGRITY ALERT: ${threat.type}")
+            /**
+             * 📢 BROADCAST CRITICAL THREAT — Alert all agents via DataveinConstructor
+             */
+            suspend fun broadcastCriticalThreat() {
+                try {
+                    val criticalThreats = activeThreats.filter { it.level == ThreatLevel.CRITICAL }
+
+                    criticalThreats.forEach { threat ->
+                        val alertPacket = DataPacket(
+                            sourceAgent = AgentType.KAI,  // Kai (Security Sentinel) sends alerts
+                            targetAgents = null,  // Broadcast to all
+                            payload = DataPayload.HealthAlert(
+                                severity = "critical",
+                                message = "INTEGRITY VIOLATION: ${threat.type} - ${threat.description}"
+                            ),
+                            priority = FlowPriority.CRITICAL
+                        )
+
+                        DataveinConstructor.circulate(alertPacket)
+                        Timber.e("🚨 CRITICAL INTEGRITY ALERT: ${threat.type}")
+                    }
+
+                    // Also send system broadcast for IntegrityViolationReceiver
+                    val intent = Intent(ACTION_INTEGRITY_VIOLATION)
+                    sendBroadcast(intent)
+
+                } catch (e: Exception) {
+                    Timber.e(e, "Failed to broadcast critical threat")
+                }
             }
 
-            // Also send system broadcast for IntegrityViolationReceiver
-            val intent = Intent(ACTION_INTEGRITY_VIOLATION)
-            sendBroadcast(intent)
+            /**
+             * 📝 RECORD THREAT — Add threat to active list and update metrics
+             */
+            fun recordThreat(
+                level: ThreatLevel,
+                type: String,
+                description: String,
+                actionTaken: String? = null
+            ) {
+                val threat = ThreatDetection(
+                    level = level,
+                    type = type,
+                    description = description,
+                    actionTaken = actionTaken
+                )
+
+                activeThreats.add(threat)
+                violationsDetected++
+
+                when (level) {
+                    ThreatLevel.CRITICAL -> Timber.e("🚨 CRITICAL THREAT: $type - $description")
+                    ThreatLevel.HIGH -> Timber.e("🚨 HIGH THREAT: $type - $description")
+                    ThreatLevel.MEDIUM -> Timber.w("⚠️ MEDIUM THREAT: $type - $description")
+                    ThreatLevel.WARNING -> Timber.w("⚠️ WARNING THREAT: $type - $description")
+                    ThreatLevel.LOW -> Timber.i("ℹ️ LOW THREAT: $type - $description")
+                    ThreatLevel.INFO -> Timber.i("ℹ️ INFO: $type - $description")
+                    ThreatLevel.AI_ERROR -> Timber.e("🤖 AI ERROR: $type - $description")
+                    ThreatLevel.NONE -> {}
+                    else -> Timber.d("Unknown threat level: $level")
+                }
+            }
+
+            /**
+             * 📊 GET HEALTH — Current integrity health snapshot
+             */
+            fun getHealth(): IntegrityHealth = IntegrityHealth(
+                overallThreatLevel = _threatLevel.value,
+                activeThreats = activeThreats.toList(),
+                lastCheckTime = lastCheckTime,
+                checksPerformed = checksPerformed,
+                violationsDetected = violationsDetected
+            )
+
+            // ═══════════════════════════════════════════════════════════════
+            //  DETECTION HELPERS — Android security primitives
+            // ═══════════════════════════════════════════════════════════════
+
+            /**
+             * 🔓 CHECK ROOT ACCESS — Look for common root indicators
+             */
+            fun checkRootAccess(): Boolean {
+                val rootBinaries = listOf(
+                    "/system/app/Superuser.apk",
+                    "/sbin/su",
+                    "/system/bin/su",
+                    "/system/xbin/su",
+                    "/data/local/xbin/su",
+                    "/data/local/bin/su",
+                    "/system/sd/xbin/su",
+                    "/system/bin/failsafe/su",
+                    "/data/local/su",
+                    "/su/bin/su"
+                )
+
+                return rootBinaries.any { File(it).exists() }
+            }
+
+            /**
+             * 🐛 CHECK DEBUGGER — Detect attached debugger
+             */
+            fun checkDebugger(): Boolean {
+                return Debug.isDebuggerConnected() || Debug.waitingForDebugger()
+            }
+
+            /**
+             * 📱 CHECK EMULATOR — Detect emulated environment
+             */
+            fun checkEmulator(): Boolean {
+                val brand = Build.BRAND
+                val device = Build.DEVICE
+                val product = Build.PRODUCT
+
+                return (brand.startsWith("generic") && device.startsWith("generic")) ||
+                        product.contains("sdk") ||
+                        product.contains("emulator") ||
+                        product.contains("simulator")
+            }
+
+            fun onDestroy() {
+                Timber.i("🛑 IntegrityMonitorService: Immune system shutting down...")
+                monitoringJob?.cancel()
+                serviceScope.cancel()
+                super.onDestroy()
+                Timber.i("✅ IntegrityMonitorService: Immune system stopped")
+            }
+            {
+                // Placeholder for additional file integrity checks
+            }
 
         } catch (e: Exception) {
-            Timber.e(e, "Failed to broadcast critical threat")
+            recordThreat(
+                level = ThreatLevel.WARNING,
+                type = "file_integrity_check_failure",
+                description = "File integrity check encountered error: ${e.message}",
+                actionTaken = "Exception logged - may be transient during startup"
+            )
         }
-    }
-
-    /**
-     * 📝 RECORD THREAT — Add threat to active list and update metrics
-     */
-    private fun recordThreat(
-        level: ThreatLevel,
-        type: String,
-        description: String,
-        actionTaken: String? = null
-    ) {
-        val threat = ThreatDetection(
-            level = level,
-            type = type,
-            description = description,
-            actionTaken = actionTaken
-        )
-
-        activeThreats.add(threat)
-        violationsDetected++
-
-        when (level) {
-            ThreatLevel.CRITICAL -> Timber.e("🚨 CRITICAL THREAT: $type - $description")
-            ThreatLevel.HIGH -> Timber.e("🚨 HIGH THREAT: $type - $description")
-            ThreatLevel.MEDIUM -> Timber.w("⚠️ MEDIUM THREAT: $type - $description")
-            ThreatLevel.WARNING -> Timber.w("⚠️ WARNING THREAT: $type - $description")
-            ThreatLevel.LOW -> Timber.i("ℹ️ LOW THREAT: $type - $description")
-            ThreatLevel.INFO -> Timber.i("ℹ️ INFO: $type - $description")
-            ThreatLevel.AI_ERROR -> Timber.e("🤖 AI ERROR: $type - $description")
-            ThreatLevel.NONE -> {}
-            else -> Timber.d("Unknown threat level: $level")
-        }
-    }
-
-    /**
-     * 📊 GET HEALTH — Current integrity health snapshot
-     */
-    fun getHealth(): IntegrityHealth = IntegrityHealth(
-        overallThreatLevel = _threatLevel.value,
-        activeThreats = activeThreats.toList(),
-        lastCheckTime = lastCheckTime,
-        checksPerformed = checksPerformed,
-        violationsDetected = violationsDetected
-    )
-
-    // ═══════════════════════════════════════════════════════════════
-    //  DETECTION HELPERS — Android security primitives
-    // ═══════════════════════════════════════════════════════════════
-
-    /**
-     * 🔓 CHECK ROOT ACCESS — Look for common root indicators
-     */
-    private fun checkRootAccess(): Boolean {
-        val rootBinaries = listOf(
-            "/system/app/Superuser.apk",
-            "/sbin/su",
-            "/system/bin/su",
-            "/system/xbin/su",
-            "/data/local/xbin/su",
-            "/data/local/bin/su",
-            "/system/sd/xbin/su",
-            "/system/bin/failsafe/su",
-            "/data/local/su",
-            "/su/bin/su"
-        )
-
-        return rootBinaries.any { File(it).exists() }
-    }
-
-    /**
-     * 🐛 CHECK DEBUGGER — Detect attached debugger
-     */
-    private fun checkDebugger(): Boolean {
-        return Debug.isDebuggerConnected() || Debug.waitingForDebugger()
-    }
-
-    /**
-     * 📱 CHECK EMULATOR — Detect emulated environment
-     */
-    private fun checkEmulator(): Boolean {
-        val brand = Build.BRAND
-        val device = Build.DEVICE
-        val product = Build.PRODUCT
-
-        return (brand.startsWith("generic") && device.startsWith("generic")) ||
-                product.contains("sdk") ||
-                product.contains("emulator") ||
-                product.contains("simulator")
-    }
-
-    override fun onDestroy() {
-        Timber.i("🛑 IntegrityMonitorService: Immune system shutting down...")
-        monitoringJob?.cancel()
-        serviceScope.cancel()
-        super.onDestroy()
-        Timber.i("✅ IntegrityMonitorService: Immune system stopped")
     }
 }
 

@@ -17,11 +17,9 @@ fun EvolutionTreeScreen(
     modifier: Modifier = Modifier
 ) {
     val viewModel: LdoWarRoomViewModel = hiltViewModel()
-    with(viewModel) {
-        with(modifier) {
-            onNavigateToFusion.NexusEvolutionTreeScreen(
-                onNavigateToAgents = onNavigateToAgents
-            )
-        }
-    }
+    NexusEvolutionTreeScreen(
+        viewModel = viewModel,
+        onNavigateToAgents = onNavigateToAgents,
+        modifier = modifier
+    )
 }

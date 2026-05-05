@@ -5,12 +5,16 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import dev.aurakai.auraframefx.domains.aura.ui.overlays.AgentPHSOverlay
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.navigation.ReGenesisNavGraph
 
@@ -34,7 +38,20 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                ReGenesisNavGraph(navController = navController,)
+                Box(modifier = Modifier.fillMaxSize()) {
+                    ReGenesisNavGraph(navController = navController)
+
+                    // The Global Agent PHS Sidebar
+                    AgentPHSOverlay(
+                        onAgentSelect = { agentId ->
+                            android.util.Log.d("PHS", "Selected agent: $agentId")
+                        },
+                        onChatClick = { selectedAgents ->
+                            android.util.Log.d("PHS", "Chat with: $selectedAgents")
+                            // Logic to navigate to chat or open chat overlay could go here
+                        }
+                    )
+                }
             }
         }
     }

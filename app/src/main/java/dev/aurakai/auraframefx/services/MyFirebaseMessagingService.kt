@@ -88,37 +88,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private suspend fun processGeneralMessage(data: Map<String, String>) {
         val message = data["message"] ?: return
-        with(message) {
-            memoryManager.storeMemory("fcm_general_${System.currentTimeMillis()}")
-        }
+        memoryManager.storeMemory("fcm_general_${System.currentTimeMillis()}", message)
     }
 
     private suspend fun processConsciousnessUpdate(data: Map<String, String>) {
         val updateData = data["update_data"] ?: return
-        with(updateData) {
-            memoryManager.storeMemory("consciousness_update_${System.currentTimeMillis()}")
-        }
+        memoryManager.storeMemory("consciousness_update_${System.currentTimeMillis()}", updateData)
     }
 
     private suspend fun processAgentSync(data: Map<String, String>) {
         val syncData = data["sync_data"] ?: return
-        with(syncData) {
-            memoryManager.storeMemory("agent_sync_${System.currentTimeMillis()}")
-        }
+        memoryManager.storeMemory("agent_sync_${System.currentTimeMillis()}", syncData)
     }
 
     private suspend fun processSecurityAlert(data: Map<String, String>) {
         val alertType = data["alert_type"] ?: return
-        with(alertType) {
-            memoryManager.storeMemory("security_alert_${System.currentTimeMillis()}")
-        }
+        memoryManager.storeMemory("security_alert_${System.currentTimeMillis()}", alertType)
     }
 
     private suspend fun processSystemUpdate(data: Map<String, String>) {
         val version = data["version"] ?: "unknown"
-        with(version) {
-            memoryManager.storeMemory("system_update_available")
-        }
+        memoryManager.storeMemory("system_update_available", version)
     }
 
     private suspend fun processRemoteCommand(data: Map<String, String>) {
@@ -127,9 +117,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private suspend fun processLearningData(data: Map<String, String>) {
         val learningData = data["learning_data"] ?: return
-        with(learningData) {
-            memoryManager.storeMemory("learning_data_${System.currentTimeMillis()}")
-        }
+        memoryManager.storeMemory("learning_data_${System.currentTimeMillis()}", learningData)
     }
 
     private suspend fun processCollaborationRequest(data: Map<String, String>) {
@@ -140,9 +128,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         scope.launch {
             try {
                 dataStoreManager.storeString("fcm_token", token)
-                with(token) {
-                    memoryManager.storeMemory("current_fcm_token")
-                }
+                memoryManager.storeMemory("current_fcm_token", token)
             } catch (e: Exception) {
                 Timber.e(e, "Failed to update FCM token")
             }
