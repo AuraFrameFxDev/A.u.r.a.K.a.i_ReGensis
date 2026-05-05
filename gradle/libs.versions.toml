@@ -323,6 +323,8 @@ compose-ui = [
     "compose-ui",
     "compose-ui-graphics",
     "compose-animation",
+    "compose-foundation",
+    "compose-foundation-layout",
     "compose-material3",
     "compose-material-icons-extended"
 ]

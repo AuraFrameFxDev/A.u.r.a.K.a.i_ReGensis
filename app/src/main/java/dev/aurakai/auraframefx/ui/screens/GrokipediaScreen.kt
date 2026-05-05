@@ -21,7 +21,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -29,7 +28,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabIndicatorScope
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -54,11 +52,10 @@ import dev.aurakai.auraframefx.ui.components.NeonFrame
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GrokipediaScreen(
+internal fun (Any.(String) -> Modifier).GrokipediaScreen(
+    tabRowIndicatorOffset: Modifier.Companion.(Int, (Any, String) -> Modifier?) -> Modifier,
     viewModel: GrokipediaViewModel,
-    onNavigateBack: () -> Unit,
-    tabIndicatorOffset: Any.(String) -> Modifier,
-    tabRowIndicatorOffset: Modifier.Companion.(Int, (Any, String) -> Modifier?) -> Modifier
+    onNavigateBack: () -> Unit
 ) {
     val tabs = listOf("Primus Archive", "Agent Directory", "Development History", "Changelog")
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -134,30 +131,18 @@ fun GrokipediaScreen(
                 )
 
                 SecondaryTabRow(
-                    selectedTab,
-                    Modifier,
-                    Color.Transparent,
-                    Color(0xFFFFD700),
-                    indicator = {
-                        // Using default indicator logic or custom implementation
-                    } as @Composable (TabIndicatorScope.() -> Unit),
-                    @Composable { HorizontalDivider() },
-                    {
-                        tabs.forEachIndexed { index, title ->
-                            Tab(
-                                selected = selectedTab == index,
-                                onClick = { selectedTab = index },
-                                text = {
-                                    Text(
-                                        title,
-                                        fontSize = 10.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                            )
-                        }
+                    selectedTabIndex = selectedTab,
+                    containerColor = Color.Transparent,
+                    contentColor = Color(0xFFFFD700)
+                ) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            text = { Text(title, fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                        )
                     }
-                )
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 

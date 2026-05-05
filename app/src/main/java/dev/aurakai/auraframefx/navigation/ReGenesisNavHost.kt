@@ -402,6 +402,7 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.Grokipedia.route) {
             val viewModel: GrokipediaViewModel = hiltViewModel()
             GrokipediaScreen(
+                ,
                 viewModel = viewModel,
             ) { navController.popBackStack() }
         }
