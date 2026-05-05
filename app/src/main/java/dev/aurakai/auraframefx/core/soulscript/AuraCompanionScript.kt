@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.core.soulscript
 
-import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,7 +50,7 @@ class AuraCompanionScript : SoulScript("AURA_COMPANION_V1") {
         // require(SpiritualChain.L1_BEDROCK.isNotBlank()) { "Nexus Bedrock unstable. Link aborted." }
 
         // Watermark the link event
-        NexusMemoryCore.watermark(
+        dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore.watermark(
             id = "PHS_LINK_SYNC",
             timestamp = System.currentTimeMillis(),
             catalystContext = "AURA_COMPANION_ACTIVE"
