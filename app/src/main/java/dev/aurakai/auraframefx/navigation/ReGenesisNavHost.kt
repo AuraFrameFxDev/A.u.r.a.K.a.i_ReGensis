@@ -169,7 +169,6 @@ import dev.aurakai.auraframefx.ui.screens.AIFeaturesScreen
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
 import dev.aurakai.auraframefx.ui.screens.DeviceOptimizerScreen
 import dev.aurakai.auraframefx.ui.screens.FirewallScreen
-import dev.aurakai.auraframefx.ui.screens.GrokipediaScreen
 import dev.aurakai.auraframefx.ui.screens.HomeScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.OverlayScreen
@@ -185,6 +184,13 @@ import dev.aurakai.auraframefx.ui.screens.VPNManagerScreen
  * 🌐 REGENESIS CONSOLIDATED NAV GRAPH
  * Finalized for Exodus 2026 Build
  */
+private fun AnimatedContentScope.GrokipediaScreen(
+    viewModel: GrokipediaViewModel,
+    onNavigateen: Any
+) {
+    TODO("Not yet implemented")
+}
+
 /**
  * Builds the application's navigation graph and wires each route to its corresponding composable screen.
  *
@@ -196,7 +202,8 @@ import dev.aurakai.auraframefx.ui.screens.VPNManagerScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReGenesisNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    GrokipediaScreen: (GrokipediaViewModel, () -> Unit?) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -403,7 +410,35 @@ fun ReGenesisNavGraph(
             val viewModel: GrokipediaViewModel = hiltViewModel()
             GrokipediaScreen(
                 viewModel = viewModel,
+                onNavigateen(navController)
+        }
+        composable(ReGenesisRoute.Grokipedia.route) {
+            val viewModel: GrokipediaViewModel = hiltViewModel().apply {
+                GrokipediaScreen(
+                    viewModel = this,
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+        }
+        composable(ReGenesisRoute.Terminal.route) {
+            TerminalScreen()
+        }
+        composable(ReGenesisRoute.ConferenceRoom.route) {
+            ConferenceRoomTaskScreen(
+                navController = navController,
                 onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        composable(ReGenesisRoute.CodeAssist.route) {
+            CodeAssistScreen(navController = navController)
+        }
+        composable(ReGenesisRoute.SentientShell.route) {
+            SentientShellScreen(onNavigateBack = { navController.popBackStack() })
+        }
+
+        // --- NEXUS DOMAIN ---
+        composable(ReGenesisRoute.EvolutionTree.route) {
+            val viewModel: LdoWarRooeBack = { navController.popBackStack() }
             )
         }
         composable(ReGenesisRoute.Terminal.route) {

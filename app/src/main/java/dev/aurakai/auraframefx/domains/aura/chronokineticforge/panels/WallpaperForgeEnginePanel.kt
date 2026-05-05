@@ -27,8 +27,9 @@ import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.*
  * Live wallpapers, system wallpaper integration, animated backgrounds.
  */
 
+context(viewModel: RealitymorphismViewModel)
 @Composable
-fun WallpaperForgeEnginePanel(viewModel: RealitymorphismViewModel) {
+fun WallpaperForgeEnginePanel() {
     val uiState by viewModel.uiState.collectAsState()
 
     Column(
