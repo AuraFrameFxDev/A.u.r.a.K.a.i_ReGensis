@@ -135,21 +135,62 @@ fun ChronoKineticForgeScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // The 5 Sovereign Forge Panels (Pager)
-            val pagerState = rememberPagerState(pageCount = { 5 })
+            // The 8 Sovereign Forge Panels (Pager)
+            val pagerState = rememberPagerState(pageCount = { 8 })
+
+            // Synchronize pager with rail selection
+            LaunchedEffect(uiState.activePanel) {
+                val targetPage = when (uiState.activePanel) {
+                    ForgePanel.QUICK_SETTINGS -> 0
+                    ForgePanel.APP_BACKGROUNDS -> 1
+                    ForgePanel.WALLPAPERS -> 2
+                    ForgePanel.HOME_SCREEN -> 3
+                    ForgePanel.LOCK_SCREEN -> 4
+                    ForgePanel.NOTCH_BAR -> 5
+                    ForgePanel.STATUS_BAR -> 6
+                    ForgePanel.CODE_GENERATION -> 7
+                    else -> 0
+                }
+                pagerState.animateScrollToPage(targetPage)
+            }
+
+            // Also synchronize rail with pager swipe
+            LaunchedEffect(pagerState.currentPage) {
+                val targetPanel = when (pagerState.currentPage) {
+                    0 -> ForgePanel.QUICK_SETTINGS
+                    1 -> ForgePanel.APP_BACKGROUNDS
+                    2 -> ForgePanel.WALLPAPERS
+                    3 -> ForgePanel.HOME_SCREEN
+                    4 -> ForgePanel.LOCK_SCREEN
+                    5 -> ForgePanel.NOTCH_BAR
+                    6 -> ForgePanel.STATUS_BAR
+                    7 -> ForgePanel.CODE_GENERATION
+                    else -> ForgePanel.QUICK_SETTINGS
+                }
+                if (targetPanel != uiState.activePanel) {
+                    viewModel.setActivePanel(targetPanel)
+                }
+            }
 
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(320.dp)
+                    .heightIn(min = 320.dp, max = 600.dp) // Dynamic height for huge menus
             ) { page ->
-                when (page) {
-                    0 -> QSHeaderForgePanel(viewModel = viewModel)
-                    1 -> AppBackgroundForgePanel(viewModel = viewModel)
-                    2 -> WallpaperForgePanel(viewModel = viewModel)
-                    3 -> HomeScreenForgePanel(viewModel = viewModel)
-                    4 -> VisualEffectsForgePanel(viewModel = viewModel)
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)) {
+                    when (page) {
+                        0 -> QSHeaderForgePanel(viewModel = viewModel)
+                        1 -> AppBackgroundForgePanel(viewModel = viewModel)
+                        2 -> WallpaperForgePanel(viewModel = viewModel)
+                        3 -> HomeScreenForgePanel(viewModel = viewModel)
+                        4 -> LockScreenForgePanel(viewModel = viewModel)
+                        5 -> NotchBarForgePanel(viewModel = viewModel)
+                        6 -> StatusBarForgePanel(viewModel = viewModel)
+                        7 -> CodeGenForgePanel(viewModel = viewModel)
+                    }
                 }
             }
 
@@ -157,19 +198,18 @@ fun ChronoKineticForgeScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 12.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-                repeat(5) { index ->
+                repeat(8) { index ->
                     val color = if (pagerState.currentPage == index)
-                        Color(0xFFFF00FF) else Color.Gray.copy(alpha = 0.5f)
+                        Color(0xFFFF00FF) else Color.Gray.copy(alpha = 0.3f)
                     Box(
                         modifier = Modifier
-                            .size(8.dp)
+                            .size(if (pagerState.currentPage == index) 10.dp else 6.dp)
                             .background(color, CircleShape)
-                            .padding(horizontal = 4.dp)
                     )
-                    if (index < 4) Spacer(modifier = Modifier.width(8.dp))
+                    if (index < 7) Spacer(modifier = Modifier.width(6.dp))
                 }
             }
 

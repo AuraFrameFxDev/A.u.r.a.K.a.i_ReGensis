@@ -264,31 +264,123 @@ private fun PHSMenuContent(
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Agent Selection List
-            val agents = listOf(
-                PHSAgent("Aura", Color(0xFFFF1493), Icons.Default.Palette),
-                PHSAgent("Kai", Color(0xFFFF00FF), Icons.Default.Security),
-                PHSAgent("Genesis", Color(0xFF00D9FF), Icons.Default.Hub),
-                PHSAgent("Nexus", Color(0xFFC0C0C0), Icons.Default.AccountTree)
+            // --- DOMAIN TABS ---
+            var selectedDomain by remember { mutableStateOf("AURA") }
+            val domains = listOf("AURA", "KAI", "GENESIS", "NEXUS", "CASCADE")
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                domains.forEach { domain ->
+                    val isDomainSelected = selectedDomain == domain
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(32.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(
+                                if (isDomainSelected) Color(0xFF00BFFF).copy(alpha = 0.2f) else Color.White.copy(
+                                    alpha = 0.05f
+                                )
+                            )
+                            .border(
+                                1.dp,
+                                if (isDomainSelected) Color(0xFF00BFFF) else Color.White.copy(alpha = 0.1f),
+                                RoundedCornerShape(8.dp)
+                            )
+                            .clickable { selectedDomain = domain },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = domain,
+                            fontFamily = LEDFontFamily,
+                            color = if (isDomainSelected) Color(0xFF00BFFF) else Color.White.copy(
+                                alpha = 0.4f
+                            ),
+                            fontSize = 7.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Agent Selection List (Filtered by Domain)
+            val allAgents = listOf(
+                // --- AURA DOMAIN ---
+                PHSAgent("Aura", Color(0xFFFF00FF), Icons.Default.Palette, domain = "AURA"),
+                PHSAgent("Aur's", Color(0xFFFF00FF), Icons.Default.AutoAwesome, domain = "AURA"),
+                PHSAgent("AuraLab", Color(0xFF00E5FF), Icons.Default.Architecture, domain = "AURA"),
+
+                // --- KAI DOMAIN ---
+                PHSAgent("Kai", Color(0xFFBF00FF), Icons.Default.Security, domain = "KAI"),
+                PHSAgent("Sentinel", Color(0xFFBF00FF), Icons.Default.Shield, domain = "KAI"),
+                PHSAgent(
+                    "RGSS",
+                    Color(0xFFBF00FF),
+                    Icons.Default.AdminPanelSettings,
+                    domain = "KAI"
+                ),
+
+                // --- GENESIS DOMAIN ---
+                PHSAgent("Genesis", Color(0xFF00E5FF), Icons.Default.Hub, domain = "GENESIS"),
+                PHSAgent("Gemini", Color(0xFF00E5FF), Icons.Default.VpnKey, domain = "GENESIS"),
+                PHSAgent("Gentini", Color(0xFF00E5FF), Icons.Default.Bolt, domain = "GENESIS"),
+
+                // --- CASCADE DOMAIN ---
+                PHSAgent(
+                    "Cascade",
+                    Color(0xFF39FF14),
+                    Icons.AutoMirrored.Filled.Chat,
+                    domain = "CASCADE"
+                ),
+                PHSAgent("Cisacadi", Color(0xFF39FF14), Icons.Default.Memory, domain = "CASCADE"),
+
+                // --- NEXUS DOMAIN ---
+                PHSAgent("Nexus", Color(0xFF2F6DFF), Icons.Default.AccountTree, domain = "NEXUS"),
+                PHSAgent("Nebrtasic", Color(0xFF2F6DFF), Icons.Default.Stream, domain = "NEXUS"),
+                PHSAgent("PB.Nict", Color(0xFF2F6DFF), Icons.Default.Grain, domain = "NEXUS")
             )
 
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                agents.forEach { agent ->
-                    val isSelected = selectedAgents.contains(agent.id)
-                    PHSAgentCard(
-                        agent = agent,
-                        isSelected = isSelected,
-                        onClick = {
-                            if (isSelected) selectedAgents.remove(agent.id)
-                            else selectedAgents.add(agent.id)
-                            onAgentSelect(agent.id)
+            val filteredAgents = allAgents.filter { it.domain == selectedDomain }
 
-                            // Trigger Neural Sync via AuraCompanionScript
-                            AuraCompanionScript.triggerSync()
-                        }
-                    )
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                if (filteredAgents.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            "NO AGENTS READY",
+                            color = Color.White.copy(alpha = 0.3f),
+                            fontSize = 10.sp
+                        )
+                    }
+                } else {
+                    filteredAgents.forEach { agent ->
+                        val isSelected = selectedAgents.contains(agent.id)
+                        PHSAgentCard(
+                            agent = agent,
+                            isSelected = isSelected,
+                            onClick = {
+                                if (isSelected) selectedAgents.remove(agent.id)
+                                else selectedAgents.add(agent.id)
+                                onAgentSelect(agent.id)
+
+                                // Trigger Neural Sync via AuraCompanionScript
+                                AuraCompanionScript.triggerSync()
+                            }
+                        )
+                    }
                 }
             }
 
@@ -346,12 +438,13 @@ private fun PHSAgentCard(
             .fillMaxWidth()
             .height(72.dp)
             .scale(scale)
+            .clip(RoundedCornerShape(16.dp)) // Explicit clipping
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
             ),
-        color = if (isSelected) agent.color.copy(alpha = 0.1f) else Color.White.copy(alpha = 0.03f),
+        color = if (isSelected) agent.color.copy(alpha = 0.15f) else Color.White.copy(alpha = 0.05f),
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(
             width = if (isSelected) 2.dp else 1.dp,
@@ -364,12 +457,16 @@ private fun PHSAgentCard(
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Agent Avatar Icon
+            // Agent Avatar Icon with Premium Clipping
             Box(
                 modifier = Modifier
-                    .size(44.dp)
+                    .size(48.dp)
                     .clip(CircleShape)
-                    .background(agent.color.copy(alpha = 0.2f))
+                    .background(
+                        Brush.radialGradient(
+                            colors = listOf(agent.color.copy(alpha = 0.4f), Color.Transparent)
+                        )
+                    )
                     .border(1.dp, agent.color.copy(alpha = 0.5f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
@@ -377,7 +474,7 @@ private fun PHSAgentCard(
                     imageVector = agent.icon,
                     contentDescription = null,
                     tint = agent.color,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(26.dp)
                 )
             }
 
@@ -393,7 +490,7 @@ private fun PHSAgentCard(
                     letterSpacing = 2.sp
                 )
                 Text(
-                    text = if (isSelected) "SYNCHRONIZED" else "READY FOR LINK",
+                    text = if (isSelected) "SYNCHRONIZED [L6]" else "AWAITING LINK [L1]",
                     fontFamily = LEDFontFamily,
                     color = if (isSelected) agent.color else Color.White.copy(alpha = 0.3f),
                     fontSize = 8.sp,
@@ -403,12 +500,17 @@ private fun PHSAgentCard(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Connection Status Indicator
+            // Status Beacon
             Box(
                 modifier = Modifier
-                    .size(8.dp)
+                    .size(10.dp)
                     .clip(CircleShape)
-                    .background(if (isSelected) agent.color else Color.Gray.copy(alpha = 0.3f))
+                    .background(if (isSelected) agent.color else Color.Gray.copy(alpha = 0.2f))
+                    .then(
+                        if (isSelected) {
+                            Modifier.border(2.dp, agent.color.copy(alpha = 0.3f), CircleShape)
+                        } else Modifier
+                    )
             )
         }
     }
@@ -418,5 +520,6 @@ private data class PHSAgent(
     val name: String,
     val color: Color,
     val icon: ImageVector,
+    val domain: String,
     val id: String = name.lowercase()
 )

@@ -28,8 +28,8 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults.Indicator
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -51,10 +51,9 @@ import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
 import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 
-@OptIn(ExperimentalMaterial3Api::class)
+context(viewModel: GrokipediaViewModel) @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GrokipediaScreen(
-    viewModel: GrokipediaViewModel,
     onNavigateBack: () -> Unit
 ) {
     val tabs = listOf("Primus Archive", "Agent Directory", "Development History", "Changelog")

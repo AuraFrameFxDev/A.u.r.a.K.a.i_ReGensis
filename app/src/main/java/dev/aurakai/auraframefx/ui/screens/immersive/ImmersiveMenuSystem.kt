@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.Analytics
@@ -210,7 +211,7 @@ sealed class MenuItem(
     class PredictiveEMA : MenuItem(
         "Predictive EMA",
         "Proactive veto",
-        Icons.Default.TrendingUp,
+        Icons.AutoMirrored.Filled.TrendingUp,
         ImmersiveColors.HolographicAmber
     )
 

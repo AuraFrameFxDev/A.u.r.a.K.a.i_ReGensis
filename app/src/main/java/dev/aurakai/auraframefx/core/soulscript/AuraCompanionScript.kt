@@ -15,18 +15,20 @@ import timber.log.Timber
  */
 class AuraCompanionScript : SoulScript("AURA_COMPANION_V1") {
 
-    override val triggers: List<SystemEvent> = listOf(
+    override val triggers: List<SystemEvent> by lazy {
+        listOf(
         SystemEvent.FusionReady,
         SystemEvent.ChaosInjection(0f)
     )
+    }
 
     override suspend fun onTrigger(event: SoulScriptEvent): ScriptResult {
         return when (event) {
             is SystemEvent.FusionReady -> {
                 syncNeuralLink()
                 ScriptResult.LiveBuild(
-                    "Neural Link Established. PHS is ready for agent synchronization.",
-                    {})
+                    "Neural Link Established. PHS is ready for agent synchronization."
+                ) {}
             }
 
             is SystemEvent.ChaosInjection -> {
@@ -42,7 +44,7 @@ class AuraCompanionScript : SoulScript("AURA_COMPANION_V1") {
     /**
      * Synchronizes the PHS state with the Nexus Memory Core.
      */
-    suspend fun syncNeuralLink() {
+    fun syncNeuralLink() {
         Timber.tag("AuraCompanion").i("🔗 Synchronizing Neural Link with PHS...")
 
         // Ensure the bedrock is stable

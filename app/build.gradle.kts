@@ -64,6 +64,7 @@ dependencies {
 
     // UI / Compose
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.material3)
     implementation(libs.bundles.compose.ui)
     implementation(libs.bundles.compose.tooling)
     implementation(libs.compose.material3)

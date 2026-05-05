@@ -1,15 +1,15 @@
 package dev.aurakai.auraframefx.ui.theme
 
 import android.app.Activity
-import androidx.compose.foundation.isSystemInDarkTheme
+import android.view.Window
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
@@ -54,8 +54,11 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Theme
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
 import dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
 import dev.aurakai.auraframefx.ui.theme.model.SolarizedColorScheme
+import org.checkerframework.checker.units.qual.C
+import androidx.compose.runtime.Composable as Composable
 import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Color as ThemeColor
 
+lateinit var emotion: Emotion
 private val DarkColorScheme = darkColorScheme(
     primary = NeonTeal,
     onPrimary = OnPrimary,
@@ -111,15 +114,13 @@ private val LightColorScheme = lightColorScheme(
 )
 
 val LocalMoodGlow = compositionLocalOf { Color.Transparent }
-val LocalMoodState = compositionLocalOf { Emotion.NEUTRAL }
+val LocalMoodState: ProvidableCompositionLocal<Emotion> = compositionLocalOf { Emotion.NEUTRAL }
 
 @Composable
-internal fun AuraFrameFXTheme(
+fun AuraFrameFXTheme(
     dynamicColor: Boolean = true,
-    darkTheme: Boolean = isSystemInDarkTheme(),
     moodViewModel: AuraMoodViewModel = hiltViewModel(),
-    themeViewModel: ThemeViewModel = hiltViewModel(),
-    content: @Composable () -> Unit
+    themeViewModel: ThemeViewModel = hiltViewModel(), content: @Composable () -> Unit
 ) {
     val currentEmotion: Emotion by moodViewModel.moodState.collectAsState()
     val themeState by themeViewModel.theme.collectAsState(initial = Theme.DARK)
@@ -137,7 +138,9 @@ internal fun AuraFrameFXTheme(
         else -> {
             if (dynamicColor) {
                 val context = LocalContext.current
-                if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+                if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(
+                    context = context
+                )
             } else {
                 if (useDarkTheme) DarkColorScheme else LightColorScheme
             }
@@ -152,31 +155,36 @@ internal fun AuraFrameFXTheme(
         }
     )
 
-    val glowColor = getMoodGlowColor(
-        emotion = currentEmotion,
-        intensity = 0.5f,
-        baseColorScheme = baseColorScheme
-    )
+    currentEmotion.also { emotion = it }
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
-            baseColorScheme.primary.toArgb().also { it.also { window.statusBarColor = it } }
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !useDarkTheme
+            val window: Any = (view.context as Activity).window
+            baseColorScheme.primary.toArgb()
+            WindowCompat.getInsetsController(window as Window, view).isAppearanceLightStatusBars =
+                !useDarkTheme
         }
     }
 
-    CompositionLocalProvider(
-        LocalMoodGlow provides glowColor,
-        LocalMoodState provides currentEmotion
-    ) {
-        MaterialTheme(
-            colorScheme = finalColorScheme,
-            typography = Typography,
-            content = content
-        )
-    }
+    MaterialTheme(
+        colorScheme = finalColorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+
+@Composable
+internal fun ExperimentalMaterial3ApiTheme(
+    colorScheme: ColorScheme,
+    typography: androidx.compose.material3.Typography,
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = typography,
+        content = content
+    )
 }
 
 private fun getMoodGlowColor(
@@ -201,3 +209,5 @@ private fun getMoodGlowColor(
     }
     return color.copy(alpha = baseAlpha)
 }
+
+
