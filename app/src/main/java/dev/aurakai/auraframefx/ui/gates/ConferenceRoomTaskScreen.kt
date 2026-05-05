@@ -7,38 +7,63 @@ package dev.aurakai.auraframefx.ui.gates
 //
 // Replaces/wraps the plain TaskAssignmentScreen.
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
-import kotlin.math.*
 
 
 data class AgentTask(
@@ -80,7 +105,7 @@ fun ConferenceRoomTaskScreen(
     }
     var selectedTask by remember { mutableStateOf<AgentTask?>(null) }
     var selectedAgent by remember { mutableStateOf<AgentStats?>(null) }
-    var viewMode by remember { mutableStateOf(0) } // 0=Board, 1=Chess
+    var viewMode by remember { mutableStateOf(2) } // 0=Board, 1=Chess, 2=Chat (default)
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -88,12 +113,16 @@ fun ConferenceRoomTaskScreen(
         HolographicCommandTable(modifier = Modifier.fillMaxSize())
 
         // LAYER 2: Dark overlay for readability
-        Box(modifier = Modifier.fillMaxSize().background(Color(0xAA000510)))
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xAA000510)))
 
         Column(modifier = Modifier.fillMaxSize()) {
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -108,13 +137,16 @@ fun ConferenceRoomTaskScreen(
                         fontSize = 9.sp, color = Color(0xFF00FFFF).copy(alpha = 0.5f))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    TaskViewTab("BOARD",  viewMode == 0) { viewMode = 0 }
-                    TaskViewTab("CHESS",  viewMode == 1) { viewMode = 1 }
+                    TaskViewTab("CHAT", viewMode == 2) { viewMode = 2 }
+                    TaskViewTab("BOARD", viewMode == 0) { viewMode = 0 }
+                    TaskViewTab("CHESS", viewMode == 1) { viewMode = 1 }
                 }
             }
 
             LazyRow(
-                modifier = Modifier.fillMaxWidth().height(80.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp),
                 contentPadding = PaddingValues(horizontal = 12.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -128,8 +160,11 @@ fun ConferenceRoomTaskScreen(
                 }
             }
 
-            Box(modifier = Modifier.fillMaxSize().weight(1f)) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)) {
                 when (viewMode) {
+                    2 -> ConferenceRoomChatPanel(modifier = Modifier.fillMaxSize())
                     0 -> TaskBoardView(
                         tasks = tasks,
                         selectedTask = selectedTask,
@@ -169,10 +204,14 @@ private fun TaskBoardView(
         "COMPLETE"     to TaskStatus.COMPLETE,
     )
 
-    Row(modifier = Modifier.fillMaxSize().padding(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         columns.forEach { (label, status) ->
             Column(
-                modifier = Modifier.weight(1f).fillMaxHeight()
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
                     .clip(RoundedCornerShape(6.dp))
                     .background(Color(0xFF001018).copy(alpha = 0.85f))
                     .border(1.dp, Color(0xFF004060).copy(alpha = 0.5f), RoundedCornerShape(6.dp))
@@ -180,11 +219,18 @@ private fun TaskBoardView(
                 // Column header
                 Text(label, fontSize = 8.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp,
                     color = Color(0xFF00BFFF), textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(6.dp))
-                Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0xFF004060).copy(0.5f)))
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(6.dp))
+                Box(Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(Color(0xFF004060).copy(0.5f)))
 
                 val columnTasks = tasks.filter { it.status == status }
-                Column(modifier = Modifier.padding(4.dp).verticalScroll(rememberScrollState()),
+                Column(modifier = Modifier
+                    .padding(4.dp)
+                    .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     columnTasks.forEach { task ->
                         TaskCard(
@@ -208,10 +254,19 @@ private fun TaskBoardView(
 @Composable
 private fun TaskCard(task: AgentTask, isSelected: Boolean, onClick: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .clip(RoundedCornerShape(4.dp))
-            .border(1.dp, if (isSelected) task.priority.color else task.priority.color.copy(0.3f), RoundedCornerShape(4.dp))
-            .background(if (isSelected) task.priority.color.copy(0.15f) else task.priority.color.copy(0.05f))
+            .border(
+                1.dp,
+                if (isSelected) task.priority.color else task.priority.color.copy(0.3f),
+                RoundedCornerShape(4.dp)
+            )
+            .background(
+                if (isSelected) task.priority.color.copy(0.15f) else task.priority.color.copy(
+                    0.05f
+                )
+            )
             .clickable(onClick = onClick)
             .padding(6.dp)
     ) {
@@ -254,13 +309,17 @@ private fun NeonChessTaskBoard(
     }
     var selectedCell by remember { mutableStateOf<Pair<Int, Int>?>(null) }
 
-    Column(modifier = Modifier.fillMaxSize().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text("DRAG AGENTS TO ASSIGN TASKS", fontSize = 9.sp, letterSpacing = 2.sp,
             color = Color(0xFF00FFFF).copy(0.5f), modifier = Modifier.padding(bottom = 8.dp))
 
         // Chess board
         Canvas(
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
                 .pointerInput(Unit) {
                     detectTapGestures { offset ->
                         val cellSize = size.width / boardSize.toFloat()
@@ -313,7 +372,10 @@ private fun NeonChessTaskBoard(
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             TaskPriority.values().forEach { p ->
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Box(Modifier.size(8.dp).clip(CircleShape).background(p.color))
+                    Box(Modifier
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(p.color))
                     Text(p.label, fontSize = 8.sp, color = p.color.copy(0.8f))
                 }
             }
@@ -325,16 +387,25 @@ private fun NeonChessTaskBoard(
 @Composable
 private fun AgentAssignChip(agent: AgentStats, isSelected: Boolean, taskCount: Int, onClick: () -> Unit) {
     Column(
-        modifier = Modifier.width(70.dp).fillMaxHeight()
+        modifier = Modifier
+            .width(70.dp)
+            .fillMaxHeight()
             .clip(RoundedCornerShape(8.dp))
-            .border(1.dp, if (isSelected) Color.Cyan else Color.Cyan.copy(0.3f), RoundedCornerShape(8.dp))
+            .border(
+                1.dp,
+                if (isSelected) Color.Cyan else Color.Cyan.copy(0.3f),
+                RoundedCornerShape(8.dp)
+            )
             .background(if (isSelected) Color.Cyan.copy(0.2f) else Color.Cyan.copy(0.06f))
             .clickable(onClick = onClick)
             .padding(6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(3.dp)
     ) {
-        Box(Modifier.size(30.dp).clip(CircleShape).border(1.dp, Color.Cyan, CircleShape)
+        Box(Modifier
+            .size(30.dp)
+            .clip(CircleShape)
+            .border(1.dp, Color.Cyan, CircleShape)
             .background(Color.Cyan.copy(0.15f)), contentAlignment = Alignment.Center) {
             Text(agent.name.first().toString(), fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.Cyan)
         }
@@ -345,10 +416,16 @@ private fun AgentAssignChip(agent: AgentStats, isSelected: Boolean, taskCount: I
 @Composable
 private fun TaskViewTab(label: String, isActive: Boolean, onClick: () -> Unit) {
     Box(
-        modifier = Modifier.clip(RoundedCornerShape(4.dp))
+        modifier = Modifier
+            .clip(RoundedCornerShape(4.dp))
             .background(if (isActive) Color(0xFF00BFFF).copy(0.2f) else Color.Transparent)
-            .border(1.dp, if (isActive) Color(0xFF00BFFF).copy(0.6f) else Color.Transparent, RoundedCornerShape(4.dp))
-            .clickable(onClick = onClick).padding(horizontal = 8.dp, vertical = 4.dp)
+            .border(
+                1.dp,
+                if (isActive) Color(0xFF00BFFF).copy(0.6f) else Color.Transparent,
+                RoundedCornerShape(4.dp)
+            )
+            .clickable(onClick = onClick)
+            .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Text(label, fontSize = 9.sp, fontWeight = FontWeight.Bold, color = if (isActive) Color(0xFF00BFFF) else Color.White.copy(0.4f))
     }
