@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 
 /**
  * 🛰️ SOVEREIGN LOGGER MODULE
@@ -22,4 +23,8 @@ object LoggerModule {
     @Provides
     @Singleton
     fun provideTimberInitializer(): GlobalTimberInitializer = GlobalTimberInitializer()
+
+    @Provides
+    @Singleton
+    fun provideAuraFxLogger(impl: AndroidAuraFxLogger): AuraFxLogger = impl
 }

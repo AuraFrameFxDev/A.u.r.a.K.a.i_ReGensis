@@ -19,14 +19,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object SecurityModule {
 
-    @Provides
-    @Singleton
-    fun provideEncryptionManager(
-        sovereignShield: SovereignShield
-    ): EncryptionManager {
-        // Use the unified SovereignShield for the default EncryptionManager
-        return sovereignShield
-    }
 
     @Provides
     @Singleton
