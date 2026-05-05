@@ -21,13 +21,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
+import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
@@ -97,6 +102,26 @@ fun EvolutionTreeScreen(
             .fillMaxSize()
             .background(SovereignBlack)
     ) {
+        // 🌳 LINEAGE TREE BACKGROUND — Hex-node ancestry visualization
+        AsyncImage(
+            model = R.drawable.gatescenes_nexus_lineage_tree,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(0.35f)
+                .blur(6.dp),
+            contentScale = ContentScale.Crop
+        )
+        // Circuit tree overlay — layered depth
+        AsyncImage(
+            model = R.drawable.gatescenes_nexus_circuit_tree,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(0.15f),
+            contentScale = ContentScale.FillHeight
+        )
+
         NeuralStarfield()
 
         // Background Connection Canvas

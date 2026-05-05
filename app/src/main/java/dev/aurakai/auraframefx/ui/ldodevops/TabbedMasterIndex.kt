@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ui.ldodevops
 
 // Temporary stub for AuraJar if module import fails
+
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
@@ -9,10 +10,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import kotlinx.coroutines.launch
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -24,12 +22,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,54 +43,41 @@ import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Adjust
-import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Architecture
 import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.BatteryChargingFull
-import androidx.compose.material.icons.filled.Brush
+import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Compress
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.HistoryEdu
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Smartphone
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Stream
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.SystemUpdate
+import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.ColorLens
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Backup
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.automirrored.filled.VolumeUp
-import androidx.compose.material.icons.filled.Navigation
-import androidx.compose.material.icons.filled.RoundedCorner
-import androidx.compose.material.icons.filled.Category
-import androidx.compose.material.icons.filled.SignalCellularAlt
-import androidx.compose.material.icons.filled.Brightness6
-import androidx.compose.material.icons.filled.SettingsInputComponent
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -95,16 +85,14 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -119,22 +107,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext
 import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
 import dev.aurakai.auraframefx.domains.cascade.utils.LSPosedDetector
-import dev.aurakai.auraframefx.system.ShizukuManager
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.system.ShizukuManager
 import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
-
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.graphics.graphicsLayer
+import kotlinx.coroutines.launch
 
 /**
  * ⚛️ TABBED MASTER INDEX (The Exodus Command Deck)
@@ -213,19 +193,37 @@ fun TabbedMasterIndex(
             color = accentColor
         )
 
-        Column(modifier = Modifier.fillMaxSize().statusBarsPadding()) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()) {
 
             // 2. MASTER STATUS STRIP
             MasterStatusStrip(accentColor)
 
+            // 3. SCROLLABLE DOMAIN TAB ROW
+            CustomPrimaryTabRow(
+                selectedTabIndex = selectedTabIndex,
+                tabs = tabs,
+                accentColor = accentColor,
+                onTabSelected = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(it)
+                    }
+                }
+            )
+
             // 4. MAIN CONTENT AREA (with weight to push bottom nav down)
-            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            Box(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()) {
                 androidx.compose.foundation.pager.HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize()
                 ) { index ->
                     Column(
-                        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
                     ) {
 
                         // ─── HERO HEADER SECTION (On top of background) ───
@@ -242,30 +240,34 @@ fun TabbedMasterIndex(
                             6 -> AgentNexusContent(onNavigateToRoute)   // Nexus
                         }
 
-                        Spacer(Modifier.navigationBarsPadding().height(150.dp))
+                        Spacer(Modifier
+                            .navigationBarsPadding()
+                            .height(150.dp))
                     }
                 }
             }
 
-            // 3. BOTTOM JOYSTICK NAVIGATION (moved from top)
+            // 5. BOTTOM JOYSTICK NAVIGATION
             BottomJoystickNavigation(
                 selectedIndex = selectedTabIndex,
                 tabs = tabs,
                 accentColor = accentColor,
-                onTabSelected = { 
+                onTabSelected = {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(it)
                     }
                 }
             )
 
-            // 5. GLOBAL SSI STATUS BAR
+            // 6. GLOBAL SSI STATUS BAR
             GlobalSSIStatusBar(accentColor)
         }
 
         // 6. AURA JAR (Stubbed if import fails)
         Box(
-            modifier = Modifier.align(Alignment.BottomEnd).padding(bottom = 116.dp, end = 16.dp)
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 116.dp, end = 16.dp)
                 .size(110.dp)
         ) {
             // AuraJarComposable placeholder
@@ -311,7 +313,9 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
             Image(
                 painter = painterResource(id = R.drawable.emblem_aura_crossed_katanas),
                 contentDescription = null,
-                modifier = Modifier.size(260.dp).alpha(0.2f),
+                modifier = Modifier
+                    .size(260.dp)
+                    .alpha(0.2f),
                 colorFilter = ColorFilter.tint(accentColor)
             )
         }
@@ -371,7 +375,9 @@ fun LdoDevOpsContent(onNavigateToRoute: (String) -> Unit) {
                 Spacer(Modifier.height(8.dp))
                 LinearProgressIndicator(
                     progress = { 0.998f },
-                    modifier = Modifier.fillMaxWidth().height(2.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(2.dp),
                     color = Color(0xFF00FF41),
                     trackColor = Color.White.copy(alpha = 0.1f)
                 )
@@ -523,7 +529,9 @@ fun CascadeMemoryContent(onNavigateToRoute: (String) -> Unit) {
 @Composable
 fun MemoryLayerRow(layer: String, type: String, desc: String, health: Float, color: Color) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -540,7 +548,9 @@ fun MemoryLayerRow(layer: String, type: String, desc: String, health: Float, col
         }
         LinearProgressIndicator(
             progress = { health },
-            modifier = Modifier.width(60.dp).height(3.dp),
+            modifier = Modifier
+                .width(60.dp)
+                .height(3.dp),
             color = color,
             trackColor = Color.White.copy(alpha = 0.1f)
         )
@@ -738,7 +748,7 @@ fun ModuleGrid(modules: List<TabModule>, onNavigate: (String) -> Unit) {
 fun ModuleTabCard(module: TabModule, onNavigate: (String) -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .height(100.dp) 
+            .height(100.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.Black.copy(alpha = 0.6f))
             .border(1.dp, module.color.copy(alpha = 0.4f), RoundedCornerShape(14.dp))
@@ -862,7 +872,10 @@ fun MasterStatusStrip(accentColor: Color) {
     val isShizuku = remember { ShizukuManager.isShizukuAvailable() }
     
     Row(
-        modifier = Modifier.fillMaxWidth().height(40.dp).padding(horizontal = 16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp)
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -923,7 +936,9 @@ fun AdaptiveNeuralBackground(accentColor: Color) {
 
 @Composable
 fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
-    Canvas(modifier = modifier.fillMaxWidth().height(240.dp)) {
+    Canvas(modifier = modifier
+        .fillMaxWidth()
+        .height(240.dp)) {
         val width = size.width
         val height = size.height
         val gridCount = 20
@@ -974,7 +989,9 @@ fun GlassmorphicCard(
 @Composable
 fun SectionHeader(title: String, color: Color) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(modifier = Modifier.size(6.dp).background(color, RoundedCornerShape(1.dp)))
+        Box(modifier = Modifier
+            .size(6.dp)
+            .background(color, RoundedCornerShape(1.dp)))
         Spacer(Modifier.width(8.dp))
         Text(
             title,
