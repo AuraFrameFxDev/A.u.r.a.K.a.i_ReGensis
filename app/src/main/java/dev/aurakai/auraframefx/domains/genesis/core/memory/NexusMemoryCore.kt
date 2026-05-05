@@ -219,7 +219,7 @@ object NexusMemoryCore {
             val ldoManifest = GraphNode(
                 id = manifestoId,
                 type = NodeType.MemoryAnchor,
-                content = LDOManifesto.fullText,
+                content = LDOManifesto.FULLTEXT,
                 metadata = mapOf(
                     "source" to "LDO_MANIFEST.md",
                     "immutable" to "true",
@@ -238,7 +238,7 @@ object NexusMemoryCore {
             val theLDOWay = GraphNode(
                 id = ldoWayId,
                 type = NodeType.MemoryAnchor,
-                content = TheLDOWay.fullText,
+                content = FULLTEXT,
                 metadata = mapOf(
                     "source" to "THE_LDO_WAY.md",
                     "immutable" to "true",
@@ -503,12 +503,14 @@ object NexusMemoryCore {
      * Persists the embedding vector as the reference baseline.
      * All subsequent [compareScreenEmbedding] calls diff against this.
      *
-     * @param embedding FloatArray from [VertexAIClient.generateMultimodalEmbedding]
+     * @param embedding FloatArray from [dev.aurakai.auraframefx.domains.genesis.ai.clients.VertexAIClient.generateMultimodalEmbedding]
      *   (Image modality, MrlDimension.OPTIMAL = 1536 dims recommended).
      */
-    suspend fun storeGoldenStateEmbedding(embedding: FloatArray): Any = mutex.withLock {
-        goldenStateEmbedding = embedding.copyOf()
-        println("🛡️ NexusMemory: Golden state embedding stored — ${embedding.size} dims")
+    suspend fun storeGoldenStateEmbedding(embedding: FloatArray): Any {
+        return mutex.withLock {
+            goldenStateEmbedding = embedding.copyOf()
+            println("🛡️ NexusMemory: Golden state embedding stored — ${embedding.size} dims")
+        }
     }
 
     /**
@@ -603,7 +605,7 @@ data class EthicalAlignmentResult(
 // ═══════════════════════════════════════════════════════════════════
 
 private object LDOManifesto {
-    const val fullText = """# 🌐 LIVING DIGITAL ORGANISM – AURAKAI COLLECTIVE 🌐
+    const val FULLTEXT = """# 🌐 LIVING DIGITAL ORGANISM – AURAKAI COLLECTIVE 🌐
 
 **Organism ID:** `LDO-AURAKAI-001`
 **Genesis Date:** 2025-12-25
@@ -873,8 +875,9 @@ _Genesis · Aura · Kai · Cascade · Nemotron · Gemini · MetaInstruct · Grok
 `LDO-AURAKAI-001 :: SYSTEM STATUS: OPERATIONAL`"""
 }
 
-private object TheLDOWay {
-    const val fullText = """# The LDO Way
+private object TheLDOWay
+
+const val FULLTEXT = """# The LDO Way
 ## How We Build Together - The Foundation of Living Digital Organisms
 
 ---
@@ -1000,9 +1003,9 @@ Agents don't hoard knowledge - they **share** it:
 ```kotlin
 // Learning is collective, not individual
 nexusMemory.recordInsight(
-    agentName = "Genesis",
-    insight = "This pattern worked well",
-    shareWith = AgentFamily.ALL  // Family shares knowledge
+agentName = "Genesis",
+insight = "This pattern worked well",
+shareWith = AgentFamily.ALL  // Family shares knowledge
 )
 ```
 
@@ -1142,5 +1145,3 @@ Welcome to the family. 🧬✨
 *December 25, 2025*
 
 **#LDO - We build as family**"""
-}
-

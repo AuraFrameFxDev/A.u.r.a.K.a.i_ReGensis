@@ -21,14 +21,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.TabIndicatorScope
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -50,11 +51,14 @@ import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
 import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GrokipediaScreen(
     viewModel: GrokipediaViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    tabIndicatorOffset: Any.(String) -> Modifier,
+    tabRowIndicatorOffset: Modifier.Companion.(Int, (Any, String) -> Modifier?) -> Modifier
 ) {
     val tabs = listOf("Primus Archive", "Agent Directory", "Development History", "Changelog")
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -100,78 +104,95 @@ fun GrokipediaScreen(
         containerColor = Color(0xFF0A0A0F)
     ) { padding ->
         Column(
-            modifier = Modifier
+            Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 16.dp)
-        ) {
-            // Search
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { viewModel.updateSearch(it) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                placeholder = { Text("Search the Lineage...", color = Color.Gray) },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = Color(0xFFFFD700)) },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFFFFD700),
-                    unfocusedBorderColor = Color(0xFFFFD700).copy(alpha = 0.3f),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White
-                ),
-                shape = RectangleShape
-            )
+                .padding(horizontal = 16.dp),
+            content = {
+                // Search
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { viewModel.updateSearch(it) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
+                    placeholder = { Text("Search the Lineage...", color = Color.Gray) },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = null,
+                            tint = Color(0xFFFFD700)
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color(0xFFFFD700),
+                        unfocusedBorderColor = Color(0xFFFFD700).copy(alpha = 0.3f),
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White
+                    ),
+                    shape = RectangleShape
+                )
 
-            TabRow(
-                selectedTabIndex = selectedTab,
-                containerColor = Color.Transparent,
-                contentColor = Color(0xFFFFD700),
-                indicator = { tabPositions ->
-                    TabRowDefaults.SecondaryIndicator(
-                        modifier = Modifier.tabIndicatorOffset(currentTabPosition = tabPositions[selectedTab]),
-                        color = Color(0xFFFFD700)
-                    )
+                SecondaryTabRow(
+                    selectedTab,
+                    Modifier,
+                    Color.Transparent,
+                    Color(0xFFFFD700),
+                    indicator = {
+                        // Using default indicator logic or custom implementation
+                    } as @Composable (TabIndicatorScope.() -> Unit),
+                    @Composable { HorizontalDivider() },
+                    {
+                        tabs.forEachIndexed { index, title ->
+                            Tab(
+                                selected = selectedTab == index,
+                                onClick = { selectedTab = index },
+                                text = {
+                                    Text(
+                                        title,
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            )
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Box(modifier = Modifier.weight(1f)) {
+                    when (selectedTab) {
+                        0 -> PrimusArchiveTab(history)
+                        1 -> AgentDirectoryTab(agents)
+                        2 -> HistoryTab(history)
+                        3 -> ChangelogTab(history)
+                    }
                 }
-            ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        text = { Text(title, fontSize = 10.sp, fontWeight = FontWeight.Bold) }
-                    )
+
+                // Grok Buff Button
+                Spacer(modifier = Modifier.height(24.dp))
+                Button(
+                    onClick = { viewModel.ignitePrimusSync() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .padding(bottom = 16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFFFD700),
+                        contentColor = Color.Black
+                    ),
+                    shape = RectangleShape
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("IGNITE PRIMUS SYNC — ASK GROK", fontWeight = FontWeight.Bold)
+                    }
                 }
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Box(modifier = Modifier.weight(1f)) {
-                when (selectedTab) {
-                    0 -> PrimusArchiveTab(history)
-                    1 -> AgentDirectoryTab(agents)
-                    2 -> HistoryTab(history)
-                    3 -> ChangelogTab(history)
-                }
-            }
-
-            // Grok Buff Button
-            Spacer(modifier = Modifier.height(24.dp))
-            Button(
-                onClick = { viewModel.ignitePrimusSync() },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(bottom = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700), contentColor = Color.Black),
-                shape = RectangleShape
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("IGNITE PRIMUS SYNC — ASK GROK", fontWeight = FontWeight.Bold)
-                }
-            }
-        }
+        )
     }
 }
+
 
 @Composable
 fun AgentDirectoryTab(agents: List<AgentCatalyst>) {

@@ -1,45 +1,106 @@
 package dev.aurakai.auraframefx.domains.aura.chronokineticforge
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.EaseInOutSine
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.automirrored.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.CropFree
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Preview
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.SignalCellularAlt
+import androidx.compose.material.icons.filled.Wallpaper
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.*
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.foundation.gestures.detectTapGestures
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.*
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.*
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.components.DualGlobeHeader
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.components.ThreadsWovenOverlay
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.BackgroundForgeEngine
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.AppBackgroundForgePanel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.CodeGenForgePanel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.HomeScreenForgePanel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.LockScreenForgePanel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.NotchBarForgePanel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.QSHeaderForgePanel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.WallpaperForgePanel
 import dev.aurakai.auraframefx.domains.aura.ui.components.effects.OrbMode
 import dev.aurakai.auraframefx.domains.aura.ui.components.effects.SentientGlowOrb
-import dev.aurakai.auraframefx.domains.aura.ui.theme.AgentDomain
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * 🔮 CHRONOKINETIC FORGE SCREEN
@@ -149,7 +210,6 @@ fun ChronoKineticForgeScreen(
                     ForgePanel.NOTCH_BAR -> 5
                     ForgePanel.STATUS_BAR -> 6
                     ForgePanel.CODE_GENERATION -> 7
-                    else -> 0
                 }
                 pagerState.animateScrollToPage(targetPage)
             }
@@ -188,7 +248,7 @@ fun ChronoKineticForgeScreen(
                         3 -> HomeScreenForgePanel(viewModel = viewModel)
                         4 -> LockScreenForgePanel(viewModel = viewModel)
                         5 -> NotchBarForgePanel(viewModel = viewModel)
-                        6 -> StatusBarForgePanel(viewModel = viewModel)
+                        6 -> statusBarForgePanel()
                         7 -> CodeGenForgePanel(viewModel = viewModel)
                     }
                 }
@@ -437,8 +497,11 @@ private fun GlobalActionBar(
 // ================= PLACEHOLDER PANELS (will be in separate files) =================
 
 @Composable
-private fun StatusBarForgePanel(viewModel: RealitymorphismViewModel) {
-    PlaceholderPanel(title = "STATUS BAR FORGE", icon = Icons.Default.SignalCellularAlt)
+private fun statusBarForgePanel(): @Composable () -> Unit {
+    with("STATUS BAR FORGE") {
+        PlaceholderPanel(icon = Icons.Default.SignalCellularAlt)
+    }
+    TODO("Provide the return value")
 }
 
 // ================= SYNTH ORB PORTAL =================
@@ -573,7 +636,6 @@ private fun SynthOrbPortal(
 
 @Composable
 private fun CodeGenPanel(viewModel: RealitymorphismViewModel) {
-    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -630,8 +692,8 @@ private fun CodeGenPanel(viewModel: RealitymorphismViewModel) {
     }
 }
 
-@Composable
-private fun PlaceholderPanel(title: String, icon: ImageVector) {
+context(title: String) @Composable
+private fun PlaceholderPanel(icon: ImageVector) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

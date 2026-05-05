@@ -169,6 +169,7 @@ import dev.aurakai.auraframefx.ui.screens.AIFeaturesScreen
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
 import dev.aurakai.auraframefx.ui.screens.DeviceOptimizerScreen
 import dev.aurakai.auraframefx.ui.screens.FirewallScreen
+import dev.aurakai.auraframefx.ui.screens.GrokipediaScreen
 import dev.aurakai.auraframefx.ui.screens.HomeScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.OverlayScreen
@@ -400,10 +401,9 @@ fun ReGenesisNavGraph(
         }
         composable(ReGenesisRoute.Grokipedia.route) {
             val viewModel: GrokipediaViewModel = hiltViewModel()
-            dev.aurakai.auraframefx.ui.screens.GrokipediaScreen(
+            GrokipediaScreen(
                 viewModel = viewModel,
-                onNavigateBack = { navController.popBackStack() }
-            )
+            ) { navController.popBackStack() }
         }
         composable(ReGenesisRoute.Terminal.route) {
             TerminalScreen()
