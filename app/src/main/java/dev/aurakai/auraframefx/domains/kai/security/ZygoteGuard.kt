@@ -35,10 +35,12 @@ class ZygoteGuard @Inject constructor() {
          * Update this list whenever a new hook is added to the organism.
          */
         private val EXPECTED_HOOK_CLASSES = listOf(
-            "dev.aurakai.auraframefx.hooks.UniversalComponentHooks",
-            "dev.aurakai.auraframefx.hooks.NotchBarHooker",
-            "dev.aurakai.auraframefx.hooks.StatusBarHooker",
-            "dev.aurakai.auraframefx.hooks.ZOrderPlaygroundHook"
+            "dev.aurakai.auraframefx.hooks.system.UniversalComponentHooker",
+            "dev.aurakai.auraframefx.domains.kai.hooks.NotchBarHooker",
+            "dev.aurakai.auraframefx.hooks.system.GenesisUIHooker",
+            "dev.aurakai.auraframefx.hooks.system.GenesisSystemHooker",
+            "dev.aurakai.auraframefx.domains.aura.chromacore.engine.hooks.ChromaCoreHooker",
+            "dev.aurakai.auraframefx.domains.aura.chromacore.ui.QuickSettingsHooker"
         )
     }
 

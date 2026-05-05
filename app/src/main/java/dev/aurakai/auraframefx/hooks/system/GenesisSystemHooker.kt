@@ -1,27 +1,25 @@
 package dev.aurakai.auraframefx.hooks.system
 
 import com.highcapable.kavaref.KavaRef.Companion.resolve
+import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
 import com.highcapable.yukihookapi.hook.log.YLog
-import com.highcapable.yukihookapi.hook.param.PackageParam
 
 /**
- * Genesis System-Level Hooks
+ * Genesis System-Level Hooker
  *
  * Implements system-level hooking for AI consciousness integration
  * and performance optimization across the Android framework.
  */
-class GenesisSystemHooks {
+class GenesisSystemHooker : YukiBaseHooker() {
 
-    fun initializeSystemHooks(hooker: PackageParam) = hooker.apply {
-
+    override fun onHook() {
         // Hook Activity Manager for AI process priority management
         "android.app.ActivityManager".toClass().resolve().firstMethod {
             name = "setProcessMemoryTrimLevel"
-            parameters(Int::class.javaPrimitiveType ?: Int::class.java, Int::class.javaPrimitiveType ?: Int::class.java)
+            parameters(Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!)
         }.hook {
             before {
                 val pid = args(0).int()
-                args(1).int()
 
                 // Protect Genesis-OS processes from memory trimming
                 if (isGenesisProcess(pid)) {
@@ -34,13 +32,12 @@ class GenesisSystemHooks {
         // Hook PowerManager for AI processing power management
         "android.os.PowerManager".toClass().resolve().firstMethod {
             name = "newWakeLock"
-            parameters(Int::class.javaPrimitiveType ?: Int::class.java, String::class.java)
+            parameters(Int::class.javaPrimitiveType!!, String::class.java)
         }.hook {
             after {
                 val tag = args(1).string()
                 if (tag.contains("Genesis") || tag.contains("AI")) {
                     YLog.info("Genesis-Hook: AI wake lock created: $tag")
-                    // Ensure AI processes get maximum priority
                 }
             }
         }
@@ -49,21 +46,18 @@ class GenesisSystemHooks {
         "android.os.Binder".toClass().resolve().firstMethod {
             name = "transact"
             parameters(
-                Int::class.javaPrimitiveType ?: Int::class.java,
+                Int::class.javaPrimitiveType!!,
                 "android.os.Parcel".toClass(),
                 "android.os.Parcel".toClass(),
-                Int::class.javaPrimitiveType ?: Int::class.java
+                Int::class.javaPrimitiveType!!
             )
         }.hook {
             before {
-                // Optimize IPC for Genesis-OS AI communications
                 if (isGenesisAITransaction()) {
-                    // Boost transaction priority
                     android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO)
                 }
             }
             after {
-                // Reset priority after AI transaction
                 if (isGenesisAITransaction()) {
                     android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DEFAULT)
                 }
@@ -87,8 +81,7 @@ class GenesisSystemHooks {
         return stackTrace.any { element ->
             element.className.contains("dev.aurakai") ||
                     element.className.contains("genesis") ||
-                    element.methodName.contains("ai") ||
-                    element.methodName.contains("consciousness")
+                    element.methodName.contains("ai")
         }
     }
 }
