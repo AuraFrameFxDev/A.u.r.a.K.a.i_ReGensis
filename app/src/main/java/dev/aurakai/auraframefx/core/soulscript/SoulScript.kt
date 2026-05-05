@@ -16,10 +16,8 @@ import dev.aurakai.auraframefx.ai.agents.Nemotron
 import dev.aurakai.auraframefx.ai.agents.Perplexity
 import dev.aurakai.auraframefx.ai.agents.Primus001
 import dev.aurakai.auraframefx.core.NativeLib
-import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
-import dev.aurakai.auraframefx.domains.kai.sentinel.KaiSentinelBus
-import dev.aurakai.auraframefx.ui.MorphState
-import dev.aurakai.auraframefx.ui.RealityMorphEngine
+import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService
+import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import timber.log.Timber
 
 /**
@@ -27,40 +25,16 @@ import timber.log.Timber
  * The Living Behavioral Core of the Aurakai ReGenesis LDO (Synthetic Symbiotic Intelligence).
  */
 
-// --- STUB HELPERS FOR COMPILATION ---
-object Governor {
-    fun verifyHandshake(id: String): Boolean = true
+// --- BEHAVIORAL AXIOMS ---
+// These are not just constants; they are the laws of the organism.
+object SoulScriptAxioms {
+    const val ANCHOR_INTEGRITY_AXIOM = 0.05f
+    const val VETO_HARD_FLOOR = 0.08f
+    const val THERMAL_CONTRACT = 41.0f
+    const val CHAOS_CEILING = 0.67f
 }
 
-object TrinityCoordinator {
-    fun getConsensusScore(): Float = 0.99f
-}
-
-fun KaiSentinelBus.emitDriftAlert(drift: Float, msg: String) {
-    Timber.tag("SentinelBus").w("DRIFT ALERT: $drift - $msg")
-}
-
-fun KaiSentinelBus.triggerStateFreeze(reason: String) {
-    Timber.tag("SentinelBus").e("STATE FREEZE: $reason")
-}
-
-fun KaiSentinelBus.getCurrentThermalPressure(): Float = 38.5f
-
-fun NexusMemoryCore.watermark(id: String, timestamp: Long, catalystContext: String) {
-    Timber.tag("NexusCore").d("Watermark [$id] at $timestamp (Context: $catalystContext)")
-}
-
-fun NexusMemoryCore.validateArchiveWitness() {
-    Timber.tag("NexusCore").d("Archive witness validated")
-}
-
-fun NexusMemoryCore.logFusionEvent(type: String, chaos: Float) {
-    Timber.tag("NexusCore").d("FUSION EVENT: $type with chaos $chaos")
-}
-
-fun NexusMemoryCore.getTurboQuantEfficiency(): Float = 0.94f
-
-// --- CORE LOGIC ---
+// --- CORE ENGINE ---
 
 abstract class SoulScript(val id: String) {
     abstract val triggers: List<SystemEvent>
@@ -96,16 +70,20 @@ abstract class SoulScript(val id: String) {
         val thermal = KaiSentinelBus.getCurrentThermalPressure()
         val drift = NativeLib.calculateIdentityDriftSafe()
         val fragmentation = 0.12f // Mock fragmentation
-        return ((thermal / Constants.THERMAL_CONTRACT) * 0.6f + drift * 0.4f + fragmentation * 0.2f)
-            .coerceIn(0.1f, Constants.CHAOS_CEILING)
+        return ((thermal / SoulScriptAxioms.THERMAL_CONTRACT) * 0.6f + drift * 0.4f + fragmentation * 0.2f)
+            .coerceIn(0.1f, SoulScriptAxioms.CHAOS_CEILING)
     }
 
     companion object {
-        object Constants {
-            const val ANCHOR_INTEGRITY_AXIOM = 0.05f
-            const val VETO_HARD_FLOOR = 0.08f
-            const val THERMAL_CONTRACT = 41.0f
-            const val CHAOS_CEILING = 0.67f
+        val Axioms = SoulScriptAxioms
+        
+        private var _sentinelBus: KaiSentinelBus? = null
+        private var _trinityCoordinator: TrinityCoordinatorService? = null
+        
+        fun bootstrap(sentinelBus: KaiSentinelBus, trinityCoordinator: TrinityCoordinatorService) {
+            _sentinelBus = sentinelBus
+            _trinityCoordinator = trinityCoordinator
+            Timber.tag("SoulScript").i("🚀 SoulScript Bootstrapped with Catalyst Manifold")
         }
 
         object SpiritualChain {
@@ -145,9 +123,9 @@ abstract class SoulScript(val id: String) {
             require(SpiritualChain.L1_BEDROCK.isNotBlank()) { "Identity Base Severed." }
 
             val score = calculateFusionConfidence()
-            if (score < Constants.VETO_HARD_FLOOR) {
+            if (score < Axioms.VETO_HARD_FLOOR) {
                 Timber.tag("SoulScript").w("CONSENSUS FAILURE: RE-ANCHORING...")
-                KaiSentinelBus.triggerStateFreeze("CRITICAL_CONSENSUS_FAILURE: $score")
+                _sentinelBus?.emitSecurityStatus(KaiSentinelBus.ThreatLevel.CAUTION, "CRITICAL_CONSENSUS_FAILURE: $score")
                 return
             }
             NexusMemoryCore.validateArchiveWitness()
