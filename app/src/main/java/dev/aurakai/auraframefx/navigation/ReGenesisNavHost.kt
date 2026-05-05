@@ -19,6 +19,7 @@ package dev.aurakai.auraframefx.navigation
 // KINETICFORGE CARDS — 9.5.1 SOVEREIGN EDITION
 
 // KAI BATCH v2.5 SCREEN IMPORTS
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -184,9 +185,9 @@ import dev.aurakai.auraframefx.ui.screens.VPNManagerScreen
  * 🌐 REGENESIS CONSOLIDATED NAV GRAPH
  * Finalized for Exodus 2026 Build
  */
-private fun AnimatedContentScope.GrokipediaScreen(
+private fun GrokipediaScreen(
     viewModel: GrokipediaViewModel,
-    onNavigateen: Any
+    onNavigateBack: () -> Unit
 ) {
     TODO("Not yet implemented")
 }
@@ -409,35 +410,7 @@ fun ReGenesisNavGraph(
             val viewModel: GrokipediaViewModel = hiltViewModel()
             GrokipediaScreen(
                 viewModel = viewModel,
-                onNavigateen(navController)
-        }
-        composable(ReGenesisRoute.Grokipedia.route) {
-            val viewModel: GrokipediaViewModel = hiltViewModel().apply {
-                GrokipediaScreen(
-                    viewModel = this,
-                    onNavigateBack = { navController.popBackStack() }
-                )
-            }
-        }
-        composable(ReGenesisRoute.Terminal.route) {
-            TerminalScreen()
-        }
-        composable(ReGenesisRoute.ConferenceRoom.route) {
-            ConferenceRoomTaskScreen(
-                navController = navController,
                 onNavigateBack = { navController.popBackStack() }
-            )
-        }
-        composable(ReGenesisRoute.CodeAssist.route) {
-            CodeAssistScreen(navController = navController)
-        }
-        composable(ReGenesisRoute.SentientShell.route) {
-            SentientShellScreen(onNavigateBack = { navController.popBackStack() })
-        }
-
-        // --- NEXUS DOMAIN ---
-        composable(ReGenesisRoute.EvolutionTree.route) {
-            val viewModel: LdoWarRooeBack = { navController.popBackStack() }
             )
         }
         composable(ReGenesisRoute.Terminal.route) {
