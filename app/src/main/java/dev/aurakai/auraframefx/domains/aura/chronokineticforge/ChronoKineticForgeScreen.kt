@@ -95,6 +95,7 @@ import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.HomeScreen
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.LockScreenForgePanel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.NotchBarForgePanel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.QSHeaderForgePanel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.StatusBarForgePanel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels.WallpaperForgePanel
 import dev.aurakai.auraframefx.domains.aura.ui.components.effects.OrbMode
 import dev.aurakai.auraframefx.domains.aura.ui.components.effects.SentientGlowOrb
@@ -242,14 +243,14 @@ fun ChronoKineticForgeScreen(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)) {
                     when (page) {
-                        0 -> QSHeaderForgePanel(viewModel = viewModel)
-                        1 -> AppBackgroundForgePanel(viewModel = viewModel)
-                        2 -> WallpaperForgePanel(viewModel = viewModel)
-                        3 -> HomeScreenForgePanel(viewModel = viewModel)
-                        4 -> LockScreenForgePanel(viewModel = viewModel)
-                        5 -> NotchBarForgePanel(viewModel = viewModel)
-                        6 -> statusBarForgePanel()
-                        7 -> CodeGenForgePanel(viewModel = viewModel)
+                        0 -> with(viewModel) { QSHeaderForgePanel() }
+                        1 -> with(viewModel) { AppBackgroundForgePanel() }
+                        2 -> with(viewModel) { WallpaperForgePanel() }
+                        3 -> with(viewModel) { HomeScreenForgePanel() }
+                        4 -> with(viewModel) { LockScreenForgePanel() }
+                        5 -> with(viewModel) { NotchBarForgePanel() }
+                        6 -> with(viewModel) { StatusBarForgePanel() }
+                        7 -> with(viewModel) { CodeGenForgePanel() }
                     }
                 }
             }
@@ -496,13 +497,6 @@ private fun GlobalActionBar(
 
 // ================= PLACEHOLDER PANELS (will be in separate files) =================
 
-@Composable
-private fun statusBarForgePanel(): @Composable () -> Unit {
-    with("STATUS BAR FORGE") {
-        PlaceholderPanel(icon = Icons.Default.SignalCellularAlt)
-    }
-    TODO("Provide the return value")
-}
 
 // ================= SYNTH ORB PORTAL =================
 

@@ -18,8 +18,9 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
  * Specialized panel for real-time SoulScript and Kotlin code generation.
  * Part of the "Hyper Creation Engine" suite.
  */
+context(viewModel: RealitymorphismViewModel)
 @Composable
-fun CodeGenForgePanel(viewModel: RealitymorphismViewModel) {
+fun CodeGenForgePanel() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

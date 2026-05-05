@@ -1,13 +1,43 @@
 package dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels
 
-import androidx.compose.animation.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.Waves
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,7 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.RealitymorphismViewModel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.components.ThreadsWovenFooter
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.*
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.MorphType
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.RebelliousPaintDripEngine
 
 /**
  * 🔧 QS HEADER FORGE PANEL — Quick Settings Sculptor
@@ -27,10 +58,9 @@ import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.*
  * - Padding, radius, blur, height controls
  */
 
+context(viewModel: RealitymorphismViewModel)
 @Composable
-fun QSHeaderForgePanel(
-    viewModel: RealitymorphismViewModel
-) {
+fun QSHeaderForgePanel() {
     val uiState by viewModel.uiState.collectAsState()
     var showAIGen by remember { mutableStateOf(false) }
 

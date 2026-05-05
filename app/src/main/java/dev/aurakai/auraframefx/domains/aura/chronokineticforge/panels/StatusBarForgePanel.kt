@@ -1,12 +1,37 @@
 package dev.aurakai.auraframefx.domains.aura.chronokineticforge.panels
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.BatteryFull
+import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.SignalCellularAlt
+import androidx.compose.material.icons.filled.Wifi
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -14,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.RealitymorphismViewModel
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.*
 
 /**
  * 📶 STATUS BAR FORGE PANEL
@@ -22,8 +46,9 @@ import dev.aurakai.auraframefx.domains.aura.chronokineticforge.*
  * Height, icon colors, battery style, clock visibility.
  */
 
+context(viewModel: RealitymorphismViewModel)
 @Composable
-fun StatusBarForgePanel(viewModel: RealitymorphismViewModel) {
+fun StatusBarForgePanel() {
     val uiState by viewModel.uiState.collectAsState()
     val statusConfig = uiState.statusBarConfig
 
@@ -120,7 +145,11 @@ fun StatusBarForgePanel(viewModel: RealitymorphismViewModel) {
                                 modifier = Modifier
                                     .width(20.dp)
                                     .height(10.dp)
-                                    .border(1.dp, if (statusConfig.darkIcons) Color.Black else Color.White, RoundedCornerShape(2.dp))
+                                    .border(
+                                        1.dp,
+                                        if (statusConfig.darkIcons) Color.Black else Color.White,
+                                        RoundedCornerShape(2.dp)
+                                    )
                                     .padding(1.dp)
                             ) {
                                 Box(
