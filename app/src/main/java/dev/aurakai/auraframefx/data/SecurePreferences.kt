@@ -40,15 +40,20 @@ class SecurePreferences @Inject constructor(@field:ApplicationContext private va
     }
 
     /**
-     * Saves the API key securely.
-     * @param key The API key to save.
+     * Saves the provided API key to secure storage.
+     *
+     * The key is stored under the "api_key" preference entry.
+     *
+     * @param key The API key to store.
      */
     fun saveApiKey(key: String) {
         securePrefs.edit { putString("api_key", key) }
     }
 
     /**
-     * Clear all secure preferences
+     * Clears all values stored in the encrypted shared preferences.
+     *
+     * This removes all saved sensitive data (for example API keys and OAuth tokens).
      */
     fun clearAll() {
         securePrefs.edit { clear() }
@@ -56,24 +61,27 @@ class SecurePreferences @Inject constructor(@field:ApplicationContext private va
 }
 
 /**
- * Retrieves the stored OAuth token.
- * @return The OAuth token as a String, or null if not found.
+ * Returns the stored OAuth token from secure preferences.
+ *
+ * @return The stored OAuth token, or `null` if no token is present.
  */
 fun getOAuthToken(securePreferences: SecurePreferences): String? {
     return securePreferences.securePrefs.getString("oauth_token", null)
 }
 
 /**
- * Retrieves API key for Generative AI models
- * @return The API key as a String, or null if not found.
+ * Retrieve the stored API key for Generative AI models.
+ *
+ * @return The API key as a `String`, or `null` if no key is stored.
  */
 fun getApiKey(securePreferences: SecurePreferences): String? {
     return securePreferences.securePrefs.getString("api_key", null)
 }
 
 /**
- * Saves the OAuth token securely.
- * @param token The OAuth token to save.
+ * Store the provided OAuth token in secure preferences.
+ *
+ * @param token The OAuth token to store; if `null`, any existing stored token will be cleared.
  */
 fun saveOAuthToken(securePreferences: SecurePreferences, token: String?) {
     securePreferences.securePrefs.edit { putString("oauth_token", token) }
