@@ -8,8 +8,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
@@ -54,8 +54,6 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Theme
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
 import dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
 import dev.aurakai.auraframefx.ui.theme.model.SolarizedColorScheme
-import org.checkerframework.checker.units.qual.C
-import androidx.compose.runtime.Composable as Composable
 import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Color as ThemeColor
 
 lateinit var emotion: Emotion
@@ -162,8 +160,12 @@ fun AuraFrameFXTheme(
         SideEffect {
             val window: Any = (view.context as Activity).window
             baseColorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window as Window, view).isAppearanceLightStatusBars =
-                !useDarkTheme
+            (!useDarkTheme).also {
+                WindowCompat.getInsetsController(
+                    window as Window,
+                    view
+                ).isAppearanceLightStatusBars = it
+            }
         }
     }
 

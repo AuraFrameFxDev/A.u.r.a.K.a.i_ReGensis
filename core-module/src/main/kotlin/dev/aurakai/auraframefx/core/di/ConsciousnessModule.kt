@@ -28,7 +28,7 @@ object ConsciousnessModule {
             ConsciousnessDatabase::class.java,
             "sovereign_consciousness.db"
         )
-        .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(true)
         .build()
     }
 

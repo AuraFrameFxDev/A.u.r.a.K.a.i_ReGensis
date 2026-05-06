@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.domains.aura.ui.overlays.AgentPHSOverlay
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.navigation.ReGenesisNavGraph
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         enableEdgeToEdge()
         setupFullscreenMode()
 
@@ -44,10 +45,10 @@ class MainActivity : ComponentActivity() {
                     // The Global Agent PHS Sidebar
                     AgentPHSOverlay(
                         onAgentSelect = { agentId ->
-                            android.util.Log.d("PHS", "Selected agent: $agentId")
+                            Timber.tag("PHS").d("Selected agent: $agentId")
                         },
                         onChatClick = { selectedAgents ->
-                            android.util.Log.d("PHS", "Chat with: $selectedAgents")
+                            Timber.tag("PHS").d("Chat with: $selectedAgents")
                             // Logic to navigate to chat or open chat overlay could go here
                         }
                     )

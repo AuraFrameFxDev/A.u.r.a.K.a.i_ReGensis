@@ -20,8 +20,6 @@ object GenesisJvmConfig {
                 compilerOptions {
                     jvmTarget.set(KOTLIN_JVM_TARGET)
                     freeCompilerArgs.addAll(
-                        "-Xcontext-parameters",
-                        "-Xannotation-default-target=param-property",
                         "-Xenable-preview",
                         "-opt-in=kotlin.RequiresOptIn",
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
