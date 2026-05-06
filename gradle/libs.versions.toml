@@ -52,7 +52,7 @@ coroutines = "1.10.2"
 # AI & Tools
 langchain4j = "1.14.0"
 langchain4j-vertex = "0.36.2"
-generativeai = "1.0.0"
+generativeai = "1.53.0"
 timber = "5.0.1"
 coil = "3.4.0"
 gson = "2.14.0"
