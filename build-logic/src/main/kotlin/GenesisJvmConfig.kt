@@ -1,11 +1,10 @@
 
 import org.gradle.api.Project
-import org.gradle.api.JavaVersion
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Centralized JVM toolchain and compilation configuration for all Genesis modules.
@@ -23,7 +22,6 @@ object GenesisJvmConfig {
                     freeCompilerArgs.addAll(
                         "-Xcontext-parameters",
                         "-Xannotation-default-target=param-property",
-                        "-Xjdk-release=$JVM_VERSION_INT",
                         "-Xenable-preview",
                         "-opt-in=kotlin.RequiresOptIn",
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",

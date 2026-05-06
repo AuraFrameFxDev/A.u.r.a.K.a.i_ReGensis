@@ -2,7 +2,7 @@ plugins {
     id("genesis.android.library")
 }
 
-android {
+extensions.configure<com.android.build.api.dsl.LibraryExtension> {
     namespace = "dev.aurakai.auraframefx.aura"
 }
 

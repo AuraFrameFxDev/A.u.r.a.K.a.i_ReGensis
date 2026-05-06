@@ -25,11 +25,11 @@ class GenesisApplicationPlugin : Plugin<Project> {
             pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
 
             extensions.configure<ApplicationExtension> {
-                compileSdk = 36
+                compileSdk = 37
                 
                 defaultConfig {
                     minSdk = 34
-                    targetSdk = 36
+                    targetSdk = 37
                     multiDexEnabled = true
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
@@ -78,6 +78,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
                 add("implementation", catalog.findLibrary("hilt-android").get())
                 add("ksp", catalog.findLibrary("hilt-compiler").get())
                 add("implementation", catalog.findLibrary("timber").get())
+                add("implementation", catalog.findBundle("ai-core").get())
             }
         }
     }

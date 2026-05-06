@@ -5,14 +5,13 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
 }
 
-android {
+extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     namespace = "dev.aurakai.auraframefx"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 34
-        targetSdk = 36
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -64,11 +63,8 @@ dependencies {
 
     // UI / Compose
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.foundation.layout)
     implementation(libs.bundles.compose.ui)
     implementation(libs.bundles.compose.tooling)
-    implementation(libs.compose.material3)
     implementation(libs.bundles.androidx.core)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -81,8 +77,11 @@ dependencies {
     // Networking & Serialization (required by DI modules)
     implementation(libs.bundles.networking.retrofit)
     implementation(libs.bundles.networking.ktor)
-    implementation(libs.bundles.kotlinx)
+    implementation(libs.bundles.bundle.kotlinx)
     implementation(libs.gson)
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.retrofit.converter.moshi)
     implementation(libs.retrofit.converter.scalars)
     implementation(libs.retrofit.converter.kotlinx.serialization)
     implementation(libs.retrofit.converter.gson)

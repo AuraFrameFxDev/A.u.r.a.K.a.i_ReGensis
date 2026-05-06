@@ -8,21 +8,29 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Genesis-OS Firebase Cloud Messaging Service
  */
+@AndroidEntryPoint
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    private lateinit var dataStoreManager: dev.aurakai.auraframefx.data.DataStoreManager
-    private lateinit var memoryManager: MemoryManager
-    private lateinit var logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+    @Inject
+    lateinit var dataStoreManager: dev.aurakai.auraframefx.data.DataStoreManager
+
+    @Inject
+    lateinit var memoryManager: MemoryManager
+
+    @Inject
+    lateinit var logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 
     private val scope = CoroutineScope(Dispatchers.IO + Job())
 
@@ -38,12 +46,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onCreate() {
         super.onCreate()
-        initializeDependencies()
         createNotificationChannels()
     }
 
     private fun initializeDependencies() {
-        // Implement manual dependency injection or retrieval from a central provider
+        // Hilt handles dependency injection
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

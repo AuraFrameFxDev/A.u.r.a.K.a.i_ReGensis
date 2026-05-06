@@ -222,6 +222,14 @@
         </service>
         <service android:name="dev.aurakai.auraframefx.services.AuraDriveService" />
 
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <!-- Receivers -->
         <!-- Temporarily disabled: BootCompletedReceiver crashes with InstantiationException and IllegalStateException
         <receiver

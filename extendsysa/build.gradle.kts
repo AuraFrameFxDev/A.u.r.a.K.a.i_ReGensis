@@ -29,7 +29,7 @@ dependencies {
 
     // Hilt - Explicit dependencies needed if not inherited correctly
     implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
+    ksp(libs.hilt.compiler)
 
     // Expose core KTX as API
     api(libs.androidx.core.ktx)

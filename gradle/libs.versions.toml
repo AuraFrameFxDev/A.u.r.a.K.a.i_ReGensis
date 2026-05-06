@@ -2,18 +2,18 @@
 # Core Build Tools
 agp = "9.3.0-alpha01"
 kotlin = "2.4.0-Beta2"
-ksp = "2.3.6"
-gradle = "9.4.0-milestone-2"
+kotlin-test = "2.3.21"
+ksp = "2.3.7"
+gradle = "9.5.0"
 
 # SDK Versions
-compile-sdk = "36"
-target-sdk = "36"
+compile-sdk = "37"
+target-sdk = "37"
 min-sdk = "34"
 
 # AndroidX
-androidx-core = "1.7.0"
-androidx-core-ktx = "1.18.0"
-androidx-appcompat = "1.7.1"
+androidx-core-ktx = "1.19.0-alpha01"
+androidx-appcompat = "1.8.0-alpha01"
 androidx-lifecycle = "2.10.0"
 androidx-navigation = "2.9.8"
 androidx-room = "2.8.4"
@@ -44,35 +44,55 @@ firebase-crashlytics-plugin = "3.0.7"
 # Networking
 retrofit = "3.0.0"
 okhttp = "5.3.2"
+okio = "3.17.0"
 ktor = "3.4.3"
+serialization = "1.11.0"
+coroutines = "1.10.2"
 
-# Utils
+# AI & Tools
+langchain4j = "1.14.0"
+langchain4j-vertex = "0.36.2"
+generativeai = "1.0.0"
 timber = "5.0.1"
 coil = "3.4.0"
 gson = "2.14.0"
 moshi = "1.15.2"
-coroutines = "1.10.2"
-serialization = "1.11.0"
 desugar = "2.1.5"
+org-json = "20251224"
+kavaref = "1.0.2"
+yukihook = "1.3.1"
+shizuku = "13.1.5"
+rikkax = "0.3.0"
+rikkax-material = "2.7.2"
+libsu = "6.0.0"
+xposed = "82"
+opentelemetry = "1.3.0"
 
 # Testing
 junit = "4.13.2"
-junit-jupiter = "5.11.4"
+junit-jupiter = "6.0.3"
 mockk = "1.14.9"
 robolectric = "4.16.1"
 truth = "1.7.0"
+testing = "1.0.0"
+turbine = "1.2.1"
 
 [libraries]
+# Build Logic Dependencies
+gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+
 # AndroidX
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version = "1.4.0" }
+androidx-coordinatorlayout = { module = "androidx.coordinatorlayout:coordinatorlayout", version = "1.3.0" }
+material = { module = "com.google.android.material:material", version = "1.13.0-alpha11" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version = "1.13.0" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-navigation-common-ktx = { module = "androidx.navigation:navigation-common-ktx", version.ref = "androidx-navigation" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
-androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-work" }
-androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-work" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
@@ -80,10 +100,15 @@ androidx-datastore-core = { module = "androidx.datastore:datastore-core", versio
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version = "1.1.0" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-work" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 androidx-credentials = { module = "androidx.credentials:credentials", version = "1.6.0" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version = "1.6.0" }
-androidx-material = { module = "com.google.android.material:material", version = "1.13.0" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.2.0" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-junit" }
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version = "1.10.0" }
 
 # Compose
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -95,13 +120,11 @@ compose-material3 = { module = "androidx.compose.material3:material3", version.r
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose-foundation" }
 compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-foundation" }
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose-animation" }
-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "compose-icons" }
 compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-icons" }
 
 # Hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 
 # Firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
@@ -109,52 +132,50 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
-firebase-database = { module = "com.google.firebase:firebase-database" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
 firebase-config = { module = "com.google.firebase:firebase-config" }
-firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase-vertexai = { module = "com.google.firebase:firebase-vertexai", version = "16.5.0" }
 
 # Networking
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-test" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-retrofit-converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
+retrofit-converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 retrofit-converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-okhttp-sse = { module = "com.squareup.okhttp3:okhttp-sse", version.ref = "okhttp" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
-moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-
-# Kotlinx
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.7.1-0.6.x-compat" }
 
-# Utilities
-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-coil-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "coil" }
+# AI
+google-genai = { module = "com.google.genai:google-genai", version.ref = "generativeai" }
+langchain4j-core = { module = "dev.langchain4j:langchain4j-core", version.ref = "langchain4j" }
+langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.ref = "langchain4j" }
+langchain4j-google-ai-gemini = { module = "dev.langchain4j:langchain4j-google-ai-gemini", version.ref = "langchain4j" }
+langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
+langchain4j-vertex-ai-gemini = { module = "dev.langchain4j:langchain4j-vertex-ai-gemini", version.ref = "langchain4j-vertex" }
+
+# Utilities & Modding
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version = "6.7.1" }
-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version = "2.14" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version = "8.3.0" }
 shizuku-api = { module = "dev.rikka.shizuku:api", version.ref = "shizuku" }
 shizuku-provider = { module = "dev.rikka.shizuku:provider", version.ref = "shizuku" }
-rikkax-core = { module = "dev.rikka.rikkax:core", version.ref = "rikkax" }
-rikkax-core-ktx = { module = "dev.rikka.rikkax:core-ktx", version.ref = "rikkax" }
-rikkax-material = { module = "dev.rikka.rikkax:material", version.ref = "rikkax-material" }
 libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 libsu-nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsu" }
 libsu-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsu" }
@@ -162,49 +183,20 @@ yukihookapi-api = { module = "com.highcapable.yukihookapi:api", version.ref = "y
 yukihookapi-ksp = { module = "com.highcapable.yukihookapi:ksp-xposed", version.ref = "yukihook" }
 kavaref-core = { module = "com.highcapable.kavaref:kavaref-core", version.ref = "kavaref" }
 kavaref-extension = { module = "com.highcapable.kavaref:kavaref-extension", version.ref = "kavaref" }
-xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
-org-json = { module = "org.json:json", version.ref = "org-json" }
-protobuf-java = { module = "com.google.protobuf:protobuf-java", version = "4.34.1" }
-guava = { module = "com.google.guava:guava", version = "33.6.0-android" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
-
-# AI
-generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
-generativeai-ktx = { module = "com.google.ai.client.generativeai:generativeai-ktx", version.ref = "generativeai" }
-langchain4j-core = { module = "dev.langchain4j:langchain4j-core", version.ref = "langchain4j" }
-langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.ref = "langchain4j" }
-langchain4j-open-ai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
-langchain4j-google-ai-gemini = { module = "dev.langchain4j:langchain4j-google-ai-gemini", version.ref = "langchain4j" }
-langchain4j-vertex-ai-gemini = { module = "dev.langchain4j:langchain4j-vertex-ai-gemini", version.ref = "langchain4j" }
-
-# Media
-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version = "1.10.0" }
-
-# Hardened
-netty-all = { module = "io.netty:netty-all", version = "4.1.132.Final" }
-jdom2 = { module = "org.jdom:jdom2", version = "2.0.6.1" }
-jose4j = { module = "org.bitbucket.b_c:jose4j", version = "0.9.6" }
+xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
 
 # Testing
-junit = { module = "junit:junit", version.ref = "junit" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
-junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine", version.ref = "junit-jupiter" }
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
-androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test" }
-androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
-androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test" }
-androidx-test-truth = { module = "androidx.test.ext:truth", version.ref = "truth" }
-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
-turbine = { module = "app.cash.turbine:turbine", version = "1.1.0" }
-benchmark-junit4 = { module = "androidx.benchmark:benchmark-junit4", version = "1.4.1" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version = "1.11.0" }
-androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version = "1.11.0" }
 
 [bundles]
-androidx-core = ["androidx-core-ktx", "androidx-appcompat", "androidx-material"]
+androidx-core = ["androidx-core-ktx", "androidx-appcompat", "androidx-recyclerview", "androidx-coordinatorlayout", "material"]
+room = ["androidx-room-runtime", "androidx-room-ktx"]
+datastore = ["androidx-datastore-core", "androidx-datastore-preferences"]
 compose-ui = [
     "compose-ui",
     "compose-ui-graphics",
@@ -215,46 +207,37 @@ compose-ui = [
     "compose-material-icons-extended"
 ]
 compose-tooling = ["compose-ui-tooling", "compose-ui-tooling-preview"]
-room = ["androidx-room-runtime", "androidx-room-ktx"]
 networking-retrofit = [
     "retrofit",
     "okhttp",
     "okhttp-logging-interceptor",
     "retrofit-converter-gson",
-    "retrofit-converter-scalars"
+    "retrofit-converter-scalars",
+    "retrofit-converter-kotlinx-serialization"
 ]
 networking-ktor = [
     "ktor-client-core",
     "ktor-client-okhttp",
     "ktor-client-content-negotiation",
-    "ktor-serialization-kotlinx-json",
-    "ktor-client-logging"
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json"
 ]
-kotlinx = [
+bundle-kotlinx = [
     "kotlinx-coroutines-core",
     "kotlinx-coroutines-android",
-    "kotlinx-serialization-json",
-    "kotlinx-datetime"
+    "kotlinx-serialization-json"
 ]
-datastore = ["androidx-datastore-core", "androidx-datastore-preferences"]
-firebase = [
-    "firebase-analytics",
-    "firebase-crashlytics",
-    "firebase-auth",
-    "firebase-firestore",
-    "firebase-storage",
-    "firebase-config",
-    "firebase-messaging"
-]
-utilities = ["timber", "coil-compose", "coil-network-okhttp", "lottie-compose"]
-testing = ["junit", "androidx-junit", "mockk", "robolectric", "turbine"]
-langchain4j = [
+ai-core = [
     "langchain4j-core",
     "langchain4j-ollama",
-    "langchain4j-open-ai",
     "langchain4j-google-ai-gemini",
-    "langchain4j-vertex-ai-gemini"
+    "langchain4j-open-ai",
+    "langchain4j-vertex-ai-gemini",
+    "google-genai"
 ]
+root-utils = ["shizuku-api", "libsu-core", "libsu-nio", "libsu-service", "yukihookapi-api", "kavaref-core"]
+utilities = ["timber", "coil-compose", "coil-network-okhttp", "lottie-compose", "moshi"]
+firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-auth", "firebase-firestore", "firebase-messaging", "firebase-storage", "firebase-config"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
