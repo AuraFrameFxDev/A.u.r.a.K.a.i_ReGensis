@@ -19,7 +19,7 @@ plugins {
 
 
     // OWASP Dependency Check
-    id("org.owasp.dependencycheck") version "12.2.1"
+    id("org.owasp.dependencycheck") version "12.2.2"
 }
 
 // Global configurations and task overrides
