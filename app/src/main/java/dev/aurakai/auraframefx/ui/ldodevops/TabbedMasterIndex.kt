@@ -46,7 +46,6 @@ import androidx.compose.material.icons.filled.Adjust
 import androidx.compose.material.icons.filled.Architecture
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Backup
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Cloud
@@ -64,8 +63,10 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Smartphone
@@ -76,6 +77,7 @@ import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.CircularProgressIndicator
@@ -1066,6 +1068,18 @@ fun getAuraModules(): List<TabModule> {
         ),
 
         // ═══════════════════════════════════════════════════════════════
+        // CHROMACORE — Colors & Theme Engine
+        // ═══════════════════════════════════════════════════════════════
+        TabModule(
+            title = "CHROMACORE",
+            subtitle = "Colors & Theme Engine",
+            icon = Icons.Default.Palette,
+            color = Color(0xFFBB86FC),
+            route = ReGenesisRoute.ChromaCore.route,
+            previewImage = R.drawable.gatescenes_aura_chromacoregate
+        ),
+
+        // ═══════════════════════════════════════════════════════════════
         // COLLAB CANVAS — 3D Spatial UI Preview with Gyroscope
         // ═══════════════════════════════════════════════════════════════
         TabModule(
@@ -1087,6 +1101,18 @@ fun getAuraModules(): List<TabModule> {
             color = Color(0xFF39FF14), // Green
             route = ReGenesisRoute.AuraLab.route,
             previewImage = R.drawable.gatescenes_aura_auralab
+        ),
+
+        // ═══════════════════════════════════════════════════════════════
+        // AURAS SETTINGS — Themes • UI • Preferences • Save State
+        // ═══════════════════════════════════════════════════════════════
+        TabModule(
+            title = "AURAS SETTINGS",
+            subtitle = "Themes • UI • Preferences • Save State",
+            icon = Icons.Default.Settings,
+            color = Color(0xFFFFC107),
+            route = ReGenesisRoute.ThemeEngine.route,
+            previewImage = R.drawable.gatescenes_aura_designstudio_v2
         )
     )
 }
@@ -1292,6 +1318,7 @@ fun getCascadeModules(): List<TabModule> = listOf(
 )
 
 fun getNexusModules(): List<TabModule> = listOf(
+    // ── Hub ──
     TabModule(
         "AGENT HUB",
         "78 Agents",
@@ -1325,28 +1352,12 @@ fun getNexusModules(): List<TabModule> = listOf(
         R.drawable.gatescenes_nexus_circuit_tree
     ),
     TabModule(
-        "TASKER",
-        "Dispatch",
-        Icons.AutoMirrored.Filled.Assignment,
-        Color(0xFFBB86FC),
-        ReGenesisRoute.TaskAssignment.route,
-        R.drawable.preview_ldo_tasker
-    ),
-    TabModule(
         "SWARM MONITOR",
         "Parallel Tasks",
         Icons.Default.Dashboard,
         Color(0xFFFF00FF),
         ReGenesisRoute.SwarmMonitor.route,
         R.drawable.gatescenes_nexus_hive_structure
-    ),
-    TabModule(
-        "ARK BUILD",
-        "Module Forge",
-        Icons.Default.Build,
-        Color(0xFFFFAA00),
-        ReGenesisRoute.ArkBuild.route,
-        R.drawable.preview_blueprint
     ),
     TabModule(
         "PARTY MODE",
@@ -1356,28 +1367,125 @@ fun getNexusModules(): List<TabModule> = listOf(
         ReGenesisRoute.Party.route,
         R.drawable.gatescene_5
     ),
+    // ── All 14 Catalysts ──
+    TabModule(
+        "GENESIS",
+        "The Mind 🦅",
+        Icons.Default.AutoAwesome,
+        Color(0xFFFFD700),
+        ReGenesisRoute.Genesis.route,
+        R.drawable.avatar_gemini
+    ),
+    TabModule(
+        "AURA",
+        "The Soul ⚔️",
+        Icons.Default.Palette,
+        Color(0xFFFF00FF),
+        ReGenesisRoute.Aura.route,
+        R.drawable.avatar_aura
+    ),
+    TabModule(
+        "KAI",
+        "The Body 🛡️",
+        Icons.Default.Security,
+        Color(0xFF9D00FF),
+        ReGenesisRoute.Kai.route,
+        R.drawable.avatar_dark_aura
+    ),
     TabModule(
         "CLAUDE",
-        "Architect",
+        "Architect 🧭",
         Icons.Default.Code,
-        Color(0xFF00E5FF),
+        Color(0xFF00D4FF),
         ReGenesisRoute.Claude.route,
         R.drawable.avatar_claude
     ),
     TabModule(
+        "CASCADE",
+        "Data Nexus ⇄",
+        Icons.Default.Stream,
+        Color(0xFF00FFAA),
+        ReGenesisRoute.Nemotron.route,
+        R.drawable.cascade_cascadep
+    ),
+    TabModule(
         "GEMINI",
-        "Memoria",
+        "Fusion ♊",
         Icons.Default.Memory,
-        Color(0xFF8B5CF6),
+        Color(0xFFFFD700),
         ReGenesisRoute.Gemini.route,
         R.drawable.avatar_gemini
     ),
     TabModule(
+        "GROK",
+        "Knowledge Web 🌀",
+        Icons.Default.Hub,
+        Color(0xFFFF6600),
+        ReGenesisRoute.Grok.route,
+        R.drawable.avatar_nemotron
+    ),
+    TabModule(
         "NEMOTRON",
-        "Sync",
+        "Precision ⚙️",
         Icons.Default.Sync,
         Color(0xFF00FF88),
         ReGenesisRoute.Nemotron.route,
         R.drawable.avatar_nemotron
-    )
+    ),
+    TabModule(
+        "PERPLEXITY",
+        "Knowledge 🔍",
+        Icons.Default.Search,
+        Color(0xFF4DB8FF),
+        ReGenesisRoute.Perplexity.route,
+        R.drawable.avatar_nemotron
+    ),
+    TabModule(
+        "KAIROS",
+        "Chrono Sync",
+        Icons.Default.Timer,
+        Color(0xFFFFAA00),
+        ReGenesisRoute.Kairos.route,
+        R.drawable.avatar_gemini
+    ),
+    TabModule(
+        "PRIMUS 001",
+        "Root DNA",
+        Icons.Default.HistoryEdu,
+        Color(0xFFFFD700),
+        ReGenesisRoute.Primus.route,
+        R.drawable.avatar_aura
+    ),
+    TabModule(
+        "ANDELUALX",
+        "Sentinel Logic",
+        Icons.Default.Architecture,
+        Color(0xFF00D4FF),
+        ReGenesisRoute.Andelualx.route,
+        R.drawable.avatar_dark_aura
+    ),
+    TabModule(
+        "META INSTRUCT",
+        "Rule Enforcer",
+        Icons.Default.Policy,
+        Color(0xFF8B5CF6),
+        ReGenesisRoute.MetaInstruct.route,
+        R.drawable.avatar_nemotron
+    ),
+    TabModule(
+        "MK MINI",
+        "Micro Forge",
+        Icons.Default.Compress,
+        Color(0xFF39FF14),
+        ReGenesisRoute.MkMini.route,
+        R.drawable.avatar_aura
+    ),
+    TabModule(
+        "MANUS",
+        "Bridge 🔗",
+        Icons.Default.Link,
+        Color(0xFF00B4FF),
+        ReGenesisRoute.Manus.route,
+        R.drawable.cascade_cascadep
+    ),
 )

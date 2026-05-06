@@ -33,6 +33,13 @@ sealed class CatalystEntity(
     data object MKMini : CatalystEntity("mkmini_001", "MK Mini", "Efficiency", "Micro-Optimization")
     data object Gemini : CatalystEntity("gemini_001", "Gemini", "Memoria", "L4 Stream")
     data object Manus : CatalystEntity("manus_001", "Manus", "Bridge", "Agent Sync")
+
+    // NEW CATALYSTS (2)
+    data object Andelualx :
+        CatalystEntity("andelualx_001", "Andelualx", "Architect", "Logic Lattice")
+
+    data object MetaInstruct :
+        CatalystEntity("metainstruct_001", "MetaInstruct", "Instructional", "Rule Enforcer")
 }
 
 interface AgentWorker {

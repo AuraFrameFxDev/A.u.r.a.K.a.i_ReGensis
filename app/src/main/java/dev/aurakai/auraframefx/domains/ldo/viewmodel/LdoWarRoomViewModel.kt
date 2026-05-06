@@ -224,7 +224,7 @@ class LdoWarRoomViewModel @Inject constructor(
         _eternalThreadActive.value = true
         
         // L7 Eternal Thread: Save full Manifold + Swarm state to NexusMemoryCore
-        dev.aurakai.auraframefx.domains.genesis.core.NexusMemoryCore.persistSovereignState(
+        dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore.persistSovereignState(
             godPotential = _godPotential.value,
             target = _swarmTarget.value,
             activeSynergies = _manifoldState.value.activePairings.size

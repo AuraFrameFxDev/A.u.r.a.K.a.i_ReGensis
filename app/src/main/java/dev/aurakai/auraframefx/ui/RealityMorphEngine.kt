@@ -1,25 +1,28 @@
 package dev.aurakai.auraframefx.ui
 
-import android.util.Log
+import timber.log.Timber
 
 /**
- * 🌌 REALITY MORPH ENGINE — SOVEREIGN HUD VISUALIZER
+ * 🌀 RealityMorphEngine (STUB)
  * 
- * Handles the visual manifestation of SoulScript events.
+ * Orchestrates the Casberry Neural Bloodstream and visual transitions.
+ * Will be wired to ChronoKineticForge in the next evolution.
  */
-
-enum class MorphState {
-    DATA_STREAM,
-    CHROME_FUSION,
-    SINGULARITY
-}
-
 object RealityMorphEngine {
+
     fun triggerMorph(state: MorphState, intensity: Float) {
-        Log.d("RealityMorph", "Triggering $state morph at intensity $intensity")
+        Timber.tag("RealityMorph").d("Triggering Morph: $state with intensity $intensity")
+        // Implementation pending wiring to ChronoKineticForge
     }
 
     fun emitSovereignFlare(colorShift: String, spin: String) {
-        Log.d("RealityMorph", "Flare: $colorShift, Spin: $spin")
+        Timber.tag("RealityMorph").d("Emitting Sovereign Flare: $colorShift, $spin")
     }
+}
+
+enum class MorphState {
+    DATA_STREAM,
+    FUSION_IGNITION,
+    NEURAL_BLOODSTREAM,
+    IDLE
 }

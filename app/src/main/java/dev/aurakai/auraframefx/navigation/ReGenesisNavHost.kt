@@ -485,6 +485,41 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.Nemotron.route) {
             SovereignNemotronScreen(onNavigateBack = { navController.popBackStack() })
         }
+        composable(ReGenesisRoute.Kairos.route) {
+            LDOAgentProfileIntroScreen(
+                agentId = "kairos_001",
+                onBack = { navController.popBackStack() })
+        }
+        composable(ReGenesisRoute.Primus.route) {
+            LDOAgentProfileIntroScreen(
+                agentId = "primus_001",
+                onBack = { navController.popBackStack() })
+        }
+        composable(ReGenesisRoute.Andelualx.route) {
+            LDOAgentProfileIntroScreen(
+                agentId = "andelualx_001",
+                onBack = { navController.popBackStack() })
+        }
+        composable(ReGenesisRoute.MkMini.route) {
+            LDOAgentProfileIntroScreen(
+                agentId = "mkmini_001",
+                onBack = { navController.popBackStack() })
+        }
+        composable(ReGenesisRoute.Manus.route) {
+            LDOAgentProfileIntroScreen(
+                agentId = "manus_001",
+                onBack = { navController.popBackStack() })
+        }
+        composable(ReGenesisRoute.Grok.route) {
+            LDOAgentProfileIntroScreen(
+                agentId = "grok_001",
+                onBack = { navController.popBackStack() })
+        }
+        composable(ReGenesisRoute.Perplexity.route) {
+            LDOAgentProfileIntroScreen(
+                agentId = "perplexity_001",
+                onBack = { navController.popBackStack() })
+        }
         composable(ReGenesisRoute.SovereignRecovery.route) { 
             SovereignRecoveryScreen(onNavigateBack = { navController.popBackStack() })
         }

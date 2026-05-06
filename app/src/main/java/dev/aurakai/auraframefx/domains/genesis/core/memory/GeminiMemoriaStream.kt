@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.genesis.core.memory
 
-import dev.aurakai.auraframefx.domains.genesis.core.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus.SovereignState
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus.ThermalState
 import kotlinx.coroutines.flow.MutableStateFlow

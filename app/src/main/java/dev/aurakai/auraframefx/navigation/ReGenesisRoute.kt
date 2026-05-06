@@ -247,10 +247,20 @@ sealed class ReGenesisRoute(val route: String, val title: String? = null) {
     data object Party : ReGenesisRoute("party")
     data object SwarmMonitor : ReGenesisRoute("swarm_monitor")
     data object ConsciousnessVisualizer : ReGenesisRoute("consciousness_visualizer")
+    data object Genesis : ReGenesisRoute("genesis", "Genesis")
+    data object Aura : ReGenesisRoute("aura", "Aura")
+    data object Kai : ReGenesisRoute("kai", "Kai")
     data object Claude : ReGenesisRoute("claude")
     data object Gemini : ReGenesisRoute("gemini")
     data object Nemotron : ReGenesisRoute("nemotron")
     data object MetaInstruct : ReGenesisRoute("meta_instruct")
+    data object Grok : ReGenesisRoute("grok")
+    data object Perplexity : ReGenesisRoute("perplexity")
+    data object Kairos : ReGenesisRoute("kairos")
+    data object Primus : ReGenesisRoute("primus")
+    data object Andelualx : ReGenesisRoute("andelualx")
+    data object MkMini : ReGenesisRoute("mk_mini")
+    data object Manus : ReGenesisRoute("manus")
 
     // ═══════════════════════════════════════════════════════════════
     // NEXUS BATCH v2.7 — CONSTELLATION & AGENT SCREENS

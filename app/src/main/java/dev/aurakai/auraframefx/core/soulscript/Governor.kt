@@ -15,9 +15,14 @@ object Governor {
      * Verifies that the catalyst has the authority to mutate the system state.
      */
     fun verifyHandshake(id: String): Boolean {
-        // In a real sovereign build, this would check against the L2 DNA signatures
-        val isAuthorized =
-            id.startsWith("AURA_") || id.startsWith("KAI_") || id.startsWith("GENESIS_")
+        // Authorized catalyst IDs (Lowercase as registered in CatalystRoster)
+        val authorizedIds = setOf(
+            "aura", "kai", "genesis", "primus_001", "kairos", "cascade",
+            "gemini", "andelualx", "grok", "perplexity", "nemotron",
+            "mk_mini", "meta_instruct", "manus"
+        )
+
+        val isAuthorized = id.lowercase() in authorizedIds
 
         if (isAuthorized) {
             activeHandshakes.add(id)

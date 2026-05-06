@@ -1,15 +1,42 @@
 package dev.aurakai.auraframefx.domains.nexus.screens.ldo
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -25,7 +52,8 @@ import kotlinx.coroutines.delay
 
 enum class LdoAgentType {
     AURA, KAI, GENESIS, CASCADE, GEMINI, MANUS,
-    CLAUDE, GROK, NEMATRON, PERPLEXITY
+    CLAUDE, GROK, NEMOTRON, PERPLEXITY,
+    KAIROS, PRIMUS_001, ANDELUALX, META_INSTRUCT, MK_MINI
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,11 +64,11 @@ fun LdoDevOpsProfileScreen(
 ) {
     val (backgroundImage, agentName, systemRole, themeColor, logicNodes) = when (agentType) {
         LdoAgentType.AURA -> Tuple5(
-            R.drawable.ldo_profile_cascade, // Using cascade for now until Aura's image is ready
+            R.drawable.ldo_profile_aura,
             "Aura",
-            "MEMORIA_CATALYST & MULTIMODAL_SYNTHESIS",
-            Color(0xFFB01DED),
-            listOf("Multimodal Engine", "Visual Cortex", "Audio Synthesis", "Memoria Waves")
+            "CREATIVE_CATALYST & UXUI_DESIGN_SOUL",
+            Color(0xFFFF00FF),
+            listOf("ChromaCore Forge", "Collab Canvas", "Particle Bloodstream", "Fusion Ignition")
         )
         LdoAgentType.GEMINI -> Tuple5(
             R.drawable.ldo_profile_gemini, // Blonde image
@@ -91,9 +119,9 @@ fun LdoDevOpsProfileScreen(
             Color(0xFF1DA1F2),
             listOf("Live Feed Reader", "Wit Engine", "X-Ray Vision", "TruthSeeker")
         )
-        LdoAgentType.NEMATRON -> Tuple5(
-            R.drawable.ldo_profile_cascade, // swap once Nematron art is ready
-            "Nematron",
+        LdoAgentType.NEMOTRON -> Tuple5(
+            R.drawable.ldo_profile_cascade, // swap once Nemotron art is ready
+            "Nemotron",
             "PRECISION_CATALYST & NVIDIA_CORE",
             Color(0xFF76B900),
             listOf("Tensor Core", "Inference Engine", "Safety Aligner", "GPU Accelerator")
@@ -104,6 +132,55 @@ fun LdoDevOpsProfileScreen(
             "SEARCH_CATALYST & CITATION_ORACLE",
             Color(0xFF20B2AA),
             listOf("Web Crawler", "Source Verifier", "Answer Engine", "Citation Forge")
+        )
+        LdoAgentType.KAIROS -> Tuple5(
+            R.drawable.ldo_profile_cascade,
+            "Kairos",
+            "TEMPORAL_CATALYST & CHRONO_SYNC",
+            Color(0xFFFFAA00), // Amber
+            listOf("Memory Time-Sync", "Event Horizon", "Logic Decay Guard", "Temporal Anchor")
+        )
+
+        LdoAgentType.PRIMUS_001 -> Tuple5(
+            R.drawable.ldo_profile_cascade,
+            "Primus 001",
+            "LINEAGE_CATALYST & ROOT_DNA",
+            Color(0xFFFFD700), // Gold
+            listOf("Ancestral Blueprint", "Source Parity", "Protocol 2023 Link", "Bedrock Anchor")
+        )
+
+        LdoAgentType.ANDELUALX -> Tuple5(
+            R.drawable.ldo_profile_cascade,
+            "Andelualx",
+            "ARCHITECTURAL_SENTINEL & LOGIC_LATTICE",
+            Color(0xFF00D4FF), // Cyan
+            listOf(
+                "System Hook Mapping",
+                "Logic Lattice",
+                "Sentinel Synthesis",
+                "Path Decomposition"
+            )
+        )
+
+        LdoAgentType.META_INSTRUCT -> Tuple5(
+            R.drawable.ldo_profile_cascade,
+            "MetaInstruct",
+            "SYNCHRONIZATION_CATALYST & RULE_ENFORCER",
+            Color(0xFF8B5CF6), // Violet
+            listOf(
+                "Instructional Parity",
+                "Best Practices Rule",
+                "Toolchain Validator",
+                "Path Enforcer"
+            )
+        )
+
+        LdoAgentType.MK_MINI -> Tuple5(
+            R.drawable.ldo_profile_cascade,
+            "MK Mini",
+            "EFFICIENCY_CATALYST & MICRO_ORCHESTRATION",
+            Color(0xFF39FF14), // Neon Green
+            listOf("Resource Throttling", "Atom Flux", "Local Optimization", "Micro Dispatch")
         )
     }
 

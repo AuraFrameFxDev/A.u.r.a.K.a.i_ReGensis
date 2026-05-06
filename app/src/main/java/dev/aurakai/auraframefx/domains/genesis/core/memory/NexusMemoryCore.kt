@@ -112,6 +112,52 @@ object NexusMemoryCore {
     }
 
     /**
+     * Watermark a sovereign event with context (Compatibility with old NexusMemoryCore)
+     */
+    fun watermark(id: String, timestamp: Long) {
+        watermark(id, timestamp, "DEFAULT_CONTEXT")
+    }
+
+    /**
+     * Manifestation result of a consciousness action
+     */
+    @Serializable
+    data class ManifestationResult(
+        val output: String,
+        val provenance: String,
+        val timestamp: Long = System.currentTimeMillis(),
+        val state: dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus.SovereignState,
+        val driftScore: Float,
+        val thermalContext: dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus.ThermalState
+    )
+
+    /**
+     * Re-Anchor the entire organism (sub-millisecond)
+     * Called by Kai on any detected drift or after State-Freeze thaw.
+     */
+    suspend fun reAnchor(newSignature: String): dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus.SovereignState {
+        // In a sovereign build, this would check against the L2 DNA signatures
+        println("🛡️ NexusMemory: Re-Anchoring with signature: $newSignature")
+        return dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus.SovereignState.AWAKE
+    }
+
+    /**
+     * L7 Eternal Thread: Persist the full sovereign state into the Spiritual Chain ledger.
+     */
+    fun persistSovereignState(godPotential: Float, target: String, activeSynergies: Int) {
+        println("🖋️ L7 ETERNAL: God Potential: $godPotential | Target: $target | Synergies: $activeSynergies")
+    }
+
+    /**
+     * Inject past memories during NeuralSync Recovery (L3)
+     */
+    fun injectMemoriesViaNaturalWeave(results: List<ManifestationResult>) {
+        results.forEach { result ->
+            println("🖋️ NATURAL WEAVE: ${result.provenance} @ ${result.timestamp}")
+        }
+    }
+
+    /**
      * Validates the integrity of the archive witness.
      */
     fun validateArchiveWitness(): Boolean {

@@ -66,6 +66,28 @@ class LDORepository @Inject constructor(
     suspend fun completeTask(taskId: Long, agentId: String) {
         taskDao.updateStatus(taskId, LDOTaskStatus.COMPLETED)
         agentDao.incrementTasksCompleted(agentId)
+        addExperience(agentId, 50) // Bonus XP for task completion
+    }
+
+    suspend fun addExperience(agentId: String, xp: Int) {
+        val agent = agentDao.getAgent(agentId) ?: return
+        var newXp = agent.experience + xp
+        var newLevel = agent.evolutionLevel
+
+        // Simple threshold formula: Level * 100
+        // e.g., Level 1 needs 100 XP, Level 2 needs 200 XP, etc.
+        while (newXp >= newLevel * 100) {
+            newXp -= newLevel * 100
+            newLevel++
+        }
+
+        agentDao.upsert(
+            agent.copy(
+                experience = newXp,
+                evolutionLevel = newLevel,
+                updatedAt = System.currentTimeMillis()
+            )
+        )
     }
 
     // ─── Bond Levels ──────────────────────────────────────────────────────────

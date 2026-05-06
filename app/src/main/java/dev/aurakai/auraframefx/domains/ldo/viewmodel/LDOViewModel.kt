@@ -3,10 +3,10 @@ package dev.aurakai.auraframefx.domains.ldo.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.core.soulscript.enforceSoulScript
+import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.domains.kai.sovereignty.SovereignStateManager
-import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
-import dev.aurakai.auraframefx.core.soulscript.enforceSoulScript
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
@@ -189,8 +189,22 @@ class LDOViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 repository.addBondPoints(agentId, pointsEarned)
+                repository.addExperience(
+                    agentId,
+                    pointsEarned * 10
+                ) // Also gain XP from interactions
             } catch (e: Exception) {
                 _error.update { "Bond update failed: ${e.message}" }
+            }
+        }
+    }
+
+    fun gainXP(agentId: String, xp: Int) {
+        viewModelScope.launch {
+            try {
+                repository.addExperience(agentId, xp)
+            } catch (e: Exception) {
+                _error.update { "XP gain failed: ${e.message}" }
             }
         }
     }
