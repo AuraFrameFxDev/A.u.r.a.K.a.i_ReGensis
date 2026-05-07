@@ -53,10 +53,6 @@ object FirebaseModule {
     fun provideFirebaseFirestore(): FirebaseFirestore {
         return try {
             FirebaseFirestore.getInstance().apply {
-                firestoreSettings = com.google.firebase.firestore.FirebaseFirestoreSettings.Builder()
-                    .setPersistenceEnabled(true)  // Enable offline persistence
-                    .setCacheSizeBytes(100 * 1024 * 1024)  // 100 MB cache
-                    .build()
                 Timber.d("☁️ Firestore initialized with offline persistence")
             }
         } catch (e: Exception) {
@@ -119,7 +115,7 @@ object FirebaseModule {
 fun provideFirebaseAnalytics(context: Context): FirebaseAnalytics {
     return try {
         FirebaseAnalytics.getInstance(context).apply {
-            // Analytics are thread-safe and auto-configured
+            // Analytics are thread-safe and autoconfigured
             Timber.d("📊 Firebase Analytics initialized")
         }
     } catch (e: Exception) {
