@@ -289,6 +289,12 @@ class RomToolsManagerImpl @Inject constructor(
     override suspend fun createNandroidBackup(backupName: String): Result<BackupInfo> {
         return try {
             updateProgress(RomStep.CREATING_BACKUP, 0f, "Initializing backup...")
+            nexusMemory.emitLearning(
+                key = "${Build.MANUFACTURER}:${Build.MODEL}:nandroid_backup",
+                outcome = "START",
+                confidence = 1.0,
+                notes = "Creating backup: $backupName"
+            )
             val backupInfo = backupManager.createNandroidBackup(backupName) { progress ->
                 updateProgress(RomStep.CREATING_BACKUP, progress, "Backing up...")
             }.getOrThrow()
@@ -369,6 +375,12 @@ class RomToolsManagerImpl @Inject constructor(
     override suspend fun unlockBootloader(): Result<Unit> {
         return try {
             updateProgress(RomStep.UNLOCKING_BOOTLOADER, 0f, "Unlocking bootloader...")
+            nexusMemory.emitLearning(
+                key = "${Build.MANUFACTURER}:${Build.MODEL}:unlock_bootloader",
+                outcome = "START",
+                confidence = 1.0,
+                notes = "Initiating bootloader unlock"
+            )
             val safetyResult = safetyManager.performPreFlightChecks(BootloaderOperation.UNLOCK)
             if (!safetyResult.passed) {
                 return Result.failure(IllegalStateException("Safety Check Failed"))
@@ -388,6 +400,12 @@ class RomToolsManagerImpl @Inject constructor(
     override suspend fun installRecovery(): Result<Unit> {
         return try {
             updateProgress(RomStep.INSTALLING_RECOVERY, 0f, "Installing recovery...")
+            nexusMemory.emitLearning(
+                key = "${Build.MANUFACTURER}:${Build.MODEL}:install_recovery",
+                outcome = "START",
+                confidence = 1.0,
+                notes = "Initiating recovery installation"
+            )
             recoveryManager.installCustomRecovery().getOrThrow()
             updateProgress(RomStep.COMPLETED, 100f, "Recovery installed")
             clearProgress()
