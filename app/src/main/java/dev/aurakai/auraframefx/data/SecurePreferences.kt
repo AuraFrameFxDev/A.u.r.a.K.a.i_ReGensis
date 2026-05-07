@@ -40,7 +40,7 @@ class SecurePreferences @Inject constructor(@field:ApplicationContext private va
     }
 
     /**
-     * Saves the provided API key to secure storage.
+     * Save the provided API key in encrypted preferences.
      *
      * The key is stored under the "api_key" preference entry.
      *
@@ -61,9 +61,9 @@ class SecurePreferences @Inject constructor(@field:ApplicationContext private va
 }
 
 /**
- * Returns the stored OAuth token from secure preferences.
+ * Retrieve the stored OAuth token from secure preferences.
  *
- * @return The stored OAuth token, or `null` if no token is present.
+ * @return The stored OAuth token, or `null` if none is present.
  */
 fun getOAuthToken(securePreferences: SecurePreferences): String? {
     return securePreferences.securePrefs.getString("oauth_token", null)
@@ -79,9 +79,9 @@ fun getApiKey(securePreferences: SecurePreferences): String? {
 }
 
 /**
- * Store the provided OAuth token in secure preferences.
+ * Stores the provided OAuth token in secure preferences.
  *
- * @param token The OAuth token to store; if `null`, any existing stored token will be cleared.
+ * @param token The OAuth token to store. If `null`, removes any stored token.
  */
 fun saveOAuthToken(securePreferences: SecurePreferences, token: String?) {
     securePreferences.securePrefs.edit { putString("oauth_token", token) }
