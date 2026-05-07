@@ -8,5 +8,5 @@ extensions.configure<com.android.build.api.dsl.LibraryExtension> {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.compose.ui)
+    implementation(libs.bundles.compose.ui)
 }

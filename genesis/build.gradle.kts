@@ -1,12 +1,14 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     id("genesis.android.library")
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "dev.aurakai.auraframefx.genesis"
 }
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.compose.ui)
+    implementation(libs.bundles.compose.ui)
 }

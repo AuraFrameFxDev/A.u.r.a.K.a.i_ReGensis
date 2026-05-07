@@ -22,15 +22,17 @@ dependencies {
 
     // Compose BOM and UI
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
+    implementation(libs.bundles.compose.ui)
     implementation(libs.compose.material.icons.extended)
-    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.bundles.compose.tooling)
+
+    // Testing & AI Integrations
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.compose.ui.test.junit4)
     implementation(libs.firebase.vertexai)
+
+    // Media Integrations
     implementation(libs.androidx.media3.exoplayer)
-    debugImplementation(libs.compose.ui.tooling)
 
     // Compose / Lifecycle / Navigation / Hilt integrations (Extension modules)
     implementation(libs.androidx.navigation.compose)
@@ -38,7 +40,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.media3.exoplayer)
 
     // Root/System Operations
     implementation(libs.libsu.core)
@@ -49,7 +50,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     // Unit Test dependencies
-    testImplementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
