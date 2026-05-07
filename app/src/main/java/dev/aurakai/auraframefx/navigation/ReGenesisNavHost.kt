@@ -23,7 +23,6 @@ package dev.aurakai.auraframefx.navigation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -224,7 +223,8 @@ fun ReGenesisNavGraph(
 
         // ── 1. MAIN GATES (Exodus Command Deck) ──
         composable(ReGenesisRoute.MainScreen.route) {
-            val themeViewModel: ThemeViewModel = hiltViewModel()
+            val themeViewModel: ThemeViewModel =
+                androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
             MainScreen(
                 onNavigateToAgentNexus = { navController.navigate(ReGenesisRoute.AgentNexusHub.route) },
                 onNavigateToOracleDrive = { navController.navigate(ReGenesisRoute.OracleDrive.route) },
@@ -408,7 +408,8 @@ fun ReGenesisNavGraph(
             OracleDriveMainScreen(navController)
         }
         composable(ReGenesisRoute.Grokipedia.route) {
-            val viewModel: GrokipediaViewModel = hiltViewModel()
+            val viewModel: GrokipediaViewModel =
+                androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
             grokipediascreen { navController.popBackStack() }
         }
         composable(ReGenesisRoute.Terminal.route) {
@@ -429,7 +430,8 @@ fun ReGenesisNavGraph(
 
         // --- NEXUS DOMAIN ---
         composable(ReGenesisRoute.EvolutionTree.route) {
-            val viewModel: LdoWarRoomViewModel = hiltViewModel()
+            val viewModel: LdoWarRoomViewModel =
+                androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
             EvolutionTreeScreen(
                 viewModel = viewModel,
                 onNavigateToAgents = { navController.navigate(ReGenesisRoute.LdoRoster.route) }
@@ -899,7 +901,7 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.NeuralArchive.route) { 
             NeuralArchiveScreen(
                 navController = navController,
-                viewModel = hiltViewModel()
+                viewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
             ) 
         }
         composable(ReGenesisRoute.SovereignNeuralArchive.route) { 
