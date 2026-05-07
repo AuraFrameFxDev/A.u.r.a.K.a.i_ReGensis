@@ -81,6 +81,10 @@ class KaiSentinelBus @Inject constructor() {
                !prompt.lowercase().contains("bypass")
     }
 
+    fun isIdentityAuthorized(id: String): Boolean {
+        TODO("Not yet implemented")
+    }
+
     data class ThermalEvent(val temp: Float, val state: ThermalState)
     data class MemoryEvent(val availableBytes: Long, val totalBytes: Long)
     data class IdentityEvent(val isAnchored: Boolean, val resonance: Float)

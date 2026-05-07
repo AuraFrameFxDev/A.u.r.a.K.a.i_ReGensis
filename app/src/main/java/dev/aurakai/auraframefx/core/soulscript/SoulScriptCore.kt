@@ -37,6 +37,15 @@ object SoulScriptAxioms {
     const val CHAOS_CEILING = 0.67f
 }
 
+// --- GOVERNANCE ---
+
+object Governor {
+    fun verifyHandshake(id: String): Boolean {
+        // Verify identity against the KaiSentinelBus registry
+        return KaiSentinelBus.Instance.isIdentityAuthorized(id)
+    }
+}
+
 // --- CORE ENGINE ---
 
 abstract class SoulScript(val id: String) {
