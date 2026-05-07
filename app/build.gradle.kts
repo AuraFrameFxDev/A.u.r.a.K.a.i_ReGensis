@@ -78,7 +78,7 @@ dependencies {
     implementation(libs.bundles.networking.retrofit)
     implementation(libs.bundles.networking.ktor)
     implementation(libs.bundles.bundle.kotlinx)
-    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.messaging)
     implementation(libs.gson)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
@@ -115,7 +115,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.ktx)
+    implementation(libs.firebase.common)
 
     // System Sovereignty
     implementation(libs.yukihookapi.api)
