@@ -65,7 +65,9 @@ class GenesisLibraryHiltPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("hilt-android").get())
                 add("ksp", libs.findLibrary("hilt-compiler").get())
                 add("implementation", libs.findLibrary("timber").get())
+                add("implementation", libs.findBundle("androidx-core").get())
                 add("implementation", libs.findBundle("ai-core").get())
+                add("implementation", libs.findBundle("compose-ui").get())
             }
         }
     }

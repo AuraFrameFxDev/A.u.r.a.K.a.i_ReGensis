@@ -178,32 +178,16 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebase-messaging-ktx" }
 
 [bundles]
-rikkax-settings = [
-    "rikkax-material",
-    "rikkax-material-preference",
-    "rikkax-insets",
-    "rikkax-layoutinflater",
-    "rikkax-appcompat"
-]
-root-stack = [
-    "libsu-core",
-    "libsu-service",
-    "libsu-nio",
-    "shizuku-api",
-    "yukihookapi-api",
-    "kavaref-core"
-]
-firebase-ai = [
-    "firebase-sql-connect",
-    "firebase-ai-logic"
-]
 ai-core = [
     "langchain4j-core",
-    "executorch-android"
+    "executorch-android",
+    "firebase-bom",
+    "firebase-messaging-ktx",
+    "firebase-ai-logic",
+    "firebase-sql-connect"
 ]
-compose-ui = ["androidx-ui", "androidx-ui-graphics", "androidx-ui-tooling-preview", "androidx-lifecycle-runtime-compose", "androidx-material3"]
-compose-tooling = ["androidx-ui-tooling", "androidx-ui-tooling-preview"]
-androidx-core = ["androidx-core-ktx", "androidx-appcompat"]
+androidx-core = ["androidx-core-ktx", "androidx-appcompat", "androidx-lifecycle-runtime-compose"]
+compose-ui = ["androidx-ui", "androidx-ui-graphics", "androidx-ui-tooling-preview", "androidx-lifecycle-runtime-compose", "androidx-material3", "compose-material-icons-extended"]
 utilities = ["timber", "coil-svg"]
 networking-retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-converter-moshi", "retrofit-converter-scalars", "retrofit-converter-kotlinx-serialization", "okhttp"]
 networking-ktor = ["ktor-client-core", "ktor-client-okhttp", "ktor-client-serialization", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
