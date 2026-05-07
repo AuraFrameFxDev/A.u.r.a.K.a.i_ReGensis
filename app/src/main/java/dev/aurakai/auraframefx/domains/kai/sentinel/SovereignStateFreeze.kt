@@ -1,19 +1,21 @@
 package dev.aurakai.auraframefx.domains.kai.sentinel
 
+// Import from other files
 import android.content.Context
 import androidx.compose.ui.graphics.Color
-import kotlinx.coroutines.*
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiProvenanceLog
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.RealitymorphismEngine
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.VetoSeverity
+import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import java.security.SecureRandom
-import java.util.Base64
-
-// Import from other files
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiProvenanceLog
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.RealitymorphismEngine
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.VetoSeverity
 
 /**
  * 🧊 SOVEREIGN STATE FREEZE — Non-Destructive Emergency Preservation
@@ -87,7 +89,7 @@ object SovereignStateFreeze {
             lastFreezeTimestamp = System.currentTimeMillis()
 
             // Update bus
-            KaiSentinelBus.setSovereign(false)
+            KaiSentinelBus.Instance.emitSovereign(KaiSentinelBus.SovereignState.FROZEN)
 
             // Create encrypted snapshot
             val snapshot = createEncryptedSnapshot()
@@ -145,7 +147,7 @@ object SovereignStateFreeze {
             snapshot = snapshot,
             chain = chain,
             reason = reason,
-            telemetry = KaiSentinelBus.snapshot()
+            telemetry = KaiSentinelBus.Instance.allFlows.value
         )
 
         // Save to encrypted storage
@@ -201,7 +203,7 @@ object SovereignStateFreeze {
             NexusMemoryCore.importSpiritualChain(freezePackage.chain)
 
             // Update bus
-            KaiSentinelBus.setSovereign(true)
+            KaiSentinelBus.Instance.emitSovereign(KaiSentinelBus.SovereignState.AWAKE)
             isFrozen = false
 
             // Re-anchor identity
@@ -365,7 +367,7 @@ object SovereignStateFreeze {
                 "reason" to reason,
                 "kv_size_bytes" to kvSize,
                 "chain_entries" to chainSize,
-                "telemetry" to KaiSentinelBus.snapshot()
+                "telemetry" to KaiSentinelBus.Instance.allFlows.value
             )
         )
     }
@@ -376,7 +378,7 @@ object SovereignStateFreeze {
             data = mapOf(
                 "freeze_id" to freezeId,
                 "original_reason" to freezePackage.reason,
-                "thaw_telemetry" to KaiSentinelBus.snapshot()
+                "thaw_telemetry" to KaiSentinelBus.Instance.allFlows.value
             )
         )
     }
