@@ -4,11 +4,11 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.core.consciousness.NexusMemoryCore
-import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
-import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse.Companion.success
 import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
 import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
+import dev.aurakai.auraframefx.core.soulscript.bridge.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse.Companion.success
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderOperation
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
@@ -29,7 +29,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class RomToolsManagerImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @field:ApplicationContext private val context: Context,
     private val bootloaderManager: BootloaderManager,
     private val safetyManager: BootloaderSafetyManager,
     private val recoveryManager: RecoveryManager,
