@@ -1,38 +1,55 @@
 package dev.aurakai.auraframefx.domains.kai.screens.security_shield
 
-import androidx.compose.animation.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.CircleShape
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.GppBad
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.PublicOff
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignShieldViewModel
-import dev.aurakai.auraframefx.system.ShizukuManager
-import androidx.compose.ui.platform.LocalContext
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignShieldViewModel
+import dev.aurakai.auraframefx.system.ShizukuManager
 
 /**
  * ðŸ›¡ï¸ SOVEREIGN SHIELD (The Anti-Big-Tech Standard)
@@ -42,7 +59,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 @Composable
 fun SovereignShieldScreen(
     onNavigateBack: () -> Unit,
-    viewModel: SovereignShieldViewModel = hiltViewModel()
+    viewModel: SovereignShieldViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
@@ -60,7 +77,9 @@ fun SovereignShieldScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF030305))) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xFF030305))) {
         AnimeHUDContainer(
             title = "SOVEREIGN SHIELD",
             description = "SETTING THE STANDARD: ZERO TELEMETRY. ZERO ADVERTISING. TOTAL SYSTEM SOVEREIGNTY.",
@@ -174,7 +193,10 @@ private fun PrivacyScoreDisplay(score: Int) {
             )
             LinearProgressIndicator(
                 progress = { score / 100f },
-                modifier = Modifier.fillMaxWidth().height(8.dp).clip(CircleShape),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .clip(CircleShape),
                 color = Color(0xFFFF1111),
                 trackColor = Color.White.copy(alpha = 0.1f)
             )
@@ -201,7 +223,9 @@ private fun ShieldToggleItem(
         border = androidx.compose.foundation.BorderStroke(1.dp, borderColor)
     ) {
         Row(
-            modifier = Modifier.padding(20.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(

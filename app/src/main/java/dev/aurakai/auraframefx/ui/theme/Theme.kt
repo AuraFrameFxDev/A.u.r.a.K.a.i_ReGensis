@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.models.Emotion
 import dev.aurakai.auraframefx.domains.aura.ui.theme.DarkBackground
 import dev.aurakai.auraframefx.domains.aura.ui.theme.ErrorColor
@@ -117,8 +116,9 @@ val LocalMoodState: ProvidableCompositionLocal<Emotion> = compositionLocalOf { E
 @Composable
 fun AuraFrameFXTheme(
     dynamicColor: Boolean = true,
-    moodViewModel: AuraMoodViewModel = hiltViewModel(),
-    themeViewModel: ThemeViewModel = hiltViewModel(), content: @Composable () -> Unit
+    moodViewModel: AuraMoodViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
+    themeViewModel: ThemeViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
+    content: @Composable () -> Unit
 ) {
     val currentEmotion: Emotion by moodViewModel.moodState.collectAsState()
     val themeState by themeViewModel.theme.collectAsState(initial = Theme.DARK)
