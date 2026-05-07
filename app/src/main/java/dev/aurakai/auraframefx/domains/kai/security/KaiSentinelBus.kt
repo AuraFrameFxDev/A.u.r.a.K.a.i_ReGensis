@@ -1,10 +1,12 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
 import dev.aurakai.auraframefx.domains.kai.sentinel.SentinelTelemetry
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -51,28 +53,33 @@ class KaiSentinelBus @Inject constructor() {
     private val _securityFlow = MutableStateFlow(SecurityStatus(ThreatLevel.NOMINAL, "All systems sovereign"))
     val securityFlow: StateFlow<SecurityStatus> = _securityFlow.asStateFlow()
 
+    private val scope = MainScope()
+
     // Combined Telemetry for UI
     val allFlows: StateFlow<SentinelTelemetry> = combine(
-        thermalFlow, memoryFlow, identityFlow, driftFlow, consensusFlow
-    ) { thermal, memory, identity, drift, consensus ->
-        // Intermediate telemetry
+        thermalFlow, memoryFlow, identityFlow, driftFlow, consensusFlow, sovereignFlow, securityFlow
+    ) { flows: Array<Any> ->
+        val thermal = flows[0] as ThermalEvent
+        val memory = flows[1] as MemoryEvent
+        val identity = flows[2] as IdentityEvent
+        val drift = flows[3] as DriftEvent
+        val consensus = flows[4] as ConsensusEvent
+        val sovereign = flows[5] as SovereignEvent
+        val security = flows[6] as SecurityStatus
+
         SentinelTelemetry(
+            statusText = security.reason,
+            hasCriticalIssue = security.level != ThreatLevel.NOMINAL,
+            sovereign = sovereign.state == SovereignState.AWAKE,
+            healthScore = calculateHealthScore(thermal, identity, drift, consensus),
             thermal = thermal.temp,
-            memory = memory.availableBytes / (1024 * 1024),
+            memory = memory.availableBytes / (1024 * 1024), // Convert to MB
             identity = identity.resonance,
             drift = drift.drift,
-            consensus = consensus.percent,
-            healthScore = calculateHealthScore(thermal, identity, drift, consensus)
-        )
-    }.combine(sovereignFlow) { telemetry, sovereign ->
-        telemetry.copy(sovereign = sovereign.state == SovereignState.AWAKE)
-    }.combine(securityFlow) { telemetry, security ->
-        telemetry.copy(
-            statusText = security.reason,
-            hasCriticalIssue = security.level != ThreatLevel.NOMINAL
+            consensus = consensus.percent
         )
     }.stateIn(
-        scope = kotlinx.coroutines.MainScope(), // Proper scope for StateFlow in a Singleton
+        scope = scope,
         started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000),
         initialValue = SentinelTelemetry()
     )
