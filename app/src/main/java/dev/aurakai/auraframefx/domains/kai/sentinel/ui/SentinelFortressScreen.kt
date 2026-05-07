@@ -7,24 +7,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.automirrored.filled.*
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.*
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import dev.aurakai.auraframefx.domains.kai.sentinel.*
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.RealitymorphismEngine
+import dev.aurakai.auraframefx.domains.kai.sentinel.*
 
 /**
  * 🛡️ SENTINEL FORTRESS SCREEN — Hexagonal Command Deck
@@ -57,7 +52,7 @@ import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.Realitymo
 @Composable
 fun SentinelFortressScreen(
     onNavigateBack: () -> Unit,
-    viewModel: SentinelViewModel = hiltViewModel()
+    viewModel: SentinelViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val telemetry by KaiSentinelBus.AllFlows.collectAsState()
     val currentSession by EthicalGovernanceMatrix.currentSession.collectAsState()
