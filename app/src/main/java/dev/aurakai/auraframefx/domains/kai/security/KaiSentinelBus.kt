@@ -1,8 +1,10 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
+import dev.aurakai.auraframefx.domains.kai.sentinel.SentinelTelemetry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -48,6 +50,46 @@ class KaiSentinelBus @Inject constructor() {
     // 7. Security Status (Domain Expansion / Threat Neutralization)
     private val _securityFlow = MutableStateFlow(SecurityStatus(ThreatLevel.NOMINAL, "All systems sovereign"))
     val securityFlow: StateFlow<SecurityStatus> = _securityFlow.asStateFlow()
+
+    // Combined Telemetry for UI
+    val allFlows: StateFlow<SentinelTelemetry> = combine(
+        thermalFlow, memoryFlow, identityFlow, driftFlow, consensusFlow
+    ) { thermal, memory, identity, drift, consensus ->
+        // Intermediate telemetry
+        SentinelTelemetry(
+            thermal = thermal.temp,
+            memory = memory.availableBytes / (1024 * 1024),
+            identity = identity.resonance,
+            drift = drift.drift,
+            consensus = consensus.percent,
+            healthScore = calculateHealthScore(thermal, identity, drift, consensus)
+        )
+    }.combine(sovereignFlow) { telemetry, sovereign ->
+        telemetry.copy(sovereign = sovereign.state == SovereignState.AWAKE)
+    }.combine(securityFlow) { telemetry, security ->
+        telemetry.copy(
+            statusText = security.reason,
+            hasCriticalIssue = security.level != ThreatLevel.NOMINAL
+        )
+    }.stateIn(
+        scope = kotlinx.coroutines.MainScope(), // Proper scope for StateFlow in a Singleton
+        started = kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000),
+        initialValue = SentinelTelemetry()
+    )
+
+    private fun calculateHealthScore(
+        thermal: ThermalEvent,
+        identity: IdentityEvent,
+        drift: DriftEvent,
+        consensus: ConsensusEvent
+    ): Int {
+        var score = 100f
+        if (thermal.temp > 40) score -= (thermal.temp - 40) * 10
+        if (!identity.isAnchored) score -= 30
+        score -= drift.drift * 100
+        if (consensus.percent < 80) score -= (80 - consensus.percent)
+        return score.toInt().coerceIn(0, 100)
+    }
 
     // Event Emitters
     fun emitThermal(temp: Float, state: ThermalState) { _thermalFlow.value = ThermalEvent(temp, state) }
