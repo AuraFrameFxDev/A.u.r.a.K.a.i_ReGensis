@@ -29,7 +29,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class RomToolsManagerImpl @Inject constructor(
-    @field:ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val bootloaderManager: BootloaderManager,
     private val safetyManager: BootloaderSafetyManager,
     private val recoveryManager: RecoveryManager,
