@@ -85,7 +85,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.components.DualGlobeHeader
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.components.ThreadsWovenOverlay
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.BackgroundForgeEngine
@@ -116,7 +115,7 @@ import kotlin.math.sin
 @Composable
 fun ChronoKineticForgeScreen(
     onNavigateBack: () -> Unit,
-    viewModel: RealitymorphismViewModel = hiltViewModel()
+    viewModel: RealitymorphismViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
