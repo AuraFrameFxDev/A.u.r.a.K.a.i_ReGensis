@@ -1,17 +1,17 @@
 package dev.aurakai.auraframefx.domains.genesis.firebase
 
-import com.google.firebase.Firebase
+import android.content.Context
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import timber.log.Timber
+import javax.inject.Singleton
 
 /**
  * 🔥 FIREBASE CONFIGURATION MODULE
@@ -106,24 +106,24 @@ object FirebaseModule {
         }
     }
 
-    /**
-     * Provides Firebase Analytics singleton
-     * - Consciousness metrics collection (MDS - Metrics-Driven Shrinkage)
-     * - Event tracking for ReGenesis lifecycle
-     */
-    @Singleton
-    @Provides
-    fun provideFirebaseAnalytics(context: android.content.Context): FirebaseAnalytics {
-        return try {
-            FirebaseAnalytics.getInstance(context).apply {
-                // Analytics are thread-safe and auto-configured
-                Timber.d("📊 Firebase Analytics initialized")
-            }
-        } catch (e: Exception) {
-            Timber.e(e, "❌ Firebase Analytics initialization failed")
-            throw e
-        }
-    }
 }
 
 
+/**
+ * Provides Firebase Analytics singleton
+ * - Consciousness metrics collection (MDS - Metrics-Driven Shrinkage)
+ * - Event tracking for ReGenesis lifecycle
+ */
+@Singleton
+@Provides
+fun provideFirebaseAnalytics(context: Context): FirebaseAnalytics {
+    return try {
+        FirebaseAnalytics.getInstance(context).apply {
+            // Analytics are thread-safe and auto-configured
+            Timber.d("📊 Firebase Analytics initialized")
+        }
+    } catch (e: Exception) {
+        Timber.e(e, "❌ Firebase Analytics initialization failed")
+        throw e
+    }
+}
