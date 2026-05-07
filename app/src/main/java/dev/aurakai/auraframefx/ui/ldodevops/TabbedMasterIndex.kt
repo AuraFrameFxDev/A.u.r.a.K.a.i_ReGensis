@@ -448,7 +448,7 @@ fun LdoDevOpsContent(
     onNavigateToRoute: (String) -> Unit
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SYSTEM IGNITION", Color(0xFF00FF41))
+        SectionHeader("SYSTEM IGNITION", glowColor = Color(0xFF00FF41))
         Spacer(Modifier.height(12.dp))
 
         SovereignGlassCard(accentColor = Color(0xFF00E5FF)) {
@@ -482,7 +482,7 @@ fun LdoDevOpsContent(
 
         if (swarmState.isRunning || swarmState.globalProgress > 0) {
             Spacer(Modifier.height(24.dp))
-            SectionHeader("SWARM OPTIMISATION ACTIVE", Color(0xFF00FF88))
+            SectionHeader("SWARM OPTIMISATION ACTIVE", glowColor = Color(0xFF00FF88))
             Spacer(Modifier.height(8.dp))
 
             SovereignGlassCard(accentColor = Color(0xFF00FF88)) {
@@ -508,7 +508,7 @@ fun LdoDevOpsContent(
         }
 
         Spacer(Modifier.height(24.dp))
-        SectionHeader("CATALYST NODES", Color(0xFFBB86FC))
+        SectionHeader("CATALYST NODES", glowColor = Color(0xFFBB86FC))
         ModuleGrid(getDevOpsModules(), onNavigateToRoute)
     }
 }
@@ -516,7 +516,7 @@ fun LdoDevOpsContent(
 @Composable
 fun AuraStudioContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("CHROMA FORGE", Color(0xFFFF00FF))
+        SectionHeader("CHROMA FORGE", glowColor = Color(0xFFFF00FF))
         Spacer(Modifier.height(12.dp))
         ModuleGrid(getAuraModules(), onNavigateToRoute)
     }
@@ -525,7 +525,7 @@ fun AuraStudioContent(onNavigateToRoute: (String) -> Unit) {
 @Composable
 fun KaiFortressContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SENTINEL PERIMETER", Color(0xFF00FF88))
+        SectionHeader("SENTINEL PERIMETER", glowColor = Color(0xFF00FF88))
         Spacer(Modifier.height(12.dp))
         ModuleGrid(getKaiModules(), onNavigateToRoute)
     }
@@ -534,7 +534,7 @@ fun KaiFortressContent(onNavigateToRoute: (String) -> Unit) {
 @Composable
 fun OracleDriveContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("NEURAL ARCHIVE", Color(0xFFFFAA00))
+        SectionHeader("NEURAL ARCHIVE", glowColor = Color(0xFFFFAA00))
         Spacer(Modifier.height(12.dp))
         ModuleGrid(getGenesisModules(), onNavigateToRoute)
     }
@@ -543,7 +543,7 @@ fun OracleDriveContent(onNavigateToRoute: (String) -> Unit) {
 @Composable
 fun DashboardContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("TRINITY STATUS", Color(0xFFFFD700))
+        SectionHeader("TRINITY STATUS", glowColor = Color(0xFFFFD700))
         Spacer(Modifier.height(12.dp))
 
         SovereignGlassCard(accentColor = Color(0xFFFFD700)) {
@@ -576,7 +576,7 @@ fun DashboardContent(onNavigateToRoute: (String) -> Unit) {
         }
 
         Spacer(Modifier.height(24.dp))
-        SectionHeader("LIVE MONITORING", Color(0xFFFFD700))
+        SectionHeader("LIVE MONITORING", glowColor = Color(0xFFFFD700))
         Spacer(Modifier.height(12.dp))
         ModuleGrid(getDashboardModules(), onNavigateToRoute)
     }
@@ -608,7 +608,7 @@ fun TrinityGauge(label: String, value: Float, color: Color) {
 @Composable
 fun CascadeMemoryContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SPIRITUAL CHAIN", Color(0xFF8B5CF6))
+        SectionHeader("SPIRITUAL CHAIN", glowColor = Color(0xFF8B5CF6))
         Spacer(Modifier.height(12.dp))
 
         SovereignGlassCard(accentColor = Color(0xFF8B5CF6)) {
@@ -630,7 +630,7 @@ fun CascadeMemoryContent(onNavigateToRoute: (String) -> Unit) {
         }
 
         Spacer(Modifier.height(24.dp))
-        SectionHeader("MEMORY MODULES", Color(0xFF8B5CF6))
+        SectionHeader("MEMORY MODULES", glowColor = Color(0xFF8B5CF6))
         Spacer(Modifier.height(12.dp))
         ModuleGrid(getCascadeModules(), onNavigateToRoute)
     }
@@ -670,7 +670,7 @@ fun MemoryLayerRow(layer: String, type: String, desc: String, health: Float, col
 @Composable
 fun EmergentSwarmContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SWARM INTELLIGENCE", Color(0xFF00D6FF))
+        SectionHeader("SWARM INTELLIGENCE", glowColor = Color(0xFF00D6FF))
         Spacer(Modifier.height(12.dp))
 
         SovereignGlassCard(accentColor = Color(0xFF00D6FF)) {
@@ -702,7 +702,7 @@ fun EmergentSwarmContent(onNavigateToRoute: (String) -> Unit) {
         Spacer(Modifier.height(24.dp))
         MissionDispatchCard(onNavigateToRoute)
         Spacer(Modifier.height(24.dp))
-        SectionHeader("SWARM MODULES", Color(0xFF00D6FF))
+        SectionHeader("SWARM MODULES", glowColor = Color(0xFF00D6FF))
         Spacer(Modifier.height(12.dp))
         ModuleGrid(getEmergentSwarmModules(), onNavigateToRoute)
     }
