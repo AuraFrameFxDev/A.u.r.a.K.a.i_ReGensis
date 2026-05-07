@@ -167,6 +167,12 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-common = { module = "com.google.firebase:firebase-common" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-storage = { module = "com.google.firebase:firebase-storage" }
+firebase-config = { module = "com.google.firebase:firebase-config" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
 # Testing
 junit = { module = "junit:junit", version = "4.13.2" }
@@ -190,12 +196,28 @@ androidx-core = ["androidx-core-ktx", "androidx-appcompat", "androidx-lifecycle-
 compose-ui = ["androidx-ui", "androidx-ui-graphics", "androidx-ui-tooling-preview", "androidx-lifecycle-runtime-compose", "androidx-material3", "compose-material-icons-extended"]
 compose-tooling = ["androidx-ui-tooling", "androidx-ui-tooling-preview"]
 utilities = ["timber", "coil-svg"]
-networking-retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-converter-moshi", "retrofit-converter-scalars", "retrofit-converter-kotlinx-serialization", "okhttp"]
+networking-retrofit = [
+    "retrofit",
+    "retrofit-converter-gson",
+    "retrofit-converter-moshi",
+    "retrofit-converter-scalars",
+    "retrofit-converter-kotlinx-serialization",
+    "okhttp",
+    "okhttp-logging-interceptor"
+]
 networking-ktor = ["ktor-client-core", "ktor-client-okhttp", "ktor-client-serialization", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
 bundle-kotlinx = ["kotlinx-serialization-json"]
 room = ["androidx-room-runtime", "androidx-room-ktx"]
 datastore = ["androidx-datastore-tink", "androidx-datastore-preferences"]
-firebase = ["firebase-sql-connect", "firebase-ai-logic"]
+firebase = [
+    "firebase-sql-connect",
+    "firebase-ai-logic",
+    "firebase-auth",
+    "firebase-firestore",
+    "firebase-storage",
+    "firebase-config",
+    "firebase-analytics"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
