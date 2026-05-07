@@ -165,6 +165,8 @@ firebase-sql-connect = { module = "com.google.firebase:firebase-dataconnect", ve
 firebase-ai-logic = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai-logic" }
 firebase-vertexai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai-logic" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-ktx = { module = "com.google.firebase:firebase-common-ktx" }
 
 # Testing
 junit = { module = "junit:junit", version = "4.13.2" }
@@ -188,6 +190,7 @@ ai-core = [
 ]
 androidx-core = ["androidx-core-ktx", "androidx-appcompat", "androidx-lifecycle-runtime-compose"]
 compose-ui = ["androidx-ui", "androidx-ui-graphics", "androidx-ui-tooling-preview", "androidx-lifecycle-runtime-compose", "androidx-material3", "compose-material-icons-extended"]
+compose-tooling = ["androidx-ui-tooling", "androidx-ui-tooling-preview"]
 utilities = ["timber", "coil-svg"]
 networking-retrofit = ["retrofit", "retrofit-converter-gson", "retrofit-converter-moshi", "retrofit-converter-scalars", "retrofit-converter-kotlinx-serialization", "okhttp"]
 networking-ktor = ["ktor-client-core", "ktor-client-okhttp", "ktor-client-serialization", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
