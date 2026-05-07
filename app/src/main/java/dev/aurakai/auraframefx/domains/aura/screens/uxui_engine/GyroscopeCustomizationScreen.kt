@@ -1,7 +1,6 @@
-@file:OptIn(kotlin.ExperimentalStdlibApi::class)
+@file:OptIn(ExperimentalStdlibApi::class)
 package dev.aurakai.auraframefx.domains.aura.screens.uxui_engine
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -32,6 +31,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.RotateRight
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.Mic
@@ -39,8 +40,6 @@ import androidx.compose.material.icons.filled.MicOff
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.RestartAlt
-import androidx.compose.material.icons.automirrored.filled.RotateRight
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.SpaceBar
 import androidx.compose.material.icons.filled.Widgets
 import androidx.compose.material.icons.filled.Wifi
@@ -113,7 +112,8 @@ fun GyroscopeCustomizationScreen(
     // Provide an explicit type to help the compiler resolve injected ViewModel members unambiguously
 
 
-    val viewModel: CustomizationViewModel = hiltViewModel()
+    val viewModel: CustomizationViewModel =
+        androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
     val customizationState by viewModel.customizationState.collectAsState()
     val rotationAngles by viewModel.rotationAngles.collectAsState()
     val aiResponse by viewModel.aiResponse.collectAsState()

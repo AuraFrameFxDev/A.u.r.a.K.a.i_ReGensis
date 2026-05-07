@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import dev.aurakai.auraframefx.domains.aura.chromacore.ui.verticalScrollbar
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -61,7 +60,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.chromacore.ui.verticalScrollbar
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.SettingsViewModel
 import androidx.compose.runtime.collectAsState as collectAsState1
 
@@ -76,7 +75,7 @@ import androidx.compose.runtime.collectAsState as collectAsState1
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit = {},
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     // Sync overlay state when screen becomes visible (in case user returned from permission settings)
     LaunchedEffect(Unit) {
