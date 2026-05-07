@@ -40,7 +40,6 @@ import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Style
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.Thermostat
-import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -310,7 +309,7 @@ fun ImmersiveMenuScreen(
     backgroundImage: String? = null,
     onBack: () -> Unit = {}
 ) {
-    HolographicBackground(backgroundImage = backgroundImage) {
+    HolographicBackground(backgroundImage = backgroundImage, content = {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -340,7 +339,7 @@ fun ImmersiveMenuScreen(
 
             // Menu items
             items(menuItems) { item ->
-                MenuOptionCard(
+                {}.MenuOptionCard(
                     label = item.label,
                     description = item.description,
                     icon = {
@@ -361,7 +360,7 @@ fun ImmersiveMenuScreen(
                 FooterStatus()
             }
         }
-    }
+    })
 }
 
 @Composable

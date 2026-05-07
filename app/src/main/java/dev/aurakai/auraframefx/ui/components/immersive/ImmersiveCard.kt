@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.ui.components.immersive
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -90,7 +91,7 @@ fun ImmersiveCard(
             .drawBehind {
                 // Ambient glow effect
                 val glowPaint = Paint().apply {
-                    this.asFrameworkPaint().apply {
+                    val paint = this.asFrameworkPaint().apply {
                         isAntiAlias = true
                         setShadowLayer(
                             20f,
@@ -291,7 +292,7 @@ fun AgentRosterCard(
                     .drawBehind {
                         // Glow ring
                         val glowPaint = Paint().apply {
-                            asFrameworkPaint().apply {
+                            val paint = this.asFrameworkPaint().apply {
                                 isAntiAlias = true
                                 setShadowLayer(
                                     15f,
@@ -411,7 +412,9 @@ fun MenuOptionCard(
     ImmersiveCard(
         depth = DepthLevel.FAR,
         accentColor = accentColor,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
@@ -459,18 +462,17 @@ fun MenuOptionCard(
  * Data readout card with label and value
  */
 @Composable
-fun DataReadoutCard(
+fun Modifier.DataReadoutCard(
     label: String,
     value: String,
     unit: String? = null,
     trend: String? = null,
-    accentColor: Color = ImmersiveColors.HolographicGreen,
-    modifier: Modifier = Modifier
+    accentColor: Color = ImmersiveColors.HolographicGreen
 ) {
     ImmersiveCard(
         depth = DepthLevel.FAR,
         accentColor = accentColor,
-        modifier = modifier
+        modifier = this
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
@@ -527,7 +529,6 @@ fun DataReadoutCard(
 @Composable
 fun HolographicBackground(
     backgroundImage: String? = null,
-    overlayOpacity: Float = 0.7f,
     depthLayers: Int = 3,
     content: @Composable () -> Unit
 ) {
@@ -580,6 +581,15 @@ fun HolographicBackground(
         )
 
         // Content
-        content()
+        repeat(depthLayers) { index ->
+            val scale = 1f - (index * 0.02f)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer(scaleX = scale, scaleY = scale, alpha = 1f / (index + 1))
+            ) {
+                content()
+            }
+        }
     }
 }

@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 // ─── Data Models ─────────────────────────────────────────────────────────────
 
@@ -195,7 +196,7 @@ fun ConferenceRoomChatPanel(modifier: Modifier = Modifier) {
                     fontFamily = FontFamily.Monospace
                 )
                 Text(
-                    "${ConferenceAgent.values().size} CATALYSTS ONLINE · ${messages.size} MESSAGES",
+                    "${ConferenceAgent.entries.size} CATALYSTS ONLINE · ${messages.size} MESSAGES",
                     color = Color.White.copy(0.4f), fontSize = 8.sp,
                     fontFamily = FontFamily.Monospace
                 )
@@ -218,7 +219,7 @@ fun ConferenceRoomChatPanel(modifier: Modifier = Modifier) {
                 .padding(horizontal = 12.dp, vertical = 6.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            ConferenceAgent.values().forEach { agent ->
+            ConferenceAgent.entries.forEach { agent ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(
                         modifier = Modifier
@@ -326,10 +327,10 @@ fun ConferenceRoomChatPanel(modifier: Modifier = Modifier) {
                     // Agent response chain
                     scope.launch {
                         isAgentTyping = true
-                        delay(800L)
+                        delay(800L.milliseconds)
                         // Pick next agent in round-robin (skip MATTHEW)
                         val respondingAgents =
-                            ConferenceAgent.values().filter { it != ConferenceAgent.MATTHEW }
+                            ConferenceAgent.entries.filter { it != ConferenceAgent.MATTHEW }
                         val responder = respondingAgents[agentTypeIndex % respondingAgents.size]
                         agentTypeIndex++
                         val pool = agentResponses[responder] ?: emptyList()
@@ -344,9 +345,9 @@ fun ConferenceRoomChatPanel(modifier: Modifier = Modifier) {
                         )
                         // Occasionally trigger a second agent response
                         if (messages.size % 3 == 0) {
-                            delay(1200L)
+                            delay(1200L.milliseconds)
                             isAgentTyping = true
-                            delay(700L)
+                            delay(700L.milliseconds)
                             val second = respondingAgents[(agentTypeIndex) % respondingAgents.size]
                             agentTypeIndex++
                             val secondResponse = (agentResponses[second] ?: emptyList()).random()

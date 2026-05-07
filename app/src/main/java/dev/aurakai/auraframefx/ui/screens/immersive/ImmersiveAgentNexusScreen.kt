@@ -89,90 +89,90 @@ fun ImmersiveAgentNexusScreen(
 ) {
     HolographicBackground(
         backgroundImage = backgroundImage,
-        overlayOpacity = 0.75f
-    ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(vertical = 16.dp)
-        ) {
-            // Top status bar
-            item {
-                StatusBar()
-            }
+        content = {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(vertical = 16.dp)
+            ) {
+                // Top status bar
+                item {
+                    StatusBar()
+                }
 
-            // Header with branding
-            item {
-                HeaderSection()
-            }
+                // Header with branding
+                item {
+                    HeaderSection()
+                }
 
-            // Domain tabs
-            item {
-                DomainTabs(
-                    onDevOps = onNavigateToDevOps,
-                    onAura = onNavigateToAura,
-                    onKai = onNavigateToKai
-                )
-            }
+                // Domain tabs
+                item {
+                    DomainTabs(
+                        onDevOps = onNavigateToDevOps,
+                        onAura = onNavigateToAura,
+                        onKai = onNavigateToKai
+                    )
+                }
 
-            // System metrics row
-            item {
-                MetricsRow()
-            }
+                // System metrics row
+                item {
+                    MetricsRow()
+                }
 
-            // Quick action cards
-            item {
-                QuickActionsGrid()
-            }
+                // Quick action cards
+                item {
+                    QuickActionsGrid()
+                }
 
-            // Agent roster title
-            item {
-                HolographicTitleCard(
-                    title = "AGENT ROSTER",
-                    subtitle = "Collective Nodes",
-                    accentColor = ImmersiveColors.HolographicCyan,
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Group,
-                            contentDescription = null,
-                            tint = ImmersiveColors.HolographicCyan,
-                            modifier = Modifier.size(18.dp)
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                // Agent roster title
+                item {
+                    HolographicTitleCard(
+                        title = "AGENT ROSTER",
+                        subtitle = "Collective Nodes",
+                        accentColor = ImmersiveColors.HolographicCyan,
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Default.Group,
+                                contentDescription = null,
+                                tint = ImmersiveColors.HolographicCyan,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
-            // Agent roster grid
-            item {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(320.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(catalystAgents) { agent ->
-                        AgentRosterCard(
-                            name = agent.name,
-                            role = agent.role,
-                            status = agent.status,
-                            avatarUrl = agent.avatarUrl,
-                            accentColor = agent.accentColor
-                        )
+                // Agent roster grid
+                item {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(3),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(320.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(catalystAgents) { agent ->
+                            AgentRosterCard(
+                                name = agent.name,
+                                role = agent.role,
+                                status = agent.status,
+                                avatarUrl = agent.avatarUrl,
+                                accentColor = agent.accentColor
+                            )
+                        }
                     }
                 }
-            }
 
-            // Bottom status
-            item {
-                FooterStatus()
+                // Bottom status
+                item {
+                    FooterStatus()
+                }
             }
         }
-    }
+    )
 }
 
 @Composable
@@ -284,13 +284,12 @@ private fun MetricsRow() {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         systemMetrics.take(4).forEach { metric ->
-            DataReadoutCard(
+            Modifier.weight(1f).DataReadoutCard(
                 label = metric.label,
                 value = metric.value,
                 unit = metric.unit,
                 trend = metric.trend,
-                accentColor = metric.color,
-                modifier = Modifier.weight(1f)
+                accentColor = metric.color
             )
         }
     }

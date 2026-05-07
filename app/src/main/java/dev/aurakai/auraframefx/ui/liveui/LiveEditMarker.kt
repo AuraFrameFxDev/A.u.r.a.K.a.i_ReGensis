@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.ui.liveui
 
-import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.compose.animation.core.Animatable
@@ -56,7 +56,7 @@ fun LiveEditMarker(
                             dripProgress.animateTo(1f, tween(1800, easing = LinearEasing))
                         }
                         // Rebel Drip haptic waveform (120Hz pop → 60→20Hz descending drip)
-                        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+                        val vibrator = context.getSystemService(VIBRATOR_SERVICE) as? Vibrator
                         vibrator?.vibrate(
                             VibrationEffect.createWaveform(
                                 longArrayOf(0, 40, 60, 80),
