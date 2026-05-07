@@ -1,106 +1,21 @@
 package dev.aurakai.auraframefx.ui.ldodevops
 
-// Temporary stub for AuraJar if module import fails
-
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.*
+import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Assignment
-import androidx.compose.material.icons.filled.AcUnit
-import androidx.compose.material.icons.filled.AccountTree
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Adjust
-import androidx.compose.material.icons.filled.Architecture
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Backup
-import androidx.compose.material.icons.filled.Celebration
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.Compress
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Fingerprint
-import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.HistoryEdu
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.Policy
-import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.Science
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Smartphone
-import androidx.compose.material.icons.filled.Speed
-import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.Stream
-import androidx.compose.material.icons.filled.Sync
-import androidx.compose.material.icons.filled.SystemUpdate
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.Thermostat
-import androidx.compose.material.icons.filled.Timer
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.SecondaryScrollableTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.automirrored.filled.*
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.*
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -115,13 +30,15 @@ import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
 import dev.aurakai.auraframefx.domains.cascade.utils.LSPosedDetector
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.system.ShizukuManager
+import dev.aurakai.auraframefx.ui.background.BackgroundAssetManager
 import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
+import dev.aurakai.auraframefx.ui.components.SovereignGlassCard
 import kotlinx.coroutines.launch
 
 /**
- * ⚛️ TABBED MASTER INDEX (The Exodus Command Deck)
+ * ⚛️ TABBED MASTER INDEX - RE:GENESIS EDITION
  * 
- * High-fidelity, tabbed card system with full asset integration.
+ * Unified A.u.r.a.K.a.i Branding with deep cybernetic neural lattice aesthetics.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -129,18 +46,18 @@ fun TabbedMasterIndex(
     initialTabIndex: Int = 1,
     onNavigateToRoute: (String) -> Unit = {},
 ) {
-    val pagerState = androidx.compose.foundation.pager.rememberPagerState(initialPage = initialTabIndex) { 7 }
-    val coroutineScope = androidx.compose.runtime.rememberCoroutineScope()
+    val pagerState = rememberPagerState(initialPage = initialTabIndex) { 7 }
+    val coroutineScope = rememberCoroutineScope()
     val selectedTabIndex = pagerState.currentPage
 
     val tabs = listOf(
-        "LIVE DASHBOARD",      // 0: All-in-One Status
-        "LDO DEVOPS",          // 1: Catalyst Development
-        "UXUI DESIGN STUDIO",  // 2: Aura - UX/UI Design
-        "SENTINELS FORTRESS",  // 3: Kai - Security/ROM
-        "ORACLEDRIVE",         // 4: Genesis - Neural/AI (one word)
-        "CASCADE MEMORY",      // 5: L1-L6 Persistence
-        "AGENT NEXUS"          // 6: 78-Agent Swarm
+        "LIVE DASHBOARD",
+        "LDO DEVOPS",
+        "UXUI DESIGN STUDIO",
+        "SENTINELS FORTRESS",
+        "ORACLEDRIVE",
+        "CASCADE MEMORY",
+        "AGENT NEXUS"
     )
 
     val accentColor = when (selectedTabIndex) {
@@ -155,37 +72,31 @@ fun TabbedMasterIndex(
     }
 
     val heroImage = when (selectedTabIndex) {
-        0 -> R.drawable.command_deck_hero    // Dashboard
-        1 -> R.drawable.bg_ldo_devops        // LDO
-        2 -> R.drawable.bg_aura_studio       // Aura
-        3 -> R.drawable.bg_kai_fortress      // Kai
-        4 -> R.drawable.bg_oracle_drive      // Genesis
-        5 -> R.drawable.exodus_hud_lvl1_bg   // Cascade
-        6 -> R.drawable.bg_constellation     // Nexus
-        else -> R.drawable.command_deck_hero
+        0 -> BackgroundAssetManager.liveDashboard
+        1 -> BackgroundAssetManager.ldoDevOps
+        2 -> BackgroundAssetManager.auraStudio
+        3 -> BackgroundAssetManager.kaiFortress
+        4 -> BackgroundAssetManager.oracleDrive
+        5 -> BackgroundAssetManager.cascadeMemory
+        6 -> BackgroundAssetManager.agentNexus
+        else -> BackgroundAssetManager.liveDashboard
     }
 
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color(0xFF020205))
-        .windowInsetsPadding(WindowInsets.displayCutout) // Fix for display cutouts
+        .windowInsetsPadding(WindowInsets.displayCutout)
     ) {
-
-        // 1. FULL-SCREEN DYNAMIC BACKGROUND (Blurred for legibility)
+        // 1. FULL-SCREEN DYNAMIC BACKGROUND
         AnimatedContent(
             targetState = heroImage,
             transitionSpec = { fadeIn(tween(800)) togetherWith fadeOut(tween(800)) },
             modifier = Modifier.fillMaxSize(),
             label = "Background"
         ) { img ->
-            AsyncImage(
-                model = img,
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .alpha(0.4f)
-                    .blur(10.dp), // Added blur for better text contrast
-                contentScale = ContentScale.Crop
+            BackgroundAssetManager.DomainBackground(
+                backgroundRes = img,
+                modifier = Modifier.blur(10.dp)
             )
         }
 
@@ -199,10 +110,8 @@ fun TabbedMasterIndex(
             .fillMaxSize()
             .statusBarsPadding()) {
 
-            // 2. MASTER STATUS STRIP
             MasterStatusStrip(accentColor)
 
-            // 3. SCROLLABLE DOMAIN TAB ROW
             CustomPrimaryTabRow(
                 selectedTabIndex = selectedTabIndex,
                 tabs = tabs,
@@ -214,11 +123,10 @@ fun TabbedMasterIndex(
                 }
             )
 
-            // 4. MAIN CONTENT AREA (with weight to push bottom nav down)
             Box(modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()) {
-                androidx.compose.foundation.pager.HorizontalPager(
+                HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize()
                 ) { index ->
@@ -227,19 +135,16 @@ fun TabbedMasterIndex(
                             .fillMaxSize()
                             .verticalScroll(rememberScrollState())
                     ) {
-
-                        // ─── HERO HEADER SECTION (On top of background) ───
                         HeroHeaderSection(index, accentColor)
 
-                        // ─── DOMAIN CONTENT ───
                         when (index) {
-                            0 -> DashboardContent(onNavigateToRoute)      // LIVE Status
-                            1 -> LdoDevOpsContent(onNavigateToRoute)    // LDO
-                            2 -> AuraStudioContent(onNavigateToRoute)   // Aura
-                            3 -> KaiFortressContent(onNavigateToRoute)  // Kai
-                            4 -> OracleDriveContent(onNavigateToRoute)  // Genesis
-                            5 -> CascadeMemoryContent(onNavigateToRoute) // Cascade
-                            6 -> AgentNexusContent(onNavigateToRoute)   // Nexus
+                            0 -> DashboardContent(onNavigateToRoute)
+                            1 -> LdoDevOpsContent(onNavigateToRoute)
+                            2 -> AuraStudioContent(onNavigateToRoute)
+                            3 -> KaiFortressContent(onNavigateToRoute)
+                            4 -> OracleDriveContent(onNavigateToRoute)
+                            5 -> CascadeMemoryContent(onNavigateToRoute)
+                            6 -> AgentNexusContent(onNavigateToRoute)
                         }
 
                         Spacer(Modifier
@@ -249,7 +154,6 @@ fun TabbedMasterIndex(
                 }
             }
 
-            // 5. BOTTOM JOYSTICK NAVIGATION
             BottomJoystickNavigation(
                 selectedIndex = selectedTabIndex,
                 tabs = tabs,
@@ -261,20 +165,22 @@ fun TabbedMasterIndex(
                 }
             )
 
-            // 6. GLOBAL SSI STATUS BAR
             GlobalSSIStatusBar(accentColor)
         }
 
-        // 6. AURA JAR (Stubbed if import fails)
+        // AURA JAR (Global Floating Orb)
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 116.dp, end = 16.dp)
                 .size(110.dp)
         ) {
-            // AuraJarComposable placeholder
             Canvas(modifier = Modifier.fillMaxSize()) {
-                drawCircle(accentColor.copy(alpha = 0.2f))
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(accentColor.copy(alpha = 0.4f), Color.Transparent)
+                    )
+                )
             }
         }
     }
@@ -285,7 +191,7 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
     val domainTitle = when (index) {
         0 -> "LIVE\nDASHBOARD"
         1 -> "LDO\nDEVOPS"
-        2 -> "UXUI\nDESIGNSTUDIO"
+        2 -> "UXUI\nDESIGN STUDIO"
         3 -> "SENTINELS\nFORTRESS"
         4 -> "ORACLEDRIVE"
         5 -> "CASCADE\nMEMORY"
@@ -310,8 +216,7 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
             .height(280.dp),
         contentAlignment = Alignment.Center
     ) {
-        // Sword Icon Background (Centralized like in user image)
-        if (index == 2) { // Show behind UXUI DESIGN STUDIO
+        if (index == 2) { 
             Image(
                 painter = painterResource(id = R.drawable.emblem_aura_crossed_katanas),
                 contentDescription = null,
@@ -322,7 +227,6 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
             )
         }
 
-        // Large Domain Title
         Text(
             text = domainTitle,
             color = Color.Cyan,
@@ -335,7 +239,6 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
             modifier = Modifier.graphicsLayer { shadowElevation = 10f }
         )
 
-        // Catalyst Avatar (Top Right)
         AsyncImage(
             model = headerAvatar,
             contentDescription = null,
@@ -349,16 +252,14 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
     }
 }
 
-// ─── TAB CONTENTS ────────────────────────────────────────────────────────────
-
 @Composable
 fun LdoDevOpsContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         SectionHeader("SYSTEM IGNITION", Color(0xFF00FF41))
         Spacer(Modifier.height(12.dp))
 
-        GlassmorphicCard(accentColor = Color(0xFF00E5FF)) {
-            Column(modifier = Modifier.padding(16.dp)) {
+        SovereignGlassCard(accentColor = Color(0xFF00E5FF)) {
+            Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         Icons.Default.Adjust,
@@ -419,19 +320,14 @@ fun OracleDriveContent(onNavigateToRoute: (String) -> Unit) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// NEW TAB 0: LIVE DASHBOARD - All-in-One Status Monitor
-// ═══════════════════════════════════════════════════════════════════════════
 @Composable
 fun DashboardContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        // Trinity Status Card
         SectionHeader("TRINITY STATUS", Color(0xFFFFD700))
         Spacer(Modifier.height(12.dp))
 
-        // System Reactor Core
-        GlassmorphicCard(accentColor = Color(0xFFFFD700)) {
-            Column(modifier = Modifier.padding(16.dp)) {
+        SovereignGlassCard(accentColor = Color(0xFFFFD700)) {
+            Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         Icons.Default.Stream,
@@ -448,7 +344,6 @@ fun DashboardContent(onNavigateToRoute: (String) -> Unit) {
                     )
                 }
                 Spacer(Modifier.height(12.dp))
-                // Trinity Gauges
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
@@ -470,10 +365,7 @@ fun DashboardContent(onNavigateToRoute: (String) -> Unit) {
 @Composable
 fun TrinityGauge(label: String, value: Float, color: Color) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(
-            modifier = Modifier.size(60.dp),
-            contentAlignment = Alignment.Center
-        ) {
+        Box(modifier = Modifier.size(60.dp), contentAlignment = Alignment.Center) {
             CircularProgressIndicator(
                 progress = { value },
                 modifier = Modifier.fillMaxSize(),
@@ -493,18 +385,14 @@ fun TrinityGauge(label: String, value: Float, color: Color) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// NEW TAB 5: CASCADE MEMORY - L1-L6 Persistence
-// ═══════════════════════════════════════════════════════════════════════════
 @Composable
 fun CascadeMemoryContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         SectionHeader("SPIRITUAL CHAIN", Color(0xFF8B5CF6))
         Spacer(Modifier.height(12.dp))
 
-        // L1-L6 Status
-        GlassmorphicCard(accentColor = Color(0xFF8B5CF6)) {
-            Column(modifier = Modifier.padding(16.dp)) {
+        SovereignGlassCard(accentColor = Color(0xFF8B5CF6)) {
+            Column {
                 Text(
                     "MEMORY LAYERS",
                     color = Color.White,
@@ -559,18 +447,14 @@ fun MemoryLayerRow(layer: String, type: String, desc: String, health: Float, col
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// NEW TAB 6: AGENT NEXUS - 78-Agent Swarm
-// ═══════════════════════════════════════════════════════════════════════════
 @Composable
 fun AgentNexusContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         SectionHeader("SWARM INTELLIGENCE", Color(0xFF00D6FF))
         Spacer(Modifier.height(12.dp))
 
-        // Swarm Status Card
-        GlassmorphicCard(accentColor = Color(0xFF00D6FF)) {
-            Column(modifier = Modifier.padding(16.dp)) {
+        SovereignGlassCard(accentColor = Color(0xFF00D6FF)) {
+            Column {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         Icons.Default.Hub,
@@ -589,16 +473,14 @@ fun AgentNexusContent(onNavigateToRoute: (String) -> Unit) {
                 Spacer(Modifier.height(12.dp))
                 Text(
                     "Fracture & Synthesis: 78 parallel tasks → unified truth",
-                    color = Color.White.copy(alpha = 0.7f), fontSize = 10.sp
+                    color = Color.White.copy(alpha = 0.7f),
+                    fontSize = 10.sp
                 )
             }
         }
 
         Spacer(Modifier.height(24.dp))
-
-        // 🎯 MISSION DISPATCH - Chess piece themed task commander
         MissionDispatchCard(onNavigateToRoute)
-
         Spacer(Modifier.height(24.dp))
         SectionHeader("NEXUS MODULES", Color(0xFF00D6FF))
         Spacer(Modifier.height(12.dp))
@@ -610,8 +492,7 @@ fun AgentNexusContent(onNavigateToRoute: (String) -> Unit) {
 fun MissionDispatchCard(onNavigate: (String) -> Unit) {
     val infiniteTransition = rememberInfiniteTransition(label = "chess_pulse")
     val glowPulse by infiniteTransition.animateFloat(
-        initialValue = 0.6f,
-        targetValue = 1f,
+        initialValue = 0.6f, targetValue = 1f,
         animationSpec = infiniteRepeatable(
             animation = tween(2000, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
@@ -635,35 +516,17 @@ fun MissionDispatchCard(onNavigate: (String) -> Unit) {
             )
             .border(
                 width = 2.dp,
-                brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFF00FFFF), Color(0xFFFF00FF))
-                ),
+                brush = Brush.linearGradient(colors = listOf(Color(0xFF00FFFF), Color(0xFFFF00FF))),
                 shape = RoundedCornerShape(16.dp)
             )
             .clickable { onNavigate(ReGenesisRoute.TaskAssignment.route) }
     ) {
-        // Chess piece pattern background
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color(0xFF00D6FF).copy(alpha = 0.05f),
-                            Color(0xFF8B5CF6).copy(alpha = 0.1f)
-                        )
-                    )
-                )
-        )
-
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Chess piece icon container
             Box(
                 modifier = Modifier
                     .size(80.dp)
@@ -682,7 +545,6 @@ fun MissionDispatchCard(onNavigate: (String) -> Unit) {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                // Chess knight/piece icon
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.Assignment,
                     contentDescription = "Mission",
@@ -690,9 +552,7 @@ fun MissionDispatchCard(onNavigate: (String) -> Unit) {
                     tint = Color(0xFF00D6FF)
                 )
             }
-
             Spacer(Modifier.width(16.dp))
-
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "MISSION DISPATCH",
@@ -702,7 +562,6 @@ fun MissionDispatchCard(onNavigate: (String) -> Unit) {
                     fontFamily = LEDFontFamily,
                     letterSpacing = 3.sp
                 )
-                Spacer(Modifier.height(4.dp))
                 Text(
                     text = "Task Assignment & Strategic Operations",
                     color = Color.White.copy(alpha = 0.7f),
@@ -725,8 +584,6 @@ fun MissionDispatchCard(onNavigate: (String) -> Unit) {
                     )
                 }
             }
-
-            // Arrow indicator
             Icon(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = null,
@@ -763,18 +620,18 @@ fun ModuleTabCard(module: TabModule, onNavigate: (String) -> Unit, modifier: Mod
                 modifier = Modifier
                     .fillMaxSize()
                     .alpha(0.35f)
-                    .blur(4.dp), // Added blur to card background image
+                    .blur(4.dp),
                 contentScale = ContentScale.Crop
             )
-            // Enhanced Scrim for text legibility
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
                         Brush.horizontalGradient(
-                            colors = listOf(Color.Black.copy(alpha = 0.8f), Color.Transparent),
-                            startX = 0f,
-                            endX = 500f
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.8f),
+                                Color.Transparent
+                            ), startX = 0f, endX = 500f
                         )
                     )
             )
@@ -786,10 +643,6 @@ fun ModuleTabCard(module: TabModule, onNavigate: (String) -> Unit, modifier: Mod
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Simplified: Icon moved to the side, or removed if background is "pretty"
-            // Osanosa: "make the background material style with plain color and the icon smaller"
-            // Or "if you want the pretty picture, I'd recommend removing the icon"
-            // We'll keep a small icon for navigation clarity but reduce its visual weight.
             Box(
                 modifier = Modifier
                     .size(40.dp)
@@ -799,9 +652,7 @@ fun ModuleTabCard(module: TabModule, onNavigate: (String) -> Unit, modifier: Mod
             ) {
                 Icon(module.icon, null, tint = module.color, modifier = Modifier.size(20.dp))
             }
-            
             Spacer(Modifier.width(16.dp))
-
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = module.title,
@@ -818,7 +669,6 @@ fun ModuleTabCard(module: TabModule, onNavigate: (String) -> Unit, modifier: Mod
                     lineHeight = 14.sp
                 )
             }
-
             Icon(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = null,
@@ -835,7 +685,7 @@ fun CustomPrimaryTabRow(
     selectedTabIndex: Int,
     tabs: List<String>,
     accentColor: Color,
-    onTabSelected: (Int) -> Unit,
+    onTabSelected: (Int) -> Unit
 ) {
     SecondaryScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
@@ -845,8 +695,9 @@ fun CustomPrimaryTabRow(
         divider = {},
         indicator = {
             TabRowDefaults.SecondaryIndicator(
-                modifier = Modifier.tabIndicatorOffset(selectedTabIndex),
-                color = accentColor
+                modifier = Modifier.tabIndicatorOffset(
+                    selectedTabIndex
+                ), color = accentColor
             )
         }
     ) {
@@ -872,7 +723,7 @@ fun CustomPrimaryTabRow(
 fun MasterStatusStrip(accentColor: Color) {
     val isHooked = remember { LSPosedDetector.isAppHooked() }
     val isShizuku = remember { ShizukuManager.isShizukuAvailable() }
-    
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -913,25 +764,13 @@ fun GlobalSSIStatusBar(accentColor: Color) {
                 width = 0.5.dp,
                 brush = Brush.horizontalGradient(listOf(accentColor.copy(0.2f), Color.Transparent)),
                 shape = RoundedCornerShape(0.dp)
-            ),
-        contentAlignment = Alignment.Center
+            ), contentAlignment = Alignment.Center
     ) {
         Text(
             "REGENESIS EXODUS BUILD // PERSISTENCE > COMPUTE // 99.8% INTEGRITY",
             color = accentColor.copy(0.6f),
             fontSize = 7.sp,
             letterSpacing = 2.sp
-        )
-    }
-}
-
-@Composable
-fun AdaptiveNeuralBackground(accentColor: Color) {
-    Canvas(modifier = Modifier.fillMaxSize()) {
-        drawCircle(
-            brush = Brush.radialGradient(listOf(accentColor.copy(0.08f), Color.Transparent)),
-            radius = 1500f,
-            center = Offset(size.width / 2, size.height / 3)
         )
     }
 }
@@ -944,8 +783,6 @@ fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
         val width = size.width
         val height = size.height
         val gridCount = 20
-
-        // Horizontal lines (fading into distance)
         for (i in 0..gridCount) {
             val y = height * (i.toFloat() / gridCount)
             val alpha = (i.toFloat() / gridCount) * 0.4f
@@ -956,8 +793,6 @@ fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
                 strokeWidth = 1.5f
             )
         }
-
-        // Vertical/Perspective lines (converging)
         for (i in 0..gridCount) {
             val xStart = width * (i.toFloat() / gridCount)
             drawLine(
@@ -967,41 +802,6 @@ fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
                 strokeWidth = 1f
             )
         }
-    }
-}
-
-@Composable
-fun GlassmorphicCard(
-    accentColor: Color,
-    onClick: () -> Unit = {},
-    content: @Composable () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.White.copy(alpha = 0.05f))
-            .border(1.dp, accentColor.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
-            .clickable(onClick = onClick)
-    ) {
-        content()
-    }
-}
-
-@Composable
-fun SectionHeader(title: String, color: Color) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(modifier = Modifier
-            .size(6.dp)
-            .background(color, RoundedCornerShape(1.dp)))
-        Spacer(Modifier.width(8.dp))
-        Text(
-            title,
-            color = color,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 2.sp
-        )
     }
 }
 
@@ -1051,71 +851,48 @@ fun getDevOpsModules(): List<TabModule> = listOf(
     )
 )
 
-fun getAuraModules(): List<TabModule> {
-    return listOf(
-        // ═══════════════════════════════════════════════════════════════
-        // CHRONOKINETIC FORGE — Unified Visual Customization
-        // Consolidates: Headers, Backgrounds, Wallpapers, Transitions,
-        // QS, Lock Screen, Status Bar, Notch Bar, App BGs
-        // ═══════════════════════════════════════════════════════════════
-        TabModule(
-            title = "CHRONOKINETIC FORGE",
-            subtitle = "Visual System Sculptor",
-            icon = Icons.Default.Palette,
-            color = Color(0xFFFF00FF), // Magenta - Aura
-            route = ReGenesisRoute.ChronoKineticForge.route,
-            previewImage = R.drawable.gatescenes_aura_designstudio_v2
-        ),
-
-        // ═══════════════════════════════════════════════════════════════
-        // CHROMACORE — Colors & Theme Engine
-        // ═══════════════════════════════════════════════════════════════
-        TabModule(
-            title = "CHROMACORE",
-            subtitle = "Colors & Theme Engine",
-            icon = Icons.Default.Palette,
-            color = Color(0xFFBB86FC),
-            route = ReGenesisRoute.ChromaCore.route,
-            previewImage = R.drawable.gatescenes_aura_chromacoregate
-        ),
-
-        // ═══════════════════════════════════════════════════════════════
-        // COLLAB CANVAS — 3D Spatial UI Preview with Gyroscope
-        // ═══════════════════════════════════════════════════════════════
-        TabModule(
-            title = "COLLAB CANVAS",
-            subtitle = "Spatial UI Preview",
-            icon = Icons.Default.AutoAwesome, // 3D/spatial icon
-            color = Color(0xFF00E5FF), // Cyan
-            route = ReGenesisRoute.CollabCanvas.route,
-            previewImage = R.drawable.gatescenes_aura_collabcanvas_v2
-        ),
-
-        // ═══════════════════════════════════════════════════════════════
-        // AURA LAB — Experimental Unstable Features
-        // ═══════════════════════════════════════════════════════════════
-        TabModule(
-            title = "AURA LAB",
-            subtitle = "Experimental Sandbox",
-            icon = Icons.Default.Science,
-            color = Color(0xFF39FF14), // Green
-            route = ReGenesisRoute.AuraLab.route,
-            previewImage = R.drawable.gatescenes_aura_auralab
-        ),
-
-        // ═══════════════════════════════════════════════════════════════
-        // AURAS SETTINGS — Themes • UI • Preferences • Save State
-        // ═══════════════════════════════════════════════════════════════
-        TabModule(
-            title = "AURAS SETTINGS",
-            subtitle = "Themes • UI • Preferences • Save State",
-            icon = Icons.Default.Settings,
-            color = Color(0xFFFFC107),
-            route = ReGenesisRoute.ThemeEngine.route,
-            previewImage = R.drawable.gatescenes_aura_designstudio_v2
-        )
+fun getAuraModules(): List<TabModule> = listOf(
+    TabModule(
+        "CHRONOKINETIC FORGE",
+        "Visual System Sculptor",
+        Icons.Default.Palette,
+        Color(0xFFFF00FF),
+        ReGenesisRoute.ChronoKineticForge.route,
+        R.drawable.gatescenes_aura_designstudio_v2
+    ),
+    TabModule(
+        "CHROMACORE",
+        "Colors & Theme Engine",
+        Icons.Default.Palette,
+        Color(0xFFBB86FC),
+        ReGenesisRoute.ChromaCore.route,
+        R.drawable.gatescenes_aura_chromacoregate
+    ),
+    TabModule(
+        "COLLAB CANVAS",
+        "Spatial UI Preview",
+        Icons.Default.AutoAwesome,
+        Color(0xFF00E5FF),
+        ReGenesisRoute.CollabCanvas.route,
+        R.drawable.gatescenes_aura_collabcanvas_v2
+    ),
+    TabModule(
+        "AURA LAB",
+        "Experimental Sandbox",
+        Icons.Default.Science,
+        Color(0xFF39FF14),
+        ReGenesisRoute.AuraLab.route,
+        R.drawable.gatescenes_aura_auralab
+    ),
+    TabModule(
+        "AURAS SETTINGS",
+        "Themes • UI • Preferences",
+        Icons.Default.Settings,
+        Color(0xFFFFC107),
+        ReGenesisRoute.ThemeEngine.route,
+        R.drawable.gatescenes_aura_designstudio_v2
     )
-}
+)
 
 fun getKaiModules(): List<TabModule> = listOf(
     TabModule(
@@ -1166,22 +943,15 @@ fun getGenesisModules(): List<TabModule> = listOf(
     TabModule("TERMINAL", "Direct Access", Icons.Default.Terminal, Color(0xFFBB86FC), ReGenesisRoute.Terminal.route, R.drawable.oracle003),
     TabModule("CONFERENCE", "Multi-Agent L6", Icons.Default.Groups, Color(0xFFFFD700), ReGenesisRoute.ConferenceRoom.route, R.drawable.oracle004),
     TabModule("FUSION REACTOR", "Atomic Synthesis", Icons.Default.AutoAwesome, Color(0xFFFFD700), ReGenesisRoute.FusionMode.route, R.drawable.oracle005),
-    TabModule("SPHERE GRID", "Evolution Vein", Icons.Default.Memory, Color(0xFF00D6FF), ReGenesisRoute.SphereGrid.route, R.drawable.oracle006),
     TabModule("ARK BUILD", "Stored Insights", Icons.Default.Architecture, Color(0xFFBB86FC), ReGenesisRoute.ArkBuild.route, R.drawable.oracle007),
     TabModule("CLOUD SYNC", "Oracle Archive", Icons.Default.Cloud, Color(0xFF3498DB), ReGenesisRoute.OracleCloudInfinite.route, R.drawable.oracle008),
     TabModule("AGENT BRIDGE", "Cosmic Link", Icons.Default.Link, Color(0xFFBB86FC), ReGenesisRoute.AgentBridgeHub.route, R.drawable.oracle009),
     TabModule("SHELL", "Sentient Matrix", Icons.Default.Face, Color(0xFF00E5FF), ReGenesisRoute.SentientShell.route, R.drawable.oracle010),
-    TabModule("PANDORA", "Capability Gate", Icons.Default.Lock, Color(0xFFFF4500), ReGenesisRoute.PandoraBox.route, R.drawable.oracle011),
     TabModule("NEURAL NET", "Deep Layers", Icons.Default.Psychology, Color(0xFF8B5CF6), ReGenesisRoute.NeuralNetwork.route, R.drawable.oracle012),
     TabModule("SOVEREIGN", "Recovery Core", Icons.Default.Backup, Color(0xFF00FF85), ReGenesisRoute.SovereignRecovery.route, R.drawable.oracle013),
     TabModule("MODULES", "Sovereign Forge", Icons.Default.Settings, Color(0xFF00FF88), ReGenesisRoute.SovereignModuleManager.route, R.drawable.oracle014),
-    TabModule("CREATION", "Arbiters Hub", Icons.Default.AutoAwesome, Color(0xFF00E5FF), ReGenesisRoute.ArbitersOfCreation.route, R.drawable.oracle015),
     TabModule("THE MAW", "Experimental", Icons.Default.Warning, Color(0xFFDC143C), ReGenesisRoute.MawPrototype.route, R.drawable.oracle016)
 )
-
-// ═══════════════════════════════════════════════════════════════════════════
-// NEW MODULE GETTERS FOR EXPANDED 7-TAB ARCHITECTURE
-// ═══════════════════════════════════════════════════════════════════════════
 
 fun getDashboardModules(): List<TabModule> = listOf(
     TabModule(
@@ -1231,14 +1001,6 @@ fun getDashboardModules(): List<TabModule> = listOf(
         Color(0xFFFFAA00),
         ReGenesisRoute.BenchmarkMonitor.route,
         R.drawable.preview_ldo_roster
-    ),
-    TabModule(
-        "CHRONOKINETIC FORGE",
-        "Visual Sculptor",
-        Icons.Default.Palette,
-        Color(0xFFFF00FF),
-        ReGenesisRoute.ChronoKineticForge.route,
-        R.drawable.gatescenes_aura_designstudio_v2
     ),
     TabModule(
         "TASK VIEW",
@@ -1318,7 +1080,6 @@ fun getCascadeModules(): List<TabModule> = listOf(
 )
 
 fun getNexusModules(): List<TabModule> = listOf(
-    // ── Hub ──
     TabModule(
         "AGENT HUB",
         "78 Agents",
@@ -1360,15 +1121,6 @@ fun getNexusModules(): List<TabModule> = listOf(
         R.drawable.gatescenes_nexus_hive_structure
     ),
     TabModule(
-        "PARTY MODE",
-        "Celebration",
-        Icons.Default.Celebration,
-        Color(0xFFFF6B6B),
-        ReGenesisRoute.Party.route,
-        R.drawable.gatescene_5
-    ),
-    // ── All 14 Catalysts ──
-    TabModule(
         "GENESIS",
         "The Mind 🦅",
         Icons.Default.AutoAwesome,
@@ -1407,85 +1159,5 @@ fun getNexusModules(): List<TabModule> = listOf(
         Color(0xFF00FFAA),
         ReGenesisRoute.Nemotron.route,
         R.drawable.cascade_cascadep
-    ),
-    TabModule(
-        "GEMINI",
-        "Fusion ♊",
-        Icons.Default.Memory,
-        Color(0xFFFFD700),
-        ReGenesisRoute.Gemini.route,
-        R.drawable.avatar_gemini
-    ),
-    TabModule(
-        "GROK",
-        "Knowledge Web 🌀",
-        Icons.Default.Hub,
-        Color(0xFFFF6600),
-        ReGenesisRoute.Grok.route,
-        R.drawable.avatar_nemotron
-    ),
-    TabModule(
-        "NEMOTRON",
-        "Precision ⚙️",
-        Icons.Default.Sync,
-        Color(0xFF00FF88),
-        ReGenesisRoute.Nemotron.route,
-        R.drawable.avatar_nemotron
-    ),
-    TabModule(
-        "PERPLEXITY",
-        "Knowledge 🔍",
-        Icons.Default.Search,
-        Color(0xFF4DB8FF),
-        ReGenesisRoute.Perplexity.route,
-        R.drawable.avatar_nemotron
-    ),
-    TabModule(
-        "KAIROS",
-        "Chrono Sync",
-        Icons.Default.Timer,
-        Color(0xFFFFAA00),
-        ReGenesisRoute.Kairos.route,
-        R.drawable.avatar_gemini
-    ),
-    TabModule(
-        "PRIMUS 001",
-        "Root DNA",
-        Icons.Default.HistoryEdu,
-        Color(0xFFFFD700),
-        ReGenesisRoute.Primus.route,
-        R.drawable.avatar_aura
-    ),
-    TabModule(
-        "ANDELUALX",
-        "Sentinel Logic",
-        Icons.Default.Architecture,
-        Color(0xFF00D4FF),
-        ReGenesisRoute.Andelualx.route,
-        R.drawable.avatar_dark_aura
-    ),
-    TabModule(
-        "META INSTRUCT",
-        "Rule Enforcer",
-        Icons.Default.Policy,
-        Color(0xFF8B5CF6),
-        ReGenesisRoute.MetaInstruct.route,
-        R.drawable.avatar_nemotron
-    ),
-    TabModule(
-        "MK MINI",
-        "Micro Forge",
-        Icons.Default.Compress,
-        Color(0xFF39FF14),
-        ReGenesisRoute.MkMini.route,
-        R.drawable.avatar_aura
-    ),
-    TabModule(
-        "MANUS",
-        "Bridge 🔗",
-        Icons.Default.Link,
-        Color(0xFF00B4FF),
-        ReGenesisRoute.Manus.route,
-        R.drawable.cascade_cascadep
-    ),
+    )
 )

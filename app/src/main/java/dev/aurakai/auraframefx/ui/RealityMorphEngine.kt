@@ -3,26 +3,27 @@ package dev.aurakai.auraframefx.ui
 import timber.log.Timber
 
 /**
- * 🌀 RealityMorphEngine (STUB)
+ * 🌀 REALITY MORPH ENGINE (Stub)
  * 
- * Orchestrates the Casberry Neural Bloodstream and visual transitions.
- * Will be wired to ChronoKineticForge in the next evolution.
+ * Part of Aura's Creative Domain. Handles visual reality shifts and sovereign flares.
  */
 object RealityMorphEngine {
 
-    fun triggerMorph(state: MorphState, intensity: Float) {
-        Timber.tag("RealityMorph").d("Triggering Morph: $state with intensity $intensity")
-        // Implementation pending wiring to ChronoKineticForge
+    enum class MorphState {
+        IDLE,
+        DATA_STREAM,
+        NEURAL_STEEL,
+        CHROMA_FLUX,
+        SINGULARITY
+    }
+
+    fun triggerMorph(state: MorphState, intensity: Float = 1.0f) {
+        Timber.tag("RealityMorph").i("Triggering Morph: $state with intensity $intensity")
+        // To be implemented: Particle wave triggers & GPU shader shifts
     }
 
     fun emitSovereignFlare(colorShift: String, spin: String) {
-        Timber.tag("RealityMorph").d("Emitting Sovereign Flare: $colorShift, $spin")
+        Timber.tag("RealityMorph").i("Emitting Sovereign Flare: $colorShift, spin: $spin")
+        // To be implemented: Volumetric bloom flares
     }
-}
-
-enum class MorphState {
-    DATA_STREAM,
-    FUSION_IGNITION,
-    NEURAL_BLOODSTREAM,
-    IDLE
 }

@@ -114,6 +114,8 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.ktx)
 
     // System Sovereignty
     implementation(libs.yukihookapi.api)

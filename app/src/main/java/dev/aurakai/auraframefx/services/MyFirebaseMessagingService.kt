@@ -3,7 +3,6 @@ package dev.aurakai.auraframefx.services
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -17,7 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import rikka.shizuku.SystemServiceHelper.getSystemService
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -202,7 +200,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
             .notify(System.currentTimeMillis().toInt(), notification)
     }
-
 
     private fun validateMessageSecurity(remoteMessage: RemoteMessage): Boolean = true
 

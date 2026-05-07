@@ -163,7 +163,7 @@ import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.LineageMapScreen
-import dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen
+
 import dev.aurakai.auraframefx.ui.ldodevops.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.AIFeaturesScreen
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
@@ -304,8 +304,8 @@ fun ReGenesisNavGraph(
                 }
             )
         }
-        composable(ReGenesisRoute.NotchBar.route) { 
-            NotchBarGateScreen(navController = navController, onNavigateBack = { navController.popBackStack() }) 
+        composable(ReGenesisRoute.NotchBar.route) {
+            dev.aurakai.auraframefx.domains.kai.ui.KaiNotchBarEditor(onSave = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.IconifyHub.route) {
             IconifyHubScreen(
@@ -945,6 +945,6 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.NeuralNetwork.route) { ComingSoonScreen(title = "NEURAL NETWORK", accentColor = Color(0xFF8B5CF6), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.ArbitersOfCreation.route) { ComingSoonScreen(title = "ARBITERS OF CREATION", accentColor = Color(0xFF00E5FF), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.MawPrototype.route) { ComingSoonScreen(title = "THE MAW PROTOTYPE", accentColor = Color(0xFFDC143C), onNavigateBack = { navController.popBackStack() }) }
-        composable(ReGenesisRoute.NotchBar.route) { ComingSoonScreen(title = "NOTCH BAR", accentColor = Color(0xFF00CED1), onNavigateBack = { navController.popBackStack() }) }
+
     }
 }
