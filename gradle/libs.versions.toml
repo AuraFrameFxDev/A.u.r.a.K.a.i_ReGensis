@@ -98,7 +98,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-ext" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-ui" }
 google-material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recyclerview" }
 androidx-coordinatorlayout = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "androidx-coordinatorlayout" }
