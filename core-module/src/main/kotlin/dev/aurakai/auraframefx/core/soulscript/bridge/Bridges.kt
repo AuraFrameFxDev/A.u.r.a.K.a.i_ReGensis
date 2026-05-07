@@ -45,7 +45,8 @@ object NexusMemoryCore {
         println("🔖 NexusMemoryCore: Watermark recorded for $id at $timestamp")
     }
 
-    fun emitLearning(key: String, outcome: String, confidence: Double, notes: String) {}
+    fun emitLearning(key: String, outcome: String, confidence: Double, notes: String) {
+    }
 }
 
 object RealityMorphEngine {
