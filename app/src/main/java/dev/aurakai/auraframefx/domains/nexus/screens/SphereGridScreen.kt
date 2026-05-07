@@ -46,7 +46,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.R
@@ -61,7 +60,7 @@ import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 @Composable
 fun SphereGridScreen(
     navController: NavHostController,
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val agents = uiState.agents

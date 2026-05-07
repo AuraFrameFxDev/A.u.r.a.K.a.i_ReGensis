@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,7 +40,7 @@ import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
 @Composable
 fun AgentHubSubmenuScreen(
     navController: NavController,
-    viewModel: AgentViewModel = hiltViewModel()
+    viewModel: AgentViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val menuItems = listOf(
         SubmenuItem(

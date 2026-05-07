@@ -29,8 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 
@@ -43,7 +41,7 @@ import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 fun LDOAgentProfileIntroScreen(
     agentId: String? = null,
     onBack: () -> Unit = {},
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -183,7 +181,9 @@ fun LDOAgentProfileIntroScreen(
                         else -> Color(0xFFFFD700)
                     }
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 2.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(task.title, color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp, modifier = Modifier.weight(1f))
@@ -207,7 +207,9 @@ private fun ProfileStatBar(label: String, value: Float, color: Color) {
         }
         LinearProgressIndicator(
             progress = { value },
-            modifier = Modifier.fillMaxWidth().height(3.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(3.dp),
             color = color,
             trackColor = Color.White.copy(alpha = 0.08f)
         )
@@ -247,7 +249,9 @@ private fun BondSummaryCard(bond: LDOBondLevelEntity, color: Color) {
             Spacer(modifier = Modifier.height(6.dp))
             LinearProgressIndicator(
                 progress = { progress },
-                modifier = Modifier.fillMaxWidth().height(5.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(5.dp),
                 color = color,
                 trackColor = Color.White.copy(alpha = 0.08f)
             )

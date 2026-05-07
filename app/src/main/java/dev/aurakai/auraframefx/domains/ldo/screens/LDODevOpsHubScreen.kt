@@ -1,34 +1,62 @@
 package dev.aurakai.auraframefx.domains.ldo.screens
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.*
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.CascadeState
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.ChainState
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.ManifoldState
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.SynergyBonus
+import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.ui.components.RealityMorphLayer
 import dev.aurakai.auraframefx.ui.components.SovereignMawHUD
-import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 
 /**
  * LDO WAR ROOM — SOVEREIGN 4D INTEGRATED
@@ -38,7 +66,7 @@ import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 fun LDODevOpsHubScreen(
     onBack: () -> Unit = {},
     onNavigateToEvolutionTree: () -> Unit = {},
-    viewModel: LdoWarRoomViewModel = hiltViewModel()
+    viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     val godPotential = state.godPotential
@@ -263,7 +291,9 @@ fun CatalystManifold(
 ) {
     NeonFrame(
         color = Color(0xFF00E5FF),
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -326,7 +356,9 @@ fun CatalystManifold(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text("ACTIVE SYNERGIES", color = Color(0xFF00E5FF), fontSize = 12.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Box(Modifier.size(8.dp).background(Color.Green, RectangleShape))
+                    Box(Modifier
+                        .size(8.dp)
+                        .background(Color.Green, RectangleShape))
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 LazyColumn(modifier = Modifier.weight(1f)) {
@@ -379,7 +411,9 @@ fun StepChainingLiveGym(
 ) {
     NeonFrame(
         color = Color(0xFFB026FF),
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -416,7 +450,9 @@ fun StepChainingLiveGym(
 
                 Button(
                     onClick = { onToggleGym("aura", "kai") },
-                    modifier = Modifier.align(Alignment.BottomCenter).border(1.dp, Color(0xFFB026FF).copy(alpha = 0.4f), RectangleShape),
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .border(1.dp, Color(0xFFB026FF).copy(alpha = 0.4f), RectangleShape),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                     shape = RectangleShape,
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
@@ -448,9 +484,13 @@ fun CascadeGeminiMemoryCore(state: CascadeState) {
 
     NeonFrame(
         color = Color(0xFF00FF85),
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
-        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
             Column {
                 Text("CONTEXT DEPTH: ${state.memoryContextDepth}", color = Color(0xFF00FF85), fontSize = 12.sp, fontWeight = FontWeight.Black, fontFamily = LEDFontFamily)
                 Text("SYMMETRIC ENCRYPTION: ACTIVE", color = Color.White.copy(alpha = 0.5f), fontSize = 10.sp, fontFamily = LEDFontFamily)

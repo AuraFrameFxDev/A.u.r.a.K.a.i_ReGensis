@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,8 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.automirrored.filled.Launch
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -36,13 +35,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.nexus.models.core.ArkStatus
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.ArkBuildViewModel
+import dev.aurakai.auraframefx.domains.nexus.models.core.ArkStatus
 
 @Composable
 fun ArkBuildScreen(
     onNavigateBack: () -> Unit = {},
-    viewModel: ArkBuildViewModel = hiltViewModel()
+    viewModel: ArkBuildViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val projectState by viewModel.arkProject.collectAsState()
 

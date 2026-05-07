@@ -33,8 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskPriority
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskStatus
@@ -48,7 +46,7 @@ import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 @Composable
 fun LDOTaskerScreen(
     onBack: () -> Unit = {},
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     var statusFilter by remember { mutableStateOf<String?>(null) }
@@ -66,7 +64,9 @@ fun LDOTaskerScreen(
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
 
             Text(
                 "LDO TASKER",
@@ -124,7 +124,9 @@ fun LDOTaskerScreen(
                     Text("Loading tasks…", color = Color.White.copy(alpha = 0.4f))
                 }
             } else if (filteredTasks.isEmpty()) {
-                Box(Modifier.fillMaxWidth().padding(top = 32.dp), contentAlignment = Alignment.Center) {
+                Box(Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp), contentAlignment = Alignment.Center) {
                     Text("No tasks match filter", color = Color.White.copy(alpha = 0.3f))
                 }
             } else {

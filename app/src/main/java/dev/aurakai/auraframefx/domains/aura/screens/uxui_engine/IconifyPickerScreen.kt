@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.aura.screens.uxui_engine
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPicker
 import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPickerViewModel
 
@@ -12,7 +11,7 @@ import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPicke
  */
 @Composable
 fun IconifyPickerScreen(
-    viewModel: IconPickerViewModel = hiltViewModel(),
+    viewModel: IconPickerViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
     onNavigateBack: () -> Unit = {}
 ) {
     IconPicker(

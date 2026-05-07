@@ -2,25 +2,55 @@ package dev.aurakai.auraframefx.domains.nexus.screens.ldo
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -31,9 +61,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import kotlin.math.*
+import kotlin.math.cos
+import kotlin.math.sin
 
 // ─── v2.1 Sphere Grid Progression Screen ─────────────────────────────────────
 //
@@ -51,7 +81,7 @@ private val GridSlate = Color(0xFF334155)
 
 @Composable
 fun SphereGridProgressionScreen(
-    viewModel: SphereGridProgressionViewModel = hiltViewModel(),
+    viewModel: SphereGridProgressionViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
     onBack: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsState()
@@ -81,7 +111,12 @@ fun SphereGridProgressionScreen(
                 .drawWithCache {
                     onDrawBehind {
                         val y = size.height * scanLine
-                        drawLine(GridCyan.copy(alpha = 0.06f), Offset(0f, y), Offset(size.width, y), 1f)
+                        drawLine(
+                            GridCyan.copy(alpha = 0.06f),
+                            Offset(0f, y),
+                            Offset(size.width, y),
+                            1f
+                        )
                     }
                 }
         )
@@ -235,7 +270,9 @@ private fun TenNodeGrid(
             }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
             for (row in 0 until 2) {
@@ -591,7 +628,10 @@ private fun NewAbilityFlash(
                 ) {
                     Box(
                         modifier = Modifier
-                            .background(ability.category.color.copy(0.25f), RoundedCornerShape(3.dp))
+                            .background(
+                                ability.category.color.copy(0.25f),
+                                RoundedCornerShape(3.dp)
+                            )
                             .padding(horizontal = 6.dp, vertical = 2.dp)
                     ) {
                         Text(
@@ -649,7 +689,10 @@ private fun AbilitiesSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(GridSurf.copy(alpha = 0.8f), RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                .background(
+                    GridSurf.copy(alpha = 0.8f),
+                    RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
+                )
                 .border(1.dp, GridSlate, RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                 .padding(horizontal = 12.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -711,7 +754,10 @@ private fun AbilityRow(
             .background(bgColor, bottomShape)
             .border(
                 BorderStroke(1.dp, borderColor),
-                if (isLast) RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp) else RoundedCornerShape(0.dp),
+                if (isLast) RoundedCornerShape(
+                    bottomStart = 8.dp,
+                    bottomEnd = 8.dp
+                ) else RoundedCornerShape(0.dp),
             )
             .clickable(onClick = onTap)
     ) {
@@ -747,7 +793,10 @@ private fun AbilityRow(
                         if (ability.isNew) {
                             Box(
                                 modifier = Modifier
-                                    .background(ability.category.color.copy(0.25f), RoundedCornerShape(3.dp))
+                                    .background(
+                                        ability.category.color.copy(0.25f),
+                                        RoundedCornerShape(3.dp)
+                                    )
                                     .padding(horizontal = 4.dp, vertical = 1.dp)
                             ) {
                                 Text(
@@ -841,7 +890,11 @@ private fun AbilityDetailPanel(ability: GeneratedAbility) {
                     Box(
                         modifier = Modifier
                             .background(GridSurf, RoundedCornerShape(4.dp))
-                            .border(1.dp, ability.category.color.copy(alpha = 0.35f), RoundedCornerShape(4.dp))
+                            .border(
+                                1.dp,
+                                ability.category.color.copy(alpha = 0.35f),
+                                RoundedCornerShape(4.dp)
+                            )
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -924,7 +977,9 @@ private fun SphereGridProgressionPreview() {
         isNew = true,
     )
 
-    Box(modifier = Modifier.fillMaxSize().background(GridVoid)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(GridVoid)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -941,7 +996,9 @@ private fun SphereGridProgressionPreview() {
                 filledCount = 6,
                 isResetting = false,
                 pulse = 0.7f,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 onNodeTap = {},
             )
             Spacer(Modifier.height(12.dp))

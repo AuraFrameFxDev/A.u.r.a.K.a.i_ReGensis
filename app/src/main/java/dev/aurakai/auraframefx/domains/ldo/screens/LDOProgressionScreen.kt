@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,17 +26,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
-import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
+import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
-import androidx.compose.ui.graphics.RectangleShape
 
 /**
  * Screen 7 â€” LDO Progression Map
@@ -48,7 +42,7 @@ import androidx.compose.ui.graphics.RectangleShape
 @Composable
 fun LDOProgressionScreen(
     onBack: () -> Unit = {},
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -59,7 +53,9 @@ fun LDOProgressionScreen(
     ) {
         NeuralStarfield()
 
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
 
             Text(
                 "LDO PROGRESSION MAP",
@@ -257,7 +253,9 @@ private fun AgentProgressionCard(
             // XP bar to next level
             LinearProgressIndicator(
                 progress = { xpProgress },
-                modifier = Modifier.fillMaxWidth().height(5.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(5.dp),
                 color = agentColor,
                 trackColor = Color.White.copy(alpha = 0.08f)
             )

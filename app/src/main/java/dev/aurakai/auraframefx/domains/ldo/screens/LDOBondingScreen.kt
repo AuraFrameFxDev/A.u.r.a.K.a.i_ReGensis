@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.ldo.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
@@ -42,7 +40,7 @@ import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 @Composable
 fun LDOBondingScreen(
     onBack: () -> Unit = {},
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -51,7 +49,9 @@ fun LDOBondingScreen(
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
 
             Text(
                 "LDO BONDING MATRIX",
@@ -203,13 +203,17 @@ private fun BondCard(
             // Bond progress
             LinearProgressIndicator(
                 progress = { bondProgress },
-                modifier = Modifier.fillMaxWidth().height(6.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(6.dp),
                 color = agentColor,
                 trackColor = Color.White.copy(alpha = 0.08f)
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(

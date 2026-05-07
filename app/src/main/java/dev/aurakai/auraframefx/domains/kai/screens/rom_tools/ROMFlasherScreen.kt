@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.kai.screens.rom_tools
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -282,7 +281,7 @@ enum class FlashStage {
 @Composable
 fun ROMFlasherScreen(
     onNavigateBack: () -> Unit = {},
-    viewModel: ROMFlasherViewModel = hiltViewModel()
+    viewModel: ROMFlasherViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
