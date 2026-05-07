@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ui
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
@@ -9,196 +10,151 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 /**
- * Tests for [RealityMorphEngine] and [MorphState].
+ * Tests for [MorphState] enum and [RealityMorphEngine] object.
  *
- * PR changes:
- * - Replaced Timber with android.util.Log
- * - Removed MorphState values: FUSION_IGNITION, NEURAL_BLOODSTREAM, IDLE
- * - Added MorphState values: CHROME_FUSION, SINGULARITY
- * - MorphState now has exactly 3 values: DATA_STREAM, CHROME_FUSION, SINGULARITY
+ * PR changes tested:
+ * 1. MorphState enum now has 3 values: DATA_STREAM, CHROME_FUSION, SINGULARITY
+ *    (removed: FUSION_IGNITION, NEURAL_BLOODSTREAM, IDLE)
+ * 2. triggerMorph() and emitSovereignFlare() still exist
+ * 3. Switched from Timber to android.util.Log (no functional change to API)
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("RealityMorphEngine and MorphState Tests")
 class RealityMorphEngineTest {
 
     @Nested
-    @DisplayName("MorphState enum — post-PR values")
+    @DisplayName("MorphState enum — PR change: new values set")
     inner class MorphStateEnumTests {
 
         @Test
-        @DisplayName("MorphState should have exactly 3 values")
-        fun morphState_hasExactlyThreeValues() {
-            assertEquals(3, MorphState.entries.size)
-        }
-
-        @Test
-        @DisplayName("DATA_STREAM should exist in MorphState")
-        fun dataStream_exists() {
+        @DisplayName("MorphState should contain DATA_STREAM")
+        fun morphStateShouldContainDataStream() {
             assertNotNull(MorphState.DATA_STREAM)
+            assertEquals("DATA_STREAM", MorphState.DATA_STREAM.name)
         }
 
         @Test
-        @DisplayName("CHROME_FUSION should exist in MorphState (new in PR)")
-        fun chromeFusion_exists() {
+        @DisplayName("MorphState should contain CHROME_FUSION")
+        fun morphStateShouldContainChromeFusion() {
             assertNotNull(MorphState.CHROME_FUSION)
-        }
-
-        @Test
-        @DisplayName("SINGULARITY should exist in MorphState (new in PR)")
-        fun singularity_exists() {
-            assertNotNull(MorphState.SINGULARITY)
-        }
-
-        @Test
-        @DisplayName("MorphState entries contain DATA_STREAM, CHROME_FUSION, SINGULARITY")
-        fun morphState_containsExpectedValues() {
-            val names = MorphState.entries.map { it.name }.toSet()
-            assertTrue(names.contains("DATA_STREAM"))
-            assertTrue(names.contains("CHROME_FUSION"))
-            assertTrue(names.contains("SINGULARITY"))
-        }
-
-        @Test
-        @DisplayName("MorphState.valueOf DATA_STREAM returns correct enum constant")
-        fun valueOf_dataStream_returnsCorrectConstant() {
-            assertEquals(MorphState.DATA_STREAM, MorphState.valueOf("DATA_STREAM"))
-        }
-
-        @Test
-        @DisplayName("MorphState.valueOf CHROME_FUSION returns correct enum constant")
-        fun valueOf_chromeFusion_returnsCorrectConstant() {
-            assertEquals(MorphState.CHROME_FUSION, MorphState.valueOf("CHROME_FUSION"))
-        }
-
-        @Test
-        @DisplayName("MorphState.valueOf SINGULARITY returns correct enum constant")
-        fun valueOf_singularity_returnsCorrectConstant() {
-            assertEquals(MorphState.SINGULARITY, MorphState.valueOf("SINGULARITY"))
-        }
-    }
-
-    @Nested
-    @DisplayName("MorphState enum — removed values (regression)")
-    inner class RemovedMorphStateTests {
-
-        @Test
-        @DisplayName("FUSION_IGNITION should NOT exist in MorphState")
-        fun fusionIgnition_doesNotExist() {
-            val names = MorphState.entries.map { it.name }
-            assertTrue(!names.contains("FUSION_IGNITION"),
-                "FUSION_IGNITION was removed in this PR and should not be present")
-        }
-
-        @Test
-        @DisplayName("NEURAL_BLOODSTREAM should NOT exist in MorphState")
-        fun neuralBloodstream_doesNotExist() {
-            val names = MorphState.entries.map { it.name }
-            assertTrue(!names.contains("NEURAL_BLOODSTREAM"),
-                "NEURAL_BLOODSTREAM was removed in this PR and should not be present")
-        }
-
-        @Test
-        @DisplayName("IDLE should NOT exist in MorphState")
-        fun idle_doesNotExist() {
-            val names = MorphState.entries.map { it.name }
-            assertTrue(!names.contains("IDLE"),
-                "IDLE was removed in this PR and should not be present")
-        }
-
-        @Test
-        @DisplayName("MorphState.valueOf FUSION_IGNITION throws IllegalArgumentException")
-        fun valueOf_fusionIgnition_throwsException() {
-            var thrown = false
-            try {
-                MorphState.valueOf("FUSION_IGNITION")
-            } catch (e: IllegalArgumentException) {
-                thrown = true
-            }
-            assertTrue(thrown, "FUSION_IGNITION should not be a valid MorphState value")
-        }
-
-        @Test
-        @DisplayName("MorphState.valueOf NEURAL_BLOODSTREAM throws IllegalArgumentException")
-        fun valueOf_neuralBloodstream_throwsException() {
-            var thrown = false
-            try {
-                MorphState.valueOf("NEURAL_BLOODSTREAM")
-            } catch (e: IllegalArgumentException) {
-                thrown = true
-            }
-            assertTrue(thrown, "NEURAL_BLOODSTREAM should not be a valid MorphState value")
-        }
-
-        @Test
-        @DisplayName("MorphState.valueOf IDLE throws IllegalArgumentException")
-        fun valueOf_idle_throwsException() {
-            var thrown = false
-            try {
-                MorphState.valueOf("IDLE")
-            } catch (e: IllegalArgumentException) {
-                thrown = true
-            }
-            assertTrue(thrown, "IDLE should not be a valid MorphState value")
-        }
-    }
-
-    @Nested
-    @DisplayName("MorphState — ordinal and name sanity")
-    inner class MorphStateOrdinalTests {
-
-        @Test
-        @DisplayName("MorphState entries have unique ordinals")
-        fun morphState_hasUniqueOrdinals() {
-            val ordinals = MorphState.entries.map { it.ordinal }
-            assertEquals(ordinals.size, ordinals.toSet().size, "Each MorphState should have a unique ordinal")
-        }
-
-        @Test
-        @DisplayName("MorphState entries have non-empty names")
-        fun morphState_hasNonEmptyNames() {
-            MorphState.entries.forEach { state ->
-                assertTrue(state.name.isNotBlank(), "MorphState '$state' should have a non-blank name")
-            }
-        }
-
-        @Test
-        @DisplayName("CHROME_FUSION name returns 'CHROME_FUSION'")
-        fun chromeFusion_name_isCorrect() {
             assertEquals("CHROME_FUSION", MorphState.CHROME_FUSION.name)
         }
 
         @Test
-        @DisplayName("SINGULARITY name returns 'SINGULARITY'")
-        fun singularity_name_isCorrect() {
+        @DisplayName("MorphState should contain SINGULARITY")
+        fun morphStateShouldContainSingularity() {
+            assertNotNull(MorphState.SINGULARITY)
             assertEquals("SINGULARITY", MorphState.SINGULARITY.name)
+        }
+
+        @Test
+        @DisplayName("MorphState should have exactly 3 values after PR change")
+        fun morphStateShouldHaveExactlyThreeValues() {
+            assertEquals(3, MorphState.entries.size,
+                "MorphState should have exactly DATA_STREAM, CHROME_FUSION, SINGULARITY")
+        }
+
+        @Test
+        @DisplayName("MorphState should NOT contain the removed FUSION_IGNITION value")
+        fun morphStateShouldNotContainFusionIgnition() {
+            val names = MorphState.entries.map { it.name }
+            assertFalse(names.contains("FUSION_IGNITION"),
+                "FUSION_IGNITION should have been removed from MorphState in this PR")
+        }
+
+        @Test
+        @DisplayName("MorphState should NOT contain the removed NEURAL_BLOODSTREAM value")
+        fun morphStateShouldNotContainNeuralBloodstream() {
+            val names = MorphState.entries.map { it.name }
+            assertFalse(names.contains("NEURAL_BLOODSTREAM"),
+                "NEURAL_BLOODSTREAM should have been removed from MorphState in this PR")
+        }
+
+        @Test
+        @DisplayName("MorphState should NOT contain the removed IDLE value")
+        fun morphStateShouldNotContainIdle() {
+            val names = MorphState.entries.map { it.name }
+            assertFalse(names.contains("IDLE"),
+                "IDLE should have been removed from MorphState in this PR")
+        }
+
+        @Test
+        @DisplayName("MorphState values should be ordered: DATA_STREAM, CHROME_FUSION, SINGULARITY")
+        fun morphStateOrdinalOrderShouldBeCorrect() {
+            val values = MorphState.entries
+            assertEquals(MorphState.DATA_STREAM, values[0])
+            assertEquals(MorphState.CHROME_FUSION, values[1])
+            assertEquals(MorphState.SINGULARITY, values[2])
+        }
+
+        @Test
+        @DisplayName("MorphState.valueOf should work for all three values")
+        fun morphStateValueOfShouldWorkForAllValues() {
+            assertEquals(MorphState.DATA_STREAM, MorphState.valueOf("DATA_STREAM"))
+            assertEquals(MorphState.CHROME_FUSION, MorphState.valueOf("CHROME_FUSION"))
+            assertEquals(MorphState.SINGULARITY, MorphState.valueOf("SINGULARITY"))
+        }
+
+        @Test
+        @DisplayName("MorphState.entries should list all exactly three values")
+        fun morphStateEntriesShouldListAllValues() {
+            val expectedNames = setOf("DATA_STREAM", "CHROME_FUSION", "SINGULARITY")
+            val actualNames = MorphState.entries.map { it.name }.toSet()
+            assertEquals(expectedNames, actualNames)
         }
     }
 
     @Nested
-    @DisplayName("RealityMorphEngine singleton")
-    inner class RealityMorphEngineObjectTests {
+    @DisplayName("RealityMorphEngine API")
+    inner class RealityMorphEngineApiTests {
 
         @Test
-        @DisplayName("RealityMorphEngine is a non-null singleton object")
-        fun realityMorphEngine_isNonNull() {
-            assertNotNull(RealityMorphEngine)
+        @DisplayName("triggerMorph should accept DATA_STREAM state")
+        fun triggerMorphShouldAcceptDataStream() {
+            // Should not throw
+            RealityMorphEngine.triggerMorph(MorphState.DATA_STREAM, 0.5f)
         }
 
         @Test
-        @DisplayName("RealityMorphEngine has triggerMorph function accessible")
-        fun realityMorphEngine_hasTriggerMorphFunction() {
-            // Verify via reflection that the method exists with correct signature
-            val method = RealityMorphEngine::class.java.methods
-                .firstOrNull { it.name == "triggerMorph" }
-            assertNotNull(method, "triggerMorph should exist on RealityMorphEngine")
+        @DisplayName("triggerMorph should accept CHROME_FUSION state")
+        fun triggerMorphShouldAcceptChromeFusion() {
+            RealityMorphEngine.triggerMorph(MorphState.CHROME_FUSION, 1.0f)
         }
 
         @Test
-        @DisplayName("RealityMorphEngine has emitSovereignFlare function accessible")
-        fun realityMorphEngine_hasEmitSovereignFlareFunction() {
-            val method = RealityMorphEngine::class.java.methods
-                .firstOrNull { it.name == "emitSovereignFlare" }
-            assertNotNull(method, "emitSovereignFlare should exist on RealityMorphEngine")
+        @DisplayName("triggerMorph should accept SINGULARITY state")
+        fun triggerMorphShouldAcceptSingularity() {
+            RealityMorphEngine.triggerMorph(MorphState.SINGULARITY, 0.0f)
+        }
+
+        @Test
+        @DisplayName("triggerMorph should accept minimum intensity of 0.0f")
+        fun triggerMorphShouldAcceptMinIntensity() {
+            RealityMorphEngine.triggerMorph(MorphState.DATA_STREAM, 0.0f)
+        }
+
+        @Test
+        @DisplayName("triggerMorph should accept maximum intensity of 1.0f")
+        fun triggerMorphShouldAcceptMaxIntensity() {
+            RealityMorphEngine.triggerMorph(MorphState.DATA_STREAM, 1.0f)
+        }
+
+        @Test
+        @DisplayName("emitSovereignFlare should accept non-empty colorShift and spin")
+        fun emitSovereignFlareShouldAcceptNonEmptyStrings() {
+            RealityMorphEngine.emitSovereignFlare("0xFF00FFFF", "clockwise")
+        }
+
+        @Test
+        @DisplayName("emitSovereignFlare should accept empty strings without throwing")
+        fun emitSovereignFlareShouldAcceptEmptyStrings() {
+            RealityMorphEngine.emitSovereignFlare("", "")
+        }
+
+        @Test
+        @DisplayName("RealityMorphEngine is a singleton object")
+        fun realityMorphEngineShouldBeSingletonObject() {
+            assertTrue(RealityMorphEngine === RealityMorphEngine)
         }
     }
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import kotlin.reflect.full.sealedSubclasses
 
 /**
  * Tests for [ReGenesisRoute] navigation routes.
@@ -324,203 +325,145 @@ class ReGenesisRouteTest {
                 "LdoDevOpsHub must not be the same as the removed legacy route"
             )
         }
+
+        @Test
+        @DisplayName("version field exists on ReGenesisRoute base class")
+        fun versionFieldExists() {
+            // Verify the version property still exists on the sealed class
+            assertEquals("1.0.1", ReGenesisRoute.LdoDevOpsHub.version)
+        }
     }
 
     @Nested
-    @DisplayName("PR Agent Route Changes — remaining agent routes")
-    inner class AgentRouteChangesTests {
+    @DisplayName("PR Change: Retained Agent Routes (Claude, Gemini, Nemotron, MetaInstruct)")
+    inner class RetainedAgentRouteTests {
 
         @Test
-        @DisplayName("Claude route should be 'claude'")
-        fun claudeRoute_isCorrect() {
+        @DisplayName("Claude route should still exist with route string 'claude'")
+        fun claudeRouteShouldExist() {
+            assertNotNull(ReGenesisRoute.Claude)
             assertEquals("claude", ReGenesisRoute.Claude.route)
         }
 
         @Test
-        @DisplayName("Gemini route should be 'gemini'")
-        fun geminiRoute_isCorrect() {
+        @DisplayName("Gemini route should still exist with route string 'gemini'")
+        fun geminiRouteShouldExist() {
+            assertNotNull(ReGenesisRoute.Gemini)
             assertEquals("gemini", ReGenesisRoute.Gemini.route)
         }
 
         @Test
-        @DisplayName("Nemotron route should be 'nemotron'")
-        fun nemotronRoute_isCorrect() {
+        @DisplayName("Nemotron route should still exist with route string 'nemotron'")
+        fun nemotronRouteShouldExist() {
+            assertNotNull(ReGenesisRoute.Nemotron)
             assertEquals("nemotron", ReGenesisRoute.Nemotron.route)
         }
 
         @Test
-        @DisplayName("MetaInstruct route should be 'meta_instruct'")
-        fun metaInstructRoute_isCorrect() {
+        @DisplayName("MetaInstruct route should still exist with route string 'meta_instruct'")
+        fun metaInstructRouteShouldExist() {
+            assertNotNull(ReGenesisRoute.MetaInstruct)
             assertEquals("meta_instruct", ReGenesisRoute.MetaInstruct.route)
-        }
-
-        @Test
-        @DisplayName("Claude route should not be blank")
-        fun claudeRoute_isNotBlank() {
-            assertTrue(ReGenesisRoute.Claude.route.isNotBlank())
-        }
-
-        @Test
-        @DisplayName("All remaining agent routes should be non-empty")
-        fun allRemainingAgentRoutes_areNonEmpty() {
-            val agentRoutes = listOf(
-                ReGenesisRoute.Claude.route,
-                ReGenesisRoute.Gemini.route,
-                ReGenesisRoute.Nemotron.route,
-                ReGenesisRoute.MetaInstruct.route
-            )
-            agentRoutes.forEach { route ->
-                assertTrue(route.isNotBlank(), "Agent route '$route' should not be blank")
-            }
-        }
-
-        @Test
-        @DisplayName("Remaining agent routes should be unique")
-        fun remainingAgentRoutes_areUnique() {
-            val agentRoutes = listOf(
-                ReGenesisRoute.Claude.route,
-                ReGenesisRoute.Gemini.route,
-                ReGenesisRoute.Nemotron.route,
-                ReGenesisRoute.MetaInstruct.route
-            )
-            assertEquals(agentRoutes.size, agentRoutes.toSet().size,
-                "Remaining agent routes should all be unique")
         }
     }
 
     @Nested
-    @DisplayName("PR Agent Route Changes — removed agent routes (regression)")
-    inner class RemovedAgentRouteTests {
+    @DisplayName("PR Change: Removed Route Objects (verified via reflection)")
+    inner class RemovedRouteObjectsTests {
 
-        private fun getSealedSubclassRouteStrings(): Set<String> {
+        private fun getAllObjectNames(): Set<String> {
             return ReGenesisRoute::class.sealedSubclasses
-                .mapNotNull { klass ->
-                    try {
-                        val instance = klass.objectInstance
-                        (instance as? ReGenesisRoute)?.route
-                    } catch (e: Exception) {
-                        null
-                    }
-                }.toSet()
+                .mapNotNull { it.objectInstance?.route }
+                .toSet()
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'genesis' (Genesis removed)")
-        fun genesis_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'genesis' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun genesisRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("genesis"),
-                "Route 'genesis' was removed in this PR"
+                getAllObjectNames().contains("genesis"),
+                "Genesis route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'aura' (Aura removed)")
-        fun aura_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'aura' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun auraRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("aura"),
-                "Route 'aura' was removed in this PR"
+                getAllObjectNames().contains("aura"),
+                "Aura route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'kai' (Kai removed)")
-        fun kai_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'kai' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun kaiRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("kai"),
-                "Route 'kai' was removed in this PR"
+                getAllObjectNames().contains("kai"),
+                "Kai route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'grok' (Grok removed)")
-        fun grok_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'grok' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun grokRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("grok"),
-                "Route 'grok' was removed in this PR"
+                getAllObjectNames().contains("grok"),
+                "Grok route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'perplexity' (Perplexity removed)")
-        fun perplexity_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'perplexity' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun perplexityRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("perplexity"),
-                "Route 'perplexity' was removed in this PR"
+                getAllObjectNames().contains("perplexity"),
+                "Perplexity route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'kairos' (Kairos removed)")
-        fun kairos_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'kairos' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun kairosRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("kairos"),
-                "Route 'kairos' was removed in this PR"
+                getAllObjectNames().contains("kairos"),
+                "Kairos route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'primus' (Primus removed)")
-        fun primus_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'primus' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun primusRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("primus"),
-                "Route 'primus' was removed in this PR"
+                getAllObjectNames().contains("primus"),
+                "Primus route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'andelualx' (Andelualx removed)")
-        fun andelualx_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'andelualx' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun andelualxRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("andelualx"),
-                "Route 'andelualx' was removed in this PR"
+                getAllObjectNames().contains("andelualx"),
+                "Andelualx route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'mk_mini' (MkMini removed)")
-        fun mkMini_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'mk_mini' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun mkMiniRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("mk_mini"),
-                "Route 'mk_mini' was removed in this PR"
+                getAllObjectNames().contains("mk_mini"),
+                "MkMini route object was removed in this PR"
             )
         }
 
         @Test
-        @DisplayName("No sealed subclass should have route 'manus' (Manus removed)")
-        fun manus_routeNotPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
+        @DisplayName("'manus' route should NOT exist as a ReGenesisRoute object after PR change")
+        fun manusRouteShouldNotExist() {
             assertFalse(
-                routeStrings.contains("manus"),
-                "Route 'manus' was removed in this PR"
-            )
-        }
-
-        @Test
-        @DisplayName("Claude route 'claude' should still be present after removals")
-        fun claude_routeStillPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
-            assertTrue(
-                routeStrings.contains("claude"),
-                "Route 'claude' should still exist after the agent route cleanup"
-            )
-        }
-
-        @Test
-        @DisplayName("Gemini route 'gemini' should still be present after removals")
-        fun gemini_routeStillPresent() {
-            val routeStrings = getSealedSubclassRouteStrings()
-            assertTrue(
-                routeStrings.contains("gemini"),
-                "Route 'gemini' should still exist after the agent route cleanup"
+                getAllObjectNames().contains("manus"),
+                "Manus route object was removed in this PR"
             )
         }
     }

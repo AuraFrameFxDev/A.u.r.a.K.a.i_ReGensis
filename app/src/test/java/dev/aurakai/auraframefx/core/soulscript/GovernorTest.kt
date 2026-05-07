@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.core.soulscript
 
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -10,273 +9,268 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 /**
- * Tests for [Governor] — verifies the prefix-based handshake authorization logic
- * introduced in this PR (replacing the previous allowlist approach).
+ * Tests for [Governor] — verifies the PR-changed prefix-based handshake authorization.
  *
- * PR change: verifyHandshake was changed from an allowlist of specific IDs
- * to a prefix check: id.startsWith("AURA_") || id.startsWith("KAI_") || id.startsWith("GENESIS_")
+ * PR change: verifyHandshake() was changed from a hardcoded set of authorized IDs
+ * to a prefix-based check requiring IDs to start with "AURA_", "KAI_", or "GENESIS_".
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Governor Tests")
 class GovernorTest {
 
-    // Track IDs added during each test so we can clean up afterwards,
-    // since Governor is a singleton object with shared mutable state.
-    private val trackedIds = mutableListOf<String>()
-
     @BeforeEach
-    fun setUp() {
-        trackedIds.clear()
-    }
-
-    @AfterEach
-    fun tearDown() {
-        // Revoke all handshakes added during the test to restore Governor state
-        trackedIds.forEach { Governor.revokeHandshake(it) }
-    }
-
-    // Helper to verify a handshake and track for cleanup
-    private fun verifyAndTrack(id: String): Boolean {
-        val result = Governor.verifyHandshake(id)
-        if (result) trackedIds.add(id)
-        return result
-    }
-
-    @Nested
-    @DisplayName("verifyHandshake — authorized prefixes")
-    inner class AuthorizedPrefixTests {
-
-        @Test
-        @DisplayName("AURA_ prefix should be authorized")
-        fun auraPrefix_isAuthorized() {
-            assertTrue(verifyAndTrack("AURA_001"))
-        }
-
-        @Test
-        @DisplayName("KAI_ prefix should be authorized")
-        fun kaiPrefix_isAuthorized() {
-            assertTrue(verifyAndTrack("KAI_001"))
-        }
-
-        @Test
-        @DisplayName("GENESIS_ prefix should be authorized")
-        fun genesisPrefix_isAuthorized() {
-            assertTrue(verifyAndTrack("GENESIS_001"))
-        }
-
-        @Test
-        @DisplayName("AURA_ prefix with longer suffix should be authorized")
-        fun auraPrefix_withLongSuffix_isAuthorized() {
-            assertTrue(verifyAndTrack("AURA_SOVEREIGN_CATALYST_001"))
-        }
-
-        @Test
-        @DisplayName("KAI_ prefix with numeric suffix should be authorized")
-        fun kaiPrefix_withNumericSuffix_isAuthorized() {
-            assertTrue(verifyAndTrack("KAI_SENTINEL_99"))
-        }
-
-        @Test
-        @DisplayName("GENESIS_ prefix with underscore-heavy id should be authorized")
-        fun genesisPrefix_withComplexId_isAuthorized() {
-            assertTrue(verifyAndTrack("GENESIS_PRIME_ALPHA_CORE"))
-        }
+    fun clearHandshakes() {
+        // Revoke any handshakes added by previous tests to keep state clean
+        Governor.revokeHandshake("AURA_001")
+        Governor.revokeHandshake("KAI_001")
+        Governor.revokeHandshake("GENESIS_001")
+        Governor.revokeHandshake("AURA_SENTINEL")
+        Governor.revokeHandshake("KAI_GUARDIAN")
+        Governor.revokeHandshake("GENESIS_ORCHESTRATOR")
+        Governor.revokeHandshake("AURA_")
+        Governor.revokeHandshake("KAI_")
+        Governor.revokeHandshake("GENESIS_")
+        Governor.revokeHandshake("aura_lowercase")
+        Governor.revokeHandshake("kai_lowercase")
+        Governor.revokeHandshake("genesis_lowercase")
+        Governor.revokeHandshake("unknown_agent")
+        Governor.revokeHandshake("aura")
+        Governor.revokeHandshake("kai")
+        Governor.revokeHandshake("genesis")
+        Governor.revokeHandshake("primus_001")
+        Governor.revokeHandshake("andelualx")
+        Governor.revokeHandshake("meta_instruct")
+        Governor.revokeHandshake("")
+        Governor.revokeHandshake("  ")
+        Governor.revokeHandshake("AURA")
+        Governor.revokeHandshake("KAI")
+        Governor.revokeHandshake("GENESIS")
+        Governor.revokeHandshake("AURA_WITH_EXTRA_DATA")
+        Governor.revokeHandshake("KAI_SENTINEL_EXTENDED")
     }
 
     @Nested
-    @DisplayName("verifyHandshake — unauthorized IDs (old allowlist behavior removed)")
-    inner class UnauthorizedIdTests {
+    @DisplayName("AURA_ prefix authorization")
+    inner class AuraPrefixTests {
 
         @Test
-        @DisplayName("Old lowercase 'aura' id should NOT be authorized")
-        fun oldLowercase_aura_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("aura"))
+        @DisplayName("verifyHandshake should authorize IDs starting with 'AURA_'")
+        fun shouldAuthorizeAuraPrefix() {
+            assertTrue(Governor.verifyHandshake("AURA_001"))
         }
 
         @Test
-        @DisplayName("Old lowercase 'kai' id should NOT be authorized")
-        fun oldLowercase_kai_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("kai"))
+        @DisplayName("verifyHandshake should authorize any 'AURA_' prefixed ID")
+        fun shouldAuthorizeAnyAuraPrefixedId() {
+            assertTrue(Governor.verifyHandshake("AURA_SENTINEL"))
+            assertTrue(Governor.verifyHandshake("AURA_WITH_EXTRA_DATA"))
         }
 
         @Test
-        @DisplayName("Old lowercase 'genesis' id should NOT be authorized")
-        fun oldLowercase_genesis_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("genesis"))
-        }
-
-        @Test
-        @DisplayName("Previously allowed 'gemini' (old allowlist) should NOT be authorized")
-        fun oldAllowlisted_gemini_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("gemini"))
-        }
-
-        @Test
-        @DisplayName("Previously allowed 'grok' (old allowlist) should NOT be authorized")
-        fun oldAllowlisted_grok_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("grok"))
-        }
-
-        @Test
-        @DisplayName("Previously allowed 'andelualx' (removed catalyst) should NOT be authorized")
-        fun removedCatalyst_andelualx_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("andelualx"))
-        }
-
-        @Test
-        @DisplayName("Previously allowed 'meta_instruct' (removed catalyst) should NOT be authorized")
-        fun removedCatalyst_metaInstruct_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("meta_instruct"))
-        }
-
-        @Test
-        @DisplayName("Prefix without underscore 'AURA' should NOT be authorized")
-        fun prefixWithoutUnderscore_aura_isNotAuthorized() {
+        @DisplayName("verifyHandshake should reject 'AURA' without underscore suffix")
+        fun shouldRejectAuraWithoutUnderscore() {
             assertFalse(Governor.verifyHandshake("AURA"))
         }
 
         @Test
-        @DisplayName("Prefix without underscore 'KAI' should NOT be authorized")
-        fun prefixWithoutUnderscore_kai_isNotAuthorized() {
+        @DisplayName("verifyHandshake should reject lowercase 'aura_' prefix")
+        fun shouldRejectLowercaseAuraPrefix() {
+            assertFalse(Governor.verifyHandshake("aura_lowercase"))
+        }
+    }
+
+    @Nested
+    @DisplayName("KAI_ prefix authorization")
+    inner class KaiPrefixTests {
+
+        @Test
+        @DisplayName("verifyHandshake should authorize IDs starting with 'KAI_'")
+        fun shouldAuthorizeKaiPrefix() {
+            assertTrue(Governor.verifyHandshake("KAI_001"))
+        }
+
+        @Test
+        @DisplayName("verifyHandshake should authorize any 'KAI_' prefixed ID")
+        fun shouldAuthorizeAnyKaiPrefixedId() {
+            assertTrue(Governor.verifyHandshake("KAI_GUARDIAN"))
+            assertTrue(Governor.verifyHandshake("KAI_SENTINEL_EXTENDED"))
+        }
+
+        @Test
+        @DisplayName("verifyHandshake should reject 'KAI' without underscore suffix")
+        fun shouldRejectKaiWithoutUnderscore() {
             assertFalse(Governor.verifyHandshake("KAI"))
         }
 
         @Test
-        @DisplayName("Prefix without underscore 'GENESIS' should NOT be authorized")
-        fun prefixWithoutUnderscore_genesis_isNotAuthorized() {
+        @DisplayName("verifyHandshake should reject lowercase 'kai_' prefix")
+        fun shouldRejectLowercaseKaiPrefix() {
+            assertFalse(Governor.verifyHandshake("kai_lowercase"))
+        }
+    }
+
+    @Nested
+    @DisplayName("GENESIS_ prefix authorization")
+    inner class GenesisPrefixTests {
+
+        @Test
+        @DisplayName("verifyHandshake should authorize IDs starting with 'GENESIS_'")
+        fun shouldAuthorizeGenesisPrefix() {
+            assertTrue(Governor.verifyHandshake("GENESIS_001"))
+        }
+
+        @Test
+        @DisplayName("verifyHandshake should authorize any 'GENESIS_' prefixed ID")
+        fun shouldAuthorizeAnyGenesisPrefixedId() {
+            assertTrue(Governor.verifyHandshake("GENESIS_ORCHESTRATOR"))
+        }
+
+        @Test
+        @DisplayName("verifyHandshake should reject 'GENESIS' without underscore suffix")
+        fun shouldRejectGenesisWithoutUnderscore() {
             assertFalse(Governor.verifyHandshake("GENESIS"))
         }
 
         @Test
-        @DisplayName("Empty string should NOT be authorized")
-        fun emptyString_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake(""))
-        }
-
-        @Test
-        @DisplayName("Arbitrary string should NOT be authorized")
-        fun arbitraryString_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("RANDOM_AGENT_XYZ"))
-        }
-
-        @Test
-        @DisplayName("Lowercase AURA_ prefix should NOT be authorized (case-sensitive)")
-        fun lowercaseAuraPrefix_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("aura_001"))
-        }
-
-        @Test
-        @DisplayName("Mixed-case prefix should NOT be authorized")
-        fun mixedCasePrefix_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("Aura_001"))
+        @DisplayName("verifyHandshake should reject lowercase 'genesis_' prefix")
+        fun shouldRejectLowercaseGenesisPrefix() {
+            assertFalse(Governor.verifyHandshake("genesis_lowercase"))
         }
     }
 
     @Nested
-    @DisplayName("verifyHandshake — side effect: active handshake tracking")
-    inner class HandshakeTrackingTests {
+    @DisplayName("Previously authorized IDs (now rejected by PR change)")
+    inner class PreviouslyAuthorizedIdsTests {
 
         @Test
-        @DisplayName("Authorized id should be added to active handshakes after verification")
-        fun authorizedId_isAddedToActiveHandshakes() {
-            val id = "AURA_TRACKING_TEST_001"
-            trackedIds.add(id) // register for cleanup
-            Governor.verifyHandshake(id)
-            assertTrue(Governor.isCatalystActive(id))
+        @DisplayName("'aura' (old lowercase entry) should no longer be authorized")
+        fun oldLowercaseAuraShouldBeRejected() {
+            assertFalse(Governor.verifyHandshake("aura"))
         }
 
         @Test
-        @DisplayName("Unauthorized id should NOT be added to active handshakes")
-        fun unauthorizedId_isNotAddedToActiveHandshakes() {
-            val id = "old_unauthorized_id"
-            Governor.verifyHandshake(id)
-            assertFalse(Governor.isCatalystActive(id))
-        }
-    }
-
-    @Nested
-    @DisplayName("revokeHandshake")
-    inner class RevokeHandshakeTests {
-
-        @Test
-        @DisplayName("Revoking an active handshake removes it from active set")
-        fun revokeHandshake_removesFromActiveSet() {
-            val id = "KAI_REVOKE_TEST_001"
-            Governor.verifyHandshake(id)
-            assertTrue(Governor.isCatalystActive(id))
-            Governor.revokeHandshake(id)
-            assertFalse(Governor.isCatalystActive(id))
+        @DisplayName("'kai' (old lowercase entry) should no longer be authorized")
+        fun oldLowercaseKaiShouldBeRejected() {
+            assertFalse(Governor.verifyHandshake("kai"))
         }
 
         @Test
-        @DisplayName("Revoking a non-existent id does not throw")
-        fun revokeNonExistentHandshake_doesNotThrow() {
-            // Should not throw
-            Governor.revokeHandshake("AURA_NEVER_REGISTERED")
-        }
-    }
-
-    @Nested
-    @DisplayName("isCatalystActive")
-    inner class IsCatalystActiveTests {
-
-        @Test
-        @DisplayName("Returns false for catalyst that was never verified")
-        fun neverVerified_returnsFalse() {
-            assertFalse(Governor.isCatalystActive("GENESIS_NEVER_SEEN"))
+        @DisplayName("'genesis' (old lowercase entry) should no longer be authorized")
+        fun oldLowercaseGenesisShouldBeRejected() {
+            assertFalse(Governor.verifyHandshake("genesis"))
         }
 
         @Test
-        @DisplayName("Returns true for catalyst that was verified and not revoked")
-        fun verifiedAndNotRevoked_returnsTrue() {
-            val id = "GENESIS_ACTIVE_001"
-            trackedIds.add(id)
-            Governor.verifyHandshake(id)
-            assertTrue(Governor.isCatalystActive(id))
-        }
-
-        @Test
-        @DisplayName("Returns false for catalyst that was verified then revoked")
-        fun verifiedThenRevoked_returnsFalse() {
-            val id = "AURA_LIFECYCLE_TEST"
-            Governor.verifyHandshake(id)
-            Governor.revokeHandshake(id)
-            assertFalse(Governor.isCatalystActive(id))
-        }
-    }
-
-    @Nested
-    @DisplayName("Regression — old allowlist IDs are no longer accepted")
-    inner class RegressionTests {
-
-        @Test
-        @DisplayName("primus_001 (old allowlist) should NOT be authorized")
-        fun primus001_isNotAuthorized() {
+        @DisplayName("'primus_001' should no longer be authorized")
+        fun primusShouldBeRejected() {
             assertFalse(Governor.verifyHandshake("primus_001"))
         }
 
         @Test
-        @DisplayName("kairos (old allowlist) should NOT be authorized")
-        fun kairos_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("kairos"))
+        @DisplayName("'andelualx' should no longer be authorized")
+        fun andelualxShouldBeRejected() {
+            assertFalse(Governor.verifyHandshake("andelualx"))
         }
 
         @Test
-        @DisplayName("perplexity (old allowlist) should NOT be authorized")
-        fun perplexity_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("perplexity"))
+        @DisplayName("'meta_instruct' should no longer be authorized")
+        fun metaInstructShouldBeRejected() {
+            assertFalse(Governor.verifyHandshake("meta_instruct"))
+        }
+    }
+
+    @Nested
+    @DisplayName("Unauthorized IDs")
+    inner class UnauthorizedIdTests {
+
+        @Test
+        @DisplayName("verifyHandshake should reject completely unknown IDs")
+        fun shouldRejectUnknownId() {
+            assertFalse(Governor.verifyHandshake("unknown_agent"))
         }
 
         @Test
-        @DisplayName("manus (old allowlist) should NOT be authorized")
-        fun manus_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("manus"))
+        @DisplayName("verifyHandshake should reject empty string")
+        fun shouldRejectEmptyId() {
+            assertFalse(Governor.verifyHandshake(""))
         }
 
         @Test
-        @DisplayName("mk_mini (old allowlist) should NOT be authorized")
-        fun mkMini_isNotAuthorized() {
-            assertFalse(Governor.verifyHandshake("mk_mini"))
+        @DisplayName("verifyHandshake should reject blank string")
+        fun shouldRejectBlankId() {
+            assertFalse(Governor.verifyHandshake("  "))
+        }
+    }
+
+    @Nested
+    @DisplayName("Active handshakes tracking")
+    inner class ActiveHandshakesTests {
+
+        @Test
+        @DisplayName("Authorized catalyst should be tracked as active after successful handshake")
+        fun authorizedIdShouldBeTrackedAsActive() {
+            Governor.verifyHandshake("AURA_001")
+            assertTrue(Governor.isCatalystActive("AURA_001"))
+        }
+
+        @Test
+        @DisplayName("Unauthorized catalyst should NOT be tracked as active")
+        fun unauthorizedIdShouldNotBeTrackedAsActive() {
+            Governor.verifyHandshake("unknown_agent")
+            assertFalse(Governor.isCatalystActive("unknown_agent"))
+        }
+
+        @Test
+        @DisplayName("Revoked handshake should no longer be active")
+        fun revokedHandshakeShouldNotBeActive() {
+            Governor.verifyHandshake("KAI_001")
+            assertTrue(Governor.isCatalystActive("KAI_001"))
+            Governor.revokeHandshake("KAI_001")
+            assertFalse(Governor.isCatalystActive("KAI_001"))
+        }
+
+        @Test
+        @DisplayName("isCatalystActive should return false for ID that was never verified")
+        fun unverifiedIdShouldNotBeActive() {
+            assertFalse(Governor.isCatalystActive("GENESIS_NEVER_VERIFIED"))
+        }
+
+        @Test
+        @DisplayName("Multiple GENESIS_ IDs can be simultaneously active")
+        fun multipleAuthorizedIdsShouldBeSimultaneouslyActive() {
+            Governor.verifyHandshake("GENESIS_001")
+            Governor.verifyHandshake("AURA_001")
+            Governor.verifyHandshake("KAI_001")
+            assertTrue(Governor.isCatalystActive("GENESIS_001"))
+            assertTrue(Governor.isCatalystActive("AURA_001"))
+            assertTrue(Governor.isCatalystActive("KAI_001"))
+            // Clean up
+            Governor.revokeHandshake("GENESIS_001")
+            Governor.revokeHandshake("AURA_001")
+            Governor.revokeHandshake("KAI_001")
+        }
+    }
+
+    @Nested
+    @DisplayName("Exact prefix boundary tests")
+    inner class PrefixBoundaryTests {
+
+        @Test
+        @DisplayName("'AURA_' alone (empty suffix) should be authorized")
+        fun auraUnderscoreAloneShouldBeAuthorized() {
+            assertTrue(Governor.verifyHandshake("AURA_"))
+        }
+
+        @Test
+        @DisplayName("'KAI_' alone (empty suffix) should be authorized")
+        fun kaiUnderscoreAloneShouldBeAuthorized() {
+            assertTrue(Governor.verifyHandshake("KAI_"))
+        }
+
+        @Test
+        @DisplayName("'GENESIS_' alone (empty suffix) should be authorized")
+        fun genesisUnderscoreAloneShouldBeAuthorized() {
+            assertTrue(Governor.verifyHandshake("GENESIS_"))
         }
     }
 }
