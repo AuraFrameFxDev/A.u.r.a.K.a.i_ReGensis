@@ -1,19 +1,48 @@
 package dev.aurakai.auraframefx.domains.aura.ui.screens.aura
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Animation
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material3.*
-import androidx.compose.animation.core.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +51,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.components.ColorWaveBackground
+import dev.aurakai.auraframefx.domains.aura.ui.components.TransmutationState
+import dev.aurakai.auraframefx.domains.aura.ui.components.UnityEngineTracker
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 
@@ -44,6 +75,9 @@ fun ReGenesisCustomizationHub(
 ) {
     // Handle hardware back button
     BackHandler(onBack = onNavigateBack)
+
+    // Unity state (Local for now, should come from ViewModel)
+    val transmutationState = remember { TransmutationState() }
 
     Box(modifier = Modifier.fillMaxSize()) {
         ColorWaveBackground()
@@ -130,7 +164,6 @@ fun ReGenesisCustomizationHub(
             }
         }
 
-/*
         // Floating Unity Transmutation Action
         Box(
             modifier = Modifier
@@ -141,11 +174,10 @@ fun ReGenesisCustomizationHub(
             UnityEngineTracker(
                 state = transmutationState,
                 onTransmuteClicked = {
-                    transmutationEngine.transmuteCatalysts(listOf("UX_INTENT", "HAPTIC_SYNTH", "COLOR_SOUL"))
+                    // transmutationEngine.transmuteCatalysts(listOf("UX_INTENT", "HAPTIC_SYNTH", "COLOR_SOUL"))
                 }
             )
         }
-        */
     }
 }
 

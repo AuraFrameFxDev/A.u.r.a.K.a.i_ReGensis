@@ -1,7 +1,5 @@
 package dev.aurakai.auraframefx.domains.aura.ui.components
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -16,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -62,16 +59,7 @@ fun UnityEngineTracker(
             .clickable(onClick = onTransmuteClicked),
         contentAlignment = Alignment.Center
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            UnityShaderLayer(state, pulse)
-        } else {
-            // Fallback for older Android versions
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = Color.White.copy(alpha = 0.1f),
-                shape = CircleShape
-            ) {}
-        }
+        UnityShaderLayer(state, pulse)
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
@@ -91,7 +79,6 @@ fun UnityEngineTracker(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun UnityShaderLayer(state: TransmutationState, pulse: Float) {
     val time by rememberInfiniteTransition(label = "unityShader").animateFloat(
