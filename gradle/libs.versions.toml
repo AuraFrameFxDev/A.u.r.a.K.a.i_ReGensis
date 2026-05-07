@@ -73,6 +73,7 @@ turbine = "1.2.1"
 google-services = "4.4.4"
 firebase-crashlytics = "3.0.7"
 desugar-jdk-libs = "2.1.5"
+remote-creation-compose = "1.0.0-alpha010"
 
 [libraries]
 # Build Logic Dependencies
@@ -193,6 +194,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 androidx-junit-ktx = { module = "androidx.test.ext:junit-ktx", version = "1.3.0" }
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-compose-remote-creation-compose = { group = "androidx.compose.remote", name = "remote-creation-compose", version.ref = "remote-creation-compose" }
 
 [bundles]
 ai-core = [

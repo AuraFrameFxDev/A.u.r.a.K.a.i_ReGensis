@@ -121,4 +121,24 @@ data class HapticProfile(
     val pattern: LongArray,
     val amplitude: IntArray,
     val frequencyHz: IntArray
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as HapticProfile
+
+        if (!pattern.contentEquals(other.pattern)) return false
+        if (!amplitude.contentEquals(other.amplitude)) return false
+        if (!frequencyHz.contentEquals(other.frequencyHz)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = pattern.contentHashCode()
+        result = 31 * result + amplitude.contentHashCode()
+        result = 31 * result + frequencyHz.contentHashCode()
+        return result
+    }
+}
