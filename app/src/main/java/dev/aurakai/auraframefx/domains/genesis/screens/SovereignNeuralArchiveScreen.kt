@@ -28,7 +28,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -50,7 +49,7 @@ import dev.aurakai.auraframefx.domains.genesis.viewmodels.SovereignMemoryViewMod
 @Composable
 fun SovereignNeuralArchiveScreen(
     onNavigateBack: () -> Unit,
-    viewModel: SovereignMemoryViewModel = hiltViewModel()
+    viewModel: SovereignMemoryViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 

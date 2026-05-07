@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.genesis.screens
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -67,7 +66,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBuilderScreen(
-    viewModel: InterfaceForgeViewModel = hiltViewModel(),
+    viewModel: InterfaceForgeViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
     onNavigateBack: () -> Unit = {}
 ) {
     var step by remember { mutableIntStateOf(1) }

@@ -42,7 +42,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -78,7 +77,7 @@ import java.util.Locale
 @Composable
 fun NeuralArchiveScreen(
     navController: NavController,
-    viewModel: NeuralArchiveViewModel = hiltViewModel()
+    viewModel: NeuralArchiveViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val filteredMemories by viewModel.filteredMemories.collectAsState()
     val memoryStats by viewModel.memoryStats.collectAsState()

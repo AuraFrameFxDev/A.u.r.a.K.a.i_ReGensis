@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOUiState
@@ -43,7 +42,7 @@ fun LDOCatalystHubScreen(
     onNavigateToTasker: () -> Unit = {},
     onNavigateToBonding: () -> Unit = {},
     onBack: () -> Unit = {},
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 

@@ -29,6 +29,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.FormatIndentIncrease
 import androidx.compose.material.icons.filled.AspectRatio
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BatteryFull
@@ -36,7 +37,6 @@ import androidx.compose.material.icons.filled.BlurOn
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material.icons.automirrored.filled.FormatIndentIncrease
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Image
@@ -91,7 +91,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.chromacore.iconify.iconify.IconPickerViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
@@ -145,7 +144,7 @@ data class IconifyCategory(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconifyHubScreen(
-    viewModel: IconPickerViewModel = hiltViewModel(),
+    viewModel: IconPickerViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
     onNavigateBack: () -> Unit = {},
     onNavigateToCategory: (String) -> Unit = {}
 ) {

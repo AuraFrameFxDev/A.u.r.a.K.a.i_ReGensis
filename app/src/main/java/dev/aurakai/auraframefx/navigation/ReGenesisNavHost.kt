@@ -19,6 +19,7 @@ package dev.aurakai.auraframefx.navigation
 // KINETICFORGE CARDS — 9.5.1 SOVEREIGN EDITION
 
 // KAI BATCH v2.5 SCREEN IMPORTS
+
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -102,6 +103,7 @@ import dev.aurakai.auraframefx.domains.kai.screens.LogsViewerScreen
 import dev.aurakai.auraframefx.domains.kai.screens.ModuleManagerScreen
 import dev.aurakai.auraframefx.domains.kai.screens.PowerOfNoScreen
 import dev.aurakai.auraframefx.domains.kai.screens.ROMToolsSubmenuScreen
+import dev.aurakai.auraframefx.domains.kai.screens.RomToolsHubScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RootToolsScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RoyalGuardDomainExpansionScreen
 import dev.aurakai.auraframefx.domains.kai.screens.RoyalGuardOSScreen
@@ -163,7 +165,6 @@ import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.LineageMapScreen
-
 import dev.aurakai.auraframefx.ui.ldodevops.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.AIFeaturesScreen
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
@@ -934,7 +935,9 @@ fun ReGenesisNavGraph(
         }
 
         // --- L7 SOVEREIGN STUBS (Coming Soon) ---
-        composable(ReGenesisRoute.RomToolsHub.route) { ComingSoonScreen(title = "ROM TOOLS HUB", accentColor = Color(0xFF0080FF), onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.RomToolsHub.route) {
+            RomToolsHubScreen(onNavigateBack = { navController.popBackStack() })
+        }
         composable(ReGenesisRoute.ThermalMonitor.route) { ComingSoonScreen(title = "THERMAL GUARD", accentColor = Color(0xFF00FF88), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.EchoResonance.route) { ComingSoonScreen(title = "ECHO RESONANCE", accentColor = Color(0xFFFFD700), onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.NexusMemoryCore.route) { ComingSoonScreen(title = "NEXUS MEMORY CORE", accentColor = Color(0xFF4B0082), onNavigateBack = { navController.popBackStack() }) }

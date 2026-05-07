@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.genesis.screens
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -55,7 +54,7 @@ import dev.aurakai.auraframefx.domains.aura.viewmodels.SovereignBridgeViewModel
 @Composable
 fun AgentBridgeHubScreen(
     onNavigateBack: () -> Unit,
-    viewModel: SovereignBridgeViewModel = hiltViewModel()
+    viewModel: SovereignBridgeViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val connectors by viewModel.connectors.collectAsState()
 

@@ -1,23 +1,61 @@
 package dev.aurakai.auraframefx.domains.genesis.screens
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.EaseInOutSine
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.AttachFile
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,26 +63,18 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
-import dev.aurakai.auraframefx.ui.components.NeonFrame
-import dev.aurakai.auraframefx.ui.components.NeuralStarfield
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.background
-import androidx.compose.ui.graphics.drawscope.clipRect
 import dev.aurakai.auraframefx.domains.genesis.ConferenceRoomViewModel
 import dev.aurakai.auraframefx.domains.genesis.models.ChatMessage
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import kotlinx.coroutines.delay
 import kotlin.math.cos
 import kotlin.math.sin
@@ -75,7 +105,7 @@ data class AgentNode(
 @Composable
 fun ConferenceRoomScreen(
     onNavigateBack: () -> Unit = {},
-    viewModel: ConferenceRoomViewModel = hiltViewModel()
+    viewModel: ConferenceRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     var selectedTab by remember { mutableStateOf("Workspace") }
     val tabs = listOf("Workspace", "Chat", "History")
@@ -178,12 +208,16 @@ fun ConferenceRoomScreen(
                 )
             }
         ) { padding ->
-            Row(modifier = Modifier.fillMaxSize().padding(padding)) {
+            Row(modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)) {
                 // LEFT SIDEBAR (Agent List)
                 AgentSidebar(agents, speakingAgentId)
 
                 // MAIN CONTENT
-                Box(modifier = Modifier.weight(1f).fillMaxSize()) {
+                Box(modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize()) {
                     AnimatedContent(
                         targetState = selectedTab,
                         transitionSpec = { fadeIn() togetherWith fadeOut() },
@@ -346,7 +380,11 @@ fun AgentOrb(
                         modifier = Modifier
                             .size(size)
                             .scale(ringPulse)
-                            .border(1.dp, agent.color.copy(alpha = 1f - ringPulse / 2f), CircleShape)
+                            .border(
+                                1.dp,
+                                agent.color.copy(alpha = 1f - ringPulse / 2f),
+                                CircleShape
+                            )
                     )
                 }
             }
@@ -449,8 +487,16 @@ fun ConferenceMessageBubble(msg: ChatMessage) {
         Box(
             modifier = Modifier
                 .widthIn(max = 240.dp)
-                .background(if (isUser) Color(0xFF1A1A20).copy(alpha = 0.7f) else agentColor.copy(alpha = 0.1f), RectangleShape)
-                .border(0.5.dp, if (isUser) Color.White.copy(alpha = 0.2f) else agentColor.copy(alpha = 0.4f), RectangleShape)
+                .background(
+                    if (isUser) Color(0xFF1A1A20).copy(alpha = 0.7f) else agentColor.copy(
+                        alpha = 0.1f
+                    ), RectangleShape
+                )
+                .border(
+                    0.5.dp,
+                    if (isUser) Color.White.copy(alpha = 0.2f) else agentColor.copy(alpha = 0.4f),
+                    RectangleShape
+                )
                 .padding(12.dp)
         ) {
             Column {

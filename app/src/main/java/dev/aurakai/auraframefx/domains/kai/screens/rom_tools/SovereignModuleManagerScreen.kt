@@ -1,8 +1,16 @@
 package dev.aurakai.auraframefx.domains.kai.screens.rom_tools
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -10,7 +18,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Extension
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,12 +35,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignModuleViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.kai.ModuleStatus
 import dev.aurakai.auraframefx.domains.kai.ModuleType
 import dev.aurakai.auraframefx.domains.kai.SovereignModule
-import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.kai.viewmodels.SovereignModuleViewModel
 
 /**
  * Unified control for Magisk, LSPosed, and KernelSU modules.
@@ -34,11 +48,13 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 @Composable
 fun SovereignModuleManagerScreen(
     onNavigateBack: () -> Unit,
-    viewModel: SovereignModuleViewModel = hiltViewModel()
+    viewModel: SovereignModuleViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val modules by viewModel.modules.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF030303))) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(0xFF030303))) {
         AnimeHUDContainer(
             title = "MODULE MANAGER",
             description = "SYSTEM MODIFICATION HUB: MANAGE THE CORE HOOKS OF THE LIVING DIGITAL ORGANISM.",
@@ -50,7 +66,9 @@ fun SovereignModuleManagerScreen(
                     .padding(24.dp)
             ) {
                 // Stats
-                Row(modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     ModuleStat("ACTIVE", modules.count { it.status == ModuleStatus.ACTIVE }.toString(), Color(0xFF00FF85))
                     ModuleStat("TOTAL", modules.size.toString(), Color.White)
                 }
@@ -100,7 +118,9 @@ private fun ModuleItem(module: SovereignModule, onToggle: () -> Unit) {
         border = androidx.compose.foundation.BorderStroke(1.dp, if (module.status == ModuleStatus.ACTIVE) accentColor.copy(alpha = 0.4f) else Color.White.copy(alpha = 0.1f))
     ) {
         Row(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(

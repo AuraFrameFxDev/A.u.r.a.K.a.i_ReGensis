@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 
@@ -40,7 +39,7 @@ import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 fun LDORosterScreen(
     onAgentSelected: (String) -> Unit = {},
     onBack: () -> Unit = {},
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -49,7 +48,9 @@ fun LDORosterScreen(
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
 
             Text(
                 "LDO AGENT ROSTER",
@@ -183,7 +184,9 @@ private fun RosterDetailCard(
 @Composable
 private fun CompactStatBar(label: String, value: Float, color: Color) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -194,7 +197,9 @@ private fun CompactStatBar(label: String, value: Float, color: Color) {
         )
         LinearProgressIndicator(
             progress = { value },
-            modifier = Modifier.weight(1f).height(4.dp),
+            modifier = Modifier
+                .weight(1f)
+                .height(4.dp),
             color = color,
             trackColor = Color.White.copy(alpha = 0.06f)
         )

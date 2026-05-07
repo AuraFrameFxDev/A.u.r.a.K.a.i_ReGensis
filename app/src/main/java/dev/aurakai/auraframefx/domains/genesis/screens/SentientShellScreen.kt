@@ -11,7 +11,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,15 +29,25 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -39,20 +58,18 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.ui.graphics.RectangleShape
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
-import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
+import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.RealityMorphLayer
 import dev.aurakai.auraframefx.ui.components.SovereignMawHUD
-import dev.aurakai.auraframefx.ui.components.AsyncImageOrVideo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 // ─── Data ──────────────────────────────────────────────────────────────────
 
@@ -73,7 +90,7 @@ private val QUICK_CMDS = listOf(
 @Composable
 fun SentientShellScreen(
     onNavigateBack: () -> Unit = {},
-    viewModel: LdoWarRoomViewModel = hiltViewModel()
+    viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     val godPotential by viewModel.godPotential.collectAsState(initial = 0f)
@@ -179,7 +196,9 @@ fun SentientShellScreen(
     }
 
     // Step 6: Persistent HUD Link + Background Layer
-    Box(modifier = Modifier.fillMaxSize().background(SovereignBlack)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(SovereignBlack)) {
         // Domain Background Layer
         AsyncImageOrVideo(
             mediaId = "oracledrivebg",
@@ -192,9 +211,13 @@ fun SentientShellScreen(
         // Step 4: Command Matrix Core UI
         NeonFrame(
             color = Color(0xFFB026FF).copy(alpha = 0.5f),
-            modifier = Modifier.fillMaxSize().padding(16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)) {
                 // Header
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -221,7 +244,9 @@ fun SentientShellScreen(
                 // Output area
                 LazyColumn(
                     state = listState,
-                    modifier = Modifier.weight(1f).fillMaxWidth()
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
                 ) {
                     items(history) { line ->
                         val (prefix, prefixColor, textColor) = when (line.type) {
@@ -233,7 +258,9 @@ fun SentientShellScreen(
                             TerminalType.INFO    -> Triple("    ", terminalGray, Color.LightGray)
                         }
 
-                        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 1.dp)) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 1.dp)) {
                             Text(line.timestamp, color = terminalGray.copy(alpha = 0.4f), fontSize = 9.sp, modifier = Modifier.padding(end = 6.dp))
                             Text(
                                 buildAnnotatedString {
@@ -249,14 +276,21 @@ fun SentientShellScreen(
 
                 // Quick-command toolbar
                 Row(
-                    modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(vertical = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     QUICK_CMDS.forEach { qcmd ->
                         Box(
                             modifier = Modifier
                                 .background(Color(0xFFB026FF).copy(alpha = 0.1f), RectangleShape)
-                                .border(0.5.dp, Color(0xFFB026FF).copy(alpha = 0.4f), RectangleShape)
+                                .border(
+                                    0.5.dp,
+                                    Color(0xFFB026FF).copy(alpha = 0.4f),
+                                    RectangleShape
+                                )
                                 .clickable { input = qcmd; submit() }
                                 .padding(horizontal = 12.dp, vertical = 4.dp)
                         ) {

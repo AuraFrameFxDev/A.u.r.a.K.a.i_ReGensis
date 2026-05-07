@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.nexus.screens
 
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +39,6 @@ import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDConta
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 
 
 /**
@@ -49,7 +47,7 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 @Composable
 fun AgentMonitoringScreen(
     onNavigateBack: () -> Unit,
-    viewModel: dev.aurakai.auraframefx.domains.aura.ui.viewmodels.MonitoringViewModel = hiltViewModel()
+    viewModel: dev.aurakai.auraframefx.domains.aura.ui.viewmodels.MonitoringViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val agents = remember { AgentRepository.getAllAgents() }
 

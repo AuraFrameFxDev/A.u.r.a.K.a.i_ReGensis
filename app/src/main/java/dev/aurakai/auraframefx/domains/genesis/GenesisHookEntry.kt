@@ -11,6 +11,7 @@ import dev.aurakai.auraframefx.domains.aura.models.NotchBarConfig
 import dev.aurakai.auraframefx.domains.kai.hooks.NotchBarHooker
 import dev.aurakai.auraframefx.hooks.system.GenesisSystemHooker
 import dev.aurakai.auraframefx.hooks.system.GenesisUIHooker
+import dev.aurakai.auraframefx.hooks.system.SwarmOptimisationHooker
 import dev.aurakai.auraframefx.hooks.system.UniversalComponentHooker
 
 /**
@@ -37,6 +38,7 @@ class GenesisHookEntry : IYukiHookXposedInit {
         // ── Universal Layer (All Apps) ──────────────────────────────────────
         loadHooker(UniversalComponentHooker())
         loadHooker(GenesisSystemHooker())
+        loadHooker(SwarmOptimisationHooker())
 
         // ── SystemUI ─────────────────────────────────────────────────────────
         loadApp(name = "com.android.systemui") {

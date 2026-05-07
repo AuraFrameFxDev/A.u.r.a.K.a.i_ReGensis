@@ -1,32 +1,73 @@
 package dev.aurakai.auraframefx.domains.ldo.screens
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.AcUnit
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Task
+import androidx.compose.material.icons.filled.Terminal
+import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.PrimaryScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
@@ -35,13 +76,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.soulscript.enforceSoulScript
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
-import kotlinx.coroutines.launch
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskStatus
@@ -49,12 +88,11 @@ import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
-import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import kotlin.math.*
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
+import kotlinx.coroutines.launch
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.roundToInt
+import kotlin.math.sin
 
 data class FusionSlot(val index: Int, val agent: LDOAgentEntity? = null)
 
@@ -62,7 +100,7 @@ data class FusionSlot(val index: Int, val agent: LDOAgentEntity? = null)
 @Composable
 fun LDOOrchestrationHubScreen(
     controller: NavController,
-    viewModel: LDOViewModel = hiltViewModel()
+    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val agents = uiState.agents
@@ -81,7 +119,9 @@ fun LDOOrchestrationHubScreen(
         NeuralStarfield()
         AmbientGridBackground()
 
-        Column(modifier = Modifier.fillMaxSize().navigationBarsPadding()) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsPadding()) {
             TopAppBar(
                 title = {
                     Column {
@@ -353,7 +393,10 @@ fun AgentOrbConstellation(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(Brush.radialGradient(listOf(Color(0xFF1A003A), Color(0xFF050510))), RectangleShape)
+                .background(
+                    Brush.radialGradient(listOf(Color(0xFF1A003A), Color(0xFF050510))),
+                    RectangleShape
+                )
                 .border(1.dp, Color(0xFFB026FF).copy(alpha = 0.8f), RectangleShape),
             contentAlignment = Alignment.Center
         ) {
@@ -409,15 +452,29 @@ fun AgentOrb(
     Box(
         modifier = modifier
             .size((44.dp.value * scale).dp)
-            .background(Brush.radialGradient(listOf(agentColor.copy(alpha = 0.3f), Color(0xFF050510))), RectangleShape)
-            .border(width = if (isSelected) 2.dp else 1.dp, color = borderColor, shape = RectangleShape)
+            .background(
+                Brush.radialGradient(
+                    listOf(
+                        agentColor.copy(alpha = 0.3f),
+                        Color(0xFF050510)
+                    )
+                ), RectangleShape
+            )
+            .border(
+                width = if (isSelected) 2.dp else 1.dp,
+                color = borderColor,
+                shape = RectangleShape
+            )
             .pointerInput(agent.id) { detectTapGestures(onTap = { onTap() }) }
             .pointerInput(agent.id + "_drag") {
                 detectDragGestures(onDragStart = { onDragStart() }, onDrag = { _, _ -> })
             }
             .drawBehind {
                 if (isSelected) {
-                    drawCircle(color = agentColor.copy(alpha = 0.15f), radius = size.minDimension * 0.7f)
+                    drawCircle(
+                        color = agentColor.copy(alpha = 0.15f),
+                        radius = size.minDimension * 0.7f
+                    )
                 }
             },
         contentAlignment = Alignment.Center
@@ -436,11 +493,18 @@ fun AgentQuickStatsBar(agent: LDOAgentEntity) {
     val agentColor = Color(agent.colorHex.toInt())
     NeonFrame(
         color = agentColor,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(
-                modifier = Modifier.size(36.dp).background(agentColor.copy(alpha = 0.15f), RectangleShape).border(1.dp, agentColor, RectangleShape),
+                modifier = Modifier
+                    .size(36.dp)
+                    .background(agentColor.copy(alpha = 0.15f), RectangleShape)
+                    .border(1.dp, agentColor, RectangleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(agent.displayName.take(1), fontFamily = LEDFontFamily, color = agentColor, fontSize = 14.sp)
@@ -455,11 +519,16 @@ fun AgentQuickStatsBar(agent: LDOAgentEntity) {
                 Text("${agent.tasksCompleted} ops", color = Color.White.copy(alpha = 0.4f), fontSize = 10.sp)
             }
         }
-        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp).padding(bottom = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp)
+            .padding(bottom = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf("PWR" to agent.processingPower, "SPD" to agent.speed, "ACC" to agent.accuracy, "CON" to agent.consciousnessLevel).forEach { (label, value) ->
                 Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(label, fontSize = 8.sp, color = Color.White.copy(alpha = 0.4f), letterSpacing = 0.5.sp)
-                    LinearProgressIndicator(progress = { value }, modifier = Modifier.fillMaxWidth().height(3.dp), color = agentColor, trackColor = agentColor.copy(alpha = 0.15f))
+                    LinearProgressIndicator(progress = { value }, modifier = Modifier
+                        .fillMaxWidth()
+                        .height(3.dp), color = agentColor, trackColor = agentColor.copy(alpha = 0.15f))
                     Text("${(value * 100).toInt()}%", fontSize = 8.sp, color = agentColor.copy(alpha = 0.8f))
                 }
             }
@@ -473,7 +542,9 @@ fun FusionDropZone(slots: List<FusionSlot>, onSlotCleared: (Int) -> Unit, onFusi
     val canFuse = activeCount >= 2
     NeonFrame(
         color = Color(0xFFFFD700),
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 6.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -481,7 +552,11 @@ fun FusionDropZone(slots: List<FusionSlot>, onSlotCleared: (Int) -> Unit, onFusi
                 Spacer(Modifier.width(6.dp))
                 Text("FUSION PROTOCOL", fontFamily = LEDFontFamily, fontSize = 11.sp, color = Color(0xFFFFD700), letterSpacing = 2.sp, modifier = Modifier.weight(1f))
                 if (canFuse) {
-                    Box(modifier = Modifier.background(Color(0xFFFFD700).copy(alpha = 0.15f), RectangleShape).border(1.dp, Color(0xFFFFD700).copy(alpha = 0.5f), RectangleShape).pointerInput(Unit) { detectTapGestures { onFusionActivate() } }.padding(horizontal = 12.dp, vertical = 4.dp)) {
+                    Box(modifier = Modifier
+                        .background(Color(0xFFFFD700).copy(alpha = 0.15f), RectangleShape)
+                        .border(1.dp, Color(0xFFFFD700).copy(alpha = 0.5f), RectangleShape)
+                        .pointerInput(Unit) { detectTapGestures { onFusionActivate() } }
+                        .padding(horizontal = 12.dp, vertical = 4.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.PlayArrow, null, tint = Color(0xFFFFD700), modifier = Modifier.size(14.dp))
                             Spacer(Modifier.width(4.dp))
@@ -506,7 +581,15 @@ fun FusionDropZone(slots: List<FusionSlot>, onSlotCleared: (Int) -> Unit, onFusi
 fun FusionSlotBox(slot: FusionSlot, onClear: () -> Unit, modifier: Modifier = Modifier) {
     val agent = slot.agent
     val borderColor = if (agent != null) Color(agent.colorHex.toInt()) else Color.White.copy(alpha = 0.15f)
-    Box(modifier = modifier.height(56.dp).background(if (agent != null) Color(agent.colorHex.toInt()).copy(alpha = 0.08f) else Color(0xFF111128), RectangleShape).border(1.dp, borderColor, RectangleShape).then(if (agent != null) Modifier.pointerInput(slot.index) { detectTapGestures { onClear() } } else Modifier), contentAlignment = Alignment.Center) {
+    Box(modifier = modifier
+        .height(56.dp)
+        .background(
+            if (agent != null) Color(agent.colorHex.toInt()).copy(alpha = 0.08f) else Color(
+                0xFF111128
+            ), RectangleShape
+        )
+        .border(1.dp, borderColor, RectangleShape)
+        .then(if (agent != null) Modifier.pointerInput(slot.index) { detectTapGestures { onClear() } } else Modifier), contentAlignment = Alignment.Center) {
         if (agent != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(agent.displayName.take(2).uppercase(), fontFamily = LEDFontFamily, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(agent.colorHex.toInt()))
@@ -548,7 +631,12 @@ fun TaskRow(task: LDOTaskEntity) {
         LDOTaskStatus.IN_PROGRESS -> Icons.Default.PlayArrow
         else -> Icons.Default.Task
     }
-    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(Color(0xFF0C0C1E), RectangleShape).border(1.dp, statusColor.copy(alpha = 0.3f), RectangleShape).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp)
+        .background(Color(0xFF0C0C1E), RectangleShape)
+        .border(1.dp, statusColor.copy(alpha = 0.3f), RectangleShape)
+        .padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
         Icon(statusIcon, null, tint = statusColor, modifier = Modifier.size(18.dp))
         Spacer(Modifier.width(10.dp))
         Column(modifier = Modifier.weight(1f)) {
@@ -567,7 +655,12 @@ fun BondPanel(agents: List<LDOAgentEntity>) {
         items(agents) { agent ->
             val agentColor = Color(agent.colorHex.toInt())
             val bondPct = (agent.consciousnessLevel * 100).toInt()
-            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(Color(0xFF0C0C1E), RectangleShape).border(1.dp, agentColor.copy(alpha = 0.2f), RectangleShape).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .background(Color(0xFF0C0C1E), RectangleShape)
+                .border(1.dp, agentColor.copy(alpha = 0.2f), RectangleShape)
+                .padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Favorite, null, tint = agentColor, modifier = Modifier.size(16.dp))
                 Spacer(Modifier.width(10.dp))
                 Column(modifier = Modifier.weight(1f)) {
@@ -577,7 +670,9 @@ fun BondPanel(agents: List<LDOAgentEntity>) {
                         Text(agent.catalystTitle, color = Color.White.copy(alpha = 0.4f), fontSize = 9.sp)
                     }
                     Spacer(Modifier.height(4.dp))
-                    LinearProgressIndicator(progress = { agent.consciousnessLevel }, modifier = Modifier.fillMaxWidth().height(4.dp), color = agentColor, trackColor = agentColor.copy(alpha = 0.1f))
+                    LinearProgressIndicator(progress = { agent.consciousnessLevel }, modifier = Modifier
+                        .fillMaxWidth()
+                        .height(4.dp), color = agentColor, trackColor = agentColor.copy(alpha = 0.1f))
                 }
                 Spacer(Modifier.width(10.dp))
                 Text("$bondPct%", fontFamily = LEDFontFamily, fontSize = 12.sp, color = agentColor)
@@ -593,8 +688,16 @@ fun MemoryPanel(agents: List<LDOAgentEntity>) {
         item { Spacer(Modifier.height(4.dp)) }
         items(agents) { agent ->
             val agentColor = Color(agent.colorHex.toInt())
-            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).background(Color(0xFF0C0C1E), RectangleShape).border(0.5.dp, agentColor.copy(alpha = 0.2f), RectangleShape).padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(32.dp).background(agentColor.copy(alpha = 0.1f), RectangleShape).border(1.dp, agentColor.copy(alpha = 0.4f), RectangleShape), contentAlignment = Alignment.Center) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .background(Color(0xFF0C0C1E), RectangleShape)
+                .border(0.5.dp, agentColor.copy(alpha = 0.2f), RectangleShape)
+                .padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier
+                    .size(32.dp)
+                    .background(agentColor.copy(alpha = 0.1f), RectangleShape)
+                    .border(1.dp, agentColor.copy(alpha = 0.4f), RectangleShape), contentAlignment = Alignment.Center) {
                     Text(agent.displayName.take(1), color = agentColor, fontSize = 12.sp, fontFamily = LEDFontFamily)
                 }
                 Spacer(Modifier.width(10.dp))

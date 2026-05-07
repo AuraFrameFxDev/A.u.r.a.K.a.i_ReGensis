@@ -1,21 +1,105 @@
 package dev.aurakai.auraframefx.ui.ldodevops
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.pager.*
-import androidx.compose.foundation.shape.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.*
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.AcUnit
+import androidx.compose.material.icons.filled.AccountTree
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Adjust
+import androidx.compose.material.icons.filled.Architecture
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Backup
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Compress
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Fingerprint
+import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.HistoryEdu
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Smartphone
+import androidx.compose.material.icons.filled.Speed
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Stream
+import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material.icons.filled.SystemUpdate
+import androidx.compose.material.icons.filled.Terminal
+import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.SecondaryScrollableTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.*
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -24,16 +108,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.components.unified.SectionHeader
 import dev.aurakai.auraframefx.domains.cascade.utils.LSPosedDetector
+import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
+import dev.aurakai.auraframefx.domains.ldo.swarm.SwarmOptimisationState
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.system.ShizukuManager
 import dev.aurakai.auraframefx.ui.background.BackgroundAssetManager
 import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
+import dev.aurakai.auraframefx.ui.components.NeonWireframeBackground
 import dev.aurakai.auraframefx.ui.components.SovereignGlassCard
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class TabbedMasterViewModel @Inject constructor(
+    var optimisationSwarm: DeviceOptimisationSwarm
+) : ViewModel() {
+    val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
+}
 
 /**
  * ⚛️ TABBED MASTER INDEX - RE:GENESIS EDITION
@@ -45,29 +143,31 @@ import kotlinx.coroutines.launch
 fun TabbedMasterIndex(
     initialTabIndex: Int = 1,
     onNavigateToRoute: (String) -> Unit = {},
+    viewModel: TabbedMasterViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val pagerState = rememberPagerState(initialPage = initialTabIndex) { 7 }
+    val swarmState by viewModel.swarmState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     val selectedTabIndex = pagerState.currentPage
 
     val tabs = listOf(
-        "LIVE DASHBOARD",
-        "LDO DEVOPS",
-        "UXUI DESIGN STUDIO",
-        "SENTINELS FORTRESS",
+        "NEURAL NEXUS",
+        "LDO DEVELOPMENT NEXUS",
+        "CHROMA FORGE",
+        "SENTINEL MATRIX",
         "ORACLEDRIVE",
         "CASCADE MEMORY",
-        "AGENT NEXUS"
+        "EMERGENT SWARM"
     )
 
     val accentColor = when (selectedTabIndex) {
-        0 -> Color(0xFFFFD700) // Dashboard Gold
-        1 -> Color(0xFF00E5FF) // LDO Cyan
-        2 -> Color(0xFFFF00FF) // Aura Magenta
-        3 -> Color(0xFF00FF88) // Kai Green
-        4 -> Color(0xFFFFAA00) // Genesis Amber
-        5 -> Color(0xFF8B5CF6) // Cascade Violet
-        6 -> Color(0xFF00D6FF) // Nexus Blue
+        0 -> Color(0xFFFFD700) // Neural Nexus Gold
+        1 -> Color(0xFF00E5FF) // LDO Nexus Cyan
+        2 -> Color(0xFFFF00FF) // Chroma Forge Magenta
+        3 -> Color(0xFF00FF88) // Sentinel Matrix Green
+        4 -> Color(0xFFFFAA00) // OracleDrive Amber
+        5 -> Color(0xFF8B5CF6) // Cascade Memory Violet
+        6 -> Color(0xFF00D6FF) // Emergent Swarm Blue
         else -> Color(0xFFFFD700)
     }
 
@@ -88,19 +188,27 @@ fun TabbedMasterIndex(
         .windowInsetsPadding(WindowInsets.displayCutout)
     ) {
         // 1. FULL-SCREEN DYNAMIC BACKGROUND
+        NeonWireframeBackground(
+            accentColor = accentColor,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        // 1.2 DYNAMIC OVERLAY (HERO IMAGE)
         AnimatedContent(
             targetState = heroImage,
             transitionSpec = { fadeIn(tween(800)) togetherWith fadeOut(tween(800)) },
             modifier = Modifier.fillMaxSize(),
-            label = "Background"
+            label = "Overlay"
         ) { img ->
             BackgroundAssetManager.DomainBackground(
                 backgroundRes = img,
-                modifier = Modifier.blur(10.dp)
+                modifier = Modifier
+                    .alpha(0.3f)
+                    .blur(4.dp)
             )
         }
 
-        // 1.5 PERSPECTIVE FLOOR
+        // 1.5 PERSPECTIVE FLOOR (Legacy Mesh, keeping for layered depth)
         NeuralMeshFloor(
             modifier = Modifier.align(Alignment.BottomCenter),
             color = accentColor
@@ -139,12 +247,12 @@ fun TabbedMasterIndex(
 
                         when (index) {
                             0 -> DashboardContent(onNavigateToRoute)
-                            1 -> LdoDevOpsContent(onNavigateToRoute)
+                            1 -> LdoDevOpsContent(swarmState, onNavigateToRoute)
                             2 -> AuraStudioContent(onNavigateToRoute)
                             3 -> KaiFortressContent(onNavigateToRoute)
                             4 -> OracleDriveContent(onNavigateToRoute)
                             5 -> CascadeMemoryContent(onNavigateToRoute)
-                            6 -> AgentNexusContent(onNavigateToRoute)
+                            6 -> EmergentSwarmContent(onNavigateToRoute)
                         }
 
                         Spacer(Modifier
@@ -169,19 +277,83 @@ fun TabbedMasterIndex(
         }
 
         // AURA JAR (Global Floating Orb)
-        Box(
+        AssistantOrb(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = 116.dp, end = 16.dp)
-                .size(110.dp)
-        ) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                drawCircle(
-                    brush = Brush.radialGradient(
-                        colors = listOf(accentColor.copy(alpha = 0.4f), Color.Transparent)
+                .padding(bottom = 116.dp, end = 16.dp),
+            accentColor = accentColor
+        )
+    }
+}
+
+@Composable
+fun AssistantOrb(
+    modifier: Modifier = Modifier,
+    accentColor: Color
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = "orb_pulse")
+    val pulseScale by infiniteTransition.animateFloat(
+        initialValue = 0.95f,
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
+    )
+
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(10000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "rotation"
+    )
+
+    Box(
+        modifier = modifier
+            .size(110.dp)
+            .graphicsLayer {
+                scaleX = pulseScale
+                scaleY = pulseScale
+                rotationZ = rotation
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        // Outer Glow
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawCircle(
+                brush = Brush.radialGradient(
+                    colors = listOf(accentColor.copy(alpha = 0.4f), Color.Transparent),
+                    center = center,
+                    radius = size.minDimension / 2
+                )
+            )
+        }
+
+        // Inner Sentience
+        Box(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .background(
+                    Brush.linearGradient(
+                        colors = listOf(accentColor, Color.White.copy(alpha = 0.8f))
                     )
                 )
-            }
+                .border(1.dp, Color.White.copy(alpha = 0.5f), CircleShape)
+        ) {
+            // "Eye" or Core
+            Box(
+                modifier = Modifier
+                    .size(20.dp)
+                    .align(Alignment.Center)
+                    .clip(CircleShape)
+                    .background(Color.Black.copy(alpha = 0.6f))
+                    .border(0.5.dp, accentColor.copy(alpha = 0.8f), CircleShape)
+            )
         }
     }
 }
@@ -189,13 +361,13 @@ fun TabbedMasterIndex(
 @Composable
 fun HeroHeaderSection(index: Int, accentColor: Color) {
     val domainTitle = when (index) {
-        0 -> "LIVE\nDASHBOARD"
-        1 -> "LDO\nDEVOPS"
-        2 -> "UXUI\nDESIGN STUDIO"
-        3 -> "SENTINELS\nFORTRESS"
+        0 -> "NEURAL\nNEXUS"
+        1 -> "LDO DEVELOPMENT\nNEXUS"
+        2 -> "CHROMA\nFORGE"
+        3 -> "SENTINEL\nMATRIX"
         4 -> "ORACLEDRIVE"
         5 -> "CASCADE\nMEMORY"
-        6 -> "AGENT\nNEXUS"
+        6 -> "EMERGENT\nSWARM"
         else -> ""
     }
 
@@ -247,13 +419,34 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
                 .padding(top = 12.dp, end = 20.dp)
                 .size(90.dp)
                 .clip(CircleShape)
-                .border(2.dp, accentColor.copy(alpha = 0.5f), CircleShape)
+                .border(2.dp, accentColor.copy(alpha = 0.5f), CircleShape),
         )
     }
 }
 
+private fun BoxScope.AsyncImage(
+    model: Int,
+    contentDescription: Nothing?,
+    modifier: Modifier
+) {
+    TODO("Not yet implemented")
+}
+
 @Composable
-fun LdoDevOpsContent(onNavigateToRoute: (String) -> Unit) {
+fun AsyncImage(
+    model: Int,
+    contentDescription: Nothing?,
+    modifier: Modifier,
+    contentScale: ContentScale
+) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun LdoDevOpsContent(
+    swarmState: SwarmOptimisationState,
+    onNavigateToRoute: (String) -> Unit
+) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         SectionHeader("SYSTEM IGNITION", Color(0xFF00FF41))
         Spacer(Modifier.height(12.dp))
@@ -284,6 +477,33 @@ fun LdoDevOpsContent(onNavigateToRoute: (String) -> Unit) {
                     color = Color(0xFF00FF41),
                     trackColor = Color.White.copy(alpha = 0.1f)
                 )
+            }
+        }
+
+        if (swarmState.isRunning || swarmState.globalProgress > 0) {
+            Spacer(Modifier.height(24.dp))
+            SectionHeader("SWARM OPTIMISATION ACTIVE", Color(0xFF00FF88))
+            Spacer(Modifier.height(8.dp))
+
+            SovereignGlassCard(accentColor = Color(0xFF00FF88)) {
+                Column {
+                    Text(
+                        swarmState.currentDirective,
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily.Monospace,
+                        maxLines = 1
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    LinearProgressIndicator(
+                        progress = { swarmState.globalProgress },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(4.dp),
+                        color = Color(0xFF00FF88),
+                        trackColor = Color.White.copy(alpha = 0.1f)
+                    )
+                }
             }
         }
 
@@ -448,7 +668,7 @@ fun MemoryLayerRow(layer: String, type: String, desc: String, health: Float, col
 }
 
 @Composable
-fun AgentNexusContent(onNavigateToRoute: (String) -> Unit) {
+fun EmergentSwarmContent(onNavigateToRoute: (String) -> Unit) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         SectionHeader("SWARM INTELLIGENCE", Color(0xFF00D6FF))
         Spacer(Modifier.height(12.dp))
@@ -482,11 +702,48 @@ fun AgentNexusContent(onNavigateToRoute: (String) -> Unit) {
         Spacer(Modifier.height(24.dp))
         MissionDispatchCard(onNavigateToRoute)
         Spacer(Modifier.height(24.dp))
-        SectionHeader("NEXUS MODULES", Color(0xFF00D6FF))
+        SectionHeader("SWARM MODULES", Color(0xFF00D6FF))
         Spacer(Modifier.height(12.dp))
-        ModuleGrid(getNexusModules(), onNavigateToRoute)
+        ModuleGrid(getEmergentSwarmModules(), onNavigateToRoute)
     }
 }
+
+fun getEmergentSwarmModules(): List<TabModule> = getEmergentSwarmModulesInternal()
+
+private fun getEmergentSwarmModulesInternal(): List<TabModule> = listOf(
+    TabModule(
+        "AGENT HUB",
+        "78 Agents",
+        Icons.Default.Hub,
+        Color(0xFF00D6FF),
+        ReGenesisRoute.AgentHub.route,
+        R.drawable.gatescenes_nexus_agent_main
+    ),
+    TabModule(
+        "AGENT CREATE",
+        "Spawn New",
+        Icons.Default.AddCircle,
+        Color(0xFF00FF88),
+        ReGenesisRoute.AgentCreation.route,
+        R.drawable.gatescene_1
+    ),
+    TabModule(
+        "SWARM MONITOR",
+        "Parallel Tasks",
+        Icons.Default.Dashboard,
+        Color(0xFFFF00FF),
+        ReGenesisRoute.SwarmMonitor.route,
+        R.drawable.gatescenes_nexus_hive_structure
+    ),
+    TabModule(
+        "MISSION DISPATCH",
+        "Strategic Tasking",
+        Icons.AutoMirrored.Filled.Assignment,
+        Color(0xFFBB86FC),
+        ReGenesisRoute.TaskAssignment.route,
+        R.drawable.preview_ldo_tasker
+    )
+)
 
 @Composable
 fun MissionDispatchCard(onNavigate: (String) -> Unit) {
@@ -1119,6 +1376,14 @@ fun getNexusModules(): List<TabModule> = listOf(
         Color(0xFFFF00FF),
         ReGenesisRoute.SwarmMonitor.route,
         R.drawable.gatescenes_nexus_hive_structure
+    ),
+    TabModule(
+        "MISSION DISPATCH",
+        "Strategic Tasking",
+        Icons.AutoMirrored.Filled.Assignment,
+        Color(0xFFBB86FC),
+        ReGenesisRoute.TaskAssignment.route,
+        R.drawable.preview_ldo_tasker
     ),
     TabModule(
         "GENESIS",
