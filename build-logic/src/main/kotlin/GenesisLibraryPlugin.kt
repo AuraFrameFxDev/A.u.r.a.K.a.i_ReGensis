@@ -65,6 +65,7 @@ class GenesisLibraryPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("hilt-android").get())
                 add("ksp", libs.findLibrary("hilt-compiler").get())
                 add("implementation", libs.findLibrary("timber").get())
+                add("implementation", platform(libs.findLibrary("firebase-bom").get()))
                 add("implementation", libs.findBundle("ai-core").get())
             }
         }

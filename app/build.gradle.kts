@@ -112,7 +112,6 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     // Firebase
-    implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.common)

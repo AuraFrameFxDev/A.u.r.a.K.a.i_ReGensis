@@ -67,9 +67,6 @@ turbine = "1.2.1"
 google-services = "4.4.4"
 firebase-crashlytics = "3.0.7"
 desugar-jdk-libs = "2.1.5"
-# firebase-messaging-ktx version removed to let BOM handle it
-# firebase-messaging-ktx = "25.0.1"
-# Note: firebase-messaging-ktx 25.0.1 does not exist, use firebase-messaging
 
 [libraries]
 # Build Logic Dependencies
@@ -185,7 +182,6 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 ai-core = [
     "langchain4j-core",
     "executorch-android",
-    "firebase-bom",
     "firebase-messaging",
     "firebase-ai-logic",
     "firebase-sql-connect"
