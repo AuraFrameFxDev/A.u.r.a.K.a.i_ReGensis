@@ -1,8 +1,8 @@
 plugins {
     id("genesis.android.application")
     id("kotlin-parcelize")
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.google.services) version ("4.4.4")
+    alias(libs.plugins.firebase.crashlytics) version ("3.0.2")
 }
 
 extensions.configure<com.android.build.api.dsl.ApplicationExtension> {

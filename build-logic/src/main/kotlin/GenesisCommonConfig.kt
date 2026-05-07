@@ -68,19 +68,17 @@ object GenesisCommonConfig {
                         substitute(module("com.google.firebase:firebase-messaging-ktx")).using(
                             module("com.google.firebase:firebase-messaging:25.0.1")
                         )
-                        substitute(module("com.google.firebase:firebase-common-ktx")).using(module("com.google.firebase:firebase-common"))
-                        substitute(module("com.google.firebase:firebase-auth-ktx")).using(module("com.google.firebase:firebase-auth"))
+                        substitute(module("com.google.firebase:firebase-common-ktx")).using(module("com.google.firebase:firebase-common:22.0.1"))
+                        substitute(module("com.google.firebase:firebase-auth-ktx")).using(module("com.google.firebase:firebase-auth:24.0.1"))
                         substitute(module("com.google.firebase:firebase-firestore-ktx")).using(
-                            module("com.google.firebase:firebase-firestore")
+                            module("com.google.firebase:firebase-firestore:26.2.0")
                         )
                         substitute(module("com.google.firebase:firebase-storage-ktx")).using(
-                            module(
-                                "com.google.firebase:firebase-storage"
-                            )
+                            module("com.google.firebase:firebase-storage:22.0.1")
                         )
-                        substitute(module("com.google.firebase:firebase-config-ktx")).using(module("com.google.firebase:firebase-config"))
+                        substitute(module("com.google.firebase:firebase-config-ktx")).using(module("com.google.firebase:firebase-config:23.0.1"))
                         substitute(module("com.google.firebase:firebase-analytics-ktx")).using(
-                            module("com.google.firebase:firebase-analytics")
+                            module("com.google.firebase:firebase-analytics:23.2.0")
                         )
 
                         /*
