@@ -216,7 +216,10 @@ firebase = [
     "firebase-firestore",
     "firebase-storage",
     "firebase-config",
-    "firebase-analytics"
+    "firebase-analytics",
+    "firebase-crashlytics",
+    "firebase-messaging",
+    "firebase-common"
 ]
 
 [plugins]
