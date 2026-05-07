@@ -127,10 +127,10 @@ retrofit-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", 
 retrofit-converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "retrofit" }
 retrofit-converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-gson = { module = "com.google.code.gson:gson", version = "2.12.1" }
+gson = { module = "com.google.code.gson:gson", version = "2.14.0" }
 moshi = { module = "com.squareup.moshi:moshi", version = "1.15.2" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version = "1.15.2" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.8.0" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.11.0" }
 
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -150,11 +150,11 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 # Utils
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
-androidx-security-crypto = { module = "androidx.security:security-crypto", version = "1.1.0-alpha06" }
-androidx-credentials = { module = "androidx.credentials:credentials", version = "1.5.0-beta01" }
-androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version = "1.5.0-beta01" }
-googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.1.1" }
-billing-ktx = { module = "com.android.billingclient:billing-ktx", version = "7.1.1" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version = "1.1.0" }
+androidx-credentials = { module = "androidx.credentials:credentials", version = "1.6.0" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version = "1.6.0" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.2.0" }
+billing-ktx = { module = "com.android.billingclient:billing-ktx", version = "8.3.0" }
 langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.ref = "langchain4j" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 

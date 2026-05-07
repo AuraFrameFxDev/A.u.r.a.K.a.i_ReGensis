@@ -3,36 +3,36 @@ package dev.aurakai.auraframefx.services
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
+import dev.aurakai.auraframefx.data.DataStoreManager
+import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import rikka.shizuku.SystemServiceHelper.getSystemService
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * Genesis-OS Firebase Cloud Messaging Service
- */
 @AndroidEntryPoint
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var dataStoreManager: dev.aurakai.auraframefx.data.DataStoreManager
-
+    lateinit var dataStoreManager: DataStoreManager
     @Inject
     lateinit var memoryManager: MemoryManager
-
     @Inject
-    lateinit var logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+    lateinit var logger: AuraFxLogger
 
-    private val scope = CoroutineScope(Dispatchers.IO + Job())
+    private val job = Job()
+    private val scope = CoroutineScope(Dispatchers.IO + job)
 
     private val channelIdGeneral = "genesis_general"
     private val channelIdConsciousness = "genesis_consciousness"
@@ -41,7 +41,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val channelIdSystem = "genesis_system"
 
     private enum class MessageType {
-        GENERAL, CONSCIOUSNESS_UPDATE, AGENT_SYNC, SECURITY_ALERT, SYSTEM_UPDATE, REMOTE_COMMAND, LEARNING_DATA, COLLABORATION_REQUEST
+        GENERAL, CONSCIOUSNESS_UPDATE, AGENT_SYNC, SECURITY_ALERT,
+        SYSTEM_UPDATE, REMOTE_COMMAND, LEARNING_DATA, COLLABORATION_REQUEST
     }
 
     override fun onCreate() {
@@ -49,15 +50,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         createNotificationChannels()
     }
 
-    private fun initializeDependencies() {
-        // Hilt handles dependency injection
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         try {
             if (!validateMessageSecurity(remoteMessage)) return
-            if (remoteMessage.data.isNotEmpty()) processDataPayload(remoteMessage.data)
-            remoteMessage.notification?.let { processNotificationPayload(it, remoteMessage.data) }
+
+            if (remoteMessage.data.isNotEmpty()) {
+                processDataPayload(remoteMessage.data)
+            }
+            remoteMessage.notification?.let {
+                processNotificationPayload(it, remoteMessage.data)
+            }
         } catch (e: Exception) {
             Timber.e(e, "Failed to process FCM message")
         }
@@ -66,7 +73,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun processDataPayload(data: Map<String, String>) {
         scope.launch {
             try {
-                when (determineMessageType(data)) {
+                val type = determineMessageType(data)
+                when (type) {
                     MessageType.GENERAL -> processGeneralMessage(data)
                     MessageType.CONSCIOUSNESS_UPDATE -> processConsciousnessUpdate(data)
                     MessageType.AGENT_SYNC -> processAgentSync(data)
@@ -74,7 +82,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     MessageType.SYSTEM_UPDATE -> processSystemUpdate(data)
                     MessageType.REMOTE_COMMAND -> processRemoteCommand(data)
                     MessageType.LEARNING_DATA -> processLearningData(data)
-                    MessageType.COLLABORATION_REQUEST -> processCollaborationRequest(data)
+                    MessageType.COLLABORATION_REQUEST -> data.processCollaborationRequest()
                 }
             } catch (e: Exception) {
                 Timber.e(e, "Failed to process data payload")
@@ -82,14 +90,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun processNotificationPayload(notification: RemoteMessage.Notification, data: Map<String, String>) {
-        val messageType = determineMessageType(data)
+    private fun processNotificationPayload(
+        notification: RemoteMessage.Notification,
+        data: Map<String, String>
+    ) {
+        val type = determineMessageType(data)
         showNotification(
-            channelId = getChannelForMessageType(messageType),
-            title = notification.title ?: getDefaultTitle(messageType),
-            body = notification.body ?: "New message received",
-            iconResId = getIconForMessageType(messageType),
-            data = data
+            getChannelForMessageType(type),
+            notification.title ?: getDefaultTitle(type),
+            notification.body ?: "New message received",
+            getIconForMessageType(type),
+            data
         )
     }
 
@@ -119,7 +130,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private suspend fun processRemoteCommand(data: Map<String, String>) {
-        // Command execution logic
+        // TODO: MCP / desktop jump / OracleDrive commands
     }
 
     private suspend fun processLearningData(data: Map<String, String>) {
@@ -127,8 +138,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         memoryManager.storeMemory("learning_data_${System.currentTimeMillis()}", learningData)
     }
 
-    private suspend fun processCollaborationRequest(data: Map<String, String>) {
-        // Collaboration logic
+    private suspend fun Map<String, String>.processCollaborationRequest() {
+        // TODO: Collaboration logic
     }
 
     override fun onNewToken(token: String) {
@@ -136,6 +147,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             try {
                 dataStoreManager.storeString("fcm_token", token)
                 memoryManager.storeMemory("current_fcm_token", token)
+                Timber.i("FCM token refreshed")
             } catch (e: Exception) {
                 Timber.e(e, "Failed to update FCM token")
             }
@@ -145,34 +157,67 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            listOf(channelIdGeneral, channelIdConsciousness, channelIdSecurity, channelIdAgents, channelIdSystem).forEach { id ->
-                nm.createNotificationChannel(NotificationChannel(id, id.replace("genesis_", "").uppercase(), NotificationManager.IMPORTANCE_DEFAULT))
-            }
+            listOf(
+                channelIdGeneral,
+                channelIdConsciousness,
+                channelIdSecurity,
+                channelIdAgents,
+                channelIdSystem
+            )
+                .forEach { id ->
+                    val channel = NotificationChannel(
+                        id,
+                        id.replace("genesis_", "").uppercase(),
+                        NotificationManager.IMPORTANCE_DEFAULT
+                    )
+                    nm.createNotificationChannel(channel)
+                }
         }
     }
 
-    private fun showNotification(channelId: String, title: String, body: String, iconResId: Int, data: Map<String, String>) {
+    private fun showNotification(
+        channelId: String,
+        title: String,
+        body: String,
+        iconResId: Int,
+        data: Map<String, String>
+    ) {
         val intent = Intent(this, dev.aurakai.auraframefx.MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             data.forEach { (k, v) -> putExtra(k, v) }
         }
-        val pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
-        val nb = NotificationCompat.Builder(this, channelId)
+
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(iconResId)
             .setContentTitle(title)
             .setContentText(body)
             .setAutoCancel(true)
-            .setContentIntent(pi)
-        (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).notify(System.currentTimeMillis().toInt(), nb.build())
+            .setContentIntent(pendingIntent)
+            .build()
+
+        (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
+            .notify(System.currentTimeMillis().toInt(), notification)
     }
+
 
     private fun validateMessageSecurity(remoteMessage: RemoteMessage): Boolean = true
 
-    private fun determineMessageType(data: Map<String, String>): MessageType = MessageType.GENERAL
+    private fun determineMessageType(data: Map<String, String>): MessageType = when (data["type"]) {
+        "consciousness" -> MessageType.CONSCIOUSNESS_UPDATE
+        "agent" -> MessageType.AGENT_SYNC
+        "security" -> MessageType.SECURITY_ALERT
+        "system" -> MessageType.SYSTEM_UPDATE
+        "command" -> MessageType.REMOTE_COMMAND
+        "learning" -> MessageType.LEARNING_DATA
+        "collaboration" -> MessageType.COLLABORATION_REQUEST
+        else -> MessageType.GENERAL
+    }
 
     private fun getChannelForMessageType(type: MessageType): String = channelIdGeneral
-
     private fun getDefaultTitle(type: MessageType): String = "Genesis Notification"
-
     private fun getIconForMessageType(type: MessageType): Int = android.R.drawable.ic_dialog_info
 }
