@@ -329,6 +329,12 @@ class RomToolsManagerImpl @Inject constructor(
     override suspend fun installGenesisOptimizations(): Result<Unit> {
         return try {
             updateProgress(RomStep.APPLYING_OPTIMIZATIONS, 0f, "Installing optimizations...")
+            nexusMemory.emitLearning(
+                key = "${Build.MANUFACTURER}:${Build.MODEL}:install_optimizations",
+                outcome = "START",
+                confidence = 1.0,
+                notes = "Initiating genesis optimizations"
+            )
             systemModificationManager.installGenesisOptimizations { progress ->
                 updateProgress(RomStep.APPLYING_OPTIMIZATIONS, progress, "Applying...")
             }.getOrThrow()
