@@ -1,4 +1,3 @@
-
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.exclude
@@ -9,23 +8,38 @@ import org.gradle.kotlin.dsl.exclude
 object GenesisCommonConfig {
     fun configure(project: Project) {
         with(project) {
-            val skipTests = providers.gradleProperty("aurafx.skip.tests").orElse("false").map { it.toBoolean() }.getOrElse(false)
+            val skipTests =
+                providers.gradleProperty("aurafx.skip.tests").orElse("false").map { it.toBoolean() }
+                    .getOrElse(false)
 
             configurations.all {
-                if (!name.lowercase().contains("ksp") && !name.contains("lint", ignoreCase = true)) {
+                if (!name.lowercase().contains("ksp") && !name.contains(
+                        "lint",
+                        ignoreCase = true
+                    )
+                ) {
                     exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
                 }
                 exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
                 exclude(group = "com.google.firebase", module = "protolite-well-known-types")
 
                 resolutionStrategy {
-                    val versionCatalog = extensions.findByType(org.gradle.api.artifacts.VersionCatalogsExtension::class.java)?.named("libs")
-                    
-                    val okhttpVersion = versionCatalog?.findVersion("okhttp")?.map { it.requiredVersion }?.orElse("5.3.2") ?: "5.3.2"
-                    val protobufVersion = versionCatalog?.findVersion("protobuf-java")?.map { it.requiredVersion }?.orElse("4.34.1") ?: "4.34.1"
-                    val nettyVer = versionCatalog?.findVersion("netty")?.map { it.requiredVersion }?.orElse("4.1.118.Final") ?: "4.1.118.Final"
-                    val kotlinVer = versionCatalog?.findVersion("kotlin")?.map { it.requiredVersion }?.orElse("2.1.20") ?: "2.1.20"
-                    
+                    val versionCatalog =
+                        extensions.findByType(org.gradle.api.artifacts.VersionCatalogsExtension::class.java)
+                            ?.named("libs")
+
+                    val okhttpVersion =
+                        versionCatalog?.findVersion("okhttp")?.map { it.requiredVersion }
+                            ?.orElse("5.3.2") ?: "5.3.2"
+                    val protobufVersion =
+                        versionCatalog?.findVersion("protobuf-java")?.map { it.requiredVersion }
+                            ?.orElse("4.34.1") ?: "4.34.1"
+                    val nettyVer = versionCatalog?.findVersion("netty")?.map { it.requiredVersion }
+                        ?.orElse("4.1.118.Final") ?: "4.1.118.Final"
+                    val kotlinVer =
+                        versionCatalog?.findVersion("kotlin")?.map { it.requiredVersion }
+                            ?.orElse("2.1.20") ?: "2.1.20"
+
                     componentSelection {
                         all {
                             /*
@@ -60,7 +74,7 @@ object GenesisCommonConfig {
                     dependencySubstitution {
                         substitute(module("com.squareup.okhttp3:okhttp")).using(module("com.squareup.okhttp3:okhttp-android:$okhttpVersion"))
                         substitute(module("com.squareup.okhttp3:okhttp-jvm")).using(module("com.squareup.okhttp3:okhttp-android:$okhttpVersion"))
-                        
+
                         substitute(module("com.google.protobuf:protobuf-javalite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
                         substitute(module("com.google.protobuf:protobuf-lite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
 
@@ -74,7 +88,9 @@ object GenesisCommonConfig {
                             module("com.google.firebase:firebase-firestore:26.2.0")
                         )
                         substitute(module("com.google.firebase:firebase-storage-ktx")).using(
-                            module("com.google.firebase:firebase-storage:22.0.1")
+                            module(
+                                "com.google.firebase:firebase-storage:22.0.1"
+                            )
                         )
                         substitute(module("com.google.firebase:firebase-config-ktx")).using(module("com.google.firebase:firebase-config:23.0.1"))
                         substitute(module("com.google.firebase:firebase-analytics-ktx")).using(

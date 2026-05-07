@@ -12,4 +12,5 @@ dependencies {
     implementation(project(":cascade:datastream:routing"))
     implementation(libs.okhttp)
     implementation(libs.retrofit)
+    implementation(libs.compose.material.icons.extended)
 }
