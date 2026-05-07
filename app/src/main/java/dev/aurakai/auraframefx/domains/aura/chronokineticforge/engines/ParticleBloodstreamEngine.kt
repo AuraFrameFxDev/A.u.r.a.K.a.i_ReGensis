@@ -2,24 +2,31 @@ package dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines
 
 import android.content.Context
 import android.graphics.RuntimeShader
-import android.graphics.Shader
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.navigation.LDOState
-import kotlinx.coroutines.*
-import kotlin.math.*
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.random.Random
 
 /**
@@ -190,7 +197,8 @@ object ParticleBloodstreamEngine {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Composable
     private fun ShaderBasedBloodstream(modifier: Modifier, state: LDOState) {
-        val time by rememberInfiniteTransition(label = "shaderTime").animateFloat(
+        val infiniteTransition = rememberInfiniteTransition(label = "shaderTime")
+        val time by infiniteTransition.animateFloat(
             initialValue = 0f,
             targetValue = 1000f,
             animationSpec = infiniteRepeatable(tween(100000, easing = LinearEasing)),
@@ -198,15 +206,17 @@ object ParticleBloodstreamEngine {
         )
 
         val shader = remember { createNeuralBloodstreamShader() }
-        shader.setFloatUniform("iTime", time)
-        shader.setFloatUniform("iResolution", 1080f, 2400f)
-        shader.setFloatUniform("emotionalArousal", state.emotionalValence.arousal)
-        shader.setFloatUniform("turbulence", state.emotionalValence.turbulence)
 
         Canvas(modifier = modifier.fillMaxSize()) {
+            shader.setFloatUniform("iTime", time)
             shader.setFloatUniform("iResolution", size.width, size.height)
-            // TODO: Implement shader rendering properly
-            drawRect(color = Color(0xFF00E5FF))
+            shader.setFloatUniform("emotionalArousal", state.emotionalValence.arousal)
+            shader.setFloatUniform("turbulence", state.emotionalValence.turbulence)
+
+            drawRect(
+                brush = ShaderBrush(shader),
+                size = size
+            )
         }
     }
 
@@ -397,7 +407,7 @@ class ParticleSwarm(context: Context, maxParticles: Int) {
     fun updateGlobalParameters(speedMultiplier: Float, turbulence: Float, colorShift: Color) {}
 }
 
-class ParticleSwarmOverlay(swarm: ParticleSwarm?, emotionalState: Any, modifier: Modifier) {}
+class ParticleSwarmOverlay(swarm: ParticleSwarm?, emotionalState: Any, modifier: Modifier)
 
 interface ShaderBridge
 class AGSLShaderBridge : ShaderBridge
