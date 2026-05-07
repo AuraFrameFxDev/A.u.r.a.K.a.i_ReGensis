@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.bundles.networking.retrofit)
     implementation(libs.bundles.networking.ktor)
     implementation(libs.bundles.bundle.kotlinx)
+    implementation(libs.firebase.messaging.ktx)
     implementation(libs.gson)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
