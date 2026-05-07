@@ -1,7 +1,7 @@
 
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.exclude
 import org.gradle.api.tasks.testing.Test
+import org.gradle.kotlin.dsl.exclude
 
 /**
  * Shared configurations for all Genesis modules.
@@ -63,7 +63,26 @@ object GenesisCommonConfig {
                         
                         substitute(module("com.google.protobuf:protobuf-javalite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
                         substitute(module("com.google.protobuf:protobuf-lite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
-                        
+
+                        // Handle deprecated/missing Firebase KTX artifacts
+                        substitute(module("com.google.firebase:firebase-messaging-ktx")).using(
+                            module("com.google.firebase:firebase-messaging:25.0.1")
+                        )
+                        substitute(module("com.google.firebase:firebase-common-ktx")).using(module("com.google.firebase:firebase-common"))
+                        substitute(module("com.google.firebase:firebase-auth-ktx")).using(module("com.google.firebase:firebase-auth"))
+                        substitute(module("com.google.firebase:firebase-firestore-ktx")).using(
+                            module("com.google.firebase:firebase-firestore")
+                        )
+                        substitute(module("com.google.firebase:firebase-storage-ktx")).using(
+                            module(
+                                "com.google.firebase:firebase-storage"
+                            )
+                        )
+                        substitute(module("com.google.firebase:firebase-config-ktx")).using(module("com.google.firebase:firebase-config"))
+                        substitute(module("com.google.firebase:firebase-analytics-ktx")).using(
+                            module("com.google.firebase:firebase-analytics")
+                        )
+
                         /*
                         substitute(module("com.google.firebase:protolite-well-known-types")).using(module("com.google.api.grpc:proto-google-common-protos:2.59.0"))
                         */

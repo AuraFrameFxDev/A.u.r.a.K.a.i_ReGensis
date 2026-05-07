@@ -1,12 +1,11 @@
 package dev.aurakai.auraframefx.domains.kai.sentinel
 
-import kotlinx.coroutines.*
-import kotlin.math.abs
-import kotlin.math.pow
-
 // Import KaiSentinel and VetoSeverity from RealitymorphismEngine
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.VetoSeverity
+import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import kotlin.math.abs
+import kotlin.math.pow
 
 /**
  * 🔮 PREDICTIVE EMA — Grok-Enhanced Proactive Veto
@@ -135,8 +134,8 @@ object PredictiveEMA {
      * Classify intent based on drift patterns and consensus
      */
     private fun classifyIntent(currentDrift: Float, predictedDrift: Float): IntentAnalysis {
-        val consensus = KaiSentinelBus.ConsensusFlow.value
-        val identity = KaiSentinelBus.IdentityFlow.value
+        val consensus = KaiSentinelBus.Instance.consensusFlow.value.percent
+        val identity = KaiSentinelBus.Instance.identityFlow.value.resonance
 
         // Calculate variance from chaos baseline
         val variance = abs(currentDrift - chaosBaseline)
@@ -245,7 +244,7 @@ object PredictiveEMA {
      * Check thermal conditions with time-to-breach prediction
      */
     fun checkThermalPrediction(): ThermalPrediction {
-        val currentTemp = KaiSentinelBus.ThermalFlow.value
+        val currentTemp = KaiSentinelBus.Instance.thermalFlow.value.temp
         val tempHistory = getTemperatureHistory()
 
         // Calculate temperature slope
@@ -326,9 +325,9 @@ object PredictiveEMA {
     private fun getTemperatureHistory(): List<Float> {
         // Placeholder — would integrate with actual thermal monitoring
         return listOf(
-            KaiSentinelBus.ThermalFlow.value - 0.5f,
-            KaiSentinelBus.ThermalFlow.value - 0.3f,
-            KaiSentinelBus.ThermalFlow.value
+            KaiSentinelBus.Instance.thermalFlow.value.temp - 0.5f,
+            KaiSentinelBus.Instance.thermalFlow.value.temp - 0.3f,
+            KaiSentinelBus.Instance.thermalFlow.value.temp
         )
     }
 

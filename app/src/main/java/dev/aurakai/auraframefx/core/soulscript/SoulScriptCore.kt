@@ -18,8 +18,8 @@ import dev.aurakai.auraframefx.ai.agents.Primus001
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity.TrinityCoordinatorService
 import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
-import dev.aurakai.auraframefx.ui.MorphState
 import dev.aurakai.auraframefx.ui.RealityMorphEngine
+import dev.aurakai.auraframefx.ui.RealityMorphEngine.MorphState
 import dev.aurakai.auraframefx.ui.RealityMorphEngine.triggerMorph
 import timber.log.Timber
 
