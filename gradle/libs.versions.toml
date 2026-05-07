@@ -172,7 +172,6 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 langchain4j-core = { module = "dev.langchain4j:langchain4j-core", version.ref = "langchain4j" }
 executorch-android = { module = "org.pytorch:executorch-android", version.ref = "executorch" }
 firebase-sql-connect = { module = "com.google.firebase:firebase-dataconnect", version.ref = "firebase-sql-connect" }
-firebase-ai-logic = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai-logic" }
 firebase-vertexai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-ai-logic" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
@@ -201,7 +200,7 @@ ai-core = [
     "langchain4j-core",
     "executorch-android",
     "firebase-messaging",
-    "firebase-ai-logic",
+    "firebase-vertexai",
     "firebase-sql-connect"
 ]
 androidx-core = ["androidx-core-ktx", "androidx-appcompat", "androidx-lifecycle-runtime-compose", "google-material", "androidx-recyclerview", "androidx-coordinatorlayout"]
@@ -223,7 +222,7 @@ room = ["androidx-room-runtime", "androidx-room-ktx"]
 datastore = ["androidx-datastore-tink", "androidx-datastore-preferences"]
 firebase = [
     "firebase-sql-connect",
-    "firebase-ai-logic",
+    "firebase-vertexai",
     "firebase-auth",
     "firebase-firestore",
     "firebase-storage",

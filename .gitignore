@@ -62,8 +62,6 @@ gradle-app.setting
 # ───────────────────────────────────────────────────────────────
 # SENSITIVE FILES (NEVER COMMIT)
 # ───────────────────────────────────────────────────────────────
-google-services.json
-*-firebase-adminsdk-*.json
 *.jks
 *.keystore
 keystore.properties
