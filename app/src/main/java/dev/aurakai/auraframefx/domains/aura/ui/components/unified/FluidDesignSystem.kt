@@ -375,6 +375,7 @@ fun FluidMenuItem(
 @Composable
 fun SectionHeader(
     title: String,
+    subtitle: String? = null,
     glowColor: Color = AuraColors.NeonCyan,
     showGlowLine: Boolean = true,
     modifier: Modifier = Modifier
@@ -392,11 +393,13 @@ fun SectionHeader(
             color = glowColor
         )
 
-        Text(
-            text = subtitle,
-            style = MaterialTheme.typography.bodySmall,
-            color = AuraColors.TextSecondary
-        )
+        if (subtitle != null) {
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = AuraColors.TextSecondary
+            )
+        }
 
         if (showGlowLine) {
             Spacer(modifier = Modifier.height(AuraSpacing.xs))

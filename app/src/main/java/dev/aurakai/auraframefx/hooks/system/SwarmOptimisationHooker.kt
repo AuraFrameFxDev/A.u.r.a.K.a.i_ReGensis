@@ -29,7 +29,7 @@ class SwarmOptimisationHooker : YukiBaseHooker() {
         // 2. Hook ActivityManager to assist App Hibernation (The "Swarm Sleep" directive)
         "android.app.ActivityManager".toClass().resolve().firstMethod {
             name = "forceStopPackage"
-            parameter(String::class.java)
+            parameters(String::class.java)
         }.hook {
             before {
                 val packageName = args(0).string()
@@ -45,7 +45,7 @@ class SwarmOptimisationHooker : YukiBaseHooker() {
         // 3. Hook JobScheduler for "Swarm Intelligent" Task Distribution
         "android.app.job.JobScheduler".toClass().resolve().firstMethod {
             name = "schedule"
-            parameter("android.app.job.JobInfo".toClass())
+            parameters("android.app.job.JobInfo".toClass())
         }.hook {
             before {
                 // Logic to defer non-essential jobs during high-intensity AI processing

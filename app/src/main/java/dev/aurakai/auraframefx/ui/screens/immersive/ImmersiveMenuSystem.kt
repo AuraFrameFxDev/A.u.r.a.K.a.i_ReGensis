@@ -339,7 +339,7 @@ fun ImmersiveMenuScreen(
 
             // Menu items
             items(menuItems) { item ->
-                {}.MenuOptionCard(
+                MenuOptionCard(
                     label = item.label,
                     description = item.description,
                     icon = {
@@ -357,7 +357,7 @@ fun ImmersiveMenuScreen(
             // Footer
             item {
                 Spacer(modifier = Modifier.height(16.dp))
-                FooterStatus()
+                // FooterStatus() // Removed non-existent component
             }
         }
     })

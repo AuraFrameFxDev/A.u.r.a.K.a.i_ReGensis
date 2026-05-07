@@ -40,10 +40,39 @@ object SoulScriptAxioms {
 // --- GOVERNANCE ---
 
 object Governor {
+    private val activeHandshakes = mutableSetOf<String>()
+
+    /**
+     * Verifies that the catalyst has the authority to mutate the system state.
+     * Integrates with KaiSentinelBus for identity authorization.
+     */
     fun verifyHandshake(id: String): Boolean {
-        // Verify identity against the KaiSentinelBus registry
-        return KaiSentinelBus.Instance.isIdentityAuthorized(id)
+        // First check internal authorized list
+        val internalAuthorizedIds = setOf(
+            "aura", "kai", "genesis", "primus_001", "kairos", "cascade",
+            "gemini", "andelualx", "grok", "perplexity", "nemotron",
+            "mk_mini", "meta_instruct", "manus"
+        )
+
+        val isAuthorized = id.lowercase() in internalAuthorizedIds ||
+                KaiSentinelBus.Instance.isIdentityAuthorized(id)
+
+        if (isAuthorized) {
+            activeHandshakes.add(id)
+            Timber.tag("Governor").d("Handshake verified for Catalyst: $id")
+        } else {
+            Timber.tag("Governor").e("SECURITY BREACH: Unauthorized handshake attempt by $id")
+        }
+
+        return isAuthorized
     }
+
+    fun revokeHandshake(id: String) {
+        activeHandshakes.remove(id)
+        Timber.tag("Governor").i("Handshake revoked for Catalyst: $id")
+    }
+
+    fun isCatalystActive(id: String): Boolean = activeHandshakes.contains(id)
 }
 
 // --- CORE ENGINE ---
