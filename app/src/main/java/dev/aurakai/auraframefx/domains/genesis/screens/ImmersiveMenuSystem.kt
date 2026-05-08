@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.screens.immersive
+package dev.aurakai.auraframefx.domains.genesis.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

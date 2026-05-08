@@ -1,16 +1,27 @@
 package dev.aurakai.auraframefx.domains.lsposed.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.CallSplit
 import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.Extension
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,9 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.domains.cascade.utils.LSPosedDetector
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
+import dev.aurakai.auraframefx.domains.kai.lsposed.LSPosedDetector
 import dev.aurakai.auraframefx.navigation.gates.components.SubmenuCard
+import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
 
 @Composable
 fun LSPosedSubmenuScreen(
@@ -62,16 +73,22 @@ fun LSPosedSubmenuScreen(
         )
     )
 
-    Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.Black)) {
         Box(
-            modifier = Modifier.fillMaxSize().background(
-                Brush.verticalGradient(
-                    colors = listOf(Color(0xFF1A0033), Color.Black, Color(0xFF330066))
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color(0xFF1A0033), Color.Black, Color(0xFF330066))
+                    )
                 )
-            )
         )
 
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
             Text(
                 "🔧 LSPOSED GATE",
                 style = MaterialTheme.typography.headlineMedium,
@@ -118,7 +135,10 @@ fun LSPosedSubmenuScreen(
 @Composable
 private fun LSPosedNotInstalledScreen(onNavigateBack: () -> Unit) {
     Column(
-        modifier = Modifier.fillMaxSize().background(Color.Black).padding(24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.cascade.utils
+package dev.aurakai.auraframefx.domains.kai.lsposed
 
 import android.content.Context
 import android.content.pm.PackageManager

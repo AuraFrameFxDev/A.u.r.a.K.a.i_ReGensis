@@ -13,5 +13,5 @@ fun MainScreen(
     navController: NavController,
 ) {
     // We now use the TabbedMasterIndex as the primary navigation substrate.
-    TabbedMasterIndex(onNavigateToRoute = { route -> navController.navigate(route) })
+    TabbedMasterIndex() { route -> navController.navigate(route) }
 }

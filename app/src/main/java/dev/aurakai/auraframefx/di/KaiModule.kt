@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.ui.KaiController
+import dev.aurakai.auraframefx.domains.kai.KaiController
 import javax.inject.Singleton
 
 /**

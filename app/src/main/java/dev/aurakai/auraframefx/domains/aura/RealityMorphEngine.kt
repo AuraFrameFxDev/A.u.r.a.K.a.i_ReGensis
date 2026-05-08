@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui
+package dev.aurakai.auraframefx.domains.aura
 
 import timber.log.Timber
 
