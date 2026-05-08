@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.aura
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.TabbedMasterIndex
+import dev.aurakai.auraframefx.domains.ldo.devops.TabbedMasterIndex
 
 /**
  * 🎨 MAIN SCREEN (AURA DASHBOARD)

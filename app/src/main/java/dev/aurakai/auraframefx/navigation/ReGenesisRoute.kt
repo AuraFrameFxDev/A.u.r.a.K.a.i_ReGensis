@@ -222,6 +222,9 @@ sealed class ReGenesisRoute(
     }
 
     companion object {
+        val SecurityCenter: Any
+        val ConferenceRoom: Any
+
         // Helper to get all tabs for TabbedMasterIndex
         fun getAllTabs(): List<ReGenesisRoute> = listOf(
             AuraStudio,
