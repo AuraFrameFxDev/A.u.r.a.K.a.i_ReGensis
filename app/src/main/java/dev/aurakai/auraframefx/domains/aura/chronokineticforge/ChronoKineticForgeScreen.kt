@@ -28,8 +28,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -313,23 +311,30 @@ private fun ForgeNavigationRail(
         ForgePanel.CODE_GENERATION to (Icons.Default.Code to "Code Gen")
     )
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(4),
+    Column(
         modifier = modifier.padding(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(panels.size) { index ->
-            val (panel, iconTitle) = panels[index]
-            val (icon, title) = iconTitle
-            val isActive = panel == activePanel
+        val chunkedPanels = panels.chunked(4)
+        chunkedPanels.forEach { rowPanels ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                rowPanels.forEach { (panel, iconTitle) ->
+                    val (icon, title) = iconTitle
+                    val isActive = panel == activePanel
 
-            ForgeNavItem(
-                icon = icon,
-                label = title,
-                isActive = isActive,
-                onClick = { onPanelSelected(panel) }
-            )
+                    Box(modifier = Modifier.weight(1f)) {
+                        ForgeNavItem(
+                            icon = icon,
+                            label = title,
+                            isActive = isActive,
+                            onClick = { onPanelSelected(panel) }
+                        )
+                    }
+                }
+            }
         }
     }
 }
