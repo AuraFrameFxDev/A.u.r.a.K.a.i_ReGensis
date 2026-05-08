@@ -26,7 +26,6 @@ sealed class ReGenesisRoute(
     data object HomeGateCarousel : ReGenesisRoute("home_gate_carousel/{tabIndex}") {
         fun createRoute(tabIndex: Int = 0) = "home_gate_carousel/$tabIndex"
     }
-
     data object Login : ReGenesisRoute("login", "Login")
 
     // AURA DOMAIN (ChronoKinetic Forge + Studio)
@@ -44,14 +43,12 @@ sealed class ReGenesisRoute(
     // GENESIS / ORACLEDRIVE
     data object OracleDriveHub :
         ReGenesisRoute("oracle_drive_hub", "Oracle Drive", Icons.Default.Storage)
-
     data object AgentNexusHub : ReGenesisRoute("agent_nexus_hub", "Agent Nexus", Icons.Default.Hub)
     data object OracleDrive : ReGenesisRoute("oracle_drive", "Oracle Drive")
 
     // CASCADE / LDO
     data object LdoDevelopmentNexus :
         ReGenesisRoute("ldo_devops_hub", "LDO Development Nexus", Icons.Default.ViewInAr)
-
     data object EmergentSwarm : ReGenesisRoute("emergent_swarm", "Emergent Swarm")
     data object DataflowAnalysis : ReGenesisRoute("dataflow_analysis", "Dataflow")
 
@@ -69,18 +66,6 @@ sealed class ReGenesisRoute(
     data object LdoRoster : ReGenesisRoute("ldo_roster", "LDO Roster")
     data object Party : ReGenesisRoute("party", "Party")
     data object GenderSelection : ReGenesisRoute("gender_selection", "Gender Selection")
-    data object OracleCloudInfinite :
-        ReGenesisRoute("oracle_cloud_infinite", "Oracle Cloud Infinite")
-
-    data object AgentBridgeHub : ReGenesisRoute("agent_bridge_hub", "Agent Bridge")
-    data object SovereignModuleManager :
-        ReGenesisRoute("sovereign_module_manager", "Sovereign Module Manager")
-
-    data object MonitoringHUDs : ReGenesisRoute("monitoring_huds", "Monitoring HUDs")
-    data object SecurityCenter : ReGenesisRoute("security_center", "Security Center")
-    data object SovereignRecovery : ReGenesisRoute("sovereign_recovery", "Sovereign Recovery")
-
-    // Missing routes added to satisfy GateAssetLoadout and others
     data object ThemeEngine : ReGenesisRoute("theme_engine", "Theme Engine")
     data object ReGenesisCustomization : ReGenesisRoute("regenesis_customization", "Customization")
     data object SovereignShield : ReGenesisRoute("sovereign_shield", "Sovereign Shield")
@@ -111,12 +96,6 @@ sealed class ReGenesisRoute(
         ReGenesisRoute("ldo_devops_command_center", "DevOps Command Center")
 
     data object LdoArmamentFusion : ReGenesisRoute("ldo_armament_fusion", "Armament Fusion")
-    data object AgentBridgeHub : ReGenesisRoute("agent_bridge_hub", "Agent Bridge")
-    data object SovereignModuleManager :
-        ReGenesisRoute("sovereign_module_manager", "Module Manager")
-
-    data object MonitoringHUDs : ReGenesisRoute("monitoring_huds", "Monitoring HUDs")
-    data object SecurityCenter : ReGenesisRoute("security_center", "Security Center")
     data object RomToolsHub : ReGenesisRoute("rom_tools_hub", "ROM Tools Hub")
     data object XposedPanel : ReGenesisRoute("xposed_panel", "Xposed Panel")
     data object Terminal : ReGenesisRoute("terminal", "Terminal")
@@ -148,25 +127,21 @@ sealed class ReGenesisRoute(
     data object SystemOverrides : ReGenesisRoute("system_overrides", "System Overrides")
     data object ModuleCreation : ReGenesisRoute("module_creation", "Module Creation")
     data object AgentSwarm : ReGenesisRoute("agent_swarm", "Agent Swarm")
-    data object Party : ReGenesisRoute("party", "Party")
     data object ConsciousnessVisualizer :
         ReGenesisRoute("consciousness_visualizer", "Consciousness Visualizer")
-
     data object Constellation : ReGenesisRoute("constellation", "Constellation")
     data object ClaudeConstellation : ReGenesisRoute("claude_constellation", "Claude Constellation")
     data object CascadeConstellation :
         ReGenesisRoute("cascade_constellation", "Cascade Constellation")
-
     data object KaiConstellation : ReGenesisRoute("kai_constellation", "Kai Constellation")
     data object GenesisConstellation :
         ReGenesisRoute("genesis_constellation", "Genesis Constellation")
-
     data object GrokConstellation : ReGenesisRoute("grok_constellation", "Grok Constellation")
     data object CascadeHub : ReGenesisRoute("cascade_hub", "Cascade Hub")
-    data object SwarmMonitor : ReGenesisRoute("swarm_monitor", "Swarm Monitor")
     data object DataVeinSphere : ReGenesisRoute("datavein_sphere", "DataVein Sphere")
     data object LdoFusion : ReGenesisRoute("ldo_fusion", "Fusion")
     data object LdoDevOpsHub : ReGenesisRoute("ldo_devops_hub", "DevOps Hub")
+    data object LdoOrchestrationHub : ReGenesisRoute("ldo_orchestration_hub", "Orchestration Hub")
     data object LdoProgression : ReGenesisRoute("ldo_progression", "Progression")
     data object LdoWorldTree : ReGenesisRoute("ldo_world_tree", "World Tree")
     data object LDOCatalystHub : ReGenesisRoute("ldo_catalyst_hub", "Catalyst Hub")
@@ -193,7 +168,6 @@ sealed class ReGenesisRoute(
     data object KineticForgeCore : ReGenesisRoute("kinetic_forge_core", "Kinetic Forge Core")
     data object KineticForgeTransmutator :
         ReGenesisRoute("kinetic_forge_transmutator", "Transmutator")
-
     data object KineticForgeLattice : ReGenesisRoute("kinetic_forge_lattice", "Lattice")
     data object RecoveryTools : ReGenesisRoute("recovery_tools", "Recovery Tools")
     data object SovereignBootloader : ReGenesisRoute("sovereign_bootloader", "Sovereign Bootloader")
@@ -203,7 +177,6 @@ sealed class ReGenesisRoute(
     data object LSPosedGate : ReGenesisRoute("lsposed_gate", "LSPosed Gate")
     data object LSPosedModuleManager :
         ReGenesisRoute("lsposed_module_manager", "LSPosed Module Manager")
-
     data object LSPosedSubmenu : ReGenesisRoute("lsposed_submenu", "LSPosed Submenu")
     data object ModuleManager : ReGenesisRoute("module_manager", "Module Manager")
     data object RootTools : ReGenesisRoute("root_tools", "Root Tools")
@@ -218,7 +191,6 @@ sealed class ReGenesisRoute(
     data object KaiLDOArmament : ReGenesisRoute("kai_ldo_armament", "LDO Armament")
     data object KaiSentinelIntegrity :
         ReGenesisRoute("kai_sentinel_integrity", "Sentinel Integrity")
-
     data object PowerOfNo : ReGenesisRoute("power_of_no", "Power of No")
     data object RoyalGuardDomain : ReGenesisRoute("royal_guard_domain", "Royal Guard Domain")
     data object RoyalGuardOS : ReGenesisRoute("royal_guard_os", "Royal Guard OS")
@@ -229,7 +201,6 @@ sealed class ReGenesisRoute(
     data object NeuralArchive : ReGenesisRoute("neural_archive", "Neural Archive")
     data object SovereignNeuralArchive :
         ReGenesisRoute("sovereign_neural_archive", "Sovereign Archive")
-
     data object OracleDriveSubmenu : ReGenesisRoute("oracle_drive_submenu", "Oracle Drive Submenu")
     data object OracleCloudInfinite : ReGenesisRoute("oracle_cloud_infinite", "Infinite Storage")
     data object FirebaseExamples : ReGenesisRoute("firebase_examples", "Firebase Examples")

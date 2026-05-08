@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.navigation
+package dev.aurakai.auraframefx.domains.ldo.devops
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -187,13 +189,15 @@ fun TabbedMasterIndex(
 }
 
 @Composable
-fun NeuralMeshFloor(modifier: Modifier, color: Color) {
-    TODO("Not yet implemented")
+fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
+    Box(modifier = modifier)
 }
 
 @Composable
-fun MasterStatusStrip(x0: Color) {
-    TODO("Not yet implemented")
+fun MasterStatusStrip(accentColor: Color) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(40.dp))
 }
 
 @Composable
@@ -203,20 +207,26 @@ fun CustomPrimaryTabRow(
     accentColor: Color,
     onTabSelected: (Int) -> Unit
 ) {
-    TODO("Not yet implemented")
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(48.dp))
 }
 
 @Composable
-fun HeroHeaderSection(x0: Int, x1: Color) {
-    TODO("Not yet implemented")
+fun HeroHeaderSection(index: Int, accentColor: Color) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(100.dp))
 }
 
 @Composable
-fun GlobalSSIStatusBar(x0: Color) {
-    TODO("Not yet implemented")
+fun GlobalSSIStatusBar(accentColor: Color) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .height(20.dp))
 }
 
 @Composable
-fun AssistantOrb(modifier: Modifier, accentColor: Color) {
-    TODO("Not yet implemented")
+fun AssistantOrb(modifier: Modifier = Modifier, accentColor: Color) {
+    Box(modifier = modifier.size(50.dp))
 }
