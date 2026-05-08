@@ -27,7 +27,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @Singleton
 class SecurityContext @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val keystoreManager: KeystoreManager
 ) {
 
