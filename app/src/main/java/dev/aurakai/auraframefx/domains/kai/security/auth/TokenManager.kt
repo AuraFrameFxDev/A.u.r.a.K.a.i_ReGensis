@@ -27,7 +27,7 @@ private val Context.tokenDataStore: DataStore<Preferences> by preferencesDataSto
  */
 @Singleton
 class TokenManager @Inject constructor(
-    @field:ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val dispatchers: AppCoroutineDispatchers
 ) {
 
