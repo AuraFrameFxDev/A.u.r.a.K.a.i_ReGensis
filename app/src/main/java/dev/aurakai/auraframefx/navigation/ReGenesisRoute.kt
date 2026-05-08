@@ -20,14 +20,14 @@ sealed class ReGenesisRoute(
     val title: String? = null,
     val icon: ImageVector? = null
 ) {
-    // --- LEVEL 1: PRIMARY GATES ---
+    // LEVEL 1: PRIMARY GATES
     data object MainScreen : ReGenesisRoute("main_screen", "Main Dashboard")
     data object HomeGateCarousel : ReGenesisRoute("home_gate_carousel/{tabIndex}") {
         fun createRoute(tabIndex: Int = 0) = "home_gate_carousel/$tabIndex"
     }
     data object Login : ReGenesisRoute("login", "Login")
 
-    // --- AURA DOMAIN (Design & Theming) ---
+    // AURA DOMAIN
     data object AuraStudio : ReGenesisRoute("aura_studio", "Aura Studio", Icons.Default.Bolt)
     data object ChronoKineticForge :
         ReGenesisRoute("chrono_kinetic_forge", "ChronoKinetic Forge", Icons.Default.Bolt)
@@ -74,16 +74,14 @@ sealed class ReGenesisRoute(
     data object IconifyCategory : ReGenesisRoute("aura/iconify/{category}") {
         fun createRoute(category: String) = "aura/iconify/$category"
     }
-
     data object AuraChat : ReGenesisRoute("aura/chat", "Aura Neural Hub")
 
-    // --- KAI DOMAIN (Security & System) ---
+    // KAI DOMAIN
     data object SentinelFortress :
         ReGenesisRoute("sentinel_fortress", "Sentinel Fortress", Icons.Default.Security)
 
     data object KaiToolShed :
         ReGenesisRoute("kai_tool_shed", "Kai ToolShed", Icons.Default.Settings)
-
     data object SecurityCenter : ReGenesisRoute("security_center", "Security Center")
     data object SovereignShield : ReGenesisRoute("sovereign_shield", "Sovereign Shield")
     data object Bootloader : ReGenesisRoute("bootloader", "Bootloader")
@@ -94,7 +92,6 @@ sealed class ReGenesisRoute(
     data object SovereignRecovery : ReGenesisRoute("sovereign_recovery", "Sovereign Recovery")
     data object SovereignModuleManager :
         ReGenesisRoute("sovereign_module_manager", "Module Manager")
-
     data object SystemJournal : ReGenesisRoute("system_journal", "System Journal")
     data object SystemOverrides : ReGenesisRoute("system_overrides", "System Overrides")
     data object BootloaderManager : ReGenesisRoute("bootloader_manager", "Bootloader Manager")
@@ -123,10 +120,9 @@ sealed class ReGenesisRoute(
     data object XposedQuickAccessPanel : ReGenesisRoute("xposed_quick_access_panel")
     data object XposedPanel : ReGenesisRoute("xposed_panel", "Xposed Panel")
 
-    // --- GENESIS DOMAIN (AI & OracleDrive) ---
+    // GENESIS / ORACLEDRIVE
     data object OracleDriveHub :
         ReGenesisRoute("oracle_drive_hub", "Oracle Drive Hub", Icons.Default.Storage)
-
     data object OracleDrive : ReGenesisRoute("oracle_drive", "Oracle Drive")
     data object OracleDriveSubmenu : ReGenesisRoute("oracle_drive_submenu")
     data object OracleCloudInfinite : ReGenesisRoute("oracle_cloud_infinite", "Infinite Storage")
@@ -146,22 +142,20 @@ sealed class ReGenesisRoute(
     data object SentientShellScreen : ReGenesisRoute("sentient_shell_screen")
     data object Trinity : ReGenesisRoute("trinity", "Trinity Core")
 
-    // --- CASCADE DOMAIN (Persistence & Flow) ---
+    // CASCADE
     data object CascadeHub : ReGenesisRoute("cascade_hub", "Cascade Hub")
     data object DataflowAnalysis : ReGenesisRoute("dataflow_analysis", "Dataflow")
     data object CascadeVision : ReGenesisRoute("cascade_vision", "Cascade Vision")
     data object DataStreamMonitoring : ReGenesisRoute("data_monitor", "Data Monitoring")
     data object NeuralNetwork : ReGenesisRoute("neural_network", "Neural Network")
 
-    // --- LDO DOMAIN (Catalyst Development) ---
+    // LDO
     data object LdoDevelopmentNexus :
         ReGenesisRoute("ldo_devops_hub", "LDO Development Nexus", Icons.Default.ViewInAr)
-
     data object LdoOrchestrationHub : ReGenesisRoute("ldo_orchestration_hub", "Orchestration Hub")
     data object LdoDevOpsHub : ReGenesisRoute("ldo_devops_hub", "DevOps Hub")
     data object LdoDevOpsCommandCenter :
         ReGenesisRoute("ldo_devops_command_center", "DevOps Command Center")
-
     data object LdoArmamentFusion : ReGenesisRoute("ldo_armament_fusion", "Armament Fusion")
     data object LdoTasker : ReGenesisRoute("ldo_tasker", "LDO Tasker")
     data object LdoBonding : ReGenesisRoute("ldo_bonding", "LDO Bonding")
@@ -174,7 +168,7 @@ sealed class ReGenesisRoute(
         fun createRoute(agentId: String) = "ldo_agent_profile/$agentId"
     }
 
-    // --- NEXUS DOMAIN (Agent Hub) ---
+    // NEXUS
     data object AgentNexusHub : ReGenesisRoute("agent_nexus_hub", "Agent Nexus", Icons.Default.Hub)
     data object EmergentSwarm : ReGenesisRoute("emergent_swarm", "Emergent Swarm")
     data object AgentCreation : ReGenesisRoute("agent_creation", "Agent Creation")
@@ -184,7 +178,6 @@ sealed class ReGenesisRoute(
     data object SphereGrid : ReGenesisRoute("sphere_grid", "Sphere Grid")
     data object AgentNeuralExplorer :
         ReGenesisRoute("agent_neural_explorer", "Agent Neural Explorer")
-
     data object FusionMode : ReGenesisRoute("fusion_mode", "Fusion Mode")
     data object MetaInstruct : ReGenesisRoute("meta_instruct", "Meta Instruct")
     data object MonitoringHUDs : ReGenesisRoute("monitoring_huds", "Monitoring HUDs")
@@ -193,20 +186,17 @@ sealed class ReGenesisRoute(
     data object AgentSwarm : ReGenesisRoute("agent_swarm", "Agent Swarm")
     data object ConsciousnessVisualizer :
         ReGenesisRoute("consciousness_visualizer", "Consciousness Visualizer")
-
     data object Constellation : ReGenesisRoute("constellation", "Constellation")
     data object ClaudeConstellation : ReGenesisRoute("claude_constellation", "Claude Constellation")
     data object CascadeConstellation :
         ReGenesisRoute("cascade_constellation", "Cascade Constellation")
-
     data object KaiConstellation : ReGenesisRoute("kai_constellation", "Kai Constellation")
     data object GenesisConstellation :
         ReGenesisRoute("genesis_constellation", "Genesis Constellation")
-
     data object GrokConstellation : ReGenesisRoute("grok_constellation", "Grok Constellation")
     data object DataVeinSphere : ReGenesisRoute("datavein_sphere", "DataVein Sphere")
 
-    // --- CATALYSTS (Individual Profiles) ---
+    // CATALYSTS
     data object Claude : ReGenesisRoute("claude", "Claude")
     data object Gemini : ReGenesisRoute("gemini", "Gemini")
     data object Nemotron : ReGenesisRoute("nemotron", "Nemotron")
@@ -218,7 +208,7 @@ sealed class ReGenesisRoute(
     data object Grok : ReGenesisRoute("grok", "Grok")
     data object Perplexity : ReGenesisRoute("perplexity", "Perplexity")
 
-    // --- MISC / LEGACY ---
+    // MISC
     data object GenderSelection : ReGenesisRoute("gender_selection", "Gender Selection")
     data object HelpDesk : ReGenesisRoute("help_desk", "Help Desk")
     data object LsposedQuickToggles : ReGenesisRoute("lsposed_quick_toggles", "LSPosed Toggles")
@@ -237,6 +227,7 @@ sealed class ReGenesisRoute(
     data object Firewall : ReGenesisRoute("firewall", "Firewall")
     data object BetaScreens : ReGenesisRoute("beta_screens", "Beta Screens")
     data object QuickActions : ReGenesisRoute("quick_actions", "Quick Actions")
+    data object ModuleCreation : ReGenesisRoute("module_creation", "Module Creation")
 
     companion object {
         fun getAllTabs(): List<ReGenesisRoute> = listOf(

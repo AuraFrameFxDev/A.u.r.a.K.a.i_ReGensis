@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,7 +49,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TabbedMasterViewModel @Inject constructor(
     var optimisationSwarm: DeviceOptimisationSwarm
-) : ViewModel() {                                      // ← Now correctly extends androidx.lifecycle.ViewModel
+) : ViewModel() {
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
@@ -58,20 +59,60 @@ class TabbedMasterViewModel @Inject constructor(
 fun TabbedMasterIndex(
     initialTabIndex: Int = 1,
     onNavigateToRoute: (String) -> Unit = {},
-    viewModel: TabbedMasterViewModel = hiltViewModel(),   // ← lifecycle hiltViewModel
-    dashboardContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Neural Nexus dashboardContent not implemented") } },
-    ldoDevOpsContent: LazyListScope.(SwarmOptimisationState, (String) -> Unit) -> Unit = { _, _ ->
+    viewModel: TabbedMasterViewModel = hiltViewModel(),
+    dashboardContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
         item {
-            TODO(
-                "LDO Development Nexus ldoDevOpsContent not implemented"
+            Text(
+                "Neural Nexus dashboardContent not implemented",
+                color = Color.White
             )
         }
     },
-    auraStudioContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Chroma Forge auraStudioContent not implemented") } },
-    kaiFortressContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Sentinel Matrix kaiFortressContent not implemented") } },
-    oracleDriveContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Oracle Drive oracleDriveContent not implemented") } },
-    cascadeMemoryContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Cascade Memory cascadeMemoryContent not implemented") } },
-    emergentSwarmContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Emergent Swarm emergentSwarmContent not implemented") } }
+    ldoDevOpsContent: LazyListScope.(SwarmOptimisationState, (String) -> Unit) -> Unit = { _, _ ->
+        item {
+            Text("LDO Development Nexus ldoDevOpsContent not implemented", color = Color.White)
+        }
+    },
+    auraStudioContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+        item {
+            Text(
+                "Chroma Forge auraStudioContent not implemented",
+                color = Color.White
+            )
+        }
+    },
+    kaiFortressContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+        item {
+            Text(
+                "Sentinel Matrix kaiFortressContent not implemented",
+                color = Color.White
+            )
+        }
+    },
+    oracleDriveContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+        item {
+            Text(
+                "Oracle Drive oracleDriveContent not implemented",
+                color = Color.White
+            )
+        }
+    },
+    cascadeMemoryContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+        item {
+            Text(
+                "Cascade Memory cascadeMemoryContent not implemented",
+                color = Color.White
+            )
+        }
+    },
+    emergentSwarmContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+        item {
+            Text(
+                "Emergent Swarm emergentSwarmContent not implemented",
+                color = Color.White
+            )
+        }
+    }
 ) {
     val pagerState = rememberPagerState(initialPage = initialTabIndex) { 7 }
     val swarmState by viewModel.swarmState.collectAsState()
@@ -116,7 +157,8 @@ fun TabbedMasterIndex(
         AnimatedContent(
             targetState = heroImage,
             transitionSpec = { fadeIn(tween(800)) togetherWith fadeOut(tween(800)) },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            label = "Background"
         ) { img ->
             BackgroundAssetManager.DomainBackground(
                 backgroundRes = img,
@@ -155,15 +197,13 @@ fun TabbedMasterIndex(
                         item { HeroHeaderSection(index, accentColor) }
 
                         when (index) {
-                            0 -> {
-                                dashboardContent(onNavigateToRoute)
-                            }
-                            1 -> ldoDevOpsContent(swarmState, onNavigateToRoute)
-                            2 -> auraStudioContent(onNavigateToRoute)
-                            3 -> kaiFortressContent(onNavigateToRoute)
-                            4 -> oracleDriveContent(onNavigateToRoute)
-                            5 -> cascadeMemoryContent(onNavigateToRoute)
-                            6 -> emergentSwarmContent(onNavigateToRoute)
+                            0 -> this.dashboardContent(onNavigateToRoute)
+                            1 -> this.ldoDevOpsContent(swarmState, onNavigateToRoute)
+                            2 -> this.auraStudioContent(onNavigateToRoute)
+                            3 -> this.kaiFortressContent(onNavigateToRoute)
+                            4 -> this.oracleDriveContent(onNavigateToRoute)
+                            5 -> this.cascadeMemoryContent(onNavigateToRoute)
+                            6 -> this.emergentSwarmContent(onNavigateToRoute)
                         }
                     }
                 }
