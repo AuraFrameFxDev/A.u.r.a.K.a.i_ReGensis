@@ -31,8 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
-import androidx.compose.material.icons.filled.AccountTree
-import androidx.compose.material.icons.filled.AcUnit
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Extension
 import androidx.compose.material.icons.filled.Groups
@@ -42,17 +41,11 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.Psychology
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.HistoryEdu
-import androidx.compose.material.icons.filled.FlashOn
-import androidx.compose.material.icons.filled.Gavel
-import androidx.compose.material.icons.filled.SettingsInputComponent
-import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.SettingsInputComponent
 import androidx.compose.material.icons.filled.Speed
-import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material.icons.filled.Stream
+import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -69,12 +62,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -82,10 +72,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import kotlinx.coroutines.delay
 import kotlin.random.Random
-
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 
 // ─── Navigation targets ───────────────────────────────────────────────────────
 
@@ -179,7 +168,7 @@ fun LdoDevOpsCommandCenter(
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(Random.nextLong(600, 2500))
+            delay(Random.nextLong(600, 2500).milliseconds.milliseconds)
             val agent = agents.random()
             liveLogs.add(0, LiveLog(agent.first, agent.second, chatContents.random()))
             if (liveLogs.size > 12) liveLogs.removeAt(liveLogs.lastIndex)
@@ -381,12 +370,16 @@ private fun VerticalHorizontalDivider() {
 @Composable
 private fun SectionHeader(title: String, color: Color) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(modifier = Modifier.size(8.dp).background(color, CircleShape))
+        Box(modifier = Modifier
+            .size(8.dp)
+            .background(color, CircleShape))
         Spacer(Modifier.width(8.dp))
         Text(title, color = color, fontFamily = LEDFontFamily,
             fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
         Spacer(Modifier.width(8.dp))
-        Box(modifier = Modifier.weight(1f).height(1.dp)
+        Box(modifier = Modifier
+            .weight(1f)
+            .height(1.dp)
             .background(Brush.horizontalGradient(listOf(color.copy(0.4f), Color.Transparent))))
     }
 }
@@ -491,7 +484,9 @@ private fun LiveStreamPanel(logs: List<LiveLog>) {
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(6.dp).background(Color(0xFF00FF41), CircleShape))
+                Box(modifier = Modifier
+                    .size(6.dp)
+                    .background(Color(0xFF00FF41), CircleShape))
                 Spacer(Modifier.width(6.dp))
                 Text("LIVE", color = Color(0xFF00FF41), fontSize = 9.sp,
                     fontFamily = LEDFontFamily, letterSpacing = 2.sp)
