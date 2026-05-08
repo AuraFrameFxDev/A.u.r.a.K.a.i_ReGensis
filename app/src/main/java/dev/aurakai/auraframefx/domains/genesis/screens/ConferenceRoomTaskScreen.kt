@@ -64,6 +64,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
+import dev.aurakai.auraframefx.ui.gates.HolographicCommandTable
 
 
 data class AgentTask(

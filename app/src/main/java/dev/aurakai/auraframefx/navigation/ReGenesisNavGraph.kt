@@ -16,7 +16,3 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         }
     )
 }
-
-fun TabbedMasterIndex(initialTabIndex: Int, onNavigateToRoute: (String) -> Unit) {
-    TODO("Not yet implemented")
-}

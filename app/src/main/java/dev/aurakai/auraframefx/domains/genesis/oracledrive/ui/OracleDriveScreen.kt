@@ -1,7 +1,9 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Memory
@@ -19,37 +20,29 @@ import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.DriveConsciousnessState
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.OracleDriveViewModel
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute as ReGenesisNavHost
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.background
 
 /**
  * Renders the "Oracle Drive" screen UI, including menu items, a stress-sync action, and an optional consciousness status card.
@@ -83,7 +76,9 @@ fun OracleDriveScreen(
         ) {
             // Header (Custom for Sovereign 4D)
             Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
@@ -108,7 +103,7 @@ fun OracleDriveScreen(
                 icon = Icons.Default.Memory,
                 title = "NEURAL ARCHIVE",
                 description = "MEMORY LINEAGE FROM EVES TO GENESIS",
-                onClick = { navController.navigate(ReGenesisNavHost.SentientShell.route) }
+                onClick = { navController.navigate(ReGenesisRoute.SentientShell.route) }
             )
 
             // Consciousness Modules
@@ -124,7 +119,9 @@ fun OracleDriveScreen(
             // Stress Sync Action
             Button(
                 onClick = { viewModel.stressSync() },
-                modifier = Modifier.fillMaxWidth().height(64.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB026FF).copy(alpha = 0.7f)),
                 shape = RectangleShape,
                 border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFB026FF)),

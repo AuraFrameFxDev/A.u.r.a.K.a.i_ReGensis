@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
-import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
 import dev.aurakai.auraframefx.domains.ldo.swarm.SwarmOptimisationState
@@ -57,13 +57,19 @@ fun TabbedMasterIndex(
     initialTabIndex: Int = 1,
     onNavigateToRoute: (String) -> Unit = {},
     viewModel: TabbedMasterViewModel = hiltViewModel(),   // ← lifecycle hiltViewModel
-    dashboardContent: ((String) -> Unit?) -> Unit,
-    ldoDevOpsContent: (SwarmOptimisationState, (String) -> Unit?) -> Unit,
-    auraStudioContent: ((String) -> Unit?) -> Unit,
-    kaiFortressContent: ((String) -> Unit?) -> Unit,
-    oracleDriveContent: ((String) -> Unit?) -> Unit,
-    cascadeMemoryContent: ((String) -> Unit?) -> Unit,
-    emergentSwarmContent: ((String) -> Unit?) -> Unit
+    dashboardContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Neural Nexus dashboardContent not implemented") } },
+    ldoDevOpsContent: LazyListScope.(SwarmOptimisationState, (String) -> Unit) -> Unit = { _, _ ->
+        item {
+            TODO(
+                "LDO Development Nexus ldoDevOpsContent not implemented"
+            )
+        }
+    },
+    auraStudioContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Chroma Forge auraStudioContent not implemented") } },
+    kaiFortressContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Sentinel Matrix kaiFortressContent not implemented") } },
+    oracleDriveContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Oracle Drive oracleDriveContent not implemented") } },
+    cascadeMemoryContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Cascade Memory cascadeMemoryContent not implemented") } },
+    emergentSwarmContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate -> item { TODO("Emergent Swarm emergentSwarmContent not implemented") } }
 ) {
     val pagerState = rememberPagerState(initialPage = initialTabIndex) { 7 }
     val swarmState by viewModel.swarmState.collectAsState()
@@ -131,10 +137,8 @@ fun TabbedMasterIndex(
                 accentColor = accentColor,
                 onTabSelected = { index ->
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage(
-                            initialTabIndex
-                        )
-                    } as Shell.Job
+                        pagerState.animateScrollToPage(index)
+                    }
                 }
             )
 
@@ -197,7 +201,7 @@ fun CustomPrimaryTabRow(
     selectedTabIndex: Int,
     tabs: List<String>,
     accentColor: Color,
-    onTabSelected: () -> Shell.Job
+    onTabSelected: (Int) -> Unit
 ) {
     TODO("Not yet implemented")
 }

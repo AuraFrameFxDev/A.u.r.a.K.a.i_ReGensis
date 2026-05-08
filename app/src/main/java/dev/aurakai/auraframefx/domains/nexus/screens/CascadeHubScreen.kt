@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute as ReGenesisNavHost
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 
 /**
  * 🌊 CASCADE HUB - Sensory Matrix Domain
@@ -49,21 +49,21 @@ fun CascadeHubScreen(controller: NavController) {
             title = "Cascade Vision",
             subtitle = "Pattern Recognition HUD",
             icon = Icons.Default.RemoveRedEye,
-            destination = ReGenesisNavHost.CascadeVision.route,
+            destination = ReGenesisRoute.CascadeVision.route,
             color = Color(0xFF00FFD4)
         ),
         CascadeTool(
             title = "Data Monitoring",
             subtitle = "Real-time Stream Analysis",
             icon = Icons.Default.StackedLineChart,
-            destination = ReGenesisNavHost.DataStreamMonitoring.route,
+            destination = ReGenesisRoute.DataStreamMonitoring.route,
             color = Color(0xFF00E5FF)
         ),
         CascadeTool(
             title = "Neural Link",
             subtitle = "Direct Matrix Interface",
             icon = Icons.Default.Hub,
-            destination = ReGenesisNavHost.NeuralNetwork.route,
+            destination = ReGenesisRoute.NeuralNetwork.route,
             color = Color(0xFFB026FF)
         )
     )

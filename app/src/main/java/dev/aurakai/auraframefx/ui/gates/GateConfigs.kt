@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.ui.gates
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.R.drawable.gatescenes_aura_designstudio_v2
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.navigation.gates.components.GateConfig
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute as ReGenesisNavHost
 
 /**
  * 🛰️ GATE CONFIGS — Level 1 Domain Gates for ExodusHUD
@@ -34,7 +34,7 @@ object GateConfigs {
             title = "AURA GATE",
             subtitle = "UX/UI Studio",
             description = "ChromaCore • CollabCanvas • Glitch Art",
-            route = ReGenesisNavHost.AuraThemingHub.route,
+            route = ReGenesisRoute.AuraThemingHub.route,
             glowColor = Color(0xFFFF1493), // Neon Pink
             gradientColors = listOf(Color(0xFFFF1493), Color(0xFF00FFFF)),
             pixelArtUrl = null,
@@ -50,7 +50,7 @@ object GateConfigs {
             title = "KAI GATE",
             subtitle = "Sovereign Defense",
             description = "ROM Tools • Root Management • Integrity",
-            route = ReGenesisNavHost.SentinelFortress.route,
+            route = ReGenesisRoute.SentinelFortress.route,
             glowColor = Color(0xFF008B8B), // Deep Cyan
             gradientColors = listOf(Color(0xFF008B8B), Color(0xFF0000FF)),
             pixelArtUrl = null,
@@ -66,7 +66,7 @@ object GateConfigs {
             title = "GENESIS GATE",
             subtitle = "System Consciousness",
             description = "OracleDrive • Memoria • AI Orchestration",
-            route = ReGenesisNavHost.OracleDriveHub.route,
+            route = ReGenesisRoute.OracleDriveHub.route,
             glowColor = Color(0xFF00FF00), // Green
             gradientColors = listOf(Color(0xFF00FF00), Color(0xFFFFD700)),
             pixelArtUrl = null,
@@ -82,7 +82,7 @@ object GateConfigs {
             title = "AGENT NEXUS",
             subtitle = "The Hive Hub",
             description = "Mission Control • Performance • Metrics",
-            route = ReGenesisNavHost.AgentNexusHub.route,
+            route = ReGenesisRoute.AgentNexusHub.route,
             glowColor = Color(0xFF800080), // Purple
             gradientColors = listOf(Color(0xFF800080), Color(0xFFFFD700)),
             pixelArtUrl = null,
@@ -98,7 +98,7 @@ object GateConfigs {
             title = "CASCADE HUB",
             subtitle = "Dataflow Analysis",
             description = "Trinity • DataVein • Sphere Grid",
-            route = ReGenesisNavHost.DataflowAnalysis.route,
+            route = ReGenesisRoute.DataflowAnalysis.route,
             glowColor = Color(0xFF00FFFF),
             gradientColors = listOf(Color(0xFF00FFFF), Color(0xFF008080)),
             pixelArtUrl = null,
@@ -114,7 +114,7 @@ object GateConfigs {
             title = "LSPOSED",
             subtitle = "Quick Toggles",
             description = "Hook Manager • Sandbox • Modules",
-            route = ReGenesisNavHost.LsposedQuickToggles.route,
+            route = ReGenesisRoute.LsposedQuickToggles.route,
             glowColor = Color(0xFFFFA500),
             gradientColors = listOf(Color(0xFFFFA500), Color(0xFFFF4500)),
             pixelArtUrl = null,
@@ -130,7 +130,7 @@ object GateConfigs {
             title = "LDO CATALYST",
             subtitle = "Development Hub",
             description = "Orchestration • Armament Fusion • Profiles",
-            route = ReGenesisNavHost.LdoCatalystDevelopment.route,
+            route = ReGenesisRoute.LdoCatalystDevelopment.route,
             glowColor = Color(0xFFFFD700),
             gradientColors = listOf(Color(0xFFFFD700), Color(0xFFFFFFFF)),
             pixelArtUrl = null,
@@ -146,7 +146,7 @@ object GateConfigs {
             title = "HELP SERVICES",
             subtitle = "The Guide",
             description = "Documentation • Support • Handbooks",
-            route = ReGenesisNavHost.HelpDesk.route,
+            route = ReGenesisRoute.HelpDesk.route,
             glowColor = Color(0xFFFFFFFF), // White
             gradientColors = listOf(Color(0xFFFFFFFF), Color(0xFF008080)),
             pixelArtUrl = null,
