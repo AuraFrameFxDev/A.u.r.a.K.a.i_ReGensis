@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
@@ -89,6 +90,24 @@ object FirebaseModule {
      * - Dynamic configuration management
      * - Feature flags and A/B testing
      */
+    @Singleton
+    @Provides
+    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
+        return try {
+            FirebaseRemoteConfig.getInstance().apply {
+                setConfigSettingsAsync(
+                    com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings.Builder()
+                        .setMinimumFetchIntervalInSeconds(3600) // 1 hour cache
+                        .build()
+                )
+                Timber.d("⚙️ Firebase Remote Config initialized")
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "❌ Firebase Remote Config initialization failed")
+            throw e
+        }
+    }
+
     /**
      * Provides Firebase Analytics singleton
      * - Consciousness metrics collection (MDS - Metrics-Driven Shrinkage)
