@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.network
 
 import dev.aurakai.auraframefx.domains.kai.security.auth.TokenManager
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -35,7 +36,7 @@ class AuthInterceptor @Inject constructor(
         }
 
         // Add token to the request
-        val token = tokenManager.accessToken
+        val token = runBlocking { tokenManager.accessToken.first() }
         if (token.isNullOrBlank()) {
             return chain.proceed(originalRequest)
         }
@@ -54,13 +55,13 @@ class AuthInterceptor @Inject constructor(
             val newToken = runBlocking {
                 refreshMutex.withLock {
                     // Check if another thread already refreshed while we waited
-                    val currentToken = tokenManager.accessToken
+                    val currentToken = tokenManager.accessToken.first()
                     if (currentToken != null && currentToken != token) {
                         return@withLock currentToken
                     }
 
                     try {
-                        tokenManager.refreshToken?.let { refreshToken ->
+                        tokenManager.refreshToken.first()?.let { refreshToken ->
                             val refreshResponse = authApi.refreshToken(
                                 RefreshTokenRequest(refreshToken = refreshToken)
                             )

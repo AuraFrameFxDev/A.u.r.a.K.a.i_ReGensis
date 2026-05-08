@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.domains.kai.security
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.pm.PackageManager.GET_SIGNATURES
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.identity.AgentType
@@ -24,15 +23,17 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.milliseconds
 
 @Singleton
 class SecurityContext @Inject constructor(
-    @param:ApplicationContext private val context: Context,
+    @ApplicationContext private val context: Context,
     private val keystoreManager: KeystoreManager
 ) {
+
     companion object {
         private const val TAG = "SecurityContext"
-        private const val THREAT_DETECTION_INTERVAL_MS = 30000L // 30 seconds
+        private const val THREAT_DETECTION_INTERVAL_MS = 30_000L // 30 seconds
         private const val AES_ALGORITHM_WITH_PADDING = "AES/CBC/PKCS7Padding"
     }
 
@@ -57,11 +58,13 @@ class SecurityContext @Inject constructor(
     }
 
     fun validateContent(content: String) {
-        // TODO: Implement real validation logic
+        // TODO: Implement content safety / prompt injection / malware scanning
+        Timber.tag(TAG).v("Content validation requested: ${content.take(50)}...")
     }
 
     fun validateImageData(imageData: ByteArray) {
-        Timber.tag(TAG).d("Validating image data of size: ${imageData.size} bytes")
+        Timber.tag(TAG).d("Validating image data (${imageData.size} bytes)")
+        // TODO: Add malware scan, deepfake detection, etc.
     }
 
     fun startThreatDetection() {
@@ -77,9 +80,9 @@ class SecurityContext @Inject constructor(
                         threatLevel = calculateThreatLevel(threats),
                         lastScanTime = System.currentTimeMillis()
                     )
-                    kotlinx.coroutines.delay(THREAT_DETECTION_INTERVAL_MS)
+                    kotlinx.coroutines.delay(THREAT_DETECTION_INTERVAL_MS.milliseconds)
                 } catch (e: Exception) {
-                    Timber.tag(TAG).e(e, "Error in threat detection")
+                    Timber.tag(TAG).e(e, "Threat detection loop failed")
                     _threatDetectionActive.value = false
                     _securityState.value = _securityState.value.copy(
                         errorState = true,
@@ -94,149 +97,124 @@ class SecurityContext @Inject constructor(
         _threatDetectionActive.value = false
     }
 
-    fun hasPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            context,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
-    }
+    fun hasPermission(permission: String): Boolean =
+        ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
     fun updatePermissionsState() {
         val permissionsToCheck = listOf(
             android.Manifest.permission.RECORD_AUDIO,
             android.Manifest.permission.CAMERA,
             android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_MEDIA_IMAGES,
+            android.Manifest.permission.READ_MEDIA_VIDEO,
             android.Manifest.permission.INTERNET
         )
 
-        _permissionsState.value = permissionsToCheck.associateWith { permission ->
-            hasPermission(permission)
-        }
+        _permissionsState.value = permissionsToCheck.associateWith(::hasPermission)
     }
 
     fun initializeEncryption(): Boolean {
-        Timber.tag(TAG).d("Initializing encryption using KeystoreManager.")
         val secretKey = keystoreManager.getOrCreateSecretKey()
         return if (secretKey != null) {
             _encryptionStatus.value = EncryptionStatus.ACTIVE
             _securityState.value = _securityState.value.copy(
                 errorState = false,
-                errorMessage = "Encryption initialized successfully."
+                errorMessage = null
             )
-            Timber.tag(TAG).i("Encryption initialized successfully using Keystore.")
+            Timber.tag(TAG).i("Encryption initialized successfully via Keystore")
             true
         } else {
             _encryptionStatus.value = EncryptionStatus.ERROR
             _securityState.value = _securityState.value.copy(
                 errorState = true,
-                errorMessage = "ERROR_KEY_INITIALIZATION_FAILED: Keystore key could not be created or retrieved."
+                errorMessage = "Keystore key initialization failed"
             )
-            Timber.tag(TAG).e("Keystore key initialization failed.")
+            Timber.tag(TAG).e("Failed to initialize encryption")
             false
         }
     }
 
     fun encrypt(data: String): EncryptedData? {
         if (_encryptionStatus.value != EncryptionStatus.ACTIVE) {
-            Timber.tag(TAG).w("Encryption not initialized. Attempting to initialize.")
-            if (!initializeEncryption()) {
-                Timber.tag(TAG).e("Encryption initialization failed during encrypt call.")
-                return null
-            }
+            if (!initializeEncryption()) return null
         }
 
-        try {
-            val secretKey = keystoreManager.getOrCreateSecretKey()
-            if (secretKey == null) {
-                Timber.tag(TAG).e("Failed to get secret key for encryption.")
-                return null
-            }
+        return try {
+            val secretKey = keystoreManager.getOrCreateSecretKey() ?: return null
 
-            val iv = ByteArray(16)
-            SecureRandom().nextBytes(iv)
+            val iv = ByteArray(16).apply { SecureRandom().nextBytes(this) }
             val ivSpec = IvParameterSpec(iv)
 
             val cipher = Cipher.getInstance(AES_ALGORITHM_WITH_PADDING)
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec)
 
             val encryptedBytes = cipher.doFinal(data.toByteArray(Charsets.UTF_8))
-            return EncryptedData(
+
+            EncryptedData(
                 data = encryptedBytes,
                 iv = iv,
                 timestamp = System.currentTimeMillis(),
-                metadata = "Encrypted by KAI Security (Keystore)"
+                metadata = "KAI Keystore AES-CBC"
             )
         } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Encryption error")
-            return null
+            Timber.tag(TAG).e(e, "Encryption failed")
+            null
         }
     }
 
     fun decrypt(encryptedData: EncryptedData): String? {
         if (_encryptionStatus.value != EncryptionStatus.ACTIVE) {
-            if (!initializeEncryption()) {
-                return null
-            }
+            if (!initializeEncryption()) return null
         }
 
-        try {
-            val decryptionCipher = keystoreManager.getDecryptionCipher(encryptedData.iv)
-            if (decryptionCipher == null) {
-                Timber.tag(TAG).e("Failed to get decryption cipher from KeystoreManager.")
-                return null
-            }
-
-            val decryptedBytes = decryptionCipher.doFinal(encryptedData.data)
-            return String(decryptedBytes, Charsets.UTF_8)
+        return try {
+            val cipher = keystoreManager.getDecryptionCipher(encryptedData.iv) ?: return null
+            val decryptedBytes = cipher.doFinal(encryptedData.data)
+            String(decryptedBytes, Charsets.UTF_8)
         } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Decryption error")
-            return null
+            Timber.tag(TAG).e(e, "Decryption failed")
+            null
         }
     }
 
     fun shareSecureContextWith(agentType: AgentType, context: String): SharedSecureContext {
-        val secureId = generateSecureId()
-        val timestamp = System.currentTimeMillis()
-
         return SharedSecureContext(
-            id = secureId,
+            id = generateSecureId(),
             originatingAgent = AgentType.KAI,
             targetAgent = agentType,
-            encryptedContent = context.toByteArray(),
-            timestamp = timestamp,
-            expiresAt = timestamp + 3600000
+            encryptedContent = context.toByteArray(Charsets.UTF_8),
+            timestamp = System.currentTimeMillis(),
+            expiresAt = System.currentTimeMillis() + 3_600_000 // 1 hour
         )
     }
 
     fun verifyApplicationIntegrity(): ApplicationIntegrity {
-        try {
+        return try {
             val packageInfo = context.packageManager.getPackageInfo(
                 context.packageName,
-                PackageManager.PackageInfoFlags.of(GET_SIGNATURES.toLong())
+                PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES.toLong())
             )
 
-            val signatureBytes =
-                packageInfo.signingInfo?.apkContentsSigners?.getOrNull(0)?.toByteArray()
-                    ?: throw Exception("No signature found")
+            val signatureBytes = packageInfo.signingInfo
+                ?.apkContentsSigners
+                ?.firstOrNull()
+                ?.toByteArray()
+                ?: throw IllegalStateException("No signing certificate found")
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
             val signatureHex = signatureDigest.joinToString("") { "%02x".format(it) }
 
-            val isValid = signatureHex.isNotEmpty()
-
-            return ApplicationIntegrity(
-                verified = isValid,
+            ApplicationIntegrity(
+                verified = true,
                 appVersion = packageInfo.versionName ?: "unknown",
                 signatureHash = signatureHex,
                 installTime = packageInfo.firstInstallTime,
                 lastUpdateTime = packageInfo.lastUpdateTime
             )
         } catch (e: Exception) {
-            Timber.e(e, "Application integrity verification error")
-            return ApplicationIntegrity(
+            Timber.tag(TAG).e(e, "Integrity check failed")
+            ApplicationIntegrity(
                 verified = false,
                 appVersion = "unknown",
                 signatureHash = "error",
@@ -248,35 +226,24 @@ class SecurityContext @Inject constructor(
     }
 
     private fun detectThreats(): List<SecurityThreat> {
+        // Real threat detection would go here (root detection, emulator, hooking, etc.)
         return listOf(
             SecurityThreat(
                 id = "SIM-001",
                 type = ThreatType.PERMISSION_ABUSE,
                 severity = ThreatSeverity.LOW,
-                description = "Simulated permission abuse threat for testing",
-                detectedAt = System.currentTimeMillis()
-            ),
-            SecurityThreat(
-                id = "SIM-002",
-                type = ThreatType.NETWORK_VULNERABILITY,
-                severity = ThreatSeverity.MEDIUM,
-                description = "Simulated network vulnerability for testing",
+                description = "Simulated permission check",
                 detectedAt = System.currentTimeMillis()
             )
-        ).filter { Math.random() > 0.7 }
+        ).filter { Math.random() > 0.6 }
     }
 
     private fun calculateThreatLevel(threats: List<SecurityThreat>): ThreatLevel {
         if (threats.isEmpty()) return ThreatLevel.LOW
-
-        val hasCritical = threats.any { it.severity == ThreatSeverity.CRITICAL }
-        val hasHigh = threats.any { it.severity == ThreatSeverity.HIGH }
-        val hasMedium = threats.any { it.severity == ThreatSeverity.MEDIUM }
-
         return when {
-            hasCritical -> ThreatLevel.CRITICAL
-            hasHigh -> ThreatLevel.HIGH
-            hasMedium -> ThreatLevel.MEDIUM
+            threats.any { it.severity == ThreatSeverity.CRITICAL } -> ThreatLevel.CRITICAL
+            threats.any { it.severity == ThreatSeverity.HIGH } -> ThreatLevel.HIGH
+            threats.any { it.severity == ThreatSeverity.MEDIUM } -> ThreatLevel.MEDIUM
             else -> ThreatLevel.LOW
         }
     }
@@ -291,7 +258,7 @@ class SecurityContext @Inject constructor(
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)
             when (event.severity) {
-                EventSeverity.INFO -> Timber.tag("HealthTracker").i("SecurityEvent: $eventJson")
+                EventSeverity.INFO -> Timber.tag("SecurityEvent").i(eventJson)
                 EventSeverity.WARNING -> Timber.tag("SecurityEvent").w(eventJson)
                 EventSeverity.ERROR -> Timber.tag("SecurityEvent").e(eventJson)
                 EventSeverity.CRITICAL -> Timber.tag("SecurityEvent").wtf(eventJson)
@@ -303,23 +270,20 @@ class SecurityContext @Inject constructor(
         logSecurityEvent(
             SecurityEvent(
                 type = SecurityEventType.VALIDATION,
-                details = "Request validation: $requestType",
+                details = "Request validation for: $requestType",
                 severity = EventSeverity.INFO
             )
         )
-        Timber.tag(TAG).d("Validating request of type: $requestType")
     }
 
-    /**
-     * Checks if the security context is in a secure state
-     * @return true if encryption is active and no critical threats detected
-     */
     fun isSecure(): Boolean {
         return _encryptionStatus.value == EncryptionStatus.ACTIVE &&
                 !_securityState.value.errorState &&
                 _securityState.value.threatLevel != ThreatLevel.CRITICAL
     }
 }
+
+// ====================== Models ======================
 
 @Serializable
 data class KaiSecurityState(
@@ -340,18 +304,15 @@ data class SecurityThreat(
 )
 
 enum class ThreatType {
-    MALWARE,
-    NETWORK_VULNERABILITY,
     PERMISSION_ABUSE,
+    NETWORK_VULNERABILITY,
+    MALWARE,
     DATA_LEAK,
     UNKNOWN
 }
 
 enum class ThreatSeverity {
-    LOW,
-    MEDIUM,
-    HIGH,
-    CRITICAL
+    LOW, MEDIUM, HIGH, CRITICAL
 }
 
 @Serializable
@@ -359,19 +320,15 @@ data class EncryptedData(
     val data: ByteArray,
     val iv: ByteArray,
     val timestamp: Long,
-    val metadata: String? = null,
+    val metadata: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as EncryptedData
-
+        if (other !is EncryptedData) return false
         if (!data.contentEquals(other.data)) return false
         if (!iv.contentEquals(other.iv)) return false
         if (timestamp != other.timestamp) return false
         if (metadata != other.metadata) return false
-
         return true
     }
 
@@ -404,20 +361,17 @@ data class SecurityEvent(
 )
 
 enum class SecurityEventType {
+    VALIDATION,
     PERMISSION_CHANGE,
     THREAT_DETECTED,
     ENCRYPTION_EVENT,
     AUTHENTICATION_EVENT,
     INTEGRITY_CHECK,
-    VALIDATION,
     AI_ERROR
 }
 
 enum class EventSeverity {
-    INFO,
-    WARNING,
-    ERROR,
-    CRITICAL
+    INFO, WARNING, ERROR, CRITICAL
 }
 
 @Serializable
@@ -427,21 +381,17 @@ data class SharedSecureContext(
     val targetAgent: AgentType,
     val encryptedContent: ByteArray,
     val timestamp: Long,
-    val expiresAt: Long,
+    val expiresAt: Long
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as SharedSecureContext
-
+        if (other !is SharedSecureContext) return false
         if (id != other.id) return false
         if (originatingAgent != other.originatingAgent) return false
         if (targetAgent != other.targetAgent) return false
         if (!encryptedContent.contentEquals(other.encryptedContent)) return false
         if (timestamp != other.timestamp) return false
         if (expiresAt != other.expiresAt) return false
-
         return true
     }
 
