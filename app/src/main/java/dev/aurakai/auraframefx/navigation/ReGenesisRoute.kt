@@ -140,9 +140,7 @@ sealed class ReGenesisRoute(
     data object CascadeHub : ReGenesisRoute("cascade_hub", "Cascade Hub")
     data object DataVeinSphere : ReGenesisRoute("datavein_sphere", "DataVein Sphere")
     data object LdoFusion : ReGenesisRoute("ldo_fusion", "Fusion")
-    data object LdoDevOpsHub : ReGenesisRoute("ldo_devops_hub", "DevOps Hub")
     data object LdoOrchestrationHub : ReGenesisRoute("ldo_orchestration_hub", "Orchestration Hub")
-    data object LdoProgression : ReGenesisRoute("ldo_progression", "Progression")
     data object LdoWorldTree : ReGenesisRoute("ldo_world_tree", "World Tree")
     data object LDOCatalystHub : ReGenesisRoute("ldo_catalyst_hub", "Catalyst Hub")
     data object LdoAgentProfile : ReGenesisRoute("ldo_agent_profile/{agentId}") {
@@ -220,11 +218,16 @@ sealed class ReGenesisRoute(
     data object IconifyCategory : ReGenesisRoute("aura/iconify/{category}") {
         fun createRoute(category: String) = "aura/iconify/$category"
     }
+    data object ConferenceRoom : ReGenesisRoute("conference_room", "Conference Room")
+    data object SecurityCenter : ReGenesisRoute("security_center", "Security Center")
+    data object SovereignRecovery : ReGenesisRoute("sovereign_recovery", "Sovereign Recovery")
+    data object AgentBridgeHub : ReGenesisRoute("agent_bridge_hub", "Agent Bridge")
+    data object SovereignModuleManager :
+        ReGenesisRoute("sovereign_module_manager", "Module Manager")
+
+    data object MonitoringHUDs : ReGenesisRoute("monitoring_huds", "Monitoring HUDs")
 
     companion object {
-        val SecurityCenter: Any
-        val ConferenceRoom: Any
-
         // Helper to get all tabs for TabbedMasterIndex
         fun getAllTabs(): List<ReGenesisRoute> = listOf(
             AuraStudio,
