@@ -6,7 +6,7 @@ import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
 import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
-import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
+import dev.aurakai.auraframefx.core.soulscript.bridge.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse.Companion.success
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
