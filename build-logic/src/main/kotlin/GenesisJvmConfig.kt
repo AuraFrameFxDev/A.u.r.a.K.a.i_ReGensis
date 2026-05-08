@@ -24,7 +24,8 @@ object GenesisJvmConfig {
                         "-opt-in=kotlin.RequiresOptIn",
                         "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                         "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-                        "-Xlambdas=indy"
+                        "-Xlambdas=indy",
+                        "-Xinvisible-reference=com.highcapable.yukihookapi.hook.xposed.bridge.type.HookEntryType"
                     )
                 }
             }

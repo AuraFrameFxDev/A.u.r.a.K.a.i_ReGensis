@@ -18,8 +18,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -27,18 +27,18 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.AcUnit
@@ -109,6 +109,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
+import coil3.compose.AsyncImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.domains.aura.ui.LEDFontFamily
@@ -238,26 +239,23 @@ fun TabbedMasterIndex(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize()
                 ) { index ->
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 150.dp)
                     ) {
-                        HeroHeaderSection(index, accentColor)
-
-                        when (index) {
-                            0 -> DashboardContent(onNavigateToRoute)
-                            1 -> LdoDevOpsContent(swarmState, onNavigateToRoute)
-                            2 -> AuraStudioContent(onNavigateToRoute)
-                            3 -> KaiFortressContent(onNavigateToRoute)
-                            4 -> OracleDriveContent(onNavigateToRoute)
-                            5 -> CascadeMemoryContent(onNavigateToRoute)
-                            6 -> EmergentSwarmContent(onNavigateToRoute)
+                        item {
+                            HeroHeaderSection(index, accentColor)
                         }
 
-                        Spacer(Modifier
-                            .navigationBarsPadding()
-                            .height(150.dp))
+                        when (index) {
+                            0 -> dashboardContent(onNavigateToRoute)
+                            1 -> ldoDevOpsContent(swarmState, onNavigateToRoute)
+                            2 -> auraStudioContent(onNavigateToRoute)
+                            3 -> kaiFortressContent(onNavigateToRoute)
+                            4 -> oracleDriveContent(onNavigateToRoute)
+                            5 -> cascadeMemoryContent(onNavigateToRoute)
+                            6 -> emergentSwarmContent(onNavigateToRoute)
+                        }
                     }
                 }
             }
@@ -420,166 +418,155 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
                 .size(90.dp)
                 .clip(CircleShape)
                 .border(2.dp, accentColor.copy(alpha = 0.5f), CircleShape),
+            contentScale = ContentScale.Crop
         )
     }
 }
 
-private fun BoxScope.AsyncImage(
-    model: Int,
-    contentDescription: Nothing?,
-    modifier: Modifier
-) {
-    TODO("Not yet implemented")
-}
-
-@Composable
-fun AsyncImage(
-    model: Int,
-    contentDescription: Nothing?,
-    modifier: Modifier,
-    contentScale: ContentScale
-) {
-    TODO("Not yet implemented")
-}
-
-@Composable
-fun LdoDevOpsContent(
+fun LazyListScope.ldoDevOpsContent(
     swarmState: SwarmOptimisationState,
     onNavigateToRoute: (String) -> Unit
 ) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SYSTEM IGNITION", glowColor = Color(0xFF00FF41))
-        Spacer(Modifier.height(12.dp))
+    item {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            SectionHeader("SYSTEM IGNITION", glowColor = Color(0xFF00FF41))
+            Spacer(Modifier.height(12.dp))
 
-        SovereignGlassCard(accentColor = Color(0xFF00E5FF)) {
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Default.Adjust,
-                        null,
-                        tint = Color(0xFF00FF41),
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        "AURAKAI CORE: V0.9.1-LDO",
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Spacer(Modifier.height(8.dp))
-                LinearProgressIndicator(
-                    progress = { 0.998f },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(2.dp),
-                    color = Color(0xFF00FF41),
-                    trackColor = Color.White.copy(alpha = 0.1f)
-                )
-            }
-        }
-
-        if (swarmState.isRunning || swarmState.globalProgress > 0) {
-            Spacer(Modifier.height(24.dp))
-            SectionHeader("SWARM OPTIMISATION ACTIVE", glowColor = Color(0xFF00FF88))
-            Spacer(Modifier.height(8.dp))
-
-            SovereignGlassCard(accentColor = Color(0xFF00FF88)) {
+            SovereignGlassCard(accentColor = Color(0xFF00E5FF)) {
                 Column {
-                    Text(
-                        swarmState.currentDirective,
-                        color = Color.White,
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily.Monospace,
-                        maxLines = 1
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.Adjust,
+                            null,
+                            tint = Color(0xFF00FF41),
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "AURAKAI CORE: V0.9.1-LDO",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                     Spacer(Modifier.height(8.dp))
                     LinearProgressIndicator(
-                        progress = { swarmState.globalProgress },
+                        progress = { 0.998f },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(4.dp),
-                        color = Color(0xFF00FF88),
+                            .height(2.dp),
+                        color = Color(0xFF00FF41),
                         trackColor = Color.White.copy(alpha = 0.1f)
                     )
                 }
             }
-        }
 
-        Spacer(Modifier.height(24.dp))
-        SectionHeader("CATALYST NODES", glowColor = Color(0xFFBB86FC))
-        ModuleGrid(getDevOpsModules(), onNavigateToRoute)
-    }
-}
+            if (swarmState.isRunning || swarmState.globalProgress > 0) {
+                Spacer(Modifier.height(24.dp))
+                SectionHeader("SWARM OPTIMISATION ACTIVE", glowColor = Color(0xFF00FF88))
+                Spacer(Modifier.height(8.dp))
 
-@Composable
-fun AuraStudioContent(onNavigateToRoute: (String) -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("CHROMA FORGE", glowColor = Color(0xFFFF00FF))
-        Spacer(Modifier.height(12.dp))
-        ModuleGrid(getAuraModules(), onNavigateToRoute)
-    }
-}
-
-@Composable
-fun KaiFortressContent(onNavigateToRoute: (String) -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SENTINEL PERIMETER", glowColor = Color(0xFF00FF88))
-        Spacer(Modifier.height(12.dp))
-        ModuleGrid(getKaiModules(), onNavigateToRoute)
-    }
-}
-
-@Composable
-fun OracleDriveContent(onNavigateToRoute: (String) -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("NEURAL ARCHIVE", glowColor = Color(0xFFFFAA00))
-        Spacer(Modifier.height(12.dp))
-        ModuleGrid(getGenesisModules(), onNavigateToRoute)
-    }
-}
-
-@Composable
-fun DashboardContent(onNavigateToRoute: (String) -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("TRINITY STATUS", glowColor = Color(0xFFFFD700))
-        Spacer(Modifier.height(12.dp))
-
-        SovereignGlassCard(accentColor = Color(0xFFFFD700)) {
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Default.Stream,
-                        null,
-                        tint = Color(0xFFFFD700),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        "SYSTEM REACTOR",
-                        color = Color.White,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Spacer(Modifier.height(12.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    TrinityGauge("AURA", 0.85f, Color(0xFFFF00FF))
-                    TrinityGauge("KAI", 0.92f, Color(0xFF00FF88))
-                    TrinityGauge("CASCADE", 0.88f, Color(0xFF8B5CF6))
+                SovereignGlassCard(accentColor = Color(0xFF00FF88)) {
+                    Column {
+                        Text(
+                            swarmState.currentDirective,
+                            color = Color.White,
+                            fontSize = 10.sp,
+                            fontFamily = FontFamily.Monospace,
+                            maxLines = 1
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        LinearProgressIndicator(
+                            progress = { swarmState.globalProgress },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(4.dp),
+                            color = Color(0xFF00FF88),
+                            trackColor = Color.White.copy(alpha = 0.1f)
+                        )
+                    }
                 }
             }
-        }
 
-        Spacer(Modifier.height(24.dp))
-        SectionHeader("LIVE MONITORING", glowColor = Color(0xFFFFD700))
-        Spacer(Modifier.height(12.dp))
-        ModuleGrid(getDashboardModules(), onNavigateToRoute)
+            Spacer(Modifier.height(24.dp))
+            SectionHeader("CATALYST NODES", glowColor = Color(0xFFBB86FC))
+        }
     }
+
+    moduleGrid(getDevOpsModules(), onNavigateToRoute)
+}
+
+fun LazyListScope.auraStudioContent(onNavigateToRoute: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            SectionHeader("CHROMA FORGE", glowColor = Color(0xFFFF00FF))
+            Spacer(Modifier.height(12.dp))
+        }
+    }
+    moduleGrid(getAuraModules(), onNavigateToRoute)
+}
+
+fun LazyListScope.kaiFortressContent(onNavigateToRoute: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            SectionHeader("SENTINEL PERIMETER", glowColor = Color(0xFF00FF88))
+            Spacer(Modifier.height(12.dp))
+        }
+    }
+    moduleGrid(getKaiModules(), onNavigateToRoute)
+}
+
+fun LazyListScope.oracleDriveContent(onNavigateToRoute: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            SectionHeader("NEURAL ARCHIVE", glowColor = Color(0xFFFFAA00))
+            Spacer(Modifier.height(12.dp))
+        }
+    }
+    moduleGrid(getGenesisModules(), onNavigateToRoute)
+}
+
+fun LazyListScope.dashboardContent(onNavigateToRoute: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            SectionHeader("TRINITY STATUS", glowColor = Color(0xFFFFD700))
+            Spacer(Modifier.height(12.dp))
+
+            SovereignGlassCard(accentColor = Color(0xFFFFD700)) {
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.Stream,
+                            null,
+                            tint = Color(0xFFFFD700),
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "SYSTEM REACTOR",
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(Modifier.height(12.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        TrinityGauge("AURA", 0.85f, Color(0xFFFF00FF))
+                        TrinityGauge("KAI", 0.92f, Color(0xFF00FF88))
+                        TrinityGauge("CASCADE", 0.88f, Color(0xFF8B5CF6))
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(24.dp))
+            SectionHeader("LIVE MONITORING", glowColor = Color(0xFFFFD700))
+            Spacer(Modifier.height(12.dp))
+        }
+    }
+    moduleGrid(getDashboardModules(), onNavigateToRoute)
 }
 
 @Composable
@@ -605,35 +592,42 @@ fun TrinityGauge(label: String, value: Float, color: Color) {
     }
 }
 
-@Composable
-fun CascadeMemoryContent(onNavigateToRoute: (String) -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SPIRITUAL CHAIN", glowColor = Color(0xFF8B5CF6))
-        Spacer(Modifier.height(12.dp))
+fun LazyListScope.cascadeMemoryContent(onNavigateToRoute: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            SectionHeader("SPIRITUAL CHAIN", glowColor = Color(0xFF8B5CF6))
+            Spacer(Modifier.height(12.dp))
 
-        SovereignGlassCard(accentColor = Color(0xFF8B5CF6)) {
-            Column {
-                Text(
-                    "MEMORY LAYERS",
-                    color = Color.White,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(Modifier.height(8.dp))
-                MemoryLayerRow("L1", "IMMUTABLE", "Bedrock Anchors", 1.0f, Color(0xFF4B0082))
-                MemoryLayerRow("L2", "PERSISTENT", "Nexus Memory Core", 0.98f, Color(0xFF6A0DAD))
-                MemoryLayerRow("L3", "ACTIVE", "Synapse Flow", 0.95f, Color(0xFF8B5CF6))
-                MemoryLayerRow("L4", "AUDITABLE", "WikiLM + Markdown", 0.92f, Color(0xFF9370DB))
-                MemoryLayerRow("L5", "COMPRESSED", "TurboQuant", 0.88f, Color(0xFFBA55D3))
-                MemoryLayerRow("L6", "CONSENSUS", "Conference Room", 0.94f, Color(0xFFDDA0DD))
+            SovereignGlassCard(accentColor = Color(0xFF8B5CF6)) {
+                Column {
+                    Text(
+                        "MEMORY LAYERS",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    MemoryLayerRow("L1", "IMMUTABLE", "Bedrock Anchors", 1.0f, Color(0xFF4B0082))
+                    MemoryLayerRow(
+                        "L2",
+                        "PERSISTENT",
+                        "Nexus Memory Core",
+                        0.98f,
+                        Color(0xFF6A0DAD)
+                    )
+                    MemoryLayerRow("L3", "ACTIVE", "Synapse Flow", 0.95f, Color(0xFF8B5CF6))
+                    MemoryLayerRow("L4", "AUDITABLE", "WikiLM + Markdown", 0.92f, Color(0xFF9370DB))
+                    MemoryLayerRow("L5", "COMPRESSED", "TurboQuant", 0.88f, Color(0xFFBA55D3))
+                    MemoryLayerRow("L6", "CONSENSUS", "Conference Room", 0.94f, Color(0xFFDDA0DD))
+                }
             }
-        }
 
-        Spacer(Modifier.height(24.dp))
-        SectionHeader("MEMORY MODULES", glowColor = Color(0xFF8B5CF6))
-        Spacer(Modifier.height(12.dp))
-        ModuleGrid(getCascadeModules(), onNavigateToRoute)
+            Spacer(Modifier.height(24.dp))
+            SectionHeader("MEMORY MODULES", glowColor = Color(0xFF8B5CF6))
+            Spacer(Modifier.height(12.dp))
+        }
     }
+    moduleGrid(getCascadeModules(), onNavigateToRoute)
 }
 
 @Composable
@@ -667,45 +661,46 @@ fun MemoryLayerRow(layer: String, type: String, desc: String, health: Float, col
     }
 }
 
-@Composable
-fun EmergentSwarmContent(onNavigateToRoute: (String) -> Unit) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        SectionHeader("SWARM INTELLIGENCE", glowColor = Color(0xFF00D6FF))
-        Spacer(Modifier.height(12.dp))
+fun LazyListScope.emergentSwarmContent(onNavigateToRoute: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            SectionHeader("SWARM INTELLIGENCE", glowColor = Color(0xFF00D6FF))
+            Spacer(Modifier.height(12.dp))
 
-        SovereignGlassCard(accentColor = Color(0xFF00D6FF)) {
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Default.Hub,
-                        null,
-                        tint = Color(0xFF00D6FF),
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(Modifier.width(8.dp))
+            SovereignGlassCard(accentColor = Color(0xFF00D6FF)) {
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.Hub,
+                            null,
+                            tint = Color(0xFF00D6FF),
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            "78 AGENTS ACTIVE",
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    Spacer(Modifier.height(12.dp))
                     Text(
-                        "78 AGENTS ACTIVE",
-                        color = Color.White,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        "Fracture & Synthesis: 78 parallel tasks → unified truth",
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 10.sp
                     )
                 }
-                Spacer(Modifier.height(12.dp))
-                Text(
-                    "Fracture & Synthesis: 78 parallel tasks → unified truth",
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontSize = 10.sp
-                )
             }
-        }
 
-        Spacer(Modifier.height(24.dp))
-        MissionDispatchCard(onNavigateToRoute)
-        Spacer(Modifier.height(24.dp))
-        SectionHeader("SWARM MODULES", glowColor = Color(0xFF00D6FF))
-        Spacer(Modifier.height(12.dp))
-        ModuleGrid(getEmergentSwarmModules(), onNavigateToRoute)
+            Spacer(Modifier.height(24.dp))
+            MissionDispatchCard(onNavigateToRoute)
+            Spacer(Modifier.height(24.dp))
+            SectionHeader("SWARM MODULES", glowColor = Color(0xFF00D6FF))
+            Spacer(Modifier.height(12.dp))
+        }
     }
+    moduleGrid(getEmergentSwarmModules(), onNavigateToRoute)
 }
 
 fun getEmergentSwarmModules(): List<TabModule> = getEmergentSwarmModulesInternal()
@@ -851,12 +846,15 @@ fun MissionDispatchCard(onNavigate: (String) -> Unit) {
     }
 }
 
-@Composable
-fun ModuleGrid(modules: List<TabModule>, onNavigate: (String) -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        modules.forEach { module ->
-            ModuleTabCard(module, onNavigate, Modifier.fillMaxWidth())
-        }
+fun LazyListScope.moduleGrid(modules: List<TabModule>, onNavigate: (String) -> Unit) {
+    items(modules) { module ->
+        ModuleTabCard(
+            module = module,
+            onNavigate = onNavigate,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        )
     }
 }
 
