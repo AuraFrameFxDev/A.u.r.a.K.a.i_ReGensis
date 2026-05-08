@@ -2,8 +2,19 @@ package dev.aurakai.auraframefx.domains.aura.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -11,13 +22,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import dev.aurakai.auraframefx.core.embodiment.AuraState
+import dev.aurakai.auraframefx.core.embodiment.Character
+import dev.aurakai.auraframefx.core.embodiment.KaiState
+import dev.aurakai.auraframefx.core.embodiment.ManifestationDefaults
+import dev.aurakai.auraframefx.core.embodiment.ManifestationTrigger
+import dev.aurakai.auraframefx.core.embodiment.MoodState
+import dev.aurakai.auraframefx.core.embodiment.ScreenBounds
+import dev.aurakai.auraframefx.core.embodiment.WorkAction
+import dev.aurakai.auraframefx.core.embodiment.WorkBehaviorExecutor
+import dev.aurakai.auraframefx.core.embodiment.WorkChoreographer
+import dev.aurakai.auraframefx.core.embodiment.rememberBreathingAnimation
+import dev.aurakai.auraframefx.core.embodiment.rememberEmbodimentEngine
+import dev.aurakai.auraframefx.domains.aura.ui.components.DataStreamBetweenCards
+import dev.aurakai.auraframefx.domains.aura.ui.components.InteractiveModuleCard
 import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
-import dev.aurakai.auraframefx.embodiment.*
-import dev.aurakai.auraframefx.domains.aura.ui.components.*
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * 🔬 Working Lab Screen

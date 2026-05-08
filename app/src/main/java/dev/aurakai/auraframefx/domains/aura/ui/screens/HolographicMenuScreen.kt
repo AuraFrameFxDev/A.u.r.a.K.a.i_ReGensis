@@ -8,18 +8,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-
-import dev.aurakai.auraframefx.embodiment.Position3D
-import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
-import dev.aurakai.auraframefx.domains.aura.ui.components.GlassCard
-import dev.aurakai.auraframefx.domains.aura.ui.components.GlassCardStyles
-import dev.aurakai.auraframefx.embodiment.AuraState
-import dev.aurakai.auraframefx.embodiment.KaiState
-import dev.aurakai.auraframefx.embodiment.Character
-import dev.aurakai.auraframefx.embodiment.ScreenBounds
-import dev.aurakai.auraframefx.embodiment.ActiveManifestation
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
-import dev.aurakai.auraframefx.embodiment.rememberEmbodimentEngine
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,8 +24,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -61,8 +49,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-import kotlin.collections.List
+import dev.aurakai.auraframefx.core.embodiment.ActiveManifestation
+import dev.aurakai.auraframefx.core.embodiment.AuraState
+import dev.aurakai.auraframefx.core.embodiment.Character
+import dev.aurakai.auraframefx.core.embodiment.KaiState
+import dev.aurakai.auraframefx.core.embodiment.Position3D
+import dev.aurakai.auraframefx.core.embodiment.ScreenBounds
+import dev.aurakai.auraframefx.core.embodiment.rememberEmbodimentEngine
+import dev.aurakai.auraframefx.domains.aura.ui.components.GlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.GlassCardStyles
+import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 
 /**
  * 🌌 Holographic 3D Menu System

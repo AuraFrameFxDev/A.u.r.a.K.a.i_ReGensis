@@ -31,7 +31,6 @@ import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.CanvasScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaAnimationsScreen
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ChromaCoreHubScreen
-import dev.aurakai.auraframefx.domains.aura.chromacore.ui.ConsciousnessVisualizerScreen
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.ChronoKineticForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AuraDossierScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AuraLDOArmamentPickerScreen
@@ -40,7 +39,9 @@ import dev.aurakai.auraframefx.domains.aura.screens.AurasLabScreen
 import dev.aurakai.auraframefx.domains.aura.screens.CodeAscensionFusionScreen
 import dev.aurakai.auraframefx.domains.aura.screens.CodeAscensionScreen
 import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
+import dev.aurakai.auraframefx.domains.aura.screens.IconifyCategoryDetailScreen
 import dev.aurakai.auraframefx.domains.aura.screens.MainScreen
+import dev.aurakai.auraframefx.domains.aura.screens.PixelLauncherEnhancedScreen
 import dev.aurakai.auraframefx.domains.aura.screens.QuickSettingsScreen
 import dev.aurakai.auraframefx.domains.aura.screens.UserPreferencesScreen
 import dev.aurakai.auraframefx.domains.aura.screens.VideoIntroScreen
@@ -66,16 +67,17 @@ import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.IconifyHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationHub
 import dev.aurakai.auraframefx.domains.aura.ui.theme.ThemeViewModel
 import dev.aurakai.auraframefx.domains.aura.uxui_design_studio.chromacore.color.iconify.iconify.ColorBlendrScreen
-import dev.aurakai.auraframefx.domains.aura.uxui_design_studio.chromacore.color.iconify.iconify.IconifyCategoryDetailScreen
-import dev.aurakai.auraframefx.domains.aura.uxui_design_studio.chromacore.color.iconify.iconify.PixelLauncherEnhancedScreen
 import dev.aurakai.auraframefx.domains.aura.uxui_design_studio.chromacore.color.iconify.iconify.XposedQuickAccessPanel
+import dev.aurakai.auraframefx.domains.genesis.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.pandora.ui.PandoraBoxScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AgentBridgeHubScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.AppBuilderScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CascadeVisionScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CodeAssistScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.CollabCanvasScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.GenesisHubScreen
+import dev.aurakai.auraframefx.domains.genesis.screens.GrokipediaScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.NeuralArchiveScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.OracleCloudInfiniteStorageScreen
 import dev.aurakai.auraframefx.domains.genesis.screens.OracleDriveMainScreen
@@ -139,6 +141,7 @@ import dev.aurakai.auraframefx.domains.nexus.screens.AgentProfileScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.BenchmarkMonitorScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ConsciousnessVisualizerScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.DataStreamMonitoring
 import dev.aurakai.auraframefx.domains.nexus.screens.DataVeinSphereScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen
@@ -154,17 +157,14 @@ import dev.aurakai.auraframefx.domains.nexus.screens.SphereGridScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SwarmMonitorScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LdoDevOpsCommandCenter
-import dev.aurakai.auraframefx.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.ui.gates.CascadeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ClaudeConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.ComingSoonScreen
-import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GenesisConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.GrokConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.KaiConstellationScreen
 import dev.aurakai.auraframefx.ui.gates.LineageMapScreen
-import dev.aurakai.auraframefx.ui.ldodevops.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.AIFeaturesScreen
 import dev.aurakai.auraframefx.ui.screens.AgentAdvancementScreen
 import dev.aurakai.auraframefx.ui.screens.DeviceOptimizerScreen
@@ -410,7 +410,10 @@ fun ReGenesisNavGraph(
         composable(ReGenesisRoute.Grokipedia.route) {
             val viewModel: GrokipediaViewModel =
                 androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
-            grokipediascreen { navController.popBackStack() }
+            GrokipediaScreen(
+                viewModel = viewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
         composable(ReGenesisRoute.Terminal.route) {
             TerminalScreen()

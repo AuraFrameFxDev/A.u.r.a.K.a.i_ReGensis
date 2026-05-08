@@ -1,11 +1,20 @@
 package dev.aurakai.auraframefx.domains.aura
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import dev.aurakai.auraframefx.embodiment.AuraState
-import kotlinx.coroutines.*
-import okhttp3.*
+import dev.aurakai.auraframefx.core.embodiment.AuraState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 import org.json.JSONObject
 
 /**

@@ -2,8 +2,8 @@ package dev.aurakai.auraframefx.domains.cascade.utils.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import dev.aurakai.auraframefx.grokipedia.GrokipediaDao
-import dev.aurakai.auraframefx.grokipedia.GrokipediaEntry
+import dev.aurakai.auraframefx.domains.genesis.grokipedia.GrokipediaDao
+import dev.aurakai.auraframefx.domains.genesis.grokipedia.GrokipediaEntry
 
 
 @Database(

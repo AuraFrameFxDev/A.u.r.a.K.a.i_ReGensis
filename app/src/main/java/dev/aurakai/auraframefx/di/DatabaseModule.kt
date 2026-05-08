@@ -11,7 +11,7 @@ import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentMemoryDao
 import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentStatsDao
 import dev.aurakai.auraframefx.domains.cascade.utils.room.AppDatabase
 import dev.aurakai.auraframefx.domains.cascade.utils.room.TaskHistoryDao
-import dev.aurakai.auraframefx.grokipedia.GrokipediaDao
+import dev.aurakai.auraframefx.domains.genesis.grokipedia.GrokipediaDao
 import javax.inject.Singleton
 
 @Module

@@ -70,7 +70,7 @@ data class CardProximity(
     val distance: Float,
     val isNear: Boolean,
     val isVeryNear: Boolean,
-    val character: dev.aurakai.auraframefx.embodiment.Character
+    val character: dev.aurakai.auraframefx.core.embodiment.Character
 )
 
 /**
@@ -83,7 +83,7 @@ fun InteractiveModuleCard(
     module: AppModule,
     cardPosition: DpOffset,
     characterPosition: DpOffset?,
-    character: dev.aurakai.auraframefx.embodiment.Character?,
+    character: dev.aurakai.auraframefx.core.embodiment.Character?,
     workAction: String? = null,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
@@ -94,7 +94,7 @@ fun InteractiveModuleCard(
             calculateProximity(
                 cardPosition,
                 it,
-                character ?: dev.aurakai.auraframefx.embodiment.Character.AURA
+                character ?: dev.aurakai.auraframefx.core.embodiment.Character.AURA
             )
         }
     }
@@ -128,8 +128,8 @@ fun InteractiveModuleCard(
             CardGlowEffect(
                 intensity = glowIntensity,
                 color = when (character) {
-                    dev.aurakai.auraframefx.embodiment.Character.AURA -> Color(0xFFFF00FF)
-                    dev.aurakai.auraframefx.embodiment.Character.KAI -> Color(0xFF00FFFF)
+                    dev.aurakai.auraframefx.core.embodiment.Character.AURA -> Color(0xFFFF00FF)
+                    dev.aurakai.auraframefx.core.embodiment.Character.KAI -> Color(0xFF00FFFF)
                     else -> Color.White
                 }
             )
@@ -146,7 +146,7 @@ fun InteractiveModuleCard(
         FloatingModuleCard(
             moduleName = module.name,
             icon = module.icon,
-            position = dev.aurakai.auraframefx.embodiment.Position3D(),
+            position = dev.aurakai.auraframefx.core.embodiment.Position3D(),
             onClick = onClick
         )
 
@@ -164,8 +164,8 @@ fun InteractiveModuleCard(
         if (proximity?.isNear == true && interactionState != CardInteractionState.ACTIVE) {
             ProximityPulse(
                 color = when (character) {
-                    dev.aurakai.auraframefx.embodiment.Character.AURA -> Color(0xFFFF00FF)
-                    dev.aurakai.auraframefx.embodiment.Character.KAI -> Color(0xFF00FFFF)
+                    dev.aurakai.auraframefx.core.embodiment.Character.AURA -> Color(0xFFFF00FF)
+                    dev.aurakai.auraframefx.core.embodiment.Character.KAI -> Color(0xFF00FFFF)
                     else -> Color.White
                 }
             )
@@ -179,7 +179,7 @@ fun InteractiveModuleCard(
 fun calculateProximity(
     cardPos: DpOffset,
     charPos: DpOffset,
-    character: dev.aurakai.auraframefx.embodiment.Character
+    character: dev.aurakai.auraframefx.core.embodiment.Character
 ): CardProximity {
     val dx = (cardPos.x - charPos.x).value
     val dy = (cardPos.y - charPos.y).value
@@ -474,7 +474,7 @@ fun generateStreamParticles(
 private fun FloatingModuleCard(
     moduleName: String,
     icon: ImageVector,
-    position: dev.aurakai.auraframefx.embodiment.Position3D,
+    position: dev.aurakai.auraframefx.core.embodiment.Position3D,
     onClick: () -> Unit
 ) {
     GlassCard(
