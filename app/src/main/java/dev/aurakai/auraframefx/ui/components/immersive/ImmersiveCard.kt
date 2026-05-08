@@ -29,6 +29,8 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.nativePaint
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.ui.theme.ImmersiveColors
@@ -91,13 +93,13 @@ fun ImmersiveCard(
             .drawBehind {
                 // Ambient glow effect
                 val glowPaint = Paint().apply {
-                    val paint = this.asFrameworkPaint().apply {
+                    this.nativePaint.apply {
                         isAntiAlias = true
                         setShadowLayer(
                             20f,
                             0f,
                             0f,
-                            (accentColor.copy(alpha = glowIntensity).value shr 32).toInt()
+                            accentColor.copy(alpha = glowIntensity).toArgb()
                         )
                     }
                 }
@@ -292,13 +294,13 @@ fun AgentRosterCard(
                     .drawBehind {
                         // Glow ring
                         val glowPaint = Paint().apply {
-                            val paint = this.asFrameworkPaint().apply {
+                            this.nativePaint.apply {
                                 isAntiAlias = true
                                 setShadowLayer(
                                     15f,
                                     0f,
                                     0f,
-                                    (accentColor.copy(alpha = 0.5f).value shr 32).toInt()
+                                    accentColor.copy(alpha = 0.5f).toArgb()
                                 )
                             }
                         }

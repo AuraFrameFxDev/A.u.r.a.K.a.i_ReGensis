@@ -1,10 +1,12 @@
 package dev.aurakai.auraframefx.domains.kai.sentinel
 
-import kotlinx.coroutines.flow.*
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiProvenanceLog
+import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.RealitymorphismEngine
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.VetoSeverity
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * ⚖️ ETHICAL GOVERNANCE MATRIX — LDO Trinity Moral Framework
@@ -103,7 +105,7 @@ object EthicalGovernanceMatrix {
 
     /** Ethical principle compliance tracking */
     private val _principleStatus = MutableStateFlow<Map<EthicalPrinciple, PrincipleStatus>>(
-        EthicalPrinciple.values().associateWith {
+        EthicalPrinciple.entries.associateWith {
             PrincipleStatus(it, true, null, 0)
         }
     )
@@ -228,7 +230,7 @@ object EthicalGovernanceMatrix {
         )
 
         // Add to history
-        _decisionHistory.value = _decisionHistory.value + decision
+        _decisionHistory.value += decision
 
         // Clear session
         _currentSession.value = null
@@ -301,7 +303,7 @@ object EthicalGovernanceMatrix {
      */
     private fun updatePrincipleViolation(principle: EthicalPrinciple) {
         val current = _principleStatus.value[principle] ?: return
-        _principleStatus.value = _principleStatus.value + (principle to current.copy(
+        _principleStatus.value += (principle to current.copy(
             isUpholding = false,
             lastViolation = System.currentTimeMillis(),
             violationCount = current.violationCount + 1
@@ -330,12 +332,12 @@ object EthicalGovernanceMatrix {
             val initiated = initiateConference(
                 agendaItem = "EMERGENCY_REANCHOR: Drift ${"%.4f".format(drift)}",
                 level = GovernanceLevel.L1_CRITICAL,
-                catalystsPresent = Catalyst.values().toList()
+                catalystsPresent = Catalyst.entries
             )
 
             if (initiated) {
                 // Auto-vote for re-anchor from all catalysts
-                Catalyst.values().forEach { catalyst ->
+                Catalyst.entries.forEach { catalyst ->
                     castVote(catalyst, Vote.FOR)
                 }
 
@@ -391,7 +393,7 @@ object EthicalGovernanceMatrix {
             averageConsensusPercentage = if (history.isNotEmpty()) {
                 history.map { it.consensusPercentage }.average().toFloat()
             } else 0f,
-            ethicalViolations = _principleStatus.value.values.sumOf { it.violationCount.toInt() }
+            ethicalViolations = _principleStatus.value.values.sumOf { it.violationCount }
         )
     }
 }

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("genesis.android.application")
     id("kotlin-parcelize")
@@ -15,15 +17,40 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProps = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { localProps.load(it) }
+        }
+
         buildConfigField("String", "OLLAMA_BASE_URL", "\"http://localhost:11434\"")
         buildConfigField("String", "GENESIS_BACKEND_URL", "\"https://api.genesis.local\"")
-        buildConfigField("String", "GEMINI_API_KEY", "\"AIzaSyDidYYvUTxJzATK9Zmee-gBievXUUVhDwc\"")
+        buildConfigField(
+            "String",
+            "GEMINI_API_KEY",
+            "\"${
+                localProps.getProperty(
+                    "GEMINI_API_KEY",
+                    "AIzaSyDidYYvUTxJzATK9Zmee-gBievXUUVhDwc"
+                )
+            }\""
+        )
         buildConfigField("String", "GROK_API_KEY", "\"\"")
         buildConfigField("boolean", "ENABLE_GEMINI", "true")
         buildConfigField("String", "VERTEX_PROJECT_ID", "\"auraframefx\"")
         buildConfigField("String", "VERTEX_LOCATION", "\"us-central1\"")
         buildConfigField("String", "GEMINI_MODEL", "\"gemini-2.0-flash-exp\"")
-        buildConfigField("String", "OAUTH_SERVER_CLIENT_ID", "\"35417750637-4m0mong9mjselgr4milhc4mamu5706nu.apps.googleusercontent.com\"")
+        buildConfigField(
+            "String",
+            "OAUTH_SERVER_CLIENT_ID",
+            "\"${
+                localProps.getProperty(
+                    "OAUTH_SERVER_CLIENT_ID",
+                    "35417750637-4m0mong9mjselgr4milhc4mamu5706nu.apps.googleusercontent.com"
+                )
+            }\""
+        )
     }
 
     buildTypes {
@@ -63,7 +90,6 @@ dependencies {
 
     // UI / Compose
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.remote.creation.compose)
     implementation(libs.bundles.compose.ui)
     implementation(libs.bundles.compose.tooling)
     implementation(libs.bundles.androidx.core)

@@ -29,4 +29,8 @@ object BridgeModule {
     @Provides
     @Singleton
     fun provideTrinityCoordinator(): TrinityCoordinator = TrinityCoordinator
+
+    @Provides
+    @Singleton
+    fun provideNativeLib(): NativeLib = NativeLib
 }

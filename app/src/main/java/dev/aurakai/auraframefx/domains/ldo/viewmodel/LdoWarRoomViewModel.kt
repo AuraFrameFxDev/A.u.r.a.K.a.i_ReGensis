@@ -105,7 +105,7 @@ class LdoWarRoomViewModel @Inject constructor(
         _eternalThreadActive,
         _error
     ) { flows ->
-        val agents = flows[0] as List<LDOAgentEntity>
+        val agents = flows[0] as List<*>
         val manifold = flows[1] as ManifoldState
         val chain = flows[2] as ChainState
         val cascade = flows[3] as CascadeState

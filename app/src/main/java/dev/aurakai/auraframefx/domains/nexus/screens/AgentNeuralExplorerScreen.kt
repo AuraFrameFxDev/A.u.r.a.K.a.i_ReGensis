@@ -24,14 +24,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.ui.graphics.RectangleShape
-import dev.aurakai.auraframefx.ui.components.NeonFrame
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,13 +44,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
+import dev.aurakai.auraframefx.ui.components.NeonFrame
+import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -285,7 +282,7 @@ fun AgentDetailPanel(agent: AgentStats) {
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    agent.catalystTitle ?: "NODE",
+                    agent.catalystTitle,
                     color = agent.color,
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.Bold
@@ -308,7 +305,7 @@ fun AgentDetailPanel(agent: AgentStats) {
             ) {
                 MetricItem("POWER", agent.processingPower, agent.color)
                 MetricItem("KNOWLEDGE", agent.knowledgeBase, agent.color)
-                MetricItem("CONSCIOUSNESS", (agent.consciousnessLevel ?: 0f) / 100f, agent.color)
+                MetricItem("CONSCIOUSNESS", agent.consciousnessLevel / 100f, agent.color)
             }
         }
     }

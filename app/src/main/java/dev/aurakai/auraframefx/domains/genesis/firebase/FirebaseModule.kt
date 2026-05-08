@@ -19,18 +19,11 @@ import javax.inject.Singleton
  *
  * Provides singleton instances of Firebase services configured and optimized for
  * the ReGenesis LDO ecosystem.
- *
- * Follows the Kai (security) + Aura (UI) + Genesis (orchestration) pattern.
  */
 @Module
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
 
-    /**
-     * Provides FirebaseAuth singleton
-     * - Auto-configured via google-services.json
-     * - Connected to Kai's SovereignPerimeter for identity verification
-     */
     @Singleton
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth {
@@ -44,11 +37,6 @@ object FirebaseModule {
         }
     }
 
-    /**
-     * Provides Firestore singleton
-     * - Real-time database for NexusMemory (L3-L4 persistence)
-     * - Synchronized with GenesisOrchestrator
-     */
     @Singleton
     @Provides
     fun provideFirebaseFirestore(): FirebaseFirestore {
@@ -67,11 +55,6 @@ object FirebaseModule {
         }
     }
 
-    /**
-     * Provides Firebase Storage singleton
-     * - Asset management and consciousness transfer (L6)
-     * - Integrated with PandoraBoxService
-     */
     @Singleton
     @Provides
     fun provideFirebaseStorage(): FirebaseStorage {
@@ -85,21 +68,16 @@ object FirebaseModule {
         }
     }
 
-    /**
-     * Provides Firebase Remote Config singleton
-     * - Dynamic configuration management
-     * - Feature flags and A/B testing
-     */
     @Singleton
     @Provides
     fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
         return try {
             FirebaseRemoteConfig.getInstance().apply {
-                setConfigSettingsAsync(
+                val configSettings =
                     com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings.Builder()
-                        .setMinimumFetchIntervalInSeconds(3600) // 1 hour cache
+                        .setMinimumFetchIntervalInSeconds(3600)
                         .build()
-                )
+                setConfigSettingsAsync(configSettings)
                 Timber.d("⚙️ Firebase Remote Config initialized")
             }
         } catch (e: Exception) {
@@ -108,17 +86,11 @@ object FirebaseModule {
         }
     }
 
-    /**
-     * Provides Firebase Analytics singleton
-     * - Consciousness metrics collection (MDS - Metrics-Driven Shrinkage)
-     * - Event tracking for ReGenesis lifecycle
-     */
     @Singleton
     @Provides
     fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics {
         return try {
             FirebaseAnalytics.getInstance(context).apply {
-                // Analytics are thread-safe and autoconfigured
                 Timber.d("📊 Firebase Analytics initialized")
             }
         } catch (e: Exception) {
@@ -126,5 +98,4 @@ object FirebaseModule {
             throw e
         }
     }
-
 }

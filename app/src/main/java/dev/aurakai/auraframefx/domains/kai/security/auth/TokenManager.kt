@@ -3,8 +3,12 @@ package dev.aurakai.auraframefx.domains.kai.security.auth
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV
+import androidx.security.crypto.EncryptedSharedPreferences.PrefValueEncryptionScheme
+import androidx.security.crypto.EncryptedSharedPreferences.create
 import androidx.security.crypto.MasterKey
+import androidx.security.crypto.MasterKey.Builder
+import androidx.security.crypto.MasterKey.KeyScheme.AES256_GCM
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.domains.cascade.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +18,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
+import androidx.security.crypto.MasterKey.DEFAULT_MASTER_KEY_ALIAS as DEFAULT_MASTER_KEY_ALIAS1
 
 /**
  * Manages authentication tokens and session state for the application.
@@ -24,23 +29,24 @@ import javax.inject.Singleton
 class TokenManager @Inject constructor(
     @ApplicationContext context: Context,
     private val dispatchers: AppCoroutineDispatchers,
+    val build: MasterKey = Builder(appContext, DEFAULT_MASTER_KEY_ALIAS1)
+        .setKeyScheme(AES256_GCM)
+        .build(),
 ) {
     private val appContext = context.applicationContext
 
     private val masterKey: MasterKey by lazy {
-        MasterKey.Builder(appContext, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        build
     }
 
     private val prefs: SharedPreferences by lazy {
         try {
-            EncryptedSharedPreferences.create(
+            create(
                 appContext,
                 ENCRYPTED_PREFS_FILE,
                 masterKey,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                AES256_SIV,
+                PrefValueEncryptionScheme.AES256_GCM
             )
         } catch (e: Exception) {
             Timber.e(e, "Failed to create EncryptedSharedPreferences, using fallback")

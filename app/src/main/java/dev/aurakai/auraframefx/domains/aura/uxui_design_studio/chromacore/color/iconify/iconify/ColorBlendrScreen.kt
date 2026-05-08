@@ -24,7 +24,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonDefaults.outlinedButtonBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -398,7 +397,7 @@ private fun ActionButtons(navController: NavHostController) {
                 contentColor = CyberpunkPink
             ),
             shape = RoundedCornerShape(12.dp),
-            border = outlinedButtonBorder.copy(
+            border = ButtonDefaults.outlinedButtonBorder(enabled = true).copy(
                 brush = Brush.horizontalGradient(listOf(CyberpunkPink, CyberpunkPurple))
             )
         ) {

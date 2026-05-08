@@ -71,7 +71,7 @@ fun LDOBondingScreen(
             // Top bonded agent highlight
             val topBond = state.bondLevels.maxByOrNull { it.bondLevel }
             val topAgent = topBond?.let { bond -> state.agents.find { it.id == bond.agentId } }
-            if (topAgent != null && topBond != null) {
+            if (topAgent != null) {
                 TopBondCard(topAgent, topBond)
                 Spacer(modifier = Modifier.height(16.dp))
             }

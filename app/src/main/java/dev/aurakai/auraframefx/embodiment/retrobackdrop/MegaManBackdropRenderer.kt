@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -20,6 +22,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import dev.aurakai.auraframefx.domains.kai.romtools.OperationProgress
 import kotlinx.coroutines.delay
 import kotlin.random.Random
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Mega Man-typography animated backdrop for ROM Tools operations.
@@ -45,10 +48,10 @@ fun MegaManBackdropRenderer(
 
     // State management
     var cones by remember { mutableStateOf(listOf<ConstructionCone>()) }
-    var kaiHitCount by remember { mutableStateOf(0) }
+    var kaiHitCount by remember { mutableIntStateOf(0) }
     var isTeleporting by remember { mutableStateOf(false) }
     val teleportEffect = remember { TeleportationEffect(0f, 0f, 0f, 0f) }
-    var lastConeThrow by remember { mutableStateOf(0L) }
+    var lastConeThrow by remember { mutableLongStateOf(0L) }
 
     // Special abilities
     val hexagonalShield = remember { HexagonalShield() }
@@ -88,7 +91,7 @@ fun MegaManBackdropRenderer(
     // Game loop
     LaunchedEffect(Unit) {
         while (true) {
-            delay(16) // ~60 FPS
+            delay(16.milliseconds) // ~60 FPS
 
             // Update Cone Barrage (Aura's ultimate)
             val barrageCones = coneBarrage.update(0.016f)
@@ -341,8 +344,6 @@ private fun DrawScope.drawBarrageWarning() {
         size = size
     )
 
-    // Warning text at top center
-    "⚠️ CONE BARRAGE ⚠️"
     // Note: Text drawing would require TextMeasurer - simplified with rect for now
     drawRect(
         color = MegaManPalette.AURA_PRIMARY.copy(alpha = 0.8f),
