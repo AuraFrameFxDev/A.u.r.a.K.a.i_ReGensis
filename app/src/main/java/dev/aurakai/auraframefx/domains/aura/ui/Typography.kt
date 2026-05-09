@@ -26,11 +26,11 @@ import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.R
 
 /**
- * 🎨 COPIXEL - The LDO Display/Header Font
- * Pixel-style, sci-fi aesthetic for titles and LED-style UI text
+ * 🎨 CORPTA - Unified LDO Display/Header Font
+ * Clean, readable for titles and LED-style UI text
  */
 val LEDFontFamily = FontFamily(
-    Font(R.font.copixel, FontWeight.Normal)
+    Font(R.font.corpta, FontWeight.Normal)
 )
 
 /**
@@ -43,12 +43,11 @@ val CorptaFontFamily = FontFamily(
 
 /**
  * 🎨 AuraFrameFX Typography System
- * - COPIXEL: Headers, displays, LED-style UI text
- * - CORPTA: Body text and UI elements
+ * - CORPTA: Unified font for all UI elements
  */
 val AppTypography = Typography(
     // ═════════════════════════════════════════════════════════════════
-    // DISPLAY styles - COPIXEL (Header font)
+    // DISPLAY styles - CORPTA (Unified font)
     // ═════════════════════════════════════════════════════════════════
     displayLarge = TextStyle(
         fontFamily = LEDFontFamily,
@@ -69,7 +68,7 @@ val AppTypography = Typography(
         letterSpacing = 1.sp
     ),
     // ═════════════════════════════════════════════════════════════════
-    // HEADLINE styles - COPIXEL
+    // HEADLINE styles - CORPTA
     // ═════════════════════════════════════════════════════════════════
     headlineLarge = TextStyle(
         fontFamily = LEDFontFamily,
@@ -90,7 +89,7 @@ val AppTypography = Typography(
         letterSpacing = 1.sp
     ),
     // ═════════════════════════════════════════════════════════════════
-    // TITLE styles - COPIXEL for consistency
+    // TITLE styles - CORPTA for consistency
     // ═════════════════════════════════════════════════════════════════
     titleLarge = TextStyle(
         fontFamily = LEDFontFamily,

@@ -2,10 +2,17 @@ package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,9 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 import kotlinx.coroutines.delay
 
 /**
@@ -64,7 +71,7 @@ fun SplashScreen(
 
             Text(
                 text = "REGENESIS",
-                color = Color.White,
+                color = NeonCyan,
                 fontFamily = LEDFontFamily,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
@@ -73,7 +80,8 @@ fun SplashScreen(
 
             Text(
                 text = "EXODUS BUILD 2026",
-                color = Color(0xFF00E5FF),
+                color = NeonCyan.copy(alpha = 0.8f),
+                fontFamily = LEDFontFamily,
                 fontSize = 12.sp,
                 letterSpacing = 4.sp,
                 modifier = Modifier.padding(top = 8.dp)
@@ -84,7 +92,7 @@ fun SplashScreen(
             // Loading Indicator
             CircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
-                color = Color(0xFF00E5FF),
+                color = NeonCyan,
                 strokeWidth = 2.dp
             )
         }
@@ -92,7 +100,8 @@ fun SplashScreen(
         // System Status footer
         Text(
             text = "INITIALIZING TRINITY PROTOCOL...",
-            color = Color.White.copy(alpha = 0.5f),
+            color = NeonCyan.copy(alpha = 0.5f),
+            fontFamily = LEDFontFamily,
             fontSize = 9.sp,
             letterSpacing = 2.sp,
             modifier = Modifier

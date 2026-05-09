@@ -13,11 +13,11 @@ val ChessFontFamily = FontFamily(
 )
 
 /**
- * 🎨 COPIXEL - The LDO Display/Header Font
- * Pixel-style, sci-fi aesthetic for titles and headers
+ * 📝 CORPTA - Unified LDO Display/Header Font
+ * Clean, readable for titles and headers
  */
 val LEDFontFamily = FontFamily(
-    Font(R.font.copixel, FontWeight.Normal)
+    Font(R.font.corpta, FontWeight.Normal)
 )
 
 /**

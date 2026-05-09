@@ -1,13 +1,13 @@
 package dev.aurakai.auraframefx.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.R
@@ -15,7 +15,7 @@ import dev.aurakai.auraframefx.R
 /**
  * 🎭 IMMERSIVE TYPOGRAPHY SYSTEM
  *
- * Headers: Pixel font (smaller, refined) with CYAN NEON GLOW
+ * Headers: Corpta (unified design) with CYAN NEON GLOW
  * Body: Corpta (legible at small sizes)
  * Based on user design: pulled-back perspective, same-room feel
  * 
@@ -27,10 +27,9 @@ import dev.aurakai.auraframefx.R
  * - LDO: Teal/Green
  */
 
-// Pixel font for titles/headers - using available fonts
-// NOTE: copixel.otf used as pixel header font
+// Corpta font for titles/headers - using unified design
 val PixelHeader = FontFamily(
-    Font(R.font.copixel, FontWeight.Normal)
+    Font(R.font.corpta, FontWeight.Normal)
 )
 
 // Corpta body font - for immersive readable text
