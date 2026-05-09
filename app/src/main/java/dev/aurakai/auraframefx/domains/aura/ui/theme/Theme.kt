@@ -21,7 +21,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import dev.aurakai.auraframefx.domains.aura.models.Emotion
 import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Theme
-import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Color as ThemeColor
 
 // Type alias for Typography
 val AppTypography = Typography
@@ -147,7 +146,7 @@ fun AuraFrameFXTheme(
 ) {
     val mood by moodViewModel.moodState.collectAsState()
     val theme by themeViewModel.theme.collectAsState()
-    val color by themeViewModel.color.collectAsState()
+    // val color by themeViewModel.color.collectAsState() // Unified to Aqua
 
     val useDarkTheme = when (theme) {
         Theme.LIGHT -> false
@@ -174,12 +173,7 @@ fun AuraFrameFXTheme(
     }
 
     val finalColorScheme = baseColorScheme.copy(
-        primary = when (color) {
-            ThemeColor.RED -> NeonRed
-            ThemeColor.GREEN -> NeonGreen
-            ThemeColor.BLUE -> NeonBlue
-            else -> baseColorScheme.primary
-        }
+        primary = NeonCyan
     )
 
     // The dynamic glow color is derived from Aura's current mood

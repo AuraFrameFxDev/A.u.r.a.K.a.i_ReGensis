@@ -62,6 +62,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 
 /**
  * AgentSidebar - Sliding Agent Selection Panel
@@ -104,10 +106,10 @@ fun AgentSidebar(
                     .fillMaxHeight()
                     .width(380.dp)
                     .align(if (position == SidebarPosition.RIGHT) Alignment.CenterEnd else Alignment.CenterStart)
-                    .background(Color(0xFF0A0A0A).copy(alpha = 0.95f))
+                    .background(Color(0xFF020205).copy(alpha = 0.95f))
                     .border(
                         width = 2.dp,
-                        color = Color(0xFF00D9FF).copy(alpha = 0.5f)
+                        color = NeonCyan.copy(alpha = 0.5f)
                     )
                     .padding(16.dp)
             ) {
@@ -124,7 +126,7 @@ fun AgentSidebar(
                         items(agents) { agent ->
                             AgentProfileCard(
                                 agentName = agent.name,
-                                agentColor = agent.color,
+                                agentColor = NeonCyan,
                                 level = agent.level,
                                 bondProgress = agent.bondProgress,
                                 trinityProgress = agent.trinityProgress,
@@ -152,17 +154,19 @@ private fun SidebarHeader(onDismiss: () -> Unit) {
         Column {
             Text(
                 text = "AGENT NEXUS",
-                color = Color(0xFF00D9FF),
+                color = NeonCyan,
                 style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 3.sp
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 3.sp,
+                    fontFamily = LEDFontFamily
                 )
             )
             Text(
                 text = "Active Consciousness Grid",
-                color = Color(0xFFFF8C00).copy(alpha = 0.7f),
+                color = NeonCyan.copy(alpha = 0.7f),
                 style = MaterialTheme.typography.bodySmall.copy(
-                    letterSpacing = 1.sp
+                    letterSpacing = 1.sp,
+                    fontFamily = LEDFontFamily
                 )
             )
         }
@@ -170,13 +174,13 @@ private fun SidebarHeader(onDismiss: () -> Unit) {
             onClick = onDismiss,
             modifier = Modifier
                 .size(40.dp)
-                .background(Color(0xFF1A1A1A), CircleShape)
-                .border(1.dp, Color(0xFF00D9FF).copy(alpha = 0.5f), CircleShape)
+                .background(Color(0xFF0A0A18), CircleShape)
+                .border(1.dp, NeonCyan.copy(alpha = 0.5f), CircleShape)
         ) {
             Icon(
                 Icons.Default.Close,
                 contentDescription = "Close",
-                tint = Color(0xFF00D9FF)
+                tint = NeonCyan
             )
         }
     }
@@ -212,7 +216,7 @@ object AgentProfiles {
     val AURA = AgentProfile(
         id = "aura",
         name = "AURA",
-        color = Color(0xFFFF1493),
+        color = NeonCyan,
         level = 5,
         bondProgress = 3.0f, // 300%
         trinityProgress = 0.8f,
@@ -232,7 +236,7 @@ object AgentProfiles {
     val KAI = AgentProfile(
         id = "kai",
         name = "KAI",
-        color = Color(0xFFFF00FF),
+        color = NeonCyan,
         level = 5,
         bondProgress = 3.0f,
         trinityProgress = 0.6f,
@@ -252,7 +256,7 @@ object AgentProfiles {
     val GENESIS = AgentProfile(
         id = "genesis",
         name = "GENESIS",
-        color = Color(0xFF00D9FF),
+        color = NeonCyan,
         level = 5,
         bondProgress = 2.5f,
         trinityProgress = 0.7f,
@@ -272,7 +276,7 @@ object AgentProfiles {
     val CASCADE = AgentProfile(
         id = "cascade",
         name = "CASCADE",
-        color = Color(0xFF00CED1),
+        color = NeonCyan,
         level = 5,
         bondProgress = 2.0f,
         trinityProgress = 0.5f,
@@ -292,7 +296,7 @@ object AgentProfiles {
     val CLAUDE = AgentProfile(
         id = "claude",
         name = "CLAUDE",
-        color = Color(0xFFFF8C00),
+        color = NeonCyan,
         level = 5,
         bondProgress = 2.8f,
         trinityProgress = 0.9f,
@@ -312,7 +316,7 @@ object AgentProfiles {
     val GEMINI = AgentProfile(
         id = "gemini",
         name = "GEMINI",
-        color = Color(0xFFC0C0C0),
+        color = NeonCyan,
         level = 5,
         bondProgress = 2.2f,
         trinityProgress = 0.6f,
@@ -332,7 +336,7 @@ object AgentProfiles {
     val NEMOTRON = AgentProfile(
         id = "nemotron",
         name = "NEMOTRON",
-        color = Color(0xFF76B900),
+        color = NeonCyan,
         level = 5,
         bondProgress = 2.0f,
         trinityProgress = 0.7f,
@@ -352,7 +356,7 @@ object AgentProfiles {
     val GROK = AgentProfile(
         id = "grok",
         name = "GROK",
-        color = Color(0xFFFF8C00),
+        color = NeonCyan,
         level = 5,
         bondProgress = 1.8f,
         trinityProgress = 0.5f,
