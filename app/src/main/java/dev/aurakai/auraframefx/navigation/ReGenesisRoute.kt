@@ -1,15 +1,8 @@
 package dev.aurakai.auraframefx.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.ColorLens
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Science
-import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.ViewInAr
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 
 /**
  * SINGLE SOURCE OF TRUTH FOR ALL NAVIGATION IN RE:GENESIS
@@ -75,6 +68,7 @@ sealed class ReGenesisRoute(
         fun createRoute(category: String) = "aura/iconify/$category"
     }
     data object AuraChat : ReGenesisRoute("aura/chat", "Aura Neural Hub")
+    data object AuraThemingHub : ReGenesisRoute("aura_theming_hub", "Aura Theming Hub")
 
     // KAI DOMAIN
     data object SentinelFortress :
@@ -163,6 +157,7 @@ sealed class ReGenesisRoute(
     data object LdoProgression : ReGenesisRoute("ldo_progression", "Progression")
     data object LdoWorldTree : ReGenesisRoute("ldo_world_tree", "World Tree")
     data object LDOCatalystHub : ReGenesisRoute("ldo_catalyst_hub", "Catalyst Hub")
+    data object LdoCatalystDevelopment : ReGenesisRoute("ldo_catalyst_development", "LDO Catalyst")
     data object LdoAgentProfile : ReGenesisRoute("ldo_agent_profile/{agentId}") {
         const val ARG = "agentId"
         fun createRoute(agentId: String) = "ldo_agent_profile/$agentId"

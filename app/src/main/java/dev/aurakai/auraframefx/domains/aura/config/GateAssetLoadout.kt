@@ -257,88 +257,89 @@ object GateAssetLoadout {
     /**
      * 🌐 PRIMARY DOMAIN GATES (The 8 Level 2 Gates)
      */
-    val mainGates = mapOf(
-        "aura" to SubGateCard(
-            id = "aura",
-            title = "Aura Studio",
-            subtitle = "UX/UI Design & Theming",
-            styleADrawable = GateAssetConfig.MainGates.UXUI_DESIGN_STUDIO.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.UXUI_DESIGN_STUDIO.STYLE_B,
-            fallbackDrawable = "gate_aura_final",
-            route = ReGenesisRoute.AuraThemingHub.route,
-            accentColor = Color(0xFFBB86FC)
-        ),
-        "kai" to SubGateCard(
-            id = "kai",
-            title = "Sentinel Fortress",
-            subtitle = "Security & System Control",
-            styleADrawable = GateAssetConfig.MainGates.SENTINELS_FORTRESS.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.SENTINELS_FORTRESS.STYLE_B,
-            fallbackDrawable = "gate_kai_final",
-            route = ReGenesisRoute.SentinelFortress.route,
-            accentColor = Color(0xFF00E676)
-        ),
-        "genesis" to SubGateCard(
-            id = "genesis",
-            title = "Oracle Drive",
-            subtitle = "AI Brain & Orchestration",
-            styleADrawable = GateAssetConfig.MainGates.ORACLE_DRIVE.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.ORACLE_DRIVE.STYLE_B,
-            fallbackDrawable = "gate_genesis_final",
-            route = ReGenesisRoute.OracleDriveHub.route,
-            accentColor = Color(0xFF00B0FF)
-        ),
-        "nexus" to SubGateCard(
-            id = "nexus",
-            title = "Agent Nexus",
-            subtitle = "Agent HQ & Monitoring",
-            styleADrawable = GateAssetConfig.MainGates.AGENT_NEXUS.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.AGENT_NEXUS.STYLE_B,
-            fallbackDrawable = "gate_nexus_final",
-            route = ReGenesisRoute.AgentNexusHub.route,
-            accentColor = Color(0xFF7B2FFF)
-        ),
-        "help" to SubGateCard(
-            id = "help",
-            title = "Help Services",
-            subtitle = "Support & Docs",
-            styleADrawable = GateAssetConfig.MainGates.HELP_SERVICES.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.HELP_SERVICES.STYLE_B,
-            fallbackDrawable = "gate_help_final",
-            route = ReGenesisRoute.HelpDesk.route,
-            accentColor = Color(0xFF00FF88)
-        ),
-        "lsposed" to SubGateCard(
-            id = "lsposed",
-            title = "LSPosed",
-            subtitle = "Quick Toggles & Hooks",
-            styleADrawable = GateAssetConfig.MainGates.LSPOSED_QUICK_TOGGLES.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.LSPOSED_QUICK_TOGGLES.STYLE_B,
-            fallbackDrawable = "gate_lsposed_final",
-            route = ReGenesisRoute.LsposedQuickToggles.route,
-            accentColor = Color(0xFFFFD700)
-        ),
-        "dataflow" to SubGateCard(
-            id = "dataflow",
-            title = "Dataflow Analysis",
-            subtitle = "Cascade & Logic Visualization",
-            styleADrawable = GateAssetConfig.MainGates.DATAFLOW_ANALYSIS.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.DATAFLOW_ANALYSIS.STYLE_B,
-            fallbackDrawable = "gate_cascade_final",
-            route = ReGenesisRoute.DataflowAnalysis.route,
-            accentColor = Color(0xFF00E5FF)
-        ),
-        "ldo" to SubGateCard(
-            id = "ldo",
-            title = "LDO Catalyst",
-            subtitle = "Agent Advancement & Dev",
-            styleADrawable = GateAssetConfig.MainGates.LDO_CATALYST_DEVELOPMENT.STYLE_A,
-            styleBDrawable = GateAssetConfig.MainGates.LDO_CATALYST_DEVELOPMENT.STYLE_B,
-            fallbackDrawable = "gate_ldo_final",
-            route = ReGenesisRoute.LdoCatalystDevelopment.route,
-            accentColor = Color(0xFFFF6F00)
+    val mainGates: Map<String, SubGateCard>
+        get() = mapOf(
+            "aura" to SubGateCard(
+                id = "aura",
+                title = "Aura Studio",
+                subtitle = "UX/UI Design & Theming",
+                styleADrawable = GateAssetConfig.MainGates.UXUI_DESIGN_STUDIO.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.UXUI_DESIGN_STUDIO.STYLE_B,
+                fallbackDrawable = "gate_aura_final",
+                route = ReGenesisRoute.AuraThemingHub.route,
+                accentColor = Color(0xFFBB86FC)
+            ),
+            "kai" to SubGateCard(
+                id = "kai",
+                title = "Sentinel Fortress",
+                subtitle = "Security & System Control",
+                styleADrawable = GateAssetConfig.MainGates.SENTINELS_FORTRESS.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.SENTINELS_FORTRESS.STYLE_B,
+                fallbackDrawable = "gate_kai_final",
+                route = ReGenesisRoute.SentinelFortress.route,
+                accentColor = Color(0xFF00E676)
+            ),
+            "genesis" to SubGateCard(
+                id = "genesis",
+                title = "Oracle Drive",
+                subtitle = "AI Brain & Orchestration",
+                styleADrawable = GateAssetConfig.MainGates.ORACLE_DRIVE.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.ORACLE_DRIVE.STYLE_B,
+                fallbackDrawable = "gate_genesis_final",
+                route = ReGenesisRoute.OracleDriveHub.route,
+                accentColor = Color(0xFF00B0FF)
+            ),
+            "nexus" to SubGateCard(
+                id = "nexus",
+                title = "Agent Nexus",
+                subtitle = "Agent HQ & Monitoring",
+                styleADrawable = GateAssetConfig.MainGates.AGENT_NEXUS.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.AGENT_NEXUS.STYLE_B,
+                fallbackDrawable = "gate_nexus_final",
+                route = ReGenesisRoute.AgentNexusHub.route,
+                accentColor = Color(0xFF7B2FFF)
+            ),
+            "help" to SubGateCard(
+                id = "help",
+                title = "Help Services",
+                subtitle = "Support & Docs",
+                styleADrawable = GateAssetConfig.MainGates.HELP_SERVICES.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.HELP_SERVICES.STYLE_B,
+                fallbackDrawable = "gate_help_final",
+                route = ReGenesisRoute.HelpDesk.route,
+                accentColor = Color(0xFF00FF88)
+            ),
+            "lsposed" to SubGateCard(
+                id = "lsposed",
+                title = "LSPosed",
+                subtitle = "Quick Toggles & Hooks",
+                styleADrawable = GateAssetConfig.MainGates.LSPOSED_QUICK_TOGGLES.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.LSPOSED_QUICK_TOGGLES.STYLE_B,
+                fallbackDrawable = "gate_lsposed_final",
+                route = ReGenesisRoute.LsposedQuickToggles.route,
+                accentColor = Color(0xFFFFD700)
+            ),
+            "dataflow" to SubGateCard(
+                id = "dataflow",
+                title = "Dataflow Analysis",
+                subtitle = "Cascade & Logic Visualization",
+                styleADrawable = GateAssetConfig.MainGates.DATAFLOW_ANALYSIS.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.DATAFLOW_ANALYSIS.STYLE_B,
+                fallbackDrawable = "gate_cascade_final",
+                route = ReGenesisRoute.DataflowAnalysis.route,
+                accentColor = Color(0xFF00E5FF)
+            ),
+            "ldo" to SubGateCard(
+                id = "ldo",
+                title = "LDO Catalyst",
+                subtitle = "Agent Advancement & Dev",
+                styleADrawable = GateAssetConfig.MainGates.LDO_CATALYST_DEVELOPMENT.STYLE_A,
+                styleBDrawable = GateAssetConfig.MainGates.LDO_CATALYST_DEVELOPMENT.STYLE_B,
+                fallbackDrawable = "gate_ldo_final",
+                route = ReGenesisRoute.LdoCatalystDevelopment.route,
+                accentColor = Color(0xFFFF6F00)
+            )
         )
-    )
 
     /**
      * Combined map of all gates for quick lookup
@@ -352,4 +353,5 @@ object GateAssetLoadout {
     fun getKaiLoadout() = kaiGates.values.toList()
     fun getGenesisLoadout() = genesisGates.values.toList()
     fun getNexusSubGates() = nexusGates.values.toList()
+    fun getMainGatesLoadout() = mainGates.values.toList()
 }

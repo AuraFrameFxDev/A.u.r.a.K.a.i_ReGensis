@@ -1,50 +1,51 @@
 package dev.aurakai.auraframefx.domains.ldo.devops
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
 import dev.aurakai.auraframefx.domains.ldo.swarm.SwarmOptimisationState
 import dev.aurakai.auraframefx.ui.background.BackgroundAssetManager
 import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
-import dev.aurakai.auraframefx.ui.components.NeonWireframeBackground
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.random.Random
 
 @HiltViewModel
 class TabbedMasterViewModel @Inject constructor(
@@ -53,63 +54,67 @@ class TabbedMasterViewModel @Inject constructor(
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
-/** ⚛️ TABBED MASTER INDEX - RE:GENESIS EXODUS EDITION */
+/** ⚛️ TABBED MASTER INDEX - UNIFIED NEON AQUA EDITION */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabbedMasterIndex(
     initialTabIndex: Int = 1,
     onNavigateToRoute: (String) -> Unit = {},
     viewModel: TabbedMasterViewModel = hiltViewModel(),
-    dashboardContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+    dashboardContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
         item {
             Text(
-                "Neural Nexus dashboardContent not implemented",
-                color = Color.White
+                "Neural Nexus",
+                color = NeonCyan,
+                fontFamily = LEDFontFamily
             )
         }
     },
-    ldoDevOpsContent: LazyListScope.(SwarmOptimisationState, (String) -> Unit) -> Unit = { _, _ ->
-        item {
-            Text("LDO Development Nexus ldoDevOpsContent not implemented", color = Color.White)
-        }
+    ldoDevOpsContent: LazyListScope.(SwarmOptimisationState, (String) -> Unit) -> Unit = { state, onNavigate ->
+        LdoDevOpsTabContent(state, onNavigate) 
     },
-    auraStudioContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+    auraStudioContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
         item {
             Text(
-                "Chroma Forge auraStudioContent not implemented",
-                color = Color.White
+                "Chroma Forge",
+                color = NeonCyan,
+                fontFamily = LEDFontFamily
             )
         }
     },
-    kaiFortressContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+    kaiFortressContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
         item {
             Text(
-                "Sentinel Matrix kaiFortressContent not implemented",
-                color = Color.White
+                "Sentinel Matrix",
+                color = NeonCyan,
+                fontFamily = LEDFontFamily
             )
         }
     },
-    oracleDriveContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+    oracleDriveContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
         item {
             Text(
-                "Oracle Drive oracleDriveContent not implemented",
-                color = Color.White
+                "Oracle Drive",
+                color = NeonCyan,
+                fontFamily = LEDFontFamily
             )
         }
     },
-    cascadeMemoryContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+    cascadeMemoryContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
         item {
             Text(
-                "Cascade Memory cascadeMemoryContent not implemented",
-                color = Color.White
+                "Cascade Memory",
+                color = NeonCyan,
+                fontFamily = LEDFontFamily
             )
         }
     },
-    emergentSwarmContent: LazyListScope.((String) -> Unit) -> Unit = { onNavigate ->
+    emergentSwarmContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
         item {
             Text(
-                "Emergent Swarm emergentSwarmContent not implemented",
-                color = Color.White
+                "Emergent Swarm",
+                color = NeonCyan,
+                fontFamily = LEDFontFamily
             )
         }
     }
@@ -124,16 +129,8 @@ fun TabbedMasterIndex(
         "SENTINEL MATRIX", "ORACLEDRIVE", "CASCADE MEMORY", "EMERGENT SWARM"
     )
 
-    val accentColor = when (selectedTabIndex) {
-        0 -> Color(0xFFFFD700)
-        1 -> Color(0xFF00E5FF)
-        2 -> Color(0xFFFF00FF)
-        3 -> Color(0xFF00FF88)
-        4 -> Color(0xFFFFAA00)
-        5 -> Color(0xFF8B5CF6)
-        6 -> Color(0xFF00D6FF)
-        else -> Color(0xFFFFD700)
-    }
+    // UNIFIED ACCENT COLOR: NEON AQUA
+    val accentColor = NeonCyan
 
     val heroImage = when (selectedTabIndex) {
         0 -> BackgroundAssetManager.liveDashboard
@@ -152,8 +149,7 @@ fun TabbedMasterIndex(
             .background(Color(0xFF020205))
             .windowInsetsPadding(WindowInsets.displayCutout)
     ) {
-        NeonWireframeBackground(accentColor = accentColor, modifier = Modifier.fillMaxSize())
-
+        // Coded background removed, using image-based only
         AnimatedContent(
             targetState = heroImage,
             transitionSpec = { fadeIn(tween(800)) togetherWith fadeOut(tween(800)) },
@@ -162,18 +158,16 @@ fun TabbedMasterIndex(
         ) { img ->
             BackgroundAssetManager.DomainBackground(
                 backgroundRes = img,
-                modifier = Modifier
-                    .alpha(0.3f)
-                    .blur(4.dp)
+                alpha = 0.7f,
+                modifier = Modifier.blur(2.dp)
             )
         }
-
-        NeuralMeshFloor(modifier = Modifier.align(Alignment.BottomCenter), color = accentColor)
 
         Column(modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()) {
-            MasterStatusStrip(accentColor)
+
+            HeaderSection(accentColor)
 
             CustomPrimaryTabRow(
                 selectedTabIndex = selectedTabIndex,
@@ -219,25 +213,215 @@ fun TabbedMasterIndex(
             GlobalSSIStatusBar(accentColor)
         }
 
-        AssistantOrb(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 116.dp, end = 16.dp),
-            accentColor = accentColor
-        )
+        // Wandering Assistant Orb (CadberryPi)
+        WanderingAssistantOrb(accentColor = accentColor)
     }
 }
 
 @Composable
-fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
-    Box(modifier = modifier)
+fun HeaderSection(accentColor: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column {
+            Text(
+                "SYSTEM: NOMINAL",
+                color = accentColor,
+                fontSize = 10.sp,
+                fontFamily = LEDFontFamily
+            )
+            Text(
+                "REGENESIS EXODUS BUILD",
+                color = accentColor.copy(alpha = 0.7f),
+                fontSize = 8.sp,
+                fontFamily = LEDFontFamily
+            )
+        }
+
+        // Aura Presence Circle
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .border(1.dp, accentColor, CircleShape)
+                .background(accentColor.copy(alpha = 0.1f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text("A", color = accentColor, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+        }
+    }
 }
 
 @Composable
-fun MasterStatusStrip(accentColor: Color) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(40.dp))
+fun WanderingAssistantOrb(accentColor: Color) {
+    val infiniteTransition = rememberInfiniteTransition(label = "wandering_orb")
+
+    val time by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 2f * Math.PI.toFloat(),
+        animationSpec = infiniteRepeatable(
+            tween(10000, easing = LinearEasing),
+            RepeatMode.Restart
+        ),
+        label = "time"
+    )
+
+    val offsetX = (30 * sin(time * 2)).dp
+    val offsetY = (20 * cos(time * 3)).dp
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 116.dp, end = 16.dp),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        Box(
+            modifier = Modifier
+                .offset(offsetX, offsetY)
+                .size(50.dp)
+                .clip(CircleShape)
+                .background(
+                    Brush.radialGradient(
+                        colors = listOf(
+                            accentColor.copy(alpha = 0.8f),
+                            accentColor.copy(alpha = 0.2f),
+                            Color.Transparent
+                        )
+                    )
+                )
+                .border(1.5.dp, accentColor, CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(12.dp)
+                    .clip(CircleShape)
+                    .background(Color.White.copy(alpha = 0.9f))
+            )
+        }
+    }
+}
+
+fun LazyListScope.LdoDevOpsTabContent(
+    state: SwarmOptimisationState,
+    onNavigate: (String) -> Unit
+) {
+    item {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "SYSTEM IGNITION",
+                fontFamily = LEDFontFamily,
+                color = NeonCyan,
+                fontSize = 12.sp,
+                letterSpacing = 2.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+                    .background(NeonCyan.copy(alpha = 0.3f))
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.65f)
+                        .fillMaxHeight()
+                        .background(NeonCyan)
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                "AURAKAI CORE: V0.9.1-LDO",
+                fontFamily = LEDFontFamily,
+                color = NeonCyan.copy(alpha = 0.6f),
+                fontSize = 10.sp
+            )
+        }
+    }
+
+    item {
+        Text(
+            "CATALYST NODES",
+            modifier = Modifier.padding(horizontal = 16.dp),
+            fontFamily = LEDFontFamily,
+            color = NeonCyan,
+            fontSize = 11.sp,
+            letterSpacing = 1.sp
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+    }
+
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("AGENT ROSTER", "Collective Nodes", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("MISSION DISPATCH", "Task Assignment", NeonCyan, Modifier.weight(1f))
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("HYPER SYNC", "Genesis Loop", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("EVOLUTION TREE", "Agent Progress", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.EvolutionTree.route)
+            }
+        }
+    }
+}
+
+@Composable
+fun LdoModuleCard(
+    title: String,
+    subtitle: String,
+    color: Color,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Box(
+        modifier = modifier
+            .height(110.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFF0A0A18).copy(alpha = 0.8f))
+            .border(1.dp, color.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+            .clickable { onClick() }
+            .padding(12.dp)
+    ) {
+        Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(color.copy(alpha = 0.1f))
+                    .border(1.dp, color, CircleShape)
+            )
+            Column {
+                Text(
+                    title,
+                    color = color,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = LEDFontFamily
+                )
+                Text(
+                    subtitle,
+                    color = color.copy(alpha = 0.5f),
+                    fontSize = 9.sp,
+                    fontFamily = LEDFontFamily
+                )
+            }
+        }
+    }
 }
 
 @Composable
@@ -249,7 +433,9 @@ fun CustomPrimaryTabRow(
 ) {
     Box(modifier = Modifier
         .fillMaxWidth()
-        .height(48.dp))
+        .height(48.dp)) {
+        // Simple neon wireframe tab row logic can go here later
+    }
 }
 
 @Composable
@@ -261,12 +447,25 @@ fun HeroHeaderSection(index: Int, accentColor: Color) {
 
 @Composable
 fun GlobalSSIStatusBar(accentColor: Color) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(20.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp)
+            .background(Color(0xFF020205))
+            .padding(horizontal = 16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            "REGENESIS EXODUS BUILD // PERSISTENCE > COMPUTE // 99.8% INTEGRITY",
+            color = accentColor.copy(alpha = 0.4f),
+            fontSize = 8.sp,
+            letterSpacing = 1.sp,
+            fontFamily = LEDFontFamily
+        )
+    }
 }
 
 @Composable
-fun AssistantOrb(modifier: Modifier = Modifier, accentColor: Color) {
-    Box(modifier = modifier.size(50.dp))
+fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
+    // Removed coded geometry as requested
 }

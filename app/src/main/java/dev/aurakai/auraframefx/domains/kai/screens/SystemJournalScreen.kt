@@ -29,6 +29,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Computer
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Insights
@@ -59,12 +60,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.screens.GenderIdentity
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
  * 🎮 System Journal - User Profile & Menu
- *
- * Pixel art style user profile selection combined with menu options.
- * This is the main user menu card in Gate Navigation.
+ * Unified Neon Aqua Edition
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,13 +74,19 @@ fun SystemJournalScreen(
     modifier: Modifier = Modifier,
     onNavigateBack: () -> Boolean
 ) {
-    var selectedGender by remember { mutableStateOf<GenderIdentity?>(GenderIdentity.KAI) }
+    var selectedGender by remember { mutableStateOf<GenderIdentity?>(GenderIdentity.VISIONARY) }
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFF0A0A1A)) // Deep blue-black
+            .background(Color(0xFF020205))
     ) {
+        // LAYER 0: Room Background
+        dev.aurakai.auraframefx.ui.background.BackgroundAssetManager.DomainBackground(
+            backgroundRes = dev.aurakai.auraframefx.ui.background.BackgroundAssetManager.systemJournalRoom,
+            alpha = 0.6f
+        )
+        
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -91,22 +98,23 @@ fun SystemJournalScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .border(
-                        width = 3.dp,
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(Color.Cyan, Color(0xFF00FFFF))
-                        ),
+                        width = 2.dp,
+                        color = NeonCyan,
                         shape = RoundedCornerShape(12.dp)
                     )
+                    .background(NeonCyan.copy(alpha = 0.05f))
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "SYSTEM JOURNAL",
                     style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Black,
                         letterSpacing = 4.sp,
-                        color = Color.Cyan
-                    )
+                        color = NeonCyan,
+                        fontFamily = LEDFontFamily
+                    ),
+                    fontSize = 32.sp
                 )
             }
 
@@ -118,10 +126,10 @@ fun SystemJournalScreen(
                     .fillMaxWidth()
                     .weight(1f),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF1A1A2E).copy(alpha = 0.9f)
+                    containerColor = Color(0xFF0A0A18).copy(alpha = 0.8f)
                 ),
                 shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(8.dp)
+                border = androidx.compose.foundation.BorderStroke(1.dp, NeonCyan.copy(alpha = 0.2f))
             ) {
                 Column(
                     modifier = Modifier
@@ -129,28 +137,14 @@ fun SystemJournalScreen(
                         .padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Trophy Icon
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(Color(0xFFFFD700).copy(alpha = 0.2f), CircleShape),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "🏆",
-                            style = MaterialTheme.typography.headlineMedium
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
                     Text(
-                        text = "USER PROFILE SELECTION",
+                        text = "CORE IDENTITY",
                         style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 2.sp
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = 2.sp,
+                            fontFamily = LEDFontFamily
                         ),
-                        color = Color.White
+                        color = NeonCyan
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -161,37 +155,32 @@ fun SystemJournalScreen(
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Male Character
                         CharacterCard(
-                            identity = GenderIdentity.KAI,
-                            isSelected = selectedGender == GenderIdentity.KAI,
-                            onClick = { selectedGender = GenderIdentity.KAI }
+                            identity = GenderIdentity.VISIONARY,
+                            isSelected = selectedGender == GenderIdentity.VISIONARY,
+                            onClick = { selectedGender = GenderIdentity.VISIONARY }
                         )
 
-                        // Female Character
                         CharacterCard(
-                            identity = GenderIdentity.AURA,
-                            isSelected = selectedGender == GenderIdentity.AURA,
-                            onClick = { selectedGender = GenderIdentity.AURA }
+                            identity = GenderIdentity.VISIONESS,
+                            isSelected = selectedGender == GenderIdentity.VISIONESS,
+                            onClick = { selectedGender = GenderIdentity.VISIONESS }
                         )
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Gender Labels
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         GenderLabel(
-                            "MALE",
-                            GenderIdentity.KAI,
-                            selectedGender == GenderIdentity.KAI
+                            "VISIONARY",
+                            selectedGender == GenderIdentity.VISIONARY
                         )
                         GenderLabel(
-                            "FEMALE",
-                            GenderIdentity.AURA,
-                            selectedGender == GenderIdentity.AURA
+                            "VISIONESS",
+                            selectedGender == GenderIdentity.VISIONESS
                         )
                     }
                 }
@@ -201,11 +190,12 @@ fun SystemJournalScreen(
 
             // Menu Options Grid
             Text(
-                text = "MENU OPTIONS",
+                text = "ACCESS MODULES",
                 style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Black,
                     letterSpacing = 2.sp,
-                    color = Color.Cyan
+                    color = NeonCyan,
+                    fontFamily = LEDFontFamily
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -217,7 +207,7 @@ fun SystemJournalScreen(
                 columns = GridCells.Fixed(4),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(250.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -227,15 +217,39 @@ fun SystemJournalScreen(
                         onClick = {
                             when (option.route) {
                                 "gender_selection" -> {
-                                    // Navigate to full gender selection
                                     navController.navigate(ReGenesisRoute.GenderSelection.route)
                                 }
-
                                 else -> {
-                                    navController.navigate(option.route)
+                                    try {
+                                        navController.navigate(option.route)
+                                    } catch (_: Exception) {
+                                    }
                                 }
                             }
                         }
+                    )
+                }
+
+                item {
+                    MenuOptionCard(
+                        option = MenuOption(
+                            "Quick Settings",
+                            Icons.Default.Settings,
+                            NeonCyan,
+                            "quick_settings"
+                        ),
+                        onClick = { /* TODO */ }
+                    )
+                }
+                item {
+                    MenuOptionCard(
+                        option = MenuOption(
+                            "Achievements",
+                            Icons.Default.EmojiEvents,
+                            NeonCyan,
+                            "achievements"
+                        ),
+                        onClick = { /* TODO */ }
                     )
                 }
             }
@@ -243,9 +257,6 @@ fun SystemJournalScreen(
     }
 }
 
-/**
- * Character Card (Pixel Art Style with Frame Animation)
- */
 @Composable
 fun CharacterCard(
     identity: GenderIdentity,
@@ -254,8 +265,8 @@ fun CharacterCard(
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "character_glow")
     val glowAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.3f,
-        targetValue = 0.8f,
+        initialValue = 0.4f,
+        targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
             animation = tween(1500, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
@@ -263,212 +274,46 @@ fun CharacterCard(
         label = "glow"
     )
 
-    // Jump animation state for male character
     var isJumping by remember { mutableStateOf(false) }
-    var currentFrame by remember { mutableStateOf(0) }
-
-    // Frame animation for jump (5 frames for male, 3 frames for female)
-    LaunchedEffect(isJumping) {
-        if (isJumping) {
-            if (identity == GenderIdentity.KAI) {
-                // Male: 5 frames
-                for (frame in 0..4) {
-                    currentFrame = frame
-                    kotlinx.coroutines.delay(100) // 100ms per frame
-                }
-            } else if (identity == GenderIdentity.AURA) {
-                // Female: 3 frames (with bounce back)
-                for (frame in 0..4) {
-                    currentFrame = frame
-                    kotlinx.coroutines.delay(100) // 100ms per frame
-                }
-            }
-            currentFrame = 0 // Reset to idle
-            isJumping = false
-        }
-    }
 
     Box(
         modifier = Modifier
             .size(120.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(
-                if (isSelected) {
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            identity.primaryColor.copy(alpha = 0.3f),
-                            Color(0xFF1A1A2E)
-                        )
-                    )
-                } else {
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFF2A2A3E),
-                            Color(0xFF1A1A2E)
-                        )
-                    )
-                }
-            )
+            .background(Color(0xFF0A0A18).copy(alpha = 0.8f))
             .border(
-                width = if (isSelected) 3.dp else 1.dp,
-                color = if (isSelected) identity.primaryColor.copy(alpha = glowAlpha) else Color.Gray.copy(
-                    alpha = 0.3f
-                ),
+                width = if (isSelected) 2.dp else 1.dp,
+                color = if (isSelected) NeonCyan.copy(alpha = glowAlpha) else NeonCyan.copy(alpha = 0.2f),
                 shape = RoundedCornerShape(12.dp)
             )
             .clickable {
                 onClick()
-                isJumping = true // Trigger animation for both characters
+                isJumping = true
             },
         contentAlignment = Alignment.Center
     ) {
-        // Male character with frame-by-frame animation
-        if (identity == GenderIdentity.KAI) {
-            val context = androidx.compose.ui.platform.LocalContext.current
-            val frameResId = when (currentFrame) {
-                0 -> context.resources.getIdentifier(
-                    "gemini_generated_image_yceye4yceye4ycey",
-                    "drawable",
-                    context.packageName
-                )
-
-                1 -> context.resources.getIdentifier(
-                    "gemini_generated_image_selr70selr70selr",
-                    "drawable",
-                    context.packageName
-                )
-
-                2 -> context.resources.getIdentifier(
-                    "gemini_generated_image_wm2k3kwm2k3kwm2k",
-                    "drawable",
-                    context.packageName
-                )
-
-                3 -> context.resources.getIdentifier(
-                    "gemini_generated_image_nudtwdnudtwdnudt",
-                    "drawable",
-                    context.packageName
-                )
-
-                4 -> context.resources.getIdentifier(
-                    "gemini_generated_image_kjqxokkjqxokkjqx",
-                    "drawable",
-                    context.packageName
-                )
-
-                else -> context.resources.getIdentifier(
-                    "gemini_generated_image_yceye4yceye4ycey",
-                    "drawable",
-                    context.packageName
-                )
-            }
-
-            if (frameResId != 0) {
-                Image(
-                    painter = androidx.compose.ui.res.painterResource(id = frameResId),
-                    contentDescription = "Male Character",
-                    modifier = Modifier.fillMaxSize(0.9f)
-                )
-            } else {
-                // Fallback to emoji if images not found
-                Text(
-                    text = identity.icon,
-                    style = MaterialTheme.typography.displayLarge,
-                    fontSize = 64.sp
-                )
-            }
-        } else if (identity == GenderIdentity.AURA) {
-            // Female character with frame-by-frame animation
-            val context = androidx.compose.ui.platform.LocalContext.current
-            val frameResId = when (currentFrame) {
-                0 -> context.resources.getIdentifier(
-                    "gemini_generated_image_qt4s1fqt4s1fqt4s",
-                    "drawable",
-                    context.packageName
-                )
-
-                1 -> context.resources.getIdentifier(
-                    "gemini_generated_image_mudazwmudazwmuda",
-                    "drawable",
-                    context.packageName
-                )
-
-                2 -> context.resources.getIdentifier(
-                    "gemini_generated_image_q4abvqq4abvqq4ab",
-                    "drawable",
-                    context.packageName
-                )
-
-                3 -> context.resources.getIdentifier(
-                    "gemini_generated_image_mudazwmudazwmuda",
-                    "drawable",
-                    context.packageName
-                )
-
-                4 -> context.resources.getIdentifier(
-                    "gemini_generated_image_qt4s1fqt4s1fqt4s",
-                    "drawable",
-                    context.packageName
-                )
-
-                else -> context.resources.getIdentifier(
-                    "gemini_generated_image_qt4s1fqt4s1fqt4s",
-                    "drawable",
-                    context.packageName
-                )
-            }
-
-            if (frameResId != 0) {
-                Image(
-                    painter = androidx.compose.ui.res.painterResource(id = frameResId),
-                    contentDescription = "Female Character",
-                    modifier = Modifier.fillMaxSize(0.9f)
-                )
-            } else {
-                // Fallback to emoji if images not found
-                Text(
-                    text = identity.icon,
-                    style = MaterialTheme.typography.displayLarge,
-                    fontSize = 64.sp
-                )
-            }
-        } else {
-            // Fallback for other identities
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
                 text = identity.icon,
-                style = MaterialTheme.typography.displayLarge,
                 fontSize = 64.sp
             )
         }
 
-        // Holographic platform effect
         if (isSelected) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
-                    .height(4.dp)
+                    .height(2.dp)
                     .align(Alignment.BottomCenter)
-                    .background(
-                        Brush.horizontalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                identity.primaryColor.copy(alpha = glowAlpha),
-                                Color.Transparent
-                            )
-                        )
-                    )
+                    .background(NeonCyan.copy(alpha = glowAlpha))
             )
         }
     }
 }
 
-/**
- * Gender Label
- */
 @Composable
 fun GenderLabel(
     text: String,
-    identity: GenderIdentity,
     isSelected: Boolean
 ) {
     Box(
@@ -476,11 +321,11 @@ fun GenderLabel(
             .width(100.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(
-                if (isSelected) identity.primaryColor.copy(alpha = 0.2f) else Color.Transparent
+                if (isSelected) NeonCyan.copy(alpha = 0.2f) else Color.Transparent
             )
             .border(
                 width = 1.dp,
-                color = if (isSelected) identity.primaryColor else Color.Gray.copy(alpha = 0.3f),
+                color = if (isSelected) NeonCyan else NeonCyan.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(vertical = 8.dp),
@@ -490,16 +335,14 @@ fun GenderLabel(
             text = text,
             style = MaterialTheme.typography.labelLarge.copy(
                 fontWeight = FontWeight.Bold,
-                letterSpacing = 1.sp
+                letterSpacing = 1.sp,
+                fontFamily = LEDFontFamily
             ),
-            color = if (isSelected) identity.primaryColor else Color.Gray
+            color = if (isSelected) NeonCyan else NeonCyan.copy(alpha = 0.5f)
         )
     }
 }
 
-/**
- * Menu Option Card
- */
 @Composable
 fun MenuOptionCard(
     option: MenuOption,
@@ -509,8 +352,8 @@ fun MenuOptionCard(
         modifier = Modifier
             .size(70.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFF1A1A2E).copy(alpha = 0.8f))
-            .border(1.dp, option.color.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+            .background(Color(0xFF0A0A18).copy(alpha = 0.8f))
+            .border(1.dp, NeonCyan.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
             .clickable(onClick = onClick)
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -519,26 +362,24 @@ fun MenuOptionCard(
         Icon(
             imageVector = option.icon,
             contentDescription = option.label,
-            tint = option.color,
+            tint = NeonCyan,
             modifier = Modifier.size(28.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = option.label,
             style = MaterialTheme.typography.labelSmall.copy(
-                fontSize = 9.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 8.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = LEDFontFamily
             ),
-            color = Color.White,
+            color = NeonCyan.copy(alpha = 0.8f),
             textAlign = TextAlign.Center,
             maxLines = 1
         )
     }
 }
 
-/**
- * Menu Option Data Class
- */
 data class MenuOption(
     val label: String,
     val icon: ImageVector,
@@ -546,15 +387,22 @@ data class MenuOption(
     val route: String
 )
 
-/**
- * Menu Options List
- */
 private val menuOptions = listOf(
-    MenuOption("Oracle Cloud", Icons.Default.Folder, Color(0xFFFFD700), ReGenesisRoute.OracleCloudInfinite.route),
-    MenuOption("Agent Bridge", Icons.Default.Hub, Color(0xFF00FFFF), ReGenesisRoute.AgentBridgeHub.route),
-    MenuOption("Sovereign Mod", Icons.Default.Build, Color(0xFFFF00FF), ReGenesisRoute.SovereignModuleManager.route),
-    MenuOption("Monitoring", Icons.Default.Insights, Color(0xFF00FFD4), ReGenesisRoute.MonitoringHUDs.route),
-    MenuOption("Nexus Hub", Icons.Default.Hub, Color(0xFF7B2FFF), ReGenesisRoute.AgentNexusHub.route),
-    MenuOption("Deep Shield", Icons.Default.Shield, Color(0xFFFF00FF), ReGenesisRoute.SecurityCenter.route),
-    MenuOption("Recovery", Icons.Default.Settings, Color(0xFF00E5FF), ReGenesisRoute.SovereignRecovery.route)
+    MenuOption(
+        "Oracle Cloud",
+        Icons.Default.Folder,
+        NeonCyan,
+        ReGenesisRoute.OracleCloudInfinite.route
+    ),
+    MenuOption("Agent Bridge", Icons.Default.Hub, NeonCyan, ReGenesisRoute.AgentBridgeHub.route),
+    MenuOption(
+        "Sovereign Mod",
+        Icons.Default.Build,
+        NeonCyan,
+        ReGenesisRoute.SovereignModuleManager.route
+    ),
+    MenuOption("Monitoring", Icons.Default.Insights, NeonCyan, ReGenesisRoute.MonitoringHUDs.route),
+    MenuOption("Nexus Hub", Icons.Default.Hub, NeonCyan, ReGenesisRoute.AgentNexusHub.route),
+    MenuOption("Deep Shield", Icons.Default.Shield, NeonCyan, ReGenesisRoute.SecurityCenter.route),
+    MenuOption("Recovery", Icons.Default.Settings, NeonCyan, ReGenesisRoute.SovereignRecovery.route)
 )

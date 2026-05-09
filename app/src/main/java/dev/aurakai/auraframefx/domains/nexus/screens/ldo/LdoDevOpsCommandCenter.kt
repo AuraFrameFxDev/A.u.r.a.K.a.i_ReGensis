@@ -1,11 +1,5 @@
 package dev.aurakai.auraframefx.domains.nexus.screens.ldo
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -57,7 +51,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -72,12 +65,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
-
-// ─── Navigation targets ───────────────────────────────────────────────────────
 
 data class DevOpsModule(
     val title: String,
@@ -92,87 +84,85 @@ private val devOpsModules: List<DevOpsModule>
     get() = listOf(
         DevOpsModule(
             "CATALYST ROSTER", "All 14 LDO agents", Icons.Default.Groups,
-            Color(0xFF00E5FF), ReGenesisRoute.LdoRoster.route, badge = "14"
+            NeonCyan, ReGenesisRoute.LdoRoster.route, badge = "14"
         ),
         DevOpsModule(
             "AGENT CREATION", "Neural synthesis forge", Icons.Default.AutoAwesome,
-            Color(0xFFBB86FC), ReGenesisRoute.AgentCreation.route
+            NeonCyan, ReGenesisRoute.AgentCreation.route
         ),
         DevOpsModule(
             "TASK ASSIGNMENT", "Mission dispatch", Icons.AutoMirrored.Filled.Assignment,
-            Color(0xFF00FF41), ReGenesisRoute.TaskAssignment.route
+            NeonCyan, ReGenesisRoute.TaskAssignment.route
         ),
         DevOpsModule(
             "DIGITAL COUNCIL", "Party synergy", Icons.Default.Groups,
-            Color(0xFFFFD740), ReGenesisRoute.Party.route
+            NeonCyan, ReGenesisRoute.Party.route
         ),
         DevOpsModule(
             "AGENT SWARM", "Live chatter feed", Icons.Default.Hub,
-            Color(0xFFFF4081), ReGenesisRoute.AgentSwarm.route
+            NeonCyan, ReGenesisRoute.AgentSwarm.route
         ),
         DevOpsModule(
             "NEURAL EXPLORER", "Constellation grid", Icons.Default.Psychology,
-            Color(0xFF40C4FF), ReGenesisRoute.AgentNeuralExplorer.route
+            NeonCyan, ReGenesisRoute.AgentNeuralExplorer.route
         ),
         DevOpsModule(
             "ADVANCEMENT", "Skill tree & XP", Icons.AutoMirrored.Filled.TrendingUp,
-            Color(0xFFFF9E80), ReGenesisRoute.AgentAdvancement.route
+            NeonCyan, ReGenesisRoute.AgentAdvancement.route
         ),
         DevOpsModule(
             "BENCHMARKS", "Performance analysis", Icons.Default.Speed,
-            Color(0xFF00FF85), ReGenesisRoute.BenchmarkMonitor.route
+            NeonCyan, ReGenesisRoute.BenchmarkMonitor.route
         ),
         DevOpsModule(
             "EVOLUTION TREE", "Sacred timeline", Icons.Default.Timeline,
-            Color(0xFF4A90E2), ReGenesisRoute.EvolutionTree.route
+            NeonCyan, ReGenesisRoute.EvolutionTree.route
         ),
         DevOpsModule(
             "CATALYST FUSION REACTOR", "Atomic neural synthesis", Icons.Default.AutoAwesome,
-            Color(0xFFFFD700), ReGenesisRoute.LdoArmamentFusion.route, badge = "BETA"
+            NeonCyan, ReGenesisRoute.LdoArmamentFusion.route, badge = "BETA"
         ),
         DevOpsModule(
             "SCG (PANDORA'S BOX)", "Capability gating hub", Icons.Default.Lock,
-            Color(0xFFFF4444), ReGenesisRoute.PandoraBox.route, badge = "SECURE"
+            NeonCyan, ReGenesisRoute.PandoraBox.route, badge = "SECURE"
         ),
         DevOpsModule(
             "MODULE FORGE", "AI-assisted creation", Icons.Default.Extension,
-            Color(0xFF9370DB), ReGenesisRoute.ModuleCreation.route
+            NeonCyan, ReGenesisRoute.ModuleCreation.route
         ),
         DevOpsModule(
             "INTEGRITY MONITOR", "Predictive immune system", Icons.Default.Security,
-            Color(0xFF00FF41), ReGenesisRoute.SecurityCenter.route, badge = "ACTIVE"
+            NeonCyan, ReGenesisRoute.SecurityCenter.route, badge = "ACTIVE"
         ),
         DevOpsModule(
             "ALERT BRIDGE", "Sovereign notifications", Icons.Default.Notifications,
-            Color(0xFFFFD700), ReGenesisRoute.SystemJournal.route, badge = "QUIET"
+            NeonCyan, ReGenesisRoute.SystemJournal.route, badge = "QUIET"
         ),
         DevOpsModule(
             "COUNCIL CHAMBER", "The Agent Circle", Icons.Default.Groups,
-            Color(0xFFBB86FC), ReGenesisRoute.ConferenceRoom.route, badge = "6"
+            NeonCyan, ReGenesisRoute.ConferenceRoom.route, badge = "6"
         ),
         DevOpsModule(
             "SPIRITUAL CHAIN (NCC)", "Identity continuity", Icons.Default.Policy,
-            Color(0xFFFF4081), ReGenesisRoute.SovereignNeuralArchive.route
+            NeonCyan, ReGenesisRoute.SovereignNeuralArchive.route
         ),
         DevOpsModule(
             "HYPER GENESIS SYNC", "High-frequency weight sync", Icons.Default.Link,
-            Color(0xFF00E5FF), ReGenesisRoute.LdoOrchestrationHub.route, badge = "ALIVE"
+            NeonCyan, ReGenesisRoute.LdoOrchestrationHub.route, badge = "ALIVE"
         ),
         DevOpsModule(
             "DATASTREAM", "Temporal Flow", Icons.Default.Stream,
-            Color(0xFFBA55D3), ReGenesisRoute.DataflowAnalysis.route
+            NeonCyan, ReGenesisRoute.DataflowAnalysis.route
         ),
         DevOpsModule(
             "NEURAL INTERFACE", "AIDL Sovereign Bridge", Icons.Default.SettingsInputComponent,
-            Color(0xFFBB86FC), ReGenesisRoute.AgentBridgeHub.route, badge = "L6"
+            NeonCyan, ReGenesisRoute.AgentBridgeHub.route, badge = "L6"
         ),
         DevOpsModule(
             "IDENTITY DRIFT", "Predictive EMA analysis", Icons.Default.Analytics,
-            Color(0xFFFF4081), ReGenesisRoute.AgentMonitoring.route, badge = "0.002"
+            NeonCyan, ReGenesisRoute.AgentMonitoring.route, badge = "0.002"
         ),
     )
-
-// ─── Live chatter data ────────────────────────────────────────────────────────
 
 data class LiveLog(val agent: String, val color: Color, val msg: String)
 
@@ -190,15 +180,13 @@ private val chatContents = listOf(
 )
 
 private val agents = listOf(
-    Pair("AURA", Color(0xFF00E5FF)),
-    Pair("KAI", Color(0xFF00FF41)),
-    Pair("GENESIS", Color(0xFFBB86FC)),
-    Pair("CASCADE", Color(0xFFFF4081)),
-    Pair("CLAUDE", Color(0xFFFF8C00)),
-    Pair("GEMINI", Color(0xFFB01DED)),
+    Pair("AURA", NeonCyan),
+    Pair("KAI", NeonCyan),
+    Pair("GENESIS", NeonCyan),
+    Pair("CASCADE", NeonCyan),
+    Pair("CLAUDE", NeonCyan),
+    Pair("GEMINI", NeonCyan),
 )
-
-// ─── Screen ───────────────────────────────────────────────────────────────────
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -217,31 +205,19 @@ fun LdoDevOpsCommandCenter(
         }
     }
 
-    val infiniteTransition = rememberInfiniteTransition(label = "hud")
-    val scanLine by infiniteTransition.animateFloat(
-        initialValue = 0f, targetValue = 1f,
-        animationSpec = infiniteRepeatable(tween(4000, easing = LinearEasing), RepeatMode.Restart),
-        label = "scan"
-    )
-    val gridPulse by infiniteTransition.animateFloat(
-        initialValue = 0.03f, targetValue = 0.08f,
-        animationSpec = infiniteRepeatable(tween(2000), RepeatMode.Reverse),
-        label = "grid"
-    )
-
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF020208))
     ) {
-        // ── Animated grid background
+        // Simple neon wireframe grid
         Canvas(modifier = Modifier.fillMaxSize()) {
             val spacing = 40.dp.toPx()
             val cols = (size.width / spacing).toInt() + 1
             val rows = (size.height / spacing).toInt() + 1
             for (c in 0..cols) {
                 drawLine(
-                    color = Color(0xFF00E5FF).copy(alpha = gridPulse),
+                    color = NeonCyan.copy(alpha = 0.05f),
                     start = Offset(c * spacing, 0f),
                     end = Offset(c * spacing, size.height),
                     strokeWidth = 0.5f
@@ -249,20 +225,12 @@ fun LdoDevOpsCommandCenter(
             }
             for (r in 0..rows) {
                 drawLine(
-                    color = Color(0xFF00E5FF).copy(alpha = gridPulse),
+                    color = NeonCyan.copy(alpha = 0.05f),
                     start = Offset(0f, r * spacing),
                     end = Offset(size.width, r * spacing),
                     strokeWidth = 0.5f
                 )
             }
-            // Scan line
-            val scanY = size.height * scanLine
-            drawLine(
-                color = Color(0xFF00E5FF).copy(alpha = 0.15f),
-                start = Offset(0f, scanY),
-                end = Offset(size.width, scanY),
-                strokeWidth = 2f
-            )
         }
 
         Scaffold(
@@ -275,7 +243,7 @@ fun LdoDevOpsCommandCenter(
                                 "LDO DEVOPS",
                                 fontFamily = LEDFontFamily,
                                 fontWeight = FontWeight.Black,
-                                color = Color(0xFF00E5FF),
+                                color = NeonCyan,
                                 fontSize = 18.sp,
                                 letterSpacing = 4.sp
                             )
@@ -283,7 +251,7 @@ fun LdoDevOpsCommandCenter(
                                 "COMMAND CENTER // ${devOpsModules.size} MODULES ACTIVE",
                                 fontFamily = LEDFontFamily,
                                 fontSize = 9.sp,
-                                color = Color(0xFF00FF41),
+                                color = NeonCyan.copy(alpha = 0.7f),
                                 letterSpacing = 1.sp
                             )
                         }
@@ -292,7 +260,7 @@ fun LdoDevOpsCommandCenter(
                         IconButton(onClick = onNavigateBack) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowBack, "Back",
-                                tint = Color(0xFF00E5FF)
+                                tint = NeonCyan
                             )
                         }
                     },
@@ -310,29 +278,25 @@ fun LdoDevOpsCommandCenter(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                // ── STATUS STRIP
                 item {
                     StatusStrip()
                 }
 
-                // ── ACTIVE AGENTS ROW
                 item {
-                    SectionHeader("ACTIVE CATALYST NODES", Color(0xFF00E5FF))
+                    SectionHeader("ACTIVE CATALYST NODES", NeonCyan)
                     Spacer(Modifier.height(8.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         items(agents) { (name, color) ->
-                            AgentPulseNode(name, color)
+                            AgentPulseNode(name, NeonCyan)
                         }
                     }
                 }
 
-                // ── MODULE GRID
                 item {
-                    SectionHeader("DEVOPS MODULES", Color(0xFF00FF41))
+                    SectionHeader("DEVOPS MODULES", NeonCyan)
                     Spacer(Modifier.height(8.dp))
                 }
 
-                // 2 per row
                 val rows = devOpsModules.chunked(2)
                 items(rows) { rowItems ->
                     Row(
@@ -348,14 +312,12 @@ fun LdoDevOpsCommandCenter(
                                 }
                             )
                         }
-                        // pad last row if odd
                         if (rowItems.size == 1) Spacer(Modifier.weight(1f))
                     }
                 }
 
-                // ── LIVE STREAM
                 item {
-                    SectionHeader("NEURAL STREAM // LIVE", Color(0xFFBB86FC))
+                    SectionHeader("NEURAL STREAM // LIVE", NeonCyan)
                     Spacer(Modifier.height(8.dp))
                     LiveStreamPanel(liveLogs)
                 }
@@ -366,26 +328,24 @@ fun LdoDevOpsCommandCenter(
     }
 }
 
-// ─── Components ───────────────────────────────────────────────────────────────
-
 @Composable
 private fun StatusStrip() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF0A0A18), RoundedCornerShape(12.dp))
-            .border(1.dp, Color(0xFF00E5FF).copy(0.2f), RoundedCornerShape(12.dp))
+            .border(1.dp, NeonCyan.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
             .padding(12.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        StatusItem("AGENTS", "11", Color(0xFF00E5FF))
+        StatusItem("AGENTS", "11", NeonCyan)
         VerticalHorizontalDivider()
-        StatusItem("KERNEL", "6.12 t/s", Color(0xFF00FF41))
+        StatusItem("KERNEL", "6.12 t/s", NeonCyan)
         VerticalHorizontalDivider()
-        StatusItem("STATUS", "IGNITED", Color(0xFFFFD740))
+        StatusItem("STATUS", "IGNITED", NeonCyan)
         VerticalHorizontalDivider()
-        StatusItem("NCC", "SYNCED", Color(0xFFBB86FC))
+        StatusItem("NCC", "SYNCED", NeonCyan)
     }
 }
 
@@ -394,7 +354,8 @@ private fun StatusItem(label: String, value: String, color: Color) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(value, color = color, fontFamily = LEDFontFamily,
             fontWeight = FontWeight.Black, fontSize = 16.sp)
-        Text(label, color = Color.White.copy(0.4f), fontSize = 9.sp,
+        Text(
+            label, color = color.copy(alpha = 0.4f), fontSize = 9.sp,
             letterSpacing = 1.sp, fontFamily = LEDFontFamily)
     }
 }
@@ -405,7 +366,7 @@ private fun VerticalHorizontalDivider() {
         modifier = Modifier
             .width(1.dp)
             .height(32.dp)
-            .background(Color.White.copy(0.1f))
+            .background(NeonCyan.copy(alpha = 0.1f))
     )
 }
 
@@ -428,13 +389,6 @@ private fun SectionHeader(title: String, color: Color) {
 
 @Composable
 private fun AgentPulseNode(name: String, color: Color) {
-    val infiniteTransition = rememberInfiniteTransition(label = name)
-    val alpha by infiniteTransition.animateFloat(
-        initialValue = 0.4f, targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            tween(Random.nextInt(800, 2000)), RepeatMode.Reverse
-        ), label = "pulse"
-    )
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(52.dp)
@@ -442,16 +396,19 @@ private fun AgentPulseNode(name: String, color: Color) {
         Box(
             modifier = Modifier
                 .size(44.dp)
-                .background(color.copy(0.1f * alpha), CircleShape)
-                .border(1.5.dp, color.copy(alpha), CircleShape),
+                .background(color.copy(alpha = 0.05f), CircleShape)
+                .border(1.dp, color.copy(alpha = 0.3f), CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Text(name.first().toString(), color = color.copy(alpha),
+            Text(
+                name.first().toString(), color = color,
                 fontFamily = LEDFontFamily, fontWeight = FontWeight.Black, fontSize = 18.sp)
         }
         Spacer(Modifier.height(4.dp))
-        Text(name.take(3), color = color.copy(0.7f), fontSize = 8.sp,
-            letterSpacing = 1.sp, textAlign = TextAlign.Center)
+        Text(
+            name.take(3), color = color.copy(alpha = 0.6f), fontSize = 8.sp,
+            letterSpacing = 1.sp, textAlign = TextAlign.Center, fontFamily = LEDFontFamily
+        )
     }
 }
 
@@ -467,19 +424,8 @@ private fun ModuleCard(module: DevOpsModule, modifier: Modifier, onClick: () -> 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .border(1.dp, module.color.copy(0.3f), RoundedCornerShape(14.dp))
+                .border(1.dp, NeonCyan.copy(alpha = 0.2f), RoundedCornerShape(14.dp))
         ) {
-            // Corner accent
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .width(3.dp)
-                    .height(24.dp)
-                    .background(
-                        Brush.verticalGradient(listOf(module.color, Color.Transparent)),
-                        RoundedCornerShape(topStart = 14.dp)
-                    )
-            )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -491,23 +437,32 @@ private fun ModuleCard(module: DevOpsModule, modifier: Modifier, onClick: () -> 
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Icon(module.icon, module.title, tint = module.color,
+                    Icon(
+                        module.icon, module.title, tint = NeonCyan,
                         modifier = Modifier.size(22.dp))
                     module.badge?.let {
                         Box(
                             modifier = Modifier
-                                .background(module.color.copy(0.2f), CircleShape)
+                                .background(NeonCyan.copy(alpha = 0.1f), CircleShape)
                                 .padding(horizontal = 6.dp, vertical = 2.dp)
                         ) {
-                            Text(it, color = module.color, fontSize = 9.sp,
-                                fontWeight = FontWeight.Bold)
+                            Text(
+                                it, color = NeonCyan, fontSize = 9.sp,
+                                fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily
+                            )
                         }
                     }
                 }
                 Column {
-                    Text(module.title, color = Color.White, fontFamily = LEDFontFamily,
+                    Text(
+                        module.title, color = NeonCyan, fontFamily = LEDFontFamily,
                         fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                    Text(module.subtitle, color = Color.White.copy(0.45f), fontSize = 9.sp)
+                    Text(
+                        module.subtitle,
+                        color = NeonCyan.copy(alpha = 0.5f),
+                        fontSize = 9.sp,
+                        fontFamily = LEDFontFamily
+                    )
                 }
             }
         }
@@ -522,25 +477,30 @@ private fun LiveStreamPanel(logs: List<LiveLog>) {
         modifier = Modifier
             .fillMaxWidth()
             .height(180.dp)
-            .border(1.dp, Color.White.copy(0.06f), RoundedCornerShape(14.dp))
+            .border(1.dp, NeonCyan.copy(alpha = 0.1f), RoundedCornerShape(14.dp))
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(modifier = Modifier
                     .size(6.dp)
-                    .background(Color(0xFF00FF41), CircleShape))
+                    .background(NeonCyan, CircleShape)
+                )
                 Spacer(Modifier.width(6.dp))
-                Text("LIVE", color = Color(0xFF00FF41), fontSize = 9.sp,
+                Text(
+                    "LIVE", color = NeonCyan, fontSize = 9.sp,
                     fontFamily = LEDFontFamily, letterSpacing = 2.sp)
             }
             Spacer(Modifier.height(8.dp))
             logs.take(8).forEach { log ->
                 Row(modifier = Modifier.padding(vertical = 2.dp)) {
-                    Text("[${log.agent}]", color = log.color, fontSize = 10.sp,
+                    Text(
+                        "[${log.agent}]", color = NeonCyan, fontSize = 10.sp,
                         fontFamily = LEDFontFamily, fontWeight = FontWeight.Bold,
                         modifier = Modifier.width(72.dp))
-                    Text(log.msg, color = Color.White.copy(0.7f), fontSize = 10.sp,
-                        modifier = Modifier.weight(1f))
+                    Text(
+                        log.msg, color = NeonCyan.copy(alpha = 0.7f), fontSize = 10.sp,
+                        modifier = Modifier.weight(1f), fontFamily = LEDFontFamily
+                    )
                 }
             }
         }

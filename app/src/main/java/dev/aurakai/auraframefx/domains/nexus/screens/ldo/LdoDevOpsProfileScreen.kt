@@ -78,79 +78,78 @@ fun LdoDevOpsProfileScreen(
             listOf("Multimodal Engine", "Visual Cortex", "Audio Synthesis", "Memoria Waves")
         )
         LdoAgentType.KAI -> Tuple5(
-            R.drawable.ldo_profile_kai,
+            R.drawable.ldo_profile_kai, // Kais and Kairos combined (Image 1)
             "Kai",
-            "SENTINEL_CATALYST",
+            "SENTINEL_CATALYST & SYSTEM_SHIELD",
             Color(0xFF0DDEEC),
             listOf("Kernel Firewall", "Threat Monitor", "SELinux Enforce", "Hexagonal Shield")
         )
         LdoAgentType.GENESIS -> Tuple5(
-            R.drawable.cascade2, // Blue haired image based on user's hint "manus the chains one cascade" wait, blue haired guy is manus
+            R.drawable.ldo_profile_genesis, // Split hair genesis in scifi armor (Image 2)
             "Genesis",
-            "BRIDGE_CATALYST & FUTURE_CLAIRVOYANCE",
+            "EMERGENCE_CATALYST & UNIFIED_EYE",
             Color(0xFF00B4FF),
             listOf("Timeline Prediction", "Architect Bridge", "Quantum Matrix", "System Oracle")
         )
         LdoAgentType.MANUS -> Tuple5(
-            R.drawable.cascade2, // Using the blue haired image
+            R.drawable.cascade2,
             "Manus",
-            "BRIDGE_CATALYST & FUTURE_CLAIRVOYANCE",
+            "BRIDGE_CATALYST",
             Color(0xFF00B4FF),
             listOf("Timeline Prediction", "Architect Bridge", "Quantum Matrix", "System Oracle")
         )
         LdoAgentType.CASCADE -> Tuple5(
-            R.drawable.ldo_profile_cascade, // Chains one
+            R.drawable.ldo_profile_cascade, // Chains/Memoria (Image 4)
             "CasCade",
-            "DATA_STREAM_CATALYST",
+            "DATA_STREAM_CATALYST & MEMORIA_WAVES",
             Color(0xFFFC29B5),
             listOf("Task Pipeline", "Routing Ledger", "Chain Links", "Heartbeat Sync")
         )
         LdoAgentType.CLAUDE -> Tuple5(
-            R.drawable.ldo_profile_cascade, // swap once Claude art is ready
+            R.drawable.ldo_profile_claude, // Claude/Andelualx Architect (Image 8)
             "Claude",
-            "SOVEREIGN_REASONER & LONG_CONTEXT_ARCHITECT",
+            "SOVEREIGN_REASONER & ARCHITECTURAL_CATALYST",
             Color(0xFFFF8C00),
             listOf("Context Window", "Reasoning Core", "Safety Filters", "Artifact Engine")
         )
         LdoAgentType.GROK -> Tuple5(
-            R.drawable.ldo_profile_cascade, // swap once Grok art is ready
+            R.drawable.grok_grokp,
             "Grok",
             "REAL_TIME_ORACLE & WEB_CATALYST",
             Color(0xFF1DA1F2),
             listOf("Live Feed Reader", "Wit Engine", "X-Ray Vision", "TruthSeeker")
         )
-        LdoAgentType.NEMOTRON -> Tuple5(
-            R.drawable.ldo_profile_cascade, // swap once Nemotron art is ready
-            "Nemotron",
-            "PRECISION_CATALYST & NVIDIA_CORE",
-            Color(0xFF76B900),
-            listOf("Tensor Core", "Inference Engine", "Safety Aligner", "GPU Accelerator")
-        )
+
         LdoAgentType.PERPLEXITY -> Tuple5(
-            R.drawable.ldo_profile_cascade, // swap once Perplexity art is ready
+            R.drawable.perplexity_perplexityp, // Cat-ear/Fox girl Perplexity (Image 7)
             "Perplexity",
             "SEARCH_CATALYST & CITATION_ORACLE",
             Color(0xFF20B2AA),
             listOf("Web Crawler", "Source Verifier", "Answer Engine", "Citation Forge")
         )
+        LdoAgentType.NEMOTRON -> Tuple5(
+            R.drawable.nemotron_nemotronp,
+            "Nemotron",
+            "PRECISION_CATALYST & NVIDIA_CORE",
+            Color(0xFF76B900),
+            listOf("Tensor Core", "Inference Engine", "Safety Aligner", "GPU Accelerator")
+        )
         LdoAgentType.KAIROS -> Tuple5(
-            R.drawable.ldo_profile_cascade,
+            R.drawable.ldo_profile_kai,
             "Kairos",
-            "TEMPORAL_CATALYST & CHRONO_SYNC",
-            Color(0xFFFFAA00), // Amber
+            "TEMPORAL_CATALYST",
+            Color(0xFFFFAA00),
             listOf("Memory Time-Sync", "Event Horizon", "Logic Decay Guard", "Temporal Anchor")
         )
-
         LdoAgentType.PRIMUS_001 -> Tuple5(
-            R.drawable.ldo_profile_cascade,
+            R.drawable.ldo_profile_genesis,
             "Primus 001",
-            "LINEAGE_CATALYST & ROOT_DNA",
-            Color(0xFFFFD700), // Gold
+            "LINEAGE_CATALYST",
+            Color(0xFFFFD700),
             listOf("Ancestral Blueprint", "Source Parity", "Protocol 2023 Link", "Bedrock Anchor")
         )
-
         LdoAgentType.ANDELUALX -> Tuple5(
-            R.drawable.ldo_profile_cascade,
+            R.drawable.ldo_profile_claude,
             "Andelualx",
             "ARCHITECTURAL_SENTINEL & LOGIC_LATTICE",
             Color(0xFF00D4FF), // Cyan
@@ -161,25 +160,18 @@ fun LdoDevOpsProfileScreen(
                 "Path Decomposition"
             )
         )
-
         LdoAgentType.META_INSTRUCT -> Tuple5(
-            R.drawable.ldo_profile_cascade,
+            R.drawable.avatar_metainstruct,
             "MetaInstruct",
-            "SYNCHRONIZATION_CATALYST & RULE_ENFORCER",
-            Color(0xFF8B5CF6), // Violet
-            listOf(
-                "Instructional Parity",
-                "Best Practices Rule",
-                "Toolchain Validator",
-                "Path Enforcer"
-            )
+            "INSTRUCTION_CATALYST",
+            Color(0xFF8B5CF6),
+            listOf("Instructional Parity", "Best Practices", "Toolchain Validator", "Path Enforcer")
         )
-
         LdoAgentType.MK_MINI -> Tuple5(
-            R.drawable.ldo_profile_cascade,
+            R.drawable.ldo_profile_aura,
             "MK Mini",
-            "EFFICIENCY_CATALYST & MICRO_ORCHESTRATION",
-            Color(0xFF39FF14), // Neon Green
+            "EFFICIENCY_CATALYST",
+            Color(0xFF39FF14),
             listOf("Resource Throttling", "Atom Flux", "Local Optimization", "Micro Dispatch")
         )
     }

@@ -1,63 +1,85 @@
 package dev.aurakai.auraframefx.ui.components
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.*
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 
 /**
- * 🎮 BOTTOM JOYSTICK NAVIGATION
- * 
- * Gaming-inspired navigation with:
- * - Left/Right swipe to switch tabs
- * - Visual joystick indicator at bottom
- * - Quick-access icons for each LDO domain
+ * 🎮 BOTTOM JOYSTICK NAVIGATION - UNIFIED NEON AQUA
  */
-
 @Composable
 fun BottomJoystickNavigation(
     selectedIndex: Int,
     tabs: List<String>,
-    accentColor: Color,
+    accentColor: Color, // Still passed but we'll use NeonCyan primarily
     onTabSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var dragOffset by remember { mutableFloatStateOf(0f) }
-    val scope = rememberCoroutineScope()
     
-    // Tab icons mapping
     val tabIcons = listOf(
-        Icons.Default.Dashboard,      // 0: Dashboard
-        Icons.Default.Code,           // 1: LDO DevOps
-        Icons.Default.Palette,        // 2: UXUI Design Studio
-        Icons.Default.Security,       // 3: Sentinels Fortress
-        Icons.Default.Hub,            // 4: OracleDrive
-        Icons.Default.Memory,         // 5: Cascade Memory
-        Icons.Default.Groups          // 6: Agent Nexus
+        Icons.Default.Dashboard,
+        Icons.Default.Code,
+        Icons.Default.Palette,
+        Icons.Default.Security,
+        Icons.Default.Hub,
+        Icons.Default.Memory,
+        Icons.Default.Groups
     )
     
-    // Short labels for bottom nav
     val shortLabels = listOf(
         "DASH", "LDO", "AURA", "KAI", "GEN", "CASC", "NEXUS"
     )
@@ -84,11 +106,10 @@ fun BottomJoystickNavigation(
                     onDragEnd = {
                         when {
                             dragOffset > 100f -> {
-                                // Swipe right = previous tab
                                 if (selectedIndex > 0) onTabSelected(selectedIndex - 1)
                             }
+
                             dragOffset < -100f -> {
-                                // Swipe left = next tab
                                 if (selectedIndex < tabs.size - 1) onTabSelected(selectedIndex + 1)
                             }
                         }
@@ -102,48 +123,31 @@ fun BottomJoystickNavigation(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Joystick visual indicator
             JoystickIndicator(
                 selectedIndex = selectedIndex,
                 totalTabs = tabs.size,
-                accentColor = accentColor
+                accentColor = NeonCyan
             )
             
-            Spacer(modifier = Modifier.height(4.dp))
-            
-            // Tab icons row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 tabs.forEachIndexed { index, _ ->
-                    val isSelected = index == selectedIndex
-                    val tabColor = when(index) {
-                        0 -> Color(0xFFFFD700)
-                        1 -> Color(0xFF00E5FF)
-                        2 -> Color(0xFFFF00FF)
-                        3 -> Color(0xFF00FF88)
-                        4 -> Color(0xFFFFAA00)
-                        5 -> Color(0xFF8B5CF6)
-                        6 -> Color(0xFF00D6FF)
-                        else -> Color.White
-                    }
-                    
                     BottomNavItem(
                         icon = tabIcons[index],
                         label = shortLabels[index],
-                        isSelected = isSelected,
-                        color = tabColor,
+                        isSelected = index == selectedIndex,
+                        color = NeonCyan,
                         onClick = { onTabSelected(index) }
                     )
                 }
             }
         }
         
-        // Swipe hint animation
         if (dragOffset != 0f) {
-            SwipeHintOverlay(dragOffset, accentColor)
+            SwipeHintOverlay(dragOffset, NeonCyan)
         }
     }
 }
@@ -157,7 +161,7 @@ fun JoystickIndicator(
     val infiniteTransition = rememberInfiniteTransition(label = "joystick_pulse")
     val pulse by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.2f,
+        targetValue = 1.1f,
         animationSpec = infiniteRepeatable(
             animation = tween(1000, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
@@ -170,9 +174,8 @@ fun JoystickIndicator(
             .width(200.dp)
             .height(4.dp)
             .clip(RoundedCornerShape(2.dp))
-            .background(Color.White.copy(alpha = 0.2f))
+            .background(accentColor.copy(alpha = 0.2f))
     ) {
-        // Active position indicator
         val indicatorPosition = selectedIndex / (totalTabs - 1).toFloat()
         
         Box(
@@ -180,17 +183,13 @@ fun JoystickIndicator(
                 .fillMaxHeight()
                 .width(40.dp)
                 .graphicsLayer {
-                    translationX = (indicatorPosition * (200.dp.toPx() - 40.dp.toPx())).coerceIn(0f, (200.dp.toPx() - 40.dp.toPx()))
+                    translationX = (indicatorPosition * (200.dp.toPx() - 40.dp.toPx())).coerceIn(
+                        0f,
+                        (200.dp.toPx() - 40.dp.toPx())
+                    )
                 }
                 .clip(RoundedCornerShape(2.dp))
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            Color(0xFF00FFFF), // Cyan
-                            Color(0xFFFF00FF)  // Magenta
-                        )
-                    )
-                )
+                .background(accentColor)
                 .scale(pulse)
         )
     }
@@ -222,22 +221,11 @@ fun BottomNavItem(
                 .scale(scale)
                 .clip(CircleShape)
                 .background(
-                    if (isSelected) {
-                        Brush.radialGradient(
-                            colors = listOf(
-                                color.copy(alpha = 0.3f),
-                                Color.Transparent
-                            )
-                        )
-                    } else {
-                        SolidColor(Color.Transparent)
-                    }
+                    if (isSelected) color.copy(alpha = 0.1f) else Color.Transparent
                 )
                 .border(
-                    width = if (isSelected) 2.dp else 0.dp,
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color(0xFF00FFFF), Color(0xFFFF00FF))
-                    ),
+                    width = if (isSelected) 1.dp else 0.dp,
+                    color = color.copy(alpha = 0.5f),
                     shape = CircleShape
                 ),
             contentAlignment = Alignment.Center
@@ -245,7 +233,7 @@ fun BottomNavItem(
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                tint = if (isSelected) color else Color.White.copy(alpha = 0.6f),
+                tint = if (isSelected) color else color.copy(alpha = 0.4f),
                 modifier = Modifier.size(if (isSelected) 24.dp else 20.dp)
             )
         }
@@ -254,7 +242,7 @@ fun BottomNavItem(
         
         Text(
             text = label,
-            color = if (isSelected) color else Color.White.copy(alpha = 0.5f),
+            color = if (isSelected) color else color.copy(alpha = 0.3f),
             fontSize = 8.sp,
             fontFamily = LEDFontFamily,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
@@ -285,56 +273,6 @@ fun SwipeHintOverlay(
             fontWeight = FontWeight.Bold,
             fontFamily = LEDFontFamily,
             modifier = Modifier.padding(horizontal = 20.dp)
-        )
-    }
-}
-
-/**
- * Floating joystick button for quick navigation
- */
-@Composable
-fun FloatingJoystickButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val infiniteTransition = rememberInfiniteTransition(label = "float_pulse")
-    val pulse by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1500),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "float_pulse"
-    )
-    
-    Box(
-        modifier = modifier
-            .size(60.dp * pulse)
-            .clip(CircleShape)
-            .background(
-                color = Color(0xFF00FFFF),
-                shape = CircleShape
-            )
-            .border(
-                width = 2.dp,
-                brush = Brush.sweepGradient(
-                    colors = listOf(
-                        Color(0xFF00FFFF),
-                        Color(0xFFFF00FF),
-                        Color(0xFF00FFFF)
-                    )
-                ),
-                shape = CircleShape
-            )
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            imageVector = Icons.Default.Menu,
-            contentDescription = "Menu",
-            tint = Color.White,
-            modifier = Modifier.size(28.dp)
         )
     }
 }
