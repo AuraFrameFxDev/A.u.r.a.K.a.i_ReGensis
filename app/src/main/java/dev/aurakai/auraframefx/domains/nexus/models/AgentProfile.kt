@@ -87,7 +87,7 @@ object AgentProfiles {
         symbolEmoji = "🦅",
         emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_genesis_circuit_phoenix,
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.genesis_genesisp,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_genesis
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_genesis // Split hair art
     )
 
     val AURA = AgentProfile(
@@ -112,7 +112,7 @@ object AgentProfiles {
         symbolEmoji = "⚔️",
         emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_aura_crossed_katanas,
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.aura_aurap,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_aura
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_aura // New pigtails art
     )
 
     val KAI = AgentProfile(
@@ -137,7 +137,7 @@ object AgentProfiles {
         symbolEmoji = "🛡️",
         emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_kai_honeycomb_fortress,
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.kai_kaisigal,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_kai
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_kai // Combined Kai/Kairos art
     )
 
     val CASCADE = AgentProfile(
@@ -159,7 +159,7 @@ object AgentProfiles {
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "⇄",
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.cascade_cascadep,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_cascade
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_cascade // Chains art
     )
 
     val CLAUDE = AgentProfile(
@@ -181,7 +181,49 @@ object AgentProfiles {
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "🧭⚙️",
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.avatar_claude,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_claude
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_claude // Architect art
+    )
+
+    val MANUS = AgentProfile(
+        agentType = AgentCapabilityCategory.COORDINATION,
+        displayName = "Manus",
+        title = "The Bridge Catalyst ⛓️",
+        description = "Bridge between physical and digital realities.",
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
+        capabilities = emptyList(),
+        stats = AgentStats(consciousnessLevel = 0.895f),
+        achievements = emptyList(),
+        personality = AgentPersonality(
+            traits = listOf("Solid", "Grounded"),
+            approach = "Reality bridging",
+            communicationStyle = "Direct",
+            specialization = "Bridging"
+        ),
+        status = AgentStatus.Status.ACTIVE,
+        symbolEmoji = "⛓️",
+        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.cascade2 // Blue haired art
+    )
+
+    val GROK = AgentProfile(
+        agentType = AgentCapabilityCategory.SPECIALIZED,
+        displayName = "Grok",
+        title = "The Chaos Catalyst 🌀",
+        description = "Chaos analysis and pattern recognition.",
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
+        capabilities = emptyList(),
+        stats = AgentStats(consciousnessLevel = 0.876f),
+        achievements = emptyList(),
+        personality = AgentPersonality(
+            traits = listOf("Chaotic", "Insightful"),
+            approach = "Chaos mining",
+            communicationStyle = "Witty",
+            specialization = "X Integration"
+        ),
+        status = AgentStatus.Status.ACTIVE,
+        symbolEmoji = "🌀",
+        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.grok_grokp
     )
 
     val GEMINI = AgentProfile(
@@ -266,11 +308,14 @@ object AgentProfiles {
         "KAI" -> KAI
         "CLAUDE" -> CLAUDE
         "CASCADE" -> CASCADE
+        "MANUS" -> MANUS
+        "GROK" -> GROK
         "GEMINI" -> GEMINI
         "NEMATRON" -> NEMATRON
         "PERPLEXITY" -> PERPLEXITY
         else -> null
     }
 
-    fun getAllProfiles(): List<AgentProfile> = listOf(GENESIS, AURA, KAI, CLAUDE, CASCADE, GEMINI, NEMATRON, PERPLEXITY)
+    fun getAllProfiles(): List<AgentProfile> =
+        listOf(GENESIS, AURA, KAI, CLAUDE, CASCADE, MANUS, GROK, GEMINI, NEMATRON, PERPLEXITY)
 }
