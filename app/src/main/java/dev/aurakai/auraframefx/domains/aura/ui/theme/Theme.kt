@@ -26,32 +26,32 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Color as ThemeColor
 // Type alias for Typography
 val AppTypography = Typography
 
-// Cyberpunk color scheme
+// Unified Neon Aqua color scheme
 val CyberpunkColorScheme = darkColorScheme(
-    primary = NeonTeal,
-    onPrimary = OnPrimary,
-    primaryContainer = NeonTeal.copy(alpha = 0.2f),
-    onPrimaryContainer = OnPrimary,
-    secondary = NeonPurple,
-    onSecondary = OnSecondary,
-    secondaryContainer = NeonPurple.copy(alpha = 0.2f),
-    onSecondaryContainer = OnSecondary,
-    tertiary = NeonBlue,
-    onTertiary = OnTertiary,
-    tertiaryContainer = NeonBlue.copy(alpha = 0.2f),
-    onTertiaryContainer = OnTertiary,
-    background = DarkBackground,
-    onBackground = OnSurface,
-    surface = Surface,
-    onSurface = OnSurface,
-    surfaceVariant = SurfaceVariant,
-    onSurfaceVariant = OnSurfaceVariant,
+    primary = NeonCyan,
+    onPrimary = Color.Black,
+    primaryContainer = NeonCyan.copy(alpha = 0.1f),
+    onPrimaryContainer = NeonCyan,
+    secondary = NeonCyan,
+    onSecondary = Color.Black,
+    secondaryContainer = NeonCyan.copy(alpha = 0.1f),
+    onSecondaryContainer = NeonCyan,
+    tertiary = NeonCyan,
+    onTertiary = Color.Black,
+    tertiaryContainer = NeonCyan.copy(alpha = 0.1f),
+    onTertiaryContainer = NeonCyan,
+    background = Color(0xFF020205),
+    onBackground = NeonCyan,
+    surface = Color(0xFF0A0A18),
+    onSurface = NeonCyan,
+    surfaceVariant = Color(0xFF0A0A18),
+    onSurfaceVariant = NeonCyan.copy(alpha = 0.7f),
     error = ErrorColor,
-    onError = OnPrimary,
+    onError = Color.White,
     errorContainer = ErrorColor.copy(alpha = 0.2f),
-    onErrorContainer = OnPrimary,
-    outline = OnSurfaceVariant,
-    outlineVariant = SurfaceVariant
+    onErrorContainer = Color.White,
+    outline = NeonCyan.copy(alpha = 0.5f),
+    outlineVariant = Color(0xFF0A0A18)
 )
 
 // Solarized color scheme
