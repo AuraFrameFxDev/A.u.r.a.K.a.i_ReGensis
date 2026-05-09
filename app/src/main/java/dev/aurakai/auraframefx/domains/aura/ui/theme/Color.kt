@@ -93,18 +93,18 @@ val FortGrey = Color(0xFF2D3561)
 // Legacy/Compatibility
 val Black = Color.Black
 
-// Color Scheme
+// Color Scheme - Unified Neon Aqua
 val DarkColorScheme = androidx.compose.material3.darkColorScheme(
-    primary = NeonPurple,
+    primary = NeonCyan,
     secondary = NeonCyan,
-    tertiary = NeonPink,
-    background = Color(0xFF0A0E27),
-    surface = Color(0xFF1A1F3A),
+    tertiary = NeonCyan,
+    background = Color(0xFF020205),
+    surface = Color(0xFF0A0A18),
     error = ErrorColor,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = OnSurface,
-    onSurface = OnSurface,
+    onPrimary = Color.Black,
+    onSecondary = Color.Black,
+    onTertiary = Color.Black,
+    onBackground = NeonCyan,
+    onSurface = NeonCyan,
     onError = Color.White
 )
