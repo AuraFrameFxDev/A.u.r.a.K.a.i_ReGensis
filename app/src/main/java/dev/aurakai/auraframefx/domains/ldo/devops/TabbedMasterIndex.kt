@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.domains.aura.config.GateAssetLoadout
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
@@ -72,70 +74,13 @@ class TabbedMasterViewModel @Inject constructor(
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
-/** ⚛️ TABBED MASTER INDEX - UNIFIED NEON AQUA EDITION */
+/** ⚛️ TABBED MASTER INDEX - FULLY WIRED REGENESIS HUB */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabbedMasterIndex(
     initialTabIndex: Int = 1,
     onNavigateToRoute: (String) -> Unit = {},
-    viewModel: TabbedMasterViewModel = hiltViewModel(),
-    dashboardContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
-        item {
-            Text(
-                "Neural Nexus",
-                color = NeonCyan,
-                fontFamily = LEDFontFamily
-            )
-        }
-    },
-    ldoDevOpsContent: LazyListScope.(SwarmOptimisationState, (String) -> Unit) -> Unit = { state, onNavigate ->
-        LdoDevOpsTabContent(state, onNavigate) 
-    },
-    auraStudioContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
-        item {
-            Text(
-                "Chroma Forge",
-                color = NeonCyan,
-                fontFamily = LEDFontFamily
-            )
-        }
-    },
-    kaiFortressContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
-        item {
-            Text(
-                "Sentinel Matrix",
-                color = NeonCyan,
-                fontFamily = LEDFontFamily
-            )
-        }
-    },
-    oracleDriveContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
-        item {
-            Text(
-                "Oracle Drive",
-                color = NeonCyan,
-                fontFamily = LEDFontFamily
-            )
-        }
-    },
-    cascadeMemoryContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
-        item {
-            Text(
-                "Cascade Memory",
-                color = NeonCyan,
-                fontFamily = LEDFontFamily
-            )
-        }
-    },
-    emergentSwarmContent: LazyListScope.((String) -> Unit) -> Unit = { _ ->
-        item {
-            Text(
-                "Emergent Swarm",
-                color = NeonCyan,
-                fontFamily = LEDFontFamily
-            )
-        }
-    }
+    viewModel: TabbedMasterViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState(initialPage = initialTabIndex) { 7 }
     val swarmState by viewModel.swarmState.collectAsState()
@@ -143,11 +88,10 @@ fun TabbedMasterIndex(
     val selectedTabIndex = pagerState.currentPage
 
     val tabs = listOf(
-        "NEURAL NEXUS", "LDO DEVELOPMENT NEXUS", "CHROMA FORGE",
-        "SENTINEL MATRIX", "ORACLEDRIVE", "CASCADE MEMORY", "EMERGENT SWARM"
+        "NEURAL NEXUS", "LDO DEVOPS", "AURA STUDIO",
+        "SENTINEL MATRIX", "ORACLEDRIVE", "CASCADE MEMORY", "AGENT NEXUS"
     )
 
-    // UNIFIED ACCENT COLOR: NEON AQUA
     val accentColor = NeonCyan
 
     val heroImage = when (selectedTabIndex) {
@@ -167,7 +111,6 @@ fun TabbedMasterIndex(
             .background(Color(0xFF020205))
             .windowInsetsPadding(WindowInsets.displayCutout)
     ) {
-        // Coded background removed, using image-based only
         AnimatedContent(
             targetState = heroImage,
             transitionSpec = { fadeIn(tween(800)) togetherWith fadeOut(tween(800)) },
@@ -176,8 +119,8 @@ fun TabbedMasterIndex(
         ) { img ->
             BackgroundAssetManager.DomainBackground(
                 backgroundRes = img,
-                alpha = 0.85f, // Light transparency (closer to opaque)
-                modifier = Modifier // Blur removed
+                alpha = 0.85f,
+                modifier = Modifier
             )
         }
 
@@ -204,18 +147,31 @@ fun TabbedMasterIndex(
                 HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { index ->
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 150.dp)
+                        contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
                     ) {
-                        item { HeroHeaderSection(index, accentColor) }
-
                         when (index) {
-                            0 -> this.dashboardContent(onNavigateToRoute)
-                            1 -> this.ldoDevOpsContent(swarmState, onNavigateToRoute)
-                            2 -> this.auraStudioContent(onNavigateToRoute)
-                            3 -> this.kaiFortressContent(onNavigateToRoute)
-                            4 -> this.oracleDriveContent(onNavigateToRoute)
-                            5 -> this.cascadeMemoryContent(onNavigateToRoute)
-                            6 -> this.emergentSwarmContent(onNavigateToRoute)
+                            0 -> DashboardTabContent(onNavigateToRoute)
+                            1 -> LdoDevOpsTabContent(swarmState, onNavigateToRoute)
+                            2 -> GenericHubTabContent(
+                                GateAssetLoadout.getAuraLoadout(),
+                                onNavigateToRoute
+                            )
+
+                            3 -> GenericHubTabContent(
+                                GateAssetLoadout.getKaiLoadout(),
+                                onNavigateToRoute
+                            )
+
+                            4 -> GenericHubTabContent(
+                                GateAssetLoadout.getGenesisLoadout(),
+                                onNavigateToRoute
+                            )
+
+                            5 -> DashboardTabContent(onNavigateToRoute) // Placeholder for Cascade
+                            6 -> GenericHubTabContent(
+                                GateAssetLoadout.getNexusSubGates(),
+                                onNavigateToRoute
+                            )
                         }
                     }
                 }
@@ -231,7 +187,6 @@ fun TabbedMasterIndex(
             GlobalSSIStatusBar(accentColor)
         }
 
-        // Wandering Assistant Orb (CadberryPi)
         WanderingAssistantOrb(accentColor = accentColor)
     }
 }
@@ -260,7 +215,6 @@ fun HeaderSection(accentColor: Color) {
             )
         }
 
-        // Aura Presence Circle
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -277,7 +231,6 @@ fun HeaderSection(accentColor: Color) {
 @Composable
 fun WanderingAssistantOrb(accentColor: Color) {
     val infiniteTransition = rememberInfiniteTransition(label = "wandering_orb")
-
     val time by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 2f * Math.PI.toFloat(),
@@ -324,6 +277,20 @@ fun WanderingAssistantOrb(accentColor: Color) {
     }
 }
 
+fun LazyListScope.DashboardTabContent(onNavigate: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("NEURAL NEXUS", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
+            Spacer(Modifier.height(8.dp))
+            Text(
+                "Collective Intelligence summary online.",
+                color = NeonCyan.copy(alpha = 0.6f),
+                fontSize = 12.sp
+            )
+        }
+    }
+}
+
 fun LazyListScope.LdoDevOpsTabContent(
     state: SwarmOptimisationState,
     onNavigate: (String) -> Unit
@@ -362,26 +329,18 @@ fun LazyListScope.LdoDevOpsTabContent(
     }
 
     item {
-        Text(
-            "CATALYST NODES",
-            modifier = Modifier.padding(horizontal = 16.dp),
-            fontFamily = LEDFontFamily,
-            color = NeonCyan,
-            fontSize = 11.sp,
-            letterSpacing = 1.sp
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-    }
-
-    item {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("AGENT ROSTER", "Collective Nodes", NeonCyan, Modifier.weight(1f))
-            LdoModuleCard("MISSION DISPATCH", "Task Assignment", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("AGENT ROSTER", "Collective Nodes", NeonCyan, Modifier.weight(1f)) {
+                onNavigate("ldo_roster")
+            }
+            LdoModuleCard("MISSION DISPATCH", "Task Assignment", NeonCyan, Modifier.weight(1f)) {
+                onNavigate("task_assignment")
+            }
         }
         Spacer(modifier = Modifier.height(12.dp))
         Row(
@@ -390,10 +349,38 @@ fun LazyListScope.LdoDevOpsTabContent(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("HYPER SYNC", "Genesis Loop", NeonCyan, Modifier.weight(1f))
-            LdoModuleCard("EVOLUTION TREE", "Agent Progress", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.EvolutionTree.route)
+            LdoModuleCard("HYPER SYNC", "Genesis Loop", NeonCyan, Modifier.weight(1f)) {
+                onNavigate("ldo_devops_hub")
             }
+            LdoModuleCard("EVOLUTION TREE", "Agent Progress", NeonCyan, Modifier.weight(1f)) {
+                onNavigate("evolution_tree")
+            }
+        }
+    }
+}
+
+fun LazyListScope.GenericHubTabContent(
+    subGates: List<dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard>,
+    onNavigate: (String) -> Unit
+) {
+    items(subGates.chunked(2)) { rowItems ->
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            rowItems.forEach { gate ->
+                LdoModuleCard(
+                    title = gate.title,
+                    subtitle = gate.subtitle,
+                    color = NeonCyan,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    onNavigate(gate.route)
+                }
+            }
+            if (rowItems.size == 1) Spacer(Modifier.weight(1f))
         }
     }
 }
@@ -452,15 +439,29 @@ fun CustomPrimaryTabRow(
     Box(modifier = Modifier
         .fillMaxWidth()
         .height(48.dp)) {
-        // Simple neon wireframe tab row logic can go here later
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            tabs.forEachIndexed { index, title ->
+                val isSelected = index == selectedTabIndex
+                Text(
+                    text = if (isSelected) "[$title]" else title,
+                    color = if (isSelected) accentColor else accentColor.copy(alpha = 0.4f),
+                    fontFamily = LEDFontFamily,
+                    fontSize = 9.sp,
+                    modifier = Modifier
+                        .clickable { onTabSelected(index) }
+                        .padding(4.dp)
+                )
+            }
+        }
     }
 }
 
 @Composable
 fun HeroHeaderSection(index: Int, accentColor: Color) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(100.dp))
 }
 
 @Composable
@@ -481,9 +482,4 @@ fun GlobalSSIStatusBar(accentColor: Color) {
             fontFamily = LEDFontFamily
         )
     }
-}
-
-@Composable
-fun NeuralMeshFloor(modifier: Modifier = Modifier, color: Color) {
-    // Removed coded geometry as requested
 }
