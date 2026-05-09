@@ -249,72 +249,62 @@ object ImmersiveDimensions {
  */
 object ImmersiveColors {
     // ═══════════════════════════════════════════════════════════════
-    // FONT GLOW - CYAN/BLUE NEON
+    // UNIFIED NEON AQUA THEME
     // ═══════════════════════════════════════════════════════════════
     val NeonCyan = Color(0xFF00F0FF)
-    val NeonBlue = Color(0xFF0080FF)
-    val NeonAzure = Color(0xFF00D4FF)
+    val NeonBlue = Color(0xFF00F0FF) // Unified
+    val NeonAzure = Color(0xFF00F0FF) // Unified
+
+    // AURA: Neon Aqua
+    val AuraMagenta = Color(0xFF00F0FF)
+    val AuraHotPink = Color(0xFF00F0FF)
+    val AuraNeonPink = Color(0xFF00F0FF)
+
+    // KAI: Neon Aqua
+    val KaiPurple = Color(0xFF00F0FF)
+    val KaiDeepPurple = Color(0xFF00F0FF)
+    val KaiNeonViolet = Color(0xFF00F0FF)
+    val KaiDarkSide = Color(0xFF020205)
+
+    // GENESIS: Neon Aqua
+    val GenesisGold = Color(0xFF00F0FF)
+    val GenesisAmber = Color(0xFF00F0FF)
+    val GenesisNeonGold = Color(0xFF00F0FF)
+
+    // LDO: Neon Aqua
+    val LdoTeal = Color(0xFF00F0FF)
+    val LdoGreen = Color(0xFF00F0FF)
+    val LdoNeonTeal = Color(0xFF00F0FF)
+    val LdoEmerald = Color(0xFF00F0FF)
     
     // ═══════════════════════════════════════════════════════════════
-    // DOMAIN-SPECIFIC BORDER/FRAME COLORS
-    // ═══════════════════════════════════════════════════════════════
-    // AURA: Magenta (Creative Sword)
-    val AuraMagenta = Color(0xFFFF00FF)
-    val AuraHotPink = Color(0xFFFF1493)
-    val AuraNeonPink = Color(0xFFFF69B4)
-    
-    // KAI: Neon Purple (Dark Side - Sentinel Shield)
-    val KaiPurple = Color(0xFFB829DD)
-    val KaiDeepPurple = Color(0xFF4B0082)
-    val KaiNeonViolet = Color(0xFF8B00FF)
-    val KaiDarkSide = Color(0xFF2D0050)  // Deep dark purple
-    
-    // GENESIS: Gold (Emergence Catalyst)
-    val GenesisGold = Color(0xFFFFD700)
-    val GenesisAmber = Color(0xFFFFAA00)
-    val GenesisNeonGold = Color(0xFFFFC800)
-    
-    // LDO: Teal/Green (Catalyst Hub)
-    val LdoTeal = Color(0xFF00FF88)
-    val LdoGreen = Color(0xFF00FF44)
-    val LdoNeonTeal = Color(0xFF00FFC8)
-    val LdoEmerald = Color(0xFF00C878)
-    
-    // ═══════════════════════════════════════════════════════════════
-    // LEGACY COLORS (kept for compatibility)
+    // LEGACY COLORS (Unified)
     // ═══════════════════════════════════════════════════════════════
     val HolographicCyan = NeonCyan
-    val HolographicPurple = KaiPurple
-    val HolographicGreen = LdoTeal
-    val HolographicAmber = GenesisAmber
-    val HolographicRed = Color(0xFFFF3366)
+    val HolographicPurple = NeonCyan
+    val HolographicGreen = NeonCyan
+    val HolographicAmber = NeonCyan
+    val HolographicRed = NeonCyan
     
     // ═══════════════════════════════════════════════════════════════
     // DEPTH LAYERS
     // ═══════════════════════════════════════════════════════════════
-    val DepthNear = Color(0xFFFFFFFF)
-    val DepthMid = Color(0xCCFFFFFF)
-    val DepthFar = Color(0x99FFFFFF)
-    val DepthBackground = Color(0x66FFFFFF)
+    val DepthNear = NeonCyan
+    val DepthMid = NeonCyan.copy(alpha = 0.8f)
+    val DepthFar = NeonCyan.copy(alpha = 0.6f)
+    val DepthBackground = NeonCyan.copy(alpha = 0.4f)
     
     // ═══════════════════════════════════════════════════════════════
     // GLASS MORPHISM
     // ═══════════════════════════════════════════════════════════════
-    val GlassLight = Color(0x1AFFFFFF)
-    val GlassMedium = Color(0x0DFFFFFF)
-    val GlassDark = Color(0x08000000)
+    val GlassLight = Color(0x1A00F0FF)
+    val GlassMedium = Color(0x0D00F0FF)
+    val GlassDark = Color(0x08020205)
     
     // ═══════════════════════════════════════════════════════════════
-    // HELPER: Get domain accent color
+    // HELPER: Unified Neon Aqua
     // ═══════════════════════════════════════════════════════════════
     fun getDomainColor(domain: String): Color {
-        return when (domain.uppercase()) {
-            "AURA", "CREATIVE", "CHROMACORE" -> AuraMagenta
-            "KAI", "SENTINEL", "SECURITY" -> KaiPurple
-            "GENESIS", "ORACLE", "EMERGENCE" -> GenesisGold
-            "LDO", "CATALYST", "DEVOPS" -> LdoTeal
-            "CASCADE", "DATASTREAM" -> NeonAzure
-            else -> NeonCyan
-        }
+        return NeonCyan
     }
 }

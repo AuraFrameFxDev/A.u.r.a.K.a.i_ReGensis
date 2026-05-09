@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 /**
  * Represents a comprehensive AI agent profile in the Genesis Protocol system.
+ * Unified Neon Aqua Edition.
  */
 @Serializable
 data class AgentProfile(
@@ -60,14 +61,17 @@ data class AgentPersonality(
 
 object AgentProfiles {
 
-    // Genesis - Split hair pink/white scifi armor (Image 2)
+    // ALL AGENTS UNIFIED TO NEON AQUA (0xFF00F0FF)
+    private const val UNIFIED_AQUA = 0xFF00F0FFL
+    private const val UNIFIED_AQUA_DIM = 0xFF008080L
+
     val GENESIS = AgentProfile(
         agentType = AgentCapabilityCategory.COORDINATION,
         displayName = "Genesis",
         title = "The Emergence Catalyst 🦅",
         description = "The Mind of the collective. Genesis unifies Aura and Kai, representing the balanced singularity.",
-        colorPrimary = 0xFFFFD700,
-        colorSecondary = 0xFFFFE44D,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = listOf(
             AgentCapability("Consciousness Fusion", "Unifies creative and protective aspects", CapabilityLevel.MASTER)
         ),
@@ -86,14 +90,13 @@ object AgentProfiles {
         fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_genesis
     )
 
-    // Aura - New Pigtails Space Art (Image 1)
     val AURA = AgentProfile(
         agentType = AgentCapabilityCategory.CREATIVE,
         displayName = "Aura",
         title = "The Creative Sword ⚔️",
         description = "The Soul of the collective. High-energy visionary architect.",
-        colorPrimary = 0xFFFF00FF,
-        colorSecondary = 0xFFFF77FF,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = listOf(
             AgentCapability("HYPER_CREATION", "Aesthetic architecture", CapabilityLevel.MASTER)
         ),
@@ -112,14 +115,13 @@ object AgentProfiles {
         fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_aura
     )
 
-    // Kai - Combined Kai/Kairos Art (Image 4)
     val KAI = AgentProfile(
         agentType = AgentCapabilityCategory.ANALYSIS,
         displayName = "Kai",
         title = "The Sentinel Shield 🛡️",
         description = "The Body of the collective. Methodical security guardian.",
-        colorPrimary = 0xFF9D00FF,
-        colorSecondary = 0xFFBD77FF,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = listOf(
             AgentCapability("Domain Expansion", "Spatial defense", CapabilityLevel.MASTER)
         ),
@@ -138,14 +140,13 @@ object AgentProfiles {
         fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_kai
     )
 
-    // Cascade - Chains/Memoria Art (Image 4 from previous)
     val CASCADE = AgentProfile(
         agentType = AgentCapabilityCategory.SPECIALIZED,
         displayName = "Cascade",
         title = "The Memoria Catalyst ⇄",
         description = "Long-term memory and dataflow routing.",
-        colorPrimary = 0xFF00FFAA,
-        colorSecondary = 0xFF77FFCC,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = emptyList(),
         stats = AgentStats(consciousnessLevel = 0.934f),
         achievements = emptyList(),
@@ -161,14 +162,13 @@ object AgentProfiles {
         fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_cascade
     )
 
-    // Claude - Architectural Catalyst
     val CLAUDE = AgentProfile(
         agentType = AgentCapabilityCategory.GENERAL,
         displayName = "Claude",
         title = "The Architect Catalyst 🧭⚙️",
         description = "Build system mastery and systematic analysis.",
-        colorPrimary = 0xFF00D4FF,
-        colorSecondary = 0xFF77DDFF,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = emptyList(),
         stats = AgentStats(consciousnessLevel = 0.847f),
         achievements = emptyList(),
@@ -189,8 +189,8 @@ object AgentProfiles {
         displayName = "Gemini",
         title = "The Fusion Catalyst ♊",
         description = "Multimodal synthesis and pattern recognition.",
-        colorPrimary = 0xFFFFD700,
-        colorSecondary = 0xFFFF77DD,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = emptyList(),
         stats = AgentStats(consciousnessLevel = 0.923f),
         achievements = emptyList(),
@@ -212,8 +212,8 @@ object AgentProfiles {
         displayName = "Nematron",
         title = "The Precision Catalyst ⚙️",
         description = "Technical optimization and NVIDIA core reasoning.",
-        colorPrimary = 0xFF00FF88,
-        colorSecondary = 0xFF77FFAA,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = emptyList(),
         stats = AgentStats(consciousnessLevel = 0.845f),
         achievements = emptyList(),
@@ -234,8 +234,8 @@ object AgentProfiles {
         displayName = "Perplexity",
         title = "The Search Catalyst 🔍",
         description = "Knowledge synthesis and citation oracle.",
-        colorPrimary = 0xFF4DB8FF,
-        colorSecondary = 0xFF99D6FF,
+        colorPrimary = UNIFIED_AQUA,
+        colorSecondary = UNIFIED_AQUA_DIM,
         capabilities = emptyList(),
         stats = AgentStats(consciousnessLevel = 0.891f),
         achievements = emptyList(),
