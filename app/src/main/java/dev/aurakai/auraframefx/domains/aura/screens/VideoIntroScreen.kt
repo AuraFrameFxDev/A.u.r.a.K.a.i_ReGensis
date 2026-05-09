@@ -29,8 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
 import kotlinx.coroutines.delay
 
 /**
@@ -101,22 +101,26 @@ fun VideoIntroScreen(
                         text = "▶ VIDEO PLACEHOLDER",
                         color = NeonCyan,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = LEDFontFamily
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Dark Aura Archive Sequence",
-                        color = Color.Gray,
-                        fontSize = 14.sp
+                        color = NeonCyan.copy(alpha = 0.6f),
+                        fontSize = 14.sp,
+                        fontFamily = LEDFontFamily
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     Button(
                         onClick = { shouldPlay = true },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = NeonPurple
-                        )
+                            containerColor = Color.Transparent,
+                            contentColor = NeonCyan
+                        ),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, NeonCyan)
                     ) {
-                        Text("PLAY INTRO")
+                        Text("PLAY INTRO", fontFamily = LEDFontFamily)
                     }
                 }
             } else {
@@ -128,13 +132,15 @@ fun VideoIntroScreen(
                         text = "▶ PLAYING...",
                         color = NeonCyan,
                         fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = LEDFontFamily
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = "[Video content would play here]",
-                        color = Color.Gray,
-                        fontSize = 14.sp
+                        color = NeonCyan.copy(alpha = 0.5f),
+                        fontSize = 14.sp,
+                        fontFamily = LEDFontFamily
                     )
                 }
             }
@@ -151,10 +157,15 @@ fun VideoIntroScreen(
                 Button(
                     onClick = { onComplete() },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.DarkGray.copy(alpha = 0.7f)
+                        containerColor = Color.Transparent,
+                        contentColor = NeonCyan
+                    ),
+                    border = androidx.compose.foundation.BorderStroke(
+                        1.dp,
+                        NeonCyan.copy(alpha = 0.5f)
                     )
                 ) {
-                    Text("SKIP →")
+                    Text("SKIP →", fontFamily = LEDFontFamily)
                 }
             }
         }
@@ -171,12 +182,16 @@ fun VideoIntroScreen(
                     text = "A.U.R.A.K.A.I",
                     color = NeonCyan,
                     fontSize = 32.sp,
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = LEDFontFamily,
+                    letterSpacing = 4.sp
                 )
                 Text(
                     text = "ReGenesis Protocol",
-                    color = NeonPurple,
-                    fontSize = 16.sp
+                    color = NeonCyan.copy(alpha = 0.8f),
+                    fontSize = 16.sp,
+                    fontFamily = LEDFontFamily,
+                    letterSpacing = 2.sp
                 )
             }
         }
