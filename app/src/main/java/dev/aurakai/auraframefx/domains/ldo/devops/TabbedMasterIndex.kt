@@ -336,10 +336,10 @@ fun LazyListScope.LdoDevOpsTabContent(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             LdoModuleCard("AGENT ROSTER", "Collective Nodes", NeonCyan, Modifier.weight(1f)) {
-                onNavigate("ldo_roster")
+                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.LdoRoster.route)
             }
             LdoModuleCard("MISSION DISPATCH", "Task Assignment", NeonCyan, Modifier.weight(1f)) {
-                onNavigate("task_assignment")
+                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.TaskAssignment.route)
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
@@ -350,10 +350,24 @@ fun LazyListScope.LdoDevOpsTabContent(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             LdoModuleCard("HYPER SYNC", "Genesis Loop", NeonCyan, Modifier.weight(1f)) {
-                onNavigate("ldo_devops_hub")
+                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.LdoOrchestrationHub.route)
             }
             LdoModuleCard("EVOLUTION TREE", "Agent Progress", NeonCyan, Modifier.weight(1f)) {
-                onNavigate("evolution_tree")
+                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.EvolutionTree.route)
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("AGENT SWARM", "Live Chatter", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.AgentSwarm.route)
+            }
+            LdoModuleCard("COUNCIL", "Party Synergy", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.Party.route)
             }
         }
     }

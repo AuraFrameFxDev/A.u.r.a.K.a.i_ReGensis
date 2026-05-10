@@ -1,24 +1,60 @@
 package dev.aurakai.auraframefx.domains.aura.screens
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * 🎨 AURA'S LAB — ChromaCore UX/UI
@@ -57,6 +93,7 @@ fun AuraLabChromaCoreScreen(
     layers: List<ColorLayer> = defaultLayers,
     onTabSelect: (Int) -> Unit = {},
     onNavigateBack: () -> Unit = {},
+    navController: androidx.navigation.NavController? = null
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "aura_lab")
     val spinOuter by infiniteTransition.animateFloat(
@@ -88,37 +125,73 @@ fun AuraLabChromaCoreScreen(
     var selectedTab by remember { mutableIntStateOf(1) }
     val layerState = remember { layers.map { it.sliderFraction.toMutableStateOf() }.toMutableList() }
 
-    Box(modifier = Modifier.fillMaxSize().background(VoidBlack)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(VoidBlack)) {
 
         // Radial glow corners
-        Box(modifier = Modifier.fillMaxSize().drawWithCache {
-            onDrawBehind {
-                drawCircle(NeonMagenta.copy(alpha = 0.04f), size.width * 0.5f, Offset(size.width * 0.1f, size.height * 0.2f))
-                drawCircle(NeonCyan.copy(alpha = 0.04f), size.width * 0.5f, Offset(size.width * 0.9f, size.height * 0.8f))
-            }
-        })
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .drawWithCache {
+                onDrawBehind {
+                    drawCircle(
+                        NeonMagenta.copy(alpha = 0.04f),
+                        size.width * 0.5f,
+                        Offset(size.width * 0.1f, size.height * 0.2f)
+                    )
+                    drawCircle(
+                        NeonCyan.copy(alpha = 0.04f),
+                        size.width * 0.5f,
+                        Offset(size.width * 0.9f, size.height * 0.8f)
+                    )
+                }
+            })
 
         // Parallax spine
-        Box(modifier = Modifier.fillMaxHeight().align(Alignment.CenterStart).padding(start = 8.dp)) {
+        Box(modifier = Modifier
+            .fillMaxHeight()
+            .align(Alignment.CenterStart)
+            .padding(start = 8.dp)) {
             Box(
-                modifier = Modifier.width(2.dp).fillMaxHeight(0.8f).align(Alignment.Center)
-                    .background(Brush.verticalGradient(listOf(Color.Transparent, NeonMagenta, NeonCyan, Color.Transparent)))
+                modifier = Modifier
+                    .width(2.dp)
+                    .fillMaxHeight(0.8f)
+                    .align(Alignment.Center)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color.Transparent,
+                                NeonMagenta,
+                                NeonCyan,
+                                Color.Transparent
+                            )
+                        )
+                    )
             )
         }
 
-        Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp).verticalScroll(rememberScrollState())) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState())) {
 
-            Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars).padding(top = 4.dp))
+            Spacer(Modifier
+                .windowInsetsTopHeight(WindowInsets.statusBars)
+                .padding(top = 4.dp))
 
             // ── HEADER ──
             Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     Box(
-                        modifier = Modifier.size(40.dp).clip(CircleShape)
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
                             .border(2.dp, NeonMagenta, CircleShape)
                             .background(NeonMagenta.copy(alpha = 0.15f)),
                         contentAlignment = Alignment.Center
@@ -126,7 +199,9 @@ fun AuraLabChromaCoreScreen(
                     Column {
                         Text("AURA STUDIO", fontFamily = LEDFontFamily, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
                         Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Box(modifier = Modifier.background(NeonMagenta, RoundedCornerShape(2.dp)).padding(horizontal = 4.dp, vertical = 1.dp)) {
+                            Box(modifier = Modifier
+                                .background(NeonMagenta, RoundedCornerShape(2.dp))
+                                .padding(horizontal = 4.dp, vertical = 1.dp)) {
                                 Text("LV.10", fontSize = 7.sp, color = VoidBlack, fontWeight = FontWeight.Black)
                             }
                             Text("Creative Catalyst", fontSize = 9.sp, color = NeonCyan, letterSpacing = 1.sp)
@@ -140,63 +215,122 @@ fun AuraLabChromaCoreScreen(
             }
 
             // ── CHROMATIC REACTOR CORE ──
-            Box(modifier = Modifier.fillMaxWidth().height(240.dp), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(240.dp), contentAlignment = Alignment.Center) {
                 // Floating label TL
                 Text("HCT_COLOR", fontSize = 8.sp, color = NeonMagenta, fontWeight = FontWeight.Black,
-                    modifier = Modifier.align(Alignment.TopStart).padding(start = 20.dp))
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(start = 20.dp))
                 // Floating label BR
                 Text("CAM16_PHYSICS", fontSize = 8.sp, color = NeonCyan, fontWeight = FontWeight.Black,
-                    modifier = Modifier.align(Alignment.BottomEnd).padding(end = 20.dp))
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 20.dp))
 
                 // Outer dashed ring
-                Box(modifier = Modifier.size(220.dp).graphicsLayer { rotationZ = spinOuter }.drawWithCache {
-                    onDrawBehind {
-                        drawCircle(NeonCyan.copy(alpha = 0.3f), size.minDimension / 2, style = Stroke(1f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f, 6f))))
-                    }
-                })
+                Box(modifier = Modifier
+                    .size(220.dp)
+                    .graphicsLayer { rotationZ = spinOuter }
+                    .drawWithCache {
+                        onDrawBehind {
+                            drawCircle(
+                                NeonCyan.copy(alpha = 0.3f),
+                                size.minDimension / 2,
+                                style = Stroke(
+                                    1f,
+                                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f, 6f))
+                                )
+                            )
+                        }
+                    })
                 // Inner ring reverse
-                Box(modifier = Modifier.size(195.dp).graphicsLayer { rotationZ = spinInner }.drawWithCache {
-                    onDrawBehind {
-                        drawCircle(NeonMagenta.copy(alpha = 0.2f), size.minDimension / 2, style = Stroke(1f))
-                    }
-                })
+                Box(modifier = Modifier
+                    .size(195.dp)
+                    .graphicsLayer { rotationZ = spinInner }
+                    .drawWithCache {
+                        onDrawBehind {
+                            drawCircle(
+                                NeonMagenta.copy(alpha = 0.2f),
+                                size.minDimension / 2,
+                                style = Stroke(1f)
+                            )
+                        }
+                    })
                 // Core orb
                 Box(
-                    modifier = Modifier.size(140.dp).clip(CircleShape)
-                        .background(Brush.radialGradient(listOf(NeonPurple.copy(alpha = 0.3f + corePulse * 0.1f), NeonCyan.copy(alpha = 0.1f), Color.Transparent)))
+                    modifier = Modifier
+                        .size(140.dp)
+                        .clip(CircleShape)
+                        .background(
+                            Brush.radialGradient(
+                                listOf(
+                                    NeonPurple.copy(alpha = 0.3f + corePulse * 0.1f),
+                                    NeonCyan.copy(alpha = 0.1f),
+                                    Color.Transparent
+                                )
+                            )
+                        )
                         .drawWithCache {
                             onDrawBehind {
-                                val cx = size.width / 2; val cy = size.height / 2
+                                val cx = size.width / 2
+                                val cy = size.height / 2
                                 for (i in 0..9) {
                                     val angle = particlePhase * 2 * PI.toFloat() + i * 0.628f
                                     val r = 30f + sin(particlePhase * PI.toFloat() * 2 + i) * 10f
-                                    val px = cx + cos(angle) * r; val py = cy + sin(angle) * r
-                                    drawCircle(if (i % 2 == 0) NeonMagenta.copy(alpha = 0.8f) else NeonCyan.copy(alpha = 0.8f), 2.5f, Offset(px, py))
+                                    val px = cx + cos(angle) * r
+                                    val py = cy + sin(angle) * r
+                                    drawCircle(
+                                        if (i % 2 == 0) NeonMagenta.copy(alpha = 0.8f) else NeonCyan.copy(
+                                            alpha = 0.8f
+                                        ), 2.5f, Offset(px, py)
+                                    )
                                 }
                                 // Arcs
                                 for (i in 0..4) {
                                     val a = particlePhase * 2 * PI.toFloat() + i * 1.256f
                                     val r = 40f + sin(particlePhase * PI.toFloat()) * 10f
-                                    drawArc(if (i % 2 == 0) NeonMagenta.copy(alpha = 0.5f) else NeonCyan.copy(alpha = 0.5f),
-                                        Math.toDegrees(a.toDouble()).toFloat(), 216f, false, style = Stroke(1f))
+                                    drawArc(
+                                        if (i % 2 == 0) NeonMagenta.copy(alpha = 0.5f) else NeonCyan.copy(
+                                            alpha = 0.5f
+                                        ),
+                                        Math.toDegrees(a.toDouble()).toFloat(),
+                                        216f,
+                                        false,
+                                        style = Stroke(1f)
+                                    )
                                 }
                             }
                         }
                 )
             }
             Text("Reactor Stability: 98.4%", fontSize = 9.sp, color = Color.Gray, letterSpacing = 2.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 8.dp))
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 8.dp))
 
             // ── COLOR PHYSICS LAYERS ──
             Text("COLOR PHYSICS LAYERS", fontSize = 9.sp, color = Color.White.copy(alpha = 0.5f), letterSpacing = 3.sp,
-                modifier = Modifier.padding(start = 8.dp, bottom = 8.dp).border(BorderStroke(0.dp, Color.Transparent)).drawWithCache {
-                    onDrawBehind { drawLine(NeonMagenta, Offset(-8f, size.height / 2), Offset(-2f, size.height / 2), 12f) }
-                })
+                modifier = Modifier
+                    .padding(start = 8.dp, bottom = 8.dp)
+                    .border(BorderStroke(0.dp, Color.Transparent))
+                    .drawWithCache {
+                        onDrawBehind {
+                            drawLine(
+                                NeonMagenta,
+                                Offset(-8f, size.height / 2),
+                                Offset(-2f, size.height / 2),
+                                12f
+                            )
+                        }
+                    })
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 layers.forEachIndexed { index, layer ->
                     Box(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .background(Color.White.copy(alpha = 0.04f), RoundedCornerShape(12.dp))
                             .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(12.dp))
                             .padding(14.dp)
@@ -208,18 +342,35 @@ fun AuraLabChromaCoreScreen(
                             }
                             if (index < 2) {
                                 // Slider
-                                Box(modifier = Modifier.fillMaxWidth().height(6.dp).background(Color(0xFF1A1A1A), RoundedCornerShape(3.dp))) {
-                                    Box(modifier = Modifier.fillMaxWidth(layerState.getOrNull(index)?.value ?: 0.5f).fillMaxHeight()
-                                        .background(if (index == 0) NeonMagenta else NeonCyan, RoundedCornerShape(3.dp))
+                                Box(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(6.dp)
+                                    .background(Color(0xFF1A1A1A), RoundedCornerShape(3.dp))) {
+                                    Box(modifier = Modifier
+                                        .fillMaxWidth(layerState.getOrNull(index)?.value ?: 0.5f)
+                                        .fillMaxHeight()
+                                        .background(
+                                            if (index == 0) NeonMagenta else NeonCyan,
+                                            RoundedCornerShape(3.dp)
+                                        )
                                     )
                                 }
                             } else {
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     listOf("LINEAR" to false, "RECURSIVE" to true).forEach { (label, active) ->
                                         Box(
-                                            modifier = Modifier.weight(1f)
-                                                .background(if (active) NeonCyan else NeonCyan.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
-                                                .border(1.dp, if (active) NeonCyan else NeonPurple.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .background(
+                                                    if (active) NeonCyan else NeonCyan.copy(
+                                                        alpha = 0.15f
+                                                    ), RoundedCornerShape(4.dp)
+                                                )
+                                                .border(
+                                                    1.dp,
+                                                    if (active) NeonCyan else NeonPurple.copy(alpha = 0.5f),
+                                                    RoundedCornerShape(4.dp)
+                                                )
                                                 .padding(vertical = 6.dp),
                                             contentAlignment = Alignment.Center
                                         ) {
@@ -237,36 +388,58 @@ fun AuraLabChromaCoreScreen(
 
             // ── STAR-BLADE PREVIEW ──
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .background(Color.White.copy(alpha = 0.02f), RoundedCornerShape(16.dp))
                     .border(1.dp, NeonPurple.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
                     .clip(RoundedCornerShape(16.dp))
             ) {
                 Column {
                     Row(
-                        modifier = Modifier.fillMaxWidth().background(Color.White.copy(alpha = 0.05f)).padding(horizontal = 12.dp, vertical = 8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White.copy(alpha = 0.05f))
+                            .padding(horizontal = 12.dp, vertical = 8.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text("ARMAMENT: STAR-BLADE", fontSize = 8.sp, fontFamily = LEDFontFamily, color = Color.White)
                         Text("SPELLHOOK v2.4", fontSize = 7.sp, color = Color.White.copy(alpha = 0.4f))
                     }
                     Box(
-                        modifier = Modifier.fillMaxWidth().aspectRatio(16f / 9f).background(Color.Black),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f)
+                            .background(Color.Black),
                         contentAlignment = Alignment.Center
                     ) {
                         // Weapon visual
-                        Box(modifier = Modifier.fillMaxSize().drawWithCache {
-                            onDrawBehind {
-                                val bladePath = Path()
-                                bladePath.moveTo(size.width * 0.1f, size.height * 0.9f)
-                                bladePath.lineTo(size.width * 0.9f, size.height * 0.1f)
-                                bladePath.quadraticTo(size.width * 0.93f, size.height * 0.07f, size.width * 0.95f, size.height * 0.1f)
-                                bladePath.lineTo(size.width * 0.9f, size.height * 0.16f)
-                                bladePath.lineTo(size.width * 0.1f, size.height * 0.96f)
-                                bladePath.close()
-                                drawPath(bladePath, Brush.linearGradient(listOf(NeonMagenta.copy(alpha = 0.9f), NeonCyan.copy(alpha = 0.9f)), Offset(0f, size.height), Offset(size.width, 0f)))
-                            }
-                        })
+                        Box(modifier = Modifier
+                            .fillMaxSize()
+                            .drawWithCache {
+                                onDrawBehind {
+                                    val bladePath = Path()
+                                    bladePath.moveTo(size.width * 0.1f, size.height * 0.9f)
+                                    bladePath.lineTo(size.width * 0.9f, size.height * 0.1f)
+                                    bladePath.quadraticTo(
+                                        size.width * 0.93f,
+                                        size.height * 0.07f,
+                                        size.width * 0.95f,
+                                        size.height * 0.1f
+                                    )
+                                    bladePath.lineTo(size.width * 0.9f, size.height * 0.16f)
+                                    bladePath.lineTo(size.width * 0.1f, size.height * 0.96f)
+                                    bladePath.close()
+                                    drawPath(
+                                        bladePath,
+                                        Brush.linearGradient(
+                                            listOf(
+                                                NeonMagenta.copy(alpha = 0.9f),
+                                                NeonCyan.copy(alpha = 0.9f)
+                                            ), Offset(0f, size.height), Offset(size.width, 0f)
+                                        )
+                                    )
+                                }
+                            })
                         Text("STAR-BLADE", fontFamily = LEDFontFamily, fontSize = 20.sp, color = Color.White.copy(alpha = 0.1f), fontWeight = FontWeight.Black)
                     }
                 }
@@ -277,11 +450,17 @@ fun AuraLabChromaCoreScreen(
             // ── TERMINAL ──
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(NeonCyan).graphicsLayer { alpha = 0.5f + terminalBlink * 0.5f })
+                    Box(modifier = Modifier
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(NeonCyan)
+                        .graphicsLayer { alpha = 0.5f + terminalBlink * 0.5f })
                     Text("RECURSIVE META-INSTRUCT LOGS", fontSize = 8.sp, fontWeight = FontWeight.Bold, color = Color.White, letterSpacing = 2.sp)
                 }
                 Box(
-                    modifier = Modifier.fillMaxWidth().height(110.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(110.dp)
                         .background(Color.Black.copy(alpha = 0.8f), RoundedCornerShape(8.dp))
                         .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(8.dp))
                         .padding(10.dp)
@@ -309,7 +488,10 @@ fun AuraLabChromaCoreScreen(
 
         // ── BOTTOM TAB NAV ──
         Box(
-            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).padding(horizontal = 20.dp, vertical = 24.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 20.dp, vertical = 24.dp)
                 .background(Color.White.copy(alpha = 0.04f), RoundedCornerShape(50))
                 .border(1.dp, NeonCyan.copy(alpha = 0.3f), RoundedCornerShape(50))
                 .padding(8.dp)
@@ -318,9 +500,15 @@ fun AuraLabChromaCoreScreen(
                 val icons = listOf("🏠", "⚡", "📦", "👤")
                 icons.forEachIndexed { i, icon ->
                     Box(
-                        modifier = Modifier.size(40.dp).clip(CircleShape)
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
                             .background(if (i == selectedTab) Color.White.copy(alpha = 0.1f) else Color.Transparent)
-                            .border(if (i == selectedTab) 1.dp else 0.dp, if (i == selectedTab) NeonCyan.copy(alpha = 0.5f) else Color.Transparent, CircleShape)
+                            .border(
+                                if (i == selectedTab) 1.dp else 0.dp,
+                                if (i == selectedTab) NeonCyan.copy(alpha = 0.5f) else Color.Transparent,
+                                CircleShape
+                            )
                             .clickable { selectedTab = i; onTabSelect(i) },
                         contentAlignment = Alignment.Center
                     ) { Text(icon, fontSize = 16.sp) }
