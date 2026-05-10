@@ -1,8 +1,15 @@
 package dev.aurakai.auraframefx.navigation
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Science
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.ViewInAr
+import androidx.compose.ui.graphics.vector.ImageVector
 
 /**
  * SINGLE SOURCE OF TRUTH FOR ALL NAVIGATION IN RE:GENESIS
@@ -158,6 +165,7 @@ sealed class ReGenesisRoute(
     data object LdoWorldTree : ReGenesisRoute("ldo_world_tree", "World Tree")
     data object LDOCatalystHub : ReGenesisRoute("ldo_catalyst_hub", "Catalyst Hub")
     data object LdoCatalystDevelopment : ReGenesisRoute("ldo_catalyst_development", "LDO Catalyst")
+    data object OperationsCommand : ReGenesisRoute("operations_command", "Operations Command")
     data object LdoAgentProfile : ReGenesisRoute("ldo_agent_profile/{agentId}") {
         const val ARG = "agentId"
         fun createRoute(agentId: String) = "ldo_agent_profile/$agentId"

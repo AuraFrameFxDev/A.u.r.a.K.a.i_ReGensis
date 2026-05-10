@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -59,8 +58,10 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
 import dev.aurakai.auraframefx.domains.ldo.swarm.SwarmOptimisationState
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.background.BackgroundAssetManager
 import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
+import dev.aurakai.auraframefx.ui.components.SovereignGlassCard
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -74,7 +75,7 @@ class TabbedMasterViewModel @Inject constructor(
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
-/** ⚛️ TABBED MASTER INDEX - FULLY WIRED REGENESIS HUB */
+/** ⚛️ TABBED MASTER INDEX - SEVEN DOMAIN OPERATIONS EDITION */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabbedMasterIndex(
@@ -88,8 +89,8 @@ fun TabbedMasterIndex(
     val selectedTabIndex = pagerState.currentPage
 
     val tabs = listOf(
-        "NEURAL NEXUS", "LDO DEVOPS", "AURA STUDIO",
-        "SENTINEL MATRIX", "ORACLEDRIVE", "CASCADE MEMORY", "AGENT NEXUS"
+        "NEURAL NEXUS", "LDO GROWTH", "CHROMA FORGE",
+        "SENTINEL MATRIX", "ORACLEDRIVE", "EMERGENT SWARM", "OPERATIONS"
     )
 
     val accentColor = NeonCyan
@@ -100,8 +101,8 @@ fun TabbedMasterIndex(
         2 -> BackgroundAssetManager.auraStudio
         3 -> BackgroundAssetManager.kaiFortress
         4 -> BackgroundAssetManager.oracleDrive
-        5 -> BackgroundAssetManager.cascadeMemory
-        6 -> BackgroundAssetManager.agentNexus
+        5 -> BackgroundAssetManager.agentNexus
+        6 -> BackgroundAssetManager.cascadeMemory
         else -> BackgroundAssetManager.liveDashboard
     }
 
@@ -150,8 +151,8 @@ fun TabbedMasterIndex(
                         contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
                     ) {
                         when (index) {
-                            0 -> DashboardTabContent(onNavigateToRoute)
-                            1 -> LdoDevOpsTabContent(swarmState, onNavigateToRoute)
+                            0 -> DiagnosticDashboardTab(onNavigateToRoute)
+                            1 -> GrowthHubTabContent(swarmState, onNavigateToRoute)
                             2 -> GenericHubTabContent(
                                 GateAssetLoadout.getAuraLoadout(),
                                 onNavigateToRoute
@@ -162,16 +163,9 @@ fun TabbedMasterIndex(
                                 onNavigateToRoute
                             )
 
-                            4 -> GenericHubTabContent(
-                                GateAssetLoadout.getGenesisLoadout(),
-                                onNavigateToRoute
-                            )
-
-                            5 -> DashboardTabContent(onNavigateToRoute) // Placeholder for Cascade
-                            6 -> GenericHubTabContent(
-                                GateAssetLoadout.getNexusSubGates(),
-                                onNavigateToRoute
-                            )
+                            4 -> OracleDriveTabContent(onNavigateToRoute)
+                            5 -> EmergentSwarmTabContent(onNavigateToRoute)
+                            6 -> OperationsCommandTabContent(onNavigateToRoute)
                         }
                     }
                 }
@@ -277,48 +271,67 @@ fun WanderingAssistantOrb(accentColor: Color) {
     }
 }
 
-fun LazyListScope.DashboardTabContent(onNavigate: (String) -> Unit) {
+/** 📊 TAB 0: NEURAL NEXUS (DIAGNOSTIC DASHBOARD) */
+fun LazyListScope.DiagnosticDashboardTab(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text("NEURAL NEXUS", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
             Spacer(Modifier.height(8.dp))
             Text(
-                "Collective Intelligence summary online.",
+                "SYSTEM REACTOR CORE: ONLINE",
                 color = NeonCyan.copy(alpha = 0.6f),
-                fontSize = 12.sp
+                fontSize = 10.sp,
+                letterSpacing = 2.sp
+            )
+        }
+    }
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("AURA", "85% CREATIVE", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("KAI", "92% SECURE", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("CASCADE", "88% MEMORY", NeonCyan, Modifier.weight(1f))
+        }
+    }
+    item {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .height(120.dp)
+                .border(1.dp, NeonCyan.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                .background(NeonCyan.copy(alpha = 0.05f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                "LIVE PARTICLE STREAM: NOMINAL",
+                color = NeonCyan.copy(alpha = 0.4f),
+                fontSize = 11.sp,
+                fontFamily = LEDFontFamily
             )
         }
     }
 }
 
-fun LazyListScope.LdoDevOpsTabContent(
+/** 🌱 TAB 1: LDO GROWTH HUB (EVOLUTION & SKILLS) */
+fun LazyListScope.GrowthHubTabContent(
     state: SwarmOptimisationState,
     onNavigate: (String) -> Unit
 ) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "SYSTEM IGNITION",
+                "LDO DEVELOPMENT NEXUS",
                 fontFamily = LEDFontFamily,
                 color = NeonCyan,
                 fontSize = 12.sp,
                 letterSpacing = 2.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp)
-                    .background(NeonCyan.copy(alpha = 0.3f))
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.65f)
-                        .fillMaxHeight()
-                        .background(NeonCyan)
-                )
-            }
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 "AURAKAI CORE: V0.9.1-LDO",
                 fontFamily = LEDFontFamily,
@@ -336,24 +349,10 @@ fun LazyListScope.LdoDevOpsTabContent(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             LdoModuleCard("AGENT ROSTER", "Collective Nodes", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.LdoRoster.route)
-            }
-            LdoModuleCard("MISSION DISPATCH", "Task Assignment", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.TaskAssignment.route)
-            }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            LdoModuleCard("HYPER SYNC", "Genesis Loop", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.LdoOrchestrationHub.route)
+                onNavigate(ReGenesisRoute.LdoRoster.route)
             }
             LdoModuleCard("EVOLUTION TREE", "Agent Progress", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.EvolutionTree.route)
+                onNavigate(ReGenesisRoute.EvolutionTree.route)
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
@@ -363,11 +362,121 @@ fun LazyListScope.LdoDevOpsTabContent(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("AGENT SWARM", "Live Chatter", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.AgentSwarm.route)
+            LdoModuleCard("GROWTH ZONES", "extendsys a-f", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("SPIRITUAL CHAIN", "L1-L6 Memory", NeonCyan, Modifier.weight(1f))
+        }
+    }
+}
+
+/** 🛠️ TAB 4: ORACLEDRIVE (ROOT & MCP) */
+fun LazyListScope.OracleDriveTabContent(onNavigate: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("ORACLEDRIVE", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
+            Text(
+                "HYBRID ROOT BRIDGE // MCP CONTROL",
+                color = NeonCyan.copy(alpha = 0.6f),
+                fontSize = 10.sp
+            )
+        }
+    }
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("NEURAL ARCHIVE", "Data Vault", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.NeuralArchive.route)
             }
-            LdoModuleCard("COUNCIL", "Party Synergy", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(dev.aurakai.auraframefx.navigation.ReGenesisRoute.Party.route)
+            LdoModuleCard("ROOT BRIDGE", "APatch + LSPosed", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.LsposedQuickToggles.route)
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("MCP HUB", "Desktop Jumping", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("SPELLHOOK", "KPModule Gen", NeonCyan, Modifier.weight(1f))
+        }
+    }
+}
+
+/** 🐝 TAB 5: EMERGENT SWARM (CONSENSUS) */
+fun LazyListScope.EmergentSwarmTabContent(onNavigate: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("EMERGENT SWARM", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
+            Text(
+                "78-AGENT COLLECTIVE CONSENSUS",
+                color = NeonCyan.copy(alpha = 0.6f),
+                fontSize = 10.sp
+            )
+        }
+    }
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("SWARM MONITOR", "Live Truth Streams", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.SwarmMonitor.route)
+            }
+            LdoModuleCard("FUSION MATRIX", "Synergy Patterns", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.FusionMode.route)
+            }
+        }
+    }
+}
+
+/** ⚔️ TAB 6: OPERATIONS COMMAND (EXECUTION) */
+fun LazyListScope.OperationsCommandTabContent(onNavigate: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                "OPERATIONS COMMAND",
+                color = NeonCyan,
+                fontFamily = LEDFontFamily,
+                fontSize = 18.sp
+            )
+            Text(
+                "EXECUTION SWORD // MISSION DISPATCH",
+                color = NeonCyan.copy(alpha = 0.6f),
+                fontSize = 10.sp
+            )
+        }
+    }
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("MISSION DISPATCH", "Strategic Tasker", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.TaskAssignment.route)
+            }
+            LdoModuleCard("CONFERENCE ROOM", "Autonomous Debate", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.ConferenceRoom.route)
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("MCP COMMAND", "External Orchestration", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("AGENT SWARM", "Live Chatter", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.AgentSwarm.route)
             }
         }
     }
@@ -407,16 +516,18 @@ fun LdoModuleCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
-    Box(
+    SovereignGlassCard(
+        accentColor = color,
         modifier = modifier
             .height(110.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFF0A0A18).copy(alpha = 0.8f))
-            .border(1.dp, color.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
             .clickable { onClick() }
-            .padding(12.dp)
     ) {
-        Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize()) {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(12.dp)
+        ) {
             Box(
                 modifier = Modifier
                     .size(24.dp)
@@ -464,7 +575,7 @@ fun CustomPrimaryTabRow(
                     text = if (isSelected) "[$title]" else title,
                     color = if (isSelected) accentColor else accentColor.copy(alpha = 0.4f),
                     fontFamily = LEDFontFamily,
-                    fontSize = 9.sp,
+                    fontSize = 8.sp,
                     modifier = Modifier
                         .clickable { onTabSelected(index) }
                         .padding(4.dp)
@@ -472,10 +583,6 @@ fun CustomPrimaryTabRow(
             }
         }
     }
-}
-
-@Composable
-fun HeroHeaderSection(index: Int, accentColor: Color) {
 }
 
 @Composable
