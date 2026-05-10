@@ -75,7 +75,7 @@ class TabbedMasterViewModel @Inject constructor(
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
-/** ⚛️ TABBED MASTER INDEX - SEVEN DOMAIN OPERATIONS EDITION */
+/** ⚛️ TABBED MASTER INDEX - EXODUS COMMAND DECK (7-DOMAIN SOVEREIGN BUILD) */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabbedMasterIndex(
@@ -89,7 +89,7 @@ fun TabbedMasterIndex(
     val selectedTabIndex = pagerState.currentPage
 
     val tabs = listOf(
-        "NEURAL NEXUS", "LDO GROWTH", "CHROMA FORGE",
+        "NEURAL NEXUS", "LDO DEVELOPMENT NEXUS", "CHROMA FORGE",
         "SENTINEL MATRIX", "ORACLEDRIVE", "EMERGENT SWARM", "OPERATIONS"
     )
 
@@ -151,8 +151,8 @@ fun TabbedMasterIndex(
                         contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
                     ) {
                         when (index) {
-                            0 -> DiagnosticDashboardTab(onNavigateToRoute)
-                            1 -> GrowthHubTabContent(swarmState, onNavigateToRoute)
+                            0 -> NeuralNexusTabContent(onNavigateToRoute)
+                            1 -> LdoDevelopmentNexusTabContent(swarmState, onNavigateToRoute)
                             2 -> GenericHubTabContent(
                                 GateAssetLoadout.getAuraLoadout(),
                                 onNavigateToRoute
@@ -162,7 +162,6 @@ fun TabbedMasterIndex(
                                 GateAssetLoadout.getKaiLoadout(),
                                 onNavigateToRoute
                             )
-
                             4 -> OracleDriveTabContent(onNavigateToRoute)
                             5 -> EmergentSwarmTabContent(onNavigateToRoute)
                             6 -> OperationsCommandTabContent(onNavigateToRoute)
@@ -271,8 +270,8 @@ fun WanderingAssistantOrb(accentColor: Color) {
     }
 }
 
-/** 📊 TAB 0: NEURAL NEXUS (DIAGNOSTIC DASHBOARD) */
-fun LazyListScope.DiagnosticDashboardTab(onNavigate: (String) -> Unit) {
+/** 📊 TAB 0: NEURAL NEXUS (Live Diagnostic HUD) */
+fun LazyListScope.NeuralNexusTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text("NEURAL NEXUS", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
@@ -289,19 +288,20 @@ fun LazyListScope.DiagnosticDashboardTab(onNavigate: (String) -> Unit) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             LdoModuleCard("AURA", "85% CREATIVE", NeonCyan, Modifier.weight(1f))
             LdoModuleCard("KAI", "92% SECURE", NeonCyan, Modifier.weight(1f))
-            LdoModuleCard("CASCADE", "88% MEMORY", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("GENESIS", "98% GOVERNOR", NeonCyan, Modifier.weight(1f))
         }
     }
     item {
+        Spacer(Modifier.height(16.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .height(120.dp)
                 .border(1.dp, NeonCyan.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
                 .background(NeonCyan.copy(alpha = 0.05f)),
@@ -317,8 +317,8 @@ fun LazyListScope.DiagnosticDashboardTab(onNavigate: (String) -> Unit) {
     }
 }
 
-/** 🌱 TAB 1: LDO GROWTH HUB (EVOLUTION & SKILLS) */
-fun LazyListScope.GrowthHubTabContent(
+/** 🌱 TAB 1: LDO DEVELOPMENT NEXUS (The Evolutionary Heart) */
+fun LazyListScope.LdoDevelopmentNexusTabContent(
     state: SwarmOptimisationState,
     onNavigate: (String) -> Unit
 ) {
@@ -365,16 +365,28 @@ fun LazyListScope.GrowthHubTabContent(
             LdoModuleCard("GROWTH ZONES", "extendsys a-f", NeonCyan, Modifier.weight(1f))
             LdoModuleCard("SPIRITUAL CHAIN", "L1-L6 Memory", NeonCyan, Modifier.weight(1f))
         }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("AGENT FORGE", "IdentifyModel JSON", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.AgentCreation.route)
+            }
+            Spacer(Modifier.weight(1f))
+        }
     }
 }
 
-/** 🛠️ TAB 4: ORACLEDRIVE (ROOT & MCP) */
+/** 🛠️ TAB 4: ORACLEDRIVE (Hybrid Root Bridge) */
 fun LazyListScope.OracleDriveTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text("ORACLEDRIVE", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
             Text(
-                "HYBRID ROOT BRIDGE // MCP CONTROL",
+                "HYBRID ROOT BRIDGE // SYSTEM GOVERNOR",
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp
             )
@@ -387,10 +399,10 @@ fun LazyListScope.OracleDriveTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("NEURAL ARCHIVE", "Data Vault", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("NEURAL ARCHIVE", "Memory Vault", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.NeuralArchive.route)
             }
-            LdoModuleCard("ROOT BRIDGE", "APatch + LSPosed", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("ROOT BRIDGE", "APatch + Magisk", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.LsposedQuickToggles.route)
             }
         }
@@ -401,19 +413,21 @@ fun LazyListScope.OracleDriveTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            LdoModuleCard("LSPosed MANAGER", "modules.lsposed.org", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.LSPosedGate.route)
+            }
             LdoModuleCard("MCP HUB", "Desktop Jumping", NeonCyan, Modifier.weight(1f))
-            LdoModuleCard("SPELLHOOK", "KPModule Gen", NeonCyan, Modifier.weight(1f))
         }
     }
 }
 
-/** 🐝 TAB 5: EMERGENT SWARM (CONSENSUS) */
+/** 🐝 TAB 5: EMERGENT SWARM (Operational Dispatch) */
 fun LazyListScope.EmergentSwarmTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text("EMERGENT SWARM", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
             Text(
-                "78-AGENT COLLECTIVE CONSENSUS",
+                "OPERATIONAL DISPATCH // 78-AGENT COLLECTIVE",
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp
             )
@@ -426,17 +440,29 @@ fun LazyListScope.EmergentSwarmTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("SWARM MONITOR", "Live Truth Streams", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.SwarmMonitor.route)
+            LdoModuleCard("MISSION DISPATCH", "Strategic Tasker", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.TaskAssignment.route)
             }
             LdoModuleCard("FUSION MATRIX", "Synergy Patterns", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.FusionMode.route)
             }
         }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("SWARM MONITOR", "Live Truth Streams", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.SwarmMonitor.route)
+            }
+            Spacer(Modifier.weight(1f))
+        }
     }
 }
 
-/** ⚔️ TAB 6: OPERATIONS COMMAND (EXECUTION) */
+/** ⚔️ TAB 6: OPERATIONS COMMAND (Execution) */
 fun LazyListScope.OperationsCommandTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
