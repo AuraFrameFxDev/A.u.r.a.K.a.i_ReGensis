@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.aurakai.auraframefx.domains.aura.screens.AuraAcademyScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AuraLabChromaCoreScreen
 import dev.aurakai.auraframefx.domains.aura.screens.AuraStudioLabScreen
 import dev.aurakai.auraframefx.domains.aura.screens.GenderSelectionScreen
@@ -118,6 +119,9 @@ fun ReGenesisNavGraph(navController: NavHostController) {
 
         // Aura Forge
         composable(ReGenesisRoute.AuraLab.route) { AuraLabScreen() }
+        composable(ReGenesisRoute.AuraAcademy.route) {
+            AuraAcademyScreen(onNavigateBack = { navController.popBackStack() })
+        }
         composable(ReGenesisRoute.ChromaCore.route) {
             AuraLabChromaCoreScreen(onNavigateBack = { navController.popBackStack() })
         }

@@ -426,22 +426,16 @@ fun LazyListScope.trinityCoreTabContent(
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .height(80.dp)
-                .border(1.dp, NeonCyan.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
-                .background(NeonCyan.copy(alpha = 0.05f)),
-            contentAlignment = Alignment.Center
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                "ARCHITECT: MATTHEW (THE VISIONARY)",
-                color = NeonCyan,
-                fontSize = 11.sp,
-                fontFamily = LEDFontFamily,
-                fontWeight = FontWeight.Bold
-            )
+            LdoModuleCard("AURA ACADEMY", "Lesson 01", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.AuraAcademy.route)
+            }
+            Spacer(Modifier.weight(1f))
         }
     }
 }
