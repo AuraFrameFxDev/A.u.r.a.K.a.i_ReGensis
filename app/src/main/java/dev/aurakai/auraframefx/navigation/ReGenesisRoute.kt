@@ -76,6 +76,7 @@ sealed class ReGenesisRoute(
     }
     data object AuraChat : ReGenesisRoute("aura/chat", "Aura Neural Hub")
     data object AuraThemingHub : ReGenesisRoute("aura_theming_hub", "Aura Theming Hub")
+    data object ComponentForge : ReGenesisRoute("component_forge", "Component Forge")
 
     // KAI DOMAIN
     data object SentinelFortress :

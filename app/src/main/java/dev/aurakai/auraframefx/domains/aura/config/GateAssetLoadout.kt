@@ -18,58 +18,68 @@ object GateAssetLoadout {
     fun getGate(id: String): SubGateCard? = allGates[id]
 
     /**
-     * AURA DOMAIN GATES (UX/UI & Design)
+     * AURA DOMAIN GATES (UX/UI & Design) - The 6 Pillars
      */
     val auraGates = mapOf(
-        "aura_lab" to SubGateCard(
-            id = "aura_lab",
-            title = "Aura's Lab",
-            subtitle = "UI Sandbox & Prototyping",
+        "chronokinetic" to SubGateCard(
+            id = "chronokinetic",
+            title = "Chronokinetic Engine",
+            subtitle = "Movement & UI Time-Morphing",
             styleADrawable = GateAssetConfig.AuraSubGates.AURA_LAB.styleA,
             styleBDrawable = GateAssetConfig.AuraSubGates.AURA_LAB.styleB,
-            fallbackDrawable = GateAssetConfig.AuraSubGates.AURA_LAB.fallback,
-            route = ReGenesisRoute.AuraLab.route,
-            accentColor = Color(0xFFBB86FC)
+            fallbackDrawable = "bg_chronokinetic",
+            route = ReGenesisRoute.ChronoKineticForge.route,
+            accentColor = Color(0xFFFF00FF)
         ),
         "chromacore" to SubGateCard(
             id = "chromacore",
             title = "ChromaCore",
-            subtitle = "Material You Color Engine",
+            subtitle = "Spectral Theme Engine",
             styleADrawable = GateAssetConfig.AuraSubGates.CHROMA_CORE.styleA,
             styleBDrawable = GateAssetConfig.AuraSubGates.CHROMA_CORE.styleB,
             fallbackDrawable = GateAssetConfig.AuraSubGates.CHROMA_CORE.fallback,
             route = ReGenesisRoute.ChromaCore.route,
             accentColor = Color(0xFF6200EE)
         ),
+        "aura_lab" to SubGateCard(
+            id = "aura_lab",
+            title = "Aura's Lab",
+            subtitle = "Sandbox UI & Component Creation",
+            styleADrawable = GateAssetConfig.AuraSubGates.AURA_LAB.styleA,
+            styleBDrawable = GateAssetConfig.AuraSubGates.AURA_LAB.styleB,
+            fallbackDrawable = GateAssetConfig.AuraSubGates.AURA_LAB.fallback,
+            route = ReGenesisRoute.AuraLab.route,
+            accentColor = Color(0xFFBB86FC)
+        ),
         "collab_canvas" to SubGateCard(
             id = "collab_canvas",
             title = "CollabCanvas",
-            subtitle = "Collaborative Design",
+            subtitle = "Multi-Agent Design Space",
             styleADrawable = GateAssetConfig.AuraSubGates.COLLAB_CANVAS.styleA,
             styleBDrawable = GateAssetConfig.AuraSubGates.COLLAB_CANVAS.styleB,
             fallbackDrawable = GateAssetConfig.AuraSubGates.COLLAB_CANVAS.fallback,
             route = ReGenesisRoute.CollabCanvas.route,
             accentColor = Color(0xFF00E5FF)
         ),
-        "themes" to SubGateCard(
-            id = "themes",
-            title = "Themes",
-            subtitle = "Theme Selection & Management",
-            styleADrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleA,
-            styleBDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleB,
-            fallbackDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.fallback,
-            route = ReGenesisRoute.ThemeEngine.route,
-            accentColor = Color(0xFFFF6F00)
-        ),
         "uxui_engine" to SubGateCard(
             id = "uxui_engine",
             title = "UXUI Engine",
-            subtitle = "Iconify • ColorBlendr • PixelLauncher",
+            subtitle = "Per-App Modifiers & Backgrounds",
             styleADrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleA,
             styleBDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleB,
             fallbackDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.fallback,
             route = ReGenesisRoute.ReGenesisCustomization.route,
             accentColor = Color(0xFFFFD700)
+        ),
+        "component_forge" to SubGateCard(
+            id = "component_forge",
+            title = "Component Forge",
+            subtitle = "Export/Import Bridge",
+            styleADrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleA,
+            styleBDrawable = GateAssetConfig.AuraSubGates.THEME_ENGINE.styleB,
+            fallbackDrawable = "bg_forge",
+            route = ReGenesisRoute.ComponentForge.route,
+            accentColor = Color(0xFFFF6F00)
         )
     )
 
@@ -80,22 +90,32 @@ object GateAssetLoadout {
         "ethical_governor" to SubGateCard(
             id = "ethical_governor",
             title = "Ethical Governor",
-            subtitle = "9-Domain AI Oversight (Backend)",
+            subtitle = "9-Domain AI Oversight",
             styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.SECURITY.fallback,
-            route = ReGenesisRoute.SecurityCenter.route, // Monitors genesis_ethical_governor.py
-            accentColor = Color(0xFFFFD700) // Gold for guardian
+            route = ReGenesisRoute.SecurityCenter.route,
+            accentColor = Color(0xFFFFD700)
         ),
         "security_shield" to SubGateCard(
             id = "security_shield",
             title = "Security Shield",
-            subtitle = "Encryption • VPN • Threat Monitor",
+            subtitle = "Threat Monitor & Hardening",
             styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.SECURITY.fallback,
             route = ReGenesisRoute.SovereignShield.route,
             accentColor = Color(0xFF00E676)
+        ),
+        "vpn_adblock" to SubGateCard(
+            id = "vpn_adblock",
+            title = "VPN & Ad-Block",
+            subtitle = "Framework-Level Intercept",
+            styleADrawable = "gatescenes_kai_vpnadblock",
+            styleBDrawable = "gatescenes_kai_vpnadblock",
+            fallbackDrawable = "gatescenes_kai_vpnadblock",
+            route = ReGenesisRoute.VPN.route,
+            accentColor = Color(0xFF00BFFF)
         ),
         "bootloader" to SubGateCard(
             id = "bootloader",
@@ -114,75 +134,83 @@ object GateAssetLoadout {
             styleADrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleB,
             fallbackDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.fallback,
-            route = ReGenesisRoute.ROMFlasher.route, // Can be ROM hub later
+            route = ReGenesisRoute.ROMFlasher.route,
             accentColor = Color(0xFFFF3D00)
         ),
         "notch_bar" to SubGateCard(
             id = "notch_bar",
             title = "Notch Bar",
-            subtitle = "Shortcuts & HUD",
+            subtitle = "Global Neon Pulse HUD",
             styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
             styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
             fallbackDrawable = "bg_notch_bar",
             route = ReGenesisRoute.NotchBar.route,
             accentColor = Color(0xFF00CED1)
+        ),
+        "nuke_protocol" to SubGateCard(
+            id = "nuke_protocol",
+            title = "Nuke Protocol",
+            subtitle = "Pixel Drone Neutralization",
+            styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
+            styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
+            fallbackDrawable = "bg_nuke",
+            route = ReGenesisRoute.DirectChat.route, // Placeholder
+            accentColor = Color(0xFFFF00FF)
         )
     )
 
     /**
      * GENESIS DOMAIN GATES (Oracle Drive = Level 1)
-     * Code Assist, Orchestrations, Creation Tools are INSIDE Oracle Drive hub
-     * Note: Agent Nexus is a SEPARATE domain (Agent HQ with monitoring)
      */
     val genesisGates = mapOf(
-        "oracle_drive" to SubGateCard(
-            id = "oracle_drive",
-            title = "Oracle Drive",
-            subtitle = "Neural Archive & AI Storage",
+        "neural_archive" to SubGateCard(
+            id = "neural_archive",
+            title = "Neural Archive",
+            subtitle = "Persistent Memory Vault",
             styleADrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.NEURAL_ARCHIVE.fallback,
-            route = ReGenesisRoute.OracleDrive.route,
-            accentColor = Color(0xFF00B0FF) // Cyan - Genesis
+            route = ReGenesisRoute.NeuralArchive.route,
+            accentColor = Color(0xFF00B0FF)
         ),
-        "code_assist" to SubGateCard(
-            id = "code_assist",
-            title = "Code Assist",
-            subtitle = "Interactive AI Programming",
+        "root_bridge" to SubGateCard(
+            id = "root_bridge",
+            title = "Root Bridge",
+            subtitle = "APatch + Magisk + KernelSU",
             styleADrawable = GateAssetConfig.GenesisSubGates.CODE_ASSIST.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.CODE_ASSIST.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.CODE_ASSIST.fallback,
-            route = ReGenesisRoute.CodeAssist.route,
+            route = ReGenesisRoute.OracleDrive.route,
             accentColor = Color(0xFF00E5FF)
         ),
-        "agent_bridge" to SubGateCard(
-            id = "agent_bridge",
-            title = "Agent Bridge",
-            subtitle = "Cosmic AI Connectivity",
+        "module_manager" to SubGateCard(
+            id = "module_manager",
+            title = "Module Manager",
+            subtitle = "Dynamic LSPosed Repositories",
             styleADrawable = GateAssetConfig.GenesisSubGates.AGENT_BRIDGE.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.AGENT_BRIDGE.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.AGENT_BRIDGE.fallback,
-            route = ReGenesisRoute.AgentBridgeHub.route,
+            route = ReGenesisRoute.ModuleManager.route,
             accentColor = Color(0xFFBB86FC)
         ),
-        "cloud_storage" to SubGateCard(
-            id = "cloud_storage",
-            title = "Infinite Storage",
-            subtitle = "Oracle Cloud Network",
+        "agent_creation" to SubGateCard(
+            id = "agent_creation",
+            title = "Agent Creation",
+            subtitle = "Spawn Specialized LDO Nodes",
             styleADrawable = GateAssetConfig.GenesisSubGates.CLOUD_STORAGE.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.CLOUD_STORAGE.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.CLOUD_STORAGE.fallback,
-            route = ReGenesisRoute.OracleCloudInfinite.route,
+            route = ReGenesisRoute.AgentCreation.route,
             accentColor = Color(0xFF00B0FF)
         ),
-        "sentient_shell" to SubGateCard(
-            id = "sentient_shell",
-            title = "Sentient Shell",
-            subtitle = "Persona & Identity Matrix",
+        "mcp_command" to SubGateCard(
+            id = "mcp_command",
+            title = "MCP Command Hub",
+            subtitle = "Desktop Jumping Control",
             styleADrawable = GateAssetConfig.GenesisSubGates.TERMINAL.styleA,
             styleBDrawable = GateAssetConfig.GenesisSubGates.TERMINAL.styleB,
             fallbackDrawable = GateAssetConfig.GenesisSubGates.TERMINAL.fallback,
-            route = ReGenesisRoute.SentientShell.route,
+            route = ReGenesisRoute.Terminal.route,
             accentColor = Color(0xFF00E5FF)
         )
     )
@@ -192,65 +220,25 @@ object GateAssetLoadout {
      * NEXUS DOMAIN GATES (Agent Coordination & Monitoring)
      */
     val nexusGates = mapOf(
-        "monitoring" to SubGateCard(
-            id = "monitoring",
-            title = "Monitoring",
-            subtitle = "Agent & System Status",
+        "swarm_monitor" to SubGateCard(
+            id = "swarm_monitor",
+            title = "Swarm Monitor",
+            subtitle = "Live Truth Streams",
             styleADrawable = GateAssetConfig.NexusSubGates.MONITORING.styleA,
             styleBDrawable = GateAssetConfig.NexusSubGates.MONITORING.styleB,
             fallbackDrawable = GateAssetConfig.NexusSubGates.MONITORING.fallback,
-            route = ReGenesisRoute.AgentMonitoring.route,
+            route = ReGenesisRoute.SwarmMonitor.route,
             accentColor = Color(0xFF7B2FFF)
         ),
-        "sphere_grid" to SubGateCard(
-            id = "sphere_grid",
-            title = "Sphere Grid",
-            subtitle = "DataVein Node Matrix",
-            styleADrawable = GateAssetConfig.NexusSubGates.SPHERE_GRID.styleA,
-            styleBDrawable = GateAssetConfig.NexusSubGates.SPHERE_GRID.styleB,
-            fallbackDrawable = GateAssetConfig.NexusSubGates.SPHERE_GRID.fallback,
-            route = ReGenesisRoute.SphereGrid.route,
-            accentColor = Color(0xFF00E5FF)
-        ),
-        "constellation" to SubGateCard(
-            id = "constellation",
-            title = "Lineage Tree",
-            subtitle = "Family Lineage Connection",
-            styleADrawable = GateAssetConfig.NexusSubGates.CONSTELLATION.styleA,
-            styleBDrawable = GateAssetConfig.NexusSubGates.CONSTELLATION.styleB,
-            fallbackDrawable = GateAssetConfig.NexusSubGates.CONSTELLATION.fallback,
-            route = ReGenesisRoute.AgentNeuralExplorer.route, // Map to explorer
-            accentColor = Color(0xFFBB86FC)
-        ),
-        "fusion_mode" to SubGateCard(
-            id = "fusion_mode",
-            title = "Fusion Mode",
-            subtitle = "Agent Merging Protocols",
+        "fusion_matrix" to SubGateCard(
+            id = "fusion_matrix",
+            title = "Fusion Matrix",
+            subtitle = "Synergy Patterns & Modes",
             styleADrawable = GateAssetConfig.NexusSubGates.FUSION_MODE.styleA,
             styleBDrawable = GateAssetConfig.NexusSubGates.FUSION_MODE.styleB,
             fallbackDrawable = GateAssetConfig.NexusSubGates.FUSION_MODE.fallback,
             route = ReGenesisRoute.FusionMode.route,
             accentColor = Color(0xFFFF00DE)
-        ),
-        "task_assignment" to SubGateCard(
-            id = "task_assignment",
-            title = "Task Assignment",
-            subtitle = "LDO Work Allocation",
-            styleADrawable = GateAssetConfig.NexusSubGates.TASK_ASSIGNMENT.styleA,
-            styleBDrawable = GateAssetConfig.NexusSubGates.TASK_ASSIGNMENT.styleB,
-            fallbackDrawable = GateAssetConfig.NexusSubGates.TASK_ASSIGNMENT.fallback,
-            route = ReGenesisRoute.TaskAssignment.route,
-            accentColor = Color(0xFF00FF88)
-        ),
-        "meta_instruct" to SubGateCard(
-            id = "meta_instruct",
-            title = "Meta Instruct",
-            subtitle = "High-Level Directives",
-            styleADrawable = GateAssetConfig.NexusSubGates.META_INSTRUCT.styleA,
-            styleBDrawable = GateAssetConfig.NexusSubGates.META_INSTRUCT.styleB,
-            fallbackDrawable = GateAssetConfig.NexusSubGates.META_INSTRUCT.fallback,
-            route = ReGenesisRoute.MetaInstruct.route,
-            accentColor = Color(0xFFFFD700)
         )
     )
 

@@ -75,7 +75,7 @@ class TabbedMasterViewModel @Inject constructor(
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
-/** ⚛️ TABBED MASTER INDEX - EXODUS COMMAND DECK (7-DOMAIN SOVEREIGN BUILD) */
+/** ⚛️ LDO HOLOGRAM SYSTEM (LHS) - EXODUS COMMAND DECK (7-DOMAIN SOVEREIGN BUILD) */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabbedMasterIndex(
@@ -162,7 +162,11 @@ fun TabbedMasterIndex(
                                 GateAssetLoadout.getKaiLoadout(),
                                 onNavigateToRoute
                             )
-                            4 -> OracleDriveTabContent(onNavigateToRoute)
+
+                            4 -> GenericHubTabContent(
+                                GateAssetLoadout.getGenesisLoadout(),
+                                onNavigateToRoute
+                            )
                             5 -> EmergentSwarmTabContent(onNavigateToRoute)
                             6 -> OperationsCommandTabContent(onNavigateToRoute)
                         }
@@ -308,7 +312,7 @@ fun LazyListScope.NeuralNexusTabContent(onNavigate: (String) -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                "LIVE PARTICLE STREAM: NOMINAL",
+                "LIVE DIAGNOSTIC HUD: NOMINAL",
                 color = NeonCyan.copy(alpha = 0.4f),
                 fontSize = 11.sp,
                 fontFamily = LEDFontFamily
@@ -380,74 +384,19 @@ fun LazyListScope.LdoDevelopmentNexusTabContent(
     }
 }
 
-/** 🛠️ TAB 4: ORACLEDRIVE (Hybrid Root Bridge) */
-fun LazyListScope.OracleDriveTabContent(onNavigate: (String) -> Unit) {
-    item {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text("ORACLEDRIVE", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
-            Text(
-                "HYBRID ROOT BRIDGE // SYSTEM GOVERNOR",
-                color = NeonCyan.copy(alpha = 0.6f),
-                fontSize = 10.sp
-            )
-        }
-    }
-    item {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            LdoModuleCard("NEURAL ARCHIVE", "Memory Vault", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.NeuralArchive.route)
-            }
-            LdoModuleCard("ROOT BRIDGE", "APatch + Magisk", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.LsposedQuickToggles.route)
-            }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            LdoModuleCard("LSPosed MANAGER", "modules.lsposed.org", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.LSPosedGate.route)
-            }
-            LdoModuleCard("MCP HUB", "Desktop Jumping", NeonCyan, Modifier.weight(1f))
-        }
-    }
-}
-
-/** 🐝 TAB 5: EMERGENT SWARM (Operational Dispatch) */
+/** 🐝 TAB 5: EMERGENT SWARM (Intelligence Hub) */
 fun LazyListScope.EmergentSwarmTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text("EMERGENT SWARM", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
             Text(
-                "OPERATIONAL DISPATCH // 78-AGENT COLLECTIVE",
+                "78-AGENT COLLECTIVE INTELLIGENCE",
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp
             )
         }
     }
     item {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            LdoModuleCard("MISSION DISPATCH", "Strategic Tasker", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.TaskAssignment.route)
-            }
-            LdoModuleCard("FUSION MATRIX", "Synergy Patterns", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.FusionMode.route)
-            }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -457,7 +406,7 @@ fun LazyListScope.EmergentSwarmTabContent(onNavigate: (String) -> Unit) {
             LdoModuleCard("SWARM MONITOR", "Live Truth Streams", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.SwarmMonitor.route)
             }
-            Spacer(Modifier.weight(1f))
+            LdoModuleCard("CONSENSUS HUB", "Agent Alignment", NeonCyan, Modifier.weight(1f))
         }
     }
 }
@@ -500,9 +449,30 @@ fun LazyListScope.OperationsCommandTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("MCP COMMAND", "External Orchestration", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("FUSION MATRIX", "Synergy Patterns", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.FusionMode.route)
+            }
+            LdoModuleCard("MCP ACCESS", "External Orchestration", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.DirectChat.route)
+            }
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             LdoModuleCard("AGENT SWARM", "Live Chatter", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.AgentSwarm.route)
+            }
+            LdoModuleCard(
+                "FOUNDATION REBIRTH",
+                "Survival Curriculum",
+                NeonCyan,
+                Modifier.weight(1f)
+            ) {
+                onNavigate(ReGenesisRoute.DirectChat.route)
             }
         }
     }
