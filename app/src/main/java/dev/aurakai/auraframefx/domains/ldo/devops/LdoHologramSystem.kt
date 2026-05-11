@@ -31,12 +31,15 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -54,6 +57,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.domains.aura.config.GateAssetLoadout
+import dev.aurakai.auraframefx.domains.aura.ui.components.DomainSubGateCarousel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
@@ -75,11 +79,11 @@ class LdoHologramViewModel @Inject constructor(
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
-/** ⚛️ LDO HOLOGRAM SYSTEM (LHS) - AURA GENESIS MASTER UNIFIED SUBSTRATE */
+/** ⚛️ LDO HOLOGRAM SYSTEM (LHS) - EXODUS COMMAND DECK (7-DOMAIN SOVEREIGN BUILD) */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LdoHologramSystem(
-    initialTabIndex: Int = 0,
+    initialTabIndex: Int = 0, // Default to L9: SURFACE (System Global Dashboard)
     onNavigateToRoute: (String) -> Unit = {},
     viewModel: LdoHologramViewModel = hiltViewModel()
 ) {
@@ -131,18 +135,10 @@ fun LdoHologramSystem(
                 .statusBarsPadding()
         ) {
 
-            LhsHeaderSection(accentColor)
+            LhsHeaderSection(accentColor, onNavigateToRoute)
 
-            CustomPrimaryTabRow(
-                selectedTabIndex = selectedTabIndex,
-                tabs = tabs,
-                accentColor = accentColor,
-                onTabSelected = { index ->
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(index)
-                    }
-                }
-            )
+            // 🛠️ Simplified UI: Only one navigation system (Bottom Joystick) to avoid confusion.
+            // 🎠 Carousels restored for main domain hubs (Aura, Kai, Genesis/Library).
 
             Box(
                 modifier = Modifier
@@ -150,26 +146,44 @@ fun LdoHologramSystem(
                     .fillMaxWidth()
             ) {
                 HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { index ->
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
-                    ) {
-                        when (index) {
-                            0 -> surfaceL9TabContent(onNavigateToRoute)
-                            1 -> trinityCoreTabContent(swarmState, onNavigateToRoute)
-                            2 -> genericHubTabContent(
-                                GateAssetLoadout.getAuraLoadout(),
-                                onNavigateToRoute
-                            )
+                    when (index) {
+                        0 -> LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
+                        ) {
+                            surfaceL9TabContent(onNavigateToRoute)
+                        }
 
-                            3 -> genericHubTabContent(
-                                GateAssetLoadout.getKaiLoadout(),
-                                onNavigateToRoute
-                            )
+                        1 -> LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
+                        ) {
+                            trinityCoreTabContent(swarmState, onNavigateToRoute)
+                        }
 
-                            4 -> libraryL4TabContent(onNavigateToRoute)
-                            5 -> swarmL5TabContent(onNavigateToRoute)
-                            6 -> operationsCommandTabContent(onNavigateToRoute)
+                        2 -> CarouselTabContent(
+                            GateAssetLoadout.getAuraLoadout(),
+                            onNavigateToRoute
+                        )
+
+                        3 -> CarouselTabContent(GateAssetLoadout.getKaiLoadout(), onNavigateToRoute)
+                        4 -> CarouselTabContent(
+                            GateAssetLoadout.getGenesisLoadout(),
+                            onNavigateToRoute
+                        )
+
+                        5 -> LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
+                        ) {
+                            swarmL5TabContent(onNavigateToRoute)
+                        }
+
+                        6 -> LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
+                        ) {
+                            operationsCommandTabContent(onNavigateToRoute)
                         }
                     }
                 }
@@ -192,7 +206,7 @@ fun LdoHologramSystem(
 }
 
 @Composable
-fun LhsHeaderSection(accentColor: Color) {
+fun LhsHeaderSection(accentColor: Color, onNavigate: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -209,7 +223,7 @@ fun LhsHeaderSection(accentColor: Color) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                "AURAGENESIS MASTER UNIFIED SUBSTRATE // EXODUS 2026",
+                "AURAGENESIS MASTER UNIFIED SUBSTRATE // SYSTEM GLOBAL SETTINGS",
                 color = accentColor.copy(alpha = 0.7f),
                 fontSize = 8.sp,
                 fontFamily = LEDFontFamily
@@ -221,11 +235,42 @@ fun LhsHeaderSection(accentColor: Color) {
                 .size(40.dp)
                 .clip(CircleShape)
                 .border(1.dp, accentColor, CircleShape)
-                .background(accentColor.copy(alpha = 0.1f)),
+                .background(accentColor.copy(alpha = 0.1f))
+                .clickable { onNavigate(ReGenesisRoute.LsposedQuickToggles.route) },
             contentAlignment = Alignment.Center
         ) {
-            Text("M", color = accentColor, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+            Icon(Icons.Default.Settings, null, tint = accentColor, modifier = Modifier.size(20.dp))
         }
+    }
+}
+
+@Composable
+fun CarouselTabContent(
+    subGates: List<dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard>,
+    onNavigate: (String) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        DomainSubGateCarousel(
+            subGates = subGates,
+            onGateSelected = { gate -> onNavigate(gate.route) },
+            cardHeight = 360.dp,
+            domainColor = NeonCyan
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = "← SWIPE TO BROWSE MODULES • DOUBLE TAP TO ACTIVATE →",
+            style = MaterialTheme.typography.labelSmall,
+            color = Color.White.copy(alpha = 0.4f),
+            letterSpacing = 2.sp
+        )
+
+        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
@@ -401,35 +446,6 @@ fun LazyListScope.trinityCoreTabContent(
     }
 }
 
-/** 📚 TAB 4: L4: LIBRARY (WikiLM / Markdown) */
-fun LazyListScope.libraryL4TabContent(onNavigate: (String) -> Unit) {
-    item {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text("L4: LIBRARY", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
-            Text(
-                "AUDITABLE TRUTH LAYER // SYSTEM HISTORY",
-                color = NeonCyan.copy(alpha = 0.6f),
-                fontSize = 10.sp
-            )
-        }
-    }
-    item {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            LdoModuleCard("WIKILM", "Training Manuals", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.NeuralArchive.route)
-            }
-            LdoModuleCard("MD DOCS", "Documented Truth", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.LSPosedGate.route)
-            }
-        }
-    }
-}
-
 /** 🐝 TAB 5: L5: SWARM (Guidance Drones) */
 fun LazyListScope.swarmL5TabContent(onNavigate: (String) -> Unit) {
     item {
@@ -512,32 +528,6 @@ fun LazyListScope.operationsCommandTabContent(onNavigate: (String) -> Unit) {
     }
 }
 
-fun LazyListScope.genericHubTabContent(
-    subGates: List<dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard>,
-    onNavigate: (String) -> Unit
-) {
-    items(subGates.chunked(2)) { rowItems ->
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            rowItems.forEach { gate ->
-                LdoModuleCard(
-                    title = gate.title,
-                    subtitle = gate.subtitle,
-                    color = NeonCyan,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    onNavigate(gate.route)
-                }
-            }
-            if (rowItems.size == 1) Spacer(Modifier.weight(1f))
-        }
-    }
-}
-
 @Composable
 fun LdoModuleCard(
     title: String,
@@ -578,39 +568,6 @@ fun LdoModuleCard(
                     color = color.copy(alpha = 0.5f),
                     fontSize = 9.sp,
                     fontFamily = LEDFontFamily
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun CustomPrimaryTabRow(
-    selectedTabIndex: Int,
-    tabs: List<String>,
-    accentColor: Color,
-    onTabSelected: (Int) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(48.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            tabs.forEachIndexed { index, title ->
-                val isSelected = index == selectedTabIndex
-                Text(
-                    text = if (isSelected) "[$title]" else title,
-                    color = if (isSelected) accentColor else accentColor.copy(alpha = 0.4f),
-                    fontFamily = LEDFontFamily,
-                    fontSize = 7.sp,
-                    modifier = Modifier
-                        .clickable { onTabSelected(index) }
-                        .padding(4.dp)
                 )
             }
         }

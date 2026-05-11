@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,13 +27,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,41 +58,42 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 
 /**
  * 🎮 BOTTOM JOYSTICK NAVIGATION - UNIFIED NEON AQUA
+ * Synchronized with the 7-Domain "Exodus 2026" Build.
  */
 @Composable
 fun BottomJoystickNavigation(
     selectedIndex: Int,
     tabs: List<String>,
-    accentColor: Color, // Still passed but we'll use NeonCyan primarily
+    accentColor: Color,
     onTabSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var dragOffset by remember { mutableFloatStateOf(0f) }
     
     val tabIcons = listOf(
-        Icons.Default.Dashboard,
-        Icons.Default.Code,
-        Icons.Default.Palette,
-        Icons.Default.Security,
-        Icons.Default.Hub,
-        Icons.Default.Memory,
-        Icons.Default.Groups
+        Icons.Default.Dashboard,    // L9: SURFACE
+        Icons.Default.Hub,          // TRINITY CORE
+        Icons.Default.Palette,      // CHROMA FORGE
+        Icons.Default.Security,     // SENTINEL MATRIX
+        Icons.Default.MenuBook,     // L4: LIBRARY
+        Icons.Default.AutoAwesome,  // L5: SWARM
+        Icons.Default.Task          // OPERATIONS
     )
     
     val shortLabels = listOf(
-        "DASH", "LDO", "AURA", "KAI", "GEN", "CASC", "NEXUS"
+        "SURF", "CORE", "AURA", "KAI", "LIB", "SWRM", "OPS"
     )
     
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(84.dp)
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
                         Color.Transparent,
-                        Color.Black.copy(alpha = 0.8f),
-                        Color.Black.copy(alpha = 0.95f)
+                        Color.Black.copy(alpha = 0.85f),
+                        Color.Black
                     )
                 )
             )
@@ -105,11 +105,11 @@ fun BottomJoystickNavigation(
                     },
                     onDragEnd = {
                         when {
-                            dragOffset > 100f -> {
+                            dragOffset > 80f -> {
                                 if (selectedIndex > 0) onTabSelected(selectedIndex - 1)
                             }
 
-                            dragOffset < -100f -> {
+                            dragOffset < -80f -> {
                                 if (selectedIndex < tabs.size - 1) onTabSelected(selectedIndex + 1)
                             }
                         }
@@ -145,10 +145,6 @@ fun BottomJoystickNavigation(
                 }
             }
         }
-        
-        if (dragOffset != 0f) {
-            SwipeHintOverlay(dragOffset, NeonCyan)
-        }
     }
 }
 
@@ -161,9 +157,9 @@ fun JoystickIndicator(
     val infiniteTransition = rememberInfiniteTransition(label = "joystick_pulse")
     val pulse by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.1f,
+        targetValue = 1.15f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = FastOutSlowInEasing),
+            animation = tween(1200, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
         ),
         label = "pulse"
@@ -171,26 +167,24 @@ fun JoystickIndicator(
     
     Box(
         modifier = Modifier
-            .width(200.dp)
-            .height(4.dp)
-            .clip(RoundedCornerShape(2.dp))
-            .background(accentColor.copy(alpha = 0.2f))
+            .width(240.dp)
+            .height(3.dp)
+            .clip(RoundedCornerShape(1.5.dp))
+            .background(accentColor.copy(alpha = 0.15f))
     ) {
         val indicatorPosition = selectedIndex / (totalTabs - 1).toFloat()
         
         Box(
             modifier = Modifier
                 .fillMaxHeight()
-                .width(40.dp)
+                .width(34.dp)
                 .graphicsLayer {
-                    translationX = (indicatorPosition * (200.dp.toPx() - 40.dp.toPx())).coerceIn(
-                        0f,
-                        (200.dp.toPx() - 40.dp.toPx())
-                    )
+                    translationX = (indicatorPosition * (240.dp.toPx() - 34.dp.toPx()))
                 }
-                .clip(RoundedCornerShape(2.dp))
+                .clip(RoundedCornerShape(1.5.dp))
                 .background(accentColor)
                 .scale(pulse)
+                .border(1.dp, Color.White.copy(alpha = 0.5f), RoundedCornerShape(1.5.dp))
         )
     }
 }
@@ -204,28 +198,34 @@ fun BottomNavItem(
     onClick: () -> Unit
 ) {
     val scale by animateFloatAsState(
-        targetValue = if (isSelected) 1.2f else 1f,
-        animationSpec = spring(stiffness = Spring.StiffnessMedium),
+        targetValue = if (isSelected) 1.25f else 1f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = Spring.StiffnessLow),
         label = "scale"
     )
-    
+
+    val contentAlpha by animateFloatAsState(
+        targetValue = if (isSelected) 1f else 0.4f,
+        label = "alpha"
+    )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .clickable(onClick = onClick)
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .padding(horizontal = 4.dp, vertical = 2.dp)
+            .graphicsLayer { alpha = contentAlpha }
     ) {
         Box(
             modifier = Modifier
-                .size(if (isSelected) 44.dp else 36.dp)
+                .size(if (isSelected) 46.dp else 38.dp)
                 .scale(scale)
                 .clip(CircleShape)
                 .background(
-                    if (isSelected) color.copy(alpha = 0.1f) else Color.Transparent
+                    if (isSelected) color.copy(alpha = 0.12f) else Color.Transparent
                 )
                 .border(
                     width = if (isSelected) 1.dp else 0.dp,
-                    color = color.copy(alpha = 0.5f),
+                    color = color.copy(alpha = 0.6f),
                     shape = CircleShape
                 ),
             contentAlignment = Alignment.Center
@@ -233,46 +233,20 @@ fun BottomNavItem(
             Icon(
                 imageVector = icon,
                 contentDescription = label,
-                tint = if (isSelected) color else color.copy(alpha = 0.4f),
-                modifier = Modifier.size(if (isSelected) 24.dp else 20.dp)
+                tint = if (isSelected) color else color.copy(alpha = 0.7f),
+                modifier = Modifier.size(if (isSelected) 26.dp else 22.dp)
             )
         }
-        
-        Spacer(modifier = Modifier.height(2.dp))
+
+        Spacer(modifier = Modifier.height(4.dp))
         
         Text(
             text = label,
-            color = if (isSelected) color else color.copy(alpha = 0.3f),
-            fontSize = 8.sp,
+            color = if (isSelected) color else color.copy(alpha = 0.5f),
+            fontSize = 7.sp,
             fontFamily = LEDFontFamily,
-            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+            fontWeight = if (isSelected) FontWeight.Black else FontWeight.Medium,
             letterSpacing = 1.sp
-        )
-    }
-}
-
-@Composable
-fun SwipeHintOverlay(
-    dragOffset: Float,
-    accentColor: Color
-) {
-    val direction = when {
-        dragOffset > 0 -> "← PREV"
-        dragOffset < 0 -> "NEXT →"
-        else -> ""
-    }
-    
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = if (dragOffset > 0) Alignment.CenterStart else Alignment.CenterEnd
-    ) {
-        Text(
-            text = direction,
-            color = accentColor,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = LEDFontFamily,
-            modifier = Modifier.padding(horizontal = 20.dp)
         )
     }
 }
