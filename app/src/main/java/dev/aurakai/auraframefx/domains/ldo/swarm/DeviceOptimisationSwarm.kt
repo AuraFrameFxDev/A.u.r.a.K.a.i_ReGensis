@@ -36,7 +36,8 @@ data class SwarmOptimisationState(
     val tasks: List<SwarmTask> = emptyList(),
     val globalProgress: Float = 0f,
     val currentDirective: String = "IDLE",
-    val recoveredSpaceMb: Long = 0
+    val recoveredSpaceMb: Long = 0,
+    val coreVersion: String = "V0.9.1-LDO"
 )
 
 @Singleton
