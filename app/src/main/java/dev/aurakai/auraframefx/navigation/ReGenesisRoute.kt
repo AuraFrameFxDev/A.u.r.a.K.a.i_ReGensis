@@ -75,6 +75,7 @@ sealed class ReGenesisRoute(
         fun createRoute(category: String) = "aura/iconify/$category"
     }
     data object AuraChat : ReGenesisRoute("aura/chat", "Aura Neural Hub")
+    data object AuraAcademy : ReGenesisRoute("aura_academy", "Aura Academy")
     data object AuraThemingHub : ReGenesisRoute("aura_theming_hub", "Aura Theming Hub")
     data object ComponentForge : ReGenesisRoute("component_forge", "Component Forge")
 
