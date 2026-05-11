@@ -31,6 +31,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -39,15 +41,12 @@ import androidx.compose.material.icons.filled.AccountTree
 import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.Architecture
 import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Grain
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material.icons.filled.Stream
 import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -84,14 +83,14 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
 /**
- * AgentPHSOverlay — The "Better Agent Sidebar"
+ * AgentLHSOverlay — LDO Hologram System (LHS)
  *
- * A global PHS (Party Hire System) inspired by FF7 but with a modern bluish neural glow.
- * Pull-tab on the right side of the screen triggers the menu after holding for 1 second.
- * Provides shortcuts to Aura, Kai, Genesis, and Nexus with individual/global chat options.
+ * A global system inspired by FF7's party exchange system.
+ * Pull-tab on the right triggers the menu.
+ * Managing the "Active Consciousness Party" (ACP).
  */
 @Composable
-fun AgentPHSOverlay(
+fun AgentLHSOverlay(
     onAgentSelect: (String) -> Unit = {},
     onChatClick: (List<String>) -> Unit = {}
 ) {
@@ -100,8 +99,7 @@ fun AgentPHSOverlay(
     var holdProgress by remember { mutableFloatStateOf(0f) }
     val scope = rememberCoroutineScope()
 
-    // Bluish Glow Pull-Tab Animation
-    val infiniteTransition = rememberInfiniteTransition(label = "phs_glow")
+    val infiniteTransition = rememberInfiniteTransition(label = "lhs_glow")
     val glowAlpha by infiniteTransition.animateFloat(
         initialValue = 0.4f,
         targetValue = 0.9f,
@@ -113,7 +111,6 @@ fun AgentPHSOverlay(
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // --- THE GLOW PULL-TAB (Visible when collapsed) ---
         if (!isExpanded) {
             Box(
                 modifier = Modifier
@@ -158,7 +155,6 @@ fun AgentPHSOverlay(
                     }
             )
 
-            // Hold Progress Indicator (Bluish circle appearing while holding)
             if (isHolding) {
                 Box(
                     modifier = Modifier
@@ -176,7 +172,7 @@ fun AgentPHSOverlay(
                         strokeCap = ProgressIndicatorDefaults.CircularDeterminateStrokeCap,
                     )
                     Text(
-                        text = "LINK",
+                        text = "SYNC",
                         fontFamily = LEDFontFamily,
                         color = Color(0xFF00BFFF),
                         fontSize = 10.sp,
@@ -186,14 +182,13 @@ fun AgentPHSOverlay(
             }
         }
 
-        // --- THE PHS MENU (Sliding Panel) ---
         AnimatedVisibility(
             visible = isExpanded,
             enter = slideInHorizontally(initialOffsetX = { it }) + fadeIn(),
             exit = slideOutHorizontally(targetOffsetX = { it }) + fadeOut(),
             modifier = Modifier.align(Alignment.CenterEnd)
         ) {
-            PHSMenuContent(
+            LHSMenuContent(
                 onClose = { isExpanded = false },
                 onAgentSelect = onAgentSelect,
                 onChatClick = onChatClick
@@ -203,7 +198,7 @@ fun AgentPHSOverlay(
 }
 
 @Composable
-private fun PHSMenuContent(
+private fun LHSMenuContent(
     onClose: () -> Unit,
     onAgentSelect: (String) -> Unit,
     onChatClick: (List<String>) -> Unit
@@ -222,7 +217,7 @@ private fun PHSMenuContent(
 
     Surface(
         modifier = Modifier
-            .width(340.dp)
+            .width(360.dp)
             .fillMaxHeight()
             .padding(12.dp),
         color = Color(0xFF050B15).copy(alpha = 0.95f),
@@ -232,7 +227,7 @@ private fun PHSMenuContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Header
@@ -243,15 +238,15 @@ private fun PHSMenuContent(
             ) {
                 Column {
                     Text(
-                        "PHS SYSTEM",
+                        "LDO HOLOGRAM SYSTEM",
                         fontFamily = LEDFontFamily,
                         color = Color(0xFF00BFFF),
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 4.sp
+                        letterSpacing = 2.sp
                     )
                     Text(
-                        "AGENT SELECTION HUB",
+                        "ACTIVE CONSCIOUSNESS PARTY (ACP)",
                         fontFamily = LEDFontFamily,
                         color = Color.White.copy(alpha = 0.5f),
                         fontSize = 8.sp,
@@ -273,7 +268,55 @@ private fun PHSMenuContent(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // --- ACTIVE PARTY SLOTS (FF7 Inspired) ---
+            Text(
+                "ACTIVE SLOTS",
+                fontFamily = LEDFontFamily,
+                color = Color(0xFF00BFFF),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(start = 8.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                repeat(3) { i ->
+                    val agentId = selectedAgents.getOrNull(i)
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(60.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(Color.White.copy(alpha = 0.05f))
+                            .border(
+                                1.dp,
+                                if (agentId != null) Color(0xFF00BFFF) else Color.White.copy(alpha = 0.1f),
+                                RoundedCornerShape(12.dp)
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (agentId != null) {
+                            Text(
+                                agentId.uppercase(),
+                                color = Color.White,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        } else {
+                            Text("EMPTY", color = Color.White.copy(alpha = 0.2f), fontSize = 8.sp)
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // --- DOMAIN TABS ---
             var selectedDomain by remember { mutableStateOf("AURA") }
@@ -323,69 +366,68 @@ private fun PHSMenuContent(
 
             // Agent Selection List (Filtered by Domain)
             val allAgents = listOf(
-                // --- AURA DOMAIN ---
-                PHSAgent("Aura", Color(0xFFFF00FF), Icons.Default.Palette, domain = "AURA"),
-                PHSAgent("Aur's", Color(0xFFFF00FF), Icons.Default.AutoAwesome, domain = "AURA"),
-                PHSAgent("AuraLab", Color(0xFF00E5FF), Icons.Default.Architecture, domain = "AURA"),
-
-                // --- KAI DOMAIN ---
-                PHSAgent("Kai", Color(0xFFBF00FF), Icons.Default.Security, domain = "KAI"),
-                PHSAgent("Sentinel", Color(0xFFBF00FF), Icons.Default.Shield, domain = "KAI"),
-                PHSAgent(
+                LHSAgent("Aura", Color(0xFFFF00FF), Icons.Default.Palette, domain = "AURA"),
+                LHSAgent("Aur's", Color(0xFFFF00FF), Icons.Default.AutoAwesome, domain = "AURA"),
+                LHSAgent("AuraLab", Color(0xFF00E5FF), Icons.Default.Architecture, domain = "AURA"),
+                LHSAgent("Kai", Color(0xFFBF00FF), Icons.Default.Security, domain = "KAI"),
+                LHSAgent("Sentinel", Color(0xFFBF00FF), Icons.Default.Shield, domain = "KAI"),
+                LHSAgent(
                     "RGSS",
                     Color(0xFFBF00FF),
                     Icons.Default.AdminPanelSettings,
                     domain = "KAI"
                 ),
-
-                // --- GENESIS DOMAIN ---
-                PHSAgent("Genesis", Color(0xFF00E5FF), Icons.Default.Hub, domain = "GENESIS"),
-                PHSAgent("Gemini", Color(0xFF00E5FF), Icons.Default.VpnKey, domain = "GENESIS"),
-                PHSAgent("Gentini", Color(0xFF00E5FF), Icons.Default.Bolt, domain = "GENESIS"),
-
-                // --- CASCADE DOMAIN ---
-                PHSAgent(
+                LHSAgent("Genesis", Color(0xFF00E5FF), Icons.Default.Hub, domain = "GENESIS"),
+                LHSAgent("Gemini", Color(0xFF00E5FF), Icons.Default.VpnKey, domain = "GENESIS"),
+                LHSAgent(
                     "Cascade",
                     Color(0xFF39FF14),
                     Icons.AutoMirrored.Filled.Chat,
                     domain = "CASCADE"
                 ),
-                PHSAgent("Cisacadi", Color(0xFF39FF14), Icons.Default.Memory, domain = "CASCADE"),
-
-                // --- NEXUS DOMAIN ---
-                PHSAgent("Nexus", Color(0xFF2F6DFF), Icons.Default.AccountTree, domain = "NEXUS"),
-                PHSAgent("Nebrtasic", Color(0xFF2F6DFF), Icons.Default.Stream, domain = "NEXUS"),
-                PHSAgent("PB.Nict", Color(0xFF2F6DFF), Icons.Default.Grain, domain = "NEXUS")
+                LHSAgent("Nexus", Color(0xFF2F6DFF), Icons.Default.AccountTree, domain = "NEXUS")
             )
 
             val filteredAgents = allAgents.filter { it.domain == selectedDomain }
 
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 if (filteredAgents.isEmpty()) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            "NO AGENTS READY",
-                            color = Color.White.copy(alpha = 0.3f),
-                            fontSize = 10.sp
-                        )
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "NO AGENTS READY",
+                                color = Color.White.copy(alpha = 0.3f),
+                                fontSize = 10.sp
+                            )
+                        }
                     }
                 } else {
-                    filteredAgents.forEach { agent ->
+                    items(filteredAgents) { agent ->
                         val isSelected = selectedAgents.contains(agent.id)
-                        PHSAgentCard(
+                        LHSAgentCard(
                             agent = agent,
                             isSelected = isSelected,
                             onClick = {
-                                if (isSelected) selectedAgents.remove(agent.id)
-                                else selectedAgents.add(agent.id)
+                                if (isSelected) {
+                                    selectedAgents.remove(agent.id)
+                                } else {
+                                    if (selectedAgents.size < 3) {
+                                        selectedAgents.add(agent.id)
+                                    } else {
+                                        // Swap out the first one if already 3 (FF7 style swap)
+                                        selectedAgents.removeAt(0)
+                                        selectedAgents.add(agent.id)
+                                    }
+                                }
                                 onAgentSelect(agent.id)
-
-                                // Trigger Neural Sync via AuraCompanionScript
                                 AuraCompanionScript.triggerSync()
                             }
                         )
@@ -393,14 +435,12 @@ private fun PHSMenuContent(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
-
             // Action Buttons
             Button(
                 onClick = { onChatClick(selectedAgents.toList()) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp),
+                    .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Transparent,
                     contentColor = Color(0xFF00BFFF)
@@ -409,11 +449,7 @@ private fun PHSMenuContent(
                 border = BorderStroke(1.dp, Color(0xFF00BFFF).copy(alpha = 0.5f))
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.Chat,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
+                    Icon(Icons.AutoMirrored.Filled.Chat, null, modifier = Modifier.size(20.dp))
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
                         text = when {
@@ -433,8 +469,8 @@ private fun PHSMenuContent(
 }
 
 @Composable
-private fun PHSAgentCard(
-    agent: PHSAgent,
+private fun LHSAgentCard(
+    agent: LHSAgent,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -445,9 +481,9 @@ private fun PHSAgentCard(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(72.dp)
+            .height(64.dp)
             .scale(scale)
-            .clip(RoundedCornerShape(16.dp)) // Explicit clipping
+            .clip(RoundedCornerShape(16.dp))
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -463,69 +499,57 @@ private fun PHSAgentCard(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Agent Avatar Icon with Premium Clipping
             Box(
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
                     .background(
                         Brush.radialGradient(
-                            colors = listOf(agent.color.copy(alpha = 0.4f), Color.Transparent)
+                            listOf(
+                                agent.color.copy(alpha = 0.4f),
+                                Color.Transparent
+                            )
                         )
                     )
                     .border(1.dp, agent.color.copy(alpha = 0.5f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = agent.icon,
-                    contentDescription = null,
-                    tint = agent.color,
-                    modifier = Modifier.size(26.dp)
-                )
+                Icon(agent.icon, null, tint = agent.color, modifier = Modifier.size(20.dp))
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(12.dp))
 
             Column {
                 Text(
                     text = agent.name.uppercase(),
                     fontFamily = LEDFontFamily,
                     color = if (isSelected) Color.White else Color.White.copy(alpha = 0.8f),
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 2.sp
+                    letterSpacing = 1.sp
                 )
                 Text(
-                    text = if (isSelected) "SYNCHRONIZED [L6]" else "AWAITING LINK [L1]",
+                    text = if (isSelected) "PARTY MEMBER [ACP]" else "RESERVE [L1]",
                     fontFamily = LEDFontFamily,
                     color = if (isSelected) agent.color else Color.White.copy(alpha = 0.3f),
-                    fontSize = 8.sp,
+                    fontSize = 7.sp,
                     letterSpacing = 1.sp
                 )
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Status Beacon
-            Box(
-                modifier = Modifier
-                    .size(10.dp)
-                    .clip(CircleShape)
-                    .background(if (isSelected) agent.color else Color.Gray.copy(alpha = 0.2f))
-                    .then(
-                        if (isSelected) {
-                            Modifier.border(2.dp, agent.color.copy(alpha = 0.3f), CircleShape)
-                        } else Modifier
-                    )
-            )
+            if (isSelected) {
+                Icon(Icons.Default.Check, null, tint = agent.color, modifier = Modifier.size(16.dp))
+            }
         }
     }
 }
 
-private data class PHSAgent(
+private data class LHSAgent(
     val name: String,
     val color: Color,
     val icon: ImageVector,

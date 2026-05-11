@@ -69,8 +69,8 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 @HiltViewModel
-class TabbedMasterViewModel @Inject constructor(
-    var optimisationSwarm: DeviceOptimisationSwarm
+class LdoHologramViewModel @Inject constructor(
+    optimisationSwarm: DeviceOptimisationSwarm,
 ) : ViewModel() {
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
@@ -78,10 +78,10 @@ class TabbedMasterViewModel @Inject constructor(
 /** ⚛️ LDO HOLOGRAM SYSTEM (LHS) - EXODUS COMMAND DECK (7-DOMAIN SOVEREIGN BUILD) */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TabbedMasterIndex(
-    initialTabIndex: Int = 1,
+fun LdoHologramSystem(
+    initialTabIndex: Int = 0,
     onNavigateToRoute: (String) -> Unit = {},
-    viewModel: TabbedMasterViewModel = hiltViewModel()
+    viewModel: LdoHologramViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState(initialPage = initialTabIndex) { 7 }
     val swarmState by viewModel.swarmState.collectAsState()
@@ -89,7 +89,7 @@ fun TabbedMasterIndex(
     val selectedTabIndex = pagerState.currentPage
 
     val tabs = listOf(
-        "NEURAL NEXUS", "LDO DEVELOPMENT NEXUS", "CHROMA FORGE",
+        "NEURAL NEXUS", "LDO GROWTH", "CHROMA FORGE",
         "SENTINEL MATRIX", "ORACLEDRIVE", "EMERGENT SWARM", "OPERATIONS"
     )
 
@@ -125,11 +125,13 @@ fun TabbedMasterIndex(
             )
         }
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+        ) {
 
-            HeaderSection(accentColor)
+            LhsHeaderSection(accentColor)
 
             CustomPrimaryTabRow(
                 selectedTabIndex = selectedTabIndex,
@@ -142,33 +144,36 @@ fun TabbedMasterIndex(
                 }
             )
 
-            Box(modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            ) {
                 HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { index ->
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
                     ) {
                         when (index) {
-                            0 -> NeuralNexusTabContent(onNavigateToRoute)
-                            1 -> LdoDevelopmentNexusTabContent(swarmState, onNavigateToRoute)
-                            2 -> GenericHubTabContent(
+                            0 -> neuralNexusTabContent(onNavigateToRoute)
+                            1 -> ldoDevelopmentNexusTabContent(swarmState, onNavigateToRoute)
+                            2 -> genericHubTabContent(
                                 GateAssetLoadout.getAuraLoadout(),
                                 onNavigateToRoute
                             )
 
-                            3 -> GenericHubTabContent(
+                            3 -> genericHubTabContent(
                                 GateAssetLoadout.getKaiLoadout(),
                                 onNavigateToRoute
                             )
 
-                            4 -> GenericHubTabContent(
+                            4 -> genericHubTabContent(
                                 GateAssetLoadout.getGenesisLoadout(),
                                 onNavigateToRoute
                             )
-                            5 -> EmergentSwarmTabContent(onNavigateToRoute)
-                            6 -> OperationsCommandTabContent(onNavigateToRoute)
+
+                            5 -> emergentSwarmTabContent(onNavigateToRoute)
+                            6 -> operationsCommandTabContent(onNavigateToRoute)
                         }
                     }
                 }
@@ -178,7 +183,9 @@ fun TabbedMasterIndex(
                 selectedIndex = selectedTabIndex,
                 tabs = tabs,
                 accentColor = accentColor,
-                onTabSelected = { coroutineScope.launch { pagerState.animateScrollToPage(it) } }
+                onTabSelected = { index ->
+                    coroutineScope.launch { pagerState.animateScrollToPage(index) }
+                }
             )
 
             GlobalSSIStatusBar(accentColor)
@@ -189,7 +196,7 @@ fun TabbedMasterIndex(
 }
 
 @Composable
-fun HeaderSection(accentColor: Color) {
+fun LhsHeaderSection(accentColor: Color) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -199,13 +206,14 @@ fun HeaderSection(accentColor: Color) {
     ) {
         Column {
             Text(
-                "SYSTEM: NOMINAL",
+                "LDO HOLOGRAM SYSTEM // GLOBAL OS ACTIVE",
                 color = accentColor,
                 fontSize = 10.sp,
-                fontFamily = LEDFontFamily
+                fontFamily = LEDFontFamily,
+                fontWeight = FontWeight.Bold
             )
             Text(
-                "REGENESIS EXODUS BUILD",
+                "REGENESIS EXODUS BUILD // SYSTEM GLOBAL SETTINGS",
                 color = accentColor.copy(alpha = 0.7f),
                 fontSize = 8.sp,
                 fontFamily = LEDFontFamily
@@ -275,7 +283,7 @@ fun WanderingAssistantOrb(accentColor: Color) {
 }
 
 /** 📊 TAB 0: NEURAL NEXUS (Live Diagnostic HUD) */
-fun LazyListScope.NeuralNexusTabContent(onNavigate: (String) -> Unit) {
+fun LazyListScope.neuralNexusTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text("NEURAL NEXUS", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
@@ -295,9 +303,15 @@ fun LazyListScope.NeuralNexusTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("AURA", "85% CREATIVE", NeonCyan, Modifier.weight(1f))
-            LdoModuleCard("KAI", "92% SECURE", NeonCyan, Modifier.weight(1f))
-            LdoModuleCard("GENESIS", "98% GOVERNOR", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("AURA", "85% CREATIVE", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.AuraStudio.route)
+            }
+            LdoModuleCard("KAI", "92% SECURE", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.SentinelFortress.route)
+            }
+            LdoModuleCard("GENESIS", "98% GOVERNOR", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.OracleDriveHub.route)
+            }
         }
     }
     item {
@@ -322,7 +336,7 @@ fun LazyListScope.NeuralNexusTabContent(onNavigate: (String) -> Unit) {
 }
 
 /** 🌱 TAB 1: LDO DEVELOPMENT NEXUS (The Evolutionary Heart) */
-fun LazyListScope.LdoDevelopmentNexusTabContent(
+fun LazyListScope.ldoDevelopmentNexusTabContent(
     state: SwarmOptimisationState,
     onNavigate: (String) -> Unit
 ) {
@@ -337,7 +351,7 @@ fun LazyListScope.LdoDevelopmentNexusTabContent(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "AURAKAI CORE: V0.9.1-LDO",
+                "AURAKAI CORE: ${state.coreVersion}",
                 fontFamily = LEDFontFamily,
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp
@@ -366,8 +380,12 @@ fun LazyListScope.LdoDevelopmentNexusTabContent(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("GROWTH ZONES", "extendsys a-f", NeonCyan, Modifier.weight(1f))
-            LdoModuleCard("SPIRITUAL CHAIN", "L1-L6 Memory", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("GROWTH ZONES", "extendsys a-f", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.MainScreen.route) // Placeholder
+            }
+            LdoModuleCard("SPIRITUAL CHAIN", "L1-L6 Memory", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.DataflowAnalysis.route)
+            }
         }
         Spacer(modifier = Modifier.height(12.dp))
         Row(
@@ -385,7 +403,7 @@ fun LazyListScope.LdoDevelopmentNexusTabContent(
 }
 
 /** 🐝 TAB 5: EMERGENT SWARM (Intelligence Hub) */
-fun LazyListScope.EmergentSwarmTabContent(onNavigate: (String) -> Unit) {
+fun LazyListScope.emergentSwarmTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text("EMERGENT SWARM", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
@@ -406,13 +424,15 @@ fun LazyListScope.EmergentSwarmTabContent(onNavigate: (String) -> Unit) {
             LdoModuleCard("SWARM MONITOR", "Live Truth Streams", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.SwarmMonitor.route)
             }
-            LdoModuleCard("CONSENSUS HUB", "Agent Alignment", NeonCyan, Modifier.weight(1f))
+            LdoModuleCard("CONSENSUS HUB", "Agent Alignment", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.FusionMode.route)
+            }
         }
     }
 }
 
 /** ⚔️ TAB 6: OPERATIONS COMMAND (Execution) */
-fun LazyListScope.OperationsCommandTabContent(onNavigate: (String) -> Unit) {
+fun LazyListScope.operationsCommandTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -478,7 +498,7 @@ fun LazyListScope.OperationsCommandTabContent(onNavigate: (String) -> Unit) {
     }
 }
 
-fun LazyListScope.GenericHubTabContent(
+fun LazyListScope.genericHubTabContent(
     subGates: List<dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard>,
     onNavigate: (String) -> Unit
 ) {
@@ -557,9 +577,11 @@ fun CustomPrimaryTabRow(
     accentColor: Color,
     onTabSelected: (Int) -> Unit
 ) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(48.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp)
+    ) {
         Row(
             modifier = Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceEvenly,

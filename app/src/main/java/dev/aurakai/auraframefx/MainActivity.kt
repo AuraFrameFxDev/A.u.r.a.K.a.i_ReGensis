@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.domains.aura.ui.overlays.AgentPHSOverlay
+import dev.aurakai.auraframefx.domains.aura.ui.overlays.AgentLHSOverlay
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.navigation.ReGenesisNavGraph
 import timber.log.Timber
@@ -42,13 +42,13 @@ class MainActivity : ComponentActivity() {
                 Box(modifier = Modifier.fillMaxSize()) {
                     ReGenesisNavGraph(navController = navController)
 
-                    // The Global Agent PHS Sidebar
-                    AgentPHSOverlay(
+                    // The Global LDO Hologram System (LHS) Sidebar
+                    AgentLHSOverlay(
                         onAgentSelect = { agentId ->
-                            Timber.tag("PHS").d("Selected agent: $agentId")
+                            Timber.tag("LHS").d("Selected agent: $agentId")
                         },
                         onChatClick = { selectedAgents ->
-                            Timber.tag("PHS").d("Chat with: $selectedAgents")
+                            Timber.tag("LHS").d("Chat with: $selectedAgents")
                             // Logic to navigate to chat or open chat overlay could go here
                         }
                     )
