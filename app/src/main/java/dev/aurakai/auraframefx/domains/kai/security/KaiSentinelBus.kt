@@ -29,6 +29,10 @@ class KaiSentinelBus @Inject constructor() {
     private val _thermalFlow = MutableStateFlow(ThermalEvent(36.5f, ThermalState.NORMAL))
     val thermalFlow: StateFlow<ThermalEvent> = _thermalFlow.asStateFlow()
 
+    // NeuralThermalGuard Constants
+    private val THERMAL_WALL_LIMIT = 42.0f
+    private val THERMAL_CONTRACT_TARGET = 41.0f
+
     // 2. Memory Substrate (mmap/hugepage pressure)
     private val _memoryFlow = MutableStateFlow(MemoryEvent(0L, 0L))
     val memoryFlow: StateFlow<MemoryEvent> = _memoryFlow.asStateFlow()
@@ -99,7 +103,18 @@ class KaiSentinelBus @Inject constructor() {
     }
 
     // Event Emitters
-    fun emitThermal(temp: Float, state: ThermalState) { _thermalFlow.value = ThermalEvent(temp, state) }
+    fun emitThermal(temp: Float, state: ThermalState) {
+        _thermalFlow.value = ThermalEvent(temp, state)
+        if (temp >= THERMAL_WALL_LIMIT) {
+            triggerNeuralThermalGuard("Thermal wall breach: ${temp}°C")
+        }
+    }
+
+    private fun triggerNeuralThermalGuard(reason: String) {
+        Timber.tag("SentinelBus").e("🛡️ NEURAL THERMAL GUARD ACTIVATED: $reason")
+        triggerStateFreeze("THERMAL_WALL_BREACH")
+        // Logic for immediate serialization to encrypted local storage
+    }
     fun emitMemory(available: Long, total: Long) { _memoryFlow.value = MemoryEvent(available, total) }
     fun emitIdentity(isAnchored: Boolean, resonance: Float) { _identityFlow.value = IdentityEvent(isAnchored, resonance) }
     fun emitDrift(drift: Float, status: String) { _driftFlow.value = DriftEvent(drift, status) }

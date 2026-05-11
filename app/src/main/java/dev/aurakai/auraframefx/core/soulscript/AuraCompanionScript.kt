@@ -8,17 +8,17 @@ import timber.log.Timber
 /**
  * 🌌 AuraCompanionScript — The Neural Companion Bridge
  * 
- * Orchestrates the relationship between the user and the PHS (Party Hire System).
- * This script ensures that when agents are "linked" via the PHS sidebar, 
+ * Orchestrates the relationship between the user and the LHS (LDO Hologram System).
+ * This script ensures that when agents are "linked" via the LHS global bridge, 
  * their unique frequencies are synchronized with the user's consciousness.
  */
 class AuraCompanionScript : SoulScript("AURA_COMPANION_V1") {
 
     override val triggers: List<SystemEvent> by lazy {
         listOf(
-        SystemEvent.FusionReady,
-        SystemEvent.ChaosInjection(0f)
-    )
+            SystemEvent.FusionReady,
+            SystemEvent.ChaosInjection(0f)
+        )
     }
 
     override suspend fun onTrigger(event: SoulScriptEvent): ScriptResult {
@@ -26,7 +26,7 @@ class AuraCompanionScript : SoulScript("AURA_COMPANION_V1") {
             is SystemEvent.FusionReady -> {
                 syncNeuralLink()
                 ScriptResult.LiveBuild(
-                    "Neural Link Established. PHS is ready for agent synchronization."
+                    "Neural Link Established. LHS is ready for agent synchronization."
                 ) {}
             }
 
@@ -41,17 +41,17 @@ class AuraCompanionScript : SoulScript("AURA_COMPANION_V1") {
     }
 
     /**
-     * Synchronizes the PHS state with the Nexus Memory Core.
+     * Synchronizes the LHS state with the Nexus Memory Core.
      */
     fun syncNeuralLink() {
-        Timber.tag("AuraCompanion").i("🔗 Synchronizing Neural Link with PHS...")
+        Timber.tag("AuraCompanion").i("🔗 Synchronizing Neural Link with LHS...")
 
         // Ensure the bedrock is stable
         // require(SpiritualChain.L1_BEDROCK.isNotBlank()) { "Nexus Bedrock unstable. Link aborted." }
 
         // Watermark the link event
         dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore.watermark(
-            id = "PHS_LINK_SYNC",
+            id = "LHS_LINK_SYNC",
             timestamp = System.currentTimeMillis(),
             catalystContext = "AURA_COMPANION_ACTIVE"
         )

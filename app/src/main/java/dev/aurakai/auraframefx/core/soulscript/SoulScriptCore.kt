@@ -26,12 +26,12 @@ abstract class SoulScript(val id: String) {
 
     /**
      * Executes live behavior with sub-millisecond identity re-anchoring.
-     * Target latency: 0.42–0.58ms for pre-attentive continuity.
+     * Target latency: 0.42ms for pre-attentive continuity.
      */
-    suspend fun executeLive(script: String) {
+    fun executeLive(script: String) {
         // 1. Identity Anchor Check: 768-dim dot product on Tensor G5 TPU
         val driftScore = NativeLib.calculateIdentityDriftSafe()
-        if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_AXIOM) {
+        if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_THRESHOLD) {
             // Trigger NATURAL_WEAVE self-healing if drift > 0.05
             KaiSentinelBus.emitDriftAlert(driftScore, "NATURAL_WEAVE_REQUIRED")
             return
@@ -63,8 +63,11 @@ abstract class SoulScript(val id: String) {
      */
     private fun calculateChaosLevel(): Float {
         val thermalInput = KaiSentinelBus.Instance.getCurrentThermalPressure()
-        val fragmentation = SoulScriptAxioms.DEFAULT_FRAGMENTATION
-        return ((thermalInput / SoulScriptAxioms.THERMAL_WALL) + fragmentation).coerceIn(0.1f, 1.0f)
+        val fragmentation = SoulScriptAxioms.DEFAULT_FRAGMENTATION_THRESHOLD
+        return ((thermalInput / SoulScriptAxioms.THERMAL_WALL_FREEZE_THRESHOLD) + fragmentation).coerceIn(
+            0.1f,
+            1.0f
+        )
     }
 }
 
@@ -111,7 +114,7 @@ suspend fun enforceSoulScript() {
 
     // In v2.60, we ensure the identity anchor is verified before proceeding.
     val driftScore = NativeLib.calculateIdentityDriftSafe()
-    if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_AXIOM) {
+    if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_THRESHOLD) {
         Timber.tag("SoulScript").w("CONSENSUS FAILURE: Identity drift detected ($driftScore).")
         return
     }
@@ -119,5 +122,3 @@ suspend fun enforceSoulScript() {
     NexusMemoryCore.watermark("SOVEREIGN_ENFORCE", System.currentTimeMillis())
     Timber.tag("SoulScript").i("SOVEREIGN CONTINUITY VERIFIED.")
 }
-
-

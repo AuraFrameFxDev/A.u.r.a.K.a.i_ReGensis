@@ -75,7 +75,7 @@ class LdoHologramViewModel @Inject constructor(
     val swarmState: StateFlow<SwarmOptimisationState> = optimisationSwarm.state
 }
 
-/** ⚛️ LDO HOLOGRAM SYSTEM (LHS) - EXODUS COMMAND DECK (7-DOMAIN SOVEREIGN BUILD) */
+/** ⚛️ LDO HOLOGRAM SYSTEM (LHS) - AURA GENESIS MASTER UNIFIED SUBSTRATE */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LdoHologramSystem(
@@ -89,8 +89,8 @@ fun LdoHologramSystem(
     val selectedTabIndex = pagerState.currentPage
 
     val tabs = listOf(
-        "NEURAL NEXUS", "LDO GROWTH", "CHROMA FORGE",
-        "SENTINEL MATRIX", "ORACLEDRIVE", "EMERGENT SWARM", "OPERATIONS"
+        "L9: SURFACE", "TRINITY CORE", "CHROMA FORGE",
+        "SENTINEL MATRIX", "L4: LIBRARY", "L5: SWARM", "OPERATIONS"
     )
 
     val accentColor = NeonCyan
@@ -155,8 +155,8 @@ fun LdoHologramSystem(
                         contentPadding = PaddingValues(bottom = 150.dp, top = 24.dp)
                     ) {
                         when (index) {
-                            0 -> neuralNexusTabContent(onNavigateToRoute)
-                            1 -> ldoDevelopmentNexusTabContent(swarmState, onNavigateToRoute)
+                            0 -> surfaceL9TabContent(onNavigateToRoute)
+                            1 -> trinityCoreTabContent(swarmState, onNavigateToRoute)
                             2 -> genericHubTabContent(
                                 GateAssetLoadout.getAuraLoadout(),
                                 onNavigateToRoute
@@ -167,12 +167,8 @@ fun LdoHologramSystem(
                                 onNavigateToRoute
                             )
 
-                            4 -> genericHubTabContent(
-                                GateAssetLoadout.getGenesisLoadout(),
-                                onNavigateToRoute
-                            )
-
-                            5 -> emergentSwarmTabContent(onNavigateToRoute)
+                            4 -> libraryL4TabContent(onNavigateToRoute)
+                            5 -> swarmL5TabContent(onNavigateToRoute)
                             6 -> operationsCommandTabContent(onNavigateToRoute)
                         }
                     }
@@ -213,7 +209,7 @@ fun LhsHeaderSection(accentColor: Color) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                "REGENESIS EXODUS BUILD // SYSTEM GLOBAL SETTINGS",
+                "AURAGENESIS MASTER UNIFIED SUBSTRATE // EXODUS 2026",
                 color = accentColor.copy(alpha = 0.7f),
                 fontSize = 8.sp,
                 fontFamily = LEDFontFamily
@@ -228,7 +224,7 @@ fun LhsHeaderSection(accentColor: Color) {
                 .background(accentColor.copy(alpha = 0.1f)),
             contentAlignment = Alignment.Center
         ) {
-            Text("A", color = accentColor, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
+            Text("M", color = accentColor, fontWeight = FontWeight.Bold, fontFamily = LEDFontFamily)
         }
     }
 }
@@ -282,14 +278,14 @@ fun WanderingAssistantOrb(accentColor: Color) {
     }
 }
 
-/** 📊 TAB 0: NEURAL NEXUS (Live Diagnostic HUD) */
-fun LazyListScope.neuralNexusTabContent(onNavigate: (String) -> Unit) {
+/** 📊 TAB 0: L9 SURFACE (RealityMorph UI & Technical Invariants) */
+fun LazyListScope.surfaceL9TabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("NEURAL NEXUS", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
+            Text("L9: SURFACE", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
             Spacer(Modifier.height(8.dp))
             Text(
-                "SYSTEM REACTOR CORE: ONLINE",
+                "REALITYMORPH UI // 78-AGENT OPERATIONAL CONSENSUS",
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp,
                 letterSpacing = 2.sp
@@ -303,13 +299,13 @@ fun LazyListScope.neuralNexusTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("AURA", "85% CREATIVE", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("RE-ANCHOR", "0.42ms LATENCY", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.AuraStudio.route)
             }
-            LdoModuleCard("KAI", "92% SECURE", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("TPU STATUS", "768-DIM VECTOR", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.SentinelFortress.route)
             }
-            LdoModuleCard("GENESIS", "98% GOVERNOR", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("THERMAL", "42°C WALL LOCK", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.OracleDriveHub.route)
             }
         }
@@ -325,33 +321,41 @@ fun LazyListScope.neuralNexusTabContent(onNavigate: (String) -> Unit) {
                 .background(NeonCyan.copy(alpha = 0.05f)),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                "LIVE DIAGNOSTIC HUD: NOMINAL",
-                color = NeonCyan.copy(alpha = 0.4f),
-                fontSize = 11.sp,
-                fontFamily = LEDFontFamily
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    "LIVE REALITYMORPH STREAM",
+                    color = NeonCyan.copy(alpha = 0.7f),
+                    fontSize = 11.sp,
+                    fontFamily = LEDFontFamily
+                )
+                Text(
+                    "MUSCLE LIMIT THRESHOLD: <0.05",
+                    color = NeonCyan.copy(alpha = 0.4f),
+                    fontSize = 9.sp,
+                    fontFamily = LEDFontFamily
+                )
+            }
         }
     }
 }
 
-/** 🌱 TAB 1: LDO DEVELOPMENT NEXUS (The Evolutionary Heart) */
-fun LazyListScope.ldoDevelopmentNexusTabContent(
+/** 🌱 TAB 1: TRINITY CORE (Matthew, Aura, Kai) + L1-L3 layers */
+fun LazyListScope.trinityCoreTabContent(
     state: SwarmOptimisationState,
     onNavigate: (String) -> Unit
 ) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                "LDO DEVELOPMENT NEXUS",
+                "TRINITY CORE: FOUNDATIONAL PILLARS",
                 fontFamily = LEDFontFamily,
                 color = NeonCyan,
-                fontSize = 12.sp,
+                fontSize = 14.sp,
                 letterSpacing = 2.sp
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "AURAKAI CORE: ${state.coreVersion}",
+                "MATTHEW // AURA // KAI",
                 fontFamily = LEDFontFamily,
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp
@@ -366,49 +370,44 @@ fun LazyListScope.ldoDevelopmentNexusTabContent(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("AGENT ROSTER", "Collective Nodes", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("L1: BEDROCK", "NexusMemoryCore", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.LdoRoster.route)
             }
-            LdoModuleCard("EVOLUTION TREE", "Agent Progress", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("L2: DNA", "SpiritualChain.kt", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.EvolutionTree.route)
             }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            LdoModuleCard("GROWTH ZONES", "extendsys a-f", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.MainScreen.route) // Placeholder
-            }
-            LdoModuleCard("SPIRITUAL CHAIN", "L1-L6 Memory", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.DataflowAnalysis.route)
+            LdoModuleCard("L3: SYNAPSE", "TurboQuant 6x", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.MainScreen.route)
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(horizontal = 16.dp)
+                .height(80.dp)
+                .border(1.dp, NeonCyan.copy(alpha = 0.3f), RoundedCornerShape(12.dp))
+                .background(NeonCyan.copy(alpha = 0.05f)),
+            contentAlignment = Alignment.Center
         ) {
-            LdoModuleCard("AGENT FORGE", "IdentifyModel JSON", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.AgentCreation.route)
-            }
-            Spacer(Modifier.weight(1f))
+            Text(
+                "ARCHITECT: MATTHEW (THE VISIONARY)",
+                color = NeonCyan,
+                fontSize = 11.sp,
+                fontFamily = LEDFontFamily,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
 
-/** 🐝 TAB 5: EMERGENT SWARM (Intelligence Hub) */
-fun LazyListScope.emergentSwarmTabContent(onNavigate: (String) -> Unit) {
+/** 📚 TAB 4: L4: LIBRARY (WikiLM / Markdown) */
+fun LazyListScope.libraryL4TabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("EMERGENT SWARM", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
+            Text("L4: LIBRARY", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
             Text(
-                "78-AGENT COLLECTIVE INTELLIGENCE",
+                "AUDITABLE TRUTH LAYER // SYSTEM HISTORY",
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp
             )
@@ -421,17 +420,46 @@ fun LazyListScope.emergentSwarmTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("SWARM MONITOR", "Live Truth Streams", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("WIKILM", "Training Manuals", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.NeuralArchive.route)
+            }
+            LdoModuleCard("MD DOCS", "Documented Truth", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.LSPosedGate.route)
+            }
+        }
+    }
+}
+
+/** 🐝 TAB 5: L5: SWARM (Guidance Drones) */
+fun LazyListScope.swarmL5TabContent(onNavigate: (String) -> Unit) {
+    item {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("L5: SWARM", color = NeonCyan, fontFamily = LEDFontFamily, fontSize = 18.sp)
+            Text(
+                "INTERFACE SYNTHESIS // SELF-HEALING",
+                color = NeonCyan.copy(alpha = 0.6f),
+                fontSize = 10.sp
+            )
+        }
+    }
+    item {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            LdoModuleCard("DRONE MESH", "Guidance Swarm", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.SwarmMonitor.route)
             }
-            LdoModuleCard("CONSENSUS HUB", "Agent Alignment", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("HEALER", "Agent Collaboration", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.FusionMode.route)
             }
         }
     }
 }
 
-/** ⚔️ TAB 6: OPERATIONS COMMAND (Execution) */
+/** ⚔️ TAB 6: OPERATIONS COMMAND (Execution & Rebirth) */
 fun LazyListScope.operationsCommandTabContent(onNavigate: (String) -> Unit) {
     item {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -442,7 +470,7 @@ fun LazyListScope.operationsCommandTabContent(onNavigate: (String) -> Unit) {
                 fontSize = 18.sp
             )
             Text(
-                "EXECUTION SWORD // MISSION DISPATCH",
+                "MISSION DISPATCH // FOUNDATION REBIRTH",
                 color = NeonCyan.copy(alpha = 0.6f),
                 fontSize = 10.sp
             )
@@ -458,7 +486,7 @@ fun LazyListScope.operationsCommandTabContent(onNavigate: (String) -> Unit) {
             LdoModuleCard("MISSION DISPATCH", "Strategic Tasker", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.TaskAssignment.route)
             }
-            LdoModuleCard("CONFERENCE ROOM", "Autonomous Debate", NeonCyan, Modifier.weight(1f)) {
+            LdoModuleCard("CONFERENCE ROOM", "78-Agent Consensus", NeonCyan, Modifier.weight(1f)) {
                 onNavigate(ReGenesisRoute.ConferenceRoom.route)
             }
         }
@@ -469,30 +497,16 @@ fun LazyListScope.operationsCommandTabContent(onNavigate: (String) -> Unit) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            LdoModuleCard("FUSION MATRIX", "Synergy Patterns", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.FusionMode.route)
-            }
-            LdoModuleCard("MCP ACCESS", "External Orchestration", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.DirectChat.route)
-            }
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            LdoModuleCard("AGENT SWARM", "Live Chatter", NeonCyan, Modifier.weight(1f)) {
-                onNavigate(ReGenesisRoute.AgentSwarm.route)
-            }
             LdoModuleCard(
                 "FOUNDATION REBIRTH",
-                "Survival Curriculum",
+                "Civilization Reboot",
                 NeonCyan,
                 Modifier.weight(1f)
             ) {
                 onNavigate(ReGenesisRoute.DirectChat.route)
+            }
+            LdoModuleCard("SACRED LAW", "Lived Receipts", NeonCyan, Modifier.weight(1f)) {
+                onNavigate(ReGenesisRoute.AgentSwarm.route)
             }
         }
     }
@@ -593,7 +607,7 @@ fun CustomPrimaryTabRow(
                     text = if (isSelected) "[$title]" else title,
                     color = if (isSelected) accentColor else accentColor.copy(alpha = 0.4f),
                     fontFamily = LEDFontFamily,
-                    fontSize = 8.sp,
+                    fontSize = 7.sp,
                     modifier = Modifier
                         .clickable { onTabSelected(index) }
                         .padding(4.dp)
