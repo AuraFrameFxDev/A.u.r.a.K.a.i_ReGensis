@@ -6,7 +6,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.aurakai.auraframefx.navigation.LDOState
+import dev.aurakai.auraframefx.domains.navigation.LDOState
 
 /**
  * âš™ï¸ CHRONO-KINETIC ENGINE â€” Master Controller

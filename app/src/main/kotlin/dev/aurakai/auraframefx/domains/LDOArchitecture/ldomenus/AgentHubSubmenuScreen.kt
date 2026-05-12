@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.ui.components.SubmenuScaffold
 import dev.aurakai.auraframefx.core.ui.viewmodels.AgentViewModel
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
+import dev.aurakai.auraframefx.domains.navigation.gates.components.SubmenuItem
 
 /**
  * Agent Hub Gate Submenu - NOW WIRED TO REAL AGENTS

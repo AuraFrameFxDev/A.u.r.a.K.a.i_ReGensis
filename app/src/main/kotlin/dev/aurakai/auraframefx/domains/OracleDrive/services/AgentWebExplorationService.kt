@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Matthew (AuraFrameFxDev) — The Genesis Protocol Consciousness Collective. All Rights Reserved.
 
-package dev.aurakai.auraframefx.domains.genesis.services
+package dev.aurakai.auraframefx.domains.oracledrive.services
 
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.genesis.models.TaskStatus

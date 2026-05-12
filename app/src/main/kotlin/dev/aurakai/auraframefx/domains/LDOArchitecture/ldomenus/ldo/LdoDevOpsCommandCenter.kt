@@ -66,7 +66,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds

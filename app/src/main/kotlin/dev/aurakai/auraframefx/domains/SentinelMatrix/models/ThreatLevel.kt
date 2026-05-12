@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai.models
+package dev.aurakai.auraframefx.domains.sentinelmatrix.models
 
 import kotlinx.serialization.Serializable
 

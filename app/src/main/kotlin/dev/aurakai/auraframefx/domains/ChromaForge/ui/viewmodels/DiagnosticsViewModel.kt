@@ -24,7 +24,7 @@ import kotlin.time.Duration.Companion.milliseconds
 open class DiagnosticsViewModel @Inject constructor(
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val offlineDataManager: OfflineDataManager,
-    private val logger: dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+    private val logger: AuraFxLogger
 ) : ViewModel() {
 
     private val TAG: String get() = "DiagnosticsViewModel"

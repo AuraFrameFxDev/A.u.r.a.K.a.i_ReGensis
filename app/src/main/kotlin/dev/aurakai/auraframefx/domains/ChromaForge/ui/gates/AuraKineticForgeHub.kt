@@ -35,7 +35,7 @@ import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.core.screens.kineticforge.KineticForgeCoreCard
 import dev.aurakai.auraframefx.core.screens.kineticforge.KineticForgeLatticeCard
 import dev.aurakai.auraframefx.core.screens.kineticforge.KineticForgeTransmutatorCard
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // AURA KINETICFORGE HUB â€” 9.5.1 SOVEREIGN EDITION
@@ -267,14 +267,14 @@ private fun AuraNeuralHubOrb(
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition =
-        androidx.compose.animation.core.rememberInfiniteTransition(label = "hub_pulse")
+        rememberInfiniteTransition(label = "hub_pulse")
 
     val pulseScale by infiniteTransition.animateFloat(
         initialValue = 0.9f,
         targetValue = 1.1f,
-        animationSpec = androidx.compose.animation.core.infiniteRepeatable(
-            animation = androidx.compose.animation.core.tween(2000),
-            repeatMode = androidx.compose.animation.core.RepeatMode.Reverse
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000),
+            repeatMode = RepeatMode.Reverse
         ),
         label = "pulse"
     )

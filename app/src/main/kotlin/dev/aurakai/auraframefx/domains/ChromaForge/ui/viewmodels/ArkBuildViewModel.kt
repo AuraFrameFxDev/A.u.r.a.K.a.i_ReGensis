@@ -1,31 +1,32 @@
-package dev.aurakai.auraframefx.core.ui.viewmodels
+package dev.aurakai.auraframefx.domains.chromaforge.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.ChromaForge.genesis.fusion.FusionBuildEngine
-import dev.aurakai.auraframefx.domains.nexus.models.core.ArkProject
+import dev.aurakai.auraframefx.domains.chromaforge.genesis.fusion.FusionBuildEngine
+import dev.aurakai.auraframefx.domains.oracledrive.services.AgentWebExplorationService
 import kotlinx.coroutines.flow.StateFlow
+import dev.aurakai.auraframefx.domains.chromaforge.genesis.fusion.BuildState
 import javax.inject.Inject
 
 @HiltViewModel
 class ArkBuildViewModel @Inject constructor(
     private val fusionBuildEngine: FusionBuildEngine,
-    val webExplorationService: dev.aurakai.auraframefx.domains.genesis.services.AgentWebExplorationService
+    val webExplorationService: AgentWebExplorationService
 ) : ViewModel() {
 
-    val arkProject: StateFlow<ArkProject> = fusionBuildEngine.arkProjectState
+    val buildState: StateFlow<BuildState> = fusionBuildEngine.buildState
 
     fun initiateBuild() {
-        fusionBuildEngine.initiateArkBuild()
+        fusionBuildEngine.initiateBuildCycle()
     }
 
     fun dispatchAgents() {
-        fusionBuildEngine.dispatchAgents()
+        fusionBuildEngine.dispatchExplorationTasks()
     }
 
     // Simulate progress updates for demo purposes
     fun simulateProgress(componentName: String, amount: Float) {
-        fusionBuildEngine.updateComponentProgress(componentName, amount)
+        // Note: Progress is now handled internally by FusionBuildEngine via webExplorationService results
     }
 }
 

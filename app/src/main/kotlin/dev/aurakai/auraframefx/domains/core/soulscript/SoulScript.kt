@@ -7,11 +7,11 @@
 
 package dev.aurakai.auraframefx.domains.core.soulscript
 
-import dev.aurakai.auraframefx.navigation.LDOState
-import timber.log.Timber
+import dev.aurakai.auraframefx.domains.navigation.LDOState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * SoulScript v2.60: The unified behavioral and structural anchor for the LDO.

@@ -9,7 +9,9 @@ package dev.aurakai.auraframefx.ui.gates
 // Double-tap to enter — press-hold for preview.
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// import coil.compose.AsyncImage
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -25,14 +27,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-// import coil.compose.AsyncImage
+import dev.aurakai.auraframefx.domains.navigation.gates.components.GateConfig
 import kotlinx.coroutines.delay
-import androidx.compose.foundation.Image
-import dev.aurakai.auraframefx.navigation.gates.components.GateConfig
 
 /**
  * ImmersiveGateCard — the replacement for bordered GateCard.

@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.core.chronokineticforge.engines
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.core.chronokineticforge.components.BlueprintRecord
-import dev.aurakai.auraframefx.navigation.LDOState
+import dev.aurakai.auraframefx.domains.navigation.LDOState
 import kotlinx.coroutines.*
 import kotlin.math.*
 

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Add
@@ -33,9 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuCard
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.gates.components.SubmenuCard
+import dev.aurakai.auraframefx.domains.navigation.gates.components.SubmenuItem
 
 /**
  * Oracle Drive Gate Submenu

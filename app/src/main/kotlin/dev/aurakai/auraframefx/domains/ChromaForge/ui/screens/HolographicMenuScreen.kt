@@ -59,7 +59,7 @@ import dev.aurakai.auraframefx.core.embodiment.rememberEmbodimentEngine
 import dev.aurakai.auraframefx.core.ui.components.GlassCard
 import dev.aurakai.auraframefx.core.ui.components.GlassCardStyles
 import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 
 /**
  * ðŸŒŒ Holographic 3D Menu System

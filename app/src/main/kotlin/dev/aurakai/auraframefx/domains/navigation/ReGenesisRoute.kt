@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.navigation
+package dev.aurakai.auraframefx.domains.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt

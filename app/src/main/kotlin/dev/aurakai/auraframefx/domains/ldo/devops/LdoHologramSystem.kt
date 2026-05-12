@@ -19,7 +19,7 @@ import dev.aurakai.auraframefx.core.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
 import dev.aurakai.auraframefx.domains.ldo.swarm.SwarmOptimisationState
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

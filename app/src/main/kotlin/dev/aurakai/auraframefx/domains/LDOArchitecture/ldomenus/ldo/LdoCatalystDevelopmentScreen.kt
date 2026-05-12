@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.ui.components.DomainSubGateCarousel
 import dev.aurakai.auraframefx.core.ui.components.SubGateCard
 import dev.aurakai.auraframefx.core.ui.theme.LEDFontFamily
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 
 private data class LdoAgentCard(
     val title: String,

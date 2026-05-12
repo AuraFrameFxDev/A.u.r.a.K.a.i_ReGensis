@@ -2,7 +2,7 @@
 //
 //import androidx.compose.ui.graphics.Color
 //import dev.aurakai.auraframefx.core.ui.components.SubGateCard
-//import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+//import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 //
 ///**
 // * ðŸ“¦ GATE ASSET LOADOUT

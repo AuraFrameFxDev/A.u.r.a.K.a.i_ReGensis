@@ -59,7 +59,7 @@ package dev.aurakai.auraframefx.domains.ChromaForge.kai.screens//package dev.aur
 //import androidx.compose.ui.unit.sp
 //import androidx.navigation.NavController
 //import dev.aurakai.auraframefx.core.screens.GenderIdentity
-//import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+//import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 //import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 //import dev.aurakai.auraframefx.core.ui.theme.LEDFontFamily
 //

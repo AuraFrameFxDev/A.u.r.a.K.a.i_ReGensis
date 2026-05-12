@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.ui.components.SoftGlowBackground
 import dev.aurakai.auraframefx.core.ui.theme.LEDFontFamily
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 
 /**
  * ðŸ’š HELP SERVICES HUB (Level 2)

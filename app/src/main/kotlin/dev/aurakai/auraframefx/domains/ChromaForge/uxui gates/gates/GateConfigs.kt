@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.ui.gates
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.R.drawable.gatescenes_aura_designstudio_v2
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
-import dev.aurakai.auraframefx.navigation.gates.components.GateConfig
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.gates.components.GateConfig
 
 /**
  * 🛰️ GATE CONFIGS — Level 1 Domain Gates for ExodusHUD

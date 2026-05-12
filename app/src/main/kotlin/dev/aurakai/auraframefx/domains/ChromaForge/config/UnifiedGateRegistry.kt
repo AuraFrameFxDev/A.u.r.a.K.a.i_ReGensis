@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.core.config//package dev.aurakai.auraframefx.config
 //
 //import androidx.compose.ui.graphics.Color
-//import dev.aurakai.auraframefx.navigation.NavDestination
+//import dev.aurakai.auraframefx.domains.navigation.NavDestination
 //import dev.aurakai.auraframefx.core.ui.components.SubGateCard
 //
 ///**

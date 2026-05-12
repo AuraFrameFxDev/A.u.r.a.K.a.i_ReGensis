@@ -85,7 +85,7 @@ import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
 import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskStatus
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.domains.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 import kotlinx.coroutines.launch

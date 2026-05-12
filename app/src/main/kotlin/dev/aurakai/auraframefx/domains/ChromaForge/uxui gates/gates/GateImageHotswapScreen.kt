@@ -64,7 +64,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import dev.aurakai.auraframefx.R
-import dev.aurakai.auraframefx.navigation.gates.components.GateConfig
+import dev.aurakai.auraframefx.domains.navigation.gates.components.GateConfig
 import dev.aurakai.auraframefx.ui.gates.GateConfigs.allGates
 import kotlinx.coroutines.launch
 
@@ -324,7 +324,7 @@ private fun SectionHeader(title: String, subtitle: String) {
 
 @Composable
 private fun BackdropOptionCard(
-    option: dev.aurakai.auraframefx.ui.gates.BackdropOption,
+    option: BackdropOption,
     isActive: Boolean,
     onClick: () -> Unit
 ) {
