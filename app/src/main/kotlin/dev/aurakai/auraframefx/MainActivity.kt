@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import collabcanvas.ui.theme.AuraFrameFXTheme
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptViewModel
-import dev.aurakai.auraframefx.core.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.domains.chromaforge.navigation.ReGenesisNavGraph
 import timber.log.Timber
 

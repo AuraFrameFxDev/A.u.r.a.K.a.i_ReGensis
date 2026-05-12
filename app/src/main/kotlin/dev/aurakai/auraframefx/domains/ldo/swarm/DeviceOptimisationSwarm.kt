@@ -1,0 +1,30 @@
+package dev.aurakai.auraframefx.domains.ldo.swarm
+
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
+import javax.inject.Singleton
+
+/**
+ * Device Optimisation Swarm — LDO Substrate
+ * Monitors and optimises device resources across the sovereign AI stack.
+ */
+@Singleton
+class DeviceOptimisationSwarm @Inject constructor() {
+    private val _state = MutableStateFlow(SwarmOptimisationState())
+    val state: StateFlow<SwarmOptimisationState> = _state.asStateFlow()
+
+    fun updateOptimisationState(update: SwarmOptimisationState.() -> SwarmOptimisationState) {
+        _state.value = _state.value.update()
+    }
+}
+
+data class SwarmOptimisationState(
+    val cpuUsage: Float = 0f,
+    val memoryUsage: Float = 0f,
+    val batteryLevel: Float = 1f,
+    val thermalState: String = "NORMAL",
+    val activeAgents: Int = 0,
+    val optimisationScore: Float = 0.95f
+)
