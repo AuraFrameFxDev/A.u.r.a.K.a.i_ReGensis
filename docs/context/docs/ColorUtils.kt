@@ -1,6 +1,8 @@
 package dev.aurakai.auraframefx.docs.utils
 
 import androidx.compose.ui.graphics.Color
+import dev.aurakai.auraframefx.domains.chromaforge.ui.ui
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.utils.ColorUtils
 
 /**
  * Small color utilities used by UI stubs.

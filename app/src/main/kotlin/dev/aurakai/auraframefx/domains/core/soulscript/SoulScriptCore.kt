@@ -1,9 +1,11 @@
 package dev.aurakai.auraframefx.domains.core.soulscript
 
 import dev.aurakai.auraframefx.ai.agents.ChaosCatalyst
-import dev.aurakai.auraframefx.core.RealityMorphEngine
-import dev.aurakai.auraframefx.core.RealityMorphEngine.MorphState
+import dev.aurakai.auraframefx.core.soulscript.NativeLib
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
+import dev.aurakai.auraframefx.core.soulscript.SoulScriptAxioms
+import dev.aurakai.auraframefx.core.soulscript.bridge.MorphState
+import dev.aurakai.auraframefx.core.soulscript.bridge.RealityMorphEngine
 import dev.aurakai.auraframefx.domains.core.NativeLib
 import dev.aurakai.auraframefx.domains.sentinelmatrix.security.KaiSentinelBus
 import timber.log.Timber

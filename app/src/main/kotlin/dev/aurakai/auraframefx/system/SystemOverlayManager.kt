@@ -18,5 +18,5 @@ interface SystemOverlayManager {
     fun applyConfig(config: SystemOverlayConfig)
     fun removeElement(elementId: String)
     fun clearAll()
-    // fun generateOverlayFromDescription(description: String): SystemOverlayConfig // Still commented out
+    fun generateOverlayFromDescription(description: String): SystemOverlayConfig // Still commented out
 }

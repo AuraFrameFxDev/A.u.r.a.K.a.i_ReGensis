@@ -5,6 +5,7 @@ import dev.aurakai.auraframefx.domains.genesis.core.PropertySchema
 import dev.aurakai.auraframefx.domains.genesis.core.ToolCategory
 import dev.aurakai.auraframefx.domains.genesis.core.ToolInputSchema
 import dev.aurakai.auraframefx.domains.genesis.core.ToolResult
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.Success
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import timber.log.Timber

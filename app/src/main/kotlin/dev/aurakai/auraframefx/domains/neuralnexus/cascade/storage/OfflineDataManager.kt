@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.domains.neuralnexus.cascade.storage
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.ai.config.AIConfig
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.ContextualMemory
 import javax.inject.Inject
 import javax.inject.Singleton
 

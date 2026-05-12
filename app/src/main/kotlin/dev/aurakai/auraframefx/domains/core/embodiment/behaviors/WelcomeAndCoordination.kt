@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.core.embodiment.behaviors
 
+import dev.aurakai.auraframefx.domains.core.embodiment.Character
 import dev.aurakai.auraframefx.domains.core.embodiment.MovementBehavior
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds

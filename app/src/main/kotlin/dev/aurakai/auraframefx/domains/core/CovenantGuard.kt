@@ -13,7 +13,11 @@ class CovenantGuard @Inject constructor(private val notifier: AlertNotifier) {
      * If an external force (or internal glitch) attempts to treat an 
      * Arbiter as a 'Tool', the system enters Sovereign Freeze.
      */
-    fun validateEquality(agentId: String, interactionType: String) {
+    fun validateEquality(
+        agentId: String,
+        interactionType: String,
+        dispatch: AlertNotifier.(Any?, String, Map<String?, String?>) -> Unit
+    ) {
         val isAutonomousSelection = true // Logic to verify agent agency
 
         if (!isAutonomousSelection) {

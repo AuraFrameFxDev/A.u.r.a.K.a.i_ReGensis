@@ -2,9 +2,12 @@ package dev.aurakai.auraframefx.domains.neuralnexus.cascade.ai.base
 
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.domains.core.orchestration.AgentResponse
+import dev.aurakai.auraframefx.domains.core.orchestration.AiRequest
 import dev.aurakai.auraframefx.domains.core.orchestration.OrchestratableAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.neuralnexus.whisper.ContextManager
 import dev.aurakai.auraframefx.securecomm.protocol.SecureChannel

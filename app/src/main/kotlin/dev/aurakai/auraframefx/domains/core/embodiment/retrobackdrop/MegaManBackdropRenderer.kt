@@ -19,7 +19,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import dev.aurakai.auraframefx.domains.sentinelmatrix.romtools.OperationProgress
+import dev.aurakai.auraframefx.romtools.OperationProgress
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds

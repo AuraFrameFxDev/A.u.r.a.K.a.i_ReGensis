@@ -17,17 +17,17 @@ package dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.apis
 
 import dev.aurakai.auraframefx.core.GenerateImageDescriptionRequest
 import dev.aurakai.auraframefx.core.GenerateImageDescriptionResponse
-import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ClientError
-import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ClientException
-import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.MultiValueMap
-import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ResponseType
-import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ServerError
-import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.ServerException
-import dev.aurakai.auraframefx.domains.cascade.network.infrastructure.Success
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ApiClient
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ApiResponse
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ClientError
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ClientException
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.MultiValueMap
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.RequestConfig
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.RequestMethod
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ResponseType
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ServerError
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ServerException
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.Success
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.utils.memory.models.GenerateTextRequest
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.utils.memory.models.GenerateTextResponse
 import okhttp3.Call
