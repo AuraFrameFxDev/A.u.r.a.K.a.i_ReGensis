@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptViewModel
 import dev.aurakai.auraframefx.core.ui.theme.AuraFrameFXTheme
-import androidx.compose.ui.Modifier
 import dev.aurakai.auraframefx.navigation.ReGenesisNavGraph
 import timber.log.Timber
 
@@ -32,14 +32,14 @@ class MainActivity : ComponentActivity() {
                 val soulScript = hiltViewModel<SoulScriptViewModel>()
 
                 SovereignBootSequence(
-                    soulScript,
-                    handleStateFreeze = TODO(),
+                    soulScript = soulScript,
+                    handleStateFreeze = { reason -> handleStateFreeze(reason) }
                 )
 
                 Box(modifier = Modifier.fillMaxSize()) {
                     val navController = rememberNavController()
 
-                    // NavGraph + Cadberrypi Orb inside
+                    // NavGraph + CasberryPi Orb inside
                     ReGenesisNavGraph(navController = navController)
                 }
             }
