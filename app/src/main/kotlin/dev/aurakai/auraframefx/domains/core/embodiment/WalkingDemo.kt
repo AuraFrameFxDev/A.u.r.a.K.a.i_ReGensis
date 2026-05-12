@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.embodiment
+package dev.aurakai.auraframefx.domains.core.embodiment
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

@@ -1,5 +1,5 @@
 // File: embodiment/retrobackdrop/ConstructionCone.kt
-package dev.aurakai.auraframefx.core.embodiment.retrobackdrop
+package dev.aurakai.auraframefx.domains.core.embodiment.retrobackdrop
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.geometry.Offset

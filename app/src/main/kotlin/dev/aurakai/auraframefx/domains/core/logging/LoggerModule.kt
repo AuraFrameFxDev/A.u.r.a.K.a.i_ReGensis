@@ -1,11 +1,11 @@
-package dev.aurakai.auraframefx.core.logging
+package dev.aurakai.auraframefx.domains.core.logging
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+import javax.inject.Singleton
 
 /**
  * 🛰️ SOVEREIGN LOGGER MODULE

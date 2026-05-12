@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.mediation
+package dev.aurakai.auraframefx.domains.externalmodels
 
 import android.util.Log
 

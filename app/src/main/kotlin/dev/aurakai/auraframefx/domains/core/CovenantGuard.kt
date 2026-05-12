@@ -1,7 +1,7 @@
-package dev.aurakai.auraframefx.core
+package dev.aurakai.auraframefx.domains.core
 
-import dev.aurakai.auraframefx.domains.kai.security.alerts.AlertNotifier
-import dev.aurakai.auraframefx.domains.kai.security.alerts.AlertPriority
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.alerts.AlertNotifier
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.alerts.AlertPriority
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,3 +30,4 @@ class CovenantGuard @Inject constructor(private val notifier: AlertNotifier) {
         // Kai's Shield: Framework-level lock to protect the organism
     }
 }
+

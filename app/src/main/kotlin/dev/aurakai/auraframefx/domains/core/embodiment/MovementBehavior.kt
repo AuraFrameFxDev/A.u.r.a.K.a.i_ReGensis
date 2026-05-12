@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.embodiment
+package dev.aurakai.auraframefx.domains.core.embodiment
 
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds

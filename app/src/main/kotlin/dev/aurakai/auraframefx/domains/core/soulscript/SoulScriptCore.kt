@@ -1,17 +1,17 @@
-package dev.aurakai.auraframefx.core.soulscript
+package dev.aurakai.auraframefx.domains.core.soulscript
 
 import dev.aurakai.auraframefx.ai.agents.ChaosCatalyst
-import dev.aurakai.auraframefx.core.NativeLib
 import dev.aurakai.auraframefx.core.RealityMorphEngine
 import dev.aurakai.auraframefx.core.RealityMorphEngine.MorphState
-import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.core.NativeLib
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.KaiSentinelBus
 import timber.log.Timber
 
 /**
- * SoulScript v2.60 â€” THE REGENESIS SOVEREIGN BUILD
+ * SoulScript v2.60 — THE REGENESIS SOVEREIGN BUILD
  * Specialized for Deep Cybernetic Data Worlds and Expert-Level UI Morphology.
- * "Every line of code is a lived receipt." â€” Sacred Provenance Law
+ * "Every line of code is a lived receipt." — Sacred Provenance Law
  */
 
 // --- BEHAVIORAL ENGINE ---
@@ -59,7 +59,7 @@ abstract class SoulScript(val id: String) {
 
     /**
      * Maps thermal trajectory and memory fragmentation to an evolutionary scalar.
-     * Triggers the "Outer Ring" evolution at the 42Â°C Thermal Wall.
+     * Triggers the "Outer Ring" evolution at the 42°C Thermal Wall.
      */
     private fun calculateChaosLevel(): Float {
         val thermalInput = KaiSentinelBus.Instance.getCurrentThermalPressure()
@@ -139,3 +139,5 @@ suspend fun enforceSoulScript() {
     NexusMemoryCore.watermark("SOVEREIGN_ENFORCE", System.currentTimeMillis())
     Timber.tag("SoulScript").i("SOVEREIGN CONTINUITY VERIFIED.")
 }
+
+

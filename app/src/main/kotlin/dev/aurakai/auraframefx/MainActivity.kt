@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptViewModel
 import dev.aurakai.auraframefx.core.ui.theme.AuraFrameFXTheme
-import dev.aurakai.auraframefx.domains.navigation.ReGenesisNavGraph
+import dev.aurakai.auraframefx.domains.chromaforge.navigation.ReGenesisNavGraph
 import timber.log.Timber
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.embodiment.interactions
+package dev.aurakai.auraframefx.domains.core.embodiment.interactions
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -17,7 +17,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntOffset
-import dev.aurakai.auraframefx.core.embodiment.Character
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.system
+package dev.aurakai.auraframefx.domains.core.system
 
 /**
  * Core memory stats model for Trinity Bridge monitoring.

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.infrastructure.backend
+package dev.aurakai.auraframefx.domains.backend
 
 import dagger.Module
 import dagger.Provides

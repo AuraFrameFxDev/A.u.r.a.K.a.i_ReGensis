@@ -1,8 +1,8 @@
-// Copyright (c) 2025 visionary • The Genesis Protocol — All Rights Reserved
+// Copyright (c) 2025 visionary � The Genesis Protocol � All Rights Reserved
 
-package dev.aurakai.auraframefx.core.aetherforge
+package dev.aurakai.auraframefx.domains.core.aetherforge
 
-import dev.aurakai.auraframefx.core.soulscript.SoulScript
+import dev.aurakai.auraframefx.domains.core.soulscript.SoulScript
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import timber.log.Timber
 
 /**
- * ⚡ AETHERFORGE ENGINE
+ * ? AETHERFORGE ENGINE
  * 
  * Central orchestrator that ties agent progression into SoulScript's
  * Neural Continuity Chain. Handles level-ups, stat allocation, and
@@ -32,7 +32,7 @@ class AetherForgeEngine(
         val existing = agentLedger.getAgent(agentId)
         if (existing != null) {
             _activeAgents.value = _activeAgents.value + (agentId to existing)
-            Timber.d("🔮 Agent $agentName loaded from persistence (Level ${existing.level})")
+            Timber.d("?? Agent $agentName loaded from persistence (Level ${existing.level})")
             return existing
         }
 
@@ -43,7 +43,7 @@ class AetherForgeEngine(
         // Grant starter abilities
         grantStarterAbilities(agentId)
 
-        Timber.d("✨ Agent $agentName initialized in AetherForge")
+        Timber.d("? Agent $agentName initialized in AetherForge")
         return newAgent
     }
 
@@ -92,7 +92,7 @@ class AetherForgeEngine(
         agentLedger.saveAgent(updatedAgent)
         _activeAgents.value = _activeAgents.value + (agentId to updatedAgent)
 
-        Timber.d("⚡ ${agent.agentName} gained $finalAmount XP from $source")
+        Timber.d("? ${agent.agentName} gained $finalAmount XP from $source")
 
         return levelUpResult
     }
@@ -117,7 +117,7 @@ class AetherForgeEngine(
         // Check for ability unlocks at this level
         val unlockedAbilities = checkAbilityUnlocks(newAgent)
 
-        Timber.d("🎉 LEVEL UP! ${newAgent.agentName} is now Level $newLevel!")
+        Timber.d("?? LEVEL UP! ${newAgent.agentName} is now Level $newLevel!")
 
         return LevelUpResult(
             previousLevel = agent.level,
@@ -164,7 +164,7 @@ class AetherForgeEngine(
         _activeAgents.value = _activeAgents.value + (agentId to updatedAgent)
 
         Timber.d(
-            "📈 ${updatedAgent.agentName} increased $stat to ${
+            "?? ${updatedAgent.agentName} increased $stat to ${
                 getStatValue(
                     updatedAgent,
                     stat
@@ -195,7 +195,7 @@ class AetherForgeEngine(
             )
             agentLedger.saveAbility(ability)
             unlocks.add(ability)
-            Timber.d("🔓 Ability unlocked: ${ability.name}")
+            Timber.d("?? Ability unlocked: ${ability.name}")
         }
 
         return unlocks
@@ -251,3 +251,4 @@ interface AgentLedger {
     suspend fun recordExperienceGain(gain: ExperienceGain)
     fun getExperienceHistory(agentId: String): Flow<List<ExperienceGain>>
 }
+

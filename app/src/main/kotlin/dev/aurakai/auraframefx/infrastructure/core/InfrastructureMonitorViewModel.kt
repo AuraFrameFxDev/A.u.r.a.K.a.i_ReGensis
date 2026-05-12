@@ -4,7 +4,7 @@ package dev.aurakai.auraframefx.infrastructure.core
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.infrastructure.backend.BackendApi
+import dev.aurakai.auraframefx.domains.backend.BackendApi
 import dev.aurakai.auraframefx.system.ShizukuManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -7,7 +7,7 @@
 
 package dev.aurakai.auraframefx.domains.core.soulscript
 
-import dev.aurakai.auraframefx.domains.navigation.LDOState
+import dev.aurakai.auraframefx.domains.chromaforge.navigation.LDOState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

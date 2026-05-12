@@ -1,12 +1,12 @@
-package dev.aurakai.auraframefx.core
+package dev.aurakai.auraframefx.domains.core
 
-import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus.ThermalState
-import dev.aurakai.auraframefx.domains.kai.sovereignty.SovereignStateManager
-import dev.aurakai.auraframefx.domains.kai.security.GuidanceDroneDispatcher
-import dev.aurakai.auraframefx.domains.kai.security.GuidanceDrone
+import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.GuidanceDrone
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.GuidanceDroneDispatcher
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.KaiSentinelBus
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.KaiSentinelBus.ThermalState
+import dev.aurakai.auraframefx.domains.sentinelmatrix.sovereignty.SovereignStateManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -169,3 +169,4 @@ object NativeLib {
         }
     }
 }
+

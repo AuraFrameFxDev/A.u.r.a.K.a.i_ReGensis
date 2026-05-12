@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.embodiment
+package dev.aurakai.auraframefx.domains.core.embodiment
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.logging
+package dev.aurakai.auraframefx.domains.core.logging
 
 import android.content.Context
 import timber.log.Timber

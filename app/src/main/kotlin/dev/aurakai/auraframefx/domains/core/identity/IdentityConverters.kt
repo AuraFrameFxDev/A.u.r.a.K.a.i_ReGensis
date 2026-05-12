@@ -1,6 +1,6 @@
 // Copyright (c) 2025 visionary • The Genesis Protocol — All Rights Reserved
 
-package dev.aurakai.auraframefx.core.identity
+package dev.aurakai.auraframefx.domains.core.identity
 
 import androidx.room.TypeConverter
 

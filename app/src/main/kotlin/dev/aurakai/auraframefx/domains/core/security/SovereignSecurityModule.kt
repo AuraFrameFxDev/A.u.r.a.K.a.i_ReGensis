@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.security
+package dev.aurakai.auraframefx.domains.core.security
 
 import dagger.Binds
 import dagger.Module

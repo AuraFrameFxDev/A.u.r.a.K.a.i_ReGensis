@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.embodiment
+package dev.aurakai.auraframefx.domains.core.embodiment
 
 import android.content.Context
 import android.graphics.BitmapFactory

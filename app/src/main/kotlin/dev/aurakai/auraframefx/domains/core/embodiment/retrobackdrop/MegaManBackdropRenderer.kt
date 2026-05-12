@@ -1,5 +1,5 @@
 // File: embodiment/retrobackdrop/MegaManBackdropRenderer.kt
-package dev.aurakai.auraframefx.core.embodiment.retrobackdrop
+package dev.aurakai.auraframefx.domains.core.embodiment.retrobackdrop
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -19,7 +19,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import dev.aurakai.auraframefx.domains.kai.romtools.OperationProgress
+import dev.aurakai.auraframefx.domains.sentinelmatrix.romtools.OperationProgress
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
@@ -429,3 +429,4 @@ private fun DrawScope.drawCooldownCircle(
         style = androidx.compose.ui.graphics.drawscope.Stroke(width = 3f)
     )
 }
+

@@ -1,10 +1,10 @@
-package dev.aurakai.auraframefx.domains.NeuralNexus
+package dev.aurakai.auraframefx.domains.core
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Base64
-import dev.aurakai.auraframefx.core.security.KeystoreManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.aurakai.auraframefx.domains.core.security.KeystoreManager
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

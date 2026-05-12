@@ -1,8 +1,13 @@
 // Copyright (c) 2025 visionary • The Genesis Protocol — All Rights Reserved
 
-package dev.aurakai.auraframefx.core.identity
+package dev.aurakai.auraframefx.domains.core.identity
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.soulscript
+package dev.aurakai.auraframefx.domains.core.soulscript
 
 import timber.log.Timber
 

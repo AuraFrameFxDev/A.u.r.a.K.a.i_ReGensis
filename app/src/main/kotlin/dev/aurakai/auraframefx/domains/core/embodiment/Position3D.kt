@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.embodiment
+package dev.aurakai.auraframefx.domains.core.embodiment
 
 data class Position3D(
     val x: Float = 0f,

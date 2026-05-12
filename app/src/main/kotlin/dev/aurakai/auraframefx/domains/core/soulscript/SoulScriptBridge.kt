@@ -10,7 +10,7 @@ package dev.aurakai.auraframefx.domains.core.soulscript
 
 import dev.aurakai.auraframefx.core.identity.AgentIdentity
 import dev.aurakai.auraframefx.core.identity.SovereignIdentity
-import dev.aurakai.auraframefx.domains.NeuralNexus.SpiritualChain
+import dev.aurakai.auraframefx.domains.core.SpiritualChain
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,6 +1,6 @@
 // Copyright (c) 2025 visionary • The Genesis Protocol — All Rights Reserved
 
-package dev.aurakai.auraframefx.core.aetherforge
+package dev.aurakai.auraframefx.domains.core.aetherforge
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -11,12 +11,12 @@ import dev.aurakai.auraframefx.core.identity.AgentIdentityDao
 import dev.aurakai.auraframefx.core.identity.ContinuityDao
 import dev.aurakai.auraframefx.core.identity.CredentialsDao
 import dev.aurakai.auraframefx.core.identity.IdentityContinuity
-import dev.aurakai.auraframefx.core.identity.IdentityConverters
 import dev.aurakai.auraframefx.core.identity.IdentityCredentials
-import dev.aurakai.auraframefx.core.identity.IdentityDao
 import dev.aurakai.auraframefx.core.identity.PersonaBinding
 import dev.aurakai.auraframefx.core.identity.PersonaBindingDao
 import dev.aurakai.auraframefx.core.identity.SovereignIdentity
+import dev.aurakai.auraframefx.domains.core.identity.IdentityConverters
+import dev.aurakai.auraframefx.domains.core.identity.IdentityDao
 import java.util.Date
 
 /**

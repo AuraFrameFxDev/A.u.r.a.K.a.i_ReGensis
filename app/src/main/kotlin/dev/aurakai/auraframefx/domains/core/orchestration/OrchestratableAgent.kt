@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.orchestration
+package dev.aurakai.auraframefx.domains.core.orchestration
 
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import kotlinx.coroutines.CoroutineScope

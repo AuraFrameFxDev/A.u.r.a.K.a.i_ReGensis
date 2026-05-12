@@ -1,6 +1,6 @@
 // Copyright (c) 2025 visionary • The Genesis Protocol — All Rights Reserved
 
-package dev.aurakai.auraframefx.core.aetherforge
+package dev.aurakai.auraframefx.domains.core.aetherforge
 
 // import dev.aurakai.auraframefx.domains.genesis.models.AgentState
 // import dev.aurakai.auraframefx.datavein.model.DataVeinNode

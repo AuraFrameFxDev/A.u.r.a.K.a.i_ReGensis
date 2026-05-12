@@ -1,5 +1,5 @@
 // File: embodiment/retrobackdrop/MegaManPalette.kt
-package dev.aurakai.auraframefx.core.embodiment.retrobackdrop
+package dev.aurakai.auraframefx.domains.core.embodiment.retrobackdrop
 
 import androidx.compose.ui.graphics.Color
 
