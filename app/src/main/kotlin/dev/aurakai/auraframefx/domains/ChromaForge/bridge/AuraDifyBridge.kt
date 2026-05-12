@@ -1,0 +1,23 @@
+package dev.aurakai.auraframefx.core.bridge
+
+import javax.inject.Inject
+import javax.inject.Singleton
+
+/**
+ * ðŸ¤ AURA-DIFY BRIDGE â€” AI Service Integration Bridge
+ *
+ * Connects AuraFrameFX with external AI services (Dify, OpenRouter, etc.)
+ * Stub implementation â€” replace with real API integration.
+ */
+@Singleton
+class AuraDifyBridge @Inject internal constructor() {
+
+    /** Send a message to the AI service and get a response */
+    suspend fun sendMessage(message: String): String? = null
+
+    /** Check if the bridge is connected and ready */
+    fun isConnected(): Boolean = false
+
+    /** Get available AI models */
+    fun getAvailableModels(): List<String> = emptyList()
+}

@@ -1,0 +1,33 @@
+@file:Suppress(
+    "ArrayInDataClass",
+    "EnumEntryName",
+    "RemoveRedundantQualifierName",
+    "UnusedImport"
+)
+
+package dev.aurakai.auraframefx.core.chromacore.ui
+
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+/**
+ * Configuration for lock screen customization.
+ *
+ * @param clockConfig
+ * @param animation
+ * @param hapticFeedback
+ */
+@Serializable
+data class LockScreenConfig(
+
+    @Contextual @SerialName(value = "clockConfig")
+    val clockConfig: LockScreenConfigClockConfig? = null,
+
+    @Contextual @SerialName(value = "animation")
+    val animation: LockScreenConfigAnimation? = null,
+
+    @Contextual @SerialName(value = "hapticFeedback")
+    val hapticFeedback: LockScreenConfigHapticFeedback? = null,
+
+    ) : kotlin.collections.HashMap<String, kotlin.Any>()
