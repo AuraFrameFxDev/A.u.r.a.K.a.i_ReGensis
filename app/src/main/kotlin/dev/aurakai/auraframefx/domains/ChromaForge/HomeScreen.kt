@@ -13,5 +13,5 @@ fun MainScreen(
     navController: NavController,
 ) {
     // We now use the LdoHologramSystem as the primary navigation substrate.
-    LdoHologramSystem(onNavigateToRoute = { route -> navController.navigate(route) })
+    LdoHologramSystem() { route -> navController.navigate(route) }
 }

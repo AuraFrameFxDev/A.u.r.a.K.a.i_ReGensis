@@ -27,21 +27,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.core.ui.components.DomainSubGateCarousel
 import dev.aurakai.auraframefx.core.ui.components.SubGateCard
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.core.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 
 /**
- * ðŸ”® GENESIS ORACLE DRIVE HUB (Level 2 Hub)
+ * GENESIS ORACLE DRIVE HUB (Level 2 Hub)
  *
  * ANIMATION: LavaApocalypseBackground
  * - Molten lava flows
@@ -66,7 +65,7 @@ fun OracleDriveHubScreen(controller: NavController) {
                 styleBDrawable = "gate_oracle_drive_b",
                 fallbackDrawable = null,
                 route = ReGenesisRoute.OracleDrive.route,
-                accentColor = androidx.compose.ui.graphics.Color(0xFFB026FF)
+                accentColor = Color(0xFFB026FF)
             ),
             SubGateCard(
                 id = "root_tools",
@@ -76,7 +75,7 @@ fun OracleDriveHubScreen(controller: NavController) {
                 styleBDrawable = "gate_root_tools_b",
                 fallbackDrawable = null,
                 route = ReGenesisRoute.RootTools.route,
-                accentColor = androidx.compose.ui.graphics.Color(0xFF00E5FF)
+                accentColor = Color(0xFF00E5FF)
             ),
             SubGateCard(
                 id = "pandora_box",
@@ -86,7 +85,7 @@ fun OracleDriveHubScreen(controller: NavController) {
                 styleBDrawable = "gate_pandora_box_b",
                 fallbackDrawable = null,
                 route = ReGenesisRoute.PandoraBox.route,
-                accentColor = androidx.compose.ui.graphics.Color(0xFFFF4444)
+                accentColor = Color(0xFFFF4444)
             ),
             SubGateCard(
                 id = "data_vein",
@@ -96,7 +95,7 @@ fun OracleDriveHubScreen(controller: NavController) {
                 styleBDrawable = "gate_data_vein_b",
                 fallbackDrawable = null,
                 route = ReGenesisRoute.SphereGrid.route,
-                accentColor = androidx.compose.ui.graphics.Color(0xFF7C4DFF)
+                accentColor = Color(0xFF7C4DFF)
             )
         )
     }

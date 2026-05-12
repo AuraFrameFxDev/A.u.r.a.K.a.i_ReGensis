@@ -1,5 +1,6 @@
-package dev.aurakai.auraframefx.domains.genesis.oracledrive.ui
+package dev.aurakai.auraframefx.domains.chromaforge.genesis.oracledrive.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -111,7 +113,7 @@ fun OracleDriveScreen(
                 icon = Icons.Default.Storage,
                 title = "MODULE STORAGE",
                 description = "AI MODULES AND CONSCIOUSNESS PATTERNS",
-                onClick = { /* Navigate to module storage */ }
+                onClick = { navController.navigate(ReGenesisRoute.ModuleStorage.route) }
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -124,7 +126,7 @@ fun OracleDriveScreen(
                     .height(64.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB026FF).copy(alpha = 0.7f)),
                 shape = RectangleShape,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFB026FF)),
+                border = BorderStroke(1.dp, Color(0xFFB026FF)),
                 enabled = !uiState.isRefreshing
             ) {
                 if (uiState.isRefreshing) {
@@ -170,7 +172,7 @@ fun OracleDriveScreen(
 
 @Composable
 private fun OracleDriveMenuItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     title: String,
     description: String,
     onClick: () -> Unit

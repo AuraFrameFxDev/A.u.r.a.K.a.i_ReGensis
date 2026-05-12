@@ -1,29 +1,32 @@
+
 package dev.aurakai.auraframefx.infrastructure.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.infrastructure.backend.BackendApi
-import dev.aurakai.auraframefx.infrastructure.shizuku.ShizukuManager
+import dev.aurakai.auraframefx.system.ShizukuManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * 🛰️ INFRASTRUCTURE MONITOR VIEWMODEL
- *
- * Orchestrates status updates from all critical arteries.
+ * Real-time health monitoring for critical LDO arteries.
  */
 @HiltViewModel
 class InfrastructureMonitorViewModel @Inject constructor(
-    private val backendApi: BackendApi
+    private val backendApi: BackendApi,
+    private val shizukuManager: ShizukuManager   // injected properly
 ) : ViewModel() {
 
     private val _statuses = MutableStateFlow<Map<Capability, InfrastructureStatus>>(emptyMap())
-    val statuses = _statuses.asStateFlow()
+    val statuses: StateFlow<Map<Capability, InfrastructureStatus>> = _statuses.asStateFlow()
 
     init {
         startMonitoring()
@@ -33,7 +36,7 @@ class InfrastructureMonitorViewModel @Inject constructor(
         viewModelScope.launch {
             while (true) {
                 updateAllStatuses()
-                delay(10000) // Poll every 10 seconds
+                delay(10.seconds)
             }
         }
     }
@@ -42,39 +45,68 @@ class InfrastructureMonitorViewModel @Inject constructor(
         val newStatuses = mutableMapOf<Capability, InfrastructureStatus>()
 
         // 1. Shizuku Status
-        val shizukuActive = ShizukuManager.isShizukuAvailable()
+        val shizukuActive = shizukuManager.isShizukuAvailable()
         newStatuses[Capability.SHIZUKU_API] = InfrastructureStatus(
             isAvailable = shizukuActive,
-            message = if (shizukuActive) "Service Active" else "Service Disconnected"
+            message = if (shizukuActive) "Service Active ✓" else "Disconnected"
         )
         CapabilityGates.updateStatus(Capability.SHIZUKU_API, shizukuActive)
 
-        // 2. Xposed Status (Placeholder for now)
-        // In a real scenario, we'd check if our hook module is active via YukiHook or system property
+        // 2. Xposed / LSPosed Hooks
+        val hooksActive = isXposedActive()
         newStatuses[Capability.XPOSED_HOOKS] = InfrastructureStatus(
-            isAvailable = true, // Force true for now as we are the hook
-            message = "Hooks Operational"
+            isAvailable = hooksActive,
+            message = if (hooksActive) "Hooks Operational" else "Hooks Inactive"
         )
-        CapabilityGates.updateStatus(Capability.XPOSED_HOOKS, true)
+        CapabilityGates.updateStatus(Capability.XPOSED_HOOKS, hooksActive)
 
-        // 3. Backend Status
+        // 3. Backend / Python Bridge
         val backendStatus = try {
             val response = backendApi.getStatus()
             InfrastructureStatus(
                 isAvailable = true,
-                message = "Python v${response.version} (Load: ${response.load})"
+                message = "Backend Online • v${response.version}"
             )
         } catch (e: Exception) {
-            Timber.e(e, "Backend connection failed")
+            Timber.e(e, "Backend unreachable")
             InfrastructureStatus(
                 isAvailable = false,
-                message = "Connection Offline"
+                message = "Backend Offline"
             )
         }
         newStatuses[Capability.CORE_BACKEND] = backendStatus
         CapabilityGates.updateStatus(Capability.CORE_BACKEND, backendStatus.isAvailable)
 
         _statuses.value = newStatuses
+    }
+
+    private fun isXposedActive(): Boolean {
+        return try {
+            ClassLoader.getSystemClassLoader().loadClass("de.robv.android.xposed.XposedHelpers") != null
+        } catch (e: ClassNotFoundException) {
+            false
+        }
+    }
+}
+
+// ==================== Capability Enum & Gates ====================
+
+enum class Capability {
+    SHIZUKU_API,
+    XPOSED_HOOKS,
+    CORE_BACKEND,
+    // Add more as needed: NETWORK, THERMAL, etc.
+}
+
+object CapabilityGates {
+    private val _gates = MutableStateFlow<Map<Capability, Boolean>>(emptyMap())
+
+    val gates: StateFlow<Map<Capability, Boolean>> = _gates.asStateFlow()
+
+    fun updateStatus(capability: Capability, isAvailable: Boolean) {
+        val current = _gates.value.toMutableMap()
+        current[capability] = isAvailable
+        _gates.value = current
     }
 }
 

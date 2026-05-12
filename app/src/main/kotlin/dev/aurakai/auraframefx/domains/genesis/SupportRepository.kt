@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.genesis
 
-import dev.aurakai.auraframefx.domains.nexus.preferences.DataStoreManager
+import dev.aurakai.auraframefx.domains.genesis.network.SupportApi
 import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.MessageStatus
 import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportMessageDao
 import dev.aurakai.auraframefx.domains.nexus.helpdesk.data.SupportMessageEntity
-import dev.aurakai.auraframefx.domains.genesis.network.SupportApi
+import dev.aurakai.auraframefx.domains.nexus.preferences.DataStoreManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -37,7 +37,11 @@ class SupportRepository(
         }
     }
 
-    suspend fun getOrCreateDeviceUserId(): String {
+    suspend fun getOrCreateDeviceUserId(
+        getString: DataStoreManager.(String, String) -> Unit,
+        isNotEmpty: Unit.() -> Boolean,
+        storeString: DataStoreManager.(String, String) -> Unit
+    ): Any {
         val existing = dataStore.getString("device_user_id", "")
         if (existing.isNotEmpty()) return existing
         val newId = "device_${UUID.randomUUID()}"
@@ -91,6 +95,10 @@ class SupportRepository(
             dao.insert(message.copy(status = MessageStatus.FAILED))
             Result.failure(t)
         }
+    }
+
+    private fun getOrCreateDeviceUserId() {
+        TODO("Not yet implemented")
     }
 
     suspend fun processFailedMessages() {

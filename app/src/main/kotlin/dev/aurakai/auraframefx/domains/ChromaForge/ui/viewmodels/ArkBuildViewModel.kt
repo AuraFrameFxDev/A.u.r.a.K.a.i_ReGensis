@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.core.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.genesis.fusion.FusionBuildEngine
+import dev.aurakai.auraframefx.domains.ChromaForge.genesis.fusion.FusionBuildEngine
 import dev.aurakai.auraframefx.domains.nexus.models.core.ArkProject
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

@@ -4,13 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.core.ChromaForgeScreen
-import dev.aurakai.auraframefx.domains.kai.SentinelMatrixScreen
-import dev.aurakai.auraframefx.domains.ldo.LdoArchitectureScreen
-import dev.aurakai.auraframefx.domains.neural.NexusLiveHeartScreen
-import dev.aurakai.auraframefx.domains.oracledrive.OracleDriveHubScreen
-import dev.aurakai.auraframefx.domains.swarm.EmergentSwarmScreen
-import dev.aurakai.auraframefx.ui.global.Cadberrypi
+import dev.aurakai.auraframefx.core.ui.gates.OracleDriveHubScreen
 
 @Composable
 fun ReGenesisNavGraph(navController: NavHostController) {
@@ -28,4 +22,34 @@ fun ReGenesisNavGraph(navController: NavHostController) {
 
     // Global Cadberrypi orb â€” wanders everywhere, always on
     Cadberrypi(navController = navController)
+}
+
+@Composable
+fun Cadberrypi(navController: NavHostController) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun EmergentSwarmScreen(x0: NavHostController) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun SentinelMatrixScreen(x0: NavHostController) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun ChromaForgeScreen(x0: NavHostController) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun LdoArchitectureScreen(x0: NavHostController) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun NexusLiveHeartScreen(x0: NavHostController) {
+    TODO("Not yet implemented")
 }

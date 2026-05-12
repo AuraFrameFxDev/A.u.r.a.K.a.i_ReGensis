@@ -52,7 +52,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 
 /**
  * User Preferences Screen
@@ -134,7 +133,6 @@ fun UserPreferencesScreen(
                     icon = Icons.Default.Lock,
                     onClick = {
                         // TODO: Navigate to login screen when implemented
-                        navController.navigate(ReGenesisRoute.UserPreferences.route)
                     }
                 )
             }
