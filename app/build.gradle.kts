@@ -13,7 +13,7 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
 
     sourceSets {
         getByName("main") {
-            java.srcDirs("src/main/kotlin")
+            java.srcDir("src/main/kotlin")
         }
     }
 
