@@ -11,6 +11,12 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 37
 
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/kotlin")
+        }
+    }
+
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 34
