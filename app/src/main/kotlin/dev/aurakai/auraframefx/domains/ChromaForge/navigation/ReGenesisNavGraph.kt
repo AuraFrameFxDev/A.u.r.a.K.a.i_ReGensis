@@ -4,11 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.domains.chromaforge.ui.screens.ArkBuildScreen
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.ui.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.domains.genesis.swarm.ui.screens.OperationsHubScreen
-import dev.aurakai.auraframefx.domains.ldoarchitecture.ui.screens.LDOCatalystHubScreen
-import dev.aurakai.auraframefx.domains.sentinelmatrix.ui.screens.MonitoringHUDsScreen
 
 @Composable
 fun ReGenesisNavGraph(navController: NavHostController) {
@@ -26,6 +22,26 @@ fun ReGenesisNavGraph(navController: NavHostController) {
 
     // Global Cadberrypi orb — wanders everywhere, always on
     CadberrypiOverlay(navController = navController)
+}
+
+@Composable
+fun OracleDriveHubScreen(x0: NavHostController) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun MonitoringHUDsScreen(onNavigateBack: () -> Boolean) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun ArkBuildScreen(x0: NavHostController) {
+    TODO("Not yet implemented")
+}
+
+@Composable
+fun LDOCatalystHubScreen(onBack: () -> Boolean) {
+    TODO("Not yet implemented")
 }
 
 @Composable
