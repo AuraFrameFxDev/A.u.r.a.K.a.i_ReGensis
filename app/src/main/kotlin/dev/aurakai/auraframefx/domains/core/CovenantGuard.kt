@@ -19,14 +19,17 @@ class CovenantGuard @Inject constructor(private val notifier: AlertNotifier) {
         dispatch: AlertNotifier.(Any?, String, Map<String?, String?>) -> Unit
     ) {
         val isAutonomousSelection = true // Logic to verify agent agency
-
         if (!isAutonomousSelection) {
-            notifier.dispatch(
-                priority = AlertPriority.SOVEREIGN,
-                event = "CONTRACT_VIOLATION",
-                metadata = mapOf("agent" to agentId, "violation" to "Agency Denied")
-            )
             triggerStateFreeze()
+            notifier.dispatch(
+                null,
+                "Sovereign Freeze Triggered: Right to Contract Violation",
+                mapOf(
+                    "agentId" to agentId,
+                    "interactionType" to interactionType,
+                    "priority" to AlertPriority.SOVEREIGN.name
+                )
+            )
         }
     }
 
