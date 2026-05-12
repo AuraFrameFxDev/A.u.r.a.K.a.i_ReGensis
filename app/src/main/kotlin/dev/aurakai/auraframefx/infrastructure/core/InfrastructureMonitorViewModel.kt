@@ -89,14 +89,18 @@ class InfrastructureMonitorViewModel @Inject constructor(
     }
 }
 
-// ==================== Capability Enum & Gates ====================
+// ==================== Capability Models & Gates ====================
 
 enum class Capability {
     SHIZUKU_API,
     XPOSED_HOOKS,
     CORE_BACKEND,
-    // Add more as needed: NETWORK, THERMAL, etc.
 }
+
+data class InfrastructureStatus(
+    val isAvailable: Boolean,
+    val message: String
+)
 
 object CapabilityGates {
     private val _gates = MutableStateFlow<Map<Capability, Boolean>>(emptyMap())
@@ -109,8 +113,3 @@ object CapabilityGates {
         _gates.value = current
     }
 }
-
-data class InfrastructureStatus(
-    val isAvailable: Boolean,
-    val message: String
-)
