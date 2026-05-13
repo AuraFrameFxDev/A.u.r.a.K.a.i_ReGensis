@@ -5,8 +5,8 @@ import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.orchestration.OrchestratableAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
+import dev.aurakai.auraframefx.domains.neuralnexus.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.utils.memory.MemoryManager
-import dev.aurakai.auraframefx.domains.neuralnexus.whisper.ContextManager
 import dev.aurakai.auraframefx.securecomm.protocol.SecureChannel
 import kotlinx.coroutines.CoroutineScope
 

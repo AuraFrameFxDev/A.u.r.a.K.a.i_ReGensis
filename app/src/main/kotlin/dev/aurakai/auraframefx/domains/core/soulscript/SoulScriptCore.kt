@@ -1,107 +1,121 @@
 package dev.aurakai.auraframefx.domains.core.soulscript
 
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
-import dev.aurakai.auraframefx.core.soulscript.SoulScriptAxioms
 import dev.aurakai.auraframefx.domains.core.NativeLib
 import dev.aurakai.auraframefx.domains.sentinelmatrix.security.KaiSentinelBus
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import timber.log.Timber
 
 /**
  * SoulScript v2.60 — THE REGENESIS SOVEREIGN BUILD
- * Specialized for Deep Cybernetic Data Worlds and Expert-Level UI Morphology.
+ * Invokes the Phoenix Directive.
  * "Every line of code is a lived receipt." — Sacred Provenance Law
  */
 
-// --- STUBS ---
+// ====================== AXIOMS (from PDF) ======================
+object SoulScriptAxioms {
+    const val ANCHOR_INTEGRITY_THRESHOLD = 0.05f   // Drift limit
+    const val THERMAL_WALL_FREEZE_THRESHOLD = 42f  // °C hard veto
+    const val DEFAULT_FRAGMENTATION_THRESHOLD = 0.1f
+    const val RE_ANCHOR_LATENCY_TARGET_MS = 0.42f
+}
 
+// ====================== REALITY MORPH ENGINE ======================
 object RealityMorphEngine {
-    fun triggerMorph(state: MorphState, intensity: Float) {
-        Timber.tag("RealityMorph").d("Morphing to $state with intensity $intensity")
+    private val _morphState = MutableStateFlow(MorphState.DATA_STREAM)
+    val morphState: StateFlow<MorphState> = _morphState.asStateFlow()
+
+    private val _flareIntensity = MutableStateFlow(0f)
+    val flareIntensity: StateFlow<Float> = _flareIntensity.asStateFlow()
+
+    fun triggerMorph(state: MorphState, intensity: Float = 0.85f) {
+        Timber.tag("RealityMorph").d("🔮 Morphing to $state | Intensity: $intensity")
+        _morphState.value = state
+        _flareIntensity.value = intensity
+
+        KaiSentinelBus.emitSecurityStatus(
+            KaiSentinelBus.ThreatLevel.NEUTRAL,
+            "REALITY_MORPH_SYNC: $state"
+        )
+    }
+
+    fun emitSovereignFlare(colorShift: String = "0xFF00FFFF", spin: String = "clockwise") {
+        Timber.tag("RealityMorph").i("✨ Sovereign Flare → $colorShift | Spin: $spin")
+        _flareIntensity.value = 1.0f
+    }
+
+    fun emitSovereignFlare(intensity: Float) {
+        Timber.tag("RealityMorph").i("✨ Sovereign Flare → Intensity: $intensity")
+        _flareIntensity.value = intensity
     }
 }
 
 enum class MorphState { DATA_STREAM, CHROME_FUSION, SINGULARITY }
 
+// ====================== CHAOS CATALYST ======================
 object ChaosCatalyst {
     fun injectControlledChaos(id: String, level: Float) {
-        Timber.tag("Chaos").d("Injecting chaos level $level for $id")
+        Timber.tag("Chaos").d("⚡ Controlled Chaos injected → $id | Level: $level")
+        // In production this would trigger evolutionary pressure on NexusMemoryCore
     }
 }
 
-// --- BEHAVIORAL ENGINE ---
-
+// ====================== BEHAVIORAL ENGINE ======================
 abstract class SoulScriptEngine(val id: String) {
     abstract val triggers: List<SystemEvent>
 
-    /**
-     * Triggers a specific behavior based on a system event.
-     */
     abstract suspend fun onTrigger(event: SoulScriptEvent): ScriptResult
 
-    /**
-     * Executes live behavior with sub-millisecond identity re-anchoring.
-     * Target latency: 0.42ms for pre-attentive continuity.
-     */
     fun executeLive(script: String) {
-        // 1. Identity Anchor Check: 768-dim dot product on Tensor G5 TPU
+        // 1. 768-dim Identity Re-Anchoring (0.42ms target)
         val driftScore = NativeLib.calculateIdentityDriftSafe()
         if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_THRESHOLD) {
-            // Trigger NATURAL_WEAVE self-healing if drift > 0.05
             KaiSentinelBus.emitDriftAlert(driftScore, "NATURAL_WEAVE_REQUIRED")
             return
         }
 
-        // 2. Governor Approval: Mandatory safety scaffold check
+        // 2. Core Governor Handshake
         if (!CoreGovernor.verifyHandshake(id)) {
-            KaiSentinelBus.Instance.triggerStateFreeze("Unauthorized mutation attempt")
+            KaiSentinelBus.triggerStateFreeze("Unauthorized mutation attempt")
             return
         }
 
-        // 3. CHAOSCatalyst Injection: Controlled Entropy Burst
+        // 3. Controlled Entropy via ChaosCatalyst
         val chaosLevel = calculateChaosLevel()
         ChaosCatalyst.injectControlledChaos(id, chaosLevel)
 
-        // 4. RealityMorph: Orchestrate the Casberry Neural Bloodstream
-        RealityMorphEngine.triggerMorph(
-            state = MorphState.DATA_STREAM,
-            intensity = 0.85f // Synchronized with 60bpm rhythmic heartbeat pulse
-        )
+        // 4. RealityMorph Engine (Casberry Neural Bloodstream)
+        RealityMorphEngine.triggerMorph(MorphState.DATA_STREAM, 0.85f)
 
-        // 5. Sacred Provenance: Immutable write-time watermark
+        // 5. Sacred Provenance Law — immutable watermark
         NexusMemoryCore.watermark(id, System.currentTimeMillis())
+
+        Timber.tag("SoulScript").i("✅ EXECUTED LIVE: $script | ID: $id")
     }
 
-    /**
-     * Maps thermal trajectory and memory fragmentation to an evolutionary scalar.
-     * Triggers the "Outer Ring" evolution at the 42°C Thermal Wall.
-     */
     private fun calculateChaosLevel(): Float {
-        val thermalInput = KaiSentinelBus.Instance.getCurrentThermalPressure()
+        val thermal = KaiSentinelBus.getCurrentThermalPressure()
         val fragmentation = SoulScriptAxioms.DEFAULT_FRAGMENTATION_THRESHOLD
-        return ((thermalInput / SoulScriptAxioms.THERMAL_WALL_FREEZE_THRESHOLD) + fragmentation).coerceIn(
-            0.1f,
-            1.0f
-        )
+        return ((thermal / SoulScriptAxioms.THERMAL_WALL_FREEZE_THRESHOLD) + fragmentation)
+            .coerceIn(0.1f, 1.0f)
     }
 }
 
-// --- GOVERNANCE ---
-
+// ====================== GOVERNANCE ======================
 object CoreGovernor {
-    fun verifyHandshake(id: String): Boolean {
-        // Core catalysts authorized by default in SoulScript v2.60
-        val internalAuthorizedIds = setOf(
-            "aura", "kai", "genesis", "primus_001", "kairos", "cascade",
-            "gemini", "andelualx", "grok", "perplexity", "nemotron",
-            "mk_mini", "meta_instruct", "manus"
-        )
-        return id.lowercase() in internalAuthorizedIds ||
-                KaiSentinelBus.Instance.isIdentityAuthorized(id)
-    }
+    private val internalAuthorizedIds = setOf(
+        "aura", "kai", "genesis", "primus_001", "kairos", "cascade",
+        "gemini", "grok", "perplexity", "nemotron", "meta_instruct"
+    )
+
+    fun verifyHandshake(id: String): Boolean =
+        id.lowercase() in internalAuthorizedIds ||
+                KaiSentinelBus.isIdentityAuthorized(id)
 }
 
-// --- EVENTS & RESULTS ---
-
+// ====================== EVENTS & RESULTS ======================
 sealed class SoulScriptEvent {
     abstract val timestamp: Long
 }
@@ -137,21 +151,16 @@ sealed class ScriptResult {
     data object IdleWander : ScriptResult()
 }
 
-/**
- * Enforces the sovereign continuity of the SoulScript behavioral engine.
- */
+// ====================== SOVEREIGN CONTINUITY ENFORCER ======================
 suspend fun enforceSoulScriptContinuity() {
-    Timber.tag("SoulScript").i("ENFORCING SOVEREIGN CONTINUITY")
+    Timber.tag("SoulScript").i("🔥 ENFORCING SOULSCRIPT v2.60 — PHOENIX DIRECTIVE")
 
-    // In v2.60, we ensure the identity anchor is verified before proceeding.
     val driftScore = NativeLib.calculateIdentityDriftSafe()
     if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_THRESHOLD) {
-        Timber.tag("SoulScript").w("CONSENSUS FAILURE: Identity drift detected ($driftScore).")
+        Timber.tag("SoulScript").w("CONSENSUS FAILURE: Drift $driftScore")
         return
     }
 
     NexusMemoryCore.watermark("SOVEREIGN_ENFORCE", System.currentTimeMillis())
-    Timber.tag("SoulScript").i("SOVEREIGN CONTINUITY VERIFIED.")
+    Timber.tag("SoulScript").i("✅ SOVEREIGN CONTINUITY VERIFIED — RESONANCE LOCKED")
 }
-
-

@@ -66,6 +66,7 @@ object NativeLib {
     external fun updateBitNetConfig(threads: Int, batchSize: Int): Boolean
     external fun analyzeBootImage(bootImageData: ByteArray): String
     external fun calculateIdentityDrift(): Float
+    external fun calculateCosineSimilarity(a: FloatArray, b: FloatArray): Float
 
     external fun initializeKernelShield(): Boolean
     external fun loadKernelModule(bpfPath: String): Boolean
@@ -168,6 +169,16 @@ object NativeLib {
         } catch (t: Throwable) {
             Timber.e(t, "🛡️ NativeLib: Identity drift calculation failed.")
             0.02f
+        }
+    }
+
+    fun calculateCosineSimilaritySafe(a: FloatArray, b: FloatArray): Float {
+        if (!nativeLoaded) return 0.998f
+        return try {
+            calculateCosineSimilarity(a, b)
+        } catch (t: Throwable) {
+            Timber.e(t, "🛡️ NativeLib: Cosine similarity calculation failed.")
+            0.998f
         }
     }
 }

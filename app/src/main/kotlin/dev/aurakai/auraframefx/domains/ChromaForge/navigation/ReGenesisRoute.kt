@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.ViewInAr
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class ReGenesisRoute(
@@ -17,7 +16,8 @@ sealed class ReGenesisRoute(
     val title: String,
     val icon: ImageVector
 ) {
-    class AgentBridgeHub(label: String, icon: ImageVector, color: Color, route: Any)
+    data object AgentBridgeHub :
+        ReGenesisRoute("agent_bridge_hub", "Agent Bridge", Icons.Default.Bolt)
 
     data object NeuralNexus : ReGenesisRoute("neural_nexus", "Neural Nexus", Icons.Default.Bolt)
     data object LdoArchitecture :

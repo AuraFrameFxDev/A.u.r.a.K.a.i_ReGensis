@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.chromaforge.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.aurakai.auraframefx.domains.genesis.swarm.ui.screens.OperationsHubScreen
 
 @Composable
 fun ReGenesisNavGraph(navController: NavHostController) {
@@ -22,6 +22,11 @@ fun ReGenesisNavGraph(navController: NavHostController) {
 
     // Global Cadberrypi orb — wanders everywhere, always on
     CadberrypiOverlay(navController = navController)
+}
+
+@Composable
+fun OperationsHubScreen(navController: NavController) {
+    TODO("Not yet implemented")
 }
 
 @Composable

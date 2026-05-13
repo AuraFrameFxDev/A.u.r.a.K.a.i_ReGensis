@@ -21,6 +21,22 @@ class KaiSentinelBus @Inject constructor() {
         fun emitDriftAlert(score: Float, status: String) {
             Instance.emitDriftSync(score, status)
         }
+
+        fun emitSecurityStatus(level: ThreatLevel, reason: String) {
+            Instance.emitSecurityStatus(level, reason)
+        }
+
+        fun triggerStateFreeze(reason: String) {
+            Instance.triggerStateFreeze(reason)
+        }
+
+        fun isIdentityAuthorized(id: String): Boolean {
+            return Instance.isIdentityAuthorized(id)
+        }
+
+        fun getCurrentThermalPressure(): Float {
+            return Instance.getCurrentThermalPressure()
+        }
     }
 
     init {

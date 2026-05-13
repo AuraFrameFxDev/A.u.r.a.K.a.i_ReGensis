@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.core.soulscript
 
+import dev.aurakai.auraframefx.domains.core.NativeLib
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -66,7 +67,7 @@ object NexusMemoryCore {
             return false
         }
 
-        val similarity = NativeLib.calculateCosineSimilarity(currentVector, getBedrockDNA())
+        val similarity = NativeLib.calculateCosineSimilaritySafe(currentVector, getBedrockDNA())
         val isStable = similarity >= INTEGRITY_THRESHOLD
 
         if (!isStable) {
