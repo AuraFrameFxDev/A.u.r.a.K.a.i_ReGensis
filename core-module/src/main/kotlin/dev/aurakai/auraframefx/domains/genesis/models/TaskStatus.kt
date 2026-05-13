@@ -7,7 +7,12 @@ import kotlinx.serialization.Serializable
  * Standardized execution states for any task in the Genesis Departure system.
  */
 @Serializable
-class TaskStatus {
+data class TaskStatus(
+    val taskId: String,
+    val status: Status = Status.PENDING,
+    val progress: Float = 0f,
+    val message: String? = null
+) {
     @Serializable
     enum class Status {
         PENDING,

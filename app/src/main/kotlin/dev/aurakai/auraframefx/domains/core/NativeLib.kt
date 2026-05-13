@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.domains.core
 
 import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
-import dev.aurakai.auraframefx.domains.sentinelmatrix.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.sentinelmatrix.security.GuidanceDrone
 import dev.aurakai.auraframefx.domains.sentinelmatrix.security.GuidanceDroneDispatcher
 import dev.aurakai.auraframefx.domains.sentinelmatrix.security.KaiSentinelBus
@@ -93,7 +92,9 @@ object NativeLib {
         // Use enum values array for mapping to avoid fromId dependency
         val state = ThermalState.entries.getOrNull(stateInt) ?: ThermalState.NORMAL
         Timber.w("🛡️ NativeLib: THERMAL EVENT: %.1f°C (State: %s)", temp, state)
-        sentinelBus?.emitThermal(temp, state)
+        scope.launch {
+            sentinelBus?.emitThermal(temp, state)
+        }
     }
 
     @JvmStatic

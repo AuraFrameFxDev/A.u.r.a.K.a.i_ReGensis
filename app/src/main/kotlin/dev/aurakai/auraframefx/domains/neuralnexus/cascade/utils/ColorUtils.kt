@@ -169,7 +169,7 @@ object ColorUtils {
      * @return True if the color is light, false otherwise.
      */
     fun isColorLight(@ColorInt color: Int): Boolean {
-        return ColorUtils.calculateLuminance(color) > 0.5
+        return androidx.core.graphics.ColorUtils.calculateLuminance(color) > 0.5
     }
 
     /**

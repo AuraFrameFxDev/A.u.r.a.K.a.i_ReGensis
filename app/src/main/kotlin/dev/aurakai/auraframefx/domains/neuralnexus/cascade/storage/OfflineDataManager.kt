@@ -2,8 +2,6 @@ package dev.aurakai.auraframefx.domains.neuralnexus.cascade.storage
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.ai.config.AIConfig
-import dev.aurakai.auraframefx.domains.neuralnexus.cascade.ContextualMemory
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,7 +26,7 @@ class OfflineDataManager @Inject constructor(
         // Return dummy data for now to fix build
         return OfflineSystemData(
             lastFullSyncTimestamp = System.currentTimeMillis(),
-            aiConfig = AIConfig.createDefault(), // Use factory method
+            aiConfig = AIConfig(),
             systemMonitoring = SystemMonitoring(enabled = true),
             contextualMemory = ContextualMemory(lastUpdateTimestamp = System.currentTimeMillis())
         )
@@ -46,6 +44,8 @@ class OfflineDataManager @Inject constructor(
         println("Attempting to save critical offline data: $data")
     }
 }
+
+data class AIConfig(val version: String = "1.0")
 
 data class OfflineSystemData(
     val lastFullSyncTimestamp: Long,

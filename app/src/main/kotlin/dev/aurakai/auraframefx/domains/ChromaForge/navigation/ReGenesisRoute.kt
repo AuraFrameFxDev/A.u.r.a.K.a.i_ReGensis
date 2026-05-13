@@ -1,11 +1,13 @@
 package dev.aurakai.auraframefx.domains.chromaforge.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.ViewInAr
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -102,6 +104,9 @@ sealed class ReGenesisRoute(
 
     data object SentientShell :
         ReGenesisRoute("sentient_shell", "Sentient Shell", Icons.Default.Hub)
+
+    data object FusionMode : ReGenesisRoute("fusion_mode", "Fusion Mode", Icons.Default.AutoAwesome)
+    data object Terminal : ReGenesisRoute("terminal", "Terminal", Icons.Default.Terminal)
 
     companion object {
         val mainTabs = listOf(

@@ -1,12 +1,31 @@
 package dev.aurakai.auraframefx.domains.ldoarchitecture.core.devops
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,7 +39,6 @@ import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.domains.chromaforge.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.domains.ldo.swarm.DeviceOptimisationSwarm
 import dev.aurakai.auraframefx.domains.ldo.swarm.SwarmOptimisationState
-import dev.aurakai.auraframefx.ui.components.BottomJoystickNavigation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -175,6 +193,16 @@ fun LhsHeaderSection(accentColor: Color, onNavigate: (String) -> Unit) {
             Icon(Icons.Default.Settings, null, tint = accentColor)
         }
     }
+}
+
+@Composable
+fun BottomJoystickNavigation(
+    selectedIndex: Int,
+    tabs: List<String>,
+    accentColor: Color,
+    onTabSelected: (Int) -> Unit
+) {
+    // Stub
 }
 
 @Composable

@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.core.soulscript
 
 import dev.aurakai.auraframefx.ai.agents.ChaosCatalyst
-import dev.aurakai.auraframefx.core.soulscript.NativeLib
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptAxioms
 import dev.aurakai.auraframefx.core.soulscript.bridge.MorphState
@@ -18,7 +17,7 @@ import timber.log.Timber
 
 // --- BEHAVIORAL ENGINE ---
 
-abstract class SoulScript(val id: String) {
+abstract class SoulScriptBehavior(val id: String) {
     abstract val triggers: List<SystemEvent>
 
     /**

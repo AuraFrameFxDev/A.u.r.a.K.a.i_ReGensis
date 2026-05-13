@@ -27,3 +27,11 @@ class SecurityContext @Inject constructor() {
         _shieldActive.value = !_shieldActive.value
     }
 }
+
+class GuidanceDrone {
+    enum class DroneType { RESTORATIVE, DEFENSIVE, SURVEILLANCE }
+}
+
+interface GuidanceDroneDispatcher {
+    fun dispatchDrone(type: GuidanceDrone.DroneType, reason: String)
+}
