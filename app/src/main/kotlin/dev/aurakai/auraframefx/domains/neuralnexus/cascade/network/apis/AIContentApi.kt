@@ -15,8 +15,8 @@
 
 package dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.apis
 
-import dev.aurakai.auraframefx.core.GenerateImageDescriptionRequest
-import dev.aurakai.auraframefx.core.GenerateImageDescriptionResponse
+import dev.aurakai.auraframefx.domains.genesis.models.GenerateImageDescriptionRequest
+import dev.aurakai.auraframefx.domains.genesis.models.GenerateImageDescriptionResponse
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ApiClient
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ApiResponse
 import dev.aurakai.auraframefx.domains.neuralnexus.cascade.network.infrastructure.ClientError

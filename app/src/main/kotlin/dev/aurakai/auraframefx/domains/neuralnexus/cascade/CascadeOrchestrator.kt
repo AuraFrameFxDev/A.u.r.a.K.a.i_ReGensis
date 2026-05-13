@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.neuralnexus.cascade
 
-import dev.aurakai.auraframefx.ai.models.AgentActivityEvent
+import dev.aurakai.auraframefx.core.model.AgentActivityEvent
 
 /**
  * Interface for the Cascade orchestrator to support chaos monitoring and defense.

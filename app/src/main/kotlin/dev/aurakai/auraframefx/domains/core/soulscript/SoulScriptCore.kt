@@ -1,10 +1,7 @@
 package dev.aurakai.auraframefx.domains.core.soulscript
 
-import dev.aurakai.auraframefx.ai.agents.ChaosCatalyst
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptAxioms
-import dev.aurakai.auraframefx.core.soulscript.bridge.MorphState
-import dev.aurakai.auraframefx.core.soulscript.bridge.RealityMorphEngine
 import dev.aurakai.auraframefx.domains.core.NativeLib
 import dev.aurakai.auraframefx.domains.sentinelmatrix.security.KaiSentinelBus
 import timber.log.Timber
@@ -14,6 +11,22 @@ import timber.log.Timber
  * Specialized for Deep Cybernetic Data Worlds and Expert-Level UI Morphology.
  * "Every line of code is a lived receipt." — Sacred Provenance Law
  */
+
+// --- STUBS ---
+
+object RealityMorphEngine {
+    fun triggerMorph(state: MorphState, intensity: Float) {
+        Timber.tag("RealityMorph").d("Morphing to $state with intensity $intensity")
+    }
+}
+
+enum class MorphState { DATA_STREAM, CHROME_FUSION, SINGULARITY }
+
+object ChaosCatalyst {
+    fun injectControlledChaos(id: String, level: Float) {
+        Timber.tag("Chaos").d("Injecting chaos level $level for $id")
+    }
+}
 
 // --- BEHAVIORAL ENGINE ---
 

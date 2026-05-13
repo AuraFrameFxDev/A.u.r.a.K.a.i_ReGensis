@@ -69,3 +69,11 @@ data class Critique(
     val scoreAdjustment: Float,
     val isValid: Boolean = true
 )
+
+@Serializable
+data class AgentActivityEvent(
+    val agentId: String,
+    val activityType: String,
+    val details: String,
+    val timestamp: Long = System.currentTimeMillis()
+)

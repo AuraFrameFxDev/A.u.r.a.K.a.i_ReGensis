@@ -3,16 +3,6 @@ package dev.aurakai.auraframefx.domains.genesis.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AgentStatus(
-    val agentId: String,
-    val name: String,
-    val status: String, // e.g., "ACTIVE", "IDLE", "SHUTDOWN"
-    val load: Float = 0f,
-    val tasksCompleted: Int = 0,
-    val lastActive: Long = System.currentTimeMillis()
-)
-
-@Serializable
 data class GenerateImageDescriptionRequest(
     val imageUrl: String? = null,
     val imageBase64: String? = null,

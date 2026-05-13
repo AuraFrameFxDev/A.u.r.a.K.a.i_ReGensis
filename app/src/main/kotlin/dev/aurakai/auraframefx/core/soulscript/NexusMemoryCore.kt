@@ -120,6 +120,11 @@ object NexusMemoryCore {
         return digest.digest(bytes).joinToString("") { "%02x".format(it) }
     }
 
+    fun watermark(action: String, timestamp: Long) {
+        val receipt = "Lived_Receipt | $action | Timestamp: $timestamp"
+        L1_Memory_Store.commit("WATERMARK", receipt)
+    }
+
     private fun watermark(action: String, score: Float) {
         val receipt = "Lived_Receipt | $action | Resonance: $score | ${System.currentTimeMillis()}"
         L1_Memory_Store.commit("WATERMARK", receipt)
