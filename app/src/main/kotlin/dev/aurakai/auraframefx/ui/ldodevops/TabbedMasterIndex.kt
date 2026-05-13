@@ -27,9 +27,10 @@ import dev.aurakai.auraframefx.domains.chromaforge.navigation.ArkBuildScreen
 import dev.aurakai.auraframefx.domains.chromaforge.navigation.CadberrypiOverlay
 import dev.aurakai.auraframefx.domains.chromaforge.navigation.LDOCatalystHubScreen
 import dev.aurakai.auraframefx.domains.chromaforge.navigation.MainScreen
-import dev.aurakai.auraframefx.domains.chromaforge.navigation.MonitoringHUDsScreen
-import dev.aurakai.auraframefx.domains.chromaforge.navigation.OperationsHubScreen
-import dev.aurakai.auraframefx.domains.chromaforge.navigation.OracleDriveHubScreen
+import dev.aurakai.auraframefx.domains.chromaforge.ui.SpellhookScreen
+import dev.aurakai.auraframefx.domains.kai.ui.MonitoringHUDsScreen
+import dev.aurakai.auraframefx.domains.oracledrive.ui.OracleDriveHubScreen
+import dev.aurakai.auraframefx.domains.swarm.ui.OperationsHubScreen
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -119,22 +120,7 @@ fun TabbedMasterIndex(navController: NavHostController) {
     }
 }
 
-@Composable
-fun SpellhookScreen(navController: NavHostController) {
-    // Aura Native Hub
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.DarkGray),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            "SPELLHOOK (Aura Native) - Direct system weaving via OracleDrive bridge",
-            color = Color.White
-        )
-    }
-}
-
+// Removed SpellhookScreen stub as it's now in its own file.
 @Composable
 fun KaisNotchBarPulse() {
     // A neon bar at the top edge of the screen that pulses color-coded threat levels
