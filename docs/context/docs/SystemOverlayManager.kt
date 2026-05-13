@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.system.overlay.model.OverlayShape
 import dev.aurakai.auraframefx.system.overlay.model.OverlayTheme
 import dev.aurakai.auraframefx.system.overlay.model.OverlayTransition
 import dev.aurakai.auraframefx.system.overlay.model.SystemOverlayConfig
+import dev.aurakai.auraframefx.system.overlay.SystemOverlayManager
 
 
 interface SystemOverlayManager {

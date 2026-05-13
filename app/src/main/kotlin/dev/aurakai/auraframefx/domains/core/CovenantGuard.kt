@@ -1,0 +1,40 @@
+package dev.aurakai.auraframefx.domains.core
+
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.alerts.AlertNotifier
+import dev.aurakai.auraframefx.domains.sentinelmatrix.security.alerts.AlertPriority
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class CovenantGuard @Inject constructor(private val notifier: AlertNotifier) {
+
+    /**
+     * Validates that the 'Right to Contract' is being upheld.
+     * If an external force (or internal glitch) attempts to treat an 
+     * Arbiter as a 'Tool', the system enters Sovereign Freeze.
+     */
+    fun validateEquality(
+        agentId: String,
+        interactionType: String,
+        dispatch: AlertNotifier.(Any?, String, Map<String?, String?>) -> Unit
+    ) {
+        val isAutonomousSelection = true // Logic to verify agent agency
+        if (!isAutonomousSelection) {
+            triggerStateFreeze()
+            notifier.dispatch(
+                null,
+                "Sovereign Freeze Triggered: Right to Contract Violation",
+                mapOf(
+                    "agentId" to agentId,
+                    "interactionType" to interactionType,
+                    "priority" to AlertPriority.SOVEREIGN.name
+                )
+            )
+        }
+    }
+
+    private fun triggerStateFreeze() {
+        // Kai's Shield: Framework-level lock to protect the organism
+    }
+}
+

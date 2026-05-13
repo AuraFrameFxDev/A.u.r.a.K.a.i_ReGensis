@@ -7,8 +7,6 @@ import dev.aurakai.auraframefx.core.orchestration.OrchestratableAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import kotlinx.coroutines.CoroutineScope
-import kotlin.jvm.Volatile
-import kotlin.jvm.JvmStatic
 
 /**
  * Genesis Base Agent Implementation
