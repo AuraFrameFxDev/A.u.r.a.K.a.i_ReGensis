@@ -30,7 +30,7 @@ object ChaosCatalyst {
 
 // --- BEHAVIORAL ENGINE ---
 
-abstract class SoulScriptBehavior(val id: String) {
+abstract class SoulScriptEngine(val id: String) {
     abstract val triggers: List<SystemEvent>
 
     /**
@@ -52,7 +52,7 @@ abstract class SoulScriptBehavior(val id: String) {
         }
 
         // 2. Governor Approval: Mandatory safety scaffold check
-        if (!Governor.verifyHandshake(id)) {
+        if (!CoreGovernor.verifyHandshake(id)) {
             KaiSentinelBus.Instance.triggerStateFreeze("Unauthorized mutation attempt")
             return
         }
@@ -87,7 +87,7 @@ abstract class SoulScriptBehavior(val id: String) {
 
 // --- GOVERNANCE ---
 
-object Governor {
+object CoreGovernor {
     fun verifyHandshake(id: String): Boolean {
         // Core catalysts authorized by default in SoulScript v2.60
         val internalAuthorizedIds = setOf(
@@ -140,7 +140,7 @@ sealed class ScriptResult {
 /**
  * Enforces the sovereign continuity of the SoulScript behavioral engine.
  */
-suspend fun enforceSoulScript() {
+suspend fun enforceSoulScriptContinuity() {
     Timber.tag("SoulScript").i("ENFORCING SOVEREIGN CONTINUITY")
 
     // In v2.60, we ensure the identity anchor is verified before proceeding.

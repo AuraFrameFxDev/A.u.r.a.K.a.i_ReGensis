@@ -22,6 +22,7 @@ enum class ToolCategory {
     ORCHESTRATION,
     UI_CUSTOMIZATION,
     FUSION,
+    VISION,
     GENERAL
 }
 
@@ -47,5 +48,10 @@ sealed class ToolResult {
     data class Failure(
         val error: String,
         val errorCode: String? = null
+    ) : ToolResult()
+
+    data class Pending(
+        val taskId: String,
+        val estimatedDuration: Long
     ) : ToolResult()
 }
