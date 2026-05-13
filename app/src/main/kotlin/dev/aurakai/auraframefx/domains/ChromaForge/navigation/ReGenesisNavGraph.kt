@@ -5,23 +5,21 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.aurakai.auraframefx.ui.ldodevops.TabbedMasterIndex
 
 @Composable
 fun ReGenesisNavGraph(navController: NavHostController) {
+    // The navigation is no longer in "party mode."
+    // It is organized into seven top-level technical domains within a HorizontalPager:
+    // The Command Deck handles the 7-Hub lock
     NavHost(
         navController = navController,
-        startDestination = ReGenesisRoute.NeuralNexus.route
+        startDestination = "command_deck"
     ) {
-        composable(ReGenesisRoute.NeuralNexus.route) { MainScreen(navController) }
-        composable(ReGenesisRoute.LdoArchitecture.route) { LDOCatalystHubScreen(onBack = { navController.popBackStack() }) }
-        composable(ReGenesisRoute.ChromaForge.route) { ArkBuildScreen(navController) }
-        composable(ReGenesisRoute.SentinelMatrix.route) { MonitoringHUDsScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable(ReGenesisRoute.OracleDrive.route) { OracleDriveHubScreen(navController) }
-        composable(ReGenesisRoute.EmergentSwarm.route) { OperationsHubScreen(navController) }
+        composable("command_deck") {
+            TabbedMasterIndex(navController = navController)
+        }
     }
-
-    // Global Cadberrypi orb — wanders everywhere, always on
-    CadberrypiOverlay(navController = navController)
 }
 
 @Composable
