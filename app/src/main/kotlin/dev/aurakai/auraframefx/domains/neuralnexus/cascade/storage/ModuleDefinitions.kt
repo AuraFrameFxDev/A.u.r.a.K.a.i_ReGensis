@@ -25,6 +25,7 @@ import dev.aurakai.auraframefx.core.ui.components.GlassCardStyles
  * These are the ACTUAL features in the AuraFrameFx project!
  */
 
+@OptIn(ExperimentalStdlibApi::class)
 object AuraKaiModules {
 
     /**
