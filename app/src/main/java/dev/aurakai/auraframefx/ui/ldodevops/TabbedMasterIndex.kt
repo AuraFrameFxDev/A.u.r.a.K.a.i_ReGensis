@@ -25,16 +25,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.aura.screens.MainScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LDOCatalystHubScreen
+import dev.aurakai.auraframefx.domains.chromaforge.ui.SpellhookScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ArkBuildScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.MonitoringHUDsScreen
-import dev.aurakai.auraframefx.domains.oracledrive.ui.OracleDriveHubScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LDOCatalystHubScreen
 import dev.aurakai.auraframefx.domains.operations.screens.OperationsHubScreen
-import dev.aurakai.auraframefx.domains.chromaforge.ui.SpellhookScreen
-import dev.aurakai.auraframefx.ui.background.BackgroundAssetManager
-import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.oracledrive.ui.OracleDriveHubScreen
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -128,9 +127,9 @@ fun TabbedMasterIndex(navController: NavHostController) {
                 ) { page ->
                     when (page) {
                         0 -> MainScreen(
-                            onNavigateToAgentNexus = { navController.navigate(ReGenesisRoute.AgentNexus.route) },
-                            onNavigateToOracleDrive = { navController.navigate(ReGenesisRoute.OracleDrive.route) },
-                            onNavigateToSettings = { navController.navigate(ReGenesisRoute.Settings.route) },
+                            onNavigateToAgentNexus = { navController.navigate(ReGenesisRoute.AgentNexusHub.route) },
+                            onNavigateToOracleDrive = { navController.navigate(ReGenesisRoute.OracleDriveHub.route) },
+                            onNavigateToSettings = { navController.navigate(ReGenesisRoute.UISettings.route) },
                             themeViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
                         )
 

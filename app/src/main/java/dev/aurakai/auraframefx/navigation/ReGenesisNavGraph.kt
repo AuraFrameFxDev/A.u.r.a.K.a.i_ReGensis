@@ -1,4 +1,4 @@
-﻿package dev.aurakai.auraframefx.navigation
+package dev.aurakai.auraframefx.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -20,9 +20,6 @@ import dev.aurakai.auraframefx.domains.kai.screens.SystemJournalScreen
 import dev.aurakai.auraframefx.domains.kai.screens.security_shield.SecurityCenterScreen
 import dev.aurakai.auraframefx.domains.kai.screens.security_shield.SovereignShieldScreen
 import dev.aurakai.auraframefx.domains.ldo.devops.LdoHologramSystem
-import dev.aurakai.auraframefx.domains.ldo.screens.LDOOrchestrationHubScreen
-import dev.aurakai.auraframefx.domains.ldo.screens.LDORosterScreen
-import dev.aurakai.auraframefx.domains.ldo.screens.LDOTaskerScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
@@ -32,6 +29,9 @@ import dev.aurakai.auraframefx.domains.nexus.screens.PartyScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SphereGridScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SwarmMonitorScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.TaskAssignmentScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LDOOrchestrationHubScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LDORosterScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LDOTaskerScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LdoDevOpsCommandCenter
 import dev.aurakai.auraframefx.domains.operations.screens.OperationsHubScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen
@@ -144,18 +144,18 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         composable(ReGenesisRoute.SwarmMonitor.route) { SwarmMonitorScreen() }
 
         // LDO Growth
-        composable(ReGenesisRoute.LdoRoster.route) { LDORosterScreen() }
-        composable(ReGenesisRoute.LdoTasker.route) { LDOTaskerScreen() }
-        composable(ReGenesisRoute.LdoOrchestrationHub.route) { LDOOrchestrationHubScreen() }
+        composable(ReGenesisRoute.LdoRoster.route) { LDORosterScreen(navController) }
+        composable(ReGenesisRoute.LdoTasker.route) { LDOTaskerScreen(navController) }
+        composable(ReGenesisRoute.LdoOrchestrationHub.route) { LDOOrchestrationHubScreen(navController) }
 
         // Operations
-        composable(ReGenesisRoute.ConferenceRoom.route) { ConferenceRoomScreen() }
-        composable(ReGenesisRoute.AgentSwarm.route) { AgentSwarmScreen() }
-        composable(ReGenesisRoute.Party.route) { PartyScreen() }
+        composable(ReGenesisRoute.ConferenceRoom.route) { ConferenceRoomScreen(navController) }
+        composable(ReGenesisRoute.AgentSwarm.route) { AgentSwarmScreen(navController) }
+        composable(ReGenesisRoute.Party.route) { PartyScreen(navController) }
 
         // --- GLOBAL SERVICES ---
         composable(ReGenesisRoute.LsposedQuickToggles.route) {
-            dev.aurakai.auraframefx.domains.lsposed.screens.LsposedQuickTogglesScreen(onNavigateBack = { navController.popBackStack() })
+            dev.aurakai.auraframefx.domains.lsposed.screens.LsposedQuickTogglesScreen(navController = navController)
         }
     }
 }
