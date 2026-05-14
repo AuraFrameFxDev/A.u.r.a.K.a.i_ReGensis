@@ -1,0 +1,154 @@
+package dev.aurakai.auraframefx.domains.liveui
+
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.content.Context
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+
+/**
+ * Renders a full-screen interactive overlay that displays a cyan→magenta burst and a vertical "drip" animation,
+ * and requests an edit for the specified target when tapped.
+ *
+ * The composable performs a short pre-hover visual when predictive touch indicates an imminent tap,
+ * runs the burst + drip animations on tap, triggers a short custom haptic waveform when available,
+ * and invokes `onEditRequested` with an `EditTarget` whose `componentId` is `targetViewId` and `action` is `"recolor"`.
+ *
+ * @param targetViewId Identifier of the component to edit; used as the `componentId` field in the emitted `EditTarget`.
+ * @param onEditRequested Callback invoked when the marker is tapped. Receives an `EditTarget` describing the requested edit.
+ * @param modifier Modifier applied to the outer container of the overlay.
+ */
+@Composable
+fun LiveEditMarker(
+    targetViewId: String,
+    onEditRequested: (EditTarget) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val splatScale = remember { Animatable(0f) }
+    val dripProgress = remember { Animatable(0f) }
+    val coroutineScope = rememberCoroutineScope()
+    val predictiveTouch = rememberPredictiveTouch() // 100ms lookahead
+    val context = LocalContext.current // Get context in composable scope
+
+    LaunchedEffect(predictiveTouch.isImminent) {
+        if (predictiveTouch.isImminent) {
+            splatScale.snapTo(0.5f) // hover pre-scan
+        }
+    }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        Canvas(
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(targetViewId) {
+                    detectTapGestures {
+                        coroutineScope.launch {
+                            splatScale.animateTo(1.8f, tween(120))
+                            splatScale.animateTo(1f, tween(400))
+                            dripProgress.animateTo(1f, tween(1800, easing = LinearEasing))
+                        }
+                        // Rebel Drip haptic waveform (120Hz pop -> 60->20Hz descending drip)
+                        val vibrator =
+                            context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+                        vibrator?.vibrate(
+                            VibrationEffect.createWaveform(
+                                longArrayOf(0, 40, 60, 80),
+                                intArrayOf(0, 255, 180, 80),
+                                -1
+                            )
+                        )
+                        onEditRequested(EditTarget(componentId = targetViewId, action = "recolor"))
+                    }
+                }
+        ) {
+            // cyan-to-magenta burst
+            drawCircle(
+                brush = Brush.radialGradient(
+                    listOf(Color(0xFF00FFFF), Color(0xFFFF00FF), Color.Transparent),
+                    radius = 120f * splatScale.value
+                ),
+                radius = 120f * splatScale.value,
+                center = Offset(size.width / 2, size.height / 2)
+            )
+
+            // vertical drip flow
+            if (dripProgress.value > 0f) {
+                val path = Path().apply {
+                    moveTo(size.width * 0.35f, size.height * 0.35f)
+                    quadraticTo(
+                        size.width * 0.5f,
+                        size.height * (0.35f + dripProgress.value * 1.6f),
+                        size.width * 0.65f,
+                        size.height * (0.35f + dripProgress.value * 2.0f)
+                    )
+                }
+                drawPath(
+                    path,
+                    Brush.verticalGradient(
+                        listOf(
+                            Color.Transparent,
+                            Color(0xFF00FFFF),
+                            Color(0xFFFF00FF)
+                        )
+                    ),
+                    alpha = 0.85f
+                )
+            }
+        }
+    }
+}
+
+/**
+ * Creates and remembers a PredictiveTouchState for predictive touch lookahead.
+ *
+ * @return The remembered PredictiveTouchState used to track whether a touch is imminent.
+ */
+@Composable
+fun rememberPredictiveTouch(): PredictiveTouchState {
+    return remember { PredictiveTouchState() }
+}
+
+class PredictiveTouchState {
+    var isImminent by mutableStateOf(false)
+        private set
+
+    /**
+     * Sets whether a predictive touch is considered imminent.
+     *
+     * @param value `true` if a touch is imminent, `false` otherwise.
+     */
+    fun updateImminent(value: Boolean) {
+        isImminent = value
+    }
+}
+
+// Data classes for LiveEditMarker
+@Serializable
+data class EditTarget(
+    val componentId: String,
+    val action: String,
+    val markerColorStart: Int = 0xFF00FFFF.toInt(),
+    val markerColorEnd: Int = 0xFFFF00FF.toInt()
+) {
+    val markerColorPair: Pair<Int, Int>
+        get() = Pair(markerColorStart, markerColorEnd)
+}
+
+@Serializable
+data class HapticProfile(
+    val pattern: LongArray,
+    val amplitude: IntArray,
+    val frequencyHz: IntArray
+)
