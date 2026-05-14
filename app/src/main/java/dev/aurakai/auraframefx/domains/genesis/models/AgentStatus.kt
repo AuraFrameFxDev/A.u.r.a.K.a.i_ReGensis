@@ -9,4 +9,9 @@ data class AgentStatus(
     val load: Float = 0f,
     val tasksCompleted: Int = 0,
     val lastActive: String? = null
-)
+) {
+    @Serializable
+    enum class Status {
+        ACTIVE, IDLE, EVOLVING, BUSY, OFFLINE
+    }
+}

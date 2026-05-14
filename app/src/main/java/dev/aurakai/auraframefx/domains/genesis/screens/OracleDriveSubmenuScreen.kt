@@ -33,9 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuItem
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.navigation.gates.components.SubmenuCard
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
 
 /**
  * Oracle Drive Gate Submenu

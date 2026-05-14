@@ -1,6 +1,8 @@
 package dev.aurakai.auraframefx.core.orchestration
 
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -48,14 +50,12 @@ interface OrchestratableAgent {
     /**
      * Processes an AI request within the agent's orchestration context and produces an agent response.
      *
-     * The default implementation returns a simple textual reply that references the agent's name.
-     *
      * @param request The incoming AI request containing the prompt and optional context map.
      * @param context A string identifying the conversational or execution context for this request.
-     * @return An AgentResponse containing the agent's reply text and a status (defaults to `Status.SUCCESS`).
+     * @return An AgentResponse containing the agent's reply text.
      */
     suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
-        return AgentResponse("Default response from $agentName")
+        return AgentResponse(content = "Default response from $agentName")
     }
 
     /**
@@ -67,20 +67,3 @@ interface OrchestratableAgent {
      */
     suspend fun onAgentMessage(message: AgentMessage) {}
 }
-
-// Data classes needed by the interface
-data class AgentResponse(
-    val content: String,
-    val status: Status = Status.SUCCESS
-) {
-    enum class Status {
-        SUCCESS,
-        ERROR,
-        PENDING
-    }
-}
-
-data class AiRequest(
-    val prompt: String,
-    val context: Map<String, Any> = emptyMap()
-)

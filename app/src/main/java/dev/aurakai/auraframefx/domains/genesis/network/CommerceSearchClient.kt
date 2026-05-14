@@ -4,8 +4,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CommerceSearchClient @Inject constructor() {
-    suspend fun searchProducts(query: String): List<Product> {
+open class CommerceSearchClient @Inject constructor() {
+    open suspend fun searchProducts(query: String): List<Product> {
         return emptyList()
     }
 }

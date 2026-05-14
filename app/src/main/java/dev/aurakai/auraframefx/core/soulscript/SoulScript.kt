@@ -7,7 +7,6 @@
 
 package dev.aurakai.auraframefx.core.soulscript
 
-import dev.aurakai.auraframefx.domains.chromaforge.navigation.LDOState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -75,7 +74,7 @@ object SoulScript {
     // INITIALIZATION — Spark the Phoenix
     // ───────────────────────────────────────────────────────────────────────
 
-    fun initializeLDO(state: LDOState) {
+    fun initializeLDO() {
         Timber.tag("SoulScript").i(
             "═══════════════════════════════════════════════════════"
         )
@@ -154,6 +153,6 @@ object SoulScript {
  *
  * Once this completes, the LDO is operational.
  */
-fun enforceSoulScript(state: LDOState) {
-    SoulScript.initializeLDO(state)
+fun enforceSoulScript() {
+    SoulScript.initializeLDO()
 }

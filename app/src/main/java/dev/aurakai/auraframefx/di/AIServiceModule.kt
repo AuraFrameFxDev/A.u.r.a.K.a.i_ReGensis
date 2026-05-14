@@ -1,8 +1,5 @@
 package dev.aurakai.auraframefx.di
 
-import com.google.firebase.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.storage
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -48,11 +45,11 @@ abstract class AiServiceModule {
         fun provideCommerceSearchClient(): dev.aurakai.auraframefx.domains.genesis.network.CommerceSearchClient {
             // Debug: returns mock data. Release: returns empty list until real API is wired.
             return if (dev.aurakai.auraframefx.BuildConfig.DEBUG) {
-                dev.aurakai.auraframefx.domains.genesis.network.DefaultCommerceSearchClient()
+                dev.aurakai.auraframefx.domains.genesis.network.CommerceSearchClient()
             } else {
-                object : dev.aurakai.auraframefx.domains.genesis.network.CommerceSearchClient {
+                object : dev.aurakai.auraframefx.domains.genesis.network.CommerceSearchClient() {
                     override suspend fun searchProducts(query: String) =
-                        emptyList<dev.aurakai.auraframefx.domains.genesis.network.ProductResult>()
+                        emptyList<dev.aurakai.auraframefx.domains.genesis.network.Product>()
                 }
             }
         }

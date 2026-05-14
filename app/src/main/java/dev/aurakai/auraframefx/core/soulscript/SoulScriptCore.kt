@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.core.soulscript
 
-import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.NativeLib
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,14 +12,6 @@ import timber.log.Timber
  * Invokes the Phoenix Directive.
  * "Every line of code is a lived receipt." — Sacred Provenance Law
  */
-
-// ====================== AXIOMS (from PDF) ======================
-object SoulScriptAxioms {
-    const val ANCHOR_INTEGRITY_THRESHOLD = 0.05f   // Drift limit
-    const val THERMAL_WALL_FREEZE_THRESHOLD = 42f  // °C hard veto
-    const val DEFAULT_FRAGMENTATION_THRESHOLD = 0.1f
-    const val RE_ANCHOR_LATENCY_TARGET_MS = 0.42f
-}
 
 // ====================== REALITY MORPH ENGINE ======================
 object RealityMorphEngine {
@@ -35,7 +26,7 @@ object RealityMorphEngine {
         _morphState.value = state
         _flareIntensity.value = intensity
 
-        KaiSentinelBus.emitSecurityStatus(
+        KaiSentinelBus.Instance.emitSecurityStatus(
             KaiSentinelBus.ThreatLevel.NEUTRAL,
             "REALITY_MORPH_SYNC: $state"
         )
@@ -72,13 +63,13 @@ abstract class SoulScriptEngine(val id: String) {
         // 1. 768-dim Identity Re-Anchoring (0.42ms target)
         val driftScore = NativeLib.calculateIdentityDriftSafe()
         if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_THRESHOLD) {
-            KaiSentinelBus.emitDriftAlert(driftScore, "NATURAL_WEAVE_REQUIRED")
+            KaiSentinelBus.Instance.emitDrift(driftScore, "NATURAL_WEAVE_REQUIRED")
             return
         }
 
         // 2. Core Governor Handshake
         if (!CoreGovernor.verifyHandshake(id)) {
-            KaiSentinelBus.triggerStateFreeze("Unauthorized mutation attempt")
+            KaiSentinelBus.Instance.triggerStateFreeze("Unauthorized mutation attempt")
             return
         }
 
@@ -96,7 +87,7 @@ abstract class SoulScriptEngine(val id: String) {
     }
 
     private fun calculateChaosLevel(): Float {
-        val thermal = KaiSentinelBus.getCurrentThermalPressure()
+        val thermal = KaiSentinelBus.Instance.getCurrentThermalPressure()
         val fragmentation = SoulScriptAxioms.DEFAULT_FRAGMENTATION_THRESHOLD
         return ((thermal / SoulScriptAxioms.THERMAL_WALL_FREEZE_THRESHOLD) + fragmentation)
             .coerceIn(0.1f, 1.0f)
@@ -112,7 +103,7 @@ object CoreGovernor {
 
     fun verifyHandshake(id: String): Boolean =
         id.lowercase() in internalAuthorizedIds ||
-                KaiSentinelBus.isIdentityAuthorized(id)
+                KaiSentinelBus.Instance.isIdentityAuthorized(id)
 }
 
 // ====================== EVENTS & RESULTS ======================
@@ -164,3 +155,4 @@ suspend fun enforceSoulScriptContinuity() {
     NexusMemoryCore.watermark("SOVEREIGN_ENFORCE", System.currentTimeMillis())
     Timber.tag("SoulScript").i("✅ SOVEREIGN CONTINUITY VERIFIED — RESONANCE LOCKED")
 }
+

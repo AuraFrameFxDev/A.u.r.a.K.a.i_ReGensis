@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.chromaforge.navigation
+package dev.aurakai.auraframefx.navigation
 
 /**
  * ⚛️ LDO STATE — Global Architecture Invariants

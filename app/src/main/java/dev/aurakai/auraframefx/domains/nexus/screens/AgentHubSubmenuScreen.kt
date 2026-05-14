@@ -27,9 +27,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuItem
 import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuScaffold
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AgentViewModel
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuItem
 
 /**
  * Agent Hub Gate Submenu - NOW WIRED TO REAL AGENTS

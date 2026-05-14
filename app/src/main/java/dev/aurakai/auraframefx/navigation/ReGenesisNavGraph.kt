@@ -24,6 +24,7 @@ import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.FusionModeScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.PartyScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SphereGridScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SwarmMonitorScreen
@@ -58,7 +59,7 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         }
 
         composable(ReGenesisRoute.SplashScreen.route) {
-            SplashScreen(onAnimationComplete = {
+            SplashScreen(onSplashFinished = {
                 navController.navigate(ReGenesisRoute.MainScreen.route)
             })
         }
@@ -112,12 +113,17 @@ fun ReGenesisNavGraph(navController: NavHostController) {
             AuraAcademyScreen(onNavigateBack = { navController.popBackStack() })
         }
         composable(ReGenesisRoute.ChromaCore.route) {
-            AuraLabChromaCoreScreen(onNavigateBack = { navController.popBackStack() })
+            AuraLabChromaCoreScreen(
+                onNavigateBack = { navController.popBackStack() },
+                navController = navController
+            )
         }
         composable(ReGenesisRoute.ThemeEngine.route) {
             ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
         }
-        composable(ReGenesisRoute.EvolutionTree.route) { EvolutionTreeScreen() }
+        composable(ReGenesisRoute.EvolutionTree.route) {
+            EvolutionTreeScreen(viewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel())
+        }
 
         // Kai Sentinel
         composable(ReGenesisRoute.SecurityCenter.route) { SecurityCenterScreen() }
@@ -135,9 +141,11 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         }
 
         // Nexus Swarm
-        composable(ReGenesisRoute.AgentMonitoring.route) { AgentMonitoringScreen() }
+        composable(ReGenesisRoute.AgentMonitoring.route) {
+            AgentMonitoringScreen(onNavigateBack = { navController.popBackStack() })
+        }
         composable(ReGenesisRoute.SphereGrid.route) { SphereGridScreen(navController = navController) }
-        composable(ReGenesisRoute.FusionMode.route) { NexusFusionScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.FusionMode.route) { FusionModeScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.TaskAssignment.route) { TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.AgentCreation.route) { AgentCreationScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.SwarmMonitor.route) { SwarmMonitorScreen(onNavigateBack = { navController.popBackStack() }) }
