@@ -140,10 +140,7 @@ fun LdoHologramSystem(
 
                     4 -> OracleDriveTabContent(onNavigateToRoute)
 
-                    5 -> LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp)
-                    ) { emergentSwarmTabContent(onNavigateToRoute) }
+                    5 -> dev.aurakai.auraframefx.domains.swarm.ui.OperationsHubScreen(androidx.navigation.compose.rememberNavController())
                 }
             }
 
@@ -229,24 +226,18 @@ fun GlobalSSIStatusBar(accentColor: Color) {
 
 @Composable
 fun ChromaForgeTabContent(onNavigate: (String) -> Unit) {
-    // TODO: Implement Chroma Forge content
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("CHROMA FORGE CONTENT", color = NeonCyan)
-    }
+    // Uses the actual MainScreen for Chroma Forge
+    dev.aurakai.auraframefx.domains.chromaforge.navigation.MainScreen(androidx.navigation.compose.rememberNavController())
 }
 
 @Composable
 fun SentinelMatrixTabContent(onNavigate: (String) -> Unit) {
-    // TODO
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("SENTINEL MATRIX CONTENT", color = NeonCyan)
-    }
+    // Wires up Kai's Shield
+    dev.aurakai.auraframefx.domains.kai.ui.MonitoringHUDsScreen { true }
 }
 
 @Composable
 fun OracleDriveTabContent(onNavigate: (String) -> Unit) {
-    // TODO
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("ORACLEDRIVE CONTENT", color = NeonCyan)
-    }
+    // Wires up the AES-GCM locked OracleDrive
+    dev.aurakai.auraframefx.domains.oracledrive.ui.OracleDriveHubScreen(androidx.navigation.compose.rememberNavController())
 }

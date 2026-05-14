@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.chromaforge.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,21 +19,6 @@ fun ReGenesisNavGraph(navController: NavHostController) {
             TabbedMasterIndex(navController = navController)
         }
     }
-}
-
-@Composable
-fun OperationsHubScreen(navController: NavController) {
-    TODO("Not yet implemented")
-}
-
-@Composable
-fun OracleDriveHubScreen(x0: NavHostController) {
-    TODO("Not yet implemented")
-}
-
-@Composable
-fun MonitoringHUDsScreen(onNavigateBack: () -> Boolean) {
-    TODO("Not yet implemented")
 }
 
 @Composable
