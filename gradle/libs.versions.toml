@@ -40,7 +40,7 @@ hilt-ext = "1.4.0-beta01"
 firebase-bom = "34.12.0"
 firebase-sql-connect = "17.2.1"
 firebase-vertexai = "17.11.0"
-langchain4j = "1.14.0"
+langchain4j = "1.14.1"
 executorch = "1.2.0"
 
 # System & Modding (The "Rikka" Stack)
