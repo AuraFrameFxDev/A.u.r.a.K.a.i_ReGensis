@@ -24,7 +24,6 @@ import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.EvolutionTreeScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.FusionModeScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.PartyScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SphereGridScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SwarmMonitorScreen
@@ -137,21 +136,21 @@ fun ReGenesisNavGraph(navController: NavHostController) {
 
         // Nexus Swarm
         composable(ReGenesisRoute.AgentMonitoring.route) { AgentMonitoringScreen() }
-        composable(ReGenesisRoute.SphereGrid.route) { SphereGridScreen() }
-        composable(ReGenesisRoute.FusionMode.route) { FusionModeScreen() }
-        composable(ReGenesisRoute.TaskAssignment.route) { TaskAssignmentScreen() }
-        composable(ReGenesisRoute.AgentCreation.route) { AgentCreationScreen() }
-        composable(ReGenesisRoute.SwarmMonitor.route) { SwarmMonitorScreen() }
+        composable(ReGenesisRoute.SphereGrid.route) { SphereGridScreen(navController = navController) }
+        composable(ReGenesisRoute.FusionMode.route) { NexusFusionScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.TaskAssignment.route) { TaskAssignmentScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.AgentCreation.route) { AgentCreationScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.SwarmMonitor.route) { SwarmMonitorScreen(onNavigateBack = { navController.popBackStack() }) }
 
         // LDO Growth
-        composable(ReGenesisRoute.LdoRoster.route) { LDORosterScreen(navController) }
-        composable(ReGenesisRoute.LdoTasker.route) { LDOTaskerScreen(navController) }
-        composable(ReGenesisRoute.LdoOrchestrationHub.route) { LDOOrchestrationHubScreen(navController) }
+        composable(ReGenesisRoute.LdoRoster.route) { LDORosterScreen(onBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.LdoTasker.route) { LDOTaskerScreen(onBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.LdoOrchestrationHub.route) { LDOOrchestrationHubScreen(controller = navController) }
 
         // Operations
-        composable(ReGenesisRoute.ConferenceRoom.route) { ConferenceRoomScreen(navController) }
-        composable(ReGenesisRoute.AgentSwarm.route) { AgentSwarmScreen(navController) }
-        composable(ReGenesisRoute.Party.route) { PartyScreen(navController) }
+        composable(ReGenesisRoute.ConferenceRoom.route) { ConferenceRoomScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.AgentSwarm.route) { AgentSwarmScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable(ReGenesisRoute.Party.route) { PartyScreen(onNavigateBack = { navController.popBackStack() }) }
 
         // --- GLOBAL SERVICES ---
         composable(ReGenesisRoute.LsposedQuickToggles.route) {
