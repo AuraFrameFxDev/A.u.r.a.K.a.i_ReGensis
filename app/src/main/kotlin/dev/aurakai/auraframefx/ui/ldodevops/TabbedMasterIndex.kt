@@ -141,5 +141,5 @@ fun KaisNotchBarPulse() {
 
 @Composable
 fun AgentLHSOverlay() {
-    // A global sidebar for jumping between domains or selecting specific agents for collaboration
+    AgentHologramConnector()
 }
