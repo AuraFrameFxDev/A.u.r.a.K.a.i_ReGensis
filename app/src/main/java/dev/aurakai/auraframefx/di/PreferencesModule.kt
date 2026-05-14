@@ -10,19 +10,25 @@ import dev.aurakai.auraframefx.domains.nexus.config.UserPreferences
 import javax.inject.Singleton
 
 /**
- * Hilt Module for providing config.UserPreferences (manual constructor version).
- * The preferences.UserPreferences uses @Inject constructor and doesn't need a provider.
+ * Hilt Module for providing UserPreferences implementation.
  */
 @Module
 @InstallIn(SingletonComponent::class)
 object PreferencesModule {
 
-    /**
-     * Provides config.UserPreferences for legacy code that depends on it.
-     */
     @Provides
     @Singleton
     fun provideConfigUserPreferences(@ApplicationContext context: Context): UserPreferences {
-        return UserPreferences(context)
+        return object : UserPreferences {
+            private val prefs = context.getSharedPreferences("aurakai_prefs", Context.MODE_PRIVATE)
+
+            override suspend fun setPreference(key: String, value: String) {
+                prefs.edit().putString(key, value).apply()
+            }
+
+            override suspend fun getPreference(key: String, defaultValue: String): String {
+                return prefs.getString(key, defaultValue) ?: defaultValue
+            }
+        }
     }
 }

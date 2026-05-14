@@ -126,7 +126,7 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         }
 
         // Kai Sentinel
-        composable(ReGenesisRoute.SecurityCenter.route) { SecurityCenterScreen() }
+        composable(ReGenesisRoute.SecurityCenter.route) { SecurityCenterScreen(onNavigateBack = { navController.popBackStack() }) }
         composable(ReGenesisRoute.SovereignShield.route) {
             SovereignShieldScreen(onNavigateBack = { navController.popBackStack() })
         }

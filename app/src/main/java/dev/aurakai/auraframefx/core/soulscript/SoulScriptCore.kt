@@ -27,7 +27,7 @@ object RealityMorphEngine {
         _flareIntensity.value = intensity
 
         KaiSentinelBus.Instance.emitSecurityStatus(
-            KaiSentinelBus.ThreatLevel.NEUTRAL,
+            KaiSentinelBus.ThreatLevel.NOMINAL,
             "REALITY_MORPH_SYNC: $state"
         )
     }

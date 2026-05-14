@@ -17,13 +17,6 @@ data class GenerateImageDescriptionResponse(
     val confidence: Float = 1.0f
 )
 
-@Serializable
-data class TaskScheduleRequest(
-    val taskId: String,
-    val agentId: String? = null,
-    val priority: Int = 1,
-    val scheduledTime: Long = System.currentTimeMillis()
-)
 
 @Serializable
 data class TaskScheduleResponse(

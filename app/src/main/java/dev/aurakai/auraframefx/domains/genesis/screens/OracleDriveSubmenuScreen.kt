@@ -33,9 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.domains.aura.ui.components.GlassSubmenuCard
 import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuItem
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuCard
 
 /**
  * Oracle Drive Gate Submenu
@@ -196,7 +196,7 @@ fun OracleDriveSubmenuScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(menuItems) { item: SubmenuItem ->
-                    SubmenuCard(
+                    GlassSubmenuCard(
                         item = item,
                         onClick = {
                             navController.navigate(item.route)

@@ -25,10 +25,39 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.navigation.gates.common.GenesisToolCard
-import dev.aurakai.auraframefx.navigation.gates.common.NexusToolCard
-import dev.aurakai.auraframefx.navigation.gates.common.SentinelToolCard
-import dev.aurakai.auraframefx.navigation.gates.common.ThemingToolCard
+
+// --- Tool Card data models (self-contained) ---
+
+data class NexusToolCard(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector? = null,
+    val accentColor: Color = Color.Cyan,
+    val isWired: Boolean = false
+)
+
+data class ThemingToolCard(
+    val title: String,
+    val subtitle: String,
+    val accentColor: Color = Color.Magenta,
+    val isWired: Boolean = false
+)
+
+data class SentinelToolCard(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector? = null,
+    val accentColor: Color = Color.Blue,
+    val isWired: Boolean = false
+)
+
+data class GenesisToolCard(
+    val title: String,
+    val subtitle: String,
+    val icon: ImageVector? = null,
+    val accentColor: Color = Color(0xFFFFD700),
+    val isWired: Boolean = false
+)
 
 @Composable
 fun NexusCard(tool: NexusToolCard, onClick: () -> Unit) {
@@ -139,4 +168,3 @@ private fun HubCard(
         }
     }
 }
-

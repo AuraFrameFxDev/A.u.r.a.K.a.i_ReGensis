@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 object BackgroundAssetManager {
     val liveDashboard = "bg_live_dashboard"
+    val agentNexus = "bg_agent_nexus"
 
     @Composable
     fun DomainBackground(

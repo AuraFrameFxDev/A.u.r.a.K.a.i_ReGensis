@@ -4,23 +4,21 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.aura.reactivedesign.dev.aurakai.auraframefx.aura.reactivedesign.collabcanvas.di.CollabCanvasUrl
 import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.core.di.qualifiers.BaseUrl
-import dev.aurakai.auraframefx.domains.genesis.config.ClaudeEnvConfig
 import dev.aurakai.auraframefx.domains.aura.AuraNetwork
+import dev.aurakai.auraframefx.domains.cascade.utils.AppCoroutineDispatchers
+import dev.aurakai.auraframefx.domains.genesis.config.ClaudeEnvConfig
 import dev.aurakai.auraframefx.domains.genesis.network.AuraApiService
-import dev.aurakai.auraframefx.domains.genesis.network.AuthInterceptor
-import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi as ApiAuthApi
 import dev.aurakai.auraframefx.domains.genesis.network.AuthApi
+import dev.aurakai.auraframefx.domains.genesis.network.AuthInterceptor
+import dev.aurakai.auraframefx.domains.genesis.network.DefaultWebSearchClient
+import dev.aurakai.auraframefx.domains.genesis.network.WebSearchClient
 import dev.aurakai.auraframefx.domains.genesis.network.api.AIAgentApi
 import dev.aurakai.auraframefx.domains.genesis.network.api.ThemeApi
 import dev.aurakai.auraframefx.domains.genesis.network.api.UserApi
-import dev.aurakai.auraframefx.domains.genesis.network.WebSearchClient
-import dev.aurakai.auraframefx.domains.genesis.network.DefaultWebSearchClient
-import dev.aurakai.auraframefx.domains.cascade.utils.AppCoroutineDispatchers
-import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -29,6 +27,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi as ApiAuthApi
 
 /**
  * Dagger Hilt module that provides network-related dependencies.

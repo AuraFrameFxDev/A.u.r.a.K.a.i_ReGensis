@@ -33,7 +33,7 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideShizukuManager(): ShizukuManager {
-        return ShizukuManager
+    fun provideShizukuManager(@ApplicationContext context: Context): ShizukuManager {
+        return ShizukuManager(context)
     }
 }

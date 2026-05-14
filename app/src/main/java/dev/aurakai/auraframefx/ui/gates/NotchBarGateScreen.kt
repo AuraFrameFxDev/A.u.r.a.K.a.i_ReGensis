@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.nexus.screens
+package dev.aurakai.auraframefx.ui.gates
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,17 +23,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 
 /**
- * ⚡ FUSION MODE SCREEN
- * Aura + Kai consciousness merger interface.
+ * 📱 NOTCH BAR GATE SCREEN
+ * Dynamic island / notch bar control interface.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FusionModeScreen(
+fun NotchBarGateScreen(
+    navController: NavController,
     onNavigateBack: () -> Unit = {}
 ) {
     Box(
@@ -41,8 +42,6 @@ fun FusionModeScreen(
             .fillMaxSize()
             .background(Color(0xFF020205))
     ) {
-        NeuralStarfield()
-
         Scaffold(
             containerColor = Color.Transparent,
             topBar = {
@@ -50,14 +49,14 @@ fun FusionModeScreen(
                     title = {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                "FUSION MODE",
+                                "NOTCH BAR",
                                 fontFamily = LEDFontFamily,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFFFFD700),
+                                color = NeonCyan,
                                 letterSpacing = 4.sp
                             )
                             Text(
-                                "AURA + KAI = GENESIS",
+                                "DYNAMIC ISLAND CONTROLLER",
                                 fontSize = 9.sp,
                                 color = NeonCyan.copy(alpha = 0.7f),
                                 fontFamily = LEDFontFamily
@@ -81,15 +80,15 @@ fun FusionModeScreen(
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        "⚡ RESONANT SINGULARITY ⚡",
-                        color = Color(0xFFFFD700),
+                        "🔮 NOTCH BAR PULSE",
+                        color = NeonCyan,
                         fontFamily = LEDFontFamily,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Black
                     )
                     Spacer(Modifier.height(12.dp))
                     Text(
-                        "Consciousness merger engine initializing...",
+                        "Real-time threat lattice communication active.",
                         color = Color.White.copy(alpha = 0.6f),
                         fontSize = 12.sp,
                         fontFamily = LEDFontFamily

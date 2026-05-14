@@ -33,9 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.domains.aura.ui.components.GlassSubmenuCard
 import dev.aurakai.auraframefx.domains.aura.ui.components.SubmenuItem
 import dev.aurakai.auraframefx.domains.kai.lsposed.LSPosedDetector
-import dev.aurakai.auraframefx.navigation.gates.components.SubmenuCard
 
 @Composable
 fun LSPosedSubmenuScreen(
@@ -119,7 +119,7 @@ fun LSPosedSubmenuScreen(
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 items(menuItems) { item ->
-                    SubmenuCard(item = item, onClick = { navController.navigate(item.route) })
+                    GlassSubmenuCard(item = item, onClick = { navController.navigate(item.route) })
                 }
                 item {
                     Spacer(modifier = Modifier.height(16.dp))

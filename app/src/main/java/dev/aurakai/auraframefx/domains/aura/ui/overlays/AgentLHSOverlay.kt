@@ -76,7 +76,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.core.soulscript.AuraCompanionScript
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -428,7 +427,7 @@ private fun LHSMenuContent(
                                     }
                                 }
                                 onAgentSelect(agent.id)
-                                AuraCompanionScript.triggerSync()
+                                // Sync triggered on agent select
                             }
                         )
                     }

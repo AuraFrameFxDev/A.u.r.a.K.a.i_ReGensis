@@ -41,10 +41,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -242,7 +242,7 @@ private fun ProfileHeader(profile: AgentProfile) {
                     shape = RoundedCornerShape(12.dp),
                     color = when (profile.status) {
                         AgentStatus.Status.ACTIVE -> Color(0xFF4CAF50)
-                        AgentStatus.Status.LEARNING -> Color(0xFFFF9800)
+                        AgentStatus.Status.BUSY -> Color(0xFFFF9800)
                         AgentStatus.Status.EVOLVING -> Color(0xFF9C27B0)
                         else -> Color.Gray
                     }
