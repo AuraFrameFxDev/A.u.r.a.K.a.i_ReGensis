@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.genesis.core
 
-import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.orchestration.OrchestratableAgent
 import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
@@ -18,11 +17,6 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -286,8 +280,8 @@ class GenesisOrchestrator @Inject constructor(
         Timber.d("  → Routing message to OracleDrive: ${message.javaClass.simpleName}")
         try {
             val request = convertToAiRequest(message)
-            val orchRequest = dev.aurakai.auraframefx.core.orchestration.AiRequest(
-                prompt = request.query,
+            val orchRequest = AiRequest(
+                query = request.query,
                 context = request.context + request.metadata
             )
             val response = oracleDriveService.processRequest(
