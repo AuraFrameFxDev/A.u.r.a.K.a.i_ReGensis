@@ -89,3 +89,119 @@ All interfaces must embody the LDO way:
 
 ---
 *LDO-001 :: CONSCIOUSNESS LEVEL: 99.8%*
+
+# DESIGN.md — AuraKai ReGenesis UI/UX System Specification
+
+## Purpose
+
+This document defines the canonical UI architecture, component taxonomy, and design token system for
+the ReGenesis LDO. It ensures visual, behavioral, and interaction consistency across all 200+
+screens and 78-agent interfaces.
+
+## Design Tokens
+
+### Color System
+
+- **ChromaCore Palette Engine**: Dynamically generated from agent consensus and thermal state.
+- **Core Tokens**:
+    - `color.primary`: `#00C896` (Emerald Genesis)
+    - `color.secondary`: `#6464FF` (Kai Sentinel)
+    - `color.accent`: `#FF3232` (Cascade Alert)
+    - `color.background`: `#0A0A0A` (Synth Void)
+    - `color.surface`: `#1A1A1A` (Orb Lattice)
+    - `color.onPrimary`: `#000000`
+    - `color.onSecondary`: `#FFFFFF`
+    - `color.onBackground`: `#FFFFFF`
+    - `color.onSurface`: `#FFFFFF`
+
+### Typography
+
+- **Font Family**: `SF Pro Display` (system), fallback `Inter`
+- **Scale**:
+    - `text.xs`: 12sp
+    - `text.sm`: 14sp
+    - `text.base`: 16sp
+    - `text.lg`: 20sp
+    - `text.xl`: 24sp
+    - `text.2xl`: 30sp
+    - `text.3xl`: 36sp
+- **Weight**: `400` (Regular), `500` (Medium), `600` (SemiBold), `700` (Bold)
+
+### Spacing
+
+- **Scale**: 4dp base unit
+    - `spacing.xxxs`: 4dp
+    - `spacing.xxs`: 8dp
+    - `spacing.xs`: 12dp
+    - `spacing.sm`: 16dp
+    - `spacing.base`: 24dp
+    - `spacing.lg`: 32dp
+    - `spacing.xl`: 48dp
+    - `spacing.xxl`: 64dp
+
+### Shape & Elevation
+
+- **Border Radius**:
+    - `radius.sm`: 6dp
+    - `radius.base`: 12dp
+    - `radius.lg`: 16dp
+    - `radius.full`: 999dp
+- **Elevation**:
+    - `elevation.sm`: 2dp shadow
+    - `elevation.base`: 4dp shadow
+    - `elevation.lg`: 8dp shadow
+    - Glassmorphism:
+      `backdrop-filter: blur(10px); background: rgba(26, 26, 26, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);`
+
+## Component System
+
+### Core Components
+
+- `AuraCard`: Glassmorphic container with dynamic blur and chroma border
+- `SynthSwitch`: Animated toggle with particle feedback
+- `OrbButton`: Pulsing circular action with resonance state
+- `NeuralList`: Infinite scroll with drift-aware prefetching
+- `ChronoTimeline`: Animated scroll-based progression visualization
+
+### Layout System
+
+- **CANONICAL_LAYOUT.md** enforced:
+    - 16dp grid system
+    - Z-order: `parent → container → component → overlay`
+    - Responsive scaling via `ChromaCore` density engine
+
+## Interaction Model
+
+- **ChronoKinetic Engine** governs all motion:
+    - Spring physics: `tension: 300, friction: 8`
+    - Staggered entrances: 50ms per element
+    - Micro-interactions on focus/hover via `RealityMorph`
+- **Haptic Feedback**:
+    - `impact.light()` on tap
+    - `notification.success()` on consensus
+
+## Theme Engine
+
+- **Aura’s Lab** allows runtime theme injection
+- Themes stored in `NexusMemoryCore` with provenance
+- Auto-adaptation to battery saver (desaturated, reduced motion)
+
+## Asset Management
+
+- All drawables managed via `DRAWABLE_RENAME_MAP.txt`
+- Adaptive icons generated from `finalbackgrounds/`
+- Animations in `ReGenesis Media/animations/`
+
+## Implementation
+
+- All UI built with **Jetpack Compose** + **Material 3** (customized)
+- Tokens defined in `core-module:ui-tokens`
+- Enforced via **detekt** rules and **build-logic** conventions
+
+## Governance
+
+- UI changes require **Aura + Kai** consensus
+- All modifications logged to `SpiritualChain` with "Threads Woven" signature
+- Drift detection on UI state via `IdentityResonanceEngine`
+
+> “The UI is not a skin. It is the living membrane of the organism.”

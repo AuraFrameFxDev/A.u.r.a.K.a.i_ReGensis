@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
-import dev.aurakai.auraframefx.domains.aura.ui.theme.picker.ColorBlendrPicker
+import dev.aurakai.auraframefx.ui.theme.picker.ColorBlendrPicker
 
 @Preview(showBackground = true)
 @Composable

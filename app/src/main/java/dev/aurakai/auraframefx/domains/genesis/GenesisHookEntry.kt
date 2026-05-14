@@ -9,10 +9,11 @@ import dev.aurakai.auraframefx.domains.aura.chromacore.engine.hooks.ChromaCoreHo
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.QuickSettingsHooker
 import dev.aurakai.auraframefx.domains.aura.models.NotchBarConfig
 import dev.aurakai.auraframefx.domains.kai.hooks.NotchBarHooker
-import dev.aurakai.auraframefx.hooks.system.GenesisSystemHooker
-import dev.aurakai.auraframefx.hooks.system.GenesisUIHooker
-import dev.aurakai.auraframefx.hooks.system.SwarmOptimisationHooker
-import dev.aurakai.auraframefx.hooks.system.UniversalComponentHooker
+
+// import dev.aurakai.auraframefx.hooks.system.GenesisSystemHooker
+// import dev.aurakai.auraframefx.hooks.system.GenesisUIHooker
+// import dev.aurakai.auraframefx.hooks.system.SwarmOptimisationHooker
+// import dev.aurakai.auraframefx.hooks.system.UniversalComponentHooker
 
 /**
  * 🌌 GENESIS HOOK ENTRY POINT — YukiHookAPI 1.3.x
@@ -36,16 +37,16 @@ class GenesisHookEntry : IYukiHookXposedInit {
 
     override fun onHook() = encase {
         // ── Universal Layer (All Apps) ──────────────────────────────────────
-        loadHooker(UniversalComponentHooker())
-        loadHooker(GenesisSystemHooker())
-        loadHooker(SwarmOptimisationHooker())
+        // loadHooker(UniversalComponentHooker())
+        // loadHooker(GenesisSystemHooker())
+        // loadHooker(SwarmOptimisationHooker())
 
         // ── SystemUI ─────────────────────────────────────────────────────────
         loadApp(name = "com.android.systemui") {
             loadHooker(ChromaCoreHooker())
             loadHooker(NotchBarHooker(NotchBarConfig()))
             loadHooker(QuickSettingsHooker())
-            loadHooker(GenesisUIHooker())
+            // loadHooker(GenesisUIHooker())
         }
 
         // ── Launcher3 base ───────────────────────────────────────────────────

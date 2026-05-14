@@ -14,6 +14,13 @@ interface AgentTool {
     val inputSchema: ToolInputSchema
 
     suspend fun execute(params: JsonObject, agentId: String): ToolResult
+
+    /**
+     * Checks if the specified agent is authorized to use this tool.
+     */
+    fun isAuthorized(agentId: String): Boolean {
+        return authorizedAgents.contains("*") || authorizedAgents.contains(agentId)
+    }
 }
 
 enum class ToolCategory {
@@ -23,7 +30,11 @@ enum class ToolCategory {
     UI_CUSTOMIZATION,
     FUSION,
     VISION,
-    GENERAL
+    GENERAL,
+    AGENT_MANAGEMENT,
+    MODULE_CREATION,
+    ROM_TOOLS,
+    BOOTLOADER
 }
 
 data class ToolInputSchema(
@@ -55,3 +66,23 @@ sealed class ToolResult {
         val estimatedDuration: Long
     ) : ToolResult()
 }
+
+/**
+ * Request to use a tool
+ */
+data class ToolUseRequest(
+    val toolName: String,
+    val agentId: String,
+    val parameters: JsonObject,
+    val requestId: String = java.util.UUID.randomUUID().toString()
+)
+
+/**
+ * Response from a tool execution
+ */
+data class ToolUseResponse(
+    val requestId: String,
+    val result: String,
+    val executionTimeMs: Long,
+    val success: Boolean
+)

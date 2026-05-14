@@ -2,14 +2,12 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.service
 
 import android.util.Log
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
-import dev.aurakai.auraframefx.core.orchestration.AgentResponse
-import dev.aurakai.auraframefx.core.orchestration.AiRequest
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.serialization.Serializable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -249,7 +247,7 @@ class OracleDriveServiceImpl @Inject constructor() : OracleDriveService {
      */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         return AgentResponse(
-            content = "OracleDrive processed: ${request.prompt}",
+            content = "OracleDrive processed: ${request.query}",
             status = AgentResponse.Status.SUCCESS
         )
     }

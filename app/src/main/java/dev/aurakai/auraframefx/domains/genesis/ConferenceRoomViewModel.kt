@@ -67,7 +67,7 @@ class ConferenceRoomViewModel @Inject constructor(
                 isFromUser = agentMsg.from.equals("User", ignoreCase = true),
                 timestamp = agentMsg.timestamp,
                 metadata = emptyMap(),
-                priority = agentMsg.priority
+                priority = agentMsg.priority.toString()
             )
             _messages.value = _messages.value + chatMessage
         }
@@ -87,7 +87,7 @@ class ConferenceRoomViewModel @Inject constructor(
                 isFromUser = true,
                 timestamp = System.currentTimeMillis(),
                 metadata = emptyMap(),
-                priority = 0
+                priority = "0"
             )
             _messages.value = _messages.value + chatMessage
 

@@ -40,9 +40,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.domains.aura.models.Theme
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentStatus
-import dev.aurakai.auraframefx.domains.aura.models.Theme
 import dev.aurakai.auraframefx.domains.nexus.models.UserData
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -219,9 +219,11 @@ private fun UserInfoSection(user: UserData?) {
 @Composable
 private fun AgentStatusCard(agentType: String, status: AgentStatus) {
     val statusColor = when (status.status) {
-        AgentStatus.Status.ACTIVE, AgentStatus.Status.IDLE -> Color.Green
+        AgentStatus.Status.ACTIVE -> Color.Green
+        AgentStatus.Status.IDLE -> Color.Cyan
         AgentStatus.Status.ERROR -> Color.Red
         AgentStatus.Status.PROCESSING -> Color.Yellow
+        AgentStatus.Status.BUSY -> Color.Magenta
         else -> Color.Gray
     }
 

@@ -152,12 +152,12 @@ fun LdoHologramSystem(
                     0 -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(16.dp)
-                    ) { neuralNexusTabContent(onNavigateToRoute) }
+                    ) { item { neuralNexusTabContent(onNavigateToRoute) } }
 
                     1 -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(16.dp)
-                    ) { ldoArchitectureTabContent(swarmState, onNavigateToRoute) }
+                    ) { item { ldoArchitectureTabContent(swarmState, onNavigateToRoute) } }
 
                     2 -> ChromaForgeTabContent(onNavigateToRoute)   // ← placeholder
 
@@ -165,7 +165,9 @@ fun LdoHologramSystem(
 
                     4 -> OracleDriveTabContent(onNavigateToRoute)
 
-                    5 -> dev.aurakai.auraframefx.domains.swarm.ui.OperationsHubScreen(androidx.navigation.compose.rememberNavController())
+                    5 -> dev.aurakai.auraframefx.domains.operations.screens.OperationsHubScreen(
+                        androidx.navigation.compose.rememberNavController()
+                    )
 
                     6 -> dev.aurakai.auraframefx.domains.chromaforge.ui.SpellhookScreen(androidx.navigation.compose.rememberNavController())
                 }
@@ -253,8 +255,8 @@ fun GlobalSSIStatusBar(accentColor: Color) {
 
 @Composable
 fun ChromaForgeTabContent(onNavigate: (String) -> Unit) {
-    // Uses the actual MainScreen for Chroma Forge
-    dev.aurakai.auraframefx.domains.chromaforge.navigation.MainScreen(androidx.navigation.compose.rememberNavController())
+    // Uses the actual SpellhookScreen for Chroma Forge
+    dev.aurakai.auraframefx.domains.chromaforge.ui.SpellhookScreen(androidx.navigation.compose.rememberNavController())
 }
 
 @Composable

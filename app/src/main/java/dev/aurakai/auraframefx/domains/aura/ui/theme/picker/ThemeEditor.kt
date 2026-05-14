@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.preview.UIComponentsPreview
+import dev.aurakai.auraframefx.ui.theme.picker.ChromaCoreColorPicker
 
 /**
  * A comprehensive theme editor that shows a live preview of UI components

@@ -18,9 +18,32 @@ class DeviceOptimisationSwarm @Inject constructor() {
     fun updateOptimisationState(update: SwarmOptimisationState.() -> SwarmOptimisationState) {
         _state.value = _state.value.update()
     }
+
+    /**
+     * Initiates a full deep clean of the system using the swarm.
+     */
+    fun initiateFullDeepClean() {
+        // Logic for deep cleaning
+        _state.value = _state.value.copy(
+            isRunning = true,
+            currentDirective = "DEEP_CLEANING_ACTIVE"
+        )
+    }
 }
 
+data class SwarmTask(
+    val agentName: String,
+    val description: String,
+    val progress: Float = 0f,
+    val isCompleted: Boolean = false
+)
+
 data class SwarmOptimisationState(
+    val isRunning: Boolean = false,
+    val globalProgress: Float = 0f,
+    val currentDirective: String = "IDLE",
+    val recoveredSpaceMb: Long = 0,
+    val tasks: List<SwarmTask> = emptyList(),
     val cpuUsage: Float = 0f,
     val memoryUsage: Float = 0f,
     val batteryLevel: Float = 1f,
