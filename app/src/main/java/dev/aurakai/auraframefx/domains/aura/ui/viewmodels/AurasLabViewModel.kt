@@ -9,7 +9,7 @@ import dev.aurakai.auraframefx.domains.genesis.core.generator.AuraForgeGenerator
 import dev.aurakai.auraframefx.domains.genesis.models.Spelhook
 import dev.aurakai.auraframefx.domains.genesis.models.SpelhookResult
 import dev.aurakai.auraframefx.domains.kai.analysis.GrokAnalysisService
-import dev.aurakai.auraframefx.extendsysa.spelhooks.sprites.SpelhookSpriteGenerator
+import dev.aurakai.auraframefx.domains.aura.spelhooks.sprites.SpelhookSpriteGenerator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

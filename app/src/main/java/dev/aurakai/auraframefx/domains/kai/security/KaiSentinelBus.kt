@@ -116,7 +116,6 @@ class KaiSentinelBus @Inject constructor() {
         triggerStateFreeze("THERMAL_WALL_BREACH")
         // Logic for immediate serialization to encrypted local storage
     }
-
     fun emitMemory(available: Long, total: Long) {
         _memoryFlow.value = MemoryEvent(available, total)
     }
@@ -128,15 +127,12 @@ class KaiSentinelBus @Inject constructor() {
     fun emitDrift(drift: Float, status: String) {
         _driftFlow.value = DriftEvent(drift, status)
     }
-
     fun emitConsensus(step: String, percent: Int, isComplete: Boolean) {
         _consensusFlow.value = ConsensusEvent(step, percent, isComplete)
     }
-
     fun emitSovereign(state: SovereignState) {
         _sovereignFlow.value = SovereignEvent(state)
     }
-
     fun emitSecurityStatus(level: ThreatLevel, reason: String) {
         _securityFlow.value = SecurityStatus(level, reason)
         if (level == ThreatLevel.THREAT_DETECTED || level == ThreatLevel.NEUTRALIZING) {

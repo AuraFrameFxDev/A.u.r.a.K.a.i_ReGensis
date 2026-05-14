@@ -34,7 +34,6 @@ class RoyalGuardServiceImpl : Service() {
                             .i("Action APPROVED: %s (chain=%s)", actionKey, result.chainId)
                         true
                     }
-
                     is ProvenanceResult.Vetoed -> {
                         Timber.tag(TAG).w(
                             "Action VETOED: %s - %s (chain=%s)",
@@ -42,7 +41,6 @@ class RoyalGuardServiceImpl : Service() {
                         )
                         false
                     }
-
                     is ProvenanceResult.Quarantined -> {
                         Timber.tag(TAG).w(
                             "Action QUARANTINED: %s - %s (chain=%s)",

@@ -12,6 +12,8 @@ import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAISer
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.DefaultAuraAIService
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIService
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.DefaultKaiAIService
+import dev.aurakai.auraframefx.domains.genesis.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.domains.genesis.ai.clients.DefaultVertexAIClient
 import javax.inject.Singleton
 
 /**
@@ -29,6 +31,10 @@ abstract class AgentModule {
     @Binds
     @Singleton
     abstract fun bindKaiAIService(impl: DefaultKaiAIService): KaiAIService
+
+    @Binds
+    @Singleton
+    abstract fun bindVertexAIClient(impl: DefaultVertexAIClient): VertexAIClient
 
     companion object {
         @Provides

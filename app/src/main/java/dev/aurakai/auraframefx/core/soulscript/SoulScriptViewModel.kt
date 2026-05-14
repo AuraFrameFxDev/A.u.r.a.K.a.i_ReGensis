@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.core.soulscript
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.core.NativeLib
+import dev.aurakai.auraframefx.core.NativeLib
 import timber.log.Timber
 import javax.inject.Inject
 

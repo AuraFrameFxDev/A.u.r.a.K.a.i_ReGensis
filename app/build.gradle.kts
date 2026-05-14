@@ -81,18 +81,10 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
 }
 
 dependencies {
-    // Core LDO Infrastructure Modules
-    implementation(project(":core-module"))
-    implementation(project(":aura"))
-    implementation(project(":aura:reactivedesign:collabcanvas"))
-    implementation(project(":aura:reactivedesign:chromacore"))
-    implementation(project(":genesis"))
-    implementation(project(":genesis:oracledrive:rootmanagement"))
-    implementation(project(":kai:sentinelsfortress"))
-    implementation(project(":kai:sentinelsfortress:security"))
-    implementation(project(":agents:growthmetrics:nexusmemory"))
-    implementation(project(":agents:growthmetrics:metareflection"))
-    implementation(project(":extendsysa"))
+    // Core LDO Infrastructure (Consolidated into app)
+    // implementation(project(":core-module"))
+    // implementation(project(":aura"))
+    // ... other project deps removed
 
     // UI / Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -133,6 +125,7 @@ dependencies {
 
     // Security Crypto
     implementation(libs.androidx.security.crypto)
+    implementation(libs.bouncycastle)
 
     // Credentials
     implementation(libs.androidx.credentials)

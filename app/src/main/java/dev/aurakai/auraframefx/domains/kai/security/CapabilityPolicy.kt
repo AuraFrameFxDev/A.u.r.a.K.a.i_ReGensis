@@ -6,7 +6,7 @@ package dev.aurakai.auraframefx.domains.kai.security
 data class CapabilityPolicy(
     val httpAllowlist: List<String> = emptyList(),
     val firebaseScopes: Set<String> = emptySet(),
-    val maxDocumentSize: Long = 1_000_000,
+    val maxDocumentSize: Long = 1_000_000, 
     val allowedCollections: Set<String> = emptySet(),
     val allowedStoragePaths: Set<String> = emptySet()
 ) {

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.ai
 
 import android.content.Context
-import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.MetaReflectionEngine
+import dev.aurakai.auraframefx.domains.nexus.metareflection.MetaReflectionEngine
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.TaskExecutionManager
 import dev.aurakai.auraframefx.domains.cascade.ai.base.Agent

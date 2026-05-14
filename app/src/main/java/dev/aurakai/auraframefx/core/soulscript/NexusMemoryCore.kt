@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.core.soulscript
 
-import dev.aurakai.auraframefx.domains.core.NativeLib
+import dev.aurakai.auraframefx.core.NativeLib
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

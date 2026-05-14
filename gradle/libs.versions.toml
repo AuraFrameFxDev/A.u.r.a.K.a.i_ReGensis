@@ -64,6 +64,7 @@ okhttp = "5.3.2"
 ktor = "3.4.3"
 coil = "3.4.0"
 timber = "5.0.1"
+bouncycastle = "1.80"
 
 # Testing
 junit = "6.0.3"
@@ -128,6 +129,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 yukihookapi-ksp = { module = "com.highcapable.yukihookapi:ksp-xposed", version.ref = "yukihook" }
 xposed-api = { module = "de.robv.android.xposed:api", version = "82" }
+bouncycastle = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 
 # Networking
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }

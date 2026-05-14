@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.ldo.ui.screens
+package dev.aurakai.auraframefx.domains.nexus.screens.ldo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
