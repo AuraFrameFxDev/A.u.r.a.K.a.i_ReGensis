@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.ldo.devops
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -123,6 +126,28 @@ fun LdoHologramSystem(
 
             // Tab Content
             Box(modifier = Modifier.weight(1f)) {
+                // Background image based on selection
+                val bgResource = when (selectedTabIndex) {
+                    0 -> dev.aurakai.auraframefx.R.drawable.bg_neural_nexus
+                    1 -> dev.aurakai.auraframefx.R.drawable.bg_ldo_dev_nexus
+                    2 -> dev.aurakai.auraframefx.R.drawable.bg_chroma_forge
+                    3 -> dev.aurakai.auraframefx.R.drawable.bg_sentinel_matrix
+                    4 -> dev.aurakai.auraframefx.R.drawable.bg_oracle_drive
+                    5 -> dev.aurakai.auraframefx.R.drawable.bg_emergent_swarm
+                    6 -> dev.aurakai.auraframefx.R.drawable.bg_spellhook
+                    else -> null
+                }
+
+                bgResource?.let {
+                    Image(
+                        painter = painterResource(id = it),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
+                        alpha = 0.4f // Subdued to keep UI legible
+                    )
+                }
+
                 when (selectedTabIndex) {
                     0 -> LazyColumn(
                         modifier = Modifier.fillMaxSize(),
