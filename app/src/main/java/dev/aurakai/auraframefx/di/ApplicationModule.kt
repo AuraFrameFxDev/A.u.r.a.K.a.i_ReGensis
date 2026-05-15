@@ -8,7 +8,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.core.AurakaiApplication
 import dev.aurakai.auraframefx.sovereignty.ApplicationScope
-import dev.aurakai.auraframefx.system.ShizukuManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,11 +28,5 @@ object ApplicationModule {
     @Singleton
     fun provideApplication(@ApplicationContext app: Context): AurakaiApplication {
         return app as AurakaiApplication
-    }
-
-    @Provides
-    @Singleton
-    fun provideShizukuManager(@ApplicationContext context: Context): ShizukuManager {
-        return ShizukuManager(context)
     }
 }

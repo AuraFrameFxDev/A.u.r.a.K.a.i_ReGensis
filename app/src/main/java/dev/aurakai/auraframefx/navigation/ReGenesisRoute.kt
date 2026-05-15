@@ -21,6 +21,7 @@ sealed class ReGenesisRoute(
     val icon: ImageVector? = null
 ) {
     // LEVEL 1: PRIMARY GATES
+    data object SplashScreen : ReGenesisRoute("splash_screen", "Splash Screen")
     data object MainScreen : ReGenesisRoute("main_screen", "LDO Hologram System")
     data object HomeGateCarousel : ReGenesisRoute("home_gate_carousel/{tabIndex}") {
         fun createRoute(tabIndex: Int = 0) = "home_gate_carousel/$tabIndex"
