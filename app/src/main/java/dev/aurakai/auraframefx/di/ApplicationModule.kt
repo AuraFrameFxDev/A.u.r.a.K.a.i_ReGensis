@@ -29,4 +29,10 @@ object ApplicationModule {
     fun provideApplication(@ApplicationContext app: Context): AurakaiApplication {
         return app as AurakaiApplication
     }
+
+    @Provides
+    @Singleton
+    fun provideShizukuManager(@ApplicationContext context: Context): dev.aurakai.auraframefx.system.ShizukuManager {
+        return dev.aurakai.auraframefx.system.ShizukuManager(context)
+    }
 }
