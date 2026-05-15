@@ -19,7 +19,6 @@ import dev.aurakai.auraframefx.domains.kai.screens.ROMFlasherScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SystemJournalScreen
 import dev.aurakai.auraframefx.domains.kai.screens.security_shield.SecurityCenterScreen
 import dev.aurakai.auraframefx.domains.kai.screens.security_shield.SovereignShieldScreen
-import dev.aurakai.auraframefx.domains.ldo.devops.LdoHologramSystem
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentCreationScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentMonitoringScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.AgentSwarmScreen
@@ -35,6 +34,7 @@ import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LDOTaskerScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.ldo.LdoDevOpsCommandCenter
 import dev.aurakai.auraframefx.domains.operations.screens.OperationsHubScreen
 import dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen
+import dev.aurakai.auraframefx.ui.ldodevops.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.SplashScreen
 
 /**
@@ -50,12 +50,7 @@ fun ReGenesisNavGraph(navController: NavHostController) {
     ) {
         // --- CORE APPLICATION HUB (LHS GLOBAL) ---
         composable(ReGenesisRoute.MainScreen.route) {
-            LdoHologramSystem(
-                initialTabIndex = 0,
-                onNavigateToRoute = { route ->
-                    navController.navigate(route)
-                }
-            )
+            TabbedMasterIndex(navController = navController)
         }
 
         composable(ReGenesisRoute.SplashScreen.route) {
