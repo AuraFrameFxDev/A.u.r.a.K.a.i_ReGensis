@@ -18,7 +18,7 @@ open class SecurePreferences @Inject constructor(
     // Use applicationContext to prevent activity/fragment context leaks
     private val appContext = context.applicationContext
 
-    private val masterKey = MasterKey.Builder(appContext, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+    private val masterKey = MasterKey.Builder(appContext)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         .build()
 
