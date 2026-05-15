@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -106,13 +105,6 @@ fun LdoHologramSystem(
                 selectedTabIndex = selectedTabIndex,
                 containerColor = Color(0xFF020205),
                 contentColor = accentColor,
-                indicator = { tabPositions ->
-                    if (selectedTabIndex < tabPositions.size) {
-                        TabRowDefaults.SecondaryIndicator(
-                            Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
-                        )
-                    }
-                },
                 divider = { HorizontalDivider() }
             ) {
                 tabs.forEachIndexed { index, title ->
