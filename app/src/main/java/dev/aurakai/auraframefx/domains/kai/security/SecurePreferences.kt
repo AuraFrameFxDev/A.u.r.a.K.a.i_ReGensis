@@ -13,7 +13,7 @@ import javax.inject.Singleton
  */
 @Singleton
 open class SecurePreferences @Inject constructor(
-    @field:ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     // Use applicationContext to prevent activity/fragment context leaks
     private val appContext = context.applicationContext
