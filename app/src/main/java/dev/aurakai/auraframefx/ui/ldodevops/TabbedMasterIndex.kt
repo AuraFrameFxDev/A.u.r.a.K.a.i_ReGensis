@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -37,7 +39,7 @@ import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TabbedMasterIndex(navController: NavHostController) {
     val tabs = listOf(
@@ -74,36 +76,30 @@ fun TabbedMasterIndex(navController: NavHostController) {
             KaisNotchBarPulse()
 
             SecondaryScrollableTabRow(
-                pagerState.currentPage,
-                Modifier,
-                Color.Black,
-                Color.Cyan,
-                8.dp,
-                @Composable { tabPositions ->
-                    TabRowDefaults.SecondaryIndicator(
-                        Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
-                    )
-                },
-                @Composable { HorizontalDivider() },
-                {
-                    tabs.forEachIndexed { index, title ->
-                        Tab(
-                            selected = pagerState.currentPage == index,
-                            onClick = {
-                                coroutineScope.launch {
-                                    pagerState.animateScrollToPage(index)
-                                }
-                            },
-                            text = {
-                                Text(
-                                    text = title,
-                                    color = if (pagerState.currentPage == index) Color.Cyan else Color.Gray,
-                                    fontSize = 12.sp
-                                )
+                selectedTabIndex = pagerState.currentPage,
+                containerColor = Color.Black,
+                contentColor = Color.Cyan,
+                edgePadding = 8.dp,
+                divider = { HorizontalDivider() }
+            ) {
+                tabs.forEachIndexed { index, title ->
+                    Tab(
+                        selected = pagerState.currentPage == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
                             }
-                        )
-                    }
-                })
+                        },
+                        text = {
+                            Text(
+                                text = title,
+                                color = if (pagerState.currentPage == index) Color.Cyan else Color.Gray,
+                                fontSize = 12.sp
+                            )
+                        }
+                    )
+                }
+            }
 
             Box(modifier = Modifier.weight(1f)) {
                 // Background image based on current page
