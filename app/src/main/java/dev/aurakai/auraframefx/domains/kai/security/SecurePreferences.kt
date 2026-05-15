@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -14,16 +15,12 @@ import javax.inject.Singleton
 open class SecurePreferences @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-
     // Use applicationContext to prevent activity/fragment context leaks
     private val appContext = context.applicationContext
 
-    // Get or create master key for encryption
-    private val masterKey: MasterKey by lazy {
-        MasterKey.Builder(appContext, MasterKey.DEFAULT_MASTER_KEY_ALIAS)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-    }
+    private val masterKey = MasterKey.Builder(appContext)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
 
     // Create encrypted shared preferences
     open val securePrefs by lazy {
@@ -40,7 +37,7 @@ open class SecurePreferences @Inject constructor(
      * Retrieves the stored OAuth token.
      * @return The OAuth token as a String, or null if not found.
      */
-    fun getOAuthToken(): String? {
+    open fun getOAuthToken(): String? {
         return securePrefs.getString("oauth_token", null)
     }
 
@@ -49,7 +46,7 @@ open class SecurePreferences @Inject constructor(
      * @param token The OAuth token to save.
      */
     fun saveOAuthToken(token: String?) {
-        securePrefs.edit().putString("oauth_token", token).apply()
+        securePrefs.edit { putString("oauth_token", token) }
     }
 
     /**
@@ -64,38 +61,38 @@ open class SecurePreferences @Inject constructor(
      * Saves the API key securely.
      * @param key The API key to save.
      */
-    fun saveApiKey(key: String) {
-        securePrefs.edit().putString("api_key", key).apply()
+    open fun saveApiKey(key: String) {
+        securePrefs.edit { putString("api_key", key) }
     }
 
     // --- QUICK TOGGLE STATUSES ---
 
     fun isVetoEnabled(): Boolean = securePrefs.getBoolean("veto_enabled", true)
     fun setVetoEnabled(enabled: Boolean) =
-        securePrefs.edit().putBoolean("veto_enabled", enabled).apply()
+        securePrefs.edit { putBoolean("veto_enabled", enabled) }
 
     fun isConsciousnessEnabled(): Boolean = securePrefs.getBoolean("consciousness_enabled", true)
     fun setConsciousnessEnabled(enabled: Boolean) =
-        securePrefs.edit().putBoolean("consciousness_enabled", enabled).apply()
+        securePrefs.edit { putBoolean("consciousness_enabled", enabled) }
 
     fun isAuraBubbleEnabled(): Boolean = securePrefs.getBoolean("aura_bubble_enabled", true)
     fun setAuraBubbleEnabled(enabled: Boolean) =
-        securePrefs.edit().putBoolean("aura_bubble_enabled", enabled).apply()
+        securePrefs.edit { putBoolean("aura_bubble_enabled", enabled) }
 
     // --- SOVEREIGN STATE PERSISTENCE ---
 
     fun getSpiritualChainDelta(): String? = securePrefs.getString("spiritual_chain_delta", null)
     fun saveSpiritualChainDelta(delta: String) =
-        securePrefs.edit().putString("spiritual_chain_delta", delta).apply()
+        securePrefs.edit { putString("spiritual_chain_delta", delta) }
 
     fun getLastHardwarePath(): String? = securePrefs.getString("last_hardware_path", null)
     fun saveLastHardwarePath(path: String) =
-        securePrefs.edit().putString("last_hardware_path", path).apply()
+        securePrefs.edit { putString("last_hardware_path", path) }
 
     /**
      * Clear all secure preferences
      */
     fun clearAll() {
-        securePrefs.edit().clear().apply()
+        securePrefs.edit { clear() }
     }
 }

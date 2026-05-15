@@ -2,7 +2,9 @@ package dev.aurakai.auraframefx.core
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
+import dev.aurakai.auraframefx.system.ShizukuManager
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * GENESIS-OS AI Framework Application Class
@@ -11,8 +13,14 @@ import timber.log.Timber
 @HiltAndroidApp
 class AurakaiApplication : Application() {
 
+    @Inject
+    lateinit var shizukuManager: ShizukuManager
+
     override fun onCreate() {
         super.onCreate()
+
+        // Initialize static bridge for non-injectable components
+        ShizukuManager.init(shizukuManager)
 
         // Initialize Timber for logging
         Timber.plant(Timber.DebugTree())

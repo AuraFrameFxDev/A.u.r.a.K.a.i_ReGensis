@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +19,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -100,29 +100,38 @@ fun LdoHologramSystem(
             LhsHeaderSection(accentColor, onNavigateToRoute)
 
             // Tab Row
-            TabRow(
-                selectedTabIndex = selectedTabIndex,
-                containerColor = Color(0xFF020205),
-                contentColor = accentColor
-            ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = selectedTabIndex == index,
-                        onClick = {
-                            selectedTabIndex = index
-                            viewModel.requestTab(index)
-                        },
-                        text = {
-                            Text(
-                                title,
-                                fontFamily = LEDFontFamily,
-                                fontSize = 11.sp,
-                                letterSpacing = 1.sp
-                            )
-                        }
-                    )
-                }
-            }
+            SecondaryTabRow(
+                selectedTabIndex,
+                Modifier,
+                Color(0xFF020205),
+                accentColor,
+                @Composable { tabPositions ->
+                    if (selectedTabIndex < tabPositions.size) {
+                        TabRowDefaults.SecondaryIndicator(
+                            Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
+                        )
+                    }
+                },
+                @Composable { HorizontalDivider() },
+                {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTabIndex == index,
+                            onClick = {
+                                selectedTabIndex = index
+                                viewModel.requestTab(index)
+                            },
+                            text = {
+                                Text(
+                                    title,
+                                    fontFamily = LEDFontFamily,
+                                    fontSize = 11.sp,
+                                    letterSpacing = 1.sp
+                                )
+                            }
+                        )
+                    }
+                })
 
             // Tab Content
             Box(modifier = Modifier.weight(1f)) {
@@ -187,6 +196,24 @@ fun LdoHologramSystem(
         }
     }
 }
+
+private fun ColumnScope.SecondaryTabRow(
+    selectedTabIndex: Int,
+    modifier: Modifier,
+    containerColor: Color,
+    contentColor: Color,
+    indicator: Any,
+    divider: () -> Unit,
+    tabs: () -> Unit
+) = SecondaryTabRow(
+    selectedTabIndex = selectedTabIndex,
+    modifier = modifier,
+    containerColor = containerColor,
+    contentColor = contentColor,
+    indicator = { indicator },
+    divider = divider,
+    tabs = tabs
+)
 
 // ==================== Header & Status ====================
 

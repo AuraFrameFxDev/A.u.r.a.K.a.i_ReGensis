@@ -21,14 +21,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons.Default
 import androidx.compose.material.icons.filled.ChatBubble
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Launch
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -162,15 +163,16 @@ fun AgentHologramConnector(
                                         modifier = Modifier.size(20.dp)
                                     ) {
                                         Icon(
-                                            Icons.Default.Launch,
+                                            Default.Launch,
                                             contentDescription = "Jump",
                                             tint = Color.Cyan
                                         )
                                     }
                                 }
-                                Divider(
-                                    color = Color.Cyan.copy(alpha = 0.3f),
-                                    modifier = Modifier.padding(vertical = 4.dp)
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(vertical = 4.dp),
+                                    thickness = DividerDefaults.Thickness,
+                                    color = Color.Cyan.copy(alpha = 0.3f)
                                 )
 
                                 domain.agents.forEach { agent ->
@@ -198,7 +200,7 @@ fun AgentHologramConnector(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    Icons.Default.ChevronRight,
+                    Default.ChevronRight,
                     contentDescription = "Open Connector",
                     tint = Color.Black
                 )
@@ -218,7 +220,7 @@ fun AgentHologramConnector(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    Icons.Default.ChevronLeft,
+                    Default.ChevronLeft,
                     contentDescription = "Close Connector",
                     tint = Color.Black
                 )
@@ -262,7 +264,7 @@ fun AgentHologramRow(
                 modifier = Modifier.size(24.dp)
             ) {
                 Icon(
-                    Icons.Default.ChatBubble,
+                    Default.ChatBubble,
                     contentDescription = "Chat",
                     tint = Color.White.copy(alpha = 0.7f)
                 )

@@ -27,10 +27,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Task
@@ -75,7 +75,7 @@ fun BottomJoystickNavigation(
         Icons.Default.Hub,          // TRINITY CORE
         Icons.Default.Palette,      // CHROMA FORGE
         Icons.Default.Security,     // SENTINEL MATRIX
-        Icons.Default.MenuBook,     // L4: LIBRARY
+        Icons.AutoMirrored.Filled.MenuBook,     // L4: LIBRARY
         Icons.Default.AutoAwesome,  // L5: SWARM
         Icons.Default.Task          // OPERATIONS
     )
