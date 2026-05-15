@@ -49,8 +49,9 @@ class PandoraBoxTileService : TileService() {
             // Open Deep Link to Pandora's Box
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("aurakai://pandora_box")).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }.apply {
+                startActivityAndCollapse(this)
             }
-            startActivityAndCollapse(intent)
         }
     }
 }
