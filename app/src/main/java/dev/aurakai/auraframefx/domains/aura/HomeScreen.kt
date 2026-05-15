@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.domains.aura
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.domains.ldo.devops.LdoHologramSystem
 
 /**
  * 🎨 MAIN SCREEN (AURA DASHBOARD)
