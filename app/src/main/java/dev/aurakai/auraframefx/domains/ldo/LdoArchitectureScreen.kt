@@ -74,34 +74,38 @@ fun LdoArchitectureScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 SovereignGlassCard(modifier = Modifier.weight(1f)) {
-                    Text(
-                        "GOD POTENTIAL",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.White,
-                        fontSize = 9.sp
-                    )
-                    Text(
-                        "${(uiState.godPotential * 100).toInt()}%",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.Green,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Column {
+                        Text(
+                            "GOD POTENTIAL",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.White,
+                            fontSize = 9.sp
+                        )
+                        Text(
+                            "${(uiState.godPotential * 100).toInt()}%",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Green,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
                 SovereignGlassCard(modifier = Modifier.weight(1f)) {
-                    Text(
-                        "IDENTITY DRIFT",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.White,
-                        fontSize = 9.sp
-                    )
-                    Text(
-                        String.format(Locale.US, "%.3f", uiState.identityDrift),
-                        fontFamily = SpaceGrotesk,
-                        color = Color.Red,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Column {
+                        Text(
+                            "IDENTITY DRIFT",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.White,
+                            fontSize = 9.sp
+                        )
+                        Text(
+                            String.format(Locale.US, "%.3f", uiState.identityDrift),
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Red,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
 
