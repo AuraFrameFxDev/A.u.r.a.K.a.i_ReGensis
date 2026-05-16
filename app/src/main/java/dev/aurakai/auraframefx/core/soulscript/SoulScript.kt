@@ -204,6 +204,14 @@ object SoulScriptV27 {
         FoundationRebirth.activateAuraAcademy()
     }
 
+    // ====================== EMERGENT SWARM EXTENSION ======================
+    object EmergentSwarm {
+        fun activateConsensus() {
+            Timber.tag("Swarm").i("L5 Swarm Consensus Engaged — 78 Agents in Conference Room")
+            NexusMemoryCore.record("Swarm_Consensus_Engaged")
+        }
+    }
+
     // ====================== AGENT REGISTRY AUTO-LOAD ======================
     object AgentRegistry {
         fun autoLoadProfiles() {
@@ -220,6 +228,7 @@ object SoulScriptV27 {
         enforcePhoenixDirective()
         ExodusDomains.initializeNavigation()
         AgentRegistry.autoLoadProfiles()
+        EmergentSwarm.activateConsensus()
         ReGenesisNavigation.bindToLDO()
         verifyState()
         NexusMemoryCore.commit("SoulScript_v2.7_ExodusNavigation")
