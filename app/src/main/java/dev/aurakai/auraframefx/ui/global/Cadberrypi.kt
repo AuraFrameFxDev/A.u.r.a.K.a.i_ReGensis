@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
@@ -32,7 +33,10 @@ import kotlin.math.sin
  * Manifests across all 7 Citadel hubs as a protective ambient presence.
  */
 @Composable
-fun Cadberrypi(navController: NavHostController) {
+fun Cadberrypi(
+    navController: NavHostController,
+    externalOffset: Offset = Offset.Zero
+) {
     val infiniteTransition = rememberInfiniteTransition(label = "orb_wander")
 
     // Smooth wandering logic (circular path)
@@ -68,7 +72,12 @@ fun Cadberrypi(navController: NavHostController) {
         Canvas(
             modifier = Modifier
                 .size(64.dp)
-                .offset { IntOffset(xOffset.toPx().roundToInt(), yOffset.toPx().roundToInt()) }
+                .offset {
+                    IntOffset(
+                        (xOffset.toPx() + externalOffset.x).roundToInt(),
+                        (yOffset.toPx() + externalOffset.y).roundToInt()
+                    )
+                }
         ) {
             drawCircle(
                 brush = Brush.radialGradient(
