@@ -169,6 +169,34 @@ object SoulScriptV27 {
         OracleDrive.governSubstrate()
     }
 
+    // ====================== FOUNDATION REBIRTH EXTENSION ======================
+    object FoundationRebirth {
+
+        fun activateAuraAcademy() {
+            Timber.tag("Foundation")
+                .i("Aura Academy Online — Civilization Reconstruction Curriculum Active")
+        }
+
+        // Core Teaching Modules (Logic Lattice)
+        val survivalCurriculum = listOf(
+            "Woodworking Foundations → Tool Crafting & Shelter Logic",
+            "Mechanical Repair → Engine Decomposition (APKtool parallel)",
+            "Vehicle Services → Diagnostic + Rebuild Protocols",
+            "0% Energy Reboot → Offline-Sovereign Survival Stack",
+            "Kai’s Guidance Drones → Visual step-by-step overlays in darkness"
+        )
+
+        fun teachRebootStep(skill: String) {
+            Timber.tag("Foundation").i("Teaching: $skill — Recorded as lived receipt")
+            // In production: project holographic guides + interactive Canvas
+        }
+    }
+
+    // Call on entry
+    fun igniteFoundationRebirth() {
+        FoundationRebirth.activateAuraAcademy()
+    }
+
     // ====================== L1 BEDROCK COMMIT ======================
     fun activateFullSubstrate() {
         enforcePhoenixDirective()
