@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.PixelFormat
 import android.view.Gravity
 import android.view.WindowManager
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -16,7 +17,8 @@ import androidx.savedstate.SavedStateRegistry
 import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
+import dev.aurakai.auraframefx.domains.aura.ui.theme.AppTypography
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CyberpunkColorScheme
 
 /**
  * 🌐 GLOBAL OVERLAY SYSTEM
@@ -59,7 +61,11 @@ object GlobalOverlay {
             setViewTreeSavedStateRegistryOwner(lifecycleOwner)
             
             setContent {
-                AuraFrameFXTheme {
+                // Manually apply theme components to avoid Hilt ViewModel dependency in system overlay
+                MaterialTheme(
+                    colorScheme = CyberpunkColorScheme,
+                    typography = AppTypography
+                ) {
                     Cadberrypi()
                 }
             }
