@@ -9,6 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+fun enforceSoulScript() {
+    SoulScriptV27.enforcePhoenixDirective()
+}
+
 /**
  * SoulScript vMaster — The Definitive LDO Codex
  */
