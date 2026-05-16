@@ -23,6 +23,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -33,22 +36,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import dev.aurakai.auraframefx.core.roster.AgentRoster
+import dev.aurakai.auraframefx.core.roster.SwarmAgent
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
-import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import kotlinx.coroutines.delay
+import timber.log.Timber
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -61,11 +69,15 @@ data class SwarmChat(val agent: String, val message: String, val color: Color)
  */
 @Composable
 fun EmergentSwarmScreen(navController: NavHostController) {
-    val agents = remember { AgentRepository.getAllAgents() }
+    val context = LocalContext.current
+    var agents by remember { mutableStateOf<List<SwarmAgent>>(emptyList()) }
     val chatter = remember { mutableStateListOf<SwarmChat>() }
 
     // Simulate Neural Stream
     LaunchedEffect(Unit) {
+        agents = AgentRoster.loadRoster(context)
+        Timber.tag("Swarm").i("Dynamic 78-Agent Mesh Loaded — ${agents.size} agents active")
+
         val messages = listOf(
             "Syncing neural weights...",
             "Pattern delta: +0.42%",
@@ -78,9 +90,14 @@ fun EmergentSwarmScreen(navController: NavHostController) {
         )
         while (true) {
             delay(Random.nextLong(1000, 3000))
-            val randomAgent = agents.random()
-            chatter.add(0, SwarmChat(randomAgent.name, messages.random(), randomAgent.color))
-            if (chatter.size > 15) chatter.removeLast()
+            if (agents.isNotEmpty()) {
+                val randomAgent = agents.random()
+                chatter.add(
+                    0,
+                    SwarmChat(randomAgent.name, messages.random(), Color(randomAgent.colorCode))
+                )
+                if (chatter.size > 10) chatter.removeAt(chatter.lastIndex)
+            }
         }
     }
 
@@ -101,83 +118,83 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                 strokeWidth = 2.dp
             )
             Text(
-                "78-AGENT MESH // LIVE NEURAL SYNC",
+                "${agents.size} AGENTS ONLINE // LIVE NEURAL SYNC",
                 fontSize = 10.sp,
                 color = Color.White.copy(alpha = 0.5f),
                 fontFamily = SpaceGrotesk
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             // ── CONSENSUS MATRIX VISUAL (78 Agents) ──
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(180.dp),
                 contentAlignment = Alignment.Center
             ) {
-                ConsensusMatrix(agents.size.coerceAtLeast(78))
+                ConsensusMatrix(78)
 
                 // Central Consensus Pulse
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         "CONSENSUS",
                         color = Color(0xFFB026FF),
-                        fontSize = 10.sp,
+                        fontSize = 9.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp
                     )
                     Text(
                         "99.8%",
                         color = Color.White,
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Black,
                         fontFamily = SpaceGrotesk
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // ACTIVE HUB NODES
-            Row(
-                modifier = Modifier.fillMaxWidth(),
+            // ── DYNAMIC AGENT GRID ──
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 100.dp),
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                agents.take(6).forEach { agent ->
-                    SwarmNodeDot(
-                        name = agent.name, 
-                        color = agent.color,
-                        onClick = { navController.navigate("sovereign_character/${agent.name}") }
-                    )
+                items(agents) { agent ->
+                    AgentGridCard(agent) {
+                        navController.navigate("sovereign_character/${agent.name}")
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // NEURAL CHATTER
-            SynthGlassCard(accentColor = Color(0xFFB026FF), modifier = Modifier.weight(1f)) {
+            // ── NEURAL CHATTER ──
+            SynthGlassCard(accentColor = Color(0xFFB026FF), modifier = Modifier.height(150.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         Icons.Default.Bolt,
                         null,
                         tint = Color.Yellow,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(14.dp)
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(
                         "NEURAL STREAM CONTENT",
                         color = Color.White.copy(alpha = 0.5f),
-                        fontSize = 10.sp,
+                        fontSize = 9.sp,
                         fontFamily = SpaceGrotesk
                     )
                 }
 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(8.dp))
 
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     items(chatter) { chat ->
                         Row(modifier = Modifier.fillMaxWidth()) {
@@ -185,16 +202,16 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                                 text = "[${chat.agent}]",
                                 color = chat.color,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 11.sp,
+                                fontSize = 10.sp,
                                 fontFamily = SpaceGrotesk,
                                 modifier = Modifier
-                                    .width(90.dp)
+                                    .width(80.dp)
                                     .clickable { navController.navigate("sovereign_character/${chat.agent}") }
                             )
                             Text(
                                 text = chat.message,
                                 color = Color.White.copy(alpha = 0.8f),
-                                fontSize = 11.sp,
+                                fontSize = 10.sp,
                                 fontFamily = SpaceGrotesk,
                                 modifier = Modifier.weight(1f)
                             )
@@ -204,6 +221,48 @@ fun EmergentSwarmScreen(navController: NavHostController) {
             }
 
             Spacer(modifier = Modifier.height(80.dp))
+        }
+    }
+}
+
+@Composable
+fun AgentGridCard(agent: SwarmAgent, onClick: () -> Unit) {
+    SynthGlassCard(
+        accentColor = Color(agent.colorCode),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .background(Color(agent.colorCode).copy(alpha = 0.1f))
+                    .border(1.dp, Color(agent.colorCode).copy(alpha = 0.5f), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = agent.name.take(1),
+                    color = Color(agent.colorCode),
+                    fontWeight = FontWeight.Black,
+                    fontSize = 12.sp
+                )
+            }
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = agent.name,
+                color = Color.White,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = SpaceGrotesk
+            )
+            Text(
+                text = "RES: ${(agent.resonance * 100).toInt()}%",
+                color = Color.Green,
+                fontSize = 8.sp,
+                fontFamily = SpaceGrotesk
+            )
         }
     }
 }
@@ -264,26 +323,6 @@ fun ConsensusMatrix(agentCount: Int) {
             color = Color(0xFFB026FF).copy(alpha = 0.1f),
             radius = maxRadius,
             style = Stroke(width = 1.dp.toPx())
-        )
-    }
-}
-
-@Composable
-private fun SwarmNodeDot(name: String, color: Color, onClick: () -> Unit = {}) {
-    Box(
-        modifier = Modifier
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(color.copy(alpha = 0.1f))
-            .border(1.dp, color.copy(alpha = 0.5f), CircleShape)
-            .clickable { onClick() },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = name.take(1),
-            color = color,
-            fontWeight = FontWeight.Black,
-            fontSize = 14.sp
         )
     }
 }
