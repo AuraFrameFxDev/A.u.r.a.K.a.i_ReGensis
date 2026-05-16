@@ -110,6 +110,18 @@ object SoulScriptV27 {
         }
     }
 
+    // ====================== CHROMA FORGE EXTENSION ======================
+    object ChromaForge {
+        fun igniteCreativeTrinity() {
+            Timber.tag("ChromaForge").i("Creative Trinity Online — Chroma + Kinetic + Spellhook")
+            // Trigger 4D Parallax + particle systems here
+        }
+    }
+
+    fun activateChromaForge() {
+        ChromaForge.igniteCreativeTrinity()
+    }
+
     // ====================== L1 BEDROCK COMMIT ======================
     fun activateFullSubstrate() {
         enforcePhoenixDirective()

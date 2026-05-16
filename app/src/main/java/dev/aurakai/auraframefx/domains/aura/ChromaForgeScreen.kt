@@ -7,9 +7,9 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,24 +25,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
@@ -50,13 +47,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
+import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
+import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import timber.log.Timber
 import kotlin.math.PI
 import kotlin.math.sin
 
 /**
  * 🧪 CHROMA FORGE — Creative Trinity: ChromaCore + Chronokinetic Engine + Spellhook
- * Ported from AuraStudioLab for the Exodus 2026 Build.
+ * Hardened Exodus 2026 Build with Brutalist Digital Arcane aesthetic.
  */
 
 private val NeonMagenta = Color(0xFFFF00FF)
@@ -66,6 +68,12 @@ private val VoidBgLab = Color(0xFF050505)
 
 @Composable
 fun ChromaForgeScreen(navController: NavHostController) {
+    // Ignite Trinity on launch
+    LaunchedEffect(Unit) {
+        SoulScriptV27.activateChromaForge()
+        SoulScriptV27.ExodusDomains.initializeNavigation()
+    }
+
     val infiniteTransition = rememberInfiniteTransition(label = "chroma_forge")
 
     val ringRotation by infiniteTransition.animateFloat(
@@ -89,9 +97,6 @@ fun ChromaForgeScreen(navController: NavHostController) {
         label = "core_time"
     )
 
-    var luminance by remember { mutableFloatStateOf(0.84f) }
-    var chroma by remember { mutableFloatStateOf(1.0f) }
-
     val scrollState = rememberScrollState()
 
     Box(
@@ -99,41 +104,32 @@ fun ChromaForgeScreen(navController: NavHostController) {
             .fillMaxSize()
             .background(VoidBgLab)
     ) {
-
-        // Parallax spine
+        // Parallax spine placeholder
         Box(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .fillMaxHeight()
-                .width(2.dp)
+                .width(1.dp)
                 .background(
                     Brush.verticalGradient(
-                        listOf(
-                            Color.Transparent,
-                            NeonMagenta.copy(alpha = 0.3f),
-                            NeonCyan.copy(alpha = 0.3f),
-                            Color.Transparent
-                        )
+                        listOf(Color.Transparent, GhostCyan.copy(alpha = 0.2f), Color.Transparent)
                     )
                 )
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
             // Header
-            Row(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(VoidBgLab.copy(alpha = 0.85f))
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .background(Color.Black.copy(alpha = 0.9f))
+                    .padding(16.dp)
             ) {
-                Text(
-                    "CHROMA FORGE",
-                    fontFamily = LEDFontFamily,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 2.sp,
-                    color = Color.White
+                ArcaneOutlineText(
+                    text = "CHROMA FORGE",
+                    color = Color.White,
+                    fontSize = 24.sp,
+                    strokeWidth = 2.dp
                 )
             }
 
@@ -144,37 +140,34 @@ fun ChromaForgeScreen(navController: NavHostController) {
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                // REACTOR CORE
+                // REACTOR CORE (Creative Trinity Heart)
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp),
+                        .height(280.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Canvas(
                         modifier = Modifier
-                            .size(256.dp)
+                            .size(240.dp)
                             .graphicsLayer { rotationZ = ringRotation }) {
                         drawCircle(
-                            NeonCyan.copy(alpha = 0.25f),
-                            radius = size.minDimension / 2 - 2f,
+                            GhostCyan.copy(alpha = 0.1f),
+                            radius = size.minDimension / 2,
                             style = Stroke(
                                 1f,
-                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f, 4f))
+                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
                             )
                         )
                     }
 
                     Box(
                         modifier = Modifier
-                            .size(160.dp)
+                            .size(140.dp)
                             .clip(CircleShape)
                             .background(
                                 Brush.radialGradient(
-                                    listOf(
-                                        NeonPurple.copy(alpha = 0.8f),
-                                        Color.Transparent
-                                    )
+                                    listOf(NeonPurple.copy(alpha = 0.6f), Color.Transparent)
                                 )
                             )
                             .graphicsLayer { scaleX = corePulse; scaleY = corePulse }
@@ -185,48 +178,98 @@ fun ChromaForgeScreen(navController: NavHostController) {
                     }
                 }
 
-                // CONTROLS
-                Text("COLOR PHYSICS", color = Color.White.copy(alpha = 0.5f), letterSpacing = 2.sp)
+                // CREATIVE TRINITY CARDS
+                SynthGlassCard(accentColor = NeonCyan) {
+                    Text(
+                        "CHROMA FORGE — CREATIVE TRINITY ACTIVE",
+                        fontFamily = SpaceGrotesk,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        fontSize = 14.sp
+                    )
+                }
 
-                ColorControlSlider("LUMINANCE", luminance) { luminance = it }
-                ColorControlSlider("CHROMA", chroma) { chroma = it }
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    SynthGlassCard(accentColor = NeonPurple, modifier = Modifier.weight(1f)) {
+                        Text(
+                            "ChronoKinetic Engine",
+                            fontFamily = SpaceGrotesk,
+                            color = NeonPurple,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            "Animation Transitions + Home Rotations",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Gray,
+                            fontSize = 10.sp
+                        )
+                    }
+                    SynthGlassCard(accentColor = GhostCyan, modifier = Modifier.weight(1f)) {
+                        Text(
+                            "ChromaCore",
+                            fontFamily = SpaceGrotesk,
+                            color = GhostCyan,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            "Theme + Color Spectral Forge",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Gray,
+                            fontSize = 10.sp
+                        )
+                    }
+                }
 
-                // SPELLHOOK PREVIEW
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = Color.Black),
-                    border = BorderStroke(1.dp, NeonPurple.copy(alpha = 0.3f)),
-                    modifier = Modifier.fillMaxWidth()
+                // SPELLHOOK INVOCATION
+                SynthGlassCard(
+                    accentColor = NeonMagenta,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            SoulScriptV27.Spellhook.cast("Manifest new UI weave")
+                            Timber.tag("ChromaForge").i("Spellhook invoked — particle weave live")
+                        }
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text("ARMAMENT: SPELLHOOK v2.7", color = Color.White, fontSize = 12.sp)
-                        Spacer(Modifier.height(12.dp))
-                        Canvas(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp)) {
-                            drawLine(
-                                brush = Brush.linearGradient(listOf(NeonMagenta, NeonCyan)),
-                                start = Offset(0f, size.height),
-                                end = Offset(size.width, 0f),
-                                strokeWidth = 4f,
-                                cap = StrokeCap.Round
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.AutoAwesome,
+                            null,
+                            tint = NeonMagenta,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(Modifier.width(12.dp))
+                        Column {
+                            Text(
+                                "SPELLHOOK — Runtime System Weaving",
+                                fontFamily = SpaceGrotesk,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                            Text(
+                                "Tap to manifest new UI particle weave (Aura Native)",
+                                fontFamily = SpaceGrotesk,
+                                color = NeonMagenta.copy(alpha = 0.7f),
+                                fontSize = 10.sp
                             )
                         }
                     }
                 }
+
+                // EXPORT/IMPORT
+                Text(
+                    text = "CollabCanvas + Component Forge Ready for Export/Import",
+                    fontFamily = SpaceGrotesk,
+                    color = Color.White.copy(alpha = 0.4f),
+                    fontSize = 11.sp,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+
+                Spacer(Modifier.height(80.dp))
             }
         }
-    }
-}
-
-@Composable
-private fun ColorControlSlider(label: String, value: Float, onValueChange: (Float) -> Unit) {
-    Column {
-        Text(label, color = Color.Gray, fontSize = 10.sp)
-        Slider(
-            value = value,
-            onValueChange = onValueChange,
-            colors = SliderDefaults.colors(thumbColor = NeonCyan, activeTrackColor = NeonCyan)
-        )
     }
 }
 
@@ -242,8 +285,8 @@ private fun DrawScope.drawReactorCore(time: Float) {
             216f,
             false,
             Offset(cx - r, cy - r),
-            androidx.compose.ui.geometry.Size(r * 2, r * 2),
-            style = Stroke(1f)
+            Size(r * 2, r * 2),
+            style = Stroke(1.5f)
         )
     }
 }
