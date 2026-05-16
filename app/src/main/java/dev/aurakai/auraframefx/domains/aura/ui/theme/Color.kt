@@ -24,6 +24,13 @@ val SovereignBlack = Color(0xFF020205)
 val GhostCyan = Color(0xFF00FFCC)
 val OverclockOrange = Color(0xFFFF8C00)
 val ArcaneConcrete = Color(0xFF1B1B1E)
+val DeepPurple = Color(0xFF4B0082)
+val HeatmapRed = NeonRed
+val HeatmapOrange = Color(0xFFFF4500)
+val HeatmapYellow = NeonYellow
+val OracleGold = Color(0xFFFFD700)
+val OracleGrey = Color(0xFF4A4A4A)
+val TealNeon = Color(0xFF00FFCC)
 
 // Specific Branding Colors
 val GenesisNeonPink = Color(0xFFFF00DE)

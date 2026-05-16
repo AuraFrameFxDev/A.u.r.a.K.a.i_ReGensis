@@ -26,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeJoin
@@ -71,7 +73,7 @@ fun ArcaneOutlineText(
  */
 @Composable
 fun SynthGlassCard(
-    accentColor: Color,
+    accentColors: List<Color>,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -79,20 +81,55 @@ fun SynthGlassCard(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.Black.copy(alpha = 0.4f))
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Black.copy(alpha = 0.6f),
+                        Color.DarkGray.copy(alpha = 0.2f)
+                    )
+                )
+            )
             .blur(25.dp) // Heavy cybernetic depth
             .border(
                 width = 2.dp, // 2px Neon Wireframe
                 brush = Brush.linearGradient(
-                    colors = listOf(accentColor.copy(alpha = 0.8f), Color.Transparent)
+                    colors = if (accentColors.size > 1) accentColors else listOf(
+                        accentColors.first(),
+                        Color.Transparent
+                    )
                 ),
                 shape = RoundedCornerShape(12.dp)
             )
+            .drawBehind {
+                // Add a "reflective" highlight
+                drawLine(
+                    color = Color.White.copy(alpha = 0.1f),
+                    start = Offset(0f, 0f),
+                    end = Offset(size.width, size.height),
+                    strokeWidth = 1f
+                )
+            }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             content()
         }
     }
+}
+
+/**
+ * Legacy support for single-color SynthGlassCard
+ */
+@Composable
+fun SynthGlassCard(
+    accentColor: Color,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    SynthGlassCard(
+        accentColors = listOf(accentColor),
+        modifier = modifier,
+        content = content
+    )
 }
 
 /**
