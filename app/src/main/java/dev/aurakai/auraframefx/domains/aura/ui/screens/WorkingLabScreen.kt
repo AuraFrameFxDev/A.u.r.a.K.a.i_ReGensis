@@ -34,7 +34,10 @@ import dev.aurakai.auraframefx.core.embodiment.WorkBehaviorExecutor
 import dev.aurakai.auraframefx.core.embodiment.WorkChoreographer
 import dev.aurakai.auraframefx.core.embodiment.rememberBreathingAnimation
 import dev.aurakai.auraframefx.core.embodiment.rememberEmbodimentEngine
+import dev.aurakai.auraframefx.domains.aura.ui.components.CenterMainMenu
+import dev.aurakai.auraframefx.domains.aura.ui.components.CyberpunkBackground
 import dev.aurakai.auraframefx.domains.aura.ui.components.DataStreamBetweenCards
+import dev.aurakai.auraframefx.domains.aura.ui.components.HolographicPlatform
 import dev.aurakai.auraframefx.domains.aura.ui.components.InteractiveModuleCard
 import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
 import kotlinx.coroutines.coroutineScope
@@ -147,7 +150,7 @@ fun WorkingLabScreen(
             engine.setMood(MoodState.FOCUSED)
 
             // Initial positions
-            delay(1000)
+            delay(1000.milliseconds)
 
             // Start continuous work loop
             while (true) {
@@ -225,7 +228,7 @@ fun WorkingLabScreen(
                 }
 
                 // Small break between cycles
-                delay(3000)
+                delay(3000.milliseconds)
             }
         } finally {
             // Cleanup when composable is disposed
