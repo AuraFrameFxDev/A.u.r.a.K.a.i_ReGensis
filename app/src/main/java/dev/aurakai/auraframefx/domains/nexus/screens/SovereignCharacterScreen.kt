@@ -146,8 +146,9 @@ fun SovereignCharacterScreen(
             // JAPANESE SUBTITLE (Aesthetic Only)
             Text(
                 text = if (profile.displayName == "Aura") "サイバー戦乙女" else "デジタルセンチネル",
-                color = Color.White.copy(alpha = 0.1f),
-                fontSize = 48.sp,
+                color = Color.White.copy(alpha = 0.08f),
+                fontSize = 40.sp,
+                lineHeight = 44.sp,
                 fontWeight = FontWeight.Black,
                 fontFamily = LEDFontFamily
             )
