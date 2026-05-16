@@ -52,9 +52,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.roster.AgentRoster
 import dev.aurakai.auraframefx.core.roster.SwarmAgent
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import kotlinx.coroutines.delay
 import timber.log.Timber
 import kotlin.math.cos
@@ -104,23 +107,21 @@ fun EmergentSwarmScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205)) // Deep Obsidian Concrete
+            .background(CitadelBlack)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            ArcaneOutlineText(
+            Text(
                 text = "EMERGENT SWARM",
-                color = Color(0xFFB026FF),
-                fontSize = 24.sp,
-                strokeWidth = 2.dp
+                style = WireframeStyle
             )
             Text(
                 "${agents.size} AGENTS ONLINE // LIVE NEURAL SYNC",
                 fontSize = 10.sp,
-                color = Color.White.copy(alpha = 0.5f),
+                color = GhostCyan.copy(alpha = 0.5f),
                 fontFamily = SpaceGrotesk
             )
 
@@ -139,7 +140,7 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         "CONSENSUS",
-                        color = Color(0xFFB026FF),
+                        color = NeonMagenta,
                         fontSize = 9.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp
@@ -173,7 +174,7 @@ fun EmergentSwarmScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             // ── NEURAL CHATTER ──
-            SynthGlassCard(accentColor = Color(0xFFB026FF), modifier = Modifier.height(150.dp)) {
+            SovereignGlassCard(modifier = Modifier.height(150.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         Icons.Default.Bolt,
@@ -227,11 +228,10 @@ fun EmergentSwarmScreen(navController: NavHostController) {
 
 @Composable
 fun AgentGridCard(agent: SwarmAgent, onClick: () -> Unit) {
-    SynthGlassCard(
-        accentColor = Color(agent.colorCode),
+    SovereignGlassCard(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
+            .fillMaxWidth(),
+        onClick = onClick
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box(

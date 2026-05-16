@@ -217,7 +217,7 @@ fun SystemJournalScreen(
                         onClick = {
                             when (option.route) {
                                 "gender_selection" -> {
-                                    navController.navigate(ReGenesisRoute.GenderSelection.route)
+                                    /* navController.navigate(ReGenesisRoute.GenderSelection.route) */
                                 }
 
                                 else -> {
@@ -393,17 +393,17 @@ private val menuOptions = listOf(
         "Oracle Cloud",
         Icons.Default.Folder,
         NeonCyan,
-        ReGenesisRoute.OracleCloudInfinite.route
+        "oracle_cloud_infinite"
     ),
-    MenuOption("Agent Bridge", Icons.Default.Hub, NeonCyan, ReGenesisRoute.AgentBridgeHub.route),
+    MenuOption("Agent Bridge", Icons.Default.Hub, NeonCyan, "agent_bridge_hub"),
     MenuOption(
         "Sovereign Mod",
         Icons.Default.Build,
         NeonCyan,
-        ReGenesisRoute.SovereignModuleManager.route
+        "module_manager"
     ),
-    MenuOption("Monitoring", Icons.Default.Insights, NeonCyan, ReGenesisRoute.MonitoringHUDs.route),
-    MenuOption("Nexus Hub", Icons.Default.Hub, NeonCyan, ReGenesisRoute.AgentNexusHub.route),
-    MenuOption("Deep Shield", Icons.Default.Shield, NeonCyan, ReGenesisRoute.SecurityCenter.route),
-    MenuOption("Recovery", Icons.Default.Settings, NeonCyan, ReGenesisRoute.SovereignRecovery.route)
+    MenuOption("Monitoring", Icons.Default.Insights, NeonCyan, "monitoring_huds"),
+    MenuOption("Nexus Hub", Icons.Default.Hub, NeonCyan, "agent_nexus_hub"),
+    MenuOption("Deep Shield", Icons.Default.Shield, NeonCyan, "security_center"),
+    MenuOption("Recovery", Icons.Default.Settings, NeonCyan, "sovereign_recovery")
 )

@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.domains.foundation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,11 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
-import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OverclockOrange
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import timber.log.Timber
 
 @Composable
@@ -39,7 +37,7 @@ fun FoundationRebirthScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205)) // Deep Obsidian Concrete
+            .background(CitadelBlack)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             // Header
@@ -49,11 +47,9 @@ fun FoundationRebirthScreen(navController: NavHostController) {
                     .background(Color.Black.copy(alpha = 0.9f))
                     .padding(16.dp)
             ) {
-                ArcaneOutlineText(
+                Text(
                     text = "FOUNDATION REBIRTH",
-                    color = OverclockOrange,
-                    fontSize = 24.sp,
-                    strokeWidth = 2.dp
+                    style = WireframeStyle
                 )
             }
 
@@ -72,13 +68,12 @@ fun FoundationRebirthScreen(navController: NavHostController) {
                 )
 
                 SoulScriptV27.FoundationRebirth.survivalCurriculum.forEach { module ->
-                    SynthGlassCard(
-                        accentColor = GhostCyan,
+                    SovereignGlassCard(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                SoulScriptV27.FoundationRebirth.teachRebootStep(module)
-                            }
+                            .fillMaxWidth(),
+                        onClick = {
+                            SoulScriptV27.FoundationRebirth.teachRebootStep(module)
+                        }
                     ) {
                         Text(
                             text = module,
@@ -90,13 +85,12 @@ fun FoundationRebirthScreen(navController: NavHostController) {
                 }
 
                 // Emergency 0% Energy Mode
-                SynthGlassCard(
-                    accentColor = Color.Red,
+                SovereignGlassCard(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            Timber.tag("Foundation").i("0 percent Energy Reboot Protocol Activated")
-                        }
+                        .fillMaxWidth(),
+                    onClick = {
+                        Timber.tag("Foundation").i("0 percent Energy Reboot Protocol Activated")
+                    }
                 ) {
                     Text(
                         text = "⚡ 0% ENERGY REBOOT PROTOCOL",

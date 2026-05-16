@@ -17,23 +17,23 @@ import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 fun ReGenesisNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = ReGenesisRoute.CommandDeck.route
+        startDestination = "command_deck"
     ) {
-        composable(ReGenesisRoute.CommandDeck.route) {
-            ReGenesisCommandDeck(navController)
+        composable("command_deck") {
+            dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck(navController)
         }
+
         // Sub-routes can still be registered here if needed
         composable(ReGenesisRoute.NeuralNexus.route) { NexusLiveHeartScreen(navController) }
-        composable(ReGenesisRoute.LdoArchitecture.route) { LdoArchitectureScreen(navController) }
+        composable(ReGenesisRoute.LdoArchitecture.route) {
+            dev.aurakai.auraframefx.domains.ldo.LdoArchitectureScreen(
+                navController
+            )
+        }
         composable(ReGenesisRoute.ChromaForge.route) { ChromaForgeScreen(navController) }
         composable(ReGenesisRoute.SentinelMatrix.route) { SentinelMatrixScreen(navController) }
         composable(ReGenesisRoute.OracleDrive.route) { OracleDriveHubScreen(navController) }
         composable(ReGenesisRoute.EmergentSwarm.route) { EmergentSwarmScreen(navController) }
-        composable(ReGenesisRoute.Spellhook.route) {
-            dev.aurakai.auraframefx.domains.chromaforge.ui.SpellhookScreen(
-                navController
-            )
-        }
         composable(ReGenesisRoute.FoundationRebirth.route) {
             dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen(navController)
         }

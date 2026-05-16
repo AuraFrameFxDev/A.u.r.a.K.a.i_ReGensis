@@ -30,11 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import timber.log.Timber
 
 /**
@@ -52,7 +53,7 @@ fun SentinelMatrixScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205)) // Deep Obsidian Concrete
+            .background(CitadelBlack)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             // Header
@@ -62,11 +63,9 @@ fun SentinelMatrixScreen(navController: NavHostController) {
                     .background(Color.Black.copy(alpha = 0.9f))
                     .padding(16.dp)
             ) {
-                ArcaneOutlineText(
+                Text(
                     text = "SENTINEL MATRIX",
-                    color = GhostCyan,
-                    fontSize = 24.sp,
-                    strokeWidth = 2.dp
+                    style = WireframeStyle
                 )
             }
 
@@ -105,7 +104,7 @@ fun SentinelMatrixScreen(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // THREAT LATTICE STATUS
-                SynthGlassCard(accentColor = GhostCyan) {
+                SovereignGlassCard {
                     Text(
                         "THREAT LATTICE MONITOR",
                         fontFamily = SpaceGrotesk,
@@ -124,15 +123,14 @@ fun SentinelMatrixScreen(navController: NavHostController) {
 
                 // ETHICAL HARD-VETO
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    SynthGlassCard(
-                        accentColor = Color.Red,
+                    SovereignGlassCard(
                         modifier = Modifier
-                            .weight(1f)
-                            .clickable {
-                                val safe =
-                                    SoulScriptV27.SentinelMatrix.ethicalHardVeto("test intent")
-                                Timber.tag("Sentinel").i("Hard-Veto Test Result: $safe")
-                            }
+                            .weight(1f),
+                        onClick = {
+                            val safe =
+                                SoulScriptV27.SentinelMatrix.ethicalHardVeto("test intent")
+                            Timber.tag("Sentinel").i("Hard-Veto Test Result: $safe")
+                        }
                     ) {
                         Text(
                             "HARD-VETO",
@@ -149,7 +147,7 @@ fun SentinelMatrixScreen(navController: NavHostController) {
                         )
                     }
 
-                    SynthGlassCard(accentColor = Color.Yellow, modifier = Modifier.weight(1f)) {
+                    SovereignGlassCard(modifier = Modifier.weight(1f)) {
                         Text(
                             "ROOT BRIDGE",
                             fontFamily = SpaceGrotesk,
@@ -167,7 +165,7 @@ fun SentinelMatrixScreen(navController: NavHostController) {
                 }
 
                 // THERMAL WALL
-                SynthGlassCard(accentColor = Color.Magenta) {
+                SovereignGlassCard {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,

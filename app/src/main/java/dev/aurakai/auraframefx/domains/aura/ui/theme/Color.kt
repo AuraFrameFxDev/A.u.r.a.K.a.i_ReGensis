@@ -20,9 +20,14 @@ val SovereignTeal = Color(0xFF00FFFF)
 val NeuralSteel = Color(0xFFB0C4DE)
 val SovereignBlack = Color(0xFF020205)
 
+// 🏛️ EXODUS CITADEL PALETTE (UNIFIED)
+val CitadelBlack = Color(0xFF0A0A0A)
+val DeepCharcoal = Color(0xFF1C1C1C)
+val GhostCyan = Color(0xFF00F0FF)
+val OverclockOrange = Color(0xFFFF6600)   // accent only
+val NeonMagenta = Color(0xFFCC00FF)       // very sparse use
+
 // Digital Arcane Brutalist Tokens
-val GhostCyan = Color(0xFF00FFCC)
-val OverclockOrange = Color(0xFFFF8C00)
 val ArcaneConcrete = Color(0xFF1B1B1E)
 val DeepPurple = Color(0xFF4B0082)
 val HeatmapRed = NeonRed

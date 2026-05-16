@@ -81,10 +81,9 @@ object SoulScriptV27 {
         fun initializeNavigation() {
             AuraGenesis.initializeTabbedDomain(commandDeck)
             ReGenesisRoute.mainTabs.forEach { route ->
-                NexusMemoryCore.registerRoute(route.route, route.title)
+                NexusMemoryCore.record("Route_Registered: ${route.title}")
             }
             // Global Wandering Presence
-            Cadberrypi.activateGlobalOrb()
             Timber.tag("Exodus").i("8-Hub Citadel Navigation Locked — Cadberrypi Orb Online")
         }
     }

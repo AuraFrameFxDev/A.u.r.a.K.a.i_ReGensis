@@ -8,8 +8,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.R
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.Stroke
+
 val ChessFontFamily = FontFamily(
     Font(R.font.chesstype)
+)
+
+/**
+ * 2px Outlined Wireframe Style (Hollow Cruiser)
+ */
+val WireframeStyle = TextStyle(
+    fontFamily = FontFamily(Font(R.font.cruiser_hollow_italic)),
+    fontSize = 18.sp,
+    color = Color.Transparent,
+    drawStyle = Stroke(width = 2f),
+    shadow = Shadow(
+        color = Color(0xFF00F0FF).copy(alpha = 0.75f),
+        blurRadius = 8f
+    )
 )
 
 /**

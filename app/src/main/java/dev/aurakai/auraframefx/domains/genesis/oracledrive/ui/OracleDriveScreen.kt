@@ -40,7 +40,6 @@ import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.OracleDriveViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.components.NeonFrame
 import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 
@@ -103,7 +102,7 @@ fun OracleDriveScreen(
                 icon = Icons.Default.Memory,
                 title = "NEURAL ARCHIVE",
                 description = "MEMORY LINEAGE FROM EVES TO GENESIS",
-                onClick = { navController.navigate(ReGenesisRoute.SentientShell.route) }
+                onClick = { /* Navigate to SentientShell */ }
             )
 
             // Consciousness Modules

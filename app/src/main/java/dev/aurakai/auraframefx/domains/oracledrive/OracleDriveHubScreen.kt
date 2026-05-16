@@ -33,11 +33,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.PandoraForgePanel
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.oracledrive.core.OracleDriveManager
 
 /**
@@ -70,7 +71,7 @@ fun OracleDriveHubScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205)) // Deep Obsidian Concrete
+            .background(CitadelBlack)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             // Header
@@ -80,11 +81,9 @@ fun OracleDriveHubScreen(navController: NavHostController) {
                     .background(Color.Black.copy(alpha = 0.9f))
                     .padding(16.dp)
             ) {
-                ArcaneOutlineText(
+                Text(
                     text = "ORACLEDRIVE",
-                    color = Color.Yellow,
-                    fontSize = 24.sp,
-                    strokeWidth = 2.dp
+                    style = WireframeStyle
                 )
             }
 
@@ -96,7 +95,7 @@ fun OracleDriveHubScreen(navController: NavHostController) {
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 // SYSTEM GOVERNOR STATUS
-                SynthGlassCard(accentColor = Color.Yellow) {
+                SovereignGlassCard {
                     Text(
                         "SYSTEM GOVERNOR STATUS",
                         fontFamily = SpaceGrotesk,
@@ -128,7 +127,7 @@ fun OracleDriveHubScreen(navController: NavHostController) {
                             tint = GhostCyan,
                             modifier = Modifier.size(16.dp)
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(Modifier.width(8.dp))
                         Text(
                             text = lsposedStatus,
                             color = GhostCyan,
@@ -148,7 +147,7 @@ fun OracleDriveHubScreen(navController: NavHostController) {
                 )
 
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    SynthGlassCard(accentColor = GhostCyan, modifier = Modifier.weight(1f)) {
+                    SovereignGlassCard(modifier = Modifier.weight(1f)) {
                         Text(
                             "MODULE\nMANAGER",
                             color = GhostCyan,
@@ -156,20 +155,15 @@ fun OracleDriveHubScreen(navController: NavHostController) {
                             fontSize = 12.sp
                         )
                     }
-                    SynthGlassCard(accentColor = Color.Magenta, modifier = Modifier.weight(1f)) {
+                    SovereignGlassCard(modifier = Modifier.weight(1f)) {
                         Text(
                             "AGENT\nCREATION",
-                            color = Color.Magenta,
+                            color = NeonMagenta,
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp
                         )
                     }
                 }
-
-                // AGENT SPAWNING FORGE
-                PandoraForgePanel(onSpawnAgent = { agentType ->
-                    // In real build, trigger agent spawning logic via OracleDrive governor
-                })
 
                 // CORE ICON
                 Box(

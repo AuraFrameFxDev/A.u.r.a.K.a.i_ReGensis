@@ -51,14 +51,14 @@ fun OracleDriveSubmenuScreen(
             title = "Module Creation",
             description = "AI-assisted module generation and template selection",
             icon = Icons.Default.Add,
-            route = ReGenesisRoute.ModuleCreation.route,
+            route = "module_creation",
             color = Color(0xFF9370DB) // Medium Purple
         ),
         SubmenuItem(
             title = "Direct Chat",
             description = "One-on-one conversations with AI agents",
             icon = Icons.AutoMirrored.Filled.Chat,
-            route = ReGenesisRoute.DirectChat.route,
+            route = "direct_chat",
             color = Color(0xFF4169E1) // Royal Blue
         ),
         SubmenuItem(
@@ -72,7 +72,7 @@ fun OracleDriveSubmenuScreen(
             title = "System Overrides",
             description = "Emergency module disable and god mode",
             icon = Icons.Default.AdminPanelSettings,
-            route = ReGenesisRoute.SystemOverrides.route,
+            route = "system_overrides",
             color = Color(0xFFFF4500) // Orange Red
         ),
         SubmenuItem(

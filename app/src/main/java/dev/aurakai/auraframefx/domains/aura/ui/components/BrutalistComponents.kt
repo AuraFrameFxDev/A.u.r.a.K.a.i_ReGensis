@@ -1,7 +1,9 @@
 package dev.aurakai.auraframefx.domains.aura.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -17,6 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,7 +42,43 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CruiserFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.DeepCharcoal
+import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+
+/**
+ * SovereignGlassCard (Unified, Subtle Glow)
+ */
+@Composable
+fun SovereignGlassCard(
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = DeepCharcoal.copy(alpha = 0.85f)),
+        border = BorderStroke(1.dp, GhostCyan.copy(alpha = 0.4f)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        shape = RoundedCornerShape(4.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color.Transparent,
+                            GhostCyan.copy(alpha = 0.08f)
+                        )
+                    )
+                )
+                .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
+                .padding(16.dp)
+        ) {
+            content()
+        }
+    }
+}
 
 /**
  * 🖋️ ArcaneOutlineText (Hollow Header Helper)

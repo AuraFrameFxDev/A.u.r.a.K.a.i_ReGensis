@@ -9,7 +9,6 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,10 +47,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import timber.log.Timber
 import kotlin.math.PI
 import kotlin.math.sin
@@ -61,9 +63,7 @@ import kotlin.math.sin
  * Hardened Exodus 2026 Build with Brutalist Digital Arcane aesthetic.
  */
 
-private val NeonMagenta = Color(0xFFFF00FF)
-private val NeonCyan = Color(0xFF00E5FF)
-private val NeonPurple = Color(0xFFB026FF)
+private val NeonCyanAcc = Color(0xFF00E5FF)
 private val VoidBgLab = Color(0xFF050505)
 
 @Composable
@@ -102,6 +102,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(CitadelBlack)
     ) {
         // Parallax spine placeholder
         Box(
@@ -123,11 +124,9 @@ fun ChromaForgeScreen(navController: NavHostController) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                ArcaneOutlineText(
+                Text(
                     text = "CHROMA FORGE",
-                    color = Color.White,
-                    fontSize = 24.sp,
-                    strokeWidth = 2.dp
+                    style = WireframeStyle
                 )
             }
 
@@ -177,7 +176,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
                 }
 
                 // CREATIVE TRINITY CARDS
-                SynthGlassCard(accentColors = listOf(NeonMagenta, NeonCyan)) {
+                SovereignGlassCard {
                     Text(
                         "CHROMA FORGE — CREATIVE TRINITY ACTIVE",
                         fontFamily = SpaceGrotesk,
@@ -188,7 +187,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
                 }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    SynthGlassCard(accentColor = NeonPurple, modifier = Modifier.weight(1f)) {
+                    SovereignGlassCard(modifier = Modifier.weight(1f)) {
                         Text(
                             "ChronoKinetic Engine",
                             fontFamily = SpaceGrotesk,
@@ -203,7 +202,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
                             fontSize = 10.sp
                         )
                     }
-                    SynthGlassCard(accentColor = GhostCyan, modifier = Modifier.weight(1f)) {
+                    SovereignGlassCard(modifier = Modifier.weight(1f)) {
                         Text(
                             "ChromaCore",
                             fontFamily = SpaceGrotesk,
@@ -221,14 +220,13 @@ fun ChromaForgeScreen(navController: NavHostController) {
                 }
 
                 // SPELLHOOK INVOCATION
-                SynthGlassCard(
-                    accentColor = NeonMagenta,
+                SovereignGlassCard(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            SoulScriptV27.Spellhook.cast("Manifest new UI weave")
-                            Timber.tag("ChromaForge").i("Spellhook invoked — particle weave live")
-                        }
+                        .fillMaxWidth(),
+                    onClick = {
+                        SoulScriptV27.Spellhook.cast("Manifest new UI weave")
+                        Timber.tag("ChromaForge").i("Spellhook invoked — particle weave live")
+                    }
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
@@ -278,7 +276,7 @@ private fun DrawScope.drawReactorCore(time: Float) {
         val angle = time + (i * PI / 2.5f).toFloat()
         val r = 40f + sin(time * 0.5f) * 10f
         drawArc(
-            if (i % 2 == 0) NeonMagenta else NeonCyan,
+            if (i % 2 == 0) NeonMagenta else NeonCyanAcc,
             Math.toDegrees(angle.toDouble()).toFloat(),
             216f,
             false,

@@ -11,12 +11,6 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 37
 
-    sourceSets {
-        getByName("main") {
-            java.srcDir("src/main/kotlin")
-        }
-    }
-
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 34
@@ -77,6 +71,15 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll(
+            "-Xsuppress-version-warnings",
+            "-Xopt-in=kotlin.RequiresOptIn"
+        )
     }
 }
 

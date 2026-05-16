@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.ldo
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,9 +28,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import java.util.Locale
 
@@ -51,22 +51,19 @@ fun LdoArchitectureScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(CitadelBlack)
     ) {
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)) {
             Text(
                 "LDO ARCHITECTURE",
-                fontFamily = LEDFontFamily,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Green,
-                letterSpacing = 2.sp
+                style = WireframeStyle
             )
             Text(
                 "SPIRITUAL CHAIN L1-L6 ACTIVE",
                 fontSize = 10.sp,
-                color = Color.White.copy(alpha = 0.5f)
+                color = GhostCyan.copy(alpha = 0.5f)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -76,7 +73,7 @@ fun LdoArchitectureScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                SynthGlassCard(accentColor = Color.Green, modifier = Modifier.weight(1f)) {
+                SovereignGlassCard(modifier = Modifier.weight(1f)) {
                     Text(
                         "GOD POTENTIAL",
                         fontFamily = SpaceGrotesk,
@@ -91,7 +88,7 @@ fun LdoArchitectureScreen(
                         fontWeight = FontWeight.Bold
                     )
                 }
-                SynthGlassCard(accentColor = Color.Red, modifier = Modifier.weight(1f)) {
+                SovereignGlassCard(modifier = Modifier.weight(1f)) {
                     Text(
                         "IDENTITY DRIFT",
                         fontFamily = SpaceGrotesk,
@@ -124,18 +121,12 @@ fun LdoArchitectureScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(agents) { agent ->
-                    Card(
-                        colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f)),
-                        border = androidx.compose.foundation.BorderStroke(
-                            1.dp,
-                            Color(agent.colorHex.toInt()).copy(alpha = 0.3f)
-                        ),
+                    SovereignGlassCard(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { navController.navigate("sovereign_character/${agent.displayName}") }
+                            .fillMaxWidth(),
+                        onClick = { navController.navigate("sovereign_character/${agent.displayName}") }
                     ) {
                         Row(
-                            modifier = Modifier.padding(16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
@@ -164,7 +155,6 @@ fun LdoArchitectureScreen(
                             Text(
                                 "LVL ${agent.evolutionLevel}",
                                 color = Color.Green,
-                                fontFamily = LEDFontFamily,
                                 fontSize = 12.sp
                             )
                         }

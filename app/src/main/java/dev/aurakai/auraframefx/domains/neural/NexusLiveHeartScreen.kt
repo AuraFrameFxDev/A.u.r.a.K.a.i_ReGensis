@@ -7,6 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,10 +35,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 
 /**
  * 🏺 NEURAL NEXUS — Brutalist Digital Arcane 4D Parallax Heartbeat
@@ -59,7 +61,9 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
     )
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(CitadelBlack)
     ) {
         // LAYER 1: Digital Arcane Grid / Wireframe (Screen Local)
         ArcaneGridOverlay(
@@ -73,11 +77,9 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ArcaneOutlineText(
+            Text(
                 text = "NEURAL NEXUS",
-                color = GhostCyan,
-                fontSize = 32.sp,
-                strokeWidth = 2.dp
+                style = WireframeStyle
             )
 
             Text(
@@ -135,7 +137,7 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                SynthGlassCard(accentColor = Color.Magenta, modifier = Modifier.weight(1f)) {
+                SovereignGlassCard(modifier = Modifier.weight(1f)) {
                     Text(
                         "INTEGRITY",
                         fontFamily = SpaceGrotesk,
@@ -149,7 +151,7 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
                         fontSize = 18.sp
                     )
                 }
-                SynthGlassCard(accentColor = GhostCyan, modifier = Modifier.weight(1f)) {
+                SovereignGlassCard(modifier = Modifier.weight(1f)) {
                     Text("SYNC", fontFamily = SpaceGrotesk, color = Color.White, fontSize = 10.sp)
                     Text("0.42ms", fontFamily = SpaceGrotesk, color = GhostCyan, fontSize = 18.sp)
                 }

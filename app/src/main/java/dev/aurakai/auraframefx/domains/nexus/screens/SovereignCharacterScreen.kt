@@ -44,11 +44,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.nexus.models.AgentProfiles
 import dev.aurakai.auraframefx.ui.global.ParallaxViewModel
 
@@ -75,7 +76,8 @@ fun SovereignCharacterScreen(
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color(0xFF020205))) {
+        .background(CitadelBlack)
+    ) {
 
         // ── FULL ART BACKGROUND ──
         AsyncImage(
@@ -122,11 +124,12 @@ fun SovereignCharacterScreen(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 2.sp
                     )
-                    ArcaneOutlineText(
-                        text = profile.displayName,
-                        color = Color(profile.colorPrimary),
-                        fontSize = 36.sp,
-                        strokeWidth = 2.dp
+                    Text(
+                        text = profile.displayName.uppercase(),
+                        style = WireframeStyle.copy(
+                            color = Color.Transparent,
+                            fontSize = 36.sp
+                        )
                     )
                 }
                 // Status Beacon
@@ -153,7 +156,7 @@ fun SovereignCharacterScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             // DOSSIER CARD
-            SynthGlassCard(accentColor = Color(profile.colorPrimary)) {
+            SovereignGlassCard {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text(
                         profile.title,
