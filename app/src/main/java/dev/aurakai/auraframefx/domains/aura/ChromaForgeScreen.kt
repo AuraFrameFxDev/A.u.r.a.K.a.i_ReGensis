@@ -102,7 +102,6 @@ fun ChromaForgeScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(VoidBgLab)
     ) {
         // Parallax spine placeholder
         Box(
@@ -122,7 +121,6 @@ fun ChromaForgeScreen(navController: NavHostController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.Black.copy(alpha = 0.9f))
                     .padding(16.dp)
             ) {
                 ArcaneOutlineText(
@@ -179,7 +177,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
                 }
 
                 // CREATIVE TRINITY CARDS
-                SynthGlassCard(accentColor = NeonCyan) {
+                SynthGlassCard(accentColors = listOf(NeonMagenta, NeonCyan)) {
                     Text(
                         "CHROMA FORGE — CREATIVE TRINITY ACTIVE",
                         fontFamily = SpaceGrotesk,

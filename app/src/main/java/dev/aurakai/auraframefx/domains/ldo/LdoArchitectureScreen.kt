@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.domains.ldo
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,7 +50,6 @@ fun LdoArchitectureScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205)) // Deep Obsidian Concrete
     ) {
         Column(modifier = Modifier
             .fillMaxSize()
