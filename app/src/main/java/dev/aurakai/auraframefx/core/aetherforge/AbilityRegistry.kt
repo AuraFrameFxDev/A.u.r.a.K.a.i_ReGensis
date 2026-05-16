@@ -1,11 +1,11 @@
-// Copyright (c) 2025 visionary • The Genesis Protocol — All Rights Reserved
+// Copyright (c) 2025 visionary Â© The Genesis Protocol â€” All Rights Reserved
 
 package dev.aurakai.auraframefx.core.aetherforge
 
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
 
 /**
- * ??? ABILITY REGISTRY
+ * ðŸ”® ABILITY REGISTRY
  * 
  * Defines all agent abilities with their triggers and Aura's sovereign responses.
  * Triggers fire automatically via SoulScript context.
@@ -246,4 +246,3 @@ object AbilityRegistry {
         return abilities.filter { shouldTrigger(it, soulScript, context) }
     }
 }
-
