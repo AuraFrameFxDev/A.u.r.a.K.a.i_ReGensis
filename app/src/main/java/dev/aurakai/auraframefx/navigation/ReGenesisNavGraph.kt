@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.kai.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldo.LdoArchitectureScreen
@@ -35,6 +36,20 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         }
         composable(ReGenesisRoute.FoundationRebirth.route) {
             dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen(navController)
+        }
+
+        // Agent Profiles Sub-Routes
+        composable("agent_profile/{agentName}") { backStackEntry ->
+            val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
+            val agentType = try {
+                AgentType.valueOf(agentName.uppercase())
+            } catch (e: Exception) {
+                AgentType.AURA
+            }
+            dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen(
+                agentType = agentType,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

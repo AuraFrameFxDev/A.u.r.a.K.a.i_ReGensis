@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.domains.swarm
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -101,7 +102,11 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 agents.take(6).forEach { agent ->
-                    SwarmNodeDot(agent.name, agent.color)
+                    SwarmNodeDot(
+                        name = agent.name,
+                        color = agent.color,
+                        onClick = { navController.navigate("agent_profile/${agent.name}") }
+                    )
                 }
             }
 
@@ -139,7 +144,9 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 11.sp,
                                 fontFamily = SpaceGrotesk,
-                                modifier = Modifier.width(90.dp)
+                                modifier = Modifier
+                                    .width(90.dp)
+                                    .clickable { navController.navigate("agent_profile/${chat.agent}") }
                             )
                             Text(
                                 text = chat.message,
@@ -159,13 +166,14 @@ fun EmergentSwarmScreen(navController: NavHostController) {
 }
 
 @Composable
-private fun SwarmNodeDot(name: String, color: Color) {
+private fun SwarmNodeDot(name: String, color: Color, onClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
             .background(color.copy(alpha = 0.1f))
-            .border(1.dp, color.copy(alpha = 0.5f), CircleShape),
+            .border(1.dp, color.copy(alpha = 0.5f), CircleShape)
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Text(
