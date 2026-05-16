@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.ViewInAr
@@ -34,6 +35,8 @@ sealed class ReGenesisRoute(
         ReGenesisRoute("emergent_swarm", "Emergent Swarm", Icons.Default.Hub)
 
     data object Spellhook : ReGenesisRoute("spellhook", "Spellhook", Icons.Default.AutoAwesome)
+    data object FoundationRebirth :
+        ReGenesisRoute("foundation_rebirth", "Foundation Rebirth", Icons.Default.School)
 
     companion object {
         val mainTabs = listOf(
@@ -43,7 +46,8 @@ sealed class ReGenesisRoute(
             SentinelMatrix,
             OracleDrive,
             EmergentSwarm,
-            Spellhook
+            Spellhook,
+            FoundationRebirth
         )
     }
 }

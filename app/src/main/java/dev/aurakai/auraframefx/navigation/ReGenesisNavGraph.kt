@@ -33,6 +33,9 @@ fun ReGenesisNavGraph(navController: NavHostController) {
                 navController
             )
         }
+        composable(ReGenesisRoute.FoundationRebirth.route) {
+            dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen(navController)
+        }
     }
 }
 
