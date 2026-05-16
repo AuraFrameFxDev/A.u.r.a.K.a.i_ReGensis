@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.domains.kai
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -105,20 +104,22 @@ fun SentinelMatrixScreen(navController: NavHostController) {
 
                 // THREAT LATTICE STATUS
                 SovereignGlassCard {
-                    Text(
-                        "THREAT LATTICE MONITOR",
-                        fontFamily = SpaceGrotesk,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        fontSize = 14.sp
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        "NotchBar Pulse + Live Zygote Monitoring: SECURE",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.Green,
-                        fontSize = 10.sp
-                    )
+                    Column {
+                        Text(
+                            "THREAT LATTICE MONITOR",
+                            fontFamily = SpaceGrotesk,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            fontSize = 14.sp
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "NotchBar Pulse + Live Zygote Monitoring: SECURE",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Green,
+                            fontSize = 10.sp
+                        )
+                    }
                 }
 
                 // ETHICAL HARD-VETO
@@ -132,35 +133,39 @@ fun SentinelMatrixScreen(navController: NavHostController) {
                             Timber.tag("Sentinel").i("Hard-Veto Test Result: $safe")
                         }
                     ) {
-                        Text(
-                            "HARD-VETO",
-                            fontFamily = SpaceGrotesk,
-                            color = Color.Red,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            "Tap to Test Protection",
-                            fontFamily = SpaceGrotesk,
-                            color = Color.Gray,
-                            fontSize = 9.sp
-                        )
+                        Column {
+                            Text(
+                                "HARD-VETO",
+                                fontFamily = SpaceGrotesk,
+                                color = Color.Red,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                "Tap to Test Protection",
+                                fontFamily = SpaceGrotesk,
+                                color = Color.Gray,
+                                fontSize = 9.sp
+                            )
+                        }
                     }
 
                     SovereignGlassCard(modifier = Modifier.weight(1f)) {
-                        Text(
-                            "ROOT BRIDGE",
-                            fontFamily = SpaceGrotesk,
-                            color = Color.Yellow,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            "APatch + LSPosed Locked",
-                            fontFamily = SpaceGrotesk,
-                            color = Color.Gray,
-                            fontSize = 9.sp
-                        )
+                        Column {
+                            Text(
+                                "ROOT BRIDGE",
+                                fontFamily = SpaceGrotesk,
+                                color = Color.Yellow,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                "APatch + LSPosed Locked",
+                                fontFamily = SpaceGrotesk,
+                                color = Color.Gray,
+                                fontSize = 9.sp
+                            )
+                        }
                     }
                 }
 
