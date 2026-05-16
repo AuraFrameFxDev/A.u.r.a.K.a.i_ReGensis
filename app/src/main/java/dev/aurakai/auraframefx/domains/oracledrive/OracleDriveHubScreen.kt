@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
+import dev.aurakai.auraframefx.domains.aura.ui.components.PandoraForgePanel
 import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
@@ -164,6 +165,11 @@ fun OracleDriveHubScreen(navController: NavHostController) {
                         )
                     }
                 }
+
+                // AGENT SPAWNING FORGE
+                PandoraForgePanel(onSpawnAgent = { agentType ->
+                    // In real build, trigger agent spawning logic via OracleDrive governor
+                })
 
                 // CORE ICON
                 Box(

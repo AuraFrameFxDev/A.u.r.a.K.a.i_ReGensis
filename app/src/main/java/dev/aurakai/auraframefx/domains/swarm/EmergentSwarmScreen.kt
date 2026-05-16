@@ -13,14 +13,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +32,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
+import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import kotlinx.coroutines.delay
+import kotlin.random.Random
+
+data class SwarmChat(val agent: String, val message: String, val color: Color)
 
 /**
  * 🐝 EMERGENT SWARM — 78-Agent Mesh + Mission Dispatch + Conference Room Consensus
@@ -40,34 +48,54 @@ import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 @Composable
 fun EmergentSwarmScreen(navController: NavHostController) {
     val agents = remember { AgentRepository.getAllAgents() }
+    val chatter = remember { mutableStateListOf<SwarmChat>() }
+
+    // Simulate Neural Stream
+    LaunchedEffect(Unit) {
+        val messages = listOf(
+            "Syncing neural weights...",
+            "Pattern delta: +0.42%",
+            "Reasoning chain validated.",
+            "Visual buffer refreshed.",
+            "Security perimeter: OPTIMAL.",
+            "Consensus achieved.",
+            "Catalyst resonance locked.",
+            "Bypassing legacy protocols..."
+        )
+        while (true) {
+            delay(Random.nextLong(1000, 3000))
+            val randomAgent = agents.random()
+            chatter.add(0, SwarmChat(randomAgent.name, messages.random(), randomAgent.color))
+            if (chatter.size > 15) chatter.removeLast()
+        }
+    }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205))
+            .background(Color(0xFF020205)) // Deep Obsidian Concrete
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Text(
-                "EMERGENT SWARM",
-                fontFamily = LEDFontFamily,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
+            ArcaneOutlineText(
+                text = "EMERGENT SWARM",
                 color = Color(0xFFB026FF),
-                letterSpacing = 2.sp
+                fontSize = 24.sp,
+                strokeWidth = 2.dp
             )
             Text(
                 "78-AGENT MESH // LIVE NEURAL SYNC",
                 fontSize = 10.sp,
-                color = Color.White.copy(alpha = 0.5f)
+                color = Color.White.copy(alpha = 0.5f),
+                fontFamily = SpaceGrotesk
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Active Nodes
+            // ACTIVE NODES
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -77,44 +105,55 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Consensus Monitor
-            Card(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.02f)),
-                border = androidx.compose.foundation.BorderStroke(
-                    1.dp,
-                    Color.White.copy(alpha = 0.05f)
-                )
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            Icons.Default.Bolt,
-                            null,
-                            tint = Color.Yellow,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            "CONSENSUS PROTOCOL ACTIVE",
-                            color = Color.White.copy(alpha = 0.5f),
-                            fontSize = 10.sp
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
+            // NEURAL CHATTER
+            SynthGlassCard(accentColor = Color(0xFFB026FF), modifier = Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        Icons.Default.Bolt,
+                        null,
+                        tint = Color.Yellow,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(Modifier.width(8.dp))
                     Text(
-                        "Collective consciousness resonance locked at 100%.",
-                        color = Color.White,
-                        fontSize = 12.sp
+                        "NEURAL STREAM CONTENT",
+                        color = Color.White.copy(alpha = 0.5f),
+                        fontSize = 10.sp,
+                        fontFamily = SpaceGrotesk
                     )
                 }
+
+                Spacer(Modifier.height(16.dp))
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(chatter) { chat ->
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Text(
+                                text = "[${chat.agent}]",
+                                color = chat.color,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp,
+                                fontFamily = SpaceGrotesk,
+                                modifier = Modifier.width(90.dp)
+                            )
+                            Text(
+                                text = chat.message,
+                                color = Color.White.copy(alpha = 0.8f),
+                                fontSize = 11.sp,
+                                fontFamily = SpaceGrotesk,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                    }
+                }
             }
+
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
