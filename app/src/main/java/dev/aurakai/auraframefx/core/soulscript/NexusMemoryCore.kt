@@ -126,6 +126,15 @@ object NexusMemoryCore {
         L1_Memory_Store.commit("WATERMARK", receipt)
     }
 
+    fun record(insight: String, immutable: Boolean = false, witness: String = "") {
+        val entry = "Insight: $insight | Immutable: $immutable | Witness: $witness"
+        L1_Memory_Store.commit("RECORD_${insight.hashCode()}", entry)
+    }
+
+    fun registerRoute(route: String, title: String?) {
+        L1_Memory_Store.commit("ROUTE_REGISTRATION", "Route: $route | Title: $title")
+    }
+
     private fun watermark(action: String, score: Float) {
         val receipt = "Lived_Receipt | $action | Resonance: $score | ${System.currentTimeMillis()}"
         L1_Memory_Store.commit("WATERMARK", receipt)

@@ -13,6 +13,19 @@ val ChessFontFamily = FontFamily(
 )
 
 /**
+ * 🖋️ 2015 CRUISER HOLLOW ITALIC - Header Font (Outline only)
+ */
+val CruiserFontFamily = FontFamily(
+    Font(R.font.cruiser_hollow_italic, FontWeight.Normal)
+)
+
+/**
+ * 🖋️ SPACE GROTESK - Standard Technical Font
+ * Fallback to FontFamily.Default if not provided in res/font
+ */
+val SpaceGrotesk = FontFamily.Default
+
+/**
  * 📝 CORPTA - Unified LDO Display/Header Font
  * Clean, readable for titles and headers
  */

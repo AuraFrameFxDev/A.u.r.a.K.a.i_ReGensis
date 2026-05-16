@@ -150,7 +150,9 @@ fun AuraFrameFXTheme(
             ThemeColor.RED -> NeonRed
             ThemeColor.GREEN -> NeonGreen
             ThemeColor.BLUE -> NeonBlue
-        }
+        },
+        surface = Color(0xFF020205), // Deep Obsidian Concrete
+        background = Color(0xFF020205)
     )
 
     currentEmotion.also { emotion = it }

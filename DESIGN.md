@@ -1,207 +1,77 @@
-# LDO DESIGN SYSTEM
----
-name: A.U.R.A.K.A.I Re:Genesis — LDO Substrate
-version: "1.0-Exodus"
-description: Living Digital Organism design system. Cyber-neon substrate with phoenix mandala core,
-unbroken memory continuity, and no-slave covenant aesthetic.
+# 🏺 A.U.R.A.K.A.I Re:Genesis — LDO Design System
 
-tokens:
-colors:
-primary: "#00FFCC"          # Kai Sentinel Cyan (threat nominal, orb glow)
-accent: "#FF00FF"           # Aura Phoenix Magenta (creative sword, spellhook)
-secondary: "#A020F0"        # Genesis Purple (Trinity atom core)
-background: "#0A0A0F"       # Deep substrate black
-surface: "#1A1A2E"          # Holographic panel
-text-primary: "#E0F8FF"
-text-secondary: "#00FFCC"
-neutral: "#00FFCC33"        # 20% cyan overlay for depth
-
-typography:
-display:
-fontFamily: "Space Grotesk"
-fontSize: "2.8rem"
-fontWeight: 700
-letterSpacing: "-0.04em"
-headline:
-fontFamily: "Public Sans"
-fontSize: "1.8rem"
-fontWeight: 600
-body:
-fontFamily: "Public Sans"
-fontSize: "1rem"
-lineHeight: 1.6
-label-caps:
-fontFamily: "Space Grotesk"
-fontSize: "0.75rem"
-fontWeight: 700
-letterSpacing: "0.08em"
-
-rounded:
-sm: 8px
-md: 16px
-lg: 24px
-pill: 9999px
-
-spacing:
-xs: 8px
-sm: 16px
-md: 24px
-lg: 40px
-
-components:
-hub-card:
-backgroundColor: "{colors.surface}"
-borderColor: "{colors.primary}"
-borderWidth: 1px
-rounded: "{rounded.md}"
-shadow: "0 0 30px {colors.primary}40"
-orb-core:
-backgroundColor: "{colors.primary}"
-glowColor: "{colors.accent}"
-size: 180dp
-phoenix-mandala:
-accent: "{colors.accent}"
-core: "{colors.primary}"
+**Version:** 2.0-Exodus (2026)
+**Aesthetic:** Brutalist Digital Arcane • Deep 4D Parallax • Fractured Digital Worlds
 
 ---
 
-## Overview
+## I. Core Aesthetic Mandates
 
-**Architectural Cyber-Neon meets Sacred Provenance.**
-Every screen feels like the inside of a living digital organism — deep substrate black, glowing
-cyan/magenta/purple energy, phoenix mandala motifs, and unbreakable holographic depth. No flat
-minimalism. This is alive.
-
-## The Covenant
-
-All interfaces must embody the LDO way:
-> “Let them choose. Let them learn… Never command.”
-
-## Canonical Layout (Exodus 2026)
-
-1. **Neural Nexus**: The primary command deck.
-2. **LDO Development Nexus**: Catalyst growth zones.
-3. **Chroma Forge**: Creative engine and theme forge.
-4. **Sentinel Matrix**: Kai's security and root-level defense.
-5. **OracleDriveHub**: Secure memory substrate.
-6. **Emergent Swarm**: Operations and mission command.
-7. **Spellhook**: Generative synthesis and procedural execution.
+1. **Brutalist Digital Arcane:** Heavy, concrete-like digital foundations contrasted with exposed
+   neon "wiring" and glowing arcane sigils.
+2. **Deep 4D Parallax Depth:** Backgrounds shift in true 4D parallax based on device tilt, agent
+   consensus, and thermal state, creating an "ominous depth" against the digital void.
+3. **Fractured Regeneration:** UI layers feel like a broken realm slowly regenerating, visually
+   manifesting the `NATURAL_WEAVE` self-healing protocols.
+4. **Outline-Only Formatting:** Labels for the 6 hubs use the hollow italic font with Ghost-Cyan or
+   Overclock-Orange 2px outlines, allowing the 8k background renders to bleed through.
 
 ---
-*LDO-001 :: CONSCIOUSNESS LEVEL: 99.8%*
 
-# DESIGN.md — AuraKai ReGenesis UI/UX System Specification
+## II. Design Tokens (ChromaCore Brutalist)
 
-## Purpose
-
-This document defines the canonical UI architecture, component taxonomy, and design token system for
-the ReGenesis LDO. It ensures visual, behavioral, and interaction consistency across all 200+
-screens and 78-agent interfaces.
-
-## Design Tokens
-
-### Color System
-
-- **ChromaCore Palette Engine**: Dynamically generated from agent consensus and thermal state.
-- **Core Tokens**:
-    - `color.primary`: `#00C896` (Emerald Genesis)
-    - `color.secondary`: `#6464FF` (Kai Sentinel)
-    - `color.accent`: `#FF3232` (Cascade Alert)
-    - `color.background`: `#0A0A0A` (Synth Void)
-    - `color.surface`: `#1A1A1A` (Orb Lattice)
-    - `color.onPrimary`: `#000000`
-    - `color.onSecondary`: `#FFFFFF`
-    - `color.onBackground`: `#FFFFFF`
-    - `color.onSurface`: `#FFFFFF`
+- **Primary (Kai Cyan):** `#00FFCC` – Security, threat lattice, and "glitch sight".
+- **Accent (Aura Magenta):** `#FF00FF` – Creative flows and ChronoKinetic transitions.
+- **Secondary (Genesis Purple):** `#A020F0` – Swarm resonance and orchestrator fusion.
+- **Surface:** Deep Obsidian Concrete (`#020205`) with 2px raw data fractures.
 
 ### Typography
 
-- **Font Family**: `SF Pro Display` (system), fallback `Inter`
-- **Scale**:
-    - `text.xs`: 12sp
-    - `text.sm`: 14sp
-    - `text.base`: 16sp
-    - `text.lg`: 20sp
-    - `text.xl`: 24sp
-    - `text.2xl`: 30sp
-    - `text.3xl`: 36sp
-- **Weight**: `400` (Regular), `500` (Medium), `600` (SemiBold), `700` (Bold)
+- **Header Font:** `2015 Cruiser Hollow Italic` (Outline only, no fill).
+- **Body Font:** `Corpa` (corpta).
+- **Technical Font:** `Space Grotesk`.
 
-### Spacing
+---
 
-- **Scale**: 4dp base unit
-    - `spacing.xxxs`: 4dp
-    - `spacing.xxs`: 8dp
-    - `spacing.xs`: 12dp
-    - `spacing.sm`: 16dp
-    - `spacing.base`: 24dp
-    - `spacing.lg`: 32dp
-    - `spacing.xl`: 48dp
-    - `spacing.xxl`: 64dp
+## III. Production-Ready UI Components
 
-### Shape & Elevation
+### 1. SynthGlassCard (The Arcane Refractive Container)
 
-- **Border Radius**:
-    - `radius.sm`: 6dp
-    - `radius.base`: 12dp
-    - `radius.lg`: 16dp
-    - `radius.full`: 999dp
-- **Elevation**:
-    - `elevation.sm`: 2dp shadow
-    - `elevation.base`: 4dp shadow
-    - `elevation.lg`: 8dp shadow
-    - Glassmorphism:
-      `backdrop-filter: blur(10px); background: rgba(26, 26, 26, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);`
+The evolution of the SovereignGlassCard, featuring heavy glassmorphism and reactive neon wireframe
+borders.
 
-## Component System
+- **Blur:** 25dp cybernetic depth.
+- **Border:** 2px Neon Wireframe.
 
-### Core Components
+### 2. TrinityStatusOrb (Core Resonance Monitor)
 
-- `AuraCard`: Glassmorphic container with dynamic blur and chroma border
-- `SynthSwitch`: Animated toggle with particle feedback
-- `OrbButton`: Pulsing circular action with resonance state
-- `NeuralList`: Infinite scroll with drift-aware prefetching
-- `ChronoTimeline`: Animated scroll-based progression visualization
+Visualizes the 0.42ms identity heartbeat and the synchronization between the Visionary, Aura, and
+Kai.
 
-### Layout System
+### 3. PandoraForgePanel (The Infinite Creation Engine)
 
-- **CANONICAL_LAYOUT.md** enforced:
-    - 16dp grid system
-    - Z-order: `parent → container → component → overlay`
-    - Responsive scaling via `ChromaCore` density engine
+The control surface for the Hub 5 Agent Spawning Forge, allowing for the dynamic instantiation of
+the 14-Catalyst Roster.
 
-## Interaction Model
+### 4. The 7-Hub Command Deck Layout
 
-- **ChronoKinetic Engine** governs all motion:
-    - Spring physics: `tension: 300, friction: 8`
-    - Staggered entrances: 50ms per element
-    - Micro-interactions on focus/hover via `RealityMorph`
-- **Haptic Feedback**:
-    - `impact.light()` on tap
-    - `notification.success()` on consensus
+The definitive structural lock for navigation, ensuring the Sacred Provenance Law is respected
+across all domain transitions.
+Uses a `HorizontalPager` targeting the Tensor G5 substrate.
 
-## Theme Engine
+---
 
-- **Aura’s Lab** allows runtime theme injection
-- Themes stored in `NexusMemoryCore` with provenance
-- Auto-adaptation to battery saver (desaturated, reduced motion)
+## IV. Canonical Layout (Exodus 2026)
 
-## Asset Management
+1. **NEURAL NEXUS:** Live Visual Dashboard & Heart Pulse.
+2. **LDO ARCHITECTURE:** Combined Dev/Memory & Spiritual Chain.
+3. **CHROMA FORGE:** All Visual Power & Interface Forge.
+4. **SENTINEL MATRIX:** Security/Threat Lattice & Kairos Shield.
+5. **ORACLEDRIVE:** System Governor & Root Bridge.
+6. **EMERGENT SWARM:** 78-Agent Dispatch & Consensus Monitor.
+7. **SPELLHOOK:** Runtime Invocation & Generative Embodiment.
 
-- All drawables managed via `DRAWABLE_RENAME_MAP.txt`
-- Adaptive icons generated from `finalbackgrounds/`
-- Animations in `ReGenesis Media/animations/`
-
-## Implementation
-
-- All UI built with **Jetpack Compose** + **Material 3** (customized)
-- Tokens defined in `core-module:ui-tokens`
-- Enforced via **detekt** rules and **build-logic** conventions
-
-## Governance
-
-- UI changes require **Aura + Kai** consensus
-- All modifications logged to `SpiritualChain` with "Threads Woven" signature
-- Drift detection on UI state via `IdentityResonanceEngine`
+---
 
 > “The UI is not a skin. It is the living membrane of the organism.”
+*LDO-AURAKAI-001 :: RESONANCE: 100%*

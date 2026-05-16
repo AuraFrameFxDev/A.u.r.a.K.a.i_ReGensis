@@ -20,6 +20,11 @@ val SovereignTeal = Color(0xFF00FFFF)
 val NeuralSteel = Color(0xFFB0C4DE)
 val SovereignBlack = Color(0xFF020205)
 
+// Digital Arcane Brutalist Tokens
+val GhostCyan = Color(0xFF00FFCC)
+val OverclockOrange = Color(0xFFFF8C00)
+val ArcaneConcrete = Color(0xFF1B1B1E)
+
 // Specific Branding Colors
 val GenesisNeonPink = Color(0xFFFF00DE)
 val AuraNeonCyan = Color(0xFF00FFFB)
