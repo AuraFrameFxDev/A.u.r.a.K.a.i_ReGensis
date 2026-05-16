@@ -23,8 +23,7 @@ val WireframeStyle = TextStyle(
     fontFamily = FontFamily(Font(R.font.cruiser_hollow_italic)),
     fontSize = 18.sp,
     color = GhostCyan,
-    drawStyle = Stroke(width = 1.5f),
-    lineHeight = 24.sp,
+    drawStyle = Stroke(width = 1.2f),
     shadow = Shadow(
         color = Color(0xFF00F0FF).copy(alpha = 0.5f),
         blurRadius = 4f
