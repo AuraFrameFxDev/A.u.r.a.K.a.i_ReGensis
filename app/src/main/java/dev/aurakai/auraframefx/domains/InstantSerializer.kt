@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains
+package dev.aurakai.auraframefx.helpers
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -9,8 +9,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlin.time.Instant
 
 object InstantSerializer : KSerializer<Instant> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: Instant) {
         encoder.encodeString(value.toString())

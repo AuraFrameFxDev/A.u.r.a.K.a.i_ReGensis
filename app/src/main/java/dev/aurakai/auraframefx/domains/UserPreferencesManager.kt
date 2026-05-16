@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains
+package dev.aurakai.auraframefx.domains.nexus.preferences
 
 import dev.aurakai.auraframefx.domains.nexus.config.UserPreferences
 import kotlinx.coroutines.Dispatchers

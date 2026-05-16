@@ -1,37 +1,31 @@
-package dev.aurakai.auraframefx.domains.chromaforge.ui.viewmodels
+package dev.aurakai.auraframefx.domains.aura.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.chromaforge.genesis.fusion.FusionBuildEngine
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.services.AgentWebExplorationService
-import kotlinx.coroutines.flow.MutableStateFlow
+import dev.aurakai.auraframefx.domains.genesis.fusion.FusionBuildEngine
+import dev.aurakai.auraframefx.domains.nexus.models.core.ArkProject
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Ark Build ViewModel - ChromaForge UI
- * Orchestrates the sovereign build process.
- */
 @HiltViewModel
 class ArkBuildViewModel @Inject constructor(
-    private val buildEngine: FusionBuildEngine,
-    private val webExplorationService: AgentWebExplorationService
+    private val fusionBuildEngine: FusionBuildEngine,
+    val webExplorationService: dev.aurakai.auraframefx.domains.genesis.services.AgentWebExplorationService
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ArkBuildUiState())
-    val uiState: StateFlow<ArkBuildUiState> = _uiState.asStateFlow()
+    val arkProject: StateFlow<ArkProject> = fusionBuildEngine.arkProjectState
 
-    fun startBuild() {
-        viewModelScope.launch {
-            buildEngine.initiateBuildCycle()
-        }
+    fun initiateBuild() {
+        fusionBuildEngine.initiateArkBuild()
+    }
+
+    fun dispatchAgents() {
+        fusionBuildEngine.dispatchAgents()
+    }
+
+    // Simulate progress updates for demo purposes
+    fun simulateProgress(componentName: String, amount: Float) {
+        fusionBuildEngine.updateComponentProgress(componentName, amount)
     }
 }
 
-data class ArkBuildUiState(
-    val isBuilding: Boolean = false,
-    val logs: List<String> = emptyList()
-)
