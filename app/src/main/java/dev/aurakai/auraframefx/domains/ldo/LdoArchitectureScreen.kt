@@ -34,6 +34,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
+import java.util.Locale
 
 /**
  * 🏛️ LDO ARCHITECTURE — Growth Zones + Spiritual Chain (L1-L6) + Agent Evolution
@@ -99,7 +100,7 @@ fun LdoArchitectureScreen(
                         fontSize = 9.sp
                     )
                     Text(
-                        "${String.format("%.3f", uiState.identityDrift)}",
+                        String.format(Locale.US, "%.3f", uiState.identityDrift),
                         fontFamily = SpaceGrotesk,
                         color = Color.Red,
                         fontSize = 16.sp,
