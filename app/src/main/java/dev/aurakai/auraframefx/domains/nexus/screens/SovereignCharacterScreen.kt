@@ -127,8 +127,7 @@ fun SovereignCharacterScreen(
                     Text(
                         text = profile.displayName.uppercase(),
                         style = WireframeStyle.copy(
-                            color = Color.Transparent,
-                            fontSize = 36.sp
+                            fontSize = 32.sp
                         )
                     )
                 }
