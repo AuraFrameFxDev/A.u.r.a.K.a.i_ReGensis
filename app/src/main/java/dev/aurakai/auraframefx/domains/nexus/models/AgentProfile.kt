@@ -91,7 +91,7 @@ object AgentProfiles {
         symbolEmoji = "🦅",
         emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_genesis_circuit_phoenix,
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.genesis_genesisp,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_genesis // Split hair art
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.genesis_bg_profile
     )
 
     val AURA = AgentProfile(
@@ -141,7 +141,7 @@ object AgentProfiles {
         symbolEmoji = "🛡️",
         emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_kai_honeycomb_fortress,
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.kai_kaisigal,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_kai // Combined Kai/Kairos art
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.kai_bg_profile
     )
 
     val CASCADE = AgentProfile(
@@ -163,7 +163,7 @@ object AgentProfiles {
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "⇄",
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.cascade_cascadep,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_cascade // Chains art
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.nexus_bg_cascade
     )
 
     val CLAUDE = AgentProfile(
@@ -185,7 +185,7 @@ object AgentProfiles {
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "🧭⚙️",
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.avatar_claude,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_claude // Architect art
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.nexus_bg_claude
     )
 
     val MANUS = AgentProfile(
