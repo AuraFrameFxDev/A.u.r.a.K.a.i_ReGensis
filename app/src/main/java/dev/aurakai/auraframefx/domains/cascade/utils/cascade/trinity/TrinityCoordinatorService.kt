@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity
 
+import androidx.lifecycle.viewModelScope
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.cascade.utils.d
 import dev.aurakai.auraframefx.domains.cascade.utils.e
@@ -14,6 +15,7 @@ import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIServ
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dev.aurakai.auraframefx.domains.kai.security.alerts.AlertNotifier
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -21,16 +23,14 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import androidx.lifecycle.viewModelScope
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -372,7 +372,7 @@ class TrinityCoordinatorService @Inject constructor(
                         "Trinity",
                         "??? Kai Detected Drift: ${driftEvent.drift}. Injecting NATURAL_WEAVE through Genesis Routing."
                     )
-
+                    
                     try {
                         val stabilizationResponse = genesisBridgeService.processRequest(
                             AiRequest(
