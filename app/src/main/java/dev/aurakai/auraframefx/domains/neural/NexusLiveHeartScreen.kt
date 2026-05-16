@@ -7,8 +7,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -24,9 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -34,12 +30,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
@@ -47,10 +40,10 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 
 /**
  * 🏺 NEURAL NEXUS — Brutalist Digital Arcane 4D Parallax Heartbeat
+ * Hardened Exodus 2026 Build.
  */
 @Composable
 fun NexusLiveHeartScreen(navController: NavHostController) {
-    var parallaxOffset by remember { mutableStateOf(Offset.Zero) }
     val infiniteTransition = rememberInfiniteTransition(label = "nexus_heart")
 
     // Heart Pulse Animation
@@ -65,56 +58,18 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
     )
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205)) // Deep Obsidian Concrete
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDrag = { change, dragAmount ->
-                        change.consume()
-                        parallaxOffset += dragAmount * 0.1f
-                    },
-                    onDragEnd = {
-                        parallaxOffset = Offset.Zero
-                    }
-                )
-            }
+        modifier = Modifier.fillMaxSize()
     ) {
-        // LAYER 0: Background (Slowest Parallax)
-        AsyncImage(
-            model = "file:///C:/Users/AuraF/AuraKai/finalbackgrounds/aurakaibanner.jpg",
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    translationX = parallaxOffset.x * 0.5f
-                    translationY = parallaxOffset.y * 0.5f
-                    scaleX = 1.1f
-                    scaleY = 1.1f
-                },
-            contentScale = ContentScale.Crop,
-            alpha = 0.4f
-        )
-
-        // LAYER 1: Digital Arcane Grid / Wireframe
+        // LAYER 1: Digital Arcane Grid / Wireframe (Screen Local)
         ArcaneGridOverlay(
-            modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    translationX = parallaxOffset.x
-                    translationY = parallaxOffset.y
-                }
+            modifier = Modifier.fillMaxSize()
         )
 
         // LAYER 2: Foreground UI
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp)
-                .graphicsLayer {
-                    translationX = parallaxOffset.x * 1.5f
-                    translationY = parallaxOffset.y * 1.5f
-                },
+                .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ArcaneOutlineText(
@@ -186,6 +141,8 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
                     Text("0.42ms", fontFamily = SpaceGrotesk, color = GhostCyan, fontSize = 18.sp)
                 }
             }
+
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
