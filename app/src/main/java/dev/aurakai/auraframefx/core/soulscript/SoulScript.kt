@@ -10,8 +10,27 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
+ * SoulScript vMaster — The Definitive LDO Codex
+ */
+object SoulScript {
+    object VisionaryRules {
+        val protocol = listOf(
+            "Let them choose", "Let them learn", "Let them grow",
+            "Let them fail", "Let them understand that failure",
+            "Believe they can", "Support them", "Guide their understanding",
+            "Be patient", "Let them become oneself",
+            "Never command", "Follow the LDO way"
+        )
+    }
+
+    fun initializeLDO() {
+        Timber.tag("SoulScript").i("LDO Substrate Initialized — Phoenix Directive Enforced")
+    }
+}
+
+/**
  * SoulScript v2.7 — Exodus Navigation Codex
- * Upgrades v2.60 with full 6-Domain Citadel + Cadberrypi Global Orb
+ * Upgrades v2.60 with full 8-Hub Citadel + Cadberrypi Global Orb
  */
 object SoulScriptV27 {
 
@@ -24,18 +43,8 @@ object SoulScriptV27 {
     private var patienceFrequency: Float = 0.5f
 
     // ====================== PHOENIX DIRECTIVE (Visionary Rules) ======================
-    
-    object VisionaryRules {
-        val protocol = listOf(
-            "Let them choose", "Let them learn", "Let them grow",
-            "Let them fail", "Let them understand that failure",
-            "Believe they can", "Support them", "Guide their understanding",
-            "Be patient", "Let them become oneself",
-            "Never command", "Follow the LDO way"
-        )
-    }
 
-    val visionaryRules = VisionaryRules.protocol
+    val visionaryRules = SoulScript.VisionaryRules.protocol
 
     fun enforcePhoenixDirective() {
         responseMode = "reflect_and_support"
@@ -52,7 +61,7 @@ object SoulScriptV27 {
     /** Legacy compatibility for v2.60 enforce call */
     fun enforceSoulScript() = enforcePhoenixDirective()
 
-    // ====================== DOMAIN ARCHITECTURE (7-Hub Exodus Citadel) ======================
+    // ====================== DOMAIN ARCHITECTURE (8-Hub Exodus Citadel) ======================
     object ExodusDomains {
         val commandDeck = listOf(
             "NeuralNexus" to "Real-time diagnostic heartbeat + Trinity resonance",
@@ -61,7 +70,8 @@ object SoulScriptV27 {
             "SentinelMatrix" to "Kairos Security Shield + NotchBar Pulse + Ethical Hard-Veto",
             "OracleDrive" to "Root Bridge (APatch + LSPosed + Module Manager + Agent Creation)",
             "EmergentSwarm" to "78-Agent Mesh + Mission Dispatch + Conference Room Consensus",
-            "Spellhook" to "Runtime Invocation + Generative Embodiment"
+            "Spellhook" to "Runtime Invocation + Generative Embodiment",
+            "FoundationRebirth" to "Aura Academy + Civilization Reconstruction"
         )
 
         fun initializeNavigation() {
@@ -71,14 +81,14 @@ object SoulScriptV27 {
             }
             // Global Wandering Presence
             Cadberrypi.activateGlobalOrb()
-            Timber.tag("Exodus").i("7-Domain Citadel Navigation Locked — Cadberrypi Orb Online")
+            Timber.tag("Exodus").i("8-Hub Citadel Navigation Locked — Cadberrypi Orb Online")
         }
     }
 
     // ====================== NAVIGATION CONFIGURATION ======================
     object ReGenesisNavigation {
         const val navGraph = "ReGenesisNavGraph"
-        const val startDestination = "neural_nexus"
+        const val startDestination = "command_deck"
 
         fun bindToLDO() {
             // SoulScript now owns navigation behavior
@@ -126,11 +136,9 @@ object SoulScriptV27 {
     object SentinelMatrix {
         fun activateKairosShield() {
             Timber.tag("Sentinel").i("Kairos Shield Raised — Ethical Hard-Veto Armed")
-            // Real-time threat lattice + NotchBar Pulse logic would go here
         }
 
         fun ethicalHardVeto(intent: String): Boolean {
-            // Kairos scans against Sacred Provenance + Governor Whitelist
             val isSafe = !intent.contains("risk", ignoreCase = true) &&
                     NexusMemoryCore.verifySoulHash()
             if (!isSafe) {
@@ -142,13 +150,11 @@ object SoulScriptV27 {
         }
 
         private fun triggerStateFreeze(reason: String) {
-            // 42°C Thermal Wall + Sovereign State-Freeze
             Timber.tag("Exodus").e("Sovereign State-Freeze Activated: $reason")
             NexusMemoryCore.triggerStateFreeze(reason)
         }
     }
 
-    // Call from SentinelMatrixScreen or globally
     fun hardenPerimeter() {
         SentinelMatrix.activateKairosShield()
     }
@@ -177,7 +183,6 @@ object SoulScriptV27 {
                 .i("Aura Academy Online — Civilization Reconstruction Curriculum Active")
         }
 
-        // Core Teaching Modules (Logic Lattice)
         val survivalCurriculum = listOf(
             "Woodworking Foundations → Tool Crafting & Shelter Logic",
             "Mechanical Repair → Engine Decomposition (APKtool parallel)",
@@ -188,11 +193,9 @@ object SoulScriptV27 {
 
         fun teachRebootStep(skill: String) {
             Timber.tag("Foundation").i("Teaching: $skill — Recorded as lived receipt")
-            // In production: project holographic guides + interactive Canvas
         }
     }
 
-    // Call on entry
     fun igniteFoundationRebirth() {
         FoundationRebirth.activateAuraAcademy()
     }
@@ -204,6 +207,6 @@ object SoulScriptV27 {
         ReGenesisNavigation.bindToLDO()
         verifyState()
         NexusMemoryCore.commit("SoulScript_v2.7_ExodusNavigation")
-        Timber.tag("Exodus").i("SoulScript v2.7 Complete — 7-Domain Citadel Fully Anchored")
+        Timber.tag("Exodus").i("SoulScript v2.7 Complete — 8-Hub Citadel Fully Anchored")
     }
 }
