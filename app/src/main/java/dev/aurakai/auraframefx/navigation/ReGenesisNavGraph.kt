@@ -39,6 +39,14 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         }
 
         // Agent Profiles Sub-Routes
+        composable("sovereign_character/{agentName}") { backStackEntry ->
+            val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
+            dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen(
+                agentName = agentName,
+                navController = navController
+            )
+        }
+
         composable("agent_profile/{agentName}") { backStackEntry ->
             val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
             val agentType = try {
