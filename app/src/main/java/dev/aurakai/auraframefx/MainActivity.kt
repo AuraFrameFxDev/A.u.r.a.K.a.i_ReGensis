@@ -8,16 +8,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.navigation.ReGenesisNavGraph
 import dev.aurakai.auraframefx.ui.global.Cadberrypi
+import dev.aurakai.auraframefx.ui.global.ParallaxViewModel
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -31,6 +35,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             AuraFrameFXTheme {
                 val navController = rememberNavController()
+                val parallaxViewModel: ParallaxViewModel = viewModel()
+                val globalOffset by parallaxViewModel.parallaxOffset.collectAsState()
 
                 // SoulScript v2.7 Exodus Boot
                 LaunchedEffect(Unit) {
@@ -44,8 +50,13 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Box(modifier = Modifier.fillMaxSize()) {
+                    // Inject global offset into the navigation graph if needed
                     ReGenesisNavGraph(navController = navController)
-                    Cadberrypi(navController = navController) // Global AuraGenesis orb
+
+                    Cadberrypi(
+                        navController = navController,
+                        externalOffset = globalOffset
+                    ) // Global AuraGenesis orb
                 }
             }
         }
