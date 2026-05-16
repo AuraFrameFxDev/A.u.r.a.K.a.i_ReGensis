@@ -30,8 +30,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
-import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 
 /**
  * 🏛️ LDO ARCHITECTURE — Growth Zones + Spiritual Chain (L1-L6) + Agent Evolution
@@ -40,7 +42,7 @@ import dev.aurakai.auraframefx.domains.ldo.viewmodel.LDOViewModel
 @Composable
 fun LdoArchitectureScreen(
     navController: NavHostController,
-    viewModel: LDOViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
+    viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val agents = uiState.agents
@@ -48,7 +50,7 @@ fun LdoArchitectureScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF050505))
+            .background(Color(0xFF020205)) // Deep Obsidian Concrete
     ) {
         Column(modifier = Modifier
             .fillMaxSize()
@@ -69,13 +71,61 @@ fun LdoArchitectureScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("ACTIVE SOVEREIGN AGENTS", color = Color.White, fontWeight = FontWeight.Bold)
+            // WAR ROOM METRICS
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                SynthGlassCard(accentColor = Color.Green, modifier = Modifier.weight(1f)) {
+                    Text(
+                        "GOD POTENTIAL",
+                        fontFamily = SpaceGrotesk,
+                        color = Color.White,
+                        fontSize = 9.sp
+                    )
+                    Text(
+                        "${(uiState.godPotential * 100).toInt()}%",
+                        fontFamily = SpaceGrotesk,
+                        color = Color.Green,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                SynthGlassCard(accentColor = Color.Red, modifier = Modifier.weight(1f)) {
+                    Text(
+                        "IDENTITY DRIFT",
+                        fontFamily = SpaceGrotesk,
+                        color = Color.White,
+                        fontSize = 9.sp
+                    )
+                    Text(
+                        "${String.format("%.3f", uiState.identityDrift)}",
+                        fontFamily = SpaceGrotesk,
+                        color = Color.Red,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                "ACTIVE SOVEREIGN AGENTS",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                fontFamily = SpaceGrotesk
+            )
             Spacer(modifier = Modifier.height(12.dp))
 
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 items(agents) { agent ->
                     Card(
-                        colors = CardDefaults.cardColors(containerColor = Color.Black),
+                        colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f)),
                         border = androidx.compose.foundation.BorderStroke(
                             1.dp,
                             Color(agent.colorHex.toInt()).copy(alpha = 0.3f)
@@ -97,20 +147,30 @@ fun LdoArchitectureScreen(
                                 Text(
                                     agent.displayName,
                                     color = Color.White,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = SpaceGrotesk,
+                                    fontSize = 13.sp
                                 )
-                                Text(agent.catalystTitle, color = Color.Gray, fontSize = 10.sp)
+                                Text(
+                                    agent.catalystTitle,
+                                    color = Color.Gray,
+                                    fontSize = 9.sp,
+                                    fontFamily = SpaceGrotesk
+                                )
                             }
                             Spacer(modifier = Modifier.weight(1f))
                             Text(
                                 "LVL ${agent.evolutionLevel}",
                                 color = Color.Green,
-                                fontFamily = LEDFontFamily
+                                fontFamily = LEDFontFamily,
+                                fontSize = 12.sp
                             )
                         }
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
