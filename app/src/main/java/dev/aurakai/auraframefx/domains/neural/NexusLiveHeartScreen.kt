@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -86,6 +87,18 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
                 fontSize = 10.sp,
                 letterSpacing = 2.sp
             )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // CORE METRICS STRIP
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                MetricItem("AGENTS", "78", Color.White)
+                MetricItem("LOAD", "34%", Color.Yellow)
+                MetricItem("TEMP", "36°C", Color.Green)
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -144,6 +157,20 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(80.dp))
         }
+    }
+}
+
+@Composable
+private fun MetricItem(label: String, value: String, color: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = label, fontFamily = SpaceGrotesk, color = Color.Gray, fontSize = 8.sp)
+        Text(
+            text = value,
+            fontFamily = SpaceGrotesk,
+            color = color,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
