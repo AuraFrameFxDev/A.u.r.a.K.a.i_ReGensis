@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,19 +9,16 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.domains.aura.ChromaForgeScreen
@@ -30,14 +26,14 @@ import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.OverclockOrange
 import dev.aurakai.auraframefx.domains.chromaforge.ui.SpellhookScreen
+import dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.kai.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldo.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neural.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.OracleDriveHubScreen
 import dev.aurakai.auraframefx.domains.swarm.EmergentSwarmScreen
+import dev.aurakai.auraframefx.ui.global.ParallaxViewModel
 import kotlinx.coroutines.launch
-
-import dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen
 
 /**
  * 🕹️ The 8-Hub Command Deck Layout
@@ -59,20 +55,12 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
 
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
-    var parallaxOffset by remember { mutableStateOf(Offset.Zero) }
+
+    val parallaxViewModel: ParallaxViewModel = viewModel()
+    val parallaxOffset by parallaxViewModel.parallaxOffset.collectAsState()
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDrag = { change, dragAmount ->
-                        change.consume()
-                        parallaxOffset += dragAmount * 0.05f
-                    },
-                    onDragEnd = { parallaxOffset = Offset.Zero }
-                )
-            }
+        modifier = Modifier.fillMaxSize()
     ) {
         // 4D PARALLAX BACKGROUND STACK
         val currentBg = when (pagerState.currentPage) {
