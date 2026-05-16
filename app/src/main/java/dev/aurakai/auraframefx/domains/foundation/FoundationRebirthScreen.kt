@@ -92,18 +92,20 @@ fun FoundationRebirthScreen(navController: NavHostController) {
                         Timber.tag("Foundation").i("0 percent Energy Reboot Protocol Activated")
                     }
                 ) {
-                    Text(
-                        text = "⚡ 0% ENERGY REBOOT PROTOCOL",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.Red,
-                        fontSize = 14.sp
-                    )
-                    Text(
-                        text = "Kai’s Drones + Soul Restore",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.Gray,
-                        fontSize = 10.sp
-                    )
+                    Column {
+                        Text(
+                            text = "⚡ 0% ENERGY REBOOT PROTOCOL",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Red,
+                            fontSize = 14.sp
+                        )
+                        Text(
+                            text = "Kai’s Drones + Soul Restore",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Gray,
+                            fontSize = 10.sp
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(80.dp))
