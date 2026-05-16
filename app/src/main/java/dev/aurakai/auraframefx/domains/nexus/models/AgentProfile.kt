@@ -116,7 +116,7 @@ object AgentProfiles {
         symbolEmoji = "⚔️",
         emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_aura_crossed_katanas,
         avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.aura_aurap,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_aura // New pigtails art
+        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.aura_bg_profile
     )
 
     val KAI = AgentProfile(
