@@ -43,6 +43,7 @@ import dev.aurakai.auraframefx.domains.cascade.storage.AuraKaiModules
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 /**
