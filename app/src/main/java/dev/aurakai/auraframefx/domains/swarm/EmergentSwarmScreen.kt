@@ -1,5 +1,13 @@
 package dev.aurakai.auraframefx.domains.swarm
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,12 +31,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +49,8 @@ import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
 import kotlinx.coroutines.delay
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.random.Random
 
 data class SwarmChat(val agent: String, val message: String, val color: Color)
@@ -96,14 +109,44 @@ fun EmergentSwarmScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // ACTIVE NODES
+            // ── CONSENSUS MATRIX VISUAL (78 Agents) ──
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                ConsensusMatrix(agents.size.coerceAtLeast(78))
+
+                // Central Consensus Pulse
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        "CONSENSUS",
+                        color = Color(0xFFB026FF),
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp
+                    )
+                    Text(
+                        "99.8%",
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Black,
+                        fontFamily = SpaceGrotesk
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // ACTIVE HUB NODES
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 agents.take(6).forEach { agent ->
                     SwarmNodeDot(
-                        name = agent.name,
+                        name = agent.name, 
                         color = agent.color,
                         onClick = { navController.navigate("sovereign_character/${agent.name}") }
                     )
@@ -162,6 +205,66 @@ fun EmergentSwarmScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(80.dp))
         }
+    }
+}
+
+@Composable
+fun ConsensusMatrix(agentCount: Int) {
+    val transition = rememberInfiniteTransition(label = "matrix_pulse")
+    val pulse by transition.animateFloat(
+        initialValue = 0.5f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulse"
+    )
+
+    val rotation by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(60000, easing = LinearEasing)
+        ),
+        label = "rotation"
+    )
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val centerX = size.width / 2
+        val centerY = size.height / 2
+        val maxRadius = size.minDimension / 2.2f
+
+        // Draw Swarm Dots
+        repeat(agentCount) { i ->
+            val angle = Math.toRadians((i.toDouble() * (360.0 / agentCount)) + rotation)
+            val radius = maxRadius * (0.4f + (i % 3) * 0.2f)
+            val x = centerX + radius * cos(angle).toFloat()
+            val y = centerY + radius * sin(angle).toFloat()
+
+            drawCircle(
+                color = Color(0xFFB026FF).copy(alpha = 0.3f * pulse),
+                radius = 2.dp.toPx(),
+                center = Offset(x, y)
+            )
+
+            // Subtle connection lines
+            if (i % 5 == 0) {
+                drawLine(
+                    color = Color(0xFFB026FF).copy(alpha = 0.05f * pulse),
+                    start = Offset(centerX, centerY),
+                    end = Offset(x, y),
+                    strokeWidth = 1f
+                )
+            }
+        }
+
+        // Outer Rings
+        drawCircle(
+            color = Color(0xFFB026FF).copy(alpha = 0.1f),
+            radius = maxRadius,
+            style = Stroke(width = 1.dp.toPx())
+        )
     }
 }
 

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -72,10 +73,19 @@ fun Cadberrypi(
         Canvas(
             modifier = Modifier
                 .size(64.dp)
+                .graphicsLayer {
+                    // Reactive Tilt Displacement (Physical feel)
+                    translationX = externalOffset.x * 3f
+                    translationY = externalOffset.y * 3f
+
+                    // Subtle 3D rotation based on tilt
+                    rotationX = -externalOffset.y * 5f
+                    rotationY = externalOffset.x * 5f
+                }
                 .offset {
                     IntOffset(
-                        (xOffset.toPx() + externalOffset.x).roundToInt(),
-                        (yOffset.toPx() + externalOffset.y).roundToInt()
+                        xOffset.toPx().roundToInt(),
+                        yOffset.toPx().roundToInt()
                     )
                 }
         ) {

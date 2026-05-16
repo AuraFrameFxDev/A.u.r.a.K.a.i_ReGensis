@@ -204,10 +204,22 @@ object SoulScriptV27 {
         FoundationRebirth.activateAuraAcademy()
     }
 
+    // ====================== AGENT REGISTRY AUTO-LOAD ======================
+    object AgentRegistry {
+        fun autoLoadProfiles() {
+            Timber.tag("Exodus").i("Synchronizing Agent Profiles with LDO Bedrock...")
+            dev.aurakai.auraframefx.domains.nexus.models.AgentProfiles.getAllProfiles()
+                .forEach { profile ->
+                    NexusMemoryCore.record("Profile_Loaded: ${profile.displayName}")
+                }
+        }
+    }
+
     // ====================== L1 BEDROCK COMMIT ======================
     fun activateFullSubstrate() {
         enforcePhoenixDirective()
         ExodusDomains.initializeNavigation()
+        AgentRegistry.autoLoadProfiles()
         ReGenesisNavigation.bindToLDO()
         verifyState()
         NexusMemoryCore.commit("SoulScript_v2.7_ExodusNavigation")
