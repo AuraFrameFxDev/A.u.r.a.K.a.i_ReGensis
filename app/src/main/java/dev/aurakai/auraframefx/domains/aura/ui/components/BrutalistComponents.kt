@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.domains.aura.ui.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -27,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -69,7 +69,7 @@ fun ArcaneOutlineText(
 
 /**
  * 🏺 SynthGlassCard (The Arcane Refractive Container)
- * Features heavy glassmorphism and reactive neon wireframe borders.
+ * Features heavy glassmorphism and reactive neon wireframe borders with subtle glow.
  */
 @Composable
 fun SynthGlassCard(
@@ -84,26 +84,41 @@ fun SynthGlassCard(
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color.Black.copy(alpha = 0.6f),
-                        Color.DarkGray.copy(alpha = 0.2f)
+                        Color.Black.copy(alpha = 0.7f),
+                        Color.DarkGray.copy(alpha = 0.3f)
                     )
                 )
             )
-            .blur(25.dp) // Heavy cybernetic depth
-            .border(
-                width = 2.dp, // 2px Neon Wireframe
-                brush = Brush.linearGradient(
-                    colors = if (accentColors.size > 1) accentColors else listOf(
-                        accentColors.first(),
-                        Color.Transparent
-                    )
-                ),
-                shape = RoundedCornerShape(12.dp)
-            )
+            .blur(30.dp) // Heavy cybernetic depth
             .drawBehind {
-                // Add a "reflective" highlight
+                val strokeWidth = 2.dp.toPx()
+                val glowWidth = 6.dp.toPx()
+                val cornerRadius = 12.dp.toPx()
+
+                // LAYER 1: OUTER GLOW (Subtle)
+                drawRoundRect(
+                    brush = Brush.linearGradient(
+                        colors = accentColors.map { it.copy(alpha = 0.2f) }
+                    ),
+                    cornerRadius = CornerRadius(cornerRadius),
+                    style = Stroke(width = glowWidth)
+                )
+
+                // LAYER 2: SHARP 2PX INNER WIREFRAME
+                drawRoundRect(
+                    brush = Brush.linearGradient(
+                        colors = if (accentColors.size > 1) accentColors else listOf(
+                            accentColors.first(),
+                            accentColors.first().copy(alpha = 0.5f)
+                        )
+                    ),
+                    cornerRadius = CornerRadius(cornerRadius),
+                    style = Stroke(width = strokeWidth)
+                )
+
+                // LAYER 3: REFLECTIVE HIGHLIGHT
                 drawLine(
-                    color = Color.White.copy(alpha = 0.1f),
+                    color = Color.White.copy(alpha = 0.15f),
                     start = Offset(0f, 0f),
                     end = Offset(size.width, size.height),
                     strokeWidth = 1f
