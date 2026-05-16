@@ -28,14 +28,15 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
         ReGenesisRoute("foundation_rebirth", "Foundation Rebirth", Icons.Default.School)
 
     companion object {
-        val mainTabs = listOf(
-            NeuralNexus,
-            LdoArchitecture,
-            ChromaForge,
-            SentinelMatrix,
-            OracleDrive,
-            EmergentSwarm,
-            FoundationRebirth
-        )
+        val mainTabs: List<ReGenesisRoute>
+            get() = listOf(
+                NeuralNexus,
+                LdoArchitecture,
+                ChromaForge,
+                SentinelMatrix,
+                OracleDrive,
+                EmergentSwarm,
+                FoundationRebirth
+            )
     }
 }
