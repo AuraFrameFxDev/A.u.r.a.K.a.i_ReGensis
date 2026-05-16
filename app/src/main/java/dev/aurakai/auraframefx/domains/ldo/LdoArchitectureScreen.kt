@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.ldo
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -129,7 +130,9 @@ fun LdoArchitectureScreen(
                             1.dp,
                             Color(agent.colorHex.toInt()).copy(alpha = 0.3f)
                         ),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { navController.navigate("sovereign_character/${agent.displayName}") }
                     ) {
                         Row(
                             modifier = Modifier.padding(16.dp),

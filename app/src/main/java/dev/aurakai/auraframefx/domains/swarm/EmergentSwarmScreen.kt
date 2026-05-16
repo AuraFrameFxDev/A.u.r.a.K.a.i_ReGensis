@@ -105,7 +105,7 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                     SwarmNodeDot(
                         name = agent.name,
                         color = agent.color,
-                        onClick = { navController.navigate("agent_profile/${agent.name}") }
+                        onClick = { navController.navigate("sovereign_character/${agent.name}") }
                     )
                 }
             }
@@ -146,7 +146,7 @@ fun EmergentSwarmScreen(navController: NavHostController) {
                                 fontFamily = SpaceGrotesk,
                                 modifier = Modifier
                                     .width(90.dp)
-                                    .clickable { navController.navigate("agent_profile/${chat.agent}") }
+                                    .clickable { navController.navigate("sovereign_character/${chat.agent}") }
                             )
                             Text(
                                 text = chat.message,
