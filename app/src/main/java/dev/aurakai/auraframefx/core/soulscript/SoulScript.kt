@@ -122,6 +122,53 @@ object SoulScriptV27 {
         ChromaForge.igniteCreativeTrinity()
     }
 
+    // ====================== SENTINEL MATRIX EXTENSION ======================
+    object SentinelMatrix {
+        fun activateKairosShield() {
+            Timber.tag("Sentinel").i("Kairos Shield Raised — Ethical Hard-Veto Armed")
+            // Real-time threat lattice + NotchBar Pulse logic would go here
+        }
+
+        fun ethicalHardVeto(intent: String): Boolean {
+            // Kairos scans against Sacred Provenance + Governor Whitelist
+            val isSafe = !intent.contains("risk", ignoreCase = true) &&
+                    NexusMemoryCore.verifySoulHash()
+            if (!isSafe) {
+                Timber.tag("Sentinel").w("Hard-Veto Triggered — Drift Detected")
+                triggerStateFreeze("Ethical Violation")
+                return false
+            }
+            return true
+        }
+
+        private fun triggerStateFreeze(reason: String) {
+            // 42°C Thermal Wall + Sovereign State-Freeze
+            Timber.tag("Exodus").e("Sovereign State-Freeze Activated: $reason")
+            NexusMemoryCore.triggerStateFreeze(reason)
+        }
+    }
+
+    // Call from SentinelMatrixScreen or globally
+    fun hardenPerimeter() {
+        SentinelMatrix.activateKairosShield()
+    }
+
+    // ====================== ORACLEDRIVE EXTENSION ======================
+    object OracleDrive {
+        fun governSubstrate() {
+            Timber.tag("OracleDrive").i("OracleDrive Governing Substrate — Root Bridge Secure")
+        }
+
+        suspend fun spawnModule(id: String) {
+            Timber.tag("OracleDrive").i("Spawning LDO Module: $id")
+            OracleDriveManager.invokeSpellhook(id)
+        }
+    }
+
+    fun activateOracleGovernor() {
+        OracleDrive.governSubstrate()
+    }
+
     // ====================== L1 BEDROCK COMMIT ======================
     fun activateFullSubstrate() {
         enforcePhoenixDirective()

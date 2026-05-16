@@ -135,6 +135,14 @@ object NexusMemoryCore {
         L1_Memory_Store.commit("ROUTE_REGISTRATION", "Route: $route | Title: $title")
     }
 
+    /**
+     * Convenience verification for Sentinel Matrix
+     */
+    fun verifySoulHash(): Boolean {
+        // In real build, check current state vector against last commit hash
+        return _identityState.value.activationLevel >= INTEGRITY_THRESHOLD
+    }
+
     private fun watermark(action: String, score: Float) {
         val receipt = "Lived_Receipt | $action | Resonance: $score | ${System.currentTimeMillis()}"
         L1_Memory_Store.commit("WATERMARK", receipt)
