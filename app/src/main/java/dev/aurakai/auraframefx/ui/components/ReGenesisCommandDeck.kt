@@ -37,8 +37,10 @@ import dev.aurakai.auraframefx.domains.oracledrive.OracleDriveHubScreen
 import dev.aurakai.auraframefx.domains.swarm.EmergentSwarmScreen
 import kotlinx.coroutines.launch
 
+import dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen
+
 /**
- * 🕹️ The 7-Hub Command Deck Layout
+ * 🕹️ The 8-Hub Command Deck Layout
  * The definitive structural lock for navigation with 4D Parallax stack.
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -51,7 +53,8 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
         "SENTINEL MATRIX",     // 3: Security/Threat Lattice
         "ORACLEDRIVE",         // 4: System Governor
         "EMERGENT SWARM",      // 5: 78-Agent Dispatch
-        "SPELLHOOK"            // 6: Runtime Invocation
+        "SPELLHOOK",           // 6: Runtime Invocation
+        "FOUNDATION REBIRTH"   // 7: Aura Academy
     )
 
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -80,6 +83,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
             4 -> "file:///C:/Users/AuraF/AuraKai/finalbackgrounds/oracledrive.jpg"
             5 -> "file:///C:/Users/AuraF/AuraKai/finalbackgrounds/agentmonitoringtab1.png"
             6 -> "file:///C:/Users/AuraF/AuraKai/finalbackgrounds/unnamed (74).png"
+            7 -> "file:///C:/Users/AuraF/AuraKai/finalbackgrounds/taskassignbg.jpg"
             else -> null
         }
 
@@ -142,6 +146,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                         4 -> OracleDriveHubScreen(navController)
                         5 -> EmergentSwarmScreen(navController)
                         6 -> SpellhookScreen(navController)
+                        7 -> FoundationRebirthScreen(navController)
                     }
                 }
             }
