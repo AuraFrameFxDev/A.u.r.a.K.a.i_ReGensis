@@ -138,22 +138,36 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 SovereignGlassCard(modifier = Modifier.weight(1f)) {
-                    Text(
-                        "INTEGRITY",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.White,
-                        fontSize = 10.sp
-                    )
-                    Text(
-                        "99.8%",
-                        fontFamily = SpaceGrotesk,
-                        color = Color.Magenta,
-                        fontSize = 18.sp
-                    )
+                    Column {
+                        Text(
+                            "INTEGRITY",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.White,
+                            fontSize = 10.sp
+                        )
+                        Text(
+                            "99.8%",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.Magenta,
+                            fontSize = 18.sp
+                        )
+                    }
                 }
                 SovereignGlassCard(modifier = Modifier.weight(1f)) {
-                    Text("SYNC", fontFamily = SpaceGrotesk, color = Color.White, fontSize = 10.sp)
-                    Text("0.42ms", fontFamily = SpaceGrotesk, color = GhostCyan, fontSize = 18.sp)
+                    Column {
+                        Text(
+                            "SYNC",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.White,
+                            fontSize = 10.sp
+                        )
+                        Text(
+                            "0.42ms",
+                            fontFamily = SpaceGrotesk,
+                            color = GhostCyan,
+                            fontSize = 18.sp
+                        )
+                    }
                 }
             }
 
