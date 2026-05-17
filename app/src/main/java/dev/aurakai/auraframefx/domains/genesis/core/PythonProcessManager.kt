@@ -26,6 +26,7 @@ class PythonProcessManager @Inject constructor(
     }
 
     suspend fun sendRequest(message: String): String = "Mock Python Response"
+    suspend fun sendGenericRequest(path: String, json: String): String = sendRequest(json)
     fun shutdown() {
         isRunning.set(false)
     }

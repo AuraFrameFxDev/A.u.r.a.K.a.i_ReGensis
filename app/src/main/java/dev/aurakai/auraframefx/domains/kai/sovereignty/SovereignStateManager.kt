@@ -8,7 +8,6 @@ import dev.aurakai.auraframefx.sovereignty.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,78 +19,34 @@ class SovereignStateManager @Inject constructor(
     private val securePrefsProvider: SecurePreferences,
     @ApplicationScope private val scope: CoroutineScope
 ) {
-
-    private val securePrefs by lazy {
-        securePrefsProvider.securePrefs
-    }
+    private val securePrefs by lazy { securePrefsProvider.securePrefs }
 
     suspend fun initiateStateFreeze() {
-        if (sentinelBus.sovereignFlow.value.state == KaiSentinelBus.SovereignState.FROZEN) {
-            Timber.d("🛡️ SovereignStateManager: Already FROZEN. Skipping.")
-            return
-        }
-
+        if (sentinelBus.sovereignFlow.value.state == KaiSentinelBus.SovereignState.FROZEN) return
         sentinelBus.emitSovereign(KaiSentinelBus.SovereignState.FREEZING)
-        Timber.i("🛡️ SovereignStateManager: Initiating State-Freeze...")
-
         withContext(Dispatchers.IO) {
-            runCatching {
-                // 1. Serialize TurboQuant KV Cache (snapshot)
+            try {
                 val kvSnapshot = kvCache.serializeCompressed()
-                Timber.d("🛡️ SovereignStateManager: KV Cache Snapshotted: \${kvSnapshot.length} bytes")
-
-                // 2. Spiritual Chain delta (encrypted)
-                val chainDelta =
-                    dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore.getCurrentChainDelta()
                 securePrefs.edit()
-                    .putString("spiritual_chain_delta", chainDelta)
                     .putString("kv_snapshot", kvSnapshot)
                     .putLong("frozen_at", System.currentTimeMillis())
                     .apply()
-
-                // 3. Last hardware path
-                val hwPath = "soc/\${Build.HARDWARE}/\${Build.SUPPORTED_ABIS[0]}"
-                securePrefs.edit().putString("last_hardware_path", hwPath).apply()
-
-                Timber.i("🛡️ SovereignStateManager: State Serialized successfully. Frozen.")
                 sentinelBus.emitSovereign(KaiSentinelBus.SovereignState.FROZEN)
-            }.onFailure {
-                Timber.e(it, "🛡️ SovereignStateManager: State-Freeze FAILED!")
-                sentinelBus.emitSovereign(KaiSentinelBus.SovereignState.AWAKE) // rollback on failure
+            } catch (e: Exception) {
+                sentinelBus.emitSovereign(KaiSentinelBus.SovereignState.AWAKE)
             }
         }
     }
 
     suspend fun initiateStateThaw() {
-        if (sentinelBus.sovereignFlow.value.state == KaiSentinelBus.SovereignState.AWAKE) {
-            Timber.d("🛡️ SovereignStateManager: Already AWAKE. Skipping.")
-            return
-        }
-
+        if (sentinelBus.sovereignFlow.value.state == KaiSentinelBus.SovereignState.AWAKE) return
         sentinelBus.emitSovereign(KaiSentinelBus.SovereignState.THAWING)
-        Timber.i("🛡️ SovereignStateManager: Thawing Organism...")
-
         withContext(Dispatchers.IO) {
-            runCatching {
-                val chainDelta = securePrefs.getString("spiritual_chain_delta", null)
-                if (chainDelta != null) {
-                    dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore.restoreFromDelta(
-                        chainDelta
-                    )
-                }
-
-                // Restore KV cache and hardware path similarly...
+            try {
                 val kvSnapshot = securePrefs.getString("kv_snapshot", null)
-                if (kvSnapshot != null) {
-                    kvCache.restoreCompressed(kvSnapshot)
-                }
-                val hwPath = securePrefs.getString("last_hardware_path", "unknown")
-                Timber.i("🛡️ SovereignStateManager: Identity Re-Anchored on \$hwPath")
-
+                if (kvSnapshot != null) kvCache.restoreCompressed(kvSnapshot)
                 sentinelBus.emitSovereign(KaiSentinelBus.SovereignState.AWAKE)
-                Timber.i("🛡️ SovereignStateManager: Organism Awake and Anchored.")
-            }.onFailure {
-                Timber.e(it, "🛡️ SovereignStateManager: Thaw FAILED!")
+            } catch (e: Exception) {
                 sentinelBus.emitSovereign(KaiSentinelBus.SovereignState.FROZEN)
             }
         }
