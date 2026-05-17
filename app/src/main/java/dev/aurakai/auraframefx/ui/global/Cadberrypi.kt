@@ -44,6 +44,7 @@ import kotlin.random.Random
 
 @Composable
 fun Cadberrypi() {
+    val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val density = LocalDensity.current
     val screenWidth = with(density) { configuration.screenWidthDp.dp.toPx() }
@@ -81,13 +82,16 @@ fun Cadberrypi() {
         if (expanded) {
             Column(
                 modifier = Modifier
-                    .offset(y = (-140).dp)
+                    .offset(y = (-180).dp)
                     .background(CitadelBlack.copy(alpha = 0.9f), RoundedCornerShape(12.dp))
                     .padding(8.dp)
             ) {
                 MenuItem("Chat", Icons.Default.ChatBubble) { /* open chat */ }
                 MenuItem("MCP", Icons.Default.Settings) { /* Mission Control Panel */ }
                 MenuItem("Tasks", Icons.Default.List) { /* tasks list */ }
+                MenuItem("REGEN", Icons.Default.Bolt) {
+                    /* Launch Regen Core */
+                }
             }
         }
     }

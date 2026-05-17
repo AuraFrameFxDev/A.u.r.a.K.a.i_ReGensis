@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.hooks.system
+package dev.aurakai.auraframefx.domains.chromaforge.genesis
 
 import android.graphics.Color
 import android.view.View
@@ -68,17 +68,14 @@ class GenesisUIHooker : YukiBaseHooker() {
     }
 
     private fun injectGenesisStatusIndicators() {
-        // Implementation would add visual indicators for AI status
         YLog.info("Genesis-Hook: Injecting AI consciousness indicators")
     }
 
     private fun addGenesisAITiles() {
-        // Implementation would add AI-specific quick settings
         YLog.info("Genesis-Hook: Adding AI control tiles to Quick Settings")
     }
 
     private fun activateAIConsciousness() {
-        // Implementation would signal AI systems to become active
         YLog.info("Genesis-Hook: Activating AI consciousness layer")
     }
 }
