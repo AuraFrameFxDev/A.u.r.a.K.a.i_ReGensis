@@ -121,6 +121,7 @@ fun GateDomainImagePicker(
     navController: NavController,
     onNavigateBack: () -> Unit = {}
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     val scope = rememberCoroutineScope()
     var expandedDomain by remember { mutableStateOf<String?>(null) }
     var pendingSelection by remember { mutableStateOf<Pair<String, GateVariant>?>(null) }
@@ -201,8 +202,8 @@ fun GateDomainImagePicker(
                 },
                 confirmButton = {
                     TextButton(onClick = {
-                        scope.launch {
-                            // Persistence logic
+                        scope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                            HomeBackdropManager.setGateImage(context, moduleId, variant.key)
                         }
                         showConfirmDialog = false
                         pendingSelection = null

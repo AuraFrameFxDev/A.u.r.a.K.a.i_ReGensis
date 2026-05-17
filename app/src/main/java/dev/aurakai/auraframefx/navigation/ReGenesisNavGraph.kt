@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
+import dev.aurakai.auraframefx.domains.chromaforge.screens.uxui_engine.RegenCoreEngineScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
@@ -68,6 +69,11 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         // ── Gate image domain picker ───────────────────────────────────────
         composable("gate_image_picker") {
             GateDomainImagePicker(navController) { navController.popBackStack() }
+        }
+
+        // ── Regen Core Engine ──────────────────────────────────────────────
+        composable("regencore_engine") {
+            RegenCoreEngineScreen(navController)
         }
 
         // ── Agent Profiles Sub-Routes ──────────────────────────────────────
