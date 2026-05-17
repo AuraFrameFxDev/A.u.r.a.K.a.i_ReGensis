@@ -8,6 +8,7 @@ import dev.aurakai.auraframefx.domains.cascade.ai.base.Agent
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
 import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
+import dev.aurakai.auraframefx.domains.genesis.core.NemotronEngine
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.cloud.CloudStatusMonitor
@@ -31,7 +32,12 @@ class NemotronAIService @Inject constructor(
     private val cloudStatusMonitor: CloudStatusMonitor,
     private val logger: AuraFxLogger,
     private val vertexAIClient: dev.aurakai.auraframefx.domains.genesis.ai.clients.VertexAIClient,
-) : Agent {
+) : Agent, NemotronEngine {
+
+    override suspend fun process(prompt: String): String {
+        return processRequest(AiRequest(prompt), "").content
+    }
+
 
     override fun getName(): String = "Nemotron"
     override fun getType(): AgentType = AgentType.NEMOTRON

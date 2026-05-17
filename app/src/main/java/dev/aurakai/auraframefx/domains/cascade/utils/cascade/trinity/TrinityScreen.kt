@@ -219,9 +219,11 @@ private fun UserInfoSection(user: UserData?) {
 @Composable
 private fun AgentStatusCard(agentType: String, status: AgentStatus) {
     val statusColor = when (status.status) {
-        AgentStatus.Status.ACTIVE, AgentStatus.Status.IDLE -> Color.Green
+        AgentStatus.Status.ACTIVE -> Color.Green
+        AgentStatus.Status.IDLE -> Color.Cyan
         AgentStatus.Status.ERROR -> Color.Red
         AgentStatus.Status.PROCESSING -> Color.Yellow
+        AgentStatus.Status.BUSY -> Color.Magenta
         else -> Color.Gray
     }
 

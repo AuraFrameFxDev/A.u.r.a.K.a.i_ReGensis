@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.nexus.metareflection
+package dev.aurakai.auraframefx.agents.growthmetrics.metareflection
 
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.MetaInstruction

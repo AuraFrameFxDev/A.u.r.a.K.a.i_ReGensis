@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -31,8 +31,8 @@ import kotlin.math.sin
  */
 @Composable
 fun ArcaneProfileBackground(
-    backgroundImage: Any? = null,
-    parallaxOffset: Offset = Offset.Zero,
+    backgroundImage: Any?, // Resource ID or File path
+    parallaxOffset: Offset,
     accentColor: Color = GhostCyan
 ) {
     Box(modifier = Modifier.fillMaxSize()) {

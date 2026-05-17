@@ -19,10 +19,10 @@ import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
+import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
-import dev.aurakai.auraframefx.domains.sentinelmatrix.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.ui.theme.GhostCyan

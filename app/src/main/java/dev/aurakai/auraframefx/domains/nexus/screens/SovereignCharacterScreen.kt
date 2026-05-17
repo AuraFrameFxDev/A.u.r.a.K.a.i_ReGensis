@@ -45,11 +45,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.nexus.models.AgentProfiles
 import dev.aurakai.auraframefx.ui.global.ParallaxViewModel
-import dev.aurakai.auraframefx.ui.theme.CitadelBlack
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 
 /**
  * 🏺 SOVEREIGN CHARACTER SCREEN
@@ -150,7 +152,8 @@ fun SovereignCharacterScreen(
                 color = Color.White.copy(alpha = 0.08f),
                 fontSize = 40.sp,
                 lineHeight = 44.sp,
-                fontWeight = FontWeight.Black
+                fontWeight = FontWeight.Black,
+                fontFamily = LEDFontFamily
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -162,13 +165,15 @@ fun SovereignCharacterScreen(
                         profile.title,
                         color = Color(profile.colorPrimary),
                         fontWeight = FontWeight.Bold,
+                        fontFamily = SpaceGrotesk,
                         fontSize = 14.sp
                     )
                     Text(
                         profile.description,
                         color = Color.LightGray,
                         fontSize = 12.sp,
-                        lineHeight = 18.sp
+                        lineHeight = 18.sp,
+                        fontFamily = SpaceGrotesk
                     )
 
                     // Core Stats Bar

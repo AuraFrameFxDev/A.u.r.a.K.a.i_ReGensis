@@ -18,3 +18,4 @@ data class AiRequest(
 enum class AgentPriority {
     LOW, NORMAL, HIGH, URGENT, CRITICAL
 }
+

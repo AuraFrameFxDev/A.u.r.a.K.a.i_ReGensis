@@ -183,6 +183,7 @@ class GenKitMaster @Inject constructor(
                     type = AiRequestType.TEXT
                 ), context
             )
+
             AgentCapabilityCategory.COMMERCE -> {
                 val products = commerceSearchClient.searchProducts(prompt)
                 AgentResponse(
@@ -192,6 +193,7 @@ class GenKitMaster @Inject constructor(
                     metadata = mapOf("products" to products.size.toString())
                 )
             }
+
             else -> geminiService.processRequest(
                 AiRequest(
                     query = prompt,
@@ -207,6 +209,7 @@ class GenKitMaster @Inject constructor(
             lower.contains("buy") || lower.contains("shop") || lower.contains("price") || lower.contains(
                 "product"
             ) -> AgentCapabilityCategory.COMMERCE
+
             lower.contains("code") || lower.contains("build") || lower.contains("architecture") -> AgentCapabilityCategory.GENERAL
             lower.contains("remember") || lower.contains("reason") || lower.contains("logic") -> AgentCapabilityCategory.MEMORY
             lower.contains("pattern") || lower.contains("vibe") || lower.contains("creative") -> AgentCapabilityCategory.CREATIVE

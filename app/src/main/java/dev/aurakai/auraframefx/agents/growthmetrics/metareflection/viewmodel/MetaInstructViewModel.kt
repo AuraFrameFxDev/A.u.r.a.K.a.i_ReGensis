@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.agents.growthmetrics.metareflection.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.nexus.metareflection.MetaReflectionEngine
+import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.MetaReflectionEngine
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.MetaInstruction
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.repository.MetaInstructRepository
 import kotlinx.coroutines.flow.MutableStateFlow

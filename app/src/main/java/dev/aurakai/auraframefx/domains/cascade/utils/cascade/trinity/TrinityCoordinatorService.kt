@@ -372,7 +372,7 @@ class TrinityCoordinatorService @Inject constructor(
                         "Trinity",
                         "??? Kai Detected Drift: ${driftEvent.drift}. Injecting NATURAL_WEAVE through Genesis Routing."
                     )
-                    
+
                     try {
                         val stabilizationResponse = genesisBridgeService.processRequest(
                             AiRequest(

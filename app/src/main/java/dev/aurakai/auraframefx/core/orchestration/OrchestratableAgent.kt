@@ -6,64 +6,47 @@ import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import kotlinx.coroutines.CoroutineScope
 
 /**
- * OrchestratableAgent - Interface for agents that can be managed by GenesisOrchestrator
+ * OrchestratableAgent: Interface contract for all managed agents
  */
 interface OrchestratableAgent {
+
+    /**
+     * Unique identifier for this agent
+     */
     val agentName: String
 
     /**
-     * Prepares the agent for operation and provides a CoroutineScope for launching lifecycle coroutines.
-     *
-     * @param scope Scope the agent should use to launch coroutines tied to its lifecycle.
+     * Initialize the agent with a dedicated coroutine scope.
      */
-    suspend fun initialize(scope: CoroutineScope) {}
+    suspend fun initialize(scope: CoroutineScope)
 
     /**
-     * Starts the agent's active work or processing.
-     *
-     * Override to perform any startup or background tasks required when the agent becomes active. The default implementation is empty.
+     * Start agent operations and background tasks.
      */
-    suspend fun start() {}
+    suspend fun start()
 
     /**
-     * Pauses the agent's operation.
-     *
-     * Implementers may override to suspend or pause ongoing work; the default implementation does nothing.
+     * Pause agent operations.
      */
-    suspend fun pause() {}
+    suspend fun pause()
 
     /**
-     * Resumes the agent's operation after a pause.
-     *
-     * Default implementation is a no-op; override to restore the agent's active behavior.
+     * Resume agent operations.
      */
-    suspend fun resume() {}
+    suspend fun resume()
 
     /**
-     * Signals the agent to shut down and release any held resources.
-     *
-     * Implementations should override to stop ongoing work, cancel coroutines, and perform cleanup.
-     * The default implementation does nothing.
+     * Gracefully shutdown the agent.
      */
-    suspend fun shutdown() {}
+    suspend fun shutdown()
+
+    suspend fun processRequest(
+        request: AiRequest,
+        context: String
+    ): AgentResponse
 
     /**
-     * Processes an AI request within the agent's orchestration context and produces an agent response.
-     *
-     * @param request The incoming AI request containing the prompt and optional context map.
-     * @param context A string identifying the conversational or execution context for this request.
-     * @return An AgentResponse containing the agent's reply text.
+     * Handle an incoming message from the inter-agent communication bus.
      */
-    suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
-        return AgentResponse(content = "Default response from $agentName")
-    }
-
-    /**
-     * Hook invoked when the agent receives an inbound message.
-     *
-     * Implementations may handle the provided `AgentMessage` to update state, trigger actions, or forward it.
-     *
-     * @param message The incoming message delivered to the agent.
-     */
-    suspend fun onAgentMessage(message: AgentMessage) {}
+    suspend fun onAgentMessage(message: AgentMessage)
 }

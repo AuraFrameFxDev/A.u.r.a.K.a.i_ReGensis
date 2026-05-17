@@ -12,11 +12,11 @@ import dev.aurakai.auraframefx.domains.aura.AuraNetwork
 import dev.aurakai.auraframefx.domains.cascade.utils.AppCoroutineDispatchers
 import dev.aurakai.auraframefx.domains.genesis.config.ClaudeEnvConfig
 import dev.aurakai.auraframefx.domains.genesis.network.AuraApiService
-import dev.aurakai.auraframefx.domains.genesis.network.AuthApi
 import dev.aurakai.auraframefx.domains.genesis.network.AuthInterceptor
 import dev.aurakai.auraframefx.domains.genesis.network.DefaultWebSearchClient
 import dev.aurakai.auraframefx.domains.genesis.network.WebSearchClient
 import dev.aurakai.auraframefx.domains.genesis.network.api.AIAgentApi
+import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi
 import dev.aurakai.auraframefx.domains.genesis.network.api.ThemeApi
 import dev.aurakai.auraframefx.domains.genesis.network.api.UserApi
 import okhttp3.OkHttpClient
@@ -27,11 +27,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi as ApiAuthApi
 
-/**
- * Dagger Hilt module that provides network-related dependencies.
- */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -136,12 +132,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiAuthApi(retrofit: Retrofit): ApiAuthApi {
-        return retrofit.create(ApiAuthApi::class.java)
-    }
-
-    @Provides
-    @Singleton
     fun provideAuraApiService(
         @ApplicationContext context: android.content.Context,
         authInterceptor: AuthInterceptor,
@@ -179,10 +169,7 @@ object NetworkModule {
     @CollabCanvasUrl
     @Singleton
     fun provideCollabCanvasUrl(claudeEnvConfig: ClaudeEnvConfig): String {
-        return claudeEnvConfig.collabCanvasWsUrl
-            .replace("https://", "wss://")
-            .replace("http://", "ws://")
-            .trimEnd('/')
+        return "ws://localhost:8080"
     }
 }
 
