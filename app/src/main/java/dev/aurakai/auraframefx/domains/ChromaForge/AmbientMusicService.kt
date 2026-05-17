@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.services
+package dev.aurakai.auraframefx.domains.chromaforge
 
 import android.app.Service
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
+import dev.aurakai.auraframefx.data.DataStoreManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,8 +17,14 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AmbientMusicService : Service() {
 
-    @Inject
-    lateinit var dataStoreManager: dev.aurakai.auraframefx.data.DataStoreManager
+    private lateinit var _dataStoreManager: DataStoreManager
+
+    @set:Inject
+    var dataStoreManager: DataStoreManager
+        get() = _dataStoreManager
+        set(value) {
+            _dataStoreManager = value
+        }
 
     private var mediaPlayer: MediaPlayer? = null
     private var isPlaying = false

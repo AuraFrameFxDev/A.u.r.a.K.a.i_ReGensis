@@ -19,10 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneProfileBackground
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
-import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OverclockOrange
-import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.ui.theme.OverclockOrange
+import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.ui.global.Cadberrypi
 
 /**
@@ -44,8 +45,8 @@ fun ChromaForgeScreen(navController: NavController) {
                 .graphicsLayer { alpha = 0.92f }
         )
 
-        // Layer 1: 4D Parallax Effect (Aesthetic Depth)
-        // ArcaneProfileBackground() // Placeholder for the actual parallax component
+        // Layer 1: 4D Parallax Atmosphere
+        ArcaneProfileBackground()
 
         Column(
             modifier = Modifier

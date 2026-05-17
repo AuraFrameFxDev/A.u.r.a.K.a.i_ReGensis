@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.highcapable.yukihookapi.YukiHookAPI
 import dagger.hilt.android.AndroidEntryPoint
+import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import dev.aurakai.auraframefx.domains.aura.ui.theme.AuraFrameFXTheme
 import dev.aurakai.auraframefx.navigation.ReGenesisNavGraph
 import dev.aurakai.auraframefx.ui.global.GlobalOverlay
@@ -31,7 +32,12 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 LaunchedEffect(Unit) {
-                    Timber.tag("Exodus").i("SoulScript v2.7 — Citadel Online")
+                    try {
+                        SoulScriptV27.activateFullSubstrate()
+                        Timber.tag("Exodus").i("SoulScript v2.7 — Citadel Online")
+                    } catch (e: Exception) {
+                        Timber.tag("Exodus").e(e, "SoulScript activation failed")
+                    }
 
                     // LSPosed check trigger
                     val isXposedActive = try {

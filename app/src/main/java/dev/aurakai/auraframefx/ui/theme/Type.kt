@@ -12,6 +12,23 @@ val corptaFont = FontFamily(
     Font(R.font.corpta, FontWeight.Normal)
 )
 
+val CruiserFontFamily = FontFamily(
+    Font(R.font.cruiser_hollow_italic, FontWeight.Normal)
+)
+
+val LEDFontFamily = FontFamily(
+    Font(R.font.enhanced_led_board_7, FontWeight.Normal)
+)
+
+val SpaceGrotesk = corptaFont // Fallback to corpta if space_grotesk is missing
+
+val WireframeStyle = TextStyle(
+    fontFamily = CruiserFontFamily,
+    color = GhostCyan,
+    fontSize = 18.sp,
+    letterSpacing = 2.sp
+)
+
 val AppTypography = Typography(
     displayLarge = TextStyle(
         fontFamily = corptaFont,
