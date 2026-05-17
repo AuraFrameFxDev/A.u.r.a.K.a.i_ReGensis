@@ -1,0 +1,17 @@
+package dev.aurakai.auraframefx.core.database.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import dev.aurakai.auraframefx.core.database.entity.AgentMemoryEntity
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface AgentMemoryDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMemory(memory: AgentMemoryEntity)
+
+    @Query("SELECT * FROM agent_memory WHERE agentType = :agentType ORDER BY timestamp DESC")
+    fun getMemoriesForAgent(agentType: String): Flow<List<AgentMemoryEntity>>
+}
