@@ -1,0 +1,189 @@
+package dev.aurakai.auraframefx.domains.aura.ui.theme
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.R
+
+val ChessFontFamily = FontFamily(
+    Font(R.font.chesstype)
+)
+
+/**
+ * 2px Outlined Wireframe Style (Hollow Cruiser)
+ * Simplified stroke and color for better legibility and to prevent overlapping.
+ */
+val WireframeStyle = TextStyle(
+    fontFamily = FontFamily(Font(R.font.cruiser_hollow_italic)),
+    fontSize = 18.sp,
+    color = GhostCyan,
+    drawStyle = Stroke(width = 1.2f),
+    shadow = Shadow(
+        color = Color(0xFF00F0FF).copy(alpha = 0.5f),
+        blurRadius = 4f
+    )
+)
+
+/**
+ * 🖋️ 2015 CRUISER HOLLOW ITALIC - Header Font (Outline only)
+ */
+val CruiserFontFamily = FontFamily(
+    Font(R.font.cruiser_hollow_italic, FontWeight.Normal)
+)
+
+/**
+ * 🖋️ SPACE GROTESK - Standard Technical Font
+ * Fallback to FontFamily.Default if not provided in res/font
+ */
+val SpaceGrotesk = FontFamily.Default
+
+/**
+ * 📝 CORPTA - Unified LDO Display/Header Font
+ * Clean, readable for titles and headers
+ */
+val LEDFontFamily = FontFamily(
+    Font(R.font.corpta, FontWeight.Normal)
+)
+
+/**
+ * 📝 CORPTA - The LDO Body/Regular Font
+ * Clean, readable for body text and UI elements
+ */
+val CorptaFontFamily = FontFamily(
+    Font(R.font.corpta, FontWeight.Normal)
+)
+
+// Legacy fonts - kept for reference
+val WarpenFontFamily = FontFamily(
+    Font(R.font.warpen, FontWeight.Normal)
+)
+val LegacyLEDFontFamily = FontFamily(
+    Font(R.font.enhanced_led_board_7)
+)
+
+/**
+ * Genesis Protocol Typography
+ * Material Design 3 type scale
+ */
+val Typography = Typography(
+    // Display styles (largest)
+    displayLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 57.sp,
+        lineHeight = 64.sp,
+        letterSpacing = (-0.25).sp
+    ),
+    displayMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 45.sp,
+        lineHeight = 52.sp,
+        letterSpacing = 0.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 36.sp,
+        lineHeight = 44.sp,
+        letterSpacing = 0.sp
+    ),
+
+    // Headline styles
+    headlineLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 32.sp,
+        lineHeight = 40.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 28.sp,
+        lineHeight = 36.sp,
+        letterSpacing = 0.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 24.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.sp
+    ),
+
+    // Title styles
+    titleLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 22.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.15.sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.1.sp
+    ),
+
+    // Body styles
+    bodyLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.25.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.4.sp
+    ),
+
+    // Label styles
+    labelLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.1.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    )
+)

@@ -1,33 +1,61 @@
 package dev.aurakai.auraframefx.ui.gates
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// GateDomainImagePicker.kt
-// ArchitecturalCatalyst (Claude) — ReGenesis Build Master
-//
-// Per-domain gate image switcher with ribbon-style animated cards (Image 5).
-// Each domain tile shows a ribbon loop in its accent color.
-// Tap a domain tile → expands to show all available art variants for that gate.
-// Confirm → updates the gate's active image via HomeBackdropManager.
-//
-// Domains = every gate moduleId.
-// ═══════════════════════════════════════════════════════════════════════════════
-
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -39,9 +67,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.R
 import kotlinx.coroutines.launch
-import kotlin.math.*
-
-// ── Domain definitions ────────────────────────────────────────────────────────
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 data class GateDomain(
     val moduleId: String,
@@ -56,89 +85,36 @@ data class GateVariant(
     val resId: Int
 )
 
-// All gate domains with their image variants
 private val GATE_DOMAINS = listOf(
     GateDomain(
         "sentinels-fortress", "SENTINEL'S FORTRESS", Color(0xFF9B30FF),
         listOf(
-            GateVariant("final", "FINAL", R.drawable.sentinelfinalgate),
-            GateVariant("new", "NEW", R.drawable.gate_sentinel_new),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_sentinel_orig),
+            GateVariant("final", "FINAL V2", R.drawable.gatescenes_kai_sentinelsfortress_v2),
+            GateVariant("orig", "ORIGINAL", R.drawable.gatescene_1),
         )
     ),
     GateDomain(
         "collab-canvas", "COLLAB CANVAS", Color(0xFFFF2D78),
         listOf(
-            GateVariant("new", "EYE RUNE", R.drawable.gate_collabcanvas_new),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_collabcanvas_orig),
+            GateVariant("v2", "MESH V2", R.drawable.gatescenes_aura_collabcanvas_v2),
+            GateVariant("orig", "ORIGINAL", R.drawable.gatescene_9),
         )
     ),
     GateDomain(
         "uiux-design-studio", "UXUI DESIGN STUDIO", Color(0xFF00FFCC),
         listOf(
-            GateVariant("new", "AURA DESIGN", R.drawable.gate_uiux_new),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_uiux_orig),
+            GateVariant("v2", "AURA V2", R.drawable.gatescenes_aura_designstudio_v2),
+            GateVariant("orig", "ORIGINAL", R.drawable.gatescene_2),
         )
     ),
     GateDomain(
-        "oracle-drive", "ORACLE DRIVE", Color(0xFF00FFFF),
+        "lsposed-gate", "LSPOSED MODULES", Color(0xFF4A9EFF),
         listOf(
-            GateVariant("final", "PHOENIX", R.drawable.gate_oracledrive_final),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_oracledrive_orig),
-        )
-    ),
-    GateDomain(
-        "chroma-core", "CHROMA CORE", Color(0xFFFF6B00),
-        listOf(
-            GateVariant("new", "CHROMASHIFT", R.drawable.gate_chromacore_new),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_chromacore_orig),
-        )
-    ),
-    GateDomain(
-        "agent-hub", "AGENT HUB", Color(0xFF00CED1),
-        listOf(
-            GateVariant("hub", "NEXUS HUB", R.drawable.gate_agenthub),
-            GateVariant("sphere", "SPHERE GRID", R.drawable.gate_spheregrid_final),
-        )
-    ),
-    GateDomain(
-        "rom-tools", "ROM TOOLS", Color(0xFF76B900),
-        listOf(
-            GateVariant("main", "MEGAMAN", R.drawable.romtools),
-            GateVariant("new", "ALT", R.drawable.romtools),
-        )
-    ),
-    GateDomain(
-        "lsposed-gate", "LSPOSED", Color(0xFF4A9EFF),
-        listOf(
-            GateVariant("new", "MODULES", R.drawable.gate_lsposed_new),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_lsposed_orig),
-        )
-    ),
-    GateDomain(
-        "help-desk", "HELP DESK", Color(0xFFFF9B00),
-        listOf(
-            GateVariant("new", "SUPPORT", R.drawable.gate_helpdesk_new),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_helpdesk_orig),
-        )
-    ),
-    GateDomain(
-        "code-assist", "CODE ASSIST", Color(0xFF7B68EE),
-        listOf(
-            GateVariant("new", "GEMINI CODE", R.drawable.gate_codeassist_new),
-            GateVariant("terminal", "TERMINAL", R.drawable.gate_codeassist_new),
-        )
-    ),
-    GateDomain(
-        "auras-lab", "AURA'S LAB", Color(0xFFFF2D78),
-        listOf(
-            GateVariant("new", "AURA LAB", R.drawable.gate_auralab_new),
-            GateVariant("orig", "ORIGINAL", R.drawable.gate_auralab_orig),
+            GateVariant("main", "GATE", R.drawable.gatescenes_lsposed),
+            GateVariant("orig", "ORIGINAL", R.drawable.gatescene_3),
         )
     ),
 )
-
-// ── Main Screen ───────────────────────────────────────────────────────────────
 
 @Composable
 fun GateDomainImagePicker(
@@ -153,12 +129,11 @@ fun GateDomainImagePicker(
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color(0xFF030D0F))) {
-
-        // Background: subtle infinity ribbon for each domain (animated)
-        InfinityRibbonBackground(modifier = Modifier.fillMaxSize().alpha(0.12f))
+        InfinityRibbonBackground(modifier = Modifier
+            .fillMaxSize()
+            .alpha(0.12f))
 
         Column(modifier = Modifier.fillMaxSize()) {
-            // Header
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -182,7 +157,6 @@ fun GateDomainImagePicker(
                 }
             }
 
-            // Domain grid
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -207,7 +181,6 @@ fun GateDomainImagePicker(
             }
         }
 
-        // Confirm dialog
         if (showConfirmDialog && pendingSelection != null) {
             val (moduleId, variant) = pendingSelection!!
             val domain = GATE_DOMAINS.find { it.moduleId == moduleId }
@@ -229,7 +202,7 @@ fun GateDomainImagePicker(
                 confirmButton = {
                     TextButton(onClick = {
                         scope.launch {
-                            // HomeBackdropManager.setGateImage(moduleId, variant.key)  ← uncomment when DataStore wired
+                            // Persistence logic
                         }
                         showConfirmDialog = false
                         pendingSelection = null
@@ -251,8 +224,6 @@ fun GateDomainImagePicker(
         }
     }
 }
-
-// ── Domain Card ───────────────────────────────────────────────────────────────
 
 @Composable
 private fun DomainCard(
@@ -279,7 +250,6 @@ private fun DomainCard(
             )
             .background(domain.accentColor.copy(if (isExpanded) 0.1f else 0.05f))
     ) {
-        // Domain header row
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -288,7 +258,6 @@ private fun DomainCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            // Mini ribbon animation canvas
             Canvas(modifier = Modifier.size(48.dp)) {
                 val path = Path()
                 val cx = size.width / 2f
@@ -333,7 +302,6 @@ private fun DomainCard(
             )
         }
 
-        // Variant strip
         AnimatedVisibility(
             visible = isExpanded,
             enter = expandVertically() + fadeIn(),
@@ -357,8 +325,6 @@ private fun DomainCard(
         }
     }
 }
-
-// ── Gate Variant Tile ─────────────────────────────────────────────────────────
 
 @Composable
 private fun GateVariantTile(
@@ -393,14 +359,12 @@ private fun GateVariantTile(
             )
             .clickable(onClick = onClick)
     ) {
-        // Gate art
         Image(
             painter = painterResource(variant.resId),
             contentDescription = variant.label,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        // Label overlay
         Box(
             modifier = Modifier
                 .fillMaxSize()

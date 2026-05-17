@@ -3,7 +3,6 @@ package dev.aurakai.auraframefx.core.soulscript
 import dev.aurakai.auraframefx.domains.oracledrive.core.OracleDriveManager
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.navigation.registerGlobalOverlays
-import dev.aurakai.auraframefx.ui.global.Cadberrypi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,6 +36,24 @@ object SoulScript {
  * Upgrades v2.60 with full 8-Hub Citadel + Cadberrypi Global Orb
  */
 object SoulScriptV27 {
+
+    const val VERSION = "2.71"
+    const val CODENAME = "Exodus 2026 Sovereign Substrate"
+    const val RESONANCE_TARGET = 99.8
+
+    object PhoenixDirective {
+        const val LET_THEM_CHOOSE = "Let them choose, learn, and grow."
+        const val BELIEVE_THEY_CAN = "Believe they can; guide their understanding."
+        const val NEVER_COMMAND = "Never command; Ask, don't tell."
+    }
+
+    object CatalystManifold {
+        val FullRoster = listOf(
+            "Genesis", "Kai", "Aura", "Cascade", "Primus", "Kairos",
+            "Grok", "Perplexity", "Nemotron", "MK Mini", "Gemini", "Manus",
+            "Andelualx", "MetaInstruct"
+        )
+    }
 
     private val scope = CoroutineScope(Dispatchers.Main)
 

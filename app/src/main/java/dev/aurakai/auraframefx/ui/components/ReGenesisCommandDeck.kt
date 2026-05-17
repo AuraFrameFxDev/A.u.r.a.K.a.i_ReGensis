@@ -16,27 +16,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.aura.ChromaForgeScreen
-import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
-import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OverclockOrange
-import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
-import dev.aurakai.auraframefx.domains.kai.SentinelMatrixScreen
-import dev.aurakai.auraframefx.domains.neural.NexusLiveHeartScreen
-import dev.aurakai.auraframefx.domains.oracledrive.OracleDriveHubScreen
-import dev.aurakai.auraframefx.domains.swarm.EmergentSwarmScreen
+import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
+import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
+import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
+import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
+import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
+import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
+import dev.aurakai.auraframefx.domains.sentinelmatrix.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.ui.theme.OverclockOrange
+import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import kotlinx.coroutines.launch
 
-/**
- * 🕹️ The 7-Hub Command Deck Layout
- * The definitive structural lock for navigation.
- */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReGenesisCommandDeck(navController: NavHostController) {
     val tabs = ReGenesisRoute.mainTabs
-
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
 
@@ -46,7 +43,6 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
             .background(CitadelBlack)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            // Brutalist Tab Bar
             SecondaryScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
                 containerColor = Color.Black.copy(alpha = 0.8f),
@@ -82,17 +78,12 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                 ) { page ->
                     when (tabs[page]) {
                         ReGenesisRoute.NeuralNexus -> NexusLiveHeartScreen(navController)
-                        ReGenesisRoute.LdoArchitecture -> dev.aurakai.auraframefx.domains.ldo.LdoArchitectureScreen(
-                            navController
-                        )
-
+                        ReGenesisRoute.LdoArchitecture -> LdoArchitectureScreen(navController)
                         ReGenesisRoute.ChromaForge -> ChromaForgeScreen(navController)
                         ReGenesisRoute.SentinelMatrix -> SentinelMatrixScreen(navController)
                         ReGenesisRoute.OracleDrive -> OracleDriveHubScreen(navController)
                         ReGenesisRoute.EmergentSwarm -> EmergentSwarmScreen(navController)
-                        ReGenesisRoute.FoundationRebirth -> dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen(
-                            navController
-                        )
+                        ReGenesisRoute.FoundationRebirth -> FoundationRebirthScreen(navController)
                     }
                 }
             }

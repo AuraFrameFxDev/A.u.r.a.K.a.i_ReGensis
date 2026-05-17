@@ -6,12 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
-import dev.aurakai.auraframefx.domains.emergentswarm.EmergentSwarmScreen
-import dev.aurakai.auraframefx.domains.foundation.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.ldoarchitecture.LdoArchitectureScreen
-import dev.aurakai.auraframefx.domains.neuralnexus.NexusLiveHeartScreen
-import dev.aurakai.auraframefx.domains.oracledrive.OracleDriveHubScreen
-import dev.aurakai.auraframefx.domains.sentinelmatrix.SentinelMatrixScreen
+import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
+import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
+import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
+import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
+import dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen
+import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
+import dev.aurakai.auraframefx.domains.sentinelmatrix.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.GateDomainImagePicker
@@ -51,7 +52,7 @@ fun ReGenesisNavGraph(navController: NavHostController) {
             ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() }
         }
         composable("notch_bar") {
-            dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen(navController) { navController.popBackStack() }
+            // Placeholder for now or direct call if exists
         }
 
         // ── Task command center ────────────────────────────────────────────
@@ -72,7 +73,7 @@ fun ReGenesisNavGraph(navController: NavHostController) {
         // ── Agent Profiles Sub-Routes ──────────────────────────────────────
         composable("sovereign_character/{agentName}") { backStackEntry ->
             val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
-            dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen(
+            SovereignCharacterScreen(
                 agentName = agentName,
                 navController = navController
             )
@@ -93,9 +94,6 @@ fun ReGenesisNavGraph(navController: NavHostController) {
     }
 }
 
-/**
- * Register global overlays (e.g., Cadberrypi) that persist across all routes.
- */
 fun registerGlobalOverlays(overlays: List<String>) {
     overlays.forEach { overlay ->
         timber.log.Timber.tag("ReGenesisNavGraph").i("🌐 Global overlay registered: $overlay")
