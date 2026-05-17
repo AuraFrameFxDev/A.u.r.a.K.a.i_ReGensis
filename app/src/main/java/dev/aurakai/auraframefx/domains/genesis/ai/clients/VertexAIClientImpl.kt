@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.ai.clients
 
-import dev.aurakai.auraframefx.config.VertexAIConfig
+import dev.aurakai.auraframefx.domains.genesis.models.VertexAIConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

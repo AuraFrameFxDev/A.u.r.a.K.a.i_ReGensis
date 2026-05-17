@@ -18,7 +18,8 @@ interface IAuraDriveService : IInterface {
                         override fun getOracleDriveStatus(): String = "Operational"
                         override fun toggleLSPosedModule(): Boolean = true
                         override fun getDetailedInternalStatus(): String = "All systems green."
-                        override fun getInternalDiagnosticsLog(): List<String> = listOf("Starting...", "Ready.")
+                        override fun getInternalDiagnosticsLog(): List<String> =
+                            listOf("Starting...", "Ready.")
                     }
                 } else null
             }

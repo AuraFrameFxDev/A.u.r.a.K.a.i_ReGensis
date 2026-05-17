@@ -38,18 +38,18 @@ import kotlin.random.Random
 
 // ── Palette ─────────────────────────────────────────────────────────────────
 
-private val C_GREEN  = Color(0xFF00FF41)
-private val C_CYAN   = Color(0xFF00FFFF)
+private val C_GREEN = Color(0xFF00FF41)
+private val C_CYAN = Color(0xFF00FFFF)
 private val C_MAGENTA = Color(0xFFFF00FF)
-private val C_DARK   = Color(0xFF001A00)
-private val C_GLOW   = Color(0xFFAAFFCC)
-private val C_BLACK  = Color(0xFF050708)
+private val C_DARK = Color(0xFF001A00)
+private val C_GLOW = Color(0xFFAAFFCC)
+private val C_BLACK = Color(0xFF050708)
 
 // ── Matrix charset ───────────────────────────────────────────────────────────
 
 private val MATRIX_CHARS =
     "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン" +
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#%&*<>/\\"
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#%&*<>/\\"
 
 // ── Pixel art sprite (20 wide × 22 tall) ────────────────────────────────────
 // 0 = transparent
@@ -59,28 +59,49 @@ private val MATRIX_CHARS =
 // 4 = glow  (C_GLOW)
 
 private val AGENT_SPRITE = arrayOf(
-    intArrayOf(0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0), //  0 head top
-    intArrayOf(0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0), //  1
-    intArrayOf(0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0), //  2
-    intArrayOf(0,0,0,0,1,1,1,2,2,2,2,2,2,1,1,1,0,0,0,0), //  3 visor top
-    intArrayOf(0,0,0,0,1,1,2,2,4,4,4,4,2,2,1,1,0,0,0,0), //  4 visor mid (glow)
-    intArrayOf(0,0,0,0,1,1,2,2,4,4,4,4,2,2,1,1,0,0,0,0), //  5
-    intArrayOf(0,0,0,0,1,1,1,2,2,2,2,2,2,1,1,1,0,0,0,0), //  6 visor bot
-    intArrayOf(0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0), //  7 head bot
-    intArrayOf(0,0,0,0,0,0,1,3,3,1,1,3,3,1,0,0,0,0,0,0), //  8 neck
-    intArrayOf(0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0), //  9 shoulders
-    intArrayOf(0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0), // 10
-    intArrayOf(0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0), // 11 upper arms
-    intArrayOf(0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0), // 12
-    intArrayOf(0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0), // 13 arm reach
-    intArrayOf(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1), // 14 ← TYPING ROW (full span)
-    intArrayOf(0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0), // 15
-    intArrayOf(0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0), // 16 lower body
-    intArrayOf(0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0), // 17
-    intArrayOf(0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0), // 18 hips / leg gap
-    intArrayOf(0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0), // 19
-    intArrayOf(0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0), // 20
-    intArrayOf(0,0,0,1,1,1,0,0,0,0,0,0,0,1,1,1,0,0,0,0), // 21 feet
+    intArrayOf(0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0), //  0 head top
+    intArrayOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0), //  1
+    intArrayOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0), //  2
+    intArrayOf(0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0), //  3 visor top
+    intArrayOf(0, 0, 0, 0, 1, 1, 2, 2, 4, 4, 4, 4, 2, 2, 1, 1, 0, 0, 0, 0), //  4 visor mid (glow)
+    intArrayOf(0, 0, 0, 0, 1, 1, 2, 2, 4, 4, 4, 4, 2, 2, 1, 1, 0, 0, 0, 0), //  5
+    intArrayOf(0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0), //  6 visor bot
+    intArrayOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0), //  7 head bot
+    intArrayOf(0, 0, 0, 0, 0, 0, 1, 3, 3, 1, 1, 3, 3, 1, 0, 0, 0, 0, 0, 0), //  8 neck
+    intArrayOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0), //  9 shoulders
+    intArrayOf(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0), // 10
+    intArrayOf(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0), // 11 upper arms
+    intArrayOf(0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0), // 12
+    intArrayOf(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0), // 13 arm reach
+    intArrayOf(
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+    ), // 14 ← TYPING ROW (full span)
+    intArrayOf(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0), // 15
+    intArrayOf(0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0), // 16 lower body
+    intArrayOf(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0), // 17
+    intArrayOf(0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0), // 18 hips / leg gap
+    intArrayOf(0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0), // 19
+    intArrayOf(0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0), // 20
+    intArrayOf(0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0), // 21 feet
 )
 
 // ── Matrix column ─────────────────────────────────────────────────────────────
@@ -132,13 +153,13 @@ private val STATUS_LINES = listOf(
 @Composable
 fun TerminalBootIntroScreen(onComplete: () -> Unit) {
     // ── State ─────────────────────────────────────────────────────────────
-    var phase               by remember { mutableStateOf(IntroPhase.MATRIX) }
+    var phase by remember { mutableStateOf(IntroPhase.MATRIX) }
     var materializeProgress by remember { mutableFloatStateOf(0f) }
-    var typingFrame         by remember { mutableIntStateOf(0) }
-    var visibleLines        by remember { mutableIntStateOf(0) }
-    var flashAlpha          by remember { mutableFloatStateOf(0f) }
-    var rainTick            by remember { mutableIntStateOf(0) } // drives Canvas redraws
-    var skipped             by remember { mutableStateOf(false) }
+    var typingFrame by remember { mutableIntStateOf(0) }
+    var visibleLines by remember { mutableIntStateOf(0) }
+    var flashAlpha by remember { mutableFloatStateOf(0f) }
+    var rainTick by remember { mutableIntStateOf(0) } // drives Canvas redraws
+    var skipped by remember { mutableStateOf(false) }
 
     val textMeasurer = rememberTextMeasurer()
 
@@ -157,7 +178,9 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             kotlinx.coroutines.delay(50)
             elapsed += 50
         }
-        if (skipped) { onComplete(); return@LaunchedEffect }
+        if (skipped) {
+            onComplete(); return@LaunchedEffect
+        }
 
         // Phase 2: MATERIALIZE (50 steps × 30ms = 1500ms)
         phase = IntroPhase.MATERIALIZE
@@ -167,7 +190,9 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                 kotlinx.coroutines.delay(30)
             }
         }
-        if (skipped) { onComplete(); return@LaunchedEffect }
+        if (skipped) {
+            onComplete(); return@LaunchedEffect
+        }
 
         // Phase 3: TYPING (6 lines × ~360ms = ~2200ms)
         phase = IntroPhase.TYPING
@@ -183,7 +208,9 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             }
         }
         kotlinx.coroutines.delay(300)
-        if (skipped) { onComplete(); return@LaunchedEffect }
+        if (skipped) {
+            onComplete(); return@LaunchedEffect
+        }
 
         // Phase 4: FLASH
         phase = IntroPhase.FLASH
@@ -206,11 +233,11 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                 skipped = true
             }
     ) {
-        val density   = LocalDensity.current
-        val screenW   = with(density) { maxWidth.toPx() }
-        val screenH   = with(density) { maxHeight.toPx() }
-        val colW      = with(density) { 16.dp.toPx() }
-        val pixSize   = with(density) { 7.dp.toPx() }
+        val density = LocalDensity.current
+        val screenW = with(density) { maxWidth.toPx() }
+        val screenH = with(density) { maxHeight.toPx() }
+        val colW = with(density) { 16.dp.toPx() }
+        val pixSize = with(density) { 7.dp.toPx() }
         with(density) { 13.sp.toPx() }
 
         // Matrix columns — stable per screen width
@@ -218,9 +245,9 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             val n = (screenW / colW).toInt() + 2
             Array(n) { i ->
                 MatrixColumn(
-                    x      = i * colW,
-                    headY  = -Random.nextFloat() * screenH,
-                    speed  = colW * (0.25f + Random.nextFloat() * 0.65f),
+                    x = i * colW,
+                    headY = -Random.nextFloat() * screenH,
+                    speed = colW * (0.25f + Random.nextFloat() * 0.65f),
                 )
             }
         }
@@ -239,17 +266,17 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             @Suppress("UNUSED_VARIABLE")
             val unused = rainTick // ensure recomposition on each tick
 
-            val spriteW   = AGENT_SPRITE[0].size * pixSize
-            val spriteH   = AGENT_SPRITE.size    * pixSize
-            val spriteX   = (size.width  - spriteW) / 2f
-            val spriteY   = size.height * 0.12f
+            val spriteW = AGENT_SPRITE[0].size * pixSize
+            val spriteH = AGENT_SPRITE.size * pixSize
+            val spriteX = (size.width - spriteW) / 2f
+            val spriteY = size.height * 0.12f
 
             // ── Rain alpha by phase ───────────────────────────────────────
             val rainAlpha = when (phase) {
-                IntroPhase.MATRIX      -> 1.00f
+                IntroPhase.MATRIX -> 1.00f
                 IntroPhase.MATERIALIZE -> 1f - materializeProgress * 0.55f
-                IntroPhase.TYPING      -> 0.30f
-                IntroPhase.FLASH       -> 0.12f
+                IntroPhase.TYPING -> 0.30f
+                IntroPhase.FLASH -> 0.12f
             }
 
             // ── Matrix rain ───────────────────────────────────────────────
@@ -257,7 +284,7 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                 col.trail.forEachIndexed { idx, ch ->
                     val charY = col.headY - idx * colW
                     if (charY < -colW || charY > size.height) return@forEachIndexed
-                    val fade  = (1f - idx.toFloat() / col.trail.size.coerceAtLeast(1))
+                    val fade = (1f - idx.toFloat() / col.trail.size.coerceAtLeast(1))
                     val alpha = (fade * rainAlpha * if (idx == 0) 1f else 0.78f).coerceIn(0f, 1f)
                     val color = when {
                         idx == 0 -> Color.White.copy(alpha = alpha)
@@ -267,12 +294,12 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                     }
                     drawText(
                         textMeasurer = textMeasurer,
-                        text         = ch.toString(),
-                        topLeft      = Offset(col.x, charY),
-                        style        = TextStyle(
-                            color      = color,
+                        text = ch.toString(),
+                        topLeft = Offset(col.x, charY),
+                        style = TextStyle(
+                            color = color,
                             fontFamily = FontFamily.Monospace,
-                            fontSize   = 13.sp,
+                            fontSize = 13.sp,
                             fontWeight = if (idx == 0) FontWeight.Bold else FontWeight.Normal
                         ),
                     )
@@ -284,9 +311,9 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
 
                 // Soft glow behind sprite
                 drawRect(
-                    color    = C_GREEN.copy(alpha = 0.06f * materializeProgress),
-                    topLeft  = Offset(spriteX - 20f, spriteY - 20f),
-                    size     = Size(spriteW + 40f, spriteH + 40f),
+                    color = C_GREEN.copy(alpha = 0.06f * materializeProgress),
+                    topLeft = Offset(spriteX - 20f, spriteY - 20f),
+                    size = Size(spriteW + 40f, spriteH + 40f),
                 )
 
                 // Arm pulse offset (row 14 bounces ±pixSize while typing)
@@ -298,30 +325,31 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                         if (v == 0) return@forEachIndexed
                         // Reveal: pixel appears once materializeProgress exceeds its threshold
                         if (phase == IntroPhase.MATERIALIZE &&
-                            materializeProgress <= revealThresholds[row][col]) return@forEachIndexed
+                            materializeProgress <= revealThresholds[row][col]
+                        ) return@forEachIndexed
 
                         val yOff = if (row == 14) armPulse else 0f
-                        val px   = spriteX + col * pixSize
-                        val py   = spriteY + row * pixSize + yOff
+                        val px = spriteX + col * pixSize
+                        val py = spriteY + row * pixSize + yOff
 
                         val baseColor = when (v) {
-                            1    -> C_GREEN
-                            2    -> C_CYAN
-                            3    -> C_DARK
-                            4    -> C_GLOW
+                            1 -> C_GREEN
+                            2 -> C_CYAN
+                            3 -> C_DARK
+                            4 -> C_GLOW
                             else -> Color.Transparent
                         }
                         drawRect(
-                            color   = baseColor,
+                            color = baseColor,
                             topLeft = Offset(px, py),
-                            size    = Size(pixSize - 1f, pixSize - 1f),
+                            size = Size(pixSize - 1f, pixSize - 1f),
                         )
                         // 1-pixel highlight on body/visor pixels
                         if (v == 1 || v == 2) {
                             drawRect(
-                                color   = Color.White.copy(alpha = 0.18f),
+                                color = Color.White.copy(alpha = 0.18f),
                                 topLeft = Offset(px, py),
-                                size    = Size(2f, 2f),
+                                size = Size(2f, 2f),
                             )
                         }
                     }
@@ -332,43 +360,43 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                     val cursorX = spriteX + AGENT_SPRITE[14].size * pixSize + 4f
                     val cursorY = spriteY + 14 * pixSize + armPulse
                     drawRect(
-                        color   = C_CYAN,
+                        color = C_CYAN,
                         topLeft = Offset(cursorX, cursorY),
-                        size    = Size(pixSize * 0.6f, pixSize),
+                        size = Size(pixSize * 0.6f, pixSize),
                     )
                 }
             }
 
             // ── Boot progress bar ─────────────────────────────────────────
             val overallProgress = when (phase) {
-                IntroPhase.MATRIX      -> rainTick.toFloat() / (2500f / 50f)
+                IntroPhase.MATRIX -> rainTick.toFloat() / (2500f / 50f)
                 IntroPhase.MATERIALIZE -> 0.40f + materializeProgress * 0.35f
-                IntroPhase.TYPING      -> 0.75f + (visibleLines.toFloat() / STATUS_LINES.size) * 0.20f
-                IntroPhase.FLASH       -> 0.95f + flashAlpha * 0.05f
+                IntroPhase.TYPING -> 0.75f + (visibleLines.toFloat() / STATUS_LINES.size) * 0.20f
+                IntroPhase.FLASH -> 0.95f + flashAlpha * 0.05f
             }.coerceIn(0f, 1f)
 
-            val barH    = 3f
-            val barY    = size.height - 32f
+            val barH = 3f
+            val barY = size.height - 32f
             val barMaxW = size.width * 0.88f
-            val barX    = (size.width - barMaxW) / 2f
+            val barX = (size.width - barMaxW) / 2f
             // Track
             drawRect(
-                color   = C_GREEN.copy(alpha = 0.15f),
+                color = C_GREEN.copy(alpha = 0.15f),
                 topLeft = Offset(barX, barY),
-                size    = Size(barMaxW, barH),
+                size = Size(barMaxW, barH),
             )
             // Fill
             drawRect(
-                color   = C_GREEN.copy(alpha = 0.9f),
+                color = C_GREEN.copy(alpha = 0.9f),
                 topLeft = Offset(barX, barY),
-                size    = Size(barMaxW * overallProgress, barH),
+                size = Size(barMaxW * overallProgress, barH),
             )
             // Tip glow
             if (overallProgress > 0f) {
                 drawRect(
-                    color   = Color.White.copy(alpha = 0.7f),
+                    color = Color.White.copy(alpha = 0.7f),
                     topLeft = Offset(barX + barMaxW * overallProgress - 2f, barY - 1f),
-                    size    = Size(4f, barH + 2f),
+                    size = Size(4f, barH + 2f),
                 )
             }
 
@@ -376,9 +404,9 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             var scanY = 0f
             while (scanY < size.height) {
                 drawLine(
-                    color       = Color.Black.copy(alpha = 0.08f),
-                    start       = Offset(0f, scanY),
-                    end         = Offset(size.width, scanY),
+                    color = Color.Black.copy(alpha = 0.08f),
+                    start = Offset(0f, scanY),
+                    end = Offset(size.width, scanY),
                     strokeWidth = 2f,
                 )
                 scanY += 4f
@@ -387,9 +415,9 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             // ── Flash overlay ─────────────────────────────────────────────
             if (flashAlpha > 0f) {
                 drawRect(
-                    color   = C_GREEN.copy(alpha = flashAlpha * 0.85f),
+                    color = C_GREEN.copy(alpha = flashAlpha * 0.85f),
                     topLeft = Offset.Zero,
-                    size    = size,
+                    size = size,
                 )
             }
         }
@@ -399,14 +427,14 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
         // GENESIS-OS header (TYPING + FLASH phases)
         if (phase == IntroPhase.TYPING || phase == IntroPhase.FLASH) {
             Text(
-                text       = "◈  G E N E S I S - O S  ◈",
-                color      = C_GREEN,
+                text = "◈  G E N E S I S - O S  ◈",
+                color = C_GREEN,
                 fontFamily = LEDFontFamily,
                 fontWeight = FontWeight.Black,
-                fontSize   = 16.sp,
+                fontSize = 16.sp,
                 letterSpacing = 4.sp,
-                textAlign  = TextAlign.Center,
-                modifier   = Modifier
+                textAlign = TextAlign.Center,
+                modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.TopCenter)
                     .padding(top = 24.dp),
@@ -426,11 +454,11 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
                 STATUS_LINES.take(visibleLines).forEachIndexed { i, line ->
                     val isLast = i == visibleLines - 1
                     Text(
-                        text       = "> $line${if (isLast && (typingFrame % 6) < 3) "_" else ""}",
-                        color      = if (isLast) C_GREEN else C_GREEN.copy(alpha = 0.60f),
+                        text = "> $line${if (isLast && (typingFrame % 6) < 3) "_" else ""}",
+                        color = if (isLast) C_GREEN else C_GREEN.copy(alpha = 0.60f),
                         fontFamily = FontFamily.Monospace,
-                        fontSize   = 11.sp,
-                        modifier   = Modifier.padding(bottom = 4.dp),
+                        fontSize = 11.sp,
+                        modifier = Modifier.padding(bottom = 4.dp),
                     )
                 }
             }
@@ -445,16 +473,26 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
             contentAlignment = Alignment.Center,
         ) {
             val pct = when (phase) {
-                IntroPhase.MATRIX      -> (rainTick.toFloat() / (2500f / 50f) * 40f).toInt().coerceIn(0, 40)
-                IntroPhase.MATERIALIZE -> (40 + (materializeProgress * 35f).toInt()).coerceIn(40, 75)
-                IntroPhase.TYPING      -> (75 + (visibleLines.toFloat() / STATUS_LINES.size * 20f).toInt()).coerceIn(75, 95)
-                IntroPhase.FLASH       -> 100
+                IntroPhase.MATRIX -> (rainTick.toFloat() / (2500f / 50f) * 40f).toInt()
+                    .coerceIn(0, 40)
+
+                IntroPhase.MATERIALIZE -> (40 + (materializeProgress * 35f).toInt()).coerceIn(
+                    40,
+                    75
+                )
+
+                IntroPhase.TYPING -> (75 + (visibleLines.toFloat() / STATUS_LINES.size * 20f).toInt()).coerceIn(
+                    75,
+                    95
+                )
+
+                IntroPhase.FLASH -> 100
             }
             Text(
-                text       = "BOOT  $pct%",
-                color      = C_GREEN.copy(alpha = 0.55f),
+                text = "BOOT  $pct%",
+                color = C_GREEN.copy(alpha = 0.55f),
                 fontFamily = FontFamily.Monospace,
-                fontSize   = 9.sp,
+                fontSize = 9.sp,
                 letterSpacing = 2.sp,
             )
         }
@@ -462,11 +500,11 @@ fun TerminalBootIntroScreen(onComplete: () -> Unit) {
         // Tap-to-skip hint
         if (phase == IntroPhase.MATRIX || phase == IntroPhase.MATERIALIZE) {
             Text(
-                text       = "tap anywhere to skip",
-                color      = C_GREEN.copy(alpha = 0.25f),
+                text = "tap anywhere to skip",
+                color = C_GREEN.copy(alpha = 0.25f),
                 fontFamily = FontFamily.Monospace,
-                fontSize   = 9.sp,
-                modifier   = Modifier
+                fontSize = 9.sp,
+                modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(end = 16.dp, bottom = 40.dp),
             )

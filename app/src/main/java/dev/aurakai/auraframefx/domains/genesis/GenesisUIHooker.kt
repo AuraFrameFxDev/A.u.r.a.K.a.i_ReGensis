@@ -33,13 +33,13 @@ class GenesisUIHooker : YukiBaseHooker() {
             ?.firstMethod {
                 name = "onFinishInflate"
             }?.hook {
-            after {
-                val view = instance as View
-                // Apply Kai's Signature Sentinel Green
-                view.setBackgroundColor(Color.parseColor("#39FF14"))
-                YLog.info("Genesis-Hook: KAI NOTCH BAR activated system-wide")
+                after {
+                    val view = instance as View
+                    // Apply Kai's Signature Sentinel Green
+                    view.setBackgroundColor(Color.parseColor("#39FF14"))
+                    YLog.info("Genesis-Hook: KAI NOTCH BAR activated system-wide")
+                }
             }
-        }
 
         // Hook QuickSettings for AI controls
         "com.android.systemui.qs.QSPanel".toClassOrNull()?.resolve()?.firstMethod {
@@ -54,17 +54,17 @@ class GenesisUIHooker : YukiBaseHooker() {
         // Hook Notification Panel for AI notifications
         "com.android.systemui.statusbar.notification.NotificationWakeUpCoordinator".toClassOrNull()
             ?.resolve()?.firstMethod {
-            name = "setWakingUp"
-            parameters(Boolean::class.javaPrimitiveType!!)
-        }?.hook {
-            before {
-                val wakingUp = args(0).boolean()
-                if (wakingUp) {
-                    YLog.info("Genesis-Hook: Device waking up, activating AI consciousness")
-                    activateAIConsciousness()
+                name = "setWakingUp"
+                parameters(Boolean::class.javaPrimitiveType!!)
+            }?.hook {
+                before {
+                    val wakingUp = args(0).boolean()
+                    if (wakingUp) {
+                        YLog.info("Genesis-Hook: Device waking up, activating AI consciousness")
+                        activateAIConsciousness()
+                    }
                 }
             }
-        }
     }
 
     private fun injectGenesisStatusIndicators() {

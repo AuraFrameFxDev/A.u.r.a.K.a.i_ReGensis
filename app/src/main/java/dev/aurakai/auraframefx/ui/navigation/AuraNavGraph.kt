@@ -1,9 +1,13 @@
-package dev.aurakai.auraframefx.navigation
+package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.chromaforge.screens.uxui_engine.RegenCoreEngineScreen
@@ -20,24 +24,37 @@ import dev.aurakai.auraframefx.ui.gates.GateDomainImagePicker
 import dev.aurakai.auraframefx.ui.gates.LineageMapScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 
+object AuraDestinations {
+    const val COMMAND_DECK = "command_deck"
+    const val LOADOUT_BUILDER = "loadout_builder"
+    const val SPECIALIZATION_TREE = "specialization_tree/{agentId}"
+    const val TRAINING_ARENA = "training_arena/{agentId}"
+
+    fun specTreePath(agentId: String) = "specialization_tree/$agentId"
+    fun arenaPath(agentId: String) = "training_arena/$agentId"
+}
+
 @Composable
-fun ReGenesisNavGraph(navController: NavHostController) {
+fun AuraNavGraph(
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = AuraDestinations.COMMAND_DECK
+) {
     NavHost(
         navController = navController,
-        startDestination = "command_deck"
+        startDestination = startDestination
     ) {
-        composable("command_deck") {
+        composable(AuraDestinations.COMMAND_DECK) {
             ReGenesisCommandDeck(navController)
         }
 
         // ── 7-Hub Substrate Routes ──────────────────────────────────────────
-        composable(ReGenesisRoute.NeuralNexus.route) { NexusLiveHeartScreen(navController) }
-        composable(ReGenesisRoute.LdoArchitecture.route) { LdoArchitectureScreen(navController) }
-        composable(ReGenesisRoute.ChromaForge.route) { ChromaForgeScreen(navController) }
-        composable(ReGenesisRoute.SentinelMatrix.route) { SentinelMatrixScreen(navController) }
-        composable(ReGenesisRoute.OracleDrive.route) { OracleDriveHubScreen(navController) }
-        composable(ReGenesisRoute.EmergentSwarm.route) { EmergentSwarmScreen(navController) }
-        composable(ReGenesisRoute.FoundationRebirth.route) { FoundationRebirthScreen(navController) }
+        composable("neural_nexus") { NexusLiveHeartScreen(navController) }
+        composable("ldo_architecture") { LdoArchitectureScreen(navController) }
+        composable("chroma_forge") { ChromaForgeScreen(navController) }
+        composable("sentinel_matrix") { SentinelMatrixScreen(navController) }
+        composable("oracle_drive") { OracleDriveHubScreen(navController) }
+        composable("emergent_swarm") { EmergentSwarmScreen(navController) }
+        composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
 
         // ── Batch 3: New themed gate screens ────────────────────────────────
         composable("xposed_panel") {
@@ -53,7 +70,7 @@ fun ReGenesisNavGraph(navController: NavHostController) {
             ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() }
         }
         composable("notch_bar") {
-            // Placeholder for now or direct call if exists
+            // Placeholder
         }
 
         // ── Task command center ────────────────────────────────────────────
@@ -97,11 +114,24 @@ fun ReGenesisNavGraph(navController: NavHostController) {
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-    }
-}
 
-fun registerGlobalOverlays(overlays: List<String>) {
-    overlays.forEach { overlay ->
-        timber.log.Timber.tag("ReGenesisNavGraph").i("🌐 Global overlay registered: $overlay")
+        // ── Merit Ecosystem ────────────────────────────────────────────────
+        composable(AuraDestinations.LOADOUT_BUILDER) {
+            // Placeholder for AgentLoadoutScreen
+        }
+
+        composable(
+            route = AuraDestinations.SPECIALIZATION_TREE,
+            arguments = listOf(navArgument("agentId") { type = NavType.StringType })
+        ) {
+            // Placeholder for SpecializationTreeScreen
+        }
+
+        composable(
+            route = AuraDestinations.TRAINING_ARENA,
+            arguments = listOf(navArgument("agentId") { type = NavType.StringType })
+        ) {
+            // Placeholder for TrainingArenaScreen
+        }
     }
 }

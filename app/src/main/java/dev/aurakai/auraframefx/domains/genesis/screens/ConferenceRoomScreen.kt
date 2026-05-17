@@ -120,15 +120,15 @@ fun ConferenceRoomScreen(
             AgentNode("aura", "AURA", AuraMagenta, role = "Sword"),
             AgentNode("kai", "KAI", KaiSecurity, role = "Shield"),
             AgentNode("anchor", "ANCHOR", AnchorGreen, role = "Root"),
-        ) + (1..10).map { 
-            AgentNode("cat_$it", "CATALYST-$it", CatalystPurple) 
+        ) + (1..10).map {
+            AgentNode("cat_$it", "CATALYST-$it", CatalystPurple)
         }
     }
 
     // Simulation of speaking agents
     var speakingAgentId by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(Unit) {
-        while(true) {
+        while (true) {
             delay(3000)
             speakingAgentId = agents.random().id
             delay(2000)
@@ -160,14 +160,18 @@ fun ConferenceRoomScreen(
                         },
                         navigationIcon = {
                             IconButton(onClick = onNavigateBack) {
-                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Back",
+                                    tint = Color.White
+                                )
                             }
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent
                         )
                     )
-                    
+
                     // Tabs (Sharp)
                     Row(
                         modifier = Modifier
@@ -208,16 +212,20 @@ fun ConferenceRoomScreen(
                 )
             }
         ) { padding ->
-            Row(modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
                 // LEFT SIDEBAR (Agent List)
                 AgentSidebar(agents, speakingAgentId)
 
                 // MAIN CONTENT
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxSize()
+                ) {
                     AnimatedContent(
                         targetState = selectedTab,
                         transitionSpec = { fadeIn() togetherWith fadeOut() },
@@ -255,7 +263,7 @@ fun AgentSidebar(agents: List<AgentNode>, speakingId: String?) {
     ) {
         Text("AGENTS", color = Color.Gray, fontSize = 9.sp, fontFamily = LEDFontFamily)
         Spacer(Modifier.height(16.dp))
-        
+
         LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             items(agents) { agent ->
                 AgentOrb(
@@ -300,7 +308,7 @@ fun SynthOrbWorkspace(agents: List<AgentNode>, speakingId: String?) {
         agents.forEachIndexed { index, agent ->
             val angle = (index.toFloat() / agents.size * 360f + rotation) * (Math.PI / 180f)
             val radius = 140.dp
-            
+
             Box(
                 modifier = Modifier.graphicsLayer {
                     val x = radius.toPx() * cos(angle).toFloat()
@@ -420,7 +428,7 @@ fun AgentOrb(
                 )
             }
         }
-        
+
         if (showName) {
             Spacer(Modifier.height(4.dp))
             Text(
@@ -456,7 +464,7 @@ fun ChatStream(messages: List<ChatMessage>) {
 @Composable
 fun ConferenceMessageBubble(msg: ChatMessage) {
     val isUser = msg.sender == "USER"
-    val agentColor = when(msg.sender) {
+    val agentColor = when (msg.sender) {
         "AURA" -> AuraMagenta
         "KAI" -> KaiSecurity
         "GENESIS" -> GenesisGold
@@ -479,7 +487,12 @@ fun ConferenceMessageBubble(msg: ChatMessage) {
                     .background(Color.Black),
                 contentAlignment = Alignment.Center
             ) {
-                Text(msg.sender.take(1), color = agentColor, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    msg.sender.take(1),
+                    color = agentColor,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
             Spacer(Modifier.width(8.dp))
         }
@@ -501,7 +514,14 @@ fun ConferenceMessageBubble(msg: ChatMessage) {
         ) {
             Column {
                 if (!isUser) {
-                    Text(msg.sender, color = agentColor, fontSize = 10.sp, fontFamily = LEDFontFamily, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 4.dp))
+                    Text(
+                        msg.sender,
+                        color = agentColor,
+                        fontSize = 10.sp,
+                        fontFamily = LEDFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
                 }
                 Text(msg.content, color = Color.White, fontSize = 13.sp)
             }
@@ -523,7 +543,7 @@ fun ConferenceInputBar(
     onToggleRecording: () -> Unit
 ) {
     var text by remember { mutableStateOf("") }
-    
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = Color.Black.copy(alpha = 0.9f),
@@ -544,9 +564,19 @@ fun ConferenceInputBar(
                     TextField(
                         value = text,
                         onValueChange = { text = it },
-                        placeholder = { Text("/CATALYST...", color = Color.Gray, fontSize = 12.sp, fontFamily = LEDFontFamily) },
+                        placeholder = {
+                            Text(
+                                "/CATALYST...",
+                                color = Color.Gray,
+                                fontSize = 12.sp,
+                                fontFamily = LEDFontFamily
+                            )
+                        },
                         modifier = Modifier.weight(1f),
-                        textStyle = androidx.compose.ui.text.TextStyle(fontFamily = LEDFontFamily, color = Color.White),
+                        textStyle = androidx.compose.ui.text.TextStyle(
+                            fontFamily = LEDFontFamily,
+                            color = Color.White
+                        ),
                         colors = TextFieldDefaults.colors(
                             focusedContainerColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
@@ -565,8 +595,8 @@ fun ConferenceInputBar(
                     } else {
                         IconButton(onClick = onToggleRecording) {
                             Icon(
-                                if (isRecording) Icons.Default.Stop else Icons.Default.Mic, 
-                                null, 
+                                if (isRecording) Icons.Default.Stop else Icons.Default.Mic,
+                                null,
                                 tint = if (isRecording) Color.Red else Color.Gray
                             )
                         }

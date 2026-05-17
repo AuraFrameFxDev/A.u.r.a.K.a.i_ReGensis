@@ -133,8 +133,8 @@ fun OracleDriveScreen(
                     Icon(Icons.Default.Sync, contentDescription = null, tint = Color.White)
                     Spacer(Modifier.width(12.dp))
                     Text(
-                        "INITIATE STRESS-SYNC", 
-                        fontWeight = FontWeight.Black, 
+                        "INITIATE STRESS-SYNC",
+                        fontWeight = FontWeight.Black,
                         fontFamily = LEDFontFamily,
                         letterSpacing = 2.sp
                     )
@@ -156,7 +156,7 @@ fun OracleDriveScreen(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            "RESONANCE LEVEL: ${state.consciousnessLevel}", 
+                            "RESONANCE LEVEL: ${state.consciousnessLevel}",
                             color = Color(0xFF00FFFF),
                             fontWeight = FontWeight.Black,
                             fontFamily = LEDFontFamily

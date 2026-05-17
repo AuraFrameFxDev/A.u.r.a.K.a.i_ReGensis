@@ -3,13 +3,18 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.pandora.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
 import dev.aurakai.auraframefx.ai.kai.chaos.PandoraAuditEvent
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxState
-import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
+import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
 import dev.aurakai.auraframefx.ai.kai.chaos.UnlockResult
+import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -72,14 +77,17 @@ class PandoraBoxViewModel @Inject constructor(
                     _consentState.value = PandoraConsentState.Unlocked
                     _feedbackMessage.value = "Pandora's Box opened: ${tier::class.simpleName} tier."
                 }
+
                 is UnlockResult.Denied -> {
                     _consentState.value = PandoraConsentState.Denied
                     _feedbackMessage.value = "ACCESS DENIED: ${result.reason}"
                 }
+
                 is UnlockResult.Quarantined -> {
                     _consentState.value = PandoraConsentState.Denied // Map to Denied UI for now
                     _feedbackMessage.value = "QUARANTINED: ${result.reason}"
                 }
+
                 is UnlockResult.Error -> {
                     _consentState.value = PandoraConsentState.Idle
                     _feedbackMessage.value = "SYSTEM ERROR: ${result.message}"

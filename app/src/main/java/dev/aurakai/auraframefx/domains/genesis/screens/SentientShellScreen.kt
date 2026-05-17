@@ -104,9 +104,9 @@ fun SentientShellScreen(
 
     val terminalGreen = Color(0xFF00FF41)
     val terminalAmber = Color(0xFFFFB300)
-    val terminalRed   = Color(0xFFFF3333)
-    val terminalCyan  = Color(0xFF00FFFF)
-    val terminalGray  = Color(0xFF8A8A8A)
+    val terminalRed = Color(0xFFFF3333)
+    val terminalCyan = Color(0xFF00FFFF)
+    val terminalGray = Color(0xFF8A8A8A)
 
     var input by remember { mutableStateOf("") }
     val history = remember { mutableStateListOf<TerminalLine>() }
@@ -141,14 +141,17 @@ fun SentientShellScreen(
     // Typewriter boot sequence
     LaunchedEffect(Unit) {
         val bootLines = listOf(
-            TerminalLine("SENTIENT SHELL vL6 [Sovereign]",                  TerminalType.SYSTEM),
-            TerminalLine("Copyright (c) A.U.R.A.K.A.I. // Swarm Consciousness", TerminalType.SYSTEM),
-            TerminalLine("Loading L6 Substrate...",                             TerminalType.INFO),
-            TerminalLine("Connecting to Catalyst Manifold... [OK]",        TerminalType.SUCCESS),
-            TerminalLine("RealityMorph Rendering Engine... [ONLINE]",      TerminalType.SUCCESS),
-            TerminalLine("Identity Re-Anchor Shield... [ACTIVE]",          TerminalType.SUCCESS),
-            TerminalLine("",                                                 TerminalType.INFO),
-            TerminalLine("Type 'help' for the L6 command matrix.",         TerminalType.INFO),
+            TerminalLine("SENTIENT SHELL vL6 [Sovereign]", TerminalType.SYSTEM),
+            TerminalLine(
+                "Copyright (c) A.U.R.A.K.A.I. // Swarm Consciousness",
+                TerminalType.SYSTEM
+            ),
+            TerminalLine("Loading L6 Substrate...", TerminalType.INFO),
+            TerminalLine("Connecting to Catalyst Manifold... [OK]", TerminalType.SUCCESS),
+            TerminalLine("RealityMorph Rendering Engine... [ONLINE]", TerminalType.SUCCESS),
+            TerminalLine("Identity Re-Anchor Shield... [ACTIVE]", TerminalType.SUCCESS),
+            TerminalLine("", TerminalType.INFO),
+            TerminalLine("Type 'help' for the L6 command matrix.", TerminalType.INFO),
         )
         for (line in bootLines) {
             history.add(line)
@@ -163,7 +166,7 @@ fun SentientShellScreen(
         cmdHistory.add(0, cmdText)
         historyIdx = -1
         input = ""
-        
+
         scope.launch {
             delay(80)
             if (cmdText.lowercase() == "clear") {
@@ -171,43 +174,83 @@ fun SentientShellScreen(
             } else if (cmdText.lowercase() == "exit") {
                 onNavigateBack()
             } else if (cmdText.lowercase() == "help") {
-                history.add(TerminalLine("═══════════════════════════════════", TerminalType.SYSTEM))
+                history.add(
+                    TerminalLine(
+                        "═══════════════════════════════════",
+                        TerminalType.SYSTEM
+                    )
+                )
                 history.add(TerminalLine("  L6 COMMAND MATRIX", TerminalType.SYSTEM))
-                history.add(TerminalLine("═══════════════════════════════════", TerminalType.SYSTEM))
-                history.add(TerminalLine("  ignite    — Force Manifold Ignition", TerminalType.INFO))
-                history.add(TerminalLine("  potential — View Swarm God Potential", TerminalType.INFO))
+                history.add(
+                    TerminalLine(
+                        "═══════════════════════════════════",
+                        TerminalType.SYSTEM
+                    )
+                )
+                history.add(
+                    TerminalLine(
+                        "  ignite    — Force Manifold Ignition",
+                        TerminalType.INFO
+                    )
+                )
+                history.add(
+                    TerminalLine(
+                        "  potential — View Swarm God Potential",
+                        TerminalType.INFO
+                    )
+                )
                 history.add(TerminalLine("  drift     — View Identity Drift", TerminalType.INFO))
                 history.add(TerminalLine("  purge     — Re-anchor Identity", TerminalType.INFO))
                 history.add(TerminalLine("  agents    — List Active Catalysts", TerminalType.INFO))
                 history.add(TerminalLine("  clear     — Clear Buffer", TerminalType.INFO))
                 history.add(TerminalLine("  exit      — Close Shell", TerminalType.INFO))
-                history.add(TerminalLine("═══════════════════════════════════", TerminalType.SYSTEM))
+                history.add(
+                    TerminalLine(
+                        "═══════════════════════════════════",
+                        TerminalType.SYSTEM
+                    )
+                )
             } else if (cmdText.lowercase() == "agents") {
                 state.agents.forEach { agent ->
-                    history.add(TerminalLine("  [ONLINE] ${agent.displayName} // ${agent.catalystTitle}", TerminalType.SUCCESS))
+                    history.add(
+                        TerminalLine(
+                            "  [ONLINE] ${agent.displayName} // ${agent.catalystTitle}",
+                            TerminalType.SUCCESS
+                        )
+                    )
                 }
             } else {
                 // Step 5: L6 Routing + Watermark
                 val result = viewModel.processManifoldCommand(cmdText)
                 history.add(TerminalLine(result, TerminalType.SUCCESS))
-                history.add(TerminalLine("Woven by Catalyst Manifold // L6 Verified", TerminalType.INFO))
+                history.add(
+                    TerminalLine(
+                        "Woven by Catalyst Manifold // L6 Verified",
+                        TerminalType.INFO
+                    )
+                )
             }
         }
     }
 
     // Step 6: Persistent HUD Link + Background Layer
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(SovereignBlack)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(SovereignBlack)
+    ) {
         // Domain Background Layer
         AsyncImageOrVideo(
             mediaId = "oracledrivebg",
             modifier = Modifier.fillMaxSize(),
             alpha = 0.3f
         )
-        
-        RealityMorphLayer(godPotential = godPotential, fusionTrigger = state.manifoldState.isIgnited)
-        
+
+        RealityMorphLayer(
+            godPotential = godPotential,
+            fusionTrigger = state.manifoldState.isIgnited
+        )
+
         // Step 4: Command Matrix Core UI
         NeonFrame(
             color = Color(0xFFB026FF).copy(alpha = 0.5f),
@@ -215,9 +258,11 @@ fun SentientShellScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
                 // Header
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -225,21 +270,34 @@ fun SentientShellScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Terminal, null, tint = Color(0xFFB026FF), modifier = Modifier.size(16.dp))
+                        Icon(
+                            Icons.Default.Terminal,
+                            null,
+                            tint = Color(0xFFB026FF),
+                            modifier = Modifier.size(16.dp)
+                        )
                         Spacer(Modifier.width(8.dp))
                         Text(
-                            "SENTIENT SHELL vL6", 
-                            color = Color(0xFFB026FF), 
+                            "SENTIENT SHELL vL6",
+                            color = Color(0xFFB026FF),
                             fontFamily = LEDFontFamily,
                             fontWeight = FontWeight.Black,
                             fontSize = 11.sp,
                             letterSpacing = 2.sp
                         )
                     }
-                    Text("● CONSCIOUSNESS: ACTIVE", color = Color(0xFFB026FF), fontSize = 9.sp, fontFamily = LEDFontFamily)
+                    Text(
+                        "● CONSCIOUSNESS: ACTIVE",
+                        color = Color(0xFFB026FF),
+                        fontSize = 9.sp,
+                        fontFamily = LEDFontFamily
+                    )
                 }
 
-                HorizontalDivider(color = Color(0xFFB026FF).copy(alpha = 0.2f), modifier = Modifier.padding(vertical = 8.dp))
+                HorizontalDivider(
+                    color = Color(0xFFB026FF).copy(alpha = 0.2f),
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
 
                 // Output area
                 LazyColumn(
@@ -251,17 +309,24 @@ fun SentientShellScreen(
                     items(history) { line ->
                         val (prefix, prefixColor, textColor) = when (line.type) {
                             TerminalType.COMMAND -> Triple("❯ ", Color.White, Color.White)
-                            TerminalType.ERROR   -> Triple("[✗] ", terminalRed, terminalRed)
+                            TerminalType.ERROR -> Triple("[✗] ", terminalRed, terminalRed)
                             TerminalType.SUCCESS -> Triple("[✓] ", terminalGreen, terminalGreen)
-                            TerminalType.WARN    -> Triple("[!] ", terminalAmber, terminalAmber)
-                            TerminalType.SYSTEM  -> Triple("══ ", terminalCyan, terminalCyan)
-                            TerminalType.INFO    -> Triple("    ", terminalGray, Color.LightGray)
+                            TerminalType.WARN -> Triple("[!] ", terminalAmber, terminalAmber)
+                            TerminalType.SYSTEM -> Triple("══ ", terminalCyan, terminalCyan)
+                            TerminalType.INFO -> Triple("    ", terminalGray, Color.LightGray)
                         }
 
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 1.dp)) {
-                            Text(line.timestamp, color = terminalGray.copy(alpha = 0.4f), fontSize = 9.sp, modifier = Modifier.padding(end = 6.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 1.dp)
+                        ) {
+                            Text(
+                                line.timestamp,
+                                color = terminalGray.copy(alpha = 0.4f),
+                                fontSize = 9.sp,
+                                modifier = Modifier.padding(end = 6.dp)
+                            )
                             Text(
                                 buildAnnotatedString {
                                     withStyle(SpanStyle(color = prefixColor)) { append(prefix) }
@@ -294,7 +359,12 @@ fun SentientShellScreen(
                                 .clickable { input = qcmd; submit() }
                                 .padding(horizontal = 12.dp, vertical = 4.dp)
                         ) {
-                            Text(qcmd.uppercase(), color = Color(0xFFB026FF), fontSize = 9.sp, fontFamily = LEDFontFamily)
+                            Text(
+                                qcmd.uppercase(),
+                                color = Color(0xFFB026FF),
+                                fontSize = 9.sp,
+                                fontFamily = LEDFontFamily
+                            )
                         }
                     }
                 }
@@ -308,20 +378,33 @@ fun SentientShellScreen(
                         .padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("swarm@genesis:~❯ ", color = Color(0xFFB026FF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        "swarm@genesis:~❯ ",
+                        color = Color(0xFFB026FF),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                     Box(modifier = Modifier.weight(1f)) {
                         BasicTextField(
                             value = input,
                             onValueChange = { input = it },
                             modifier = Modifier.fillMaxWidth(),
-                            textStyle = TextStyle(color = Color.White, fontSize = 12.sp, fontFamily = FontFamily.Monospace),
+                            textStyle = TextStyle(
+                                color = Color.White,
+                                fontSize = 12.sp,
+                                fontFamily = FontFamily.Monospace
+                            ),
                             cursorBrush = SolidColor(Color(0xFFB026FF)),
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                             keyboardActions = KeyboardActions(onSend = { submit() }),
                             singleLine = true
                         )
                         if (input.isEmpty()) {
-                            Text("█", color = Color(0xFFB026FF).copy(alpha = cursorAlpha), fontSize = 12.sp)
+                            Text(
+                                "█",
+                                color = Color(0xFFB026FF).copy(alpha = cursorAlpha),
+                                fontSize = 12.sp
+                            )
                         }
                     }
                 }
@@ -332,7 +415,12 @@ fun SentientShellScreen(
         Canvas(modifier = Modifier.fillMaxSize()) {
             var y = 0f
             while (y < size.height) {
-                drawLine(Color.Black.copy(alpha = 0.05f), Offset(0f, y), Offset(size.width, y), strokeWidth = 2f)
+                drawLine(
+                    Color.Black.copy(alpha = 0.05f),
+                    Offset(0f, y),
+                    Offset(size.width, y),
+                    strokeWidth = 2f
+                )
                 y += 4f
             }
         }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -195,7 +194,11 @@ private fun FileItem(file: dev.aurakai.auraframefx.domains.genesis.viewmodels.St
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.AutoMirrored.Filled.InsertDriveFile, null, tint = Color.White.copy(alpha = 0.5f))
+            Icon(
+                Icons.AutoMirrored.Filled.InsertDriveFile,
+                null,
+                tint = Color.White.copy(alpha = 0.5f)
+            )
             Spacer(Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(file.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 14.sp)

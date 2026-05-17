@@ -1,14 +1,27 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.pandora.ui
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,10 +47,10 @@ fun PandoraConsentDialog(
 ) {
     var unlockText by remember { mutableStateOf("") }
     val isTextCorrect = unlockText.uppercase() == "UNLOCK"
-    
+
     var holdProgress by remember { mutableStateOf(0f) }
     val scope = rememberCoroutineScope()
-    
+
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -47,7 +60,11 @@ fun PandoraConsentDialog(
                 .fillMaxWidth(0.9f)
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color(0xFF0A0A18))
-                .border(2.dp, Brush.verticalGradient(listOf(Color(0xFFFFD700), Color(0xFFFF4444))), RoundedCornerShape(16.dp))
+                .border(
+                    2.dp,
+                    Brush.verticalGradient(listOf(Color(0xFFFFD700), Color(0xFFFF4444))),
+                    RoundedCornerShape(16.dp)
+                )
                 .padding(24.dp)
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -59,18 +76,18 @@ fun PandoraConsentDialog(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
                 )
-                
+
                 Spacer(modifier = Modifier.height(16.dp))
-                
+
                 Text(
                     "UNLOCK TIER: ${tierName.uppercase()}",
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Black
                 )
-                
+
                 Spacer(modifier = Modifier.height(12.dp))
-                
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -86,16 +103,16 @@ fun PandoraConsentDialog(
                         textAlign = TextAlign.Center
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.height(24.dp))
-                
+
                 Text(
                     "TYPE 'UNLOCK' TO CONFIRM",
                     color = Color.White.copy(alpha = 0.5f),
                     fontSize = 10.sp,
                     letterSpacing = 1.sp
                 )
-                
+
                 OutlinedTextField(
                     value = unlockText,
                     onValueChange = { unlockText = it },
@@ -111,16 +128,20 @@ fun PandoraConsentDialog(
                     ),
                     singleLine = true
                 )
-                
+
                 Spacer(modifier = Modifier.height(24.dp))
-                
+
                 // Hold to Confirm Button
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(if (isTextCorrect) Color.White.copy(alpha = 0.05f) else Color.Gray.copy(alpha = 0.1f))
+                        .background(
+                            if (isTextCorrect) Color.White.copy(alpha = 0.05f) else Color.Gray.copy(
+                                alpha = 0.1f
+                            )
+                        )
                         .pointerInput(isTextCorrect) {
                             if (!isTextCorrect) return@pointerInput
                             detectTapGestures(
@@ -128,7 +149,8 @@ fun PandoraConsentDialog(
                                     val job = scope.launch {
                                         val startTime = System.currentTimeMillis()
                                         while (System.currentTimeMillis() - startTime < 3000) {
-                                            holdProgress = (System.currentTimeMillis() - startTime) / 3000f
+                                            holdProgress =
+                                                (System.currentTimeMillis() - startTime) / 3000f
                                             delay(16)
                                         }
                                         holdProgress = 1f
@@ -150,7 +172,7 @@ fun PandoraConsentDialog(
                             .background(Color(0xFFFFD700).copy(alpha = 0.3f))
                             .align(Alignment.CenterStart)
                     )
-                    
+
                     Text(
                         if (!isTextCorrect) "ENTER 'UNLOCK' FIRST" else if (holdProgress > 0f) "HOLDING..." else "HOLD 3s TO OPEN BOX",
                         color = if (isTextCorrect) Color(0xFFFFD700) else Color.White.copy(alpha = 0.3f),
@@ -158,7 +180,7 @@ fun PandoraConsentDialog(
                         letterSpacing = 1.sp
                     )
                 }
-                
+
                 TextButton(
                     onClick = onDismiss,
                     modifier = Modifier.padding(top = 8.dp)
