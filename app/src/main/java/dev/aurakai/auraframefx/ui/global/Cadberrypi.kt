@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ui.global
 
+import android.content.Intent
 import androidx.compose.animation.core.EaseInOutQuad
 import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.tween
@@ -90,7 +91,15 @@ fun Cadberrypi() {
                 MenuItem("MCP", Icons.Default.Settings) { /* Mission Control Panel */ }
                 MenuItem("Tasks", Icons.Default.List) { /* tasks list */ }
                 MenuItem("REGEN", Icons.Default.Bolt) {
-                    /* Launch Regen Core */
+                    context.startActivity(
+                        Intent(
+                            context,
+                            dev.aurakai.auraframefx.MainActivity::class.java
+                        ).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            putExtra("entry_point", "regen_core")
+                        })
+                    expanded = false
                 }
             }
         }
