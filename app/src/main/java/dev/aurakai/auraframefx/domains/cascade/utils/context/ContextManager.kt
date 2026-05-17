@@ -2,9 +2,9 @@ package dev.aurakai.auraframefx.domains.cascade.utils.context
 
 // import kotlinx.serialization.Contextual // No longer needed for Instant here
 
-import dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
-import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
+import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.AIPipelineConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

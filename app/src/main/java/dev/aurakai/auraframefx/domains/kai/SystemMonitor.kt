@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.monitor
+package dev.aurakai.auraframefx.domains.kai
 
 import javax.inject.Inject
 import javax.inject.Singleton

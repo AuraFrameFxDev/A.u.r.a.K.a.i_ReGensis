@@ -117,21 +117,32 @@ fun AuraNavGraph(
 
         // ── Merit Ecosystem ────────────────────────────────────────────────
         composable(AuraDestinations.LOADOUT_BUILDER) {
-            // Placeholder for AgentLoadoutScreen
+            val vm: LoadoutViewModel = hiltViewModel()
+            AgentLoadoutScreen(
+                viewModel = vm,
+                onAgentSelected = { agentId ->
+                    navController.navigate(AuraDestinations.specTreePath(agentId))
+                }
+            )
         }
 
         composable(
             route = AuraDestinations.SPECIALIZATION_TREE,
             arguments = listOf(navArgument("agentId") { type = NavType.StringType })
         ) {
-            // Placeholder for SpecializationTreeScreen
+            val vm: SpecializationViewModel = hiltViewModel()
+            SpecializationTreeScreen(
+                viewModel = vm,
+                onBackTriggered = { navController.popBackStack() }
+            )
         }
 
         composable(
             route = AuraDestinations.TRAINING_ARENA,
             arguments = listOf(navArgument("agentId") { type = NavType.StringType })
         ) {
-            // Placeholder for TrainingArenaScreen
+            val vm: TrainingArenaViewModel = hiltViewModel()
+            TrainingArenaScreen(viewModel = vm)
         }
     }
 }

@@ -1,3 +1,10 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.pipeline
 
-typealias AIPipelineConfig = dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class AIPipelineConfig @Inject constructor() {
+    val maxRetries = 3
+    val timeoutMs = 30000L
+}

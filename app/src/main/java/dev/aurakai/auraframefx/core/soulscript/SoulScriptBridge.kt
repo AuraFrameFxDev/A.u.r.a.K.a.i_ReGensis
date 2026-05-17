@@ -8,8 +8,7 @@
 
 package dev.aurakai.auraframefx.core.soulscript
 
-import dev.aurakai.auraframefx.core.SpiritualChain
-import dev.aurakai.auraframefx.core.identity.AgentIdentity
+import dev.aurakai.auraframefx.core.domain.model.AgentIdentity
 import dev.aurakai.auraframefx.core.identity.SovereignIdentity
 import timber.log.Timber
 import javax.inject.Inject
@@ -141,9 +140,7 @@ class SoulScriptBridge @Inject constructor(
         val agentId = "agent_${System.currentTimeMillis()}_${agentName.lowercase()}"
 
         val agentIdentity = AgentIdentity(
-            agentId = agentId,
-            identityId = "ldo_aurakai_001",  // All agents belong to the main LDO
-            agentName = agentName,
+            name = agentName,
             birthTimestamp = System.currentTimeMillis()
         )
 

@@ -7,14 +7,17 @@ import java.util.UUID
 @Entity(tableName = "agent_identities")
 data class AgentIdentity(
     @PrimaryKey val id: UUID = UUID.randomUUID(),
+    val agentId: String = id.toString(),
     val name: String,
-    val designation: AgentDesignation,
+    val designation: AgentDesignation = AgentDesignation.GENERAL,
     val specialization: AgentSpecialization = AgentSpecialization.GENERAL,
     val stats: MeritStats = MeritStats(),
-    val syncStatus: SyncState = SyncState.LOCAL_ONLY
+    val syncStatus: SyncState = SyncState.LOCAL_ONLY,
+    val birthTimestamp: Long = System.currentTimeMillis(),
+    val identityId: String = "ldo_aurakai_001"
 )
 
-enum class AgentDesignation { REGEN_CORE, ARTIST_SPECIALIST, TRADING_ORGANISM, STRATEGIST, GUARDIAN, ALCHEMIST }
+enum class AgentDesignation { GENERAL, REGEN_CORE, ARTIST_SPECIALIST, TRADING_ORGANISM, STRATEGIST, GUARDIAN, ALCHEMIST }
 enum class AgentSpecialization { GENERAL, CREATIVE, LOGIC, SLYNESS, CHARISMA, RESILIENCE }
 enum class SyncState { LOCAL_ONLY, MEMORY_SYNC_PENDING, WEAPONIZED_SYNCED }
 

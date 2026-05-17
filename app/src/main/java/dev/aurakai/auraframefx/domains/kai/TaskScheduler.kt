@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.kai
 
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.logging.ErrorHandler
-import dev.aurakai.auraframefx.domains.cascade.utils.cascade.pipeline.AIPipelineConfig
+import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.AIPipelineConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

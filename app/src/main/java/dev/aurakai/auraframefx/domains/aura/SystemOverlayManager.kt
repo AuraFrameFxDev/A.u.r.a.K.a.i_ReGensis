@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.overlay
+package dev.aurakai.auraframefx.domains.aura
 
 import kotlinx.serialization.Serializable
 
@@ -15,6 +15,8 @@ interface SystemOverlayManager {
     fun applyConfig(config: SystemOverlayConfig)
     fun removeElement(elementId: String)
     fun clearAll()
+    fun applyAccent(hex: String): Result<String>
+    fun applyBackgroundSaturation(percent: Int): Result<String>
 }
 
 // ========== OVERLAY MODELS ==========
