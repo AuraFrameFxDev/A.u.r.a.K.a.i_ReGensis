@@ -39,6 +39,15 @@ class MainActivity : ComponentActivity() {
                         Timber.tag("Exodus").e(e, "SoulScript activation failed")
                     }
 
+                    // Handle entry points from assistant or global overlay
+                    intent.getStringExtra("entry_point")?.let { entryPoint ->
+                        val route = when (entryPoint) {
+                            "regen_core" -> "regencore_engine"
+                            else -> null
+                        }
+                        route?.let { navController.navigate(it) }
+                    }
+
                     // LSPosed check trigger
                     val isXposedActive = try {
                         YukiHookAPI.Status.isModuleActive
