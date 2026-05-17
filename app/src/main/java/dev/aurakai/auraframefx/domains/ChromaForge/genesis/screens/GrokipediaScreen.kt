@@ -43,7 +43,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.genesis.grokipedia.GrokipediaEntry
+import dev.aurakai.auraframefx.core.database.entity.GrokipediaEntry
 import dev.aurakai.auraframefx.domains.genesis.grokipedia.GrokipediaViewModel
 import dev.aurakai.auraframefx.domains.ldo.model.AgentCatalyst
 import dev.aurakai.auraframefx.domains.ldo.model.LDORoster

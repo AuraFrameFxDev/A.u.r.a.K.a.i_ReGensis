@@ -7,11 +7,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentMemoryDao
-import dev.aurakai.auraframefx.domains.cascade.utils.room.AgentStatsDao
-import dev.aurakai.auraframefx.domains.cascade.utils.room.AppDatabase
-import dev.aurakai.auraframefx.domains.cascade.utils.room.TaskHistoryDao
-import dev.aurakai.auraframefx.domains.genesis.grokipedia.GrokipediaDao
+import dev.aurakai.auraframefx.core.database.AuraFrameDatabase
+import dev.aurakai.auraframefx.core.database.dao.AgentMemoryDao
+import dev.aurakai.auraframefx.core.database.dao.AgentStatsDao
+import dev.aurakai.auraframefx.core.database.dao.GrokipediaDao
+import dev.aurakai.auraframefx.core.database.dao.TaskHistoryDao
 import javax.inject.Singleton
 
 @Module
@@ -19,49 +19,41 @@ import javax.inject.Singleton
 object DatabaseModule {
 
     /**
-     * Provides a singleton Room `AppDatabase` instance for the application.
+     * Provides a singleton Room `AuraFrameDatabase` instance for the application.
      *
      * Builds the database named "aura_frame_fx_database" using the application context, with destructive migration as a fallback if no migration is specified.
      *
-     * @return The singleton `AppDatabase` instance.
+     * @return The singleton `AuraFrameDatabase` instance.
      */
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+    fun provideAuraFrameDatabase(@ApplicationContext context: Context): AuraFrameDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
-            AppDatabase::class.java,
+            AuraFrameDatabase::class.java,
             "aura_frame_fx_database"
         )
-            // Add migrations here if/when schema changes:
-            // .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
-            .fallbackToDestructiveMigration(dropAllTables = true) // Placeholder: Consider proper migration strategies for production
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
     }
 
-    /**
-     * Returns the AgentMemoryDao for accessing agent memory data from the provided AppDatabase.
-     *
-     * @param database The Room database instance.
-     * @return The AgentMemoryDao instance.
-     */
     @Provides
-    fun provideAgentMemoryDao(database: AppDatabase): AgentMemoryDao {
+    fun provideAgentMemoryDao(database: AuraFrameDatabase): AgentMemoryDao {
         return database.agentMemoryDao()
     }
 
     @Provides
-    fun provideTaskHistoryDao(database: AppDatabase): TaskHistoryDao {
+    fun provideTaskHistoryDao(database: AuraFrameDatabase): TaskHistoryDao {
         return database.taskHistoryDao()
     }
 
     @Provides
-    fun provideAgentStatsDao(database: AppDatabase): AgentStatsDao {
+    fun provideAgentStatsDao(database: AuraFrameDatabase): AgentStatsDao {
         return database.agentStatsDao()
     }
 
     @Provides
-    fun provideGrokipediaDao(database: AppDatabase): GrokipediaDao {
+    fun provideGrokipediaDao(database: AuraFrameDatabase): GrokipediaDao {
         return database.grokipediaDao()
     }
 }

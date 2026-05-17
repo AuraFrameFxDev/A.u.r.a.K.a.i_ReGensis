@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai
 
-import dev.aurakai.auraframefx.domains.cascade.utils.room.TaskHistoryDao
-import dev.aurakai.auraframefx.domains.cascade.utils.room.TaskHistoryEntity
+import dev.aurakai.auraframefx.core.database.dao.TaskHistoryDao
+import dev.aurakai.auraframefx.core.database.entity.TaskHistoryEntity
 import kotlinx.coroutines.flow.Flow
 
 class TaskHistoryRepository(private val dao: TaskHistoryDao) {
