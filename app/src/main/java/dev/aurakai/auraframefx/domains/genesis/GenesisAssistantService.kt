@@ -2,10 +2,7 @@ package dev.aurakai.auraframefx.domains.genesis
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.service.voice.VoiceInteractionService
-import android.service.voice.VoiceInteractionSession
-import android.service.voice.VoiceInteractionSessionService
 import androidx.core.app.NotificationCompat
 import dev.aurakai.auraframefx.MainActivity
 import dev.aurakai.auraframefx.R
@@ -65,18 +62,5 @@ class GenesisAssistantService : VoiceInteractionService() {
             )
             return assistant?.contains(context.packageName) == true
         }
-    }
-}
-
-class GenesisVoiceInteractionSessionService : VoiceInteractionSessionService() {
-    override fun onNewSession(bundle: Bundle?): VoiceInteractionSession {
-        return GenesisVoiceInteractionSession(this)
-    }
-}
-
-class GenesisVoiceInteractionSession(context: Context) : VoiceInteractionSession(context) {
-    override fun onCreate() {
-        super.onCreate()
-        Timber.tag("GenesisSession").d("Session Created")
     }
 }
