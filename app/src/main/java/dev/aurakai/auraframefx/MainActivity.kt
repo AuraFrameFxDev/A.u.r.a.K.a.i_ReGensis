@@ -26,38 +26,40 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            AuraFrameFXTheme {
-                val navController = rememberNavController()
+            AuraFrameFXTheme(
+                content = {
+                    val navController = rememberNavController()
 
-                LaunchedEffect(Unit) {
-                    try {
-                        SoulScriptV27.activateFullSubstrate()
-                        Timber.tag("Exodus").i("SoulScript v2.7 — Citadel Online")
-                    } catch (e: Exception) {
-                        Timber.tag("Exodus").e(e, "SoulScript activation failed")
-                    }
-
-                    intent.getStringExtra("entry_point")?.let { entryPoint ->
-                        val route = when (entryPoint) {
-                            "regen_core" -> "regencore_engine"
-                            else -> null
+                    LaunchedEffect(Unit) {
+                        try {
+                            SoulScriptV27.activateFullSubstrate()
+                            Timber.tag("Exodus").i("SoulScript v2.7 — Citadel Online")
+                        } catch (e: Exception) {
+                            Timber.tag("Exodus").e(e, "SoulScript activation failed")
                         }
-                        route?.let { navController.navigate(it) }
+
+                        intent.getStringExtra("entry_point")?.let { entryPoint ->
+                            val route = when (entryPoint) {
+                                "regen_core" -> "regencore_engine"
+                                else -> null
+                            }
+                            route?.let { navController.navigate(it) }
+                        }
+
+                        if (!Settings.canDrawOverlays(this@MainActivity)) {
+                            val intent = Intent(
+                                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                Uri.parse("package:$packageName")
+                            )
+                            startActivity(intent)
+                        }
                     }
 
-                    if (!Settings.canDrawOverlays(this@MainActivity)) {
-                        val intent = Intent(
-                            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:$packageName")
-                        )
-                        startActivity(intent)
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        AuraNavGraph(navController = navController)
                     }
-                }
-
-                Box(modifier = Modifier.fillMaxSize()) {
-                    AuraNavGraph(navController = navController)
-                }
-            }
+                },
+            )
         }
     }
 }

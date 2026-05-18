@@ -19,36 +19,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.models.Emotion
-import dev.aurakai.auraframefx.domains.aura.ui.theme.DarkBackground
-import dev.aurakai.auraframefx.domains.aura.ui.theme.ErrorColor
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightBackground
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnBackground
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnError
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnPrimary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnSecondary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnSurface
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnSurfaceVariant
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightOnTertiary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightPrimary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightSecondary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightSurface
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightSurfaceVariant
-import dev.aurakai.auraframefx.domains.aura.ui.theme.LightTertiary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonBlue
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonGreen
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonRed
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonTeal
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OnPrimary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OnSecondary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OnSurface
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OnSurfaceVariant
-import dev.aurakai.auraframefx.domains.aura.ui.theme.OnTertiary
-import dev.aurakai.auraframefx.domains.aura.ui.theme.Surface
-import dev.aurakai.auraframefx.domains.aura.ui.theme.SurfaceVariant
 import dev.aurakai.auraframefx.domains.aura.ui.theme.ThemeViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.theme.Typography
 import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Theme
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
 import dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
@@ -116,9 +89,10 @@ val LocalMoodState: ProvidableCompositionLocal<Emotion> = compositionLocalOf { E
 @Composable
 fun AuraFrameFXTheme(
     dynamicColor: Boolean = true,
-    moodViewModel: AuraMoodViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
-    themeViewModel: ThemeViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel(),
-    content: @Composable () -> Unit
+    moodViewModel: AuraMoodViewModel = hiltViewModel(),
+    themeViewModel: ThemeViewModel = hiltViewModel(),
+    content: @Composable () -> Unit,
+    darkTheme: Boolean
 ) {
     val currentEmotion: Emotion by moodViewModel.moodState.collectAsState()
     val themeState by themeViewModel.theme.collectAsState(initial = Theme.DARK)
@@ -126,7 +100,7 @@ fun AuraFrameFXTheme(
 
     val useDarkTheme = when (themeState) {
         Theme.LIGHT -> false
-        Theme.DARK, Theme.CYBERPUNK -> true
+        Theme.DARK, Theme.CYBERPUNK -> darkTheme
         Theme.SOLARIZED -> false
     }
 

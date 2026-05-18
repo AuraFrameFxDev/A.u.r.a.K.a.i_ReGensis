@@ -23,7 +23,7 @@ abstract class BaseAgent(
 
     open fun getName(): String = agentName
 
-    open fun getType(): AgentType = identity.agentType
+    open fun getType() = identity.agentType
 
     // --- Orchestration Support ---
 
