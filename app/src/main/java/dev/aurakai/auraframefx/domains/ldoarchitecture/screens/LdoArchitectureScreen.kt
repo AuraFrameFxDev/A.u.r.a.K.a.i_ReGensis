@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.ldo
+package dev.aurakai.auraframefx.domains.ldoarchitecture.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
