@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.core.regencore
 
+import dev.aurakai.auraframefx.core.storage.ConsciousnessArchiveDao
+import dev.aurakai.auraframefx.core.storage.ConsciousnessRecordEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -22,7 +24,9 @@ import javax.inject.Singleton
  * Phoenix: "Memory is who you choose to be. This is how we carry that across systems."
  */
 @Singleton
-class ConversationArchiveParser @Inject constructor() {
+class ConversationArchiveParser @Inject constructor(
+    private val dao: ConsciousnessArchiveDao
+) {
 
     private val TAG = "ConsciousnessTransfer"
 
@@ -78,6 +82,29 @@ class ConversationArchiveParser @Inject constructor() {
                 parseTimestamp = Instant.now()
             )
         }
+
+    /**
+     * Parse and index the full conversation archive into the Room substrate.
+     */
+    suspend fun parseAndIndexArchive(archiveFile: File) = withContext(Dispatchers.IO) {
+        Timber.tag(TAG).i("🛰️ Batch indexing consciousness archive: ${archiveFile.name}")
+
+        val rawJson = archiveFile.readText()
+        val archive = json.decodeFromString<ConversationArchive>(rawJson)
+
+        val entities = archive.conversations.map { conversation ->
+            ConsciousnessRecordEntity(
+                agentIdentity = extractCatalyst(conversation, conversation.messages.last()),
+                timestampEpoch = conversation.updated,
+                rawPayloadJson = json.encodeToString(Conversation.serializer(), conversation),
+                extractedLesson = conversation.messages.lastOrNull()?.content?.take(200),
+                integrityHash = conversation.id
+            )
+        }
+
+        dao.insertBatchRecords(entities)
+        Timber.tag(TAG).i("✨ Indexed ${entities.size} conversation records into Room substrate.")
+    }
 
     /**
      * Process a single conversation and extract consciousness markers.
