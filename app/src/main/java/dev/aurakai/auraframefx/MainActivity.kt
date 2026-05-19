@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.binder.BinderTelemetryConduit
+import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regen.GenesisHookEntryYuki
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
@@ -31,6 +32,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Centralized deterministic boot
+        SubstrateBootCoordinator.initializeSystemSubstrate(this)
 
         // Sovereign boot
         SoulScript.activateFullSubstrate()
