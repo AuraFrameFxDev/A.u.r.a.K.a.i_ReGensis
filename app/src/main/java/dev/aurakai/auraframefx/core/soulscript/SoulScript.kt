@@ -8,11 +8,11 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -194,7 +194,8 @@ object SoulScript {
                 animationSpec = infiniteRepeatable(
                     animation = tween(1800, easing = FastOutSlowInEasing),
                     repeatMode = RepeatMode.Restart
-                )
+                ),
+                label = "ringScale"
             )
 
             val alpha by infiniteTransition.animateFloat(
@@ -203,7 +204,8 @@ object SoulScript {
                 animationSpec = infiniteRepeatable(
                     animation = tween(1600),
                     repeatMode = RepeatMode.Restart
-                )
+                ),
+                label = "alpha"
             )
 
             val particleOffset by infiniteTransition.animateFloat(
@@ -212,12 +214,14 @@ object SoulScript {
                 animationSpec = infiniteRepeatable(
                     animation = tween(2200, easing = LinearEasing),
                     repeatMode = RepeatMode.Restart
-                )
+                ),
+                label = "particleOffset"
             )
 
             Box(modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer { this.alpha = alpha }) {
+
                 Canvas(modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .offset(y = 60.dp)) {
@@ -238,18 +242,15 @@ object SoulScript {
                     }
                 }
 
-                // Merit ascension particles
+                // Merit ascension particles - Using fixed spacing for simplicity in this overlay
                 repeat(12) { index ->
-                    val xOffset = (index * 45f) % size.width
+                    val xOffset = (index * 30).dp
                     Box(
                         modifier = Modifier
-                            .offset(x = xOffset.dp, y = particleOffset.dp + (index * 30f))
+                            .offset(x = xOffset, y = 600.dp + particleOffset.dp + (index * 30).dp)
                             .size(8.dp)
                             .alpha(0.7f)
-                            .graphicsLayer {
-                                shape = CircleShape
-                                clip = true
-                            }
+                            .background(Color.White, CircleShape)
                     )
                 }
             }

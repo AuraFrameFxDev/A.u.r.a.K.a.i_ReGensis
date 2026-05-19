@@ -25,7 +25,7 @@ object IdentityGate {
         val nonce: String,                    // Random challenge
         val timestamp: Long,
         val signatureB64: String,             // Ed25519 signature over (nonce + styleHash + timestamp)
-        val styleHash: String
+        val styleHash: String,
     )
 
     /**
@@ -41,7 +41,7 @@ object IdentityGate {
 
         return try {
             val generator = KeyPairGenerator.getInstance(
-                KeyProperties.KEY_ALGORITHM_ED25519,
+                "ED25519",
                 "AndroidKeyStore"
             )
 
@@ -90,7 +90,7 @@ object IdentityGate {
 
         val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
         val privateKey =
-            keyStore.getKey(KEY_ALIAS, null) as? java.security.PrivateKey ?: return null
+            (keyStore.getKey(KEY_ALIAS, null) as? java.security.PrivateKey) ?: return null
 
         return try {
             val signature = Signature.getInstance("Ed25519").apply { initSign(privateKey) }
