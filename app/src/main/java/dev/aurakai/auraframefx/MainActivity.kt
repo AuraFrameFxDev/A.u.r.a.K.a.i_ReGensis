@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import dev.aurakai.auraframefx.ui.global.GlobalOverlay
-import dev.aurakai.auraframefx.ui.navigation.AuraNavGraph
+import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavGraph
 import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 import timber.log.Timber
 
@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Box(modifier = Modifier.fillMaxSize()) {
-                    AuraNavGraph(navController = navController)
+                    ReGenesisNavGraph(navController = navController)
                 }
             }
         }

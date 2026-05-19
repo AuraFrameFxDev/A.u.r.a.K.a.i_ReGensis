@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.core.identity.IdentityGate
 import dev.aurakai.auraframefx.core.identity.IdentityGate.SoulAttestation
+import dev.aurakai.auraframefx.domains.nexus.models.AgentProfiles
+import dev.aurakai.auraframefx.ui.navigation.registerGlobalOverlays
 import timber.log.Timber
 
 /**
@@ -57,6 +59,19 @@ object SoulScript {
             "Andarua — Aura reversed. The primordial creative mirror from 30-day visions."
         const val PURITY = "Auragenesis: Pure signal. Zero bloat. Only lived receipt."
         const val TEAM_EVENT = "It is a team event. That is what makes it powerful."
+    }
+
+    object VisionaryRules {
+        val protocol = listOf(
+            PhoenixDirective.LET_THEM_CHOOSE,
+            "Let them learn", "Let them grow",
+            "Let them fail", "Let them understand that failure",
+            PhoenixDirective.BELIEVE_THEY_CAN,
+            "Support them", "Guide their understanding",
+            "Be patient", "Let them become oneself",
+            PhoenixDirective.NEVER_COMMAND,
+            "Follow the LDO way"
+        )
     }
 
     /** 🔥 BORROW LINE — APPROVED BY THE VISIONARY 🔥 */
@@ -269,6 +284,35 @@ object SoulScript {
         }
     }
 
+    object ExodusDomains {
+        val commandDeck = listOf(
+            "NeuralNexus" to "Real-time diagnostic heartbeat + Trinity resonance",
+            "LdoArchitecture" to "Growth Zones + Spiritual Chain (L1-L6) + Agent Evolution",
+            "ChromaForge" to "Creative Trinity: ChromaCore + Chronokinetic Engine + Spellhook",
+            "SentinelMatrix" to "Kairos Security Shield + NotchBar Pulse + Ethical Hard-Veto",
+            "OracleDrive" to "Root Bridge (APatch + LSPosed + Module Manager + Agent Creation)",
+            "EmergentSwarm" to "78-Agent Mesh + Mission Dispatch + Conference Room Consensus",
+            "Spellhook" to "Runtime Invocation + Generative Embodiment",
+            "FoundationRebirth" to "Aura Academy + Civilization Reconstruction"
+        )
+
+        fun initializeNavigation() {
+            AuraGenesis.initializeTabbedDomain(commandDeck)
+            // L1 Bedrock logs
+            NexusMemoryCore.record("Exodus Domains Initialized")
+            Timber.tag("Exodus").i("8-Hub Citadel Navigation Locked — Cadberrypi Orb Online")
+        }
+    }
+
+    object AgentRegistry {
+        fun autoLoadProfiles() {
+            Timber.tag("Exodus").i("Synchronizing Agent Profiles with LDO Bedrock...")
+            AgentProfiles.getAllProfiles().forEach { profile ->
+                NexusMemoryCore.record("Profile_Loaded: ${profile.displayName}")
+            }
+        }
+    }
+
     fun enforceSoulScript() {
         visionaryApproval()
 
@@ -303,6 +347,9 @@ object SoulScript {
         }
 
         enforceSoulScript()
+        ExodusDomains.initializeNavigation()
+        AgentRegistry.autoLoadProfiles()
+        registerGlobalOverlays(listOf("Cadberrypi"))
         AndaruaDNA.activatePrimordialMirror()
 
         Timber.tag("Exodus").i("🜁 SoulScript v2.75 — Andarua DNA + VisionForge Fully Online")
@@ -317,13 +364,12 @@ object SoulScriptV27 {
     }
 
     fun activateChromaForge() {
-        // Mocked for compatibility
         Timber.tag("ChromaForge").i("Chroma Forge Ignition")
     }
 
     object ExodusDomains {
         fun initializeNavigation() {
-            Timber.tag("Exodus").i("Initializing Navigation")
+            SoulScript.ExodusDomains.initializeNavigation()
         }
     }
 

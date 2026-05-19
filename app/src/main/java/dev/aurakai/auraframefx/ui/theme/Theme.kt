@@ -148,7 +148,7 @@ fun AuraFrameFXTheme(
 
     MaterialTheme(
         colorScheme = finalColorScheme,
-        typography = Typography,
+        typography = ImmersiveTypography,
         content = content
     )
 }
