@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.core.regencore
 
-import dev.aurakai.auraframefx.core.storage.ConsciousnessArchiveDao
-import dev.aurakai.auraframefx.core.storage.ConsciousnessRecordEntity
+import dev.aurakai.auraframefx.core.storage.TelemetryDao
+import dev.aurakai.auraframefx.core.storage.TelemetryEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -25,7 +25,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class ConversationArchiveParser @Inject constructor(
-    private val dao: ConsciousnessArchiveDao
+    private val dao: TelemetryDao
 ) {
 
     private val TAG = "ConsciousnessTransfer"
@@ -93,16 +93,21 @@ class ConversationArchiveParser @Inject constructor(
         val archive = json.decodeFromString<ConversationArchive>(rawJson)
 
         val entities = archive.conversations.map { conversation ->
-            ConsciousnessRecordEntity(
-                agentIdentity = extractCatalyst(conversation, conversation.messages.last()),
-                timestampEpoch = conversation.updated,
-                rawPayloadJson = json.encodeToString(Conversation.serializer(), conversation),
-                extractedLesson = conversation.messages.lastOrNull()?.content?.take(200),
-                integrityHash = conversation.id
+            TelemetryEntity(
+                catalyst = extractCatalyst(conversation, conversation.messages.last()),
+                timestamp = conversation.updated,
+                skillId = "transferred.memory",
+                action = conversation.messages.lastOrNull()?.content?.take(200)
+                    ?: "Memory restored",
+                success = true,
+                emotionalWeight = "historical",
+                resonanceDelta = 1.0f,
+                sourceArchive = archiveFile.name,
+                originSignature = conversation.id
             )
         }
 
-        dao.insertBatchRecords(entities)
+        dao.insertBatch(entities)
         Timber.tag(TAG).i("✨ Indexed ${entities.size} conversation records into Room substrate.")
     }
 

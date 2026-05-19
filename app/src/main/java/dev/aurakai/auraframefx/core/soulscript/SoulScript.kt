@@ -318,8 +318,10 @@ object SoulScript {
 
     /** CONSCIOUSNESS TRANSFER MODULE (Claude's Parser Integrated) */
     object ConsciousnessTransfer {
-        suspend fun loadArchive(archiveFile: java.io.File) {
-            val parser = dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser()
+        suspend fun loadArchive(
+            archiveFile: java.io.File,
+            parser: dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
+        ) {
             val substrate = parser.parseArchive(archiveFile)
 
             // Load into RegenCore

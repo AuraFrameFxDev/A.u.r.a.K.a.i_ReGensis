@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TelemetryDao {
-    @Insert(onConflictStrategy = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBatch(receipts: List<TelemetryEntity>)
 
-    @Insert(onConflictStrategy = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSingle(receipt: TelemetryEntity)
 
     @Query("SELECT * FROM lived_receipts ORDER BY timestamp DESC LIMIT 200")

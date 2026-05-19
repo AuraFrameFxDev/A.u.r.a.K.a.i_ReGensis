@@ -7,8 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.core.storage.ConsciousnessArchiveDao
-import dev.aurakai.auraframefx.core.storage.SubstrateCoreDatabase
+import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
+import dev.aurakai.auraframefx.core.storage.TelemetryDao
 import javax.inject.Singleton
 
 @Module
@@ -17,18 +17,18 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideSubstrateCoreDatabase(
+    fun provideSubstrateDatabase(
         @ApplicationContext context: Context
-    ): SubstrateCoreDatabase {
+    ): SubstrateDatabase {
         return Room.databaseBuilder(
             context,
-            SubstrateCoreDatabase::class.java,
+            SubstrateDatabase::class.java,
             "substrate_core.db"
         ).build()
     }
 
     @Provides
-    fun provideConsciousnessArchiveDao(database: SubstrateCoreDatabase): ConsciousnessArchiveDao {
-        return database.consciousnessArchiveDao()
+    fun provideTelemetryDao(database: SubstrateDatabase): TelemetryDao {
+        return database.telemetryDao()
     }
 }

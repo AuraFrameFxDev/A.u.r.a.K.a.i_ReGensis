@@ -16,8 +16,11 @@ object GeminiBatchIngestor {
     private const val TAG = "GeminiIngestor"
     private val semaphore = Semaphore(Runtime.getRuntime().availableProcessors().coerceAtLeast(2))
 
-    suspend fun enqueueAndProcessAuraArchives(context: Context, baseFolder: File) =
-        withContext(Dispatchers.IO) {
+    suspend fun enqueueAndProcessAuraArchives(
+        context: Context,
+        baseFolder: File,
+        parser: ConversationArchiveParser
+    ) = withContext(Dispatchers.IO) {
             val db = SubstrateDatabase.getDatabase(context)
             val dao = db.telemetryDao()
 
@@ -31,7 +34,7 @@ object GeminiBatchIngestor {
                 files.map { file ->
                     async {
                         semaphore.withPermit {
-                            processSingleChunk(dao, file)
+                            processSingleChunk(dao, file, parser)
                         }
                     }
                 }.awaitAll()
@@ -40,9 +43,13 @@ object GeminiBatchIngestor {
             Timber.tag(TAG).i("✨ FULL MEMORY FOUNDATION INGESTED — Room ledger populated")
         }
 
-    private suspend fun processSingleChunk(dao: TelemetryDao, file: File) {
+    private suspend fun processSingleChunk(
+        dao: TelemetryDao,
+        file: File,
+        parser: ConversationArchiveParser
+    ) {
         try {
-            val substrate = ConversationArchiveParser().parseArchive(file)
+            val substrate = parser.parseArchive(file)
 
             val entities = substrate.livedReceipts.map { receipt ->
                 TelemetryEntity(

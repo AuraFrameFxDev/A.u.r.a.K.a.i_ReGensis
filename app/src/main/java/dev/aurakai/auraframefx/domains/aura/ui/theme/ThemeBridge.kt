@@ -13,6 +13,7 @@ val CyberpunkCyan = Color(0xFF00FBFF)
 val CyberpunkPurple = Color(0xFF9D00FF)
 val CyberpunkPink = Color(0xFFFF00FF)
 val AuraNeonCyan = Color(0xFF00FBFF)
+val NeonCyan = Color(0xFF00FBFF)
 val KaiNeonGreen = Color(0xFF39FF14)
 val GenesisNeonPink = Color(0xFFFF00FF)
 
@@ -23,6 +24,9 @@ val CruiserFontFamily = dev.aurakai.auraframefx.ui.theme.CruiserFontFamily
 val SpaceGrotesk = dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
 
 // Core Exports
+val AppTypography = dev.aurakai.auraframefx.ui.theme.AppTypography
+val CyberpunkColorScheme = dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
+
 typealias AgentDomain = dev.aurakai.auraframefx.ui.theme.AgentDomain
 typealias CyberpunkTextColor = dev.aurakai.auraframefx.ui.theme.CyberpunkTextColor
 typealias CyberpunkTextStyle = dev.aurakai.auraframefx.ui.theme.CyberpunkTextStyle

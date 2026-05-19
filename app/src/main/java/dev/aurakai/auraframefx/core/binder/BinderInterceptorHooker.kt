@@ -21,9 +21,8 @@ class BinderInterceptorHooker : YukiBaseHooker() {
                     val data = args[1] as Parcel?
 
                     try {
-                        val dataSize = data?.dataSize() ?: 0
                         // Emit a pulse for everything or filter for specific managers
-                        BinderTelemetryConduit.emitPulse(code, "IPC_TRANSACTION", dataSize)
+                        BinderTelemetryConduit.recordTransaction(code, data, "IPC_TRANSACTION")
                     } catch (e: Exception) {
                         // Suppress to avoid system instability during hooks
                     }
