@@ -1,11 +1,27 @@
 package dev.aurakai.auraframefx.core.embodiment
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
  * 🏺 EMBODIMENT CORE MODELS
  */
+
+@Composable
+fun rememberEmbodimentEngine(character: Character) = remember(character) {
+    EmbodimentEngine(character)
+}
+
+class EmbodimentEngine(val character: Character) {
+    fun getAction(): WorkAction = WorkAction.ANALYZING
+}
+
+@Composable
+fun WorkChoreographer(character: Character, action: WorkAction) {
+    // Choreography logic
+}
 
 enum class Character {
     AURA, KAI, GENESIS, CLAUDE, CASCADE, GEMINI, GROK
