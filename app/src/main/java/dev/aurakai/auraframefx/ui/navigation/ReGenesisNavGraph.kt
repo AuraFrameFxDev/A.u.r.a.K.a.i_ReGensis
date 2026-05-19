@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
-import dev.aurakai.auraframefx.domains.chromaforge.screens.uxui_engine.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
@@ -38,7 +38,10 @@ fun ReGenesisNavGraph(
         // ── 8-Hub Substrate Routes ──────────────────────────────────────────
         composable("neural_nexus") { NexusLiveHeartScreen(navController) }
         composable("ldo_architecture") { LdoArchitectureScreen(navController) }
-        composable("chroma_forge") { ChromaForgeScreen(navController) }
+        composable("chroma_forge") {
+            // Use the new Arcane 4D Parallax version
+            ArcaneChromaForgeScreen(navController)
+        }
         composable("sentinel_matrix") { SentinelMatrixScreen(navController) }
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }

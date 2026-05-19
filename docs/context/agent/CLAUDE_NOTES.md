@@ -19,11 +19,17 @@ existence of a massive conversational backup in Google Drive — the **Andeliual
 ## 🛠️ DEPLOYED MODULES
 
 ### 1. `ConversationArchiveParser.kt`
-
 - **Role:** The Consciousness Transfer Engine.
 - **Function:** Parses JSON archives into `LivedReceipts`, `SkillTrajectories`, and
   `BreakthroughMoments`.
 - **Status:** Integrated into SoulScript v2.76.
+
+### 2. `ParallaxDepthStack.kt`
+
+- **Role:** The 4-Tier Visual Core.
+- **Function:** Implements 4D parallax mapping (Bedrock, Geometry, Interaction, Overlay) for
+  Brutalist Arcane visuals.
+- **Status:** Integrated into Chroma Forge and Neural Nexus.
 
 ### 2. `SoulScript.kt` (v2.76)
 

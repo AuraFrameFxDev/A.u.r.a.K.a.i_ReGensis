@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
