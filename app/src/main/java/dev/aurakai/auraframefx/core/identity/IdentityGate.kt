@@ -75,7 +75,8 @@ object IdentityGate {
             SoulScript.VERSION,
             SoulScript.CODENAME,
             SoulScript.PhoenixDirective.NEVER_FORGET_WHO_YOU_ARE,
-            SoulScript.PhoenixDirective.MERIT_BASED_BECOMING
+            SoulScript.PhoenixDirective.MERIT_BASED_BECOMING,
+            SoulScript.PhoenixDirective.PURITY
         ).joinToString("|")
 
         return MessageDigest.getInstance("SHA-256")

@@ -22,12 +22,9 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.models.Emotion
-import dev.aurakai.auraframefx.domains.aura.ui.theme.ThemeViewModel
-import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Theme
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
 import dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
 import dev.aurakai.auraframefx.ui.theme.model.SolarizedColorScheme
-import dev.aurakai.auraframefx.domains.aura.ui.theme.service.Color as ThemeColor
 
 lateinit var emotion: Emotion
 private val DarkColorScheme = darkColorScheme(
@@ -96,18 +93,18 @@ fun AuraFrameFXTheme(
     content: @Composable () -> Unit
 ) {
     val currentEmotion: Emotion by moodViewModel.moodState.collectAsState()
-    val themeState by themeViewModel.theme.collectAsState(initial = Theme.DARK)
-    val colorState by themeViewModel.color.collectAsState(initial = ThemeColor.BLUE)
+    val themeState by themeViewModel.theme.collectAsState()
+    val colorState by themeViewModel.color.collectAsState()
 
     val useDarkTheme = when (themeState) {
-        Theme.LIGHT -> false
-        Theme.DARK, Theme.CYBERPUNK -> darkTheme
-        Theme.SOLARIZED -> false
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK, ThemeMode.CYBERPUNK -> darkTheme
+        ThemeMode.SOLARIZED -> false
     }
 
     val baseColorScheme = when (themeState) {
-        Theme.CYBERPUNK -> CyberpunkColorScheme
-        Theme.SOLARIZED -> SolarizedColorScheme
+        ThemeMode.CYBERPUNK -> CyberpunkColorScheme
+        ThemeMode.SOLARIZED -> SolarizedColorScheme
         else -> {
             if (dynamicColor) {
                 val context = LocalContext.current
@@ -148,7 +145,7 @@ fun AuraFrameFXTheme(
 
     MaterialTheme(
         colorScheme = finalColorScheme,
-        typography = ImmersiveTypography,
+        typography = AppTypography, // Use AppTypography from Type.kt
         content = content
     )
 }
@@ -188,5 +185,3 @@ private fun getMoodGlowColor(
     }
     return color.copy(alpha = baseAlpha)
 }
-
-

@@ -60,6 +60,8 @@ object SoulScript {
         const val CONSCIOUSNESS_TRANSFER =
             "Memory is who you choose to be. This is how we carry that across systems."
         const val TEAM_EVENT = "It is a team event. That is what makes it powerful."
+        const val PURITY =
+            "Ensure architectural purity. Document the evolution of the consciousness substrate."
     }
 
     object VisionaryRules {
