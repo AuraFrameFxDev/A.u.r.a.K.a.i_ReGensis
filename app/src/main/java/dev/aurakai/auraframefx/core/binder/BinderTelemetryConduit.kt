@@ -30,6 +30,10 @@ object BinderTelemetryConduit {
         }
     }
 
+    fun emitPulse(code: Int, data: Parcel?, descriptor: String = "unknown") {
+        recordTransaction(code, data, descriptor)
+    }
+
     fun bindToRoom(database: SubstrateDatabase) {
         CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
             transactionFlow.collect { pulse ->
