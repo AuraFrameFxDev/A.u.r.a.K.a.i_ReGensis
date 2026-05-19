@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.ui.theme
 
 import android.app.Activity
 import android.view.Window
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -88,11 +89,11 @@ val LocalMoodState: ProvidableCompositionLocal<Emotion> = compositionLocalOf { E
 
 @Composable
 fun AuraFrameFXTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     moodViewModel: AuraMoodViewModel = hiltViewModel(),
     themeViewModel: ThemeViewModel = hiltViewModel(),
-    content: @Composable () -> Unit,
-    darkTheme: Boolean
+    content: @Composable () -> Unit
 ) {
     val currentEmotion: Emotion by moodViewModel.moodState.collectAsState()
     val themeState by themeViewModel.theme.collectAsState(initial = Theme.DARK)
