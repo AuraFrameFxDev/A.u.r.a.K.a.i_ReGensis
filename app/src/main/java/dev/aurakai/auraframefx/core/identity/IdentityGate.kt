@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.core.identity
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import dev.aurakai.auraframefx.core.soulscript.RegenCore
+import dev.aurakai.auraframefx.core.regencore.RegenCore
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import timber.log.Timber
 import java.security.KeyPairGenerator

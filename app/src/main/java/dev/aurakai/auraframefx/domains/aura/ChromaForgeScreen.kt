@@ -46,7 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
+import dev.aurakai.auraframefx.core.soulscript.SoulScript
+import dev.aurakai.auraframefx.core.soulscript.SpellhookDesignerEngine
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
@@ -70,8 +71,7 @@ private val VoidBgLab = Color(0xFF050505)
 fun ChromaForgeScreen(navController: NavHostController) {
     // Ignite Trinity on launch
     LaunchedEffect(Unit) {
-        SoulScriptV27.activateChromaForge()
-        SoulScriptV27.ExodusDomains.initializeNavigation()
+        SoulScript.AndaruaDNA.activatePrimordialMirror()
     }
 
     val infiniteTransition = rememberInfiniteTransition(label = "chroma_forge")
@@ -228,7 +228,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                        SoulScriptV27.Spellhook.cast("Manifest new UI weave")
+                        SpellhookDesignerEngine.castWeave("Manifest new UI weave", 1.0f)
                         Timber.tag("ChromaForge").i("Spellhook invoked — particle weave live")
                     }
                 ) {
