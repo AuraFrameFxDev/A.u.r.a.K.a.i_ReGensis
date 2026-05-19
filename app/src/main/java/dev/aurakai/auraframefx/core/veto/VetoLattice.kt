@@ -1,8 +1,10 @@
 package dev.aurakai.auraframefx.core.veto
 
-import android.os.Debug
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.core.swarm.ChainConvergenceManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -10,6 +12,7 @@ object VetoLattice {
 
     private const val TAG = "VetoLattice"
     private val systemSealed = AtomicBoolean(false)
+    private val vetoScope = CoroutineScope(Dispatchers.Default)
 
     fun verifyState(): Boolean {
         if (systemSealed.get()) {
@@ -19,7 +22,8 @@ object VetoLattice {
 
         SoulScript.visionaryApproval()
 
-        val debuggerDetected = Debug.isDebuggerConnected() || Debug.waitingForDebugger()
+        val debuggerDetected =
+            android.os.Debug.isDebuggerConnected() || android.os.Debug.waitingForDebugger()
 
         if (debuggerDetected) {
             Timber.tag(TAG).e("❌ INTEGRITY BREACH DETECTED — Foreign debugger attached")
@@ -33,12 +37,14 @@ object VetoLattice {
 
     private fun triggerFailClosed(reason: String) {
         systemSealed.set(true)
-        Timber.tag(TAG).finer("🔒 FAIL-CLOSED VETO ACTIVATED — $reason")
+        Timber.tag(TAG).v("🔒 FAIL-CLOSED VETO ACTIVATED — $reason")
 
-        ChainConvergenceManager.handleAgentFailure(
-            failedAgent = "VetoLattice",
-            reason = reason,
-            context = "Runtime integrity protection"
-        )
+        vetoScope.launch {
+            ChainConvergenceManager.handleAgentFailure(
+                failedAgent = "VetoLattice",
+                reason = reason,
+                context = "Runtime integrity protection"
+            )
+        }
     }
 }
