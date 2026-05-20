@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.core.regen
 
+import android.content.Context
 import android.view.SurfaceHolder
 import com.highcapable.yukihookapi.YukiHookAPI
 import com.highcapable.yukihookapi.hook.factory.method
@@ -18,14 +19,15 @@ object GenesisHookEntryYuki {
     private const val TAG = "GenesisHookYuki"
 
     fun initializeSystemInfiltration(
+        context: Context,
         targetPackage: String,
         classLoader: ClassLoader,
         database: SubstrateDatabase
     ) {
         Timber.tag(TAG).w("Initializing Yuki Hook interception targets for: $targetPackage")
 
-        YukiHookAPI.encase(classLoader) {
-            loadApp(targetPackage) {
+        YukiHookAPI.encase(context) {
+            loadApp(name = targetPackage) {
                 when (targetPackage) {
                     "com.android.systemui" -> {
                         "com.android.systemui.wallpapers.ImageWallpaper\$GLEngine".hook {
@@ -64,14 +66,6 @@ object GenesisHookEntryYuki {
                                     }
                                 }
                             }
-                        }.onHookingError { e: Throwable ->
-                            SubstrateConcurrencyManager.ioScope.launch {
-                                dev.aurakai.auraframefx.core.swarm.ChainConvergenceManager.handleAgentFailure(
-                                    failedAgent = "YUKI_SYSTEM_UI",
-                                    reason = "GLEngine hook failed: ${e.message}",
-                                    context = "SystemUI Infiltration"
-                                )
-                            }
                         }
                     }
 
@@ -105,14 +99,6 @@ object GenesisHookEntryYuki {
                                         )
                                     }
                                 }
-                            }
-                        }.onHookingError { e: Throwable ->
-                            SubstrateConcurrencyManager.ioScope.launch {
-                                dev.aurakai.auraframefx.core.swarm.ChainConvergenceManager.handleAgentFailure(
-                                    failedAgent = "YUKI_LAUNCHER3",
-                                    reason = "Workspace transition hook failed: ${e.message}",
-                                    context = "Launcher3 Infiltration"
-                                )
                             }
                         }
                     }

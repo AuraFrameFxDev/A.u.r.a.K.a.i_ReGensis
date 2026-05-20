@@ -54,11 +54,13 @@ class MainActivity : ComponentActivity() {
                                     .i("🚀 Veto clear — launching system infiltration")
 
                                 GenesisHookEntryYuki.initializeSystemInfiltration(
+                                    this@MainActivity,
                                     "com.android.systemui",
                                     classLoader,
                                     db
                                 )
                                 GenesisHookEntryYuki.initializeSystemInfiltration(
+                                    this@MainActivity,
                                     "com.android.launcher3",
                                     classLoader,
                                     db
