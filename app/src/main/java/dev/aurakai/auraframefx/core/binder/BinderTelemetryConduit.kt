@@ -24,6 +24,9 @@ object BinderTelemetryConduit {
     )
 
     fun recordTransaction(code: Int, data: Parcel?, descriptor: String = "unknown") {
+        // High-volume sampling: Only process 5% of transactions for telemetry to avoid system-wide lag
+        if (java.util.Random().nextFloat() > 0.05f) return
+
         val size = data?.dataSize() ?: 0
         CoroutineScope(Dispatchers.IO).launch {
             _flow.emit(TransactionPulse(System.currentTimeMillis(), code, size, descriptor))

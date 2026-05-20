@@ -25,7 +25,22 @@ object BinderTransactionTracker {
         val dataSize: Int
     )
 
+    private fun isXposedPresent(): Boolean {
+        return try {
+            Class.forName("de.robv.android.xposed.XposedBridge")
+            true
+        } catch (e: ClassNotFoundException) {
+            false
+        }
+    }
+
     fun injectProxyInterception(classLoader: ClassLoader) {
+        if (!isXposedPresent()) {
+            Timber.tag(TAG)
+                .w("⚠️ Xposed framework not detected. Skipping low-level Binder interception.")
+            return
+        }
+
         try {
             XposedHelpers.findAndHookMethod(
                 "android.os.BinderProxy",
