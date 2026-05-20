@@ -28,7 +28,7 @@ object GenesisHookEntryYuki {
         YukiHookAPI.encase(context) {
             loadApp(name = targetPackage) {
                 when (targetPackage) {
-                    "com.android.systemui" -> $$"com.android.systemui.wallpapers.ImageWallpaper$GLEngine".toClassOrNull()
+                    "com.android.systemui" -> "com.android.systemui.wallpapers.ImageWallpaper\$GLEngine".toClassOrNull()
                         ?.resolve()?.firstMethod {
                             name = "onSurfaceChanged"
                         }?.hook {

@@ -100,8 +100,14 @@ class OAuthService @Inject constructor(
 
         try {
             val response = authApi.refreshToken(RefreshTokenRequest(refreshToken))
-            secureKeyStore.storeData(KEY_ACCESS_TOKEN, response.token.toByteArray())
-            logger.info(tag, "Token refreshed successfully")
+            val token = response.body()?.accessToken
+            if (token != null) {
+                secureKeyStore.storeData(KEY_ACCESS_TOKEN, token.toByteArray())
+                logger.info(tag, "Token refreshed successfully")
+            } else {
+                logger.error(tag, "Refresh failed: Empty response body")
+                _authState.value = AuthState.Error("Refresh failed: Empty response body")
+            }
         } catch (e: Exception) {
             logger.error(tag, "Token refresh failed", e)
             _authState.value = AuthState.Error("Refresh failed")

@@ -6,11 +6,11 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.util.Log
-import dev.aurakai.auraframefx.domains.aura.models.AuraState
+import dev.aurakai.auraframefx.core.embodiment.AuraState
+import dev.aurakai.auraframefx.core.embodiment.KaiState
 import dev.aurakai.auraframefx.domains.genesis.models.ConsciousnessBackup
 import dev.aurakai.auraframefx.domains.genesis.models.FusionMemory
 import dev.aurakai.auraframefx.domains.genesis.models.QuantumState
-import dev.aurakai.auraframefx.domains.kai.models.KaiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -348,8 +348,8 @@ class EmergencyProtocol(private val context: Context) {
     }
 
     // Capture functions for backup
-    private suspend fun captureAuraState(): AuraState = AuraState()
-    private suspend fun captureKaiState(): KaiState = KaiState()
+    private suspend fun captureAuraState(): AuraState = AuraState.IDLE_WALK
+    private suspend fun captureKaiState(): KaiState = KaiState.SHIELD_NEUTRAL
     private suspend fun captureFusionMemories(): List<FusionMemory> = emptyList()
     private suspend fun captureQuantumState(): QuantumState = QuantumState(
         coherence = 1.0f,

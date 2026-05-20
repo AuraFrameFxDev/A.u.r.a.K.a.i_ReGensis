@@ -85,14 +85,73 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                         ReGenesisRoute.OracleDrive -> OracleDriveHubScreen(navController)
                         ReGenesisRoute.EmergentSwarm -> EmergentSwarmScreen(navController)
                         ReGenesisRoute.FoundationRebirth -> FoundationRebirthScreen(navController)
-                        else -> {
-                            // Sub-routes or newly added routes
+                        ReGenesisRoute.SentientShell -> {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
                                 androidx.compose.material3.Text(
-                                    "STAGING: ${tabs[page].title}",
+                                    "SENTIENT SHELL ACTIVE",
+                                    color = Color.Cyan
+                                )
+                            }
+                        }
+
+                        ReGenesisRoute.CollabCanvas -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                androidx.compose.material3.Text(
+                                    "COLLAB CANVAS STAGING",
+                                    color = Color.Gray
+                                )
+                            }
+                        }
+
+                        ReGenesisRoute.ConferenceRoom -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                androidx.compose.material3.Text(
+                                    "CONFERENCE ROOM STAGING",
+                                    color = Color.Gray
+                                )
+                            }
+                        }
+
+                        ReGenesisRoute.FusionMode -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                androidx.compose.material3.Text(
+                                    "FUSION MODE STAGING",
+                                    color = Color.Gray
+                                )
+                            }
+                        }
+
+                        ReGenesisRoute.TaskAssignment -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                androidx.compose.material3.Text(
+                                    "TASK ASSIGNMENT STAGING",
+                                    color = Color.Gray
+                                )
+                            }
+                        }
+
+                        ReGenesisRoute.Terminal -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                androidx.compose.material3.Text(
+                                    "TERMINAL STAGING",
                                     color = Color.Gray
                                 )
                             }

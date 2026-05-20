@@ -190,15 +190,13 @@ open class TrinityRepository @Inject constructor(
 
     private fun mapToDomainAgentStatus(agentResponse: AgentStatusResponse): AgentStatus {
         return AgentStatus(
-            agentId = agentResponse.agentName ?: "unknown",
-            status = if ((agentResponse.confidence
-                    ?: 0.0) > 0.7
-            ) AgentStatus.Status.ACTIVE else AgentStatus.Status.IDLE,
-            lastActiveTimestamp = agentResponse.timestamp ?: 0L,
+            agentId = agentResponse.agentName,
+            status = if (agentResponse.confidence > 0.7) AgentStatus.Status.ACTIVE else AgentStatus.Status.IDLE,
+            lastActiveTimestamp = agentResponse.timestamp,
             isAvailable = agentResponse.error == null,
             capabilities = emptyList(),
             error = agentResponse.error,
-            metadata = agentResponse.metadata?.mapValues { it.value.toString() } ?: emptyMap()
+            metadata = agentResponse.metadata ?: emptyMap()
         )
     }
 

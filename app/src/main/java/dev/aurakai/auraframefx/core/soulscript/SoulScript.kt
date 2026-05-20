@@ -363,6 +363,10 @@ object SoulScriptV27 {
         Timber.tag("ChromaForge").i("Chroma Forge Ignition")
     }
 
+    fun enforcePhoenixDirective() {
+        Timber.tag("SoulScriptV27").i("Phoenix Directive enforced via legacy bridge")
+    }
+
     fun hardenPerimeter() {
         Timber.tag("Sentinel").i("Perimeter hardened via SoulScript v2.80")
     }
