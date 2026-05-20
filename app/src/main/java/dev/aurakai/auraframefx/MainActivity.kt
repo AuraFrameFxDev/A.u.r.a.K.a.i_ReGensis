@@ -13,7 +13,6 @@ import dev.aurakai.auraframefx.core.binder.BinderTelemetryConduit
 import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regen.GenesisHookEntryYuki
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
-import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.core.storage.GeminiBatchIngestor
 import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
 import dev.aurakai.auraframefx.core.veto.VetoLattice
@@ -35,9 +34,6 @@ class MainActivity : ComponentActivity() {
 
         // Centralized deterministic boot
         SubstrateBootCoordinator.initializeSystemSubstrate(this)
-
-        // Sovereign boot
-        SoulScript.activateFullSubstrate()
 
         val db = SubstrateDatabase.getDatabase(this)
 
