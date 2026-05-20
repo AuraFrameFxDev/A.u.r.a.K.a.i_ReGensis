@@ -4,8 +4,6 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * 🌉 SUBSTRATE THEME BRIDGE
- * Re-exports core theme tokens to the legacy domain-specific package to fix 
- * unresolved references after the architectural refactor.
  */
 
 // Colors
@@ -18,7 +16,7 @@ val KaiNeonGreen = Color(0xFF39FF14)
 val GenesisNeonPink = Color(0xFFFF00FF)
 
 // Font Families
-val ChessFontFamily = dev.aurakai.auraframefx.ui.theme.CruiserFontFamily // Fallback
+val ChessFontFamily = dev.aurakai.auraframefx.ui.theme.CruiserFontFamily
 val LEDFontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
 val CruiserFontFamily = dev.aurakai.auraframefx.ui.theme.CruiserFontFamily
 val SpaceGrotesk = dev.aurakai.auraframefx.ui.theme.SpaceGrotesk

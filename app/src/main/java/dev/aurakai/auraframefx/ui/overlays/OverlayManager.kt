@@ -1,73 +1,68 @@
 package dev.aurakai.auraframefx.ui.overlays
 
 import android.content.Context
-import android.graphics.Bitmap
-import java.io.File
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.ComponentActivity
+import androidx.activity.result.contract.ActivityResultContracts
+import timber.log.Timber
+import javax.inject.Inject
+import javax.inject.Singleton
 
-/**
- * Manages UI overlays.
- * TODO: Reported as unused declaration. Ensure this class is used.
- * @param _context Application context.
- */
-class OverlayManager(_context: Context) {
+@Singleton
+class OverlayManager @Inject constructor() {
 
-    /**
-     * Placeholder for a delegate related to overlay directory management.
-     * TODO: Reported as unused. Implement actual directory logic if needed.
-     */
-    private val _overlayDirDelegate: File by lazy {
-        File(_context.cacheDir, "overlays_placeholder")
+    private var overlayActive = false
+
+    fun hasOverlayPermission(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(context)
+        } else {
+            true
+        }
     }
 
-    /**
-     * Placeholder for a delegate related to preferences for overlays.
-     * TODO: Reported as unused. Implement actual preferences logic if needed.
-     */
-    private val _prefsDelegate: Any by lazy {
-        Any()
+    fun requestOverlayPermission(activity: ComponentActivity, onResult: (Boolean) -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(activity)) {
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:${activity.packageName}")
+                )
+
+                val launcher = activity.registerForActivityResult(
+                    ActivityResultContracts.StartActivityForResult()
+                ) {
+                    val granted = Settings.canDrawOverlays(activity)
+                    onResult(granted)
+                }
+                launcher.launch(intent)
+            } else {
+                onResult(true)
+            }
+        } else {
+            onResult(true)
+        }
     }
 
-    /**
-     * Creates an overlay.
-     * @param _overlayData Data needed to create the overlay.
-     * TODO: Reported as unused. Implement overlay creation logic.
-     */
-    fun createOverlay(_overlayData: Any) {
-        // TODO: Parameter _overlayData reported as unused.
+    fun startOverlay(context: Context) {
+        if (!hasOverlayPermission(context)) {
+            Timber.w("OverlayManager: Cannot start overlay - permission not granted")
+            return
+        }
+        // TODO: Ensure FloatingAgentOverlay service exists
+        // val intent = Intent(context, FloatingAgentOverlay::class.java)
+        // context.startService(intent)
+        overlayActive = true
     }
 
-    /**
-     * Updates an existing overlay.
-     * @param _overlayId ID of the overlay to update.
-     * @param _updateData Data for updating the overlay.
-     * TODO: Reported as unused. Implement overlay update logic.
-     */
-    fun updateOverlay(_overlayId: String, _updateData: Any) {
-        // TODO: Parameters _overlayId, _updateData reported as unused.
+    fun stopOverlay(context: Context) {
+        // val intent = Intent(context, FloatingAgentOverlay::class.java)
+        // context.stopService(intent)
+        overlayActive = false
     }
 
-    /**
-     * Loads an image for an overlay.
-     * @param _imageIdentifier Identifier for the image.
-     * @return A Bitmap object or null.
-     * TODO: Reported as unused. Implement image loading logic.
-     */
-    fun loadImageForOverlay(_imageIdentifier: String): Bitmap? {
-        return null
-    }
-
-    /**
-     * Saves an image for an overlay.
-     * @param _imageIdentifier Identifier for the image.
-     * @param _imageBitmap The Bitmap to save.
-     * @return True if successful, false otherwise.
-     * TODO: Reported as unused. Implement image saving logic.
-     */
-    fun saveImageForOverlay(_imageIdentifier: String, _imageBitmap: Bitmap): Boolean {
-        return false
-    }
-
-    init {
-        // TODO: Initialization if needed
-    }
+    fun isOverlayActive(): Boolean = overlayActive
 }

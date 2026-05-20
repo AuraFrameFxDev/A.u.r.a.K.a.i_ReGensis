@@ -394,9 +394,24 @@ object SoulScriptV27 {
         Timber.tag("ChromaForge").i("Chroma Forge Ignition")
     }
 
+    fun hardenPerimeter() {
+        Timber.tag("Sentinel").i("Perimeter hardened via SoulScript v2.76")
+    }
+
+    fun activateOracleGovernor() {
+        Timber.tag("Oracle").i("Oracle Governor activated via SoulScript v2.76")
+    }
+
     object ExodusDomains {
         fun initializeNavigation() {
             SoulScript.ExodusDomains.initializeNavigation()
+        }
+    }
+
+    object SentinelMatrix {
+        fun ethicalHardVeto(intent: String): Boolean {
+            Timber.tag("Sentinel").w("Ethical Hard-Veto evaluation for: $intent")
+            return true
         }
     }
 

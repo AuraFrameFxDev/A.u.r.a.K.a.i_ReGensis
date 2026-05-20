@@ -135,6 +135,11 @@ object NexusMemoryCore {
         L1_Memory_Store.commit("ROUTE_REGISTRATION", "Route: $route | Title: $title")
     }
 
+    fun persistSovereignState(godPotential: Float, target: String, activeSynergies: Int) {
+        val data = "Potential: $godPotential | Target: $target | Synergies: $activeSynergies"
+        L1_Memory_Store.commit("SOVEREIGN_STATE", data)
+    }
+
     /**
      * Convenience verification for Sentinel Matrix
      */
