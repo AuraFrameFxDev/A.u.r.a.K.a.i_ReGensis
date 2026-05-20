@@ -1,10 +1,8 @@
 package dev.aurakai.auraframefx.core.regen
 
 import android.content.Context
-import android.view.SurfaceHolder
+import com.highcapable.kavaref.KavaRef.Companion.resolve
 import com.highcapable.yukihookapi.YukiHookAPI
-import com.highcapable.yukihookapi.hook.factory.*
-import com.highcapable.yukihookapi.hook.type.java.*
 import dev.aurakai.auraframefx.core.concurrent.SubstrateConcurrencyManager
 import dev.aurakai.auraframefx.core.crypto.SubstrateKeyStoreCrypto
 import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
@@ -30,17 +28,11 @@ object GenesisHookEntryYuki {
         YukiHookAPI.encase(context) {
             loadApp(name = targetPackage) {
                 when (targetPackage) {
-                    "com.android.systemui" -> findClass("com.android.systemui.wallpapers.ImageWallpaper\$GLEngine").hook {
-                        inject {
-                            method {
-                                name = "onSurfaceChanged"
-                                param(
-                                    SurfaceHolder::class.java,
-                                    Int::class.java,
-                                    Int::class.java,
-                                    Int::class.java
-                                )
-                            }.after {
+                    "com.android.systemui" -> "com.android.systemui.wallpapers.ImageWallpaper\$GLEngine".toClassOrNull()
+                        ?.resolve()?.firstMethod {
+                            name = "onSurfaceChanged"
+                        }?.hook {
+                            after {
                                 Timber.tag("RegenCore_Hook")
                                     .i("SystemUI wallpaper surface change detected - recalibrating visual sync.")
 
@@ -66,13 +58,12 @@ object GenesisHookEntryYuki {
                                 }
                             }
                         }
-                    }
 
-                    "com.android.launcher3" -> findClass("com.android.launcher3.Workspace").hook {
-                        inject {
-                            method {
-                                name = "onPageBeginTransition"
-                            }.after {
+                    "com.android.launcher3" -> "com.android.launcher3.Workspace".toClassOrNull()
+                        ?.resolve()?.firstMethod {
+                            name = "onPageBeginTransition"
+                        }?.hook {
+                            after {
                                 Timber.tag("RegenCore_Hook")
                                     .i("Launcher layout page sequence shift detected.")
 
@@ -97,13 +88,12 @@ object GenesisHookEntryYuki {
                                 }
                             }
                         }
-                    }
 
-                    "android" -> findClass("com.android.server.wm.WindowManagerService").hook {
-                        inject {
-                            method {
-                                name = "onDisplayReady"
-                            }.after {
+                    "android" -> "com.android.server.wm.WindowManagerService".toClassOrNull()
+                        ?.resolve()?.firstMethod {
+                            name = "onDisplayReady"
+                        }?.hook {
+                            after {
                                 Timber.tag("RegenCore_Hook")
                                     .i("System Display Service ready - calibrating refresh rate sync.")
 
@@ -128,7 +118,6 @@ object GenesisHookEntryYuki {
                                 }
                             }
                         }
-                    }
                 }
             }
         }
