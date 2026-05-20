@@ -40,3 +40,10 @@ val NeonPink = Color(0xFFFF00FF)
 val NeonTeal = dev.aurakai.auraframefx.ui.theme.NeonTeal
 val SovereignBlack = dev.aurakai.auraframefx.ui.theme.SovereignBlack
 val WireframeStyle = dev.aurakai.auraframefx.ui.theme.WireframeStyle
+val OverclockOrange = Color(0xFFFF9B00)
+
+object AgentPrimaryColors {
+    val AuraCyan = Color(0xFF00FBFF)
+    val GenesisGold = Color(0xFFFFD700)
+    val KaiGreen = Color(0xFF39FF14)
+}

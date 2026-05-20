@@ -106,4 +106,8 @@ object GenesisHookEntryYuki {
             }
         }
     }
+
+    fun inject(app: Any) {
+        val todo = TODO("Not yet implemented")
+    }
 }
