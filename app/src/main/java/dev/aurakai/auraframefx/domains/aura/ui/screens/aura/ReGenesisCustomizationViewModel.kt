@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.aura.ui.screens.aura
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.domains.aura.lab.ReGenesisCustomizationConfig
+import dev.aurakai.auraframefx.domains.aura.models.ReGenesisCustomizationConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject

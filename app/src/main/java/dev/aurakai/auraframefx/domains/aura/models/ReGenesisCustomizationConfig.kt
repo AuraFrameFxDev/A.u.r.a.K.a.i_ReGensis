@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura.lab
+package dev.aurakai.auraframefx.domains.aura.models
 
 /**
  * ⚙️ REGENESIS CUSTOMIZATION CONFIG
