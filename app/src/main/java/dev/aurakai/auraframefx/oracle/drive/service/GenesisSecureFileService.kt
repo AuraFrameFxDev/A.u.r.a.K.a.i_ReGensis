@@ -3,7 +3,8 @@ package dev.aurakai.auraframefx.oracle.drive.service
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.security.EncryptionManager
-import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.FileOperationResult
+import dev.aurakai.auraframefx.domains.genesis.models.FileMetadata
+import dev.aurakai.auraframefx.domains.genesis.models.FileOperationResult
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.service.SecureFileService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -49,17 +50,23 @@ class GenesisSecureFileService @Inject constructor(
                 fos.write(encryptedData)
             }
 
-            val metadata = dev.aurakai.auraframefx.domains.genesis.models.FileMetadata(
+            val metadata = FileMetadata(
+                fileId = fileName.hashCode().toString(),
                 fileName = fileName,
                 mimeType = guessMimeType(fileName),
                 size = data.size.toLong(),
-                lastModified = System.currentTimeMillis()
+                modifiedAt = System.currentTimeMillis()
             )
             secureStorage.storeMetadata(getMetadataKey(fileName), metadata)
 
-            emit(FileOperationResult.Success(outputFile))
+            emit(
+                FileOperationResult.Success(
+                    message = "File saved",
+                    path = outputFile.absolutePath
+                )
+            )
         } catch (e: Exception) {
-            emit(FileOperationResult.Error("Failed to save file: ${e.message}", e))
+            emit(FileOperationResult.Error("Failed to save file: ${e.message}"))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -85,7 +92,7 @@ class GenesisSecureFileService @Inject constructor(
             val decryptedData = cryptoManager.decrypt(encryptedData)
             emit(FileOperationResult.Data(decryptedData, inputFile.nameWithoutExtension))
         } catch (e: Exception) {
-            emit(FileOperationResult.Error("Failed to read file: ${e.message}", e))
+            emit(FileOperationResult.Error("Failed to read file: ${e.message}"))
         }
     }.flowOn(Dispatchers.IO)
 
@@ -103,12 +110,15 @@ class GenesisSecureFileService @Inject constructor(
 
             if (fileToDelete.delete()) {
                 secureStorage.removeMetadata(getMetadataKey(fileName))
-                FileOperationResult.Success(fileToDelete)
+                FileOperationResult.Success(
+                    message = "File deleted",
+                    path = fileToDelete.absolutePath
+                )
             } else {
                 FileOperationResult.Error("Failed to delete file")
             }
         } catch (e: Exception) {
-            FileOperationResult.Error("Failed to delete file: ${e.message}", e)
+            FileOperationResult.Error("Failed to delete file: ${e.message}")
         }
     }
 
