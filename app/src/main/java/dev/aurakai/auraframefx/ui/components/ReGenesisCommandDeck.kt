@@ -11,6 +11,7 @@ import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -84,6 +85,18 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                         ReGenesisRoute.OracleDrive -> OracleDriveHubScreen(navController)
                         ReGenesisRoute.EmergentSwarm -> EmergentSwarmScreen(navController)
                         ReGenesisRoute.FoundationRebirth -> FoundationRebirthScreen(navController)
+                        else -> {
+                            // Sub-routes or newly added routes
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                androidx.compose.material3.Text(
+                                    "STAGING: ${tabs[page].title}",
+                                    color = Color.Gray
+                                )
+                            }
+                        }
                     }
                 }
             }
