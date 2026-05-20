@@ -1,12 +1,12 @@
 package dev.aurakai.auraframefx.domains.kai.system
 
+import dev.aurakai.auraframefx.domains.aura.OverlayAnimation
+import dev.aurakai.auraframefx.domains.aura.OverlayElement
+import dev.aurakai.auraframefx.domains.aura.OverlayShape
+import dev.aurakai.auraframefx.domains.aura.OverlayTheme
+import dev.aurakai.auraframefx.domains.aura.OverlayTransition
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayConfig
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
-import dev.aurakai.auraframefx.domains.aura.animations.OverlayAnimation
-import dev.aurakai.auraframefx.domains.aura.animations.OverlayTransition
-import dev.aurakai.auraframefx.domains.aura.ui.OverlayElement
-import dev.aurakai.auraframefx.domains.aura.ui.OverlayShape
-import dev.aurakai.auraframefx.domains.aura.ui.theme.model.OverlayTheme
 import javax.inject.Inject
 import javax.inject.Singleton
 
