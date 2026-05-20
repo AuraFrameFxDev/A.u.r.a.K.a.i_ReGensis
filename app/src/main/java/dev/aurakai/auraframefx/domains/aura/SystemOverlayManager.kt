@@ -97,7 +97,11 @@ data class OverlayShape(
     val strokeColor: String? = null,
     val strokeWidthPx: Float = 0f,
     val shadow: ShapeShadow? = null,
-)
+) {
+    companion object {
+        val ROUNDED_RECTANGLE = OverlayShape(type = "rounded_rectangle", cornerRadius = 8f)
+    }
+}
 
 @Serializable
 data class ShapeShadow(
