@@ -42,6 +42,16 @@ val SovereignBlack = dev.aurakai.auraframefx.ui.theme.SovereignBlack
 val WireframeStyle = dev.aurakai.auraframefx.ui.theme.WireframeStyle
 val OverclockOrange = Color(0xFFFF9B00)
 
+fun getAgentColor(agentName: String): Color {
+    return when (agentName.uppercase()) {
+        "AURA" -> AuraNeonCyan
+        "KAI" -> KaiNeonGreen
+        "GENESIS" -> GenesisNeonPink
+        "CASCADE" -> CyberpunkPurple
+        else -> Color.Gray
+    }
+}
+
 object AgentPrimaryColors {
     val AuraCyan = Color(0xFF00FBFF)
     val GenesisGold = Color(0xFFFFD700)

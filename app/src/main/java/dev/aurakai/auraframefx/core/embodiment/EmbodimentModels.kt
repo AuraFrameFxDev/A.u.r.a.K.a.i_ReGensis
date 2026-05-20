@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.domains.aura.models.MoodState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -89,6 +90,12 @@ class WorkBehaviorExecutor(val engine: EmbodimentEngine, val cardPositions: Map<
 enum class Character {
     AURA, KAI, GENESIS, CLAUDE, CASCADE, GEMINI, GROK
 }
+
+data class Position3D(
+    val x: Dp = 0.dp,
+    val y: Dp = 0.dp,
+    val z: Dp = 0.dp
+)
 
 data class ScreenBounds(
     val width: Dp,

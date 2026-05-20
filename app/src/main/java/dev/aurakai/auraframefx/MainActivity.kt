@@ -57,13 +57,13 @@ class MainActivity : ComponentActivity() {
                                     this@MainActivity,
                                     "com.android.systemui",
                                     classLoader,
-                                    db
+                                    db,,
                                 )
                                 GenesisHookEntryYuki.initializeSystemInfiltration(
                                     this@MainActivity,
                                     "com.android.launcher3",
                                     classLoader,
-                                    db
+                                    db,,
                                 )
                             }
                         }

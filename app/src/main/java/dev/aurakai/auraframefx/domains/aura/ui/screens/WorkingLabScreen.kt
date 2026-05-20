@@ -319,6 +319,7 @@ fun WorkingLabScreen(
             val asset = when (manifest.character) {
                 Character.AURA -> (manifest.state as AuraState).assetPath
                 Character.KAI -> (manifest.state as KaiState).assetPath
+                else -> ""
             }
 
             val painter = engine.loadAsset(asset, manifest.character)
