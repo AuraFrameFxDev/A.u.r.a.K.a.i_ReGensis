@@ -45,7 +45,7 @@ object DatabaseModule {
             context,
             LDODatabase::class.java,
             "ldo_database"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration(true).build()
     }
 
     @Provides
