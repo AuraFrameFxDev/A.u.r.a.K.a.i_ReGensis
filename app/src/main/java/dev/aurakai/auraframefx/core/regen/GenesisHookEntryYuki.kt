@@ -31,7 +31,7 @@ object GenesisHookEntryYuki {
             loadApp(name = targetPackage) {
                 when (targetPackage) {
                     "com.android.systemui" -> findClass("com.android.systemui.wallpapers.ImageWallpaper\$GLEngine").hook {
-                        val inject = inject {
+                        inject {
                             method {
                                 name = "onSurfaceChanged"
                                 param(
@@ -70,7 +70,7 @@ object GenesisHookEntryYuki {
 
                     "com.android.launcher3" -> findClass("com.android.launcher3.Workspace").hook {
                         inject {
-                            hook {
+                            method {
                                 name = "onPageBeginTransition"
                             }.after {
                                 Timber.tag("RegenCore_Hook")
