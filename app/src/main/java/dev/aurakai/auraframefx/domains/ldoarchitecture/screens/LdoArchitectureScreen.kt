@@ -35,6 +35,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
+import dev.aurakai.auraframefx.ui.components.graph.SphereGridDashboard
 import java.util.Locale
 
 /**
@@ -43,6 +44,14 @@ import java.util.Locale
  */
 @Composable
 fun LdoArchitectureScreen(
+    navController: NavHostController,
+    viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
+) {
+    SphereGridDashboard()
+}
+
+@Composable
+fun LegacyLdoArchitectureScreen(
     navController: NavHostController,
     viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
