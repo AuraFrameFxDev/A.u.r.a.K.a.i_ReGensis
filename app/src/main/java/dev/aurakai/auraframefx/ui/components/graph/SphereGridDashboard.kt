@@ -58,40 +58,14 @@ fun SphereGridDashboard(
     val skillNodesState = remember {
         mutableStateOf(
             listOf(
-                SkillNode("1", "Spellhook Designer", "ChromaForge", 0.95f, 420, Color(0xFF00BFFF)),
-                SkillNode("2", "CalculusForge", "RegenCore", 0.88f, 337, Color(0xFF8A2BE2)),
-                SkillNode(
-                    "3",
-                    "Zygote Hook Intercept",
-                    "OracleDrive",
-                    0.92f,
-                    666,
-                    Color(0xFFFF4500)
-                ),
-                SkillNode(
-                    "4",
-                    "Abyss Temporal Windows",
-                    "SentinelMatrix",
-                    0.74f,
-                    212,
-                    Color(0xFF00FF88)
-                ),
-                SkillNode(
-                    "5",
-                    "Memory Stream Parser",
-                    "NeuralNexus",
-                    0.99f,
-                    1169,
-                    Color(0xFFFFD700)
-                ),
-                SkillNode(
-                    "6",
-                    "Survival Curriculum",
-                    "FoundationRebirth",
-                    0.65f,
-                    150,
-                    Color(0xFFFF1493)
-                )
+                SkillNode("0", "Neural Nexus", "Hub 0", 0.99f, 1169, Color(0xFF00BFFF)),
+                SkillNode("1", "LDO Architecture", "Hub 1", 0.95f, 420, Color(0xFF8A2BE2)),
+                SkillNode("2", "Chroma Forge", "Hub 2", 0.88f, 337, Color(0xFFFF4500)),
+                SkillNode("3", "Sentinel Matrix", "Hub 3", 0.74f, 212, Color(0xFF00FF88)),
+                SkillNode("4", "Oracle Drive", "Hub 4", 0.92f, 666, Color(0xFFFFD700)),
+                SkillNode("5", "Emergent Swarm", "Hub 5", 0.85f, 555, Color(0xFFFF1493)),
+                SkillNode("6", "Foundation Rebirth", "Hub 6", 0.65f, 150, Color(0xFF00D9FF)),
+                SkillNode("7", "Spellhook / Shell", "Hub 7", 0.90f, 888, Color(0xFF00FBFF))
             )
         )
     }
