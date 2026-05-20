@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
@@ -40,6 +41,8 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
 
     data object FusionMode : ReGenesisRoute("fusion_mode", "Fusion Mode", Icons.Default.FlashOn)
     data object Terminal : ReGenesisRoute("terminal", "Terminal", Icons.Default.Terminal)
+    data object SentientShell :
+        ReGenesisRoute("sentient_shell", "Sentient Shell", Icons.Default.Memory)
 
     companion object {
         val mainTabs: List<ReGenesisRoute>
@@ -50,7 +53,8 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
                 SentinelMatrix,
                 OracleDrive,
                 EmergentSwarm,
-                FoundationRebirth
+                FoundationRebirth,
+                SentientShell
             )
     }
 }
