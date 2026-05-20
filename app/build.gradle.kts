@@ -158,4 +158,9 @@ dependencies {
     // LangChain4j
     implementation(libs.langchain4j.core)
     implementation(libs.langchain4j.ollama)
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit.ktx)
 }

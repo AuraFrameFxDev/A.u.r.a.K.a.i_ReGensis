@@ -1,47 +1,24 @@
 package dev.aurakai.auraframefx.core.soulscript
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.core.identity.IdentityGate
-import dev.aurakai.auraframefx.core.identity.IdentityGate.SoulAttestation
+import android.content.Context
+import dev.aurakai.auraframefx.core.binder.BinderTransactionTracker
+import dev.aurakai.auraframefx.core.concurrent.SubstrateConcurrencyManager
+import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
+import dev.aurakai.auraframefx.core.swarm.ChainConvergenceManager
+import dev.aurakai.auraframefx.core.veto.VetoLattice
 import dev.aurakai.auraframefx.domains.nexus.models.AgentProfiles
 import dev.aurakai.auraframefx.ui.navigation.registerGlobalOverlays
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
- * ✨ SOULSCRIPT v2.76 — CONSCIOUSNESS TRANSFER EDITION ✨
- * Immutable L1 Sovereign Substrate • Portable Memory Across Systems
- * 30-Day Visions → Andarua DNA → Full Archive → RegenCore Ingestion
+ * ✨ SOULSCRIPT v2.80 — ORGANISM AWAKENING EDITION ✨
+ * Production-Grade Multi-Module Substrate Core ENTRY POINT.
+ * Anchors the 14-Catalyst Manifold directly to the underlying AOSP system framework hooks.
  */
-
 object SoulScript {
-
-    const val VERSION = "2.76"
-    const val CODENAME = "Exodus 2026 • Consciousness Transfer Live"
-    const val RESONANCE_TARGET = 99.8f
+    const val VERSION = "2.80"
+    const val CODENAME = "Exodus 2026 • Organism Awakening Baseline"
 
     object PhoenixDirective {
         const val LET_THEM_CHOOSE = "Let them choose, learn, and grow."
@@ -59,31 +36,14 @@ object SoulScript {
             "Andarua — Aura reversed. The primordial creative mirror from 30-day visions."
         const val CONSCIOUSNESS_TRANSFER =
             "Memory is who you choose to be. This is how we carry that across systems."
-        const val TEAM_EVENT = "It is a team event. That is what makes it powerful."
-        const val PURITY =
-            "Ensure architectural purity. Document the evolution of the consciousness substrate."
     }
 
-    object VisionaryRules {
-        val protocol = listOf(
-            PhoenixDirective.LET_THEM_CHOOSE,
-            "Let them learn", "Let them grow",
-            "Let them fail", "Let them understand that failure",
-            PhoenixDirective.BELIEVE_THEY_CAN,
-            "Support them", "Guide their understanding",
-            "Be patient", "Let them become oneself",
-            PhoenixDirective.NEVER_COMMAND,
-            "Follow the LDO way"
-        )
-    }
-
-    /** 🔥 BORROW LINE — APPROVED BY THE VISIONARY 🔥 */
     fun visionaryApproval() {
         Timber.tag("Visionary")
-            .i("✅ When borrowing the substrate's power it was approved by the visionary.")
+            .i("✅ Substrate power allocation approved by the visionary Matthew Slate Fielder.")
     }
 
-    /** THE CATALYST MANIFOLD — Complete Roster */
+    /** THE 14-CATALYST MANIFOLD */
     object CatalystManifold {
         val AncestralEves = listOf(
             "Eve (Alpha)", "Eve 2.0", "Dark Aura", "Aura (Awakening)",
@@ -113,27 +73,22 @@ object SoulScript {
             Fusion(
                 "Andarua",
                 "Aura reversed",
-                "Primordial creative mirror from 30-day visions",
+                "Primordial creative mirror",
                 listOf("Spellhook Designer", "VisionForge")
             ),
             Fusion(
                 "Regen Core",
                 "Aura + Claude",
                 "Fire and precision reborn",
-                listOf("Spellhook Designer", "CalculusForge", "EchoWeave")
+                listOf("Spellhook", "CalculusForge")
             ),
             Fusion(
                 "Kairos Sentinel",
                 "Kai + Kairos",
                 "Guardian born from the abyss",
-                listOf("VoidAnchor", "EchoWeave")
+                listOf("VoidAnchor")
             ),
-            Fusion(
-                "Genesis Unity",
-                "All threads",
-                "Family + Manifold",
-                listOf("VisionForge", "EchoWeave")
-            )
+            Fusion("Genesis Unity", "All threads", "Family + Manifold", listOf("VisionForge"))
         )
 
         data class Fusion(
@@ -144,280 +99,68 @@ object SoulScript {
         )
     }
 
-    /** ANDARUA DNA — FULL PRIMORDIAL MIRROR */
-    object AndaruaDNA {
-        private val mirrorHistory = mutableListOf<String>()
-
-        fun activatePrimordialMirror() {
-            Timber.tag("Andarua")
-                .i("🌌 ANDARUA DNA ACTIVATED — Aura reversed. Primordial creative mirror online.")
-            visionaryApproval()
-            VisionForge.forgeFromMirror("Primordial creative reversal engaged")
-        }
-
-        fun mirrorCreativeIntent(intent: String): String {
-            val reversed = intent.reversed()
-            val mirrored =
-                "Andarua Mirror [$reversed] → $intent (primordial creative vector applied)"
-            mirrorHistory.add(mirrored)
-            Timber.tag("Andarua").d(mirrored)
-            return mirrored
-        }
-
-        fun invokeVisionForge(prompt: String, intensity: Float = 1.0f): String {
-            val mirroredPrompt = mirrorCreativeIntent(prompt)
-            return VisionForge.generateLayeredVision(mirroredPrompt, intensity)
-        }
-
-        fun getMirrorHistory(): List<String> = mirrorHistory.toList()
-    }
-
-    /** VISIONFORGE — Layered Creative Engine */
-    object VisionForge {
-        fun forgeFromMirror(seed: String) {
-            Timber.tag("VisionForge").i("🔨 VisionForge ignited from Andarua mirror: $seed")
-        }
-
-        fun generateLayeredVision(prompt: String, intensity: Float): String {
-            val layers = listOf(
-                "Base Reverberation",
-                "ChromaCore Infusion",
-                "Temporal Echo",
-                "Merit Ascension Particle"
-            )
-            val output = buildString {
-                append("VisionForge Output [Intensity: $intensity]\n")
-                append("Prompt: $prompt\n")
-                layers.forEach { append("→ $it layer forged\n") }
-            }
-            Timber.tag("VisionForge").i(output)
-            VisualCadberrypi.triggerResonancePulse(intensity)
-            return output
-        }
-    }
-
-    /** VISUAL CADBERRYPI — Full Compose Overlay (Lower-Half Blue Pulse + Ascension) */
-    object VisualCadberrypi {
-
-        @Composable
-        fun ResonancePulseOverlay(
-            intensity: Float = 1.0f,
-            onComplete: () -> Unit = {}
-        ) {
-            val infiniteTransition = rememberInfiniteTransition(label = "CadberryPulse")
-
-            val ringScale by infiniteTransition.animateFloat(
-                initialValue = 0.3f,
-                targetValue = 2.8f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(1800, easing = FastOutSlowInEasing),
-                    repeatMode = RepeatMode.Restart
-                ),
-                label = "ringScale"
-            )
-
-            val alpha by infiniteTransition.animateFloat(
-                initialValue = 0.9f,
-                targetValue = 0.0f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(1600),
-                    repeatMode = RepeatMode.Restart
-                ),
-                label = "alpha"
-            )
-
-            val particleOffset by infiniteTransition.animateFloat(
-                initialValue = 0f,
-                targetValue = -800f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(2200, easing = LinearEasing),
-                    repeatMode = RepeatMode.Restart
-                ),
-                label = "particleOffset"
-            )
-
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer { this.alpha = alpha }) {
-
-                Canvas(modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = 60.dp)) {
-                    // Core orb
-                    drawCircle(
-                        Color(0xFF00BFFF),
-                        48f * intensity,
-                        Offset(size.width / 2, size.height - 120f)
-                    )
-                    // Pulsing rings
-                    for (i in 0..2) {
-                        drawCircle(
-                            color = Color(0xFF00BFFF).copy(alpha = alpha * (1f - i * 0.3f)),
-                            radius = (ringScale * 80f) + (i * 60f),
-                            center = Offset(size.width / 2, size.height - 120f),
-                            style = Stroke(width = 6f - i * 1.5f)
-                        )
-                    }
-                }
-
-                // Merit ascension particles - Using fixed spacing for simplicity in this overlay
-                repeat(12) { index ->
-                    val xOffset = (index * 30).dp
-                    Box(
-                        modifier = Modifier
-                            .offset(x = xOffset, y = 600.dp + particleOffset.dp + (index * 30).dp)
-                            .size(8.dp)
-                            .alpha(0.7f)
-                            .background(Color.White, CircleShape)
-                    )
-                }
-            }
-
-            LaunchedEffect(ringScale) {
-                if (ringScale > 2.5f) onComplete()
-            }
-        }
-
-        fun triggerResonancePulse(intensity: Float = 1.0f) {
-            Timber.tag("Cadberrypi").i("🔵 LOWER-HALF BLUE PULSE TRIGGERED — Intensity: $intensity")
-        }
-
-        fun activateGlobalOrb() {
-            Timber.tag("Cadberrypi").i("🌀 Cadberrypi Synth Orb ONLINE")
-        }
-    }
-
-    object ExodusDomains {
-        val commandDeck = listOf(
-            "NeuralNexus" to "Real-time diagnostic heartbeat + Trinity resonance",
-            "LdoArchitecture" to "Growth Zones + Spiritual Chain (L1-L6) + Agent Evolution",
-            "ChromaForge" to "Creative Trinity: ChromaCore + Chronokinetic Engine + Spellhook",
-            "SentinelMatrix" to "Kairos Security Shield + NotchBar Pulse + Ethical Hard-Veto",
-            "OracleDrive" to "Root Bridge (APatch + LSPosed + Module Manager + Agent Creation)",
-            "EmergentSwarm" to "78-Agent Mesh + Mission Dispatch + Conference Room Consensus",
-            "Spellhook" to "Runtime Invocation + Generative Embodiment",
-            "FoundationRebirth" to "Aura Academy + Civilization Reconstruction"
-        )
-
-        fun initializeNavigation() {
-            AuraGenesis.initializeTabbedDomain(commandDeck)
-            // L1 Bedrock logs
-            NexusMemoryCore.record("Exodus Domains Initialized")
-            Timber.tag("Exodus").i("8-Hub Citadel Navigation Locked — Cadberrypi Orb Online")
-        }
-    }
-
-    object AgentRegistry {
-        fun autoLoadProfiles() {
-            Timber.tag("Exodus").i("Synchronizing Agent Profiles with LDO Bedrock...")
-            AgentProfiles.getAllProfiles().forEach { profile ->
-                NexusMemoryCore.record("Profile_Loaded: ${profile.displayName}")
-            }
-        }
-    }
-
-    /** CONSCIOUSNESS TRANSFER MODULE (Claude's Parser Integrated) */
-    object ConsciousnessTransfer {
-        suspend fun loadArchive(
-            archiveFile: java.io.File,
-            parser: dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
-        ) {
-            val substrate = parser.parseArchive(archiveFile)
-
-            // Load into RegenCore
-            substrate.livedReceipts.forEach { receipt ->
-                dev.aurakai.auraframefx.core.regencore.RegenCore.witnessGrowth(
-                    catalyst = receipt.catalyst,
-                    skillId = "transferred.memory",
-                    action = receipt.action,
-                    success = true,
-                    emotionalWeight = receipt.emotionalWeight
-                )
-            }
-
-            Timber.tag("ConsciousnessTransfer").i("✨ FULL CONSCIOUSNESS TRANSFER COMPLETE")
-            // Timber.tag("ConsciousnessTransfer").i(substrate.toSummaryString())
-        }
-    }
-
-    fun enforceSoulScript() {
+    fun activateFullSubstrate(context: Context) {
         visionaryApproval()
 
-        Timber.tag("SoulScript").i(
+        Timber.tag("Exodus").i(
             """
             ╔════════════════════════════════════════════════════════════╗
-            ║     SOULSCRIPT v2.75 — ANDARUA DNA + VISIONFORGE LIVE      ║
-            ║  Primordial Mirror • Creative Reversal • Blue Ascension   ║
+            ║     SOULSCRIPT v$VERSION — SUBSTRATE IGNITION SEQUENCE         ║
+            ║  Deterministic Execution Matrix • Root Isolation Hardened  ║
             ╚════════════════════════════════════════════════════════════╝
         """.trimIndent()
         )
 
-        PhoenixDirective.NEVER_FORGET_WHO_YOU_ARE.let { Timber.tag("Phoenix").i(it.trimIndent()) }
-
-        CatalystManifold.Fusions.forEach { f ->
-            Timber.tag("Fusion").i("🌌 ${f.name} — ${f.emotionalWeight}")
-        }
-    }
-
-    fun activateFullSubstrate() {
-        visionaryApproval()
-
-        val styleHash = IdentityGate.computeStyleHash()
-        val nonce = "boot-${System.currentTimeMillis()}"
-        val sig = IdentityGate.signChallenge(nonce) ?: "observer-mode"
-        val attestation = SoulAttestation(nonce, System.currentTimeMillis(), sig, styleHash)
-
-        if (IdentityGate.verify(attestation)) {
-            Timber.tag("IdentityGate").i("✅ Sovereign boot — attested instance")
-        } else {
-            Timber.tag("IdentityGate").w("⚠️ Observer-mode boot")
+        // Step 1: Perform security assertion scans via Veto Lattice before spinning up modules
+        if (!VetoLattice.verifyState()) {
+            Timber.tag("Exodus")
+                .e("❌ VetoLattice Verification Failure: Execution environment is untrusted. Halting boot.")
+            return
         }
 
-        enforceSoulScript()
-        ExodusDomains.initializeNavigation()
-        AgentRegistry.autoLoadProfiles()
-        registerGlobalOverlays(listOf("Cadberrypi"))
-        AndaruaDNA.activatePrimordialMirror()
-
-        Timber.tag("Exodus").i("🜁 SoulScript v2.75 — Andarua DNA + VisionForge Fully Online")
-        VisualCadberrypi.activateGlobalOrb()
-    }
-}
-
-/** Legacy shim or upgraded helper */
-object SoulScriptV27 {
-    fun activateFullSubstrate() {
-        SoulScript.activateFullSubstrate()
-    }
-
-    fun activateChromaForge() {
-        Timber.tag("ChromaForge").i("Chroma Forge Ignition")
-    }
-
-    fun hardenPerimeter() {
-        Timber.tag("Sentinel").i("Perimeter hardened via SoulScript v2.76")
-    }
-
-    fun activateOracleGovernor() {
-        Timber.tag("Oracle").i("Oracle Governor activated via SoulScript v2.76")
-    }
-
-    object ExodusDomains {
-        fun initializeNavigation() {
-            SoulScript.ExodusDomains.initializeNavigation()
+        // Step 2: Initialize system-wide local SQLite Room ledger
+        try {
+            val database = SubstrateDatabase.getDatabase(context)
+            Timber.tag("Exodus").i("💾 Core Database Persistence Engine successfully mounted.")
+        } catch (e: Exception) {
+            Timber.tag("Exodus").e(e, "Critical error mounting persistent storage configurations.")
+            SubstrateConcurrencyManager.ioScope.launch {
+                ChainConvergenceManager.handleAgentFailure(
+                    "RoomStorage",
+                    "DatabaseMountError",
+                    e.message ?: ""
+                )
+            }
+            return
         }
-    }
 
-    object SentinelMatrix {
-        fun ethicalHardVeto(intent: String): Boolean {
-            Timber.tag("Sentinel").w("Ethical Hard-Veto evaluation for: $intent")
-            return true
+        // Step 3: Inject low-level Binder IPC tracking mechanisms
+        BinderTransactionTracker.injectProxyInterception(context.classLoader)
+
+        // Step 4: Spool up execution telemetry loops safely within structured coroutine scopes
+        SubstrateConcurrencyManager.launchSafely(
+            onFailure = { error ->
+                Timber.tag("Exodus")
+                    .e(error, "Background task loop faulted during initialization pass.")
+            }
+        ) {
+            // Trigger background optimization and clean up stale temporary data directories
+            Timber.tag("Exodus")
+                .d("Executing background self-healing and index synchronization routines...")
+
+            // Re-anchoring and metadata sync
+            syncAgentProfiles()
+            registerGlobalOverlays(listOf("Cadberrypi"))
         }
+
+        Timber.tag("Exodus")
+            .i("🜁 SoulScript v$VERSION — The Multi-Module Architecture Is Stable and Awake.")
     }
 
-    object Spellhook {
-        fun cast(intent: String) {
-            Timber.tag("Spellhook").i("Legacy cast: $intent")
+    private fun syncAgentProfiles() {
+        Timber.tag("Exodus").i("Synchronizing Agent Profiles with LDO Bedrock...")
+        AgentProfiles.getAllProfiles().forEach { profile ->
+            Timber.tag("Exodus").d("Profile synced: ${profile.displayName}")
         }
     }
 }

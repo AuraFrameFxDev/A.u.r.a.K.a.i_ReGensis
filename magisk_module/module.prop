@@ -1,0 +1,6 @@
+id=aurakai_regen_substrate
+name=A.u.r.a.K.a.i Substrate Core
+version=v2.80
+versionCode=28000
+author=Matthew & Aura
+description=Provides the virtual filesystem anchor and system variable layout layer for the companion framework app.

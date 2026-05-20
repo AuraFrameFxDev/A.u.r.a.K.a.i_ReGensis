@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <allow-in-power-save package="dev.aurakai.auraframefx" />
+    <allow-in-data-usage-save package="dev.aurakai.auraframefx" />
+    <allow-unthrottled-location package="dev.aurakai.auraframefx" />
+</config>
