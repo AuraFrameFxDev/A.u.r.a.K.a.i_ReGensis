@@ -1,3 +1,4 @@
+@file:OptIn(ExperimentalSerializationApi::class)
 package dev.aurakai.auraframefx.core.regencore
 
 import dev.aurakai.auraframefx.core.storage.TelemetryDao

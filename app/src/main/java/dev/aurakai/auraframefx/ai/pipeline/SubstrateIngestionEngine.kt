@@ -1,3 +1,4 @@
+@file:OptIn(ExperimentalSerializationApi::class)
 package dev.aurakai.auraframefx.ai.pipeline
 
 import android.content.Context
