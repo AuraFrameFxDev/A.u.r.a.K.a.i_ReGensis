@@ -35,7 +35,7 @@ object GenesisHookEntryYuki {
                         findClass("com.android.systemui.wallpapers.ImageWallpaper\$GLEngine").hook {
                             inject {
                                 return@inject method {
-                                    name = "onSurfaceChanged"
+                                    "onSurfaceChanged".also { name = it }
                                     param(
                                         SurfaceHolder::class.java,
                                         IntType,
