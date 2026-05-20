@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 data class LdoWarRoomUiState(
@@ -96,5 +97,13 @@ class LdoWarRoomViewModel @Inject constructor(
                 delay(1000)
             }
         }
+    }
+
+    fun igniteManifold(agent1Id: String, agent2Id: String) {
+        Timber.tag("WarRoom").i("Igniting Manifold between $agent1Id and $agent2Id")
+    }
+
+    fun triggerL6Consensus(event: Any) {
+        Timber.tag("WarRoom").i("Triggering L6 Consensus for event: $event")
     }
 }

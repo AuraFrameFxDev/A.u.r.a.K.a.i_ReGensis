@@ -5,6 +5,7 @@ import android.view.SurfaceHolder
 import com.highcapable.yukihookapi.YukiHookAPI
 import com.highcapable.yukihookapi.hook.factory.*
 import com.highcapable.yukihookapi.hook.type.java.*
+import dagger.hilt.android.migration.CustomInjection.inject
 import dev.aurakai.auraframefx.core.concurrent.SubstrateConcurrencyManager
 import dev.aurakai.auraframefx.core.crypto.SubstrateKeyStoreCrypto
 import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
@@ -30,10 +31,10 @@ object GenesisHookEntryYuki {
         YukiHookAPI.encase(context) {
             loadApp(name = targetPackage) {
                 when (targetPackage) {
-                    "com.android.systemui" -> {
+                    "com.android.systemui" ->
                         findClass("com.android.systemui.wallpapers.ImageWallpaper\$GLEngine").hook {
                             inject {
-                                method {
+                                return@inject method {
                                     name = "onSurfaceChanged"
                                     param(
                                         SurfaceHolder::class.java,
@@ -68,9 +69,8 @@ object GenesisHookEntryYuki {
                                 }
                             }
                         }
-                    }
 
-                    "com.android.launcher3" -> {
+                    "com.android.launcher3" ->
                         findClass("com.android.launcher3.Workspace").hook {
                             inject {
                                 method {
@@ -102,7 +102,6 @@ object GenesisHookEntryYuki {
                                 }
                             }
                         }
-                    }
                 }
             }
         }

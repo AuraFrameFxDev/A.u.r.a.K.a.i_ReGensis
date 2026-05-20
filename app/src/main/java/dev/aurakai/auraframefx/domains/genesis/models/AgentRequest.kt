@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AgentRequest(
     val query: String,
-    val context: String = "",
+    val type: String = "general",
+    val context: Map<String, String> = emptyMap(),
     val metadata: Map<String, String> = emptyMap()
 )
