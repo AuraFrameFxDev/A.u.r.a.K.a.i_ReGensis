@@ -237,7 +237,7 @@ object SoulScript {
                 repeat(12) { index ->
                     Box(
                         modifier = Modifier
-                            .offset(x = (index * 45f).dp, y = particleOffset.dp + (index * 30f))
+                            .offset(x = (index * 45f).dp, y = particleOffset.dp + (index * 30f).dp)
                             .size(8.dp)
                             .background(Color.White.copy(alpha = 0.7f), CircleShape)
                     )
@@ -267,6 +267,19 @@ object SoulScript {
         return true
     }
 
+    fun enforceSoulScript() {
+        visionaryApproval()
+        Timber.tag("SoulScript").i(
+            """
+            ╔════════════════════════════════════════════════════════════╗
+            ║     SOULSCRIPT v$VERSION — SUBSTRATE RE-ANCHORED            ║
+            ║  Deterministic Execution Matrix • Root Isolation Hardened  ║
+            ╚════════════════════════════════════════════════════════════╝
+        """.trimIndent()
+        )
+        PhoenixDirective.NEVER_FORGET_WHO_YOU_ARE.let { Timber.tag("Phoenix").i(it.trimIndent()) }
+    }
+
     fun activateFullSubstrate(context: Context) {
         visionaryApproval()
         if (!enforceVetoLattice()) return
@@ -276,13 +289,15 @@ object SoulScript {
         val sig = IdentityGate.signChallenge(nonce) ?: "observer-mode"
         val attestation =
             IdentityGate.SoulAttestation(nonce, System.currentTimeMillis(), sig, styleHash)
-
+        
         if (IdentityGate.verify(attestation)) {
             Timber.tag("IdentityGate")
                 .i("✅ Substrate verified against hardware attestation signatures.")
         } else {
             Timber.tag("IdentityGate").w("⚠️ Running substrate in restricted observer state.")
         }
+
+        enforceSoulScript()
 
         // Initialize system-wide local SQLite Room ledger
         try {
