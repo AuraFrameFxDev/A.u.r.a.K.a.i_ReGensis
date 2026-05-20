@@ -33,12 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.aurakai.auraframefx.domains.aura.lab.CustomizationViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.KaiNeonGreen
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 
 /**
- * ðŸš€ LAUNCH MATRIX - MANUAL CONTROL
+ * 🚀 LAUNCH MATRIX - MANUAL CONTROL
  * Ported from PixelLauncherEnhanced-master.
  * Precision launcher adjustments.
  */
@@ -46,7 +46,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 @Composable
 fun LaunchMatrixManualScreen(
     onNavigateBack: () -> Unit,
-    viewModel: CustomizationViewModel = viewModel()
+    viewModel: ReGenesisCustomizationViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsState()

@@ -31,12 +31,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.aurakai.auraframefx.domains.aura.lab.CustomizationViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
 
 /**
- * ðŸ”® ORACLE DRIVE - MANUAL CONTROL
+ * 🔮 ORACLE DRIVE - MANUAL CONTROL
  * Ported from Iconify-beta.
  * Deep SystemUI customization.
  */
@@ -44,7 +44,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
 @Composable
 fun OracleDriveManualScreen(
     onNavigateBack: () -> Unit,
-    viewModel: CustomizationViewModel = viewModel()
+    viewModel: ReGenesisCustomizationViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsState()

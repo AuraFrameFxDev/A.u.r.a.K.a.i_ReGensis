@@ -1,5 +1,9 @@
 package dev.aurakai.auraframefx.domains.aura.models
 
+import dev.aurakai.auraframefx.domains.aura.LauncherConfiguration
+import dev.aurakai.auraframefx.domains.aura.MonetConfiguration
+import dev.aurakai.auraframefx.domains.aura.SystemUIConfiguration
+
 /**
  * ⚙️ REGENESIS CUSTOMIZATION CONFIG
  *
@@ -12,5 +16,8 @@ data class ReGenesisCustomizationConfig(
     val pixelLauncherEnhancedEnabled: Boolean = false,
     val activeThemePackage: String = "",
     val customAccentColor: String = "#00E5FF",
-    val lastModified: Long = System.currentTimeMillis()
+    val lastModified: Long = System.currentTimeMillis(),
+    val monetConfig: MonetConfiguration = MonetConfiguration(),
+    val launcherConfig: LauncherConfiguration = LauncherConfiguration(),
+    val systemUIConfig: SystemUIConfiguration = SystemUIConfiguration()
 )
