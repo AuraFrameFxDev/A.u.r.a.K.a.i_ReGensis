@@ -9,5 +9,7 @@ enum class AuraState(val assetPath: String, val description: String) {
     CODE_THRONE("aura/aura_code_throne.png", "Sitting on code block"),
     COMBAT_READY("aura/aura_combat_ready.png", "Aggressive stance with blades"),
     SCIENTIST_MODE("aura/aura_scientist.png", "Wearing lab coat, thinking"),
-    LAB_COAT_COMBAT("aura/aura_lab_coat_combat.png", "Combat stance with lab coat")
+    LAB_COAT_COMBAT("aura/aura_lab_coat_combat.png", "Combat stance with lab coat"),
+    FOURTH_WALL_BREAK("aura/aura_fourth_wall.png", "Looking directly at user"),
+    POWER_STANCE("aura/aura_power_stance.png", "High energy stance")
 }

@@ -24,4 +24,8 @@ class LDORepository @Inject constructor(
             taskDao.insertAllIfAbsent(LDORoster.defaultTasks)
         }
     }
+
+    suspend fun updateAgent(agent: LDOAgentEntity) {
+        agentDao.update(agent)
+    }
 }
