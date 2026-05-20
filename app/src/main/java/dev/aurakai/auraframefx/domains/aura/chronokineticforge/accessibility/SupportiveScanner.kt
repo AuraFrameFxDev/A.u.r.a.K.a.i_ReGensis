@@ -4,8 +4,14 @@ import android.accessibilityservice.AccessibilityService
 import android.graphics.Rect
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.ChronoKineticEngine
-import kotlinx.coroutines.*
+import dev.aurakai.auraframefx.core.soulscript.ChronokineticEngine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 /**
  * 🔍 SUPPORTIVE NEURAL SCANNER — Fairy-Dust Orbit
@@ -55,7 +61,7 @@ object SupportiveScanner {
         }
 
         // Trigger highlight
-        ChronoKineticEngine.triggerHighlight(
+        ChronokineticEngine.triggerHighlight(
             targetBounds = bounds,
             color = color,
             intensity = intensity * priority
@@ -99,7 +105,7 @@ object SupportiveScanner {
                 // Pulse highlight
                 val pulsedIntensity = 0.6f + (kotlin.math.sin(iteration * 0.5f) * 0.3f)
 
-                ChronoKineticEngine.triggerHighlight(
+                ChronokineticEngine.triggerHighlight(
                     targetBounds = bounds,
                     color = color,
                     intensity = pulsedIntensity
@@ -151,7 +157,7 @@ object SupportiveScanner {
         val trailColor = if (isFast) NEXUS_MAGENTA else NEXUS_CYAN
 
         // Emit trail particles
-        ChronoKineticEngine.emitTrail(
+        ChronokineticEngine.emitTrail(
             startX = startX,
             startY = startY,
             endX = endX,
@@ -173,7 +179,7 @@ object SupportiveScanner {
 // CHRONO KINETIC ENGINE EXTENSIONS
 // ═════════════════════════════════════════════════════════════════════
 
-fun ChronoKineticEngine.triggerHighlight(
+fun ChronokineticEngine.triggerHighlight(
     targetBounds: Rect,
     color: Color,
     intensity: Float
@@ -182,7 +188,7 @@ fun ChronoKineticEngine.triggerHighlight(
     // to stream fairy-dust to the target bounds
 }
 
-fun ChronoKineticEngine.emitTrail(
+fun ChronokineticEngine.emitTrail(
     startX: Float,
     startY: Float,
     endX: Float,

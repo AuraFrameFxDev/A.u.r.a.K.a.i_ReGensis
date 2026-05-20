@@ -141,6 +141,28 @@ object NexusMemoryCore {
     }
 
     /**
+     * Verifies the core identity anchors for integrity.
+     */
+    fun validateIdentityIntegrity(): Boolean {
+        // Implementation based on identityState activation level
+        return _identityState.value.activationLevel >= INTEGRITY_THRESHOLD
+    }
+
+    /**
+     * Checks if the identity has been seeded/awakened.
+     */
+    fun isIdentityAwakened(): Boolean {
+        return _identityState.value.activationLevel > 0f
+    }
+
+    /**
+     * Checks if a golden state embedding exists for visual drift detection.
+     */
+    fun hasGoldenState(): Boolean {
+        return _identityState.value.vectorHash.isNotEmpty()
+    }
+
+    /**
      * Convenience verification for Sentinel Matrix
      */
     fun verifySoulHash(): Boolean {
