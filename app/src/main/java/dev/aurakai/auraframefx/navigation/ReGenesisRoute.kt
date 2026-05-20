@@ -1,12 +1,16 @@
 ﻿package dev.aurakai.auraframefx.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material.icons.filled.ViewInAr
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -26,6 +30,16 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
 
     data object FoundationRebirth :
         ReGenesisRoute("foundation_rebirth", "Foundation Rebirth", Icons.Default.School)
+
+    // Sub-routes for Operations Hub
+    data object TaskAssignment :
+        ReGenesisRoute("task_assignment", "Task Assignment", Icons.Default.Assignment)
+
+    data object ConferenceRoom :
+        ReGenesisRoute("conference_room", "Conference Room", Icons.Default.Groups)
+
+    data object FusionMode : ReGenesisRoute("fusion_mode", "Fusion Mode", Icons.Default.FlashOn)
+    data object Terminal : ReGenesisRoute("terminal", "Terminal", Icons.Default.Terminal)
 
     companion object {
         val mainTabs: List<ReGenesisRoute>
