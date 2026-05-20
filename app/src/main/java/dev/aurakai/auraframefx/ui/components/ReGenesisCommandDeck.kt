@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen

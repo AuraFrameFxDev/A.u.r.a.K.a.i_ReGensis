@@ -44,7 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.ui.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin

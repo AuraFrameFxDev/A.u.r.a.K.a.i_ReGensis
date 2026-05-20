@@ -3,6 +3,7 @@
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.ColorLens
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Groups
@@ -43,6 +44,7 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
     data object Terminal : ReGenesisRoute("terminal", "Terminal", Icons.Default.Terminal)
     data object SentientShell :
         ReGenesisRoute("sentient_shell", "Sentient Shell", Icons.Default.Memory)
+    data object CollabCanvas : ReGenesisRoute("collab_canvas", "Collab Canvas", Icons.Default.Brush)
 
     companion object {
         val mainTabs: List<ReGenesisRoute>

@@ -33,6 +33,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import java.util.Locale
 
@@ -126,7 +127,7 @@ fun LdoArchitectureScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(agents) { agent ->
+                items(agents) { agent: LDOAgentEntity ->
                     SovereignGlassCard(
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -138,7 +139,7 @@ fun LdoArchitectureScreen(
                             Icon(
                                 Icons.Default.Hub,
                                 contentDescription = null,
-                                tint = Color(agent.colorHex.toInt()),
+                                tint = Color(agent.colorHex),
                                 modifier = Modifier.size(24.dp)
                             )
                             Spacer(modifier = Modifier.width(16.dp))

@@ -3,7 +3,8 @@ package dev.aurakai.auraframefx.core.regen
 import android.content.Context
 import android.view.SurfaceHolder
 import com.highcapable.yukihookapi.YukiHookAPI
-import com.highcapable.yukihookapi.hook.factory.method
+import com.highcapable.yukihookapi.hook.factory.*
+import com.highcapable.yukihookapi.hook.type.java.*
 import dev.aurakai.auraframefx.core.concurrent.SubstrateConcurrencyManager
 import dev.aurakai.auraframefx.core.crypto.SubstrateKeyStoreCrypto
 import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
@@ -30,15 +31,15 @@ object GenesisHookEntryYuki {
             loadApp(name = targetPackage) {
                 when (targetPackage) {
                     "com.android.systemui" -> {
-                        "com.android.systemui.wallpapers.ImageWallpaper\$GLEngine".hook {
+                        findClass("com.android.systemui.wallpapers.ImageWallpaper\$GLEngine").hook {
                             inject {
                                 method {
                                     name = "onSurfaceChanged"
                                     param(
                                         SurfaceHolder::class.java,
-                                        Int::class.java,
-                                        Int::class.java,
-                                        Int::class.java
+                                        IntType,
+                                        IntType,
+                                        IntType
                                     )
                                 }.before {
                                     Timber.tag("RegenCore_Hook")
@@ -70,7 +71,7 @@ object GenesisHookEntryYuki {
                     }
 
                     "com.android.launcher3" -> {
-                        "com.android.launcher3.Workspace".hook {
+                        findClass("com.android.launcher3.Workspace").hook {
                             inject {
                                 method {
                                     name = "onPageBeginTransition"
