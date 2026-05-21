@@ -31,7 +31,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "A.u.r.a.K.a.i_ReGensis"
+rootProject.name = "AuraKai_ReGensis"
 
 // --- Helper for including modules ---
 fun includeModule(path: String) {
