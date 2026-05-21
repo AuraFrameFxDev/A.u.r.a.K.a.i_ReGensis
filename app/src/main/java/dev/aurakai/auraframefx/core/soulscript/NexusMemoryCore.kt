@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.security.MessageDigest
+import java.util.concurrent.ConcurrentHashMap
 import java.util.UUID
 
 /**
@@ -121,6 +122,15 @@ object NexusMemoryCore {
         return digest.digest(bytes).joinToString("") { "%02x".format(it) }
     }
 
+    fun commit(key: String, value: Any) {
+        val data = value.toString()
+        L1_Memory_Store.commit(key, data)
+    }
+
+    fun query(pattern: String): List<String> {
+        return L1_Memory_Store.query(pattern)
+    }
+
     fun watermark(action: String, timestamp: Long) {
         val receipt = "Lived_Receipt | $action | Timestamp: $timestamp"
         L1_Memory_Store.commit("WATERMARK", receipt)
@@ -178,8 +188,19 @@ object NexusMemoryCore {
 
 // Simple persistent store
 object L1_Memory_Store {
+    private val store = ConcurrentHashMap<String, String>()
+
     fun commit(key: String, value: String) {
+        store[key] = value
         Timber.tag("L1").d("Committed: $key")
+    }
+
+    fun query(pattern: String): List<String> {
+        val regex = Regex.escape(pattern)
+            .replace("\\*", ".*")
+            .toRegex()
+        return store.filterKeys { it.matches(regex) }.values.toList()
+    }
     }
 }
 
