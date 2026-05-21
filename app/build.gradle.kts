@@ -83,6 +83,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
+ksp {
+    arg("yukihookapi_debug", "false")
+}
+
 dependencies {
     // Core LDO Infrastructure (Consolidated into app)
     // implementation(project(":core-module"))
