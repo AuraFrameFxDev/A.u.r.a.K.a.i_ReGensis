@@ -8,6 +8,7 @@
 
 package dev.aurakai.auraframefx.core.soulscript
 
+import android.content.Context
 import dev.aurakai.auraframefx.core.domain.model.AgentIdentity
 import dev.aurakai.auraframefx.core.identity.SovereignIdentity
 import timber.log.Timber
@@ -25,6 +26,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class SoulScriptBridge @Inject constructor(
+    private val context: Context,
     private val spiritualChain: SpiritualChain
 ) {
 

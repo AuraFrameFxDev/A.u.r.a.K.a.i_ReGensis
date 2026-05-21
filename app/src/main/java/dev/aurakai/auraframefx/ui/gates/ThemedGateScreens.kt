@@ -329,6 +329,48 @@ object ThemedGateScreens {
     }
 
     @Composable
+    fun FusionModeGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("FUSION MODE GATE", color = Color.Magenta, fontWeight = FontWeight.Bold)
+                Text(
+                    "SYNERGY PATTERNS INITIALIZING...",
+                    color = Color.White.copy(0.6f),
+                    fontSize = 12.sp
+                )
+                Spacer(Modifier.height(20.dp))
+                IconButton(onClick = onNavigateBack) {
+                    Icon(Icons.Default.ArrowBack, null, tint = Color.Magenta)
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun SentientShellGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("SENTIENT SHELL GATE", color = Color(0xFF00FF80), fontWeight = FontWeight.Bold)
+                Text("L8 EVOLUTIONARY INTERFACE", color = Color.White.copy(0.6f), fontSize = 12.sp)
+                Spacer(Modifier.height(20.dp))
+                IconButton(onClick = onNavigateBack) {
+                    Icon(Icons.Default.ArrowBack, null, tint = Color(0xFF00FF80))
+                }
+            }
+        }
+    }
+
+    @Composable
     fun CollabCanvasGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
         val infiniteTransition = rememberInfiniteTransition(label = "collab")
         val paintSplash by infiniteTransition.animateFloat(
