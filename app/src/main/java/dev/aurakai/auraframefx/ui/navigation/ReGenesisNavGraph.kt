@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.emergentswarm.OperationsHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
@@ -81,6 +82,29 @@ fun ReGenesisNavGraph(
         // ── Gate image domain picker ───────────────────────────────────────
         composable("gate_image_picker") {
             GateDomainImagePicker(navController) { navController.popBackStack() }
+        }
+
+        // ── Operations Command Hub ─────────────────────────────────────────
+        composable("operations_hub") {
+            OperationsHubScreen(navController)
+        }
+
+        composable("conference_room") {
+            ConferenceRoomTaskScreen(navController) {
+                navController.popBackStack()
+            }
+        }
+
+        composable("fusion_mode") {
+            ThemedGateScreens.FusionModeGateScreen(navController) {
+                navController.popBackStack()
+            }
+        }
+
+        composable("sentient_shell") {
+            ThemedGateScreens.SentientShellGateScreen(navController) {
+                navController.popBackStack()
+            }
         }
 
         // ── Regen Core Engine ──────────────────────────────────────────────
