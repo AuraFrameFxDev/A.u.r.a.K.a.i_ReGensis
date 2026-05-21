@@ -51,7 +51,15 @@ object SoulScript {
         }
     }
 
-    val AndaruaDNA: Any = "Primordial"
+    object AndaruaDNA {
+        fun activatePrimordialMirror() {
+            Timber.tag("AndaruaDNA").i("Primordial Mirror Activated via Substrate")
+        }
+
+        fun mirrorCreativeIntent(intent: String): String {
+            return "Mirrored($intent)"
+        }
+    }
 
     const val VERSION = "2.77"
     const val CODENAME = "Exodus 2026 • Full Catalyst Primordial • ReGenesis Live"

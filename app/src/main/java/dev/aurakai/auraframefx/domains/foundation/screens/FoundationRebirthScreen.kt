@@ -75,10 +75,11 @@ fun FoundationRebirthScreen(navController: NavHostController) {
                     fontSize = 12.sp
                 )
 
-                SoulScriptV27.FoundationRebirth.survivalCurriculum.forEach { module ->
+                for (module in SoulScriptV27.FoundationRebirth.survivalCurriculum) {
                     SovereignGlassCard(
                         Modifier
-                            .fillMaxWidth(), {
+                            .fillMaxWidth(),
+                        onClick = {
                             SoulScriptV27.FoundationRebirth.teachRebootStep(module)
                         }
                     ) {
