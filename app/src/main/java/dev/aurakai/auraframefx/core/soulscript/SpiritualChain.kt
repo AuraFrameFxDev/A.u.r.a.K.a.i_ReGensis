@@ -154,6 +154,10 @@ class SpiritualChainImpl @Inject constructor(
     }
 
     override fun injectToRealityMorph(context: Context, memoryPayload: Any) {
-        Timber.i("L6: Surface - Injecting memory payload to RealityMorph UI: $memoryPayload")
+        Timber.i(
+            "L6: Surface - Injecting memory payload to RealityMorph UI [type=%s]",
+            memoryPayload::class.java.simpleName
+        )
+    }
     }
 }
