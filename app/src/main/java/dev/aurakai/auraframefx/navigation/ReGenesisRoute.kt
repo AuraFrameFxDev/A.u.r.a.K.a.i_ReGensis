@@ -1,6 +1,7 @@
 ﻿package dev.aurakai.auraframefx.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AdminPanelSettings
 import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Brush
@@ -45,6 +46,9 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
     data object SentientShell :
         ReGenesisRoute("sentient_shell", "Sentient Shell", Icons.Default.Memory)
     data object CollabCanvas : ReGenesisRoute("collab_canvas", "Collab Canvas", Icons.Default.Brush)
+
+    data object OperationsHub :
+        ReGenesisRoute("operations_hub", "Operations Hub", Icons.Default.AdminPanelSettings)
 
     companion object {
         val mainTabs: List<ReGenesisRoute>
