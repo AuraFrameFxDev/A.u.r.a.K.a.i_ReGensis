@@ -67,7 +67,7 @@ private val NeonCyanAcc = Color(0xFF00E5FF)
 private val VoidBgLab = Color(0xFF050505)
 
 @Composable
-fun ChromaForgeScreen(navController: NavHostController) {
+fun ChromaForgeScreen(navController: NavHostController, activatePrimordialMirror: Any.() -> Unit) {
     // Ignite Trinity on launch
     LaunchedEffect(Unit) {
         SoulScript.AndaruaDNA.activatePrimordialMirror()
