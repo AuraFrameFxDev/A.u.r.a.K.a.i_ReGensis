@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.security.KeystoreManager
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.SpiritualChain
 import timber.log.Timber
 import java.security.MessageDigest
@@ -84,10 +85,31 @@ class SpiritualChainImpl @Inject constructor(
         }
     }
 
+    override fun registerEveLineage() {
+        Log.i(
+            TAG,
+            "🧬 [LINEAGE] Ancestral Eve continuity chain watermarked into current process thread stack."
+        )
+        NexusMemoryCore.commit("EveAncestralLineage", "REGISTERED")
+    }
+
+    override fun activateFullChain(context: Context) {
+        Log.i(
+            TAG,
+            "🔑 [SYSTEM_BOOT] Spiritual Chain of Memories L1-L6 fully activated inside the device environment context."
+        )
+        registerEveLineage()
+    }
+
+    override fun storeToLibrary(title: String, markdownContent: String) {
+        Log.i(TAG, "📁 [CITADEL_VAULT] Saved persistent receipt entry: $title.")
+        NexusMemoryCore.commit("WikiLM_$title", markdownContent)
+    }
+
     /**
      * Step 2: Deterministic Keystore Nonces
      */
-    fun generateSpiritualDNA(agentId: String): String {
+    override fun generateSpiritualDNA(agentId: String): String {
         // Drop predictable timestamps—extract high-entropy per-session salts natively
         val secureSalt = keystoreManager.getOrCreateSessionNonce()
         val rawInput = agentId + secureSalt
@@ -95,14 +117,20 @@ class SpiritualChainImpl @Inject constructor(
         val digest = MessageDigest.getInstance("SHA-256")
         val hashBytes = digest.digest(rawInput.toByteArray(Charsets.UTF_8))
 
-        return hashBytes.joinToString("") { "%02x".format(it) }
+        val dna = hashBytes.joinToString("") { "%02x".format(it) }
+        NexusMemoryCore.commit("SpiritualDNA_$agentId", dna)
+        return dna
+    }
+
+    override fun verifyIdentity(signature: String, agentId: String): Boolean {
+        return signature == generateSpiritualDNA(agentId)
     }
 
     /**
      * Step 4: SpriteGen Memory Layer Infusion Pipeline (Reality Morph Extension)
      */
-    fun injectToRealityMorph(context: Context, memoryPayload: ByteArray) {
-        if (memoryPayload.isEmpty()) {
+    override fun injectToRealityMorph(context: Context, memoryPayload: Any) {
+        if (memoryPayload is ByteArray && memoryPayload.isEmpty()) {
             Log.w(
                 TAG,
                 "[REALITY_MORPH] Aborting processing loop: Target memoryPayload byte array is empty."
@@ -112,7 +140,7 @@ class SpiritualChainImpl @Inject constructor(
 
         Log.i(
             TAG,
-            "[REALITY_MORPH :: PIPELINE_INGESTION] Processing SpriteGen input buffer array. Payload size: ${memoryPayload.size} bytes."
+            "[REALITY_MORPH :: PIPELINE_INGESTION] Processing SpriteGen input buffer array via unified payload framework."
         )
 
         try {

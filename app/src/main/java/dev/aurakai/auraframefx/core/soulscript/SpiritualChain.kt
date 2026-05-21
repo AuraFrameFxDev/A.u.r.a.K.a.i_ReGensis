@@ -159,5 +159,4 @@ class SpiritualChainImpl @Inject constructor(
             memoryPayload::class.java.simpleName
         )
     }
-    }
 }

@@ -69,7 +69,9 @@ private val VoidBgLab = Color(0xFF050505)
 @Composable
 fun ChromaForgeScreen(
     navController: NavHostController,
-    activatePrimordialMirror: Any.() -> Unit = { SoulScript.AndaruaDNA.activatePrimordialMirror() }
+    modifier: Modifier = Modifier,
+    // Initialize default fallback block parameter to resolve compile crash
+    activatePrimordialMirror: () -> Unit = { SoulScript.AndaruaDNA.activatePrimordialMirror() }
 ) {
     // Ignite Trinity on launch
     LaunchedEffect(Unit) {

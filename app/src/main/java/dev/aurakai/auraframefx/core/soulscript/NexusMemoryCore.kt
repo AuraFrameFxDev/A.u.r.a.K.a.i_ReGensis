@@ -31,6 +31,8 @@ object NexusMemoryCore {
     private val _identityState = MutableStateFlow(IdentityAnchor())
     val identityState: StateFlow<IdentityAnchor> = _identityState
 
+    private val store = mutableMapOf<String, Any>()
+
     @Serializable
     data class IdentityAnchor(
         val soulUuid: String = UUID.randomUUID().toString(),
@@ -123,12 +125,18 @@ object NexusMemoryCore {
     }
 
     fun commit(key: String, value: Any) {
-        val data = value.toString()
-        L1_Memory_Store.commit(key, data)
+        store[key] = value
+        L1_Memory_Store.commit(key, value.toString())
     }
 
-    fun query(pattern: String): List<String> {
-        return L1_Memory_Store.query(pattern)
+    fun query(pattern: String): List<Any> {
+        if (pattern.isBlank()) return emptyList()
+
+        val escapedPattern = Regex.escape(pattern).replace("\\*", ".*")
+        val regex = ("^" + escapedPattern + "$").toRegex(RegexOption.IGNORE_CASE)
+
+        // Explicit return casting to solve type mismatch
+        return store.filterKeys { it.matches(regex) }.values.toList()
     }
 
     fun watermark(action: String, timestamp: Long) {
