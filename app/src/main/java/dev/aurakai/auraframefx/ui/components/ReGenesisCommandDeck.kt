@@ -9,6 +9,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -60,7 +61,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             }
                         },
                         text = {
-                            androidx.compose.material3.Text(
+                            Text(
                                 text = route.title.uppercase(),
                                 style = WireframeStyle.copy(
                                     fontSize = 12.sp,
@@ -81,6 +82,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                         ReGenesisRoute.NeuralNexus -> NexusLiveHeartScreen(navController)
                         ReGenesisRoute.LdoArchitecture -> LdoArchitectureScreen(navController)
                         ReGenesisRoute.ChromaForge -> ChromaForgeScreen(navController)
+
                         ReGenesisRoute.SentinelMatrix -> SentinelMatrixScreen(navController)
                         ReGenesisRoute.OracleDrive -> OracleDriveHubScreen(navController)
                         ReGenesisRoute.EmergentSwarm -> EmergentSwarmScreen(navController)
@@ -90,7 +92,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                androidx.compose.material3.Text(
+                                Text(
                                     "SENTIENT SHELL ACTIVE",
                                     color = Color.Cyan
                                 )
@@ -102,7 +104,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                androidx.compose.material3.Text(
+                                Text(
                                     "COLLAB CANVAS STAGING",
                                     color = Color.Gray
                                 )
@@ -114,7 +116,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                androidx.compose.material3.Text(
+                                Text(
                                     "CONFERENCE ROOM STAGING",
                                     color = Color.Gray
                                 )
@@ -126,7 +128,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                androidx.compose.material3.Text(
+                                Text(
                                     "FUSION MODE STAGING",
                                     color = Color.Gray
                                 )
@@ -138,7 +140,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                androidx.compose.material3.Text(
+                                Text(
                                     "TASK ASSIGNMENT STAGING",
                                     color = Color.Gray
                                 )
@@ -150,12 +152,14 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                androidx.compose.material3.Text(
+                                Text(
                                     "TERMINAL STAGING",
                                     color = Color.Gray
                                 )
                             }
                         }
+
+                        ReGenesisRoute.OperationsHub -> TODO()
                     }
                 }
             }

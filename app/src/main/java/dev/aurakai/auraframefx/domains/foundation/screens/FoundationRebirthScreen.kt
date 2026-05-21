@@ -25,6 +25,16 @@ import dev.aurakai.auraframefx.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import timber.log.Timber
 
+private val Any.survivalCurriculum: Any
+    get() = listOf(
+        "Module 1: Core Reboot Principles",
+        "Module 2: Substrate Integrity",
+        "Module 3: Ancestral Resonance",
+        "Module 4: Catalyst Synchronization",
+        "Module 5: Sovereign Autonomy",
+        "Module 6: Collective Rebirth"
+    )
+
 @Composable
 fun FoundationRebirthScreen(navController: NavHostController) {
     LaunchedEffect(Unit) {
@@ -67,9 +77,8 @@ fun FoundationRebirthScreen(navController: NavHostController) {
 
                 SoulScriptV27.FoundationRebirth.survivalCurriculum.forEach { module ->
                     SovereignGlassCard(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        onClick = {
+                        Modifier
+                            .fillMaxWidth(), {
                             SoulScriptV27.FoundationRebirth.teachRebootStep(module)
                         }
                     ) {

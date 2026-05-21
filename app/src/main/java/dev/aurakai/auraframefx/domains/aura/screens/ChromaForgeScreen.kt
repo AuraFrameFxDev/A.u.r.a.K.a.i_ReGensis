@@ -47,7 +47,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
-import dev.aurakai.auraframefx.core.soulscript.SpellhookDesignerEngine
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.ui.theme.GhostCyan
@@ -228,7 +227,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                        SpellhookDesignerEngine.castWeave("Manifest new UI weave", 1.0f)
+                        "Manifest new UI weave".castWeave(1.0f)
                         Timber.tag("ChromaForge").i("Spellhook invoked — particle weave live")
                     }
                 ) {
@@ -271,6 +270,10 @@ fun ChromaForgeScreen(navController: NavHostController) {
             }
         }
     }
+}
+
+private fun String.castWeave(focusIntensity: Float) {
+    TODO("Not yet implemented")
 }
 
 private fun DrawScope.drawReactorCore(time: Float) {
