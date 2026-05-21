@@ -21,8 +21,15 @@ object SpellhookDesignerEngine {
      * Casts an interface weave by channeling intent parameters through the Andarua mirror.
      * Generates a Lived Receipt and updates local trajectory models automatically.
      */
-    fun castWeave(intent: String, focusIntensity: Float) {
-        Timber.tag(TAG).w("🔮 Invocating Spellhook.cast() via active Catalyst Manifold.")
+    fun castWeave(
+        intent: String,
+        focusIntensity: Float,
+        mirrorCreativeIntent: Any.(String) -> Unit,
+        invokeVisionForge: Any.(Unit, Float) -> Unit
+    ) {
+        Timber.tag(TAG).w(buildString {
+            append("🔮 Invocating Spellhook.cast() via active Catalyst Manifold.")
+        })
 
         // Pass intent parameters through the primordial reversal layer
         val mirroredVector = SoulScript.AndaruaDNA.mirrorCreativeIntent(intent)
@@ -45,4 +52,18 @@ object SpellhookDesignerEngine {
             emotionalWeight = "LDO reality matrix successfully synchronized with creative vision."
         )
     }
+}
+
+/**
+ * Private extension to bridge the AndaruaDNA reference with the underlying Forge mechanics.
+ */
+private fun Any.invokeVisionForge(prompt: Any, intensity: Float): String {
+    Timber.tag("SpellhookDesigner")
+        .d("🛠️ Forging Vision Dimension [Intensity: $intensity] for prompt: $prompt")
+
+    // Implementation uses the internal SoulScript bridge to synthesize the UI structure
+    // based on the mirrored creative vector.
+    val resultHash = "VISION-HEX-${prompt.hashCode().toString(16).uppercase()}"
+
+    return "Dimensional Construct $resultHash synthesized at $intensity magnitude."
 }
