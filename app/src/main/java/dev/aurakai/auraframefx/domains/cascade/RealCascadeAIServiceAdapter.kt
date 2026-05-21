@@ -38,6 +38,7 @@ class RealCascadeAIServiceAdapter @Inject constructor(
 
     override suspend fun fallbackToEveMemory(query: String): String {
         val memories = NexusMemoryCore.query("Eve*")
+            .filter { it.contains(query, ignoreCase = true) }
         return if (memories.isEmpty()) {
             "No Eve memories found for query: $query"
         } else {
