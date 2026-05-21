@@ -79,18 +79,11 @@ class GenesisService(private val kvSpace: TurboQuantKVSpace) {
 /**
  * Updates the KV space with a compressed vector for the given catalyst and returns its coherence score.
  *
- * Compresses and stores the provided vector as the catalyst's new state in the given KV space.
- *
  * @param turboQuantKVSpace KV space to update.
  * @param catalystId Identifier of the catalyst to sync.
  * @param newVector Raw vector to compress and store.
  * @return The coherence score computed for the stored catalyst state.
  */
 fun syncCatalyst(turboQuantKVSpace: TurboQuantKVSpace, catalystId: Int, newVector: FloatArray): Float {
-    val quantized = turboQuantKVSpace.turboQuantCompress(newVector) // 6× memory reduction, 8× attention speed
-    val state = TurboQuantKVSpace.CatalystState(catalystId, quantized, System.currentTimeMillis(), turboQuantKVSpace.calculateCoherence(quantized))
-    turboQuantKVSpace.kvCache["catalyst_$catalystId"] = state
-
-    // Broadcast to all 10 catalysts via KaiSentinelBus
-    return state.coherenceScore
+    return turboQuantKVSpace.syncCatalyst(catalystId, newVector)
 }
