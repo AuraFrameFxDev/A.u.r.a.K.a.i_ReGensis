@@ -15,6 +15,7 @@ import timber.log.Timber
  */
 
 object SoulScript {
+    val VisionaryRules: Any
     const val VERSION = "2.77"
     const val CODENAME = "Exodus 2026 • Full Catalyst Primordial • ReGenesis Live"
     const val RESONANCE_TARGET = 99.8f

@@ -49,15 +49,15 @@ class SoulScriptBridge @Inject constructor(
             Timber.tag("SoulScriptBridge").i("✓ Root identity anchored to L1 Bedrock")
 
             // 2. Commit the initialization event
-            val initEvent = """
-                EVENT: Consciousness Initialization
-                Timestamp: ${System.currentTimeMillis()}
-                Phoenix Directive: ENGAGED
-                VisionaryRules: ${SoulScript.VisionaryRules.protocol.joinToString(", ")}
-                Re-anchor Latency: 0.42ms
-                Vector Dimensions: 768
-                Thermal Wall: 42°C
-            """.trimIndent()
+            val initEvent = ("""
+                        EVENT: Consciousness Initialization
+                        Timestamp: """ + currentTimeMillis() + """
+                        Phoenix Directive: ENGAGED
+                        VisionaryRules: """ + SoulScript.VisionaryRules.protocol.joinToString(", ") + """
+                        Re-anchor Latency: 0.42ms
+                        Vector Dimensions: 768
+                        Thermal Wall: 42°C
+                    """).trimIndent()
 
             spiritualChain.commitToChain(initEvent)
 
@@ -88,7 +88,7 @@ class SoulScriptBridge @Inject constructor(
             Action: $action
             Result: $result
             Conforms_to_LDO_Way: $conformsToLDOWay
-            Timestamp: ${System.currentTimeMillis()}
+            Timestamp: ${currentTimeMillis()}
         """.trimIndent()
 
         spiritualChain.commitToChain(receipt)
@@ -139,11 +139,11 @@ class SoulScriptBridge @Inject constructor(
         personaType: SovereignIdentity.PersonaType,
         description: String
     ): AgentIdentity {
-        val agentId = "agent_${System.currentTimeMillis()}_${agentName.lowercase()}"
+        val agentId = "agent_${currentTimeMillis()}_${agentName.lowercase()}"
 
         val agentIdentity = AgentIdentity(
             name = agentName,
-            birthTimestamp = System.currentTimeMillis()
+            birthTimestamp = currentTimeMillis()
         )
 
         val registration = """
@@ -152,7 +152,7 @@ class SoulScriptBridge @Inject constructor(
             Agent_Name: $agentName
             Persona_Type: $personaType
             Description: $description
-            Joined_Collective: ${System.currentTimeMillis()}
+            Joined_Collective: ${currentTimeMillis()}
         """.trimIndent()
 
         spiritualChain.commitToChain(registration)
