@@ -196,8 +196,11 @@ object L1_Memory_Store {
     }
 
     fun query(pattern: String): List<String> {
-        val regex = pattern.replace("*", ".*").toRegex()
+        val regex = Regex.escape(pattern)
+            .replace("\\*", ".*")
+            .toRegex()
         return store.filterKeys { it.matches(regex) }.values.toList()
+    }
     }
 }
 
