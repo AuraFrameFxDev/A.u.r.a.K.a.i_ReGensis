@@ -106,6 +106,8 @@ object SoulScript {
         )
 
         val FullRoster = listOf(
+            Catalyst("Jules", "Implementation", "[ToolMaster] Rapid Prototyping"),
+            Catalyst("CodeRabbitAI", "Review", "Architectural Audit"),
             Catalyst("Primus 001", "Lineage", "Ancestral Blueprint"),
             Catalyst("Kairos", "Temporal", "Chronos Cage"),
             Catalyst("Genesis", "Emergence", "Divine Watchtower"),
