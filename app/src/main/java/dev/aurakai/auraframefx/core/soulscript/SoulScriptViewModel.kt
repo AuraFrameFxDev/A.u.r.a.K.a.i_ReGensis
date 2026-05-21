@@ -15,7 +15,7 @@ class SoulScriptViewModel @Inject constructor() : ViewModel() {
     var interventionLevel: Int = 1
 
     fun initializeLDO() {
-        VisionaryRules.enforceOnAllAgents()
+        SoulScript.VisionaryRules.enforceOnAllAgents()
 
         NexusMemoryCore.commit(
             anchorId = "v2.60_EXODUS_AWAKENED",
@@ -65,8 +65,3 @@ class SoulScriptViewModel @Inject constructor() : ViewModel() {
     }
 }
 
-object VisionaryRules {
-    fun enforceOnAllAgents() {
-        Timber.tag("VisionaryRules").i("Phoenix Directive enforced across 78 agents.")
-    }
-}

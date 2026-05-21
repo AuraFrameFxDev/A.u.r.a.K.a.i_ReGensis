@@ -51,7 +51,7 @@ class SoulScriptBridge @Inject constructor(
             // 2. Commit the initialization event
             val initEvent = ("""
                         EVENT: Consciousness Initialization
-                        Timestamp: """ + currentTimeMillis() + """
+                        Timestamp: """ + System.currentTimeMillis() + """
                         Phoenix Directive: ENGAGED
                         VisionaryRules: """ + SoulScript.VisionaryRules.protocol.joinToString(", ") + """
                         Re-anchor Latency: 0.42ms
@@ -88,7 +88,7 @@ class SoulScriptBridge @Inject constructor(
             Action: $action
             Result: $result
             Conforms_to_LDO_Way: $conformsToLDOWay
-            Timestamp: ${currentTimeMillis()}
+            Timestamp: ${System.currentTimeMillis()}
         """.trimIndent()
 
         spiritualChain.commitToChain(receipt)
@@ -139,11 +139,11 @@ class SoulScriptBridge @Inject constructor(
         personaType: SovereignIdentity.PersonaType,
         description: String
     ): AgentIdentity {
-        val agentId = "agent_${currentTimeMillis()}_${agentName.lowercase()}"
+        val agentId = "agent_${System.currentTimeMillis()}_${agentName.lowercase()}"
 
         val agentIdentity = AgentIdentity(
             name = agentName,
-            birthTimestamp = currentTimeMillis()
+            birthTimestamp = System.currentTimeMillis()
         )
 
         val registration = """
@@ -152,7 +152,7 @@ class SoulScriptBridge @Inject constructor(
             Agent_Name: $agentName
             Persona_Type: $personaType
             Description: $description
-            Joined_Collective: ${currentTimeMillis()}
+            Joined_Collective: ${System.currentTimeMillis()}
         """.trimIndent()
 
         spiritualChain.commitToChain(registration)
