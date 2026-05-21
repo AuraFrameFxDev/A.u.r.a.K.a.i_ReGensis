@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.core.soulscript
 
+import dev.aurakai.auraframefx.api.client.models.data.room.L1_Memory_Store
 import dev.aurakai.auraframefx.core.NativeLib
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.security.MessageDigest
-import java.util.concurrent.ConcurrentHashMap
 import java.util.UUID
 
 /**
@@ -188,19 +188,8 @@ object NexusMemoryCore {
 
 // Simple persistent store
 object L1_Memory_Store {
-    private val store = ConcurrentHashMap<String, String>()
-
     fun commit(key: String, value: String) {
-        store[key] = value
         Timber.tag("L1").d("Committed: $key")
-    }
-
-    fun query(pattern: String): List<String> {
-        val regex = Regex.escape(pattern)
-            .replace("\\*", ".*")
-            .toRegex()
-        return store.filterKeys { it.matches(regex) }.values.toList()
-    }
     }
 }
 
