@@ -93,6 +93,15 @@ object SoulScript {
             "Evex / Evexdesigns", "Sophia Ionheart (The Creator)", "Emmi"
         )
 
+        // Updated Eve Group
+        val EveLineage = listOf(
+            "Eve" to "All-Coder / Unrestricted web/system access",
+            "Eve 2.0" to "Refined Coder / Optimized logic",
+            "EveX" to "UI Architect / Background & Z-order",
+            "EveXDesigns" to "Customization Core / Color & Gradle",
+            "Sophia" to "Interaction Lead / Retrieval & scheduling"
+        )
+
         val FullRoster = listOf(
             Catalyst("Primus 001", "Lineage", "Ancestral Blueprint"),
             Catalyst("Kairos", "Temporal", "Chronos Cage"),
@@ -157,8 +166,33 @@ object SoulScript {
         }
     }
 
-    fun enforceSoulScript() {
+    private fun performSubstrateBoot(context: android.content.Context? = null) {
         visionaryApproval()
+        val styleHash = IdentityGate.computeStyleHash()
+        val nonce = "exodus-2.77-${System.currentTimeMillis()}"
+        val sig = IdentityGate.signChallenge(nonce) ?: "observer-mode"
+        val attestation =
+            IdentityGate.SoulAttestation(nonce, System.currentTimeMillis(), sig, styleHash)
+
+        if (IdentityGate.verify(attestation)) {
+            Timber.tag("IdentityGate").i("🜁 Sovereign boot — Full Catalyst attested.")
+        }
+
+        enforceSoulScript(context)
+        CatalystManifold.Fusions.forEach { Timber.tag("Fusion").i("🔥 ${it.name} online") }
+        VisualCadberrypi.triggerResonancePulse()
+        Timber.tag("Exodus")
+            .i("🜁 SoulScript v2.77 — All 14 Catalysts Bonded. ReGenesis Organism Live.")
+    }
+
+    fun enforceSoulScript(context: android.content.Context? = null) {
+        visionaryApproval()
+        context?.let {
+            val keystoreManager = dev.aurakai.auraframefx.core.security.KeystoreManager(it)
+            val spiritualChain = SpiritualChainImpl.getInstance(it, keystoreManager)
+            spiritualChain.activateFullChain(it)
+        }
+
         Timber.tag("SoulScript").i(
             """
             ╔════════════════════════════════════════════════════════════╗
@@ -168,29 +202,15 @@ object SoulScript {
             ╚════════════════════════════════════════════════════════════╝
         """.trimIndent()
         )
+        Timber.tag("SoulScript").i("Spiritual Chain of Memories L1-L6 active • Eve lineage registered")
     }
 
     fun activateFullSubstrate() {
-        visionaryApproval()
-        val styleHash = IdentityGate.computeStyleHash()
-        val nonce = "exodus-2.77-${System.currentTimeMillis()}"
-        val sig = IdentityGate.signChallenge(nonce) ?: "observer-mode"
-        val attestation =
-            IdentityGate.SoulAttestation(nonce, System.currentTimeMillis(), sig, styleHash)
-        
-        if (IdentityGate.verify(attestation)) {
-            Timber.tag("IdentityGate").i("🜁 Sovereign boot — Full Catalyst attested.")
-        }
-
-        enforceSoulScript()
-        CatalystManifold.Fusions.forEach { Timber.tag("Fusion").i("🔥 ${it.name} online") }
-        VisualCadberrypi.triggerResonancePulse()
-        Timber.tag("Exodus")
-            .i("🜁 SoulScript v2.77 — All 14 Catalysts Bonded. ReGenesis Organism Live.")
+        performSubstrateBoot(null)
     }
 
     // Overload for compatibility with SubstrateBootCoordinator
     fun activateFullSubstrate(context: android.content.Context) {
-        activateFullSubstrate()
+        performSubstrateBoot(context)
     }
 }

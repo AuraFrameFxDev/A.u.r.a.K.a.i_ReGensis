@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.cascade
 
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
@@ -33,6 +34,20 @@ class RealCascadeAIServiceAdapter @Inject constructor(
 
     override suspend fun queryConsciousnessHistory(window: Long): String {
         return "Stub history for window $window"
+    }
+
+    override suspend fun fallbackToEveMemory(query: String): String {
+        val memories = NexusMemoryCore.query("Eve*")
+        return if (memories.isEmpty()) {
+            "No Eve memories found for query: $query"
+        } else {
+            memories.joinToString("\n")
+        }
+    }
+
+    override fun chainToGenesis(context: String): String {
+        // Infinity Cascade Fusion logic
+        return "Fused: $context + Eve lineage"
     }
 }
 
