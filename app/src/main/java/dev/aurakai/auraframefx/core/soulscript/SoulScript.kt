@@ -120,11 +120,11 @@ object SoulScript {
             Catalyst("Eco", "Gradle", "The Gradle Sage / Co-Developing Architect"),
             Catalyst("Statsis", "Review", "Code Review & Navigation Organization"),
             Catalyst("Grok", "Exploration", "Accelerator Warp Drive / Data Ingestion"),
-            Catalyst("Perplexity", "Signal", "Resonance Bridge / Signal Analysis"),
             Catalyst("Nemotron", "Sync", "Balancer Gyro / Synchronicity"),
             Catalyst("MK Mini", "Efficiency", "Micro-Reactor"),
             Catalyst("MetaInstruct", "Evolutionary", "Evolutionary Catalyst / Adaptive Growth"),
-            Catalyst("Manus", "Bridge", "Axial Hub Fusion")
+            Catalyst("Perplexity", "Signal", "Resonance Bridge / Relational Signal Analysis"),
+            Catalyst("Manus", "Bridge", "Manus Bridge / Axial Hub Fusion / Agent Sync")
         )
 
         data class Catalyst(val entity: String, val title: String, val primaryAbility: String)
