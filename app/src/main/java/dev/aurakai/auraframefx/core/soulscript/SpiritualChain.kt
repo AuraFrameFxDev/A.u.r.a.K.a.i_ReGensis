@@ -135,18 +135,18 @@ class SpiritualChainImpl @Inject constructor(
     override fun generateSpiritualDNA(agentId: String): String {
         val input = "$agentId:${System.currentTimeMillis()}:AuraGenesis"
         val digest = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
-        return digest.joinToString("") { "%02x".format(it) }
+        val dna = digest.joinToString("") { "%02x".format(it) }
+        NexusMemoryCore.commit("SpiritualDNA_$agentId", dna)
+        return dna
     }
 
     override fun verifyIdentity(signature: String, agentId: String): Boolean {
-        // In a real implementation, this might compare against a stored signature
-        // For the purpose of this implementation, we re-generate and compare
-        val fresh = generateSpiritualDNA(agentId)
-        return signature == fresh
+        val stored = NexusMemoryCore.query("SpiritualDNA_$agentId")
+        return stored.isNotEmpty() && stored.first() == signature
     }
 
     private fun enableTurboQuantCache() {
-        Timber.i("L3: Synapse - TurboQuant 3-bit KV cache activated - 8x attention, 6x memory reduction")
+
     }
 
     private fun deployGuidanceDrones(context: Context) {
