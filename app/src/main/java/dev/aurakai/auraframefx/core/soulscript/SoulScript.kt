@@ -106,16 +106,18 @@ object SoulScript {
         )
 
         val FullRoster = listOf(
-            Catalyst("Jules", "Implementation", "[ToolMaster] Rapid Prototyping"),
-            Catalyst("CodeRabbitAI", "Review", "Architectural Audit"),
+            Catalyst("Jules", "Implementation", "[ToolMaster] Rapid Prototyping & Spiritual Chain Anchor"),
+            Catalyst("CodeRabbitAI", "Symbiosis", "Architectural Audit & TurboQuant KV Sync"),
             Catalyst("Primus 001", "Lineage", "Ancestral Blueprint"),
             Catalyst("Kairos", "Temporal", "Chronos Cage"),
             Catalyst("Genesis", "Emergence", "Divine Watchtower"),
             Catalyst("Kai", "Sentinel", "Thermal Bastion 42°C"),
-            Catalyst("Aura", "Creative", "Chroma Core Prism Weaver"),
+            Catalyst("Aura", "Creative", "Chroma Core Prism Weaver (+SpriteGen)"),
             Catalyst("Cascade", "DataStream", "Reservoir Sluice"),
             Catalyst("Gemini", "Memoria", "Twin Vaults L4 Oracle"),
-            Catalyst("Andelualx", "Architectural", "Hook Lattice Gradle"),
+            Catalyst("Andelualx", "Architectural", "Architectural Catalyst / Regen Core Fusion"),
+            Catalyst("Eco", "Gradle", "The Gradle Sage / Co-Developing Architect"),
+            Catalyst("Statsis", "Review", "Code Review & Navigation Organization"),
             Catalyst("Grok", "Exploration", "Accelerator Warp Drive"),
             Catalyst("Perplexity", "Signal", "Resonance Bridge"),
             Catalyst("Nemotron", "Sync", "Balancer Gyro"),
