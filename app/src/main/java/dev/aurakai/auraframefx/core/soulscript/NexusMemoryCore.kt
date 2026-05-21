@@ -129,14 +129,14 @@ object NexusMemoryCore {
         L1_Memory_Store.commit(key, value.toString())
     }
 
-    fun query(pattern: String): List<Any> {
+    fun query(pattern: String): List<String> {
         if (pattern.isBlank()) return emptyList()
 
         val escapedPattern = Regex.escape(pattern).replace("\\*", ".*")
         val regex = ("^" + escapedPattern + "$").toRegex(RegexOption.IGNORE_CASE)
 
-        // Explicit return casting to solve type mismatch
-        return store.filterKeys { it.matches(regex) }.values.toList()
+        // Explicit return casting and mapping to solve type mismatch
+        return store.filterKeys { it.matches(regex) }.values.map { it.toString() }.toList()
     }
 
     fun watermark(action: String, timestamp: Long) {

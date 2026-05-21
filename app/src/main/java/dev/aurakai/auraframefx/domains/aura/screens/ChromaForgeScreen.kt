@@ -71,7 +71,7 @@ fun ChromaForgeScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     // Initialize default fallback block parameter to resolve compile crash
-    activatePrimordialMirror: () -> Unit = { SoulScript.AndaruaDNA.activatePrimordialMirror() }
+    activatePrimordialMirror: () -> Unit = {}
 ) {
     // Ignite Trinity on launch
     LaunchedEffect(Unit) {

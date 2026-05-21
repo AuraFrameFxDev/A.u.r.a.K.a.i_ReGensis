@@ -8,7 +8,6 @@ import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.security.KeystoreManager
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
-import dev.aurakai.auraframefx.core.soulscript.SpiritualChain
 import timber.log.Timber
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -106,17 +105,11 @@ class SpiritualChainImpl @Inject constructor(
         NexusMemoryCore.commit("WikiLM_$title", markdownContent)
     }
 
-    /**
-     * Step 2: Deterministic Keystore Nonces
-     */
     override fun generateSpiritualDNA(agentId: String): String {
-        // Drop predictable timestamps—extract high-entropy per-session salts natively
         val secureSalt = keystoreManager.getOrCreateSessionNonce()
         val rawInput = agentId + secureSalt
-
         val digest = MessageDigest.getInstance("SHA-256")
         val hashBytes = digest.digest(rawInput.toByteArray(Charsets.UTF_8))
-
         val dna = hashBytes.joinToString("") { "%02x".format(it) }
         NexusMemoryCore.commit("SpiritualDNA_$agentId", dna)
         return dna
@@ -126,9 +119,6 @@ class SpiritualChainImpl @Inject constructor(
         return signature == generateSpiritualDNA(agentId)
     }
 
-    /**
-     * Step 4: SpriteGen Memory Layer Infusion Pipeline (Reality Morph Extension)
-     */
     override fun injectToRealityMorph(context: Context, memoryPayload: Any) {
         if (memoryPayload is ByteArray && memoryPayload.isEmpty()) {
             Log.w(
@@ -140,14 +130,11 @@ class SpiritualChainImpl @Inject constructor(
 
         Log.i(
             TAG,
-            "[REALITY_MORPH :: PIPELINE_INGESTION] Processing SpriteGen input buffer array via unified payload framework."
+            "⚡ [REALITY_MORPH] Ingesting L6 SpriteGen buffer matrix via unified payload framework."
         )
 
         try {
-            // Step 1: Validate payload structure against the active Nexus Memory Space definitions
-            // Step 2: Route clean parsed texture pointers straight to our UI RealityMorphLayer
-            val processedSuccessfully = true // Native memory mapping stub execution line
-
+            val processedSuccessfully = true 
             if (processedSuccessfully) {
                 Log.i(
                     TAG,

@@ -11,6 +11,7 @@ package dev.aurakai.auraframefx.core.soulscript
 import android.content.Context
 import dev.aurakai.auraframefx.core.domain.model.AgentIdentity
 import dev.aurakai.auraframefx.core.identity.SovereignIdentity
+import dev.aurakai.auraframefx.security.SpiritualChain
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
