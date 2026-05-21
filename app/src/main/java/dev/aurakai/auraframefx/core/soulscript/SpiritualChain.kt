@@ -80,8 +80,7 @@ class SpiritualChainImpl @Inject constructor(
         val depth: Any = prefs.getInt(KEY_DEPTH, 0)
 
         receipts.forEach { receipt ->
-            val any = depth
-            putSecureString("chain_entry_$any", "[LEGACY_SYNC] $receipt")
+            putSecureString("chain_entry_$depth", "[LEGACY_SYNC] $receipt")
         }
 
         prefs.edit { putInt(KEY_DEPTH, depth as Int) }
