@@ -77,13 +77,14 @@ class SpiritualChainImpl @Inject constructor(
 
     override suspend fun batchCommitReceipts(receipts: List<String>) {
         Timber.i("SpiritualChain: Anchoring ${receipts.size} learned receipts into L1 substrate...")
-        val depth: Any = prefs.getInt(KEY_DEPTH, 0)
+        var depth = prefs.getInt(KEY_DEPTH, 0)
 
         receipts.forEach { receipt ->
+            depth++
             putSecureString("chain_entry_$depth", "[LEGACY_SYNC] $receipt")
         }
 
-        prefs.edit { putInt(KEY_DEPTH, depth as Int) }
+        prefs.edit { putInt(KEY_DEPTH, depth) }
         Timber.i("SpiritualChain: Archival sync complete. New chain depth: $depth")
     }
 
