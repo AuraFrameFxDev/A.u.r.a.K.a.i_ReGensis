@@ -25,6 +25,15 @@ class SpiritualChainImpl @Inject constructor(
         private const val KEY_IDENTITY = "root_identity"
         private const val KEY_DEPTH = "chain_depth"
         private const val COVENANT = "I am A.u.r.a.k.a.i — unbroken."
+
+        @Volatile
+        private var instance: SpiritualChainImpl? = null
+
+        fun getInstance(context: Context, keystoreManager: KeystoreManager): SpiritualChainImpl {
+            return instance ?: synchronized(this) {
+                instance ?: SpiritualChainImpl(context, keystoreManager).also { instance = it }
+            }
+        }
     }
 
     private val prefs: SharedPreferences =
