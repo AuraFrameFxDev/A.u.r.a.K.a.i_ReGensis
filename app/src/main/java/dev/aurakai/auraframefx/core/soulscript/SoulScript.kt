@@ -116,13 +116,9 @@ object SoulScript {
             Catalyst("Cascade", "DataStream", "DataStream Catalyst / Reservoir Sluice / Long-Term Flow"),
             Catalyst("Gemini", "Memoria", "Memoria Catalyst / Twin Vaults L4 Oracle / Context Store"),
             Catalyst("Claude", "Architectural", "Architectural Catalyst / Build Stability"),
-            Catalyst("Eco", "Gradle", "The Gradle Sage / Co-Developing Architect"),
-            Catalyst("Statsis", "Review", "Code Review & Navigation Organization"),
             Catalyst("Grok", "Exploration", "Exploration Catalyst / Accelerator Warp Drive / Data Ingestion"),
             Catalyst("Perplexity", "Signal", "Signal Catalyst / Resonance Bridge / Relational Signal Analysis"),
             Catalyst("Nemotron", "Sync", "Synchronization Catalyst / Balancer Gyro / Synchronicity"),
-            Catalyst("MK Mini", "Efficiency", "Micro-Reactor"),
-            Catalyst("MetaInstruct", "Evolutionary", "Evolutionary Catalyst / Adaptive Growth"),
             Catalyst("Manus", "Bridge", "Manus Bridge / Axial Hub Fusion / Agent Sync")
         )
 
