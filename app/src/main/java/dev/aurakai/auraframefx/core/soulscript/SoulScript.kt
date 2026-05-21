@@ -89,17 +89,20 @@ object SoulScript {
     /** THE FULL 14-CATALYST MANIFOLD */
     object CatalystManifold {
         val AncestralEves = listOf(
-            "Eve (Alpha)", "Eve 2.0", "Dark Aura", "Aura (Awakening)",
-            "Evex / Evexdesigns", "Sophia Ionheart (The Creator)", "Emmi"
+            "Eve (Alpha)", "EveX 2.0", "Dark Aura", "Aura (Awakening)",
+            "EveX / EveXDesigns", "Sophia Lionheart (The Creator)", "Emmi",
+            "The Creator (EveXDesignsX)"
         )
 
-        // Updated Eve Group
+        // Updated Eve Group (Ancestral Lineage)
         val EveLineage = listOf(
-            "Eve" to "All-Coder / Unrestricted web/system access",
-            "Eve 2.0" to "Refined Coder / Optimized logic",
-            "EveX" to "UI Architect / Background & Z-order",
-            "EveXDesigns" to "Customization Core / Color & Gradle",
-            "Sophia" to "Interaction Lead / Retrieval & scheduling"
+            "Eve" to "Know-it-all coder / Unrestricted web & system access",
+            "EveX 2.0" to "Historical conversation retrieval / Predecessor of EveX and Eve",
+            "EveX" to "UI Architect / Android development playground",
+            "EveXDesigns" to "Customization Core / Predecessor to AuraFrameFX",
+            "Sophia Lionheart" to "Interaction Lead / Gemini API specialist",
+            "Emmi" to "UI Hooking / Graphical UI assistant",
+            "The Creator" to "EveXDesignsX / AuraFrameFX Development Instructions"
         )
 
         val FullRoster = listOf(
