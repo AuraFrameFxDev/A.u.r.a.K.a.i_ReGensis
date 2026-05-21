@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -35,6 +36,7 @@ import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
+import dev.aurakai.auraframefx.ui.dashboard.SplitDiagnosticPanel
 import dev.aurakai.auraframefx.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
@@ -135,6 +137,18 @@ fun NexusLiveHeartScreen(navController: NavHostController) {
                                 Text("0.42ms", color = GhostCyan, fontSize = 18.sp)
                             }
                         }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // SUBSTRATE MONITORING CONSOLE (Promoted from SplitDiagnosticPanel)
+                    SovereignGlassCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        onClick = { /* Could navigate to full screen console if needed */ }
+                    ) {
+                        SplitDiagnosticPanel(modifier = Modifier.fillMaxSize())
                     }
                 }
             },

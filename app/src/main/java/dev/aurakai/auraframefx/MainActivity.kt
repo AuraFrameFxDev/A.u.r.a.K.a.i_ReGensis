@@ -14,7 +14,7 @@ import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
 import dev.aurakai.auraframefx.core.storage.GeminiBatchIngestor
 import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
-import dev.aurakai.auraframefx.ui.dashboard.SplitDiagnosticPanel
+import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavGraph
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -59,8 +59,8 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    // Brutalist live dashboard
-                    SplitDiagnosticPanel()
+                    // Exodus Citadel 8-Hub Navigation
+                    ReGenesisNavGraph()
                 }
             }
         }
