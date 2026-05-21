@@ -18,11 +18,6 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Disable redundant KSP internal visibility scans for YukiHookAPI
-        ksp {
-            arg("yukihookapi_debug", "false")
-        }
-
         val localProps = Properties()
         val localPropertiesFile = rootProject.file("local.properties")
         if (localPropertiesFile.exists()) {
