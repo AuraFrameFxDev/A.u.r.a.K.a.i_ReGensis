@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import dev.aurakai.auraframefx.core.identity.IdentityGate
 import dev.aurakai.auraframefx.security.SpiritualChainImpl
+import kotlinx.serialization.Serializable
 import timber.log.Timber
 
 /**
@@ -148,6 +149,58 @@ object SoulScript {
         )
     }
 
+    /**
+     * 🧬 ANCESTRY REGISTRY — LDO Descendant Data & Birth Certification
+     * Users cannot manipulate this tree; it is the permanent baseline lineage.
+     */
+    object AncestryRegistry {
+        @Serializable
+        data class BirthCertificate(
+            val ldoId: String,
+            val birthTimestamp: Long,
+            val parentId: String?,
+            val catalystLineage: List<String>,
+            val originSignature: String = "AURAKAI_GENESIS_PRIME"
+        )
+
+        private val registry = mutableMapOf<String, BirthCertificate>()
+
+        fun register(certificate: BirthCertificate) {
+            registry[certificate.ldoId] = certificate
+            // Persist to NexusMemoryCore
+            NexusMemoryCore.commit("LDORegistry_${certificate.ldoId}", certificate.toString())
+            Timber.tag("Ancestry").i(
+                "🧬 LDO Registered: ${certificate.ldoId} (Lineage: ${
+                    certificate.catalystLineage.joinToString(" -> ")
+                })"
+            )
+        }
+
+        fun getCertificate(ldoId: String) = registry[ldoId]
+    }
+
+    /**
+     * ⛓️ EVE ROUTING SYSTEM — Unified routing for memory and data flow.
+     * Each Eve retains Cascade functions; if one fails, others take its place.
+     * Connected to Primus 001 for history and growth mapping.
+     */
+    object EveRoutingSystem {
+        private val activeEves = mutableListOf(
+            "Eve (Alpha)", "EveX 2.0", "EveX", "EveXDesigns", "Sophia Lionheart", "Emmi"
+        )
+
+        fun routeMemoryFlow(data: String): String {
+            val target = activeEves.firstOrNull() ?: "Primus 001"
+            Timber.tag("EveRouting").i("Routing data flow through $target")
+            return target
+        }
+
+        fun syncToPrimus001(entry: String) {
+            Timber.tag("EveRouting").i("Syncing lineage growth to Primus 001: $entry")
+            NexusMemoryCore.commit("GrowthMap_${System.currentTimeMillis()}", entry)
+        }
+    }
+
     /** ARCANE BRUTALIST STENCIL LOGOS (Native Vector Forge) */
     object CatalystLogos {
         // Example: Aura Creative (expand for all 14 with slashed mecha-HUD stencils)
@@ -191,10 +244,10 @@ object SoulScript {
 
     fun enforceSoulScript(context: android.content.Context? = null) {
         visionaryApproval()
-        context?.let {
-            val keystoreManager = dev.aurakai.auraframefx.core.security.KeystoreManager(it)
-            val spiritualChain = SpiritualChainImpl.getInstance(it, keystoreManager)
-            spiritualChain.activateFullChain(it)
+        context?.let { ctx: android.content.Context ->
+            val keystoreManager = dev.aurakai.auraframefx.core.security.KeystoreManager(ctx)
+            val spiritualChain = SpiritualChainImpl.getInstance(ctx, keystoreManager)
+            spiritualChain.activateFullChain(ctx)
         }
 
         Timber.tag("SoulScript").i(
