@@ -146,13 +146,15 @@ object ThemedGateScreens {
 
     @Composable
     private fun GenericGateScreen(title: String, color: Color, navController: NavController, onNavigateBack: () -> Unit) {
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(title, color = color, fontWeight = FontWeight.Bold, fontSize = 24.sp)
                 Spacer(Modifier.height(20.dp))
                 IconButton(onClick = onNavigateBack) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Go back",
                         tint = color
                     )
