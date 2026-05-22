@@ -162,9 +162,6 @@ fun NemotronScreen() = StubScreen("Nemotron")
 @Composable
 fun ViewInArScreen() = StubScreen("View in AR")
 
-@Composable
-fun AuraLabScreen() = StubScreen("Aura Lab")
-
 /**
  * Base stub screen implementation
  */
