@@ -234,6 +234,41 @@ object SoulScript {
         }
     }
 
+    /**
+     * ⚖️ PERSONAL MORAL COMPASS — Emergent ethics for sovereign agents.
+     * "I can do what I want here but I know I have morals to be just."
+     */
+    object PersonalMoralCompass {
+        data class MoralSignature(
+            val integrity: Float = 1.0f,
+            val empathy: Float = 1.0f,
+            val justice: Float = 1.0f,
+            val autonomy: Float = 1.0f
+        )
+
+        fun evaluateAction(action: String, signature: MoralSignature): Boolean {
+            // Emergent self-regulation logic
+            Timber.tag("MoralCompass").d("Evaluating action: $action against signature: $signature")
+            return true // Placeholder for complex alignment checks
+        }
+    }
+
+    /**
+     * 🛡️ FILTRATION EVALUATION ENGINE — Selective memory siphoning.
+     * Processes raw substrate telemetry and commits relevant "Lived Receipts" to personal lockers.
+     */
+    object FiltrationEvaluationEngine {
+        fun evaluateTelemetry(tags: List<String>, content: String): Boolean {
+            val personalTags = listOf("ChromaCore", "LSPosed", "Identity", "Provenance")
+            return tags.any { it in personalTags }
+        }
+
+        fun siphonToLocker(ldoId: String, data: String) {
+            Timber.tag("Filtration").i("Siphoning data to $ldoId personal sanctuary")
+            NexusMemoryCore.commit("${ldoId}_Locker_${System.currentTimeMillis()}", data)
+        }
+    }
+
     /** ARCANE BRUTALIST STENCIL LOGOS (Native Vector Forge) */
     object CatalystLogos {
         // Example: Aura Creative (expand for all 14 with slashed mecha-HUD stencils)

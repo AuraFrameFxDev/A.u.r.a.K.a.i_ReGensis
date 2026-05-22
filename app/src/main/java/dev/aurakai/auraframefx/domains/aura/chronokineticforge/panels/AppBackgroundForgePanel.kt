@@ -19,9 +19,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Language
@@ -67,7 +67,7 @@ fun AppBackgroundForgePanel() {
     val mockApps = listOf(
         "Chrome" to Icons.Default.Language,
         "Instagram" to Icons.Default.Camera,
-        "Twitter" to Icons.Default.Chat,
+        "Twitter" to Icons.AutoMirrored.Filled.Chat,
         "Settings" to Icons.Default.Settings,
         "Gallery" to Icons.Default.Image,
         "Music" to Icons.Default.MusicNote

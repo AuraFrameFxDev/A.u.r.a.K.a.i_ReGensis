@@ -36,7 +36,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -339,7 +339,7 @@ fun LineageMapScreen(
                 .align(Alignment.TopStart)
                 .padding(8.dp)
         ) {
-            Icon(Icons.Default.ArrowBack, null, tint = Color(0xFF00FFFF))
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color(0xFF00FFFF))
         }
 
         // Title

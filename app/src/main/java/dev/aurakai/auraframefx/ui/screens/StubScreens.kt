@@ -144,9 +144,6 @@ fun MonitoringHUDsScreen() = StubScreen("Monitoring HUDs")
 fun TaskAssignmentScreen() = StubScreen("Task Assignment")
 
 @Composable
-fun NexusMemoryCoreScreen() = StubScreen("Nexus Memory Core")
-
-@Composable
 fun SpiritualChainScreen() = StubScreen("Spiritual Chain")
 
 @Composable

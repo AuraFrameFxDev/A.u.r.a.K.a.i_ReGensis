@@ -14,6 +14,7 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 34
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -135,9 +136,9 @@ dependencies {
     implementation(libs.bouncycastle)
 
     // Credentials
-    implementation(libs.androidx.credentials)
-    implementation(libs.androidx.credentials.play.services.auth)
-    implementation(libs.googleid)
+    implementation(dependencyNotation = libs.androidx.credentials)
+    implementation(dependencyNotation = libs.androidx.credentials.play.services.auth)
+    implementation(dependencyNotation = libs.googleid)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -162,6 +163,10 @@ dependencies {
     // LangChain4j
     implementation(libs.langchain4j.core)
     implementation(libs.langchain4j.ollama)
+
+    // On-Device AI (Gemma 4 E2B + LiteRT-LM)
+    implementation(libs.mediapipe.tasks.genai)
+    implementation(libs.litert.lm)
 
     // Testing
     testImplementation(libs.junit)

@@ -1,5 +1,4 @@
 package dev.aurakai.auraframefx.core.soulscript
-
 import dev.aurakai.auraframefx.api.client.models.data.room.L1_Memory_Store
 import dev.aurakai.auraframefx.core.NativeLib
 import kotlinx.coroutines.CoroutineScope
@@ -133,7 +132,7 @@ object NexusMemoryCore {
         if (pattern.isBlank()) return emptyList()
 
         val escapedPattern = Regex.escape(pattern).replace("\\*", ".*")
-        val regex = ("^" + escapedPattern + "$").toRegex(RegexOption.IGNORE_CASE)
+        val regex = ("^$escapedPattern$").toRegex(RegexOption.IGNORE_CASE)
 
         // Explicit return casting and mapping to solve type mismatch
         return store.filterKeys { it.matches(regex) }.values.map { it.toString() }.toList()

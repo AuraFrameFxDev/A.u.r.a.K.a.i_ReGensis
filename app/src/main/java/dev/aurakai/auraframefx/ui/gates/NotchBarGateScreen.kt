@@ -23,13 +23,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Smartphone
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.TouchApp
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -95,7 +95,7 @@ fun NotchBarGateScreen(navController: NavController, onNavigateBack: () -> Unit 
             ) {
                 IconButton(onClick = onNavigateBack) {
                     Icon(
-                        Icons.Default.ArrowBack,
+                        Icons.AutoMirrored.Filled.ArrowBack,
                         null,
                         tint = Color(0xFF00CED1)
                     )
@@ -150,7 +150,7 @@ fun NotchBarGateScreen(navController: NavController, onNavigateBack: () -> Unit 
                 Triple("NOTCH STYLE", Icons.Default.Smartphone, Color(0xFFFFD700)),
                 Triple("GESTURES", Icons.Default.TouchApp, Color(0xFF9B30FF)),
                 Triple("BRIGHTNESS", Icons.Default.WbSunny, Color(0xFFFF9B00)),
-                Triple("VOLUME", Icons.Default.VolumeUp, Color(0xFF00FF80)),
+                Triple("VOLUME", Icons.AutoMirrored.Filled.VolumeUp, Color(0xFF00FF80)),
             )
             androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
                 columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(3),

@@ -28,7 +28,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -146,12 +146,18 @@ object ThemedGateScreens {
 
     @Composable
     private fun GenericGateScreen(title: String, color: Color, navController: NavController, onNavigateBack: () -> Unit) {
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black), contentAlignment = Alignment.Center) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(title, color = color, fontWeight = FontWeight.Bold, fontSize = 24.sp)
                 Spacer(Modifier.height(20.dp))
                 IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.Default.ArrowBack, null, tint = color)
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Go back",
+                        tint = color
+                    )
                 }
             }
         }
@@ -393,7 +399,7 @@ object ThemedGateScreens {
                 )
                 Spacer(Modifier.height(20.dp))
                 IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.Default.ArrowBack, null, tint = Color.Magenta)
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color.Magenta)
                 }
             }
         }
@@ -412,7 +418,7 @@ object ThemedGateScreens {
                 Text("L8 EVOLUTIONARY INTERFACE", color = Color.White.copy(0.6f), fontSize = 12.sp)
                 Spacer(Modifier.height(20.dp))
                 IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.Default.ArrowBack, null, tint = Color(0xFF00FF80))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color(0xFF00FF80))
                 }
             }
         }
@@ -480,7 +486,7 @@ object ThemedGateScreens {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, null, tint = Color(0xFFFF2D78))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color(0xFFFF2D78))
                     }
                     Text(
                         "COLLAB CANVAS", fontFamily = FontFamily.Monospace,
@@ -737,7 +743,7 @@ private fun GateScreenHeader(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         IconButton(onClick = onBack) {
-            Icon(Icons.Default.ArrowBack, null, tint = color)
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = color)
         }
         Text(
             title, fontFamily = FontFamily.Monospace, fontSize = 18.sp,

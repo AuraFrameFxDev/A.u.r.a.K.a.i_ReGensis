@@ -22,7 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -107,7 +107,7 @@ fun CollabCanvasGateScreen(navController: NavController, onNavigateBack: () -> U
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.Default.ArrowBack, null, tint = Color(0xFFFF2D78))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color(0xFFFF2D78))
                 }
                 Text(
                     "COLLAB CANVAS", fontFamily = FontFamily.Monospace,

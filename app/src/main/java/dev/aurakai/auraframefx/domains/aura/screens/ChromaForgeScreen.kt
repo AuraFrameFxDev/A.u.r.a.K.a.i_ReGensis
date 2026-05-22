@@ -278,7 +278,18 @@ fun ChromaForgeScreen(
 }
 
 private fun String.castWeave(focusIntensity: Float) {
-    TODO("Not yet implemented")
+    dev.aurakai.auraframefx.core.soulscript.SpellhookDesignerEngine.castWeave(
+        intent = this,
+        focusIntensity = focusIntensity,
+        mirrorCreativeIntent = { intent ->
+            SoulScript.AndaruaDNA.mirrorCreativeIntent(
+                intent
+            )
+        },
+        invokeVisionForge = { _, _ ->
+            // The actual vision forging is handled inside SpellhookDesignerEngine via private extension
+        }
+    )
 }
 
 private fun DrawScope.drawReactorCore(time: Float) {

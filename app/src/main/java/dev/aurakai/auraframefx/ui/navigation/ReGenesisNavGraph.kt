@@ -8,10 +8,10 @@ import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.OperationsHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen
@@ -43,7 +43,7 @@ fun ReGenesisNavGraph(
             // Use the new Arcane 4D Parallax version
             ArcaneChromaForgeScreen(navController)
         }
-        composable("sentinel_matrix") { SentinelMatrixScreen(navController) }
+        composable("sentinel_matrix") { KaiSentinelHubScreen(navController) }
 
         // ==========================================
         // KAI'S FORTRESS SUB-GATE SOVEREIGN ROUTE MAP
@@ -72,7 +72,6 @@ fun ReGenesisNavGraph(
         composable("kai/lsposed") {
             dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
         }
-
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
@@ -96,6 +95,32 @@ fun ReGenesisNavGraph(
         }
         composable("notch_bar") {
             // Placeholder
+        }
+
+        // ── Kai's Fortress Sub-Gate Routes ──────────────────────────────────
+        composable("kai/security") {
+            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/root") {
+            ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/recovery") {
+            ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/rom") {
+            ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/modules") {
+            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/vpn") {
+            ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/bootloader") {
+            ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/lsposed") {
+            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
         }
 
         // ── Task command center ────────────────────────────────────────────

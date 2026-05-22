@@ -12,20 +12,22 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.domains.emergentswarm.OperationsHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
+import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.ui.theme.OverclockOrange
@@ -81,85 +83,46 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                     when (tabs[page]) {
                         ReGenesisRoute.NeuralNexus -> NexusLiveHeartScreen(navController)
                         ReGenesisRoute.LdoArchitecture -> LdoArchitectureScreen(navController)
-                        ReGenesisRoute.ChromaForge -> ChromaForgeScreen(navController)
+                        ReGenesisRoute.ChromaForge -> ChromaForgeScreen(
+                            navController = navController,
+                            activatePrimordialMirror = {}
+                        )
 
-                        ReGenesisRoute.SentinelMatrix -> SentinelMatrixScreen(navController)
+                        ReGenesisRoute.SentinelMatrix -> KaiSentinelHubScreen(navController)
                         ReGenesisRoute.OracleDrive -> OracleDriveHubScreen(navController)
                         ReGenesisRoute.EmergentSwarm -> EmergentSwarmScreen(navController)
                         ReGenesisRoute.FoundationRebirth -> FoundationRebirthScreen(navController)
-                        ReGenesisRoute.SentientShell -> {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    "SENTIENT SHELL ACTIVE",
-                                    color = Color.Cyan
-                                )
-                            }
-                        }
+                        ReGenesisRoute.SentientShell -> ThemedGateScreens.SentientShellGateScreen(
+                            navController,
+                            onNavigateBack = { /* Pager doesn't need back here */ }
+                        )
 
-                        ReGenesisRoute.CollabCanvas -> {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    "COLLAB CANVAS STAGING",
-                                    color = Color.Gray
-                                )
-                            }
-                        }
+                        ReGenesisRoute.CollabCanvas -> ThemedGateScreens.CollabCanvasGateScreen(
+                            navController,
+                            onNavigateBack = { }
+                        )
 
-                        ReGenesisRoute.ConferenceRoom -> {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    "CONFERENCE ROOM STAGING",
-                                    color = Color.Gray
-                                )
-                            }
-                        }
+                        ReGenesisRoute.ConferenceRoom -> ConferenceRoomTaskScreen(
+                            navController,
+                            onNavigateBack = { }
+                        )
 
-                        ReGenesisRoute.FusionMode -> {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    "FUSION MODE STAGING",
-                                    color = Color.Gray
-                                )
-                            }
-                        }
+                        ReGenesisRoute.FusionMode -> ThemedGateScreens.FusionModeGateScreen(
+                            navController,
+                            onNavigateBack = { }
+                        )
 
-                        ReGenesisRoute.TaskAssignment -> {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    "TASK ASSIGNMENT STAGING",
-                                    color = Color.Gray
-                                )
-                            }
-                        }
+                        ReGenesisRoute.TaskAssignment -> ConferenceRoomTaskScreen(
+                            navController,
+                            onNavigateBack = { }
+                        )
 
-                        ReGenesisRoute.Terminal -> {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    "TERMINAL STAGING",
-                                    color = Color.Gray
-                                )
-                            }
-                        }
+                        ReGenesisRoute.Terminal -> ThemedGateScreens.TerminalGateScreen(
+                            navController,
+                            onNavigateBack = { }
+                        )
 
-                        ReGenesisRoute.OperationsHub -> TODO()
+                        ReGenesisRoute.OperationsHub -> OperationsHubScreen(navController)
                     }
                 }
             }
