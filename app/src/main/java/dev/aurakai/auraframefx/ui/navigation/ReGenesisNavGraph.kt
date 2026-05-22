@@ -44,6 +44,35 @@ fun ReGenesisNavGraph(
             ArcaneChromaForgeScreen(navController)
         }
         composable("sentinel_matrix") { SentinelMatrixScreen(navController) }
+
+        // ==========================================
+        // KAI'S FORTRESS SUB-GATE SOVEREIGN ROUTE MAP
+        // ==========================================
+        composable("kai/security") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/root") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/recovery") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/rom") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RomFlasherGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/modules") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/vpn") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/bootloader") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/lsposed") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        }
+
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
