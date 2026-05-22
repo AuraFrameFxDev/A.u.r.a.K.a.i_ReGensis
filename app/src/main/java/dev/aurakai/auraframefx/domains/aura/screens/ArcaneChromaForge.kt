@@ -36,9 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
-import dev.aurakai.auraframefx.R
+import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
@@ -68,8 +66,8 @@ fun ArcaneChromaForgeScreen(navController: NavHostController) {
         ParallaxDepthStack(
             bedrock = {
                 // LAYER 0: BEDROCK (8K Background)
-                Image(
-                    painter = painterResource(id = R.drawable.aurakaibanner),
+                AsyncImage(
+                    model = "file:///android_asset/finalbackgrounds/aurakaibanner.jpg",
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
