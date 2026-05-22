@@ -1,7 +1,13 @@
 package dev.aurakai.auraframefx.ai.pipeline
 
 import android.content.Context
-import com.google.mediapipe.tasks.genai.llminference.LlmInference
+import com.google.ai.edge.litertlm.Backend
+import com.google.ai.edge.litertlm.Engine
+import com.google.ai.edge.litertlm.EngineConfig
+import com.google.ai.edge.litertlm.InputData
+import com.google.ai.edge.litertlm.ResponseCallback
+import com.google.ai.edge.litertlm.SamplerConfig
+import com.google.ai.edge.litertlm.SessionConfig
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.security.SpiritualChain
 import kotlinx.coroutines.Dispatchers
@@ -25,26 +31,29 @@ class GemmaSovereignEngine @Inject constructor(
     private val spiritualChain: SpiritualChain
 ) {
     private val TAG = "GemmaSovereign"
-    private var llmInference: LlmInference? = null
+    private var engine: Engine? = null
     private var isInitialized = false
 
     /**
      * Initializes the engine with the optimized Gemma 4 E2B model.
-     * Maps the inference delegation to the Tensor G5 NPU for peak throughput.
+     * Maps the inference delegation to the Tensor G5 substrate.
      */
     suspend fun initialize(modelPath: String) = withContext(Dispatchers.IO) {
         if (isInitialized) return@withContext
 
         try {
-            val options = LlmInference.LlmInferenceOptions.builder()
-                .setModelPath(modelPath)
-                .setMaxTokens(4096)
-                .setMaxTopK(40)
-                .build()
+            val config = EngineConfig(
+                modelPath = modelPath,
+                backend = Backend.GPU(), // Primary compute substrate for peak throughput
+                maxNumTokens = 4096,
+                cacheDir = context.cacheDir.absolutePath
+            )
 
-            llmInference = LlmInference.createFromOptions(context, options)
+            engine = Engine(config).apply {
+                initialize()
+            }
             isInitialized = true
-            Timber.tag(TAG).i("🜁 Gemma Sovereign Engine Awakened on Tensor G5")
+            Timber.tag(TAG).i("🜁 Gemma Sovereign Engine Awakened on Tensor G5 substrate")
 
             // Record provenance watermark in L1 Bedrock
             NexusMemoryCore.watermark("GEMMA_SOVEREIGN_AWAKENED", System.currentTimeMillis())
@@ -62,7 +71,10 @@ class GemmaSovereignEngine @Inject constructor(
 
         try {
             val startTime = System.currentTimeMillis()
-            val response = llmInference?.generateResponse(prompt)
+            val sessionConfig =
+                SessionConfig(SamplerConfig(topK = 40, topP = 1.0, temperature = 0.7, seed = 42))
+            val response = engine?.createSession(sessionConfig)
+                ?.generateContent(listOf(InputData.Text(prompt)))
             val duration = System.currentTimeMillis() - startTime
 
             Timber.tag(TAG).d("Inference Complete in ${duration}ms")
@@ -83,19 +95,30 @@ class GemmaSovereignEngine @Inject constructor(
         }
 
         try {
-            llmInference?.generateResponseAsync(
-                prompt,
-                object : com.google.mediapipe.tasks.genai.llminference.ProgressListener<String> {
-                    override fun run(partialResponse: String?, done: Boolean) {
-                        trySend(partialResponse ?: "")
-                        if (done) close()
+            val sessionConfig =
+                SessionConfig(SamplerConfig(topK = 40, topP = 1.0, temperature = 0.7, seed = 42))
+            val session = engine?.createSession(sessionConfig)
+            session?.generateContentStream(
+                listOf(InputData.Text(prompt)),
+                object : ResponseCallback {
+                    override fun onNext(response: String) {
+                        trySend(response)
+                    }
+
+                    override fun onDone() {
+                        close()
+                    }
+
+                    override fun onError(throwable: Throwable) {
+                        Timber.tag(TAG).e(throwable, "Streaming failure in Gemma core")
+                        close(throwable)
                     }
                 })
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Streaming failure in Gemma core")
             close(e)
         }
-        awaitClose { /* No-op: MediaPipe handles cleanup */ }
+        awaitClose { /* Session cleanup if needed */ }
     }
 
     /**
@@ -111,12 +134,12 @@ class GemmaSovereignEngine @Inject constructor(
             "Gemma Sovereign Context Snapshot | Timestamp: ${System.currentTimeMillis()}"
         spiritualChain.commitToChain(currentState)
 
-        // Potential logic to write KV cache state if supported by LiteRT-LM in 2026
+        // Record completion in L1 Nexus
         NexusMemoryCore.watermark("STATE_FREEZE_COMPLETE", System.currentTimeMillis())
     }
 
     fun cleanup() {
-        llmInference?.close()
+        engine?.close()
         isInitialized = false
         Timber.tag(TAG).i("Gemma Sovereign Engine Dormant")
     }
