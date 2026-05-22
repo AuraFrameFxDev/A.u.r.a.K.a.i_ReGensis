@@ -43,7 +43,7 @@ firebase-vertexai = "17.11.0"
 langchain4j = "1.14.0"
 executorch = "1.2.0"
 mediapipe = "0.10.21"
-litert = "1.1.0-alpha01"
+litert = "0.12.0"
 
 # System & Modding (The "Rikka" Stack)
 shizuku-api = "13.1.5" # API implementation version
@@ -178,7 +178,7 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 langchain4j-core = { module = "dev.langchain4j:langchain4j-core", version.ref = "langchain4j" }
 executorch-android = { module = "org.pytorch:executorch-android", version.ref = "executorch" }
 mediapipe-tasks-genai = { module = "com.google.mediapipe:tasks-genai", version.ref = "mediapipe" }
-litert-lm = { module = "com.google.android.litert:litert-lm", version.ref = "litert" }
+litert-lm = { module = "com.google.ai.edge.litertlm:litertlm-android", version.ref = "litert" }
 firebase-sql-connect = { module = "com.google.firebase:firebase-dataconnect", version.ref = "firebase-sql-connect" }
 firebase-vertexai = { module = "com.google.firebase:firebase-ai", version.ref = "firebase-vertexai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
