@@ -53,6 +53,21 @@ fun DomainSubGateCarousel(
     domainColor: Color = Color(0xFF00E5FF),
     modifier: Modifier = Modifier
 ) {
+    // CRASH INVARIANT GUARD: If subGates is empty, stop execution before initializing rememberPagerState
+    if (subGates.isEmpty()) {
+        Box(
+            modifier = modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Initializing Sentinel Subsystems...",
+                color = domainColor
+            )
+        }
+        return
+    }
+
+    // Now safely instantiate pager state since count is guaranteed > 0
     val pagerState = rememberPagerState(pageCount = { subGates.size })
     val context = LocalContext.current
 

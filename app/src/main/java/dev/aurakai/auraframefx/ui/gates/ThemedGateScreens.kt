@@ -110,6 +110,54 @@ object ThemedGateScreens {
     }
 
     @Composable
+    fun SecurityGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        GenericGateScreen("SECURITY", Color.Cyan, navController, onNavigateBack)
+    }
+
+    @Composable
+    fun RootToolsGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        GenericGateScreen("ROOT TOOLS", Color.Cyan, navController, onNavigateBack)
+    }
+
+    @Composable
+    fun RecoveryGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        GenericGateScreen("RECOVERY", Color.Cyan, navController, onNavigateBack)
+    }
+
+    @Composable
+    fun RomFlasherGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        GenericGateScreen("ROM FLASHER", Color.Cyan, navController, onNavigateBack)
+    }
+
+    @Composable
+    fun ModulesGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        GenericGateScreen("MODULES", Color.Cyan, navController, onNavigateBack)
+    }
+
+    @Composable
+    fun VpnGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        GenericGateScreen("VPN", Color.Cyan, navController, onNavigateBack)
+    }
+
+    @Composable
+    fun BootloaderGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
+        GenericGateScreen("BOOTLOADER", Color.Cyan, navController, onNavigateBack)
+    }
+
+    @Composable
+    private fun GenericGateScreen(title: String, color: Color, navController: NavController, onNavigateBack: () -> Unit) {
+        Box(modifier = Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(title, color = color, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                Spacer(Modifier.height(20.dp))
+                IconButton(onClick = onNavigateBack) {
+                    Icon(Icons.Default.ArrowBack, null, tint = color)
+                }
+            }
+        }
+    }
+
+    @Composable
     fun HelpServicesGateScreen(navController: NavController, onNavigateBack: () -> Unit = {}) {
         Box(modifier = Modifier.fillMaxSize()) {
             PurpleGridRoomBackground(modifier = Modifier.fillMaxSize())
