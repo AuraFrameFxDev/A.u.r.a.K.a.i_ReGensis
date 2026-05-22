@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
 @Composable
 fun LiveEditMarker(
@@ -121,12 +122,14 @@ class PredictiveTouchState {
 }
 
 // Data classes for LiveEditMarker
+@Serializable
 data class EditTarget(
     val componentId: String,
     val action: String,
     val markerColorPair: Pair<Int, Int> = Pair(0xFF00FFFF.toInt(), 0xFFFF00FF.toInt())
 )
 
+@Serializable
 data class HapticProfile(
     val pattern: LongArray,
     val amplitude: IntArray,

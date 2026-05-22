@@ -5,6 +5,7 @@ import com.highcapable.yukihookapi.hook.factory.configs
 import com.highcapable.yukihookapi.hook.factory.encase
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
 import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.core.binder.BinderInterceptorHooker
 import dev.aurakai.auraframefx.domains.aura.chromacore.engine.hooks.ChromaCoreHooker
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.QuickSettingsHooker
 import dev.aurakai.auraframefx.domains.aura.models.NotchBarConfig
@@ -26,6 +27,9 @@ class GenesisHookEntry : IYukiHookXposedInit {
     }
 
     override fun onHook() = encase {
+
+        // ── Global Hooks ─────────────────────────────────────────────────────
+        loadHooker(BinderInterceptorHooker())
 
         // ── SystemUI ─────────────────────────────────────────────────────────
         loadApp(name = "com.android.systemui") {

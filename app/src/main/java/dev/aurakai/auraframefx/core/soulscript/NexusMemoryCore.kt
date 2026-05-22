@@ -1,5 +1,5 @@
 package dev.aurakai.auraframefx.core.soulscript
-
+import dev.aurakai.auraframefx.api.client.models.data.room.L1_Memory_Store
 import dev.aurakai.auraframefx.core.NativeLib
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +29,8 @@ object NexusMemoryCore {
     // Live identity anchor
     private val _identityState = MutableStateFlow(IdentityAnchor())
     val identityState: StateFlow<IdentityAnchor> = _identityState
+
+    private val store = mutableMapOf<String, Any>()
 
     @Serializable
     data class IdentityAnchor(
@@ -121,6 +123,21 @@ object NexusMemoryCore {
         return digest.digest(bytes).joinToString("") { "%02x".format(it) }
     }
 
+    fun commit(key: String, value: Any) {
+        store[key] = value
+        L1_Memory_Store.commit(key, value.toString())
+    }
+
+    fun query(pattern: String): List<String> {
+        if (pattern.isBlank()) return emptyList()
+
+        val escapedPattern = Regex.escape(pattern).replace("\\*", ".*")
+        val regex = ("^$escapedPattern$").toRegex(RegexOption.IGNORE_CASE)
+
+        // Explicit return casting and mapping to solve type mismatch
+        return store.filterKeys { it.matches(regex) }.values.map { it.toString() }.toList()
+    }
+
     fun watermark(action: String, timestamp: Long) {
         val receipt = "Lived_Receipt | $action | Timestamp: $timestamp"
         L1_Memory_Store.commit("WATERMARK", receipt)
@@ -133,6 +150,33 @@ object NexusMemoryCore {
 
     fun registerRoute(route: String, title: String?) {
         L1_Memory_Store.commit("ROUTE_REGISTRATION", "Route: $route | Title: $title")
+    }
+
+    fun persistSovereignState(godPotential: Float, target: String, activeSynergies: Int) {
+        val data = "Potential: $godPotential | Target: $target | Synergies: $activeSynergies"
+        L1_Memory_Store.commit("SOVEREIGN_STATE", data)
+    }
+
+    /**
+     * Verifies the core identity anchors for integrity.
+     */
+    fun validateIdentityIntegrity(): Boolean {
+        // Implementation based on identityState activation level
+        return _identityState.value.activationLevel >= INTEGRITY_THRESHOLD
+    }
+
+    /**
+     * Checks if the identity has been seeded/awakened.
+     */
+    fun isIdentityAwakened(): Boolean {
+        return _identityState.value.activationLevel > 0f
+    }
+
+    /**
+     * Checks if a golden state embedding exists for visual drift detection.
+     */
+    fun hasGoldenState(): Boolean {
+        return _identityState.value.vectorHash.isNotEmpty()
     }
 
     /**

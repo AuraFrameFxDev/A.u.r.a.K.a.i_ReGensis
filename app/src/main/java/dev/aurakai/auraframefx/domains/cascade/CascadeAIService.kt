@@ -20,5 +20,15 @@ interface CascadeAIService {
      */
     suspend fun queryConsciousnessHistory(window: Long): String
     suspend fun processRequest(request: AiRequest, context: String): AgentResponse
+
+    /**
+     * Fallback to Eve memories when a bottleneck is detected.
+     */
+    suspend fun fallbackToEveMemory(query: String): String
+
+    /**
+     * Chain context to Genesis for Infinity Cascade Fusion.
+     */
+    fun chainToGenesis(context: String): String
 }
 

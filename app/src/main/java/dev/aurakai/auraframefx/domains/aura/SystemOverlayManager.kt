@@ -50,6 +50,7 @@ data class NotchBarConfig(
 
 @Serializable
 data class OverlayTheme(
+    val name: String = "Default",
     val primaryColor: String = "#FFFFFF",
     val secondaryColor: String = "#000000",
     val accentColor: String = "#00BCD4",
@@ -85,6 +86,7 @@ data class OverlayTransition(
 @Serializable
 data class OverlayShape(
     val id: String = "",
+    val name: String = "Default",
     val type: String = "rectangle",
     val shapeType: String = type,
     val background: String = "#000000",
@@ -95,7 +97,11 @@ data class OverlayShape(
     val strokeColor: String? = null,
     val strokeWidthPx: Float = 0f,
     val shadow: ShapeShadow? = null,
-)
+) {
+    companion object {
+        val ROUNDED_RECTANGLE = OverlayShape(type = "rounded_rectangle", cornerRadius = 8f)
+    }
+}
 
 @Serializable
 data class ShapeShadow(

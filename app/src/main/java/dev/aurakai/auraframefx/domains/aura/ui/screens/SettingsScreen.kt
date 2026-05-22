@@ -60,8 +60,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.aura.chromacore.ui.verticalScrollbar
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.SettingsViewModel
+import dev.aurakai.auraframefx.ui.theme.verticalScrollbar
 import androidx.compose.runtime.collectAsState as collectAsState1
 
 /**

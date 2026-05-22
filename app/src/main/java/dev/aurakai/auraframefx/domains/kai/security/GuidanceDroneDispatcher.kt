@@ -46,7 +46,7 @@ class GuidanceDroneDispatcher @Inject constructor() {
 }
 
 class GuidanceDrone(val type: DroneType, val objective: String) {
-    enum class DroneType { RECON, REPAIR, DEFENSE }
+    enum class DroneType { RECON, REPAIR, DEFENSE, RESTORATIVE, MISALIGNMENT_GUIDANCE }
 
     fun deploy() {}
 }

@@ -35,9 +35,23 @@ class KeystoreManager @Inject constructor(
         load(null)
     }
 
+    private var sessionNonce: String? = null
+
     init {
         if (!keyStore.containsAlias(KEY_ALIAS)) {
             generateMasterKey()
+        }
+    }
+
+    fun getOrCreateSessionNonce(): String {
+        return sessionNonce ?: synchronized(this) {
+            sessionNonce ?: java.security.SecureRandom().let { sr ->
+                val bytes = ByteArray(32)
+                sr.nextBytes(bytes)
+                android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP).also {
+                    sessionNonce = it
+                }
+            }
         }
     }
 

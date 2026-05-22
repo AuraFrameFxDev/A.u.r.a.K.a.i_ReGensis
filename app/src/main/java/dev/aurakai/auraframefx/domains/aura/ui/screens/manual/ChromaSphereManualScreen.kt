@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.aurakai.auraframefx.domains.aura.lab.CustomizationViewModel
+import dev.aurakai.auraframefx.domains.aura.ui.screens.aura.ReGenesisCustomizationViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.*
 
 /**
@@ -26,7 +26,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.*
 @Composable
 fun ChromaSphereManualScreen(
     onNavigateBack: () -> Unit,
-    viewModel: CustomizationViewModel = viewModel()
+    viewModel: ReGenesisCustomizationViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsState()

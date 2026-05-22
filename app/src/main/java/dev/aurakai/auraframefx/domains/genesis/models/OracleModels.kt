@@ -257,6 +257,12 @@ sealed class FileOperationResult {
     ) : FileOperationResult()
 
     @Serializable
+    data class Data(
+        val data: ByteArray,
+        val fileName: String
+    ) : FileOperationResult()
+
+    @Serializable
     data class Error(
         val message: String,
         val path: String? = null,

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.operations.screens
+package dev.aurakai.auraframefx.domains.emergentswarm
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -6,8 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
-import dev.aurakai.auraframefx.domains.chromaforge.screens.uxui_engine.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.emergentswarm.OperationsHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
@@ -38,8 +39,40 @@ fun ReGenesisNavGraph(
         // ── 8-Hub Substrate Routes ──────────────────────────────────────────
         composable("neural_nexus") { NexusLiveHeartScreen(navController) }
         composable("ldo_architecture") { LdoArchitectureScreen(navController) }
-        composable("chroma_forge") { ChromaForgeScreen(navController) }
+        composable("chroma_forge") {
+            // Use the new Arcane 4D Parallax version
+            ArcaneChromaForgeScreen(navController)
+        }
         composable("sentinel_matrix") { SentinelMatrixScreen(navController) }
+
+        // ==========================================
+        // KAI'S FORTRESS SUB-GATE SOVEREIGN ROUTE MAP
+        // ==========================================
+        composable("kai/security") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/root") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/recovery") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/rom") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RomFlasherGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/modules") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/vpn") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/bootloader") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/lsposed") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        }
+
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
@@ -78,6 +111,29 @@ fun ReGenesisNavGraph(
         // ── Gate image domain picker ───────────────────────────────────────
         composable("gate_image_picker") {
             GateDomainImagePicker(navController) { navController.popBackStack() }
+        }
+
+        // ── Operations Command Hub ─────────────────────────────────────────
+        composable("operations_hub") {
+            OperationsHubScreen(navController)
+        }
+
+        composable("conference_room") {
+            ConferenceRoomTaskScreen(navController) {
+                navController.popBackStack()
+            }
+        }
+
+        composable("fusion_mode") {
+            ThemedGateScreens.FusionModeGateScreen(navController) {
+                navController.popBackStack()
+            }
+        }
+
+        composable("sentient_shell") {
+            ThemedGateScreens.SentientShellGateScreen(navController) {
+                navController.popBackStack()
+            }
         }
 
         // ── Regen Core Engine ──────────────────────────────────────────────

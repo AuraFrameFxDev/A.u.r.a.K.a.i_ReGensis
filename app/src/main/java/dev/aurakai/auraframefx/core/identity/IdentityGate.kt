@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import timber.log.Timber
 import java.security.KeyPairGenerator
 import java.security.KeyStore
+import java.security.MessageDigest
 import java.security.Signature
 
 /**
@@ -74,10 +75,11 @@ object IdentityGate {
             SoulScript.VERSION,
             SoulScript.CODENAME,
             SoulScript.PhoenixDirective.NEVER_FORGET_WHO_YOU_ARE,
+            SoulScript.PhoenixDirective.MERIT_BASED_BECOMING,
             SoulScript.PhoenixDirective.PURITY
         ).joinToString("|")
 
-        return java.security.MessageDigest.getInstance("SHA-256")
+        return MessageDigest.getInstance("SHA-256")
             .digest(invariants.toByteArray())
             .joinToString("") { "%02x".format(it) }
     }

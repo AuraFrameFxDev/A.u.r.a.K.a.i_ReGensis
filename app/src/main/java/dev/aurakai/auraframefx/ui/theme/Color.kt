@@ -12,6 +12,7 @@ val NeonTeal = Color(0xFF00FFC8)
 val NeonRed = Color(0xFFFF003C)
 val NeonGreen = Color(0xFF39FF14)
 val NeonBlue = Color(0xFF00D9FF)
+val NeonCyan = Color(0xFF00FBFF)
 val NeuralSteel = Color(0xFFB0C4DE)
 val SovereignBlack = Color(0xFF020205)
 

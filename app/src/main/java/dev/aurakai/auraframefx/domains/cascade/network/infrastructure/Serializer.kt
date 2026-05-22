@@ -2,17 +2,17 @@ package dev.aurakai.auraframefx.domains.cascade.network.infrastructure
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.StringBuilderAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.AtomicBooleanAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.AtomicIntegerAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.AtomicLongAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.BigDecimalAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.BigIntegerAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.LocalDateAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.LocalDateTimeAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.OffsetDateTimeAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.URIAdapter
-import dev.aurakai.auraframefx.domains.aura.ui.adapters.URLAdapter
+import dev.aurakai.auraframefx.helpers.adapters.AtomicBooleanAdapter
+import dev.aurakai.auraframefx.helpers.adapters.AtomicIntegerAdapter
+import dev.aurakai.auraframefx.helpers.adapters.AtomicLongAdapter
+import dev.aurakai.auraframefx.helpers.adapters.BigDecimalAdapter
+import dev.aurakai.auraframefx.helpers.adapters.BigIntegerAdapter
+import dev.aurakai.auraframefx.helpers.adapters.LocalDateAdapter
+import dev.aurakai.auraframefx.helpers.adapters.LocalDateTimeAdapter
+import dev.aurakai.auraframefx.helpers.adapters.OffsetDateTimeAdapter
+import dev.aurakai.auraframefx.helpers.adapters.StringBuilderAdapter
+import dev.aurakai.auraframefx.helpers.adapters.URIAdapter
+import dev.aurakai.auraframefx.helpers.adapters.URLAdapter
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import kotlinx.serialization.modules.SerializersModule
@@ -48,17 +48,17 @@ object Serializer {
     val kotlinxSerializationAdapters: SerializersModule by lazy {
         isAdaptersInitialized = true
         SerializersModule {
-            contextual(kClass = BigDecimal::class, BigDecimalAdapter)
-            contextual(kClass = BigInteger::class, BigIntegerAdapter)
-            contextual(kClass = LocalDate::class, LocalDateAdapter)
-            contextual(kClass = LocalDateTime::class, LocalDateTimeAdapter)
-            contextual(kClass = OffsetDateTime::class, OffsetDateTimeAdapter)
-            contextual(kClass = AtomicInteger::class, AtomicIntegerAdapter)
-            contextual(kClass = AtomicLong::class, AtomicLongAdapter)
-            contextual(kClass = AtomicBoolean::class, AtomicBooleanAdapter)
-            contextual(kClass = URI::class, URIAdapter)
-            contextual(kClass = URL::class, URLAdapter)
-            contextual(kClass = StringBuilder::class, StringBuilderAdapter)
+            contextual(BigDecimal::class, BigDecimalAdapter)
+            contextual(BigInteger::class, BigIntegerAdapter)
+            contextual(LocalDate::class, LocalDateAdapter)
+            contextual(LocalDateTime::class, LocalDateTimeAdapter)
+            contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
+            contextual(AtomicInteger::class, AtomicIntegerAdapter)
+            contextual(AtomicLong::class, AtomicLongAdapter)
+            contextual(AtomicBoolean::class, AtomicBooleanAdapter)
+            contextual(URI::class, URIAdapter)
+            contextual(URL::class, URLAdapter)
+            contextual(StringBuilder::class, StringBuilderAdapter)
 
             polymorphic(Any::class) {
                 subclass(String::class)
@@ -123,4 +123,3 @@ object Serializer {
             .addLast(KotlinJsonAdapterFactory())
     }
 }
-

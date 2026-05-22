@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.ldo
+package dev.aurakai.auraframefx.domains.ldoarchitecture.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material3.Icon
@@ -32,7 +33,9 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
+import dev.aurakai.auraframefx.ui.components.graph.SphereGridDashboard
 import java.util.Locale
 
 /**
@@ -41,6 +44,14 @@ import java.util.Locale
  */
 @Composable
 fun LdoArchitectureScreen(
+    navController: NavHostController,
+    viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
+) {
+    SphereGridDashboard()
+}
+
+@Composable
+fun LegacyLdoArchitectureScreen(
     navController: NavHostController,
     viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
 ) {
@@ -125,7 +136,7 @@ fun LdoArchitectureScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(agents) { agent ->
+                items(agents) { agent: LDOAgentEntity ->
                     SovereignGlassCard(
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -137,7 +148,7 @@ fun LdoArchitectureScreen(
                             Icon(
                                 Icons.Default.Hub,
                                 contentDescription = null,
-                                tint = Color(agent.colorHex.toInt()),
+                                tint = Color(agent.colorHex),
                                 modifier = Modifier.size(24.dp)
                             )
                             Spacer(modifier = Modifier.width(16.dp))

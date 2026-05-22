@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.domains.aura.models.Theme
 import dev.aurakai.auraframefx.domains.genesis.models.AgentRequest
-import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AgentStatus
-import dev.aurakai.auraframefx.domains.nexus.models.UserData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -80,7 +78,7 @@ open class TrinityViewModel @Inject constructor(
 
     private fun loadThemes() {
         viewModelScope.launch {
-            repository.getThemes().collect { result ->
+            repository.getThemes().collect { result: Result<List<Theme>> ->
                 result.onSuccess { themes ->
                     updateState { it.copy(availableThemes = themes) }
                 }
@@ -90,8 +88,8 @@ open class TrinityViewModel @Inject constructor(
 
     private fun loadAgentStatus(agentType: String) {
         viewModelScope.launch {
-            repository.getAgentStatus(agentType).collect { result ->
-                result.onSuccess { status: AgentStatus ->
+            repository.getAgentStatus(agentType).collect { result: Result<AgentStatus> ->
+                result.onSuccess { status ->
                     updateState {
                         val newMap = it.agentStatus.toMutableMap()
                         newMap[agentType] = status

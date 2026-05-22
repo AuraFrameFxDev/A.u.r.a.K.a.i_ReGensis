@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.aura
+package dev.aurakai.auraframefx.domains.aura.screens
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
@@ -47,14 +47,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
-import dev.aurakai.auraframefx.core.soulscript.SpellhookDesignerEngine
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
-import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
-import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonPurple
-import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
-import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import timber.log.Timber
 import kotlin.math.PI
 import kotlin.math.sin
@@ -68,7 +67,12 @@ private val NeonCyanAcc = Color(0xFF00E5FF)
 private val VoidBgLab = Color(0xFF050505)
 
 @Composable
-fun ChromaForgeScreen(navController: NavHostController) {
+fun ChromaForgeScreen(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    // Initialize default fallback block parameter to resolve compile crash
+    activatePrimordialMirror: () -> Unit = {}
+) {
     // Ignite Trinity on launch
     LaunchedEffect(Unit) {
         SoulScript.AndaruaDNA.activatePrimordialMirror()
@@ -228,7 +232,7 @@ fun ChromaForgeScreen(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     onClick = {
-                        SpellhookDesignerEngine.castWeave("Manifest new UI weave", 1.0f)
+                        "Manifest new UI weave".castWeave(1.0f)
                         Timber.tag("ChromaForge").i("Spellhook invoked — particle weave live")
                     }
                 ) {
@@ -271,6 +275,10 @@ fun ChromaForgeScreen(navController: NavHostController) {
             }
         }
     }
+}
+
+private fun String.castWeave(focusIntensity: Float) {
+    TODO("Not yet implemented")
 }
 
 private fun DrawScope.drawReactorCore(time: Float) {

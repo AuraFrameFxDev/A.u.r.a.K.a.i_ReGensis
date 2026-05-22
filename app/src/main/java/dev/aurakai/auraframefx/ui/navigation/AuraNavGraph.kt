@@ -9,8 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.chromaforge.screens.ChromaForgeScreen
-import dev.aurakai.auraframefx.domains.chromaforge.screens.uxui_engine.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
@@ -18,11 +18,17 @@ import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureSc
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
+import dev.aurakai.auraframefx.ui.arena.TrainingArenaScreen
+import dev.aurakai.auraframefx.ui.arena.TrainingArenaViewModel
 import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.GateDomainImagePicker
 import dev.aurakai.auraframefx.ui.gates.LineageMapScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
+import dev.aurakai.auraframefx.ui.loadout.AgentLoadoutScreen
+import dev.aurakai.auraframefx.ui.loadout.LoadoutViewModel
+import dev.aurakai.auraframefx.ui.specialization.SpecializationTreeScreen
+import dev.aurakai.auraframefx.ui.specialization.SpecializationViewModel
 
 object AuraDestinations {
     const val COMMAND_DECK = "command_deck"
@@ -52,6 +58,35 @@ fun AuraNavGraph(
         composable("ldo_architecture") { LdoArchitectureScreen(navController) }
         composable("chroma_forge") { ChromaForgeScreen(navController) }
         composable("sentinel_matrix") { SentinelMatrixScreen(navController) }
+
+        // ==========================================
+        // KAI'S FORTRESS SUB-GATE SOVEREIGN ROUTE MAP
+        // ==========================================
+        composable("kai/security") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/root") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/recovery") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/rom") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RomFlasherGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/modules") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/vpn") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/bootloader") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/lsposed") {
+            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        }
+
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }

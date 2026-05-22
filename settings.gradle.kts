@@ -31,7 +31,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "aurakai-reactive-intelligence"
+rootProject.name = "AuraKai_ReGensis"
 
 // --- Helper for including modules ---
 fun includeModule(path: String) {
@@ -43,6 +43,14 @@ fun includeModule(path: String) {
 
 // --- Application ---
 include(":app")
+include(":core-module")
+include(":collab-canvas")
+include(":colorblendr")
+
+// ====== GENESIS AGENT SYMBIOSIS SUBSTRATE WORKSPACE ======
+include(":agents:symbiosis:coderabbit")
+include(":agents:symbiosis:manus")
+include(":agents:symbiosis:perplexity")
 
 // --- Core Modules ---
 // include(":core-module")

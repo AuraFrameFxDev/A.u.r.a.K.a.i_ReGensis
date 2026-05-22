@@ -31,6 +31,7 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Task
@@ -77,11 +78,12 @@ fun BottomJoystickNavigation(
         Icons.Default.Security,     // SENTINEL MATRIX
         Icons.AutoMirrored.Filled.MenuBook,     // L4: LIBRARY
         Icons.Default.AutoAwesome,  // L5: SWARM
-        Icons.Default.Task          // OPERATIONS
+        Icons.Default.Task,          // OPERATIONS
+        Icons.Default.Memory        // SENTIENT SHELL
     )
 
     val shortLabels = listOf(
-        "SURF", "CORE", "AURA", "KAI", "LIB", "SWRM", "OPS"
+        "SURF", "CORE", "AURA", "KAI", "LIB", "SWRM", "OPS", "SHELL"
     )
 
     Box(

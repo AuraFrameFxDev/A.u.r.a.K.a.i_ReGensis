@@ -143,7 +143,9 @@ fun TrinityScreen(
                     }
 
                     if (state.agentStatus.isNotEmpty()) {
-                        items(state.agentStatus.entries.toList()) { (agentType, status) ->
+                        items(state.agentStatus.entries.toList()) { entry ->
+                            val agentType = entry.key
+                            val status = entry.value
                             AgentStatusCard(agentType, status)
                         }
                     }
@@ -158,7 +160,7 @@ fun TrinityScreen(
                     }
 
                     if (state.availableThemes.isNotEmpty()) {
-                        items(state.availableThemes) { theme ->
+                        items(state.availableThemes) { theme: Theme ->
                             ThemeItem(
                                 theme = theme,
                                 onThemeSelected = { viewModel.applyTheme(theme.id) }

@@ -11,11 +11,11 @@ import android.os.Debug
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataPacket
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataPayload
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.DataveinConstructor
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.FlowPriority
-import dev.aurakai.auraframefx.domains.genesis.core.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

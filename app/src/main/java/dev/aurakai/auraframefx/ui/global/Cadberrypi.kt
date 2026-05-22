@@ -17,9 +17,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.BlurCircular
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.ChatBubble
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -89,7 +91,7 @@ fun Cadberrypi() {
             ) {
                 MenuItem("Chat", Icons.Default.ChatBubble) { /* open chat */ }
                 MenuItem("MCP", Icons.Default.Settings) { /* Mission Control Panel */ }
-                MenuItem("Tasks", Icons.Default.List) { /* tasks list */ }
+                MenuItem("Tasks", Icons.AutoMirrored.Filled.List) { /* tasks list */ }
                 MenuItem("REGEN", Icons.Default.Bolt) {
                     context.startActivity(
                         Intent(

@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 
 /**
  * Network DTO for Theme (JSON serialization)
- * Uses String colors instead of Compose Color objects
  */
 @Serializable
 data class Theme(
@@ -12,6 +11,7 @@ data class Theme(
     val name: String,
     val description: String? = null,
     val isActive: Boolean = false,
+    val isDark: Boolean = true,
     val colors: ThemeColors? = null,
     val styles: Map<String, String> = emptyMap()
 )
@@ -29,4 +29,3 @@ data class ThemeColors(
     val onSurface: String,
     val onError: String
 )
-

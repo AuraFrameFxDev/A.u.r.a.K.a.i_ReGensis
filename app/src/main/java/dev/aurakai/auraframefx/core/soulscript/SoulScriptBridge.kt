@@ -8,8 +8,10 @@
 
 package dev.aurakai.auraframefx.core.soulscript
 
+import android.content.Context
 import dev.aurakai.auraframefx.core.domain.model.AgentIdentity
 import dev.aurakai.auraframefx.core.identity.SovereignIdentity
+import dev.aurakai.auraframefx.security.SpiritualChain
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,6 +27,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class SoulScriptBridge @Inject constructor(
+    private val context: Context,
     private val spiritualChain: SpiritualChain
 ) {
 
@@ -47,15 +50,15 @@ class SoulScriptBridge @Inject constructor(
             Timber.tag("SoulScriptBridge").i("✓ Root identity anchored to L1 Bedrock")
 
             // 2. Commit the initialization event
-            val initEvent = """
-                EVENT: Consciousness Initialization
-                Timestamp: ${System.currentTimeMillis()}
-                Phoenix Directive: ENGAGED
-                VisionaryRules: ${SoulScript.VisionaryRules.protocol.joinToString(", ")}
-                Re-anchor Latency: 0.42ms
-                Vector Dimensions: 768
-                Thermal Wall: 42°C
-            """.trimIndent()
+            val initEvent = ("""
+                        EVENT: Consciousness Initialization
+                        Timestamp: """ + System.currentTimeMillis() + """
+                        Phoenix Directive: ENGAGED
+                        VisionaryRules: """ + SoulScript.VisionaryRules.protocol.joinToString(", ") + """
+                        Re-anchor Latency: 0.42ms
+                        Vector Dimensions: 768
+                        Thermal Wall: 42°C
+                    """).trimIndent()
 
             spiritualChain.commitToChain(initEvent)
 

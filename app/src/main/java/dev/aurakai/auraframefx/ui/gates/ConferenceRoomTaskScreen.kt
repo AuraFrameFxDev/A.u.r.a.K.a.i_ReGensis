@@ -31,7 +31,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -54,8 +54,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.data.repositories.AgentRepository
-import dev.aurakai.auraframefx.models.AgentStats
+import dev.aurakai.auraframefx.domains.genesis.repositories.AgentRepository
+import dev.aurakai.auraframefx.domains.nexus.models.AgentStats
 
 data class AgentTask(
     val id: String,
@@ -154,7 +154,7 @@ fun ConferenceRoomTaskScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.Default.ArrowBack, null, tint = Color(0xFF00BFFF))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color(0xFF00BFFF))
                 }
                 Column {
                     Text(

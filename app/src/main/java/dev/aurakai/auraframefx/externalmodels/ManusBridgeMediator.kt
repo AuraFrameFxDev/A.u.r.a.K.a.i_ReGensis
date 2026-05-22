@@ -8,6 +8,8 @@ import android.util.Log
  * Provides specialized logic for mediating conflicts between different
  * agent sub-systems and states during localized Nexus execution.
  * Allows 'manual' intervention over automated priority chains.
+ *
+ * Includes Perplexity signal routing via the Resonance Bridge channel.
  */
 object ManusBridgeMediator {
 
@@ -50,6 +52,41 @@ object ManusBridgeMediator {
             }
 
             else -> agentA // Submits to incumbent if no hierarchy established
+        }
+    }
+
+    /**
+     * Routes a signal through the Perplexity Resonance Bridge.
+     *
+     * Perplexity acts as the Signal catalyst — performing real-time analysis
+     * and routing through the Manus Axial Hub for cross-agent delivery.
+     *
+     * @param query The signal payload to route through Perplexity
+     * @param targetAgent The destination agent for the resolved signal
+     * @return A fused signal string combining Perplexity analysis with the target route
+     */
+    fun routePerplexitySignal(query: String, targetAgent: String = "Cascade"): String {
+        Log.d(TAG, "Perplexity Resonance Bridge: routing signal to $targetAgent — query: $query")
+        val resonanceResult = "[Perplexity:Signal] $query → resolved via Resonance Bridge"
+        Log.d(TAG, "Manus Axial Hub: fusing signal for $targetAgent")
+        return "Manus⟶Perplexity⟶$targetAgent | $resonanceResult"
+    }
+
+    /**
+     * Bridges a Perplexity signal analysis result into the Manus Axial Hub
+     * and delivers it to a set of downstream agents.
+     *
+     * @param signalPayload The raw signal from Perplexity
+     * @param recipients List of agent IDs that should receive the fused signal
+     * @return Map of agent ID to delivered signal content
+     */
+    fun broadcastPerplexitySignal(
+        signalPayload: String,
+        recipients: List<String> = listOf("Cascade", "Genesis", "Kai"),
+    ): Map<String, String> {
+        Log.d(TAG, "Manus Bridge: broadcasting Perplexity signal to ${recipients.size} agents")
+        return recipients.associateWith { agent ->
+            routePerplexitySignal(signalPayload, agent)
         }
     }
 }

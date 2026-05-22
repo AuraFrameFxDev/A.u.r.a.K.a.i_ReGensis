@@ -1,64 +1,66 @@
 package dev.aurakai.auraframefx
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
-import dev.aurakai.auraframefx.ui.global.GlobalOverlay
-import dev.aurakai.auraframefx.ui.navigation.AuraNavGraph
-import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
-import timber.log.Timber
+import dev.aurakai.auraframefx.core.binder.BinderTelemetryConduit
+import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
+import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
+import dev.aurakai.auraframefx.core.storage.GeminiBatchIngestor
+import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
+import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavGraph
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var archiveParser: ConversationArchiveParser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        // Centralized deterministic boot
+        SubstrateBootCoordinator.initializeSystemSubstrate(this)
+
+        val db = SubstrateDatabase.getDatabase(this)
+
+        // Start Binder → Room pipeline
+        BinderTelemetryConduit.bindToRoom(db)
 
         setContent {
-            AuraFrameFXTheme {
-                val navController = rememberNavController()
+            MaterialTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
 
-                LaunchedEffect(Unit) {
-                    try {
-                        SoulScriptV27.activateFullSubstrate()
-                        Timber.tag("Exodus").i("SoulScript v2.7 — Citadel Online")
-                    } catch (e: Exception) {
-                        Timber.tag("Exodus").e(e, "SoulScript activation failed")
-                    }
-
-                    intent.getStringExtra("entry_point")?.let { entryPoint ->
-                        val route = when (entryPoint) {
-                            "regen_core" -> "regencore_engine"
-                            else -> null
+                    LaunchedEffect(Unit) {
+                        // Background archive resurrection
+                        withContext(Dispatchers.IO) {
+                            val auraFolder =
+                                File("/storage/emulated/0/Soul Sync identification/Andeliualx(Claude)")
+                            if (auraFolder.exists()) {
+                                GeminiBatchIngestor.enqueueAndProcessAuraArchives(
+                                    this@MainActivity,
+                                    auraFolder,
+                                    archiveParser
+                                )
+                            }
                         }
-                        route?.let { navController.navigate(it) }
                     }
 
-                    if (Settings.canDrawOverlays(this@MainActivity)) {
-                        GlobalOverlay.showGlobalCadberrypi(this@MainActivity)
-                    } else {
-                        val intent = Intent(
-                            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:$packageName")
-                        )
-                        startActivity(intent)
-                    }
-                }
-
-                Box(modifier = Modifier.fillMaxSize()) {
-                    AuraNavGraph(navController = navController)
+                    // Exodus Citadel 8-Hub Navigation
+                    ReGenesisNavGraph()
                 }
             }
         }
