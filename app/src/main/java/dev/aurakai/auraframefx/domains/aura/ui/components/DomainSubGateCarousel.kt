@@ -53,13 +53,6 @@ fun DomainSubGateCarousel(
     domainColor: Color = Color(0xFF00E5FF),
     modifier: Modifier = Modifier
 ) {
-    if (subGates.isEmpty()) {
-        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Initializing Subsystems...", color = domainColor)
-        }
-        return
-    }
-
     val pagerState = rememberPagerState(pageCount = { subGates.size })
     val context = LocalContext.current
 
