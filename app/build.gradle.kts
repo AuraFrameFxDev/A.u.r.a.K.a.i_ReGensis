@@ -9,11 +9,12 @@ plugins {
 
 extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     namespace = "dev.aurakai.auraframefx"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "dev.aurakai.auraframefx"
         minSdk = 34
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

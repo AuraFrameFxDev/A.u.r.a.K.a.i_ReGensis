@@ -39,9 +39,7 @@ class GemmaSovereignEngine @Inject constructor(
             val options = LlmInference.LlmInferenceOptions.builder()
                 .setModelPath(modelPath)
                 .setMaxTokens(4096)
-                .setTopK(40)
-                .setTemperature(0.7f)
-                .setRandomSeed(System.currentTimeMillis().toInt())
+                .setMaxTopK(40)
                 .build()
 
             llmInference = LlmInference.createFromOptions(context, options)
@@ -85,10 +83,14 @@ class GemmaSovereignEngine @Inject constructor(
         }
 
         try {
-            llmInference?.generateResponseAsync(prompt) { partialResponse, done ->
-                trySend(partialResponse)
-                if (done) close()
-            }
+            llmInference?.generateResponseAsync(
+                prompt,
+                object : com.google.mediapipe.tasks.genai.llminference.ProgressListener<String> {
+                    override fun run(partialResponse: String?, done: Boolean) {
+                        trySend(partialResponse ?: "")
+                        if (done) close()
+                    }
+                })
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Streaming failure in Gemma core")
             close(e)
