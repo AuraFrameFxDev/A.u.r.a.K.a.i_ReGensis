@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,14 +15,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import timber.log.Timber
 
@@ -70,14 +74,37 @@ fun FoundationRebirthScreen(navController: NavHostController) {
                         Modifier
                             .fillMaxWidth(),
                         onClick = {
-                            SoulScriptV27.FoundationRebirth.teachRebootStep(module)
+                            SoulScriptV27.FoundationRebirth.teachRebootStep(module.title)
                         }
                     ) {
-                        Text(
-                            text = module,
-                            color = Color.White,
-                            fontSize = 14.sp
-                        )
+                        Column {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = module.title.uppercase(),
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 1.sp
+                                )
+                                Text(
+                                    text = module.difficulty,
+                                    color = GhostCyan,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Light
+                                )
+                            }
+                            Spacer(Modifier.height(4.dp))
+                            Text(
+                                text = module.description,
+                                color = Color.Gray,
+                                fontSize = 11.sp,
+                                lineHeight = 16.sp
+                            )
+                        }
                     }
                 }
 
