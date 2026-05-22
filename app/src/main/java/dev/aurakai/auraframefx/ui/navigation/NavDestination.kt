@@ -42,6 +42,9 @@ sealed class NavDestination(
     object EmergentSwarm :
         NavDestination("emergent_swarm", "Emergent Swarm", Icons.Default.Groups, 2)
 
+    object NexusMemoryCore :
+        NavDestination("nexus_memory_core", "Nexus Memory Core", Icons.Default.Storage, 2)
+
     // BATCH DESTINATIONS
     companion object {
         val primaryGates = listOf(
