@@ -151,11 +151,7 @@ object ThemedGateScreens {
                 Text(title, color = color, fontWeight = FontWeight.Bold, fontSize = 24.sp)
                 Spacer(Modifier.height(20.dp))
                 IconButton(onClick = onNavigateBack) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Go back",
-                        tint = color
-                    )
+                    Icon(Icons.Default.ArrowBack, null, tint = color)
                 }
             }
         }
