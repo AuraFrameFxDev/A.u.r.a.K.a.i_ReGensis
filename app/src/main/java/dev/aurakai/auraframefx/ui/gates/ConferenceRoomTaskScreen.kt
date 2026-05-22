@@ -31,7 +31,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -154,7 +154,7 @@ fun ConferenceRoomTaskScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = onNavigateBack) {
-                    Icon(Icons.Default.ArrowBack, null, tint = Color(0xFF00BFFF))
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color(0xFF00BFFF))
                 }
                 Column {
                     Text(

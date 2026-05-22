@@ -109,7 +109,9 @@ class NeuralWhisper @Inject constructor(
         kotlinx.coroutines.suspendCancellableCoroutine { cont ->
             if (!isSttInitialized || speechRecognizer == null) {
                 Log.w(TAG, "STT not initialized, cannot process speech to text.")
-                if (cont.isActive) cont.resume(null, onCancellation = null)
+                if (cont.isActive) cont.resume(null) {
+                    Log.w(TAG, "STT suspension canceled natively")
+                }
                 return@suspendCancellableCoroutine
             }
 
@@ -128,14 +130,18 @@ class NeuralWhisper @Inject constructor(
                 override fun onError(error: Int) {
                     Log.e(TAG, "STT Error: $error")
                     _conversationStateFlow.value = ConversationState.Idle
-                    if (cont.isActive) cont.resume(null, onCancellation = null)
+                    if (cont.isActive) cont.resume(null) {
+                        Log.w(TAG, "STT suspension canceled natively")
+                    }
                 }
 
                 override fun onResults(results: android.os.Bundle?) {
                     val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     val transcript = matches?.getOrNull(0)
                     _conversationStateFlow.value = ConversationState.Idle
-                    if (cont.isActive) cont.resume(transcript, onCancellation = null)
+                    if (cont.isActive) cont.resume(transcript) {
+                        Log.w(TAG, "STT suspension canceled natively")
+                    }
                 }
 
                 override fun onPartialResults(partialResults: android.os.Bundle?) {}
