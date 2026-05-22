@@ -286,7 +286,7 @@ private fun String.castWeave(focusIntensity: Float) {
                 intent
             )
         },
-        invokeVisionForge = { _, intensity ->
+        invokeVisionForge = { _, _ ->
             // The actual vision forging is handled inside SpellhookDesignerEngine via private extension
         }
     )
