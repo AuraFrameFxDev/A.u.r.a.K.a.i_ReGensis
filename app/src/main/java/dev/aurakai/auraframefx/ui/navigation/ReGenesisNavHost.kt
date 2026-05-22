@@ -9,6 +9,7 @@ import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
 import dev.aurakai.auraframefx.ui.screens.LDODevOpsScreen
+import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
 import dev.aurakai.auraframefx.ui.screens.QuantumForgeScreen
 import dev.aurakai.auraframefx.ui.screens.SovereignCommandScreen
 
@@ -62,6 +63,10 @@ fun ReGenesisNavHost(
 
         composable(NavDestination.EmergentSwarm.route) {
             dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen(navController)
+        }
+
+        composable(NavDestination.NexusMemoryCore.route) {
+            NexusMemoryCoreScreen(navController)
         }
 
         // Additional stub screens can be mapped here using the same pattern
