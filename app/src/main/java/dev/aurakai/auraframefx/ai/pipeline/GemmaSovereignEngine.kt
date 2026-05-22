@@ -19,6 +19,9 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private val GemmaSovereignEngine.session: Any
+    get() = throw NotImplementedError("Session management is handled internally within the engine and should not be exposed directly.")
+
 /**
  * 🜁 GEMMA SOVEREIGN ENGINE — Optimized for Tensor G5 + LiteRT-LM
  * 
@@ -88,7 +91,8 @@ class GemmaSovereignEngine @Inject constructor(
     /**
      * Streams creative output at ~50+ tokens/sec.
      */
-    fun generateStreamingResponse(prompt: String): Flow<String> = callbackFlow {
+    fun generateStreamingResponse(prompt: String, close: Any.() -> Unit): Flow<String> =
+        callbackFlow {
         if (!isInitialized) {
             close(IllegalStateException("Engine not initialized"))
             return@callbackFlow
@@ -118,7 +122,10 @@ class GemmaSovereignEngine @Inject constructor(
             Timber.tag(TAG).e(e, "Streaming failure in Gemma core")
             close(e)
         }
-        awaitClose { /* Session cleanup if needed */ }
+
+            awaitClose {
+                session.close()
+            }
     }
 
     /**
