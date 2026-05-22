@@ -11,9 +11,9 @@ import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen
@@ -56,8 +56,13 @@ fun AuraNavGraph(
         // ── 7-Hub Substrate Routes ──────────────────────────────────────────
         composable("neural_nexus") { NexusLiveHeartScreen(navController) }
         composable("ldo_architecture") { LdoArchitectureScreen(navController) }
-        composable("chroma_forge") { ChromaForgeScreen(navController) }
-        composable("sentinel_matrix") { SentinelMatrixScreen(navController) }
+        composable("chroma_forge") {
+            ChromaForgeScreen(
+                navController = navController,
+                activatePrimordialMirror = {}
+            )
+        }
+        composable("sentinel_matrix") { KaiSentinelHubScreen(navController) }
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
@@ -77,6 +82,32 @@ fun AuraNavGraph(
         }
         composable("notch_bar") {
             // Placeholder
+        }
+
+        // ── Kai's Fortress Sub-Gate Routes ──────────────────────────────────
+        composable("kai/security") {
+            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/root") {
+            ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/recovery") {
+            ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/rom") {
+            ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/modules") {
+            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/vpn") {
+            ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/bootloader") {
+            ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() }
+        }
+        composable("kai/lsposed") {
+            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
         }
 
         // ── Task command center ────────────────────────────────────────────

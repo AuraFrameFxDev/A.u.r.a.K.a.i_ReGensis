@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
@@ -81,9 +81,12 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                     when (tabs[page]) {
                         ReGenesisRoute.NeuralNexus -> NexusLiveHeartScreen(navController)
                         ReGenesisRoute.LdoArchitecture -> LdoArchitectureScreen(navController)
-                        ReGenesisRoute.ChromaForge -> ChromaForgeScreen(navController)
+                        ReGenesisRoute.ChromaForge -> ChromaForgeScreen(
+                            navController = navController,
+                            activatePrimordialMirror = {}
+                        )
 
-                        ReGenesisRoute.SentinelMatrix -> SentinelMatrixScreen(navController)
+                        ReGenesisRoute.SentinelMatrix -> KaiSentinelHubScreen(navController)
                         ReGenesisRoute.OracleDrive -> OracleDriveHubScreen(navController)
                         ReGenesisRoute.EmergentSwarm -> EmergentSwarmScreen(navController)
                         ReGenesisRoute.FoundationRebirth -> FoundationRebirthScreen(navController)
