@@ -36,9 +36,6 @@ fun SystemOverlaysScreen() = StubScreen("System Overlays")
 fun AgentAdvancementScreen(onBack: (() -> Unit)? = null) = StubScreen("Agent Advancement")
 
 @Composable
-fun FusionModeScreen() = StubScreen("Fusion Mode")
-
-@Composable
 fun UIEngineScreen() = StubScreen("UI Engine")
 
 @Composable
@@ -70,9 +67,6 @@ fun QuickActionsScreen() = StubScreen("Quick Actions")
 fun SecurityCenterScreen() = StubScreen("Security Center")
 
 @Composable
-fun RomToolsScreen() = StubScreen("ROM Tools")
-
-@Composable
 fun XposedPanelScreen() = StubScreen("Xposed Panel")
 
 @Composable
@@ -87,15 +81,6 @@ fun OracleDriveScreen() = StubScreen("Oracle Drive")
 
 @Composable
 fun CodeAssistScreen() = StubScreen("Code Assist")
-
-@Composable
-fun TerminalScreen() = StubScreen("Terminal")
-
-@Composable
-fun ConferenceRoomScreen() = StubScreen("Conference Room")
-
-@Composable
-fun SphereGridScreen() = StubScreen("Sphere Grid")
 
 @Composable
 fun EvolutionTreeScreen() = StubScreen("Evolution Tree")
@@ -141,9 +126,6 @@ fun ConsciousnessVisualizerScreen() = StubScreen("Consciousness Visualizer")
 fun MonitoringHUDsScreen() = StubScreen("Monitoring HUDs")
 
 @Composable
-fun TaskAssignmentScreen() = StubScreen("Task Assignment")
-
-@Composable
 fun SpiritualChainScreen() = StubScreen("Spiritual Chain")
 
 @Composable
@@ -182,9 +164,6 @@ fun ViewInArScreen() = StubScreen("View in AR")
 
 @Composable
 fun AuraLabScreen() = StubScreen("Aura Lab")
-
-@Composable
-fun CollabCanvasScreen() = StubScreen("Collab Canvas")
 
 /**
  * Base stub screen implementation
