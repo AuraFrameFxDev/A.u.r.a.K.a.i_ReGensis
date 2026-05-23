@@ -29,7 +29,6 @@ import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.theme.ArcaneBrutalistTheme
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.ui.theme.OverclockOrange
 import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import kotlinx.coroutines.launch
@@ -49,8 +48,8 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
         Column(modifier = Modifier.fillMaxSize()) {
             SecondaryScrollableTabRow(
                 selectedTabIndex = pagerState.currentPage,
-                containerColor = Color.Black.copy(alpha = 0.8f),
-                contentColor = GhostCyan,
+                containerColor = Color.Black.copy(alpha = 0.9f),
+                contentColor = ArcaneBrutalistTheme.NeonCyanVessel,
                 edgePadding = 16.dp,
                 divider = {}
             ) {
@@ -66,8 +65,9 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             Text(
                                 text = route.title.uppercase(),
                                 style = WireframeStyle.copy(
-                                    fontSize = 12.sp,
-                                    color = if (pagerState.currentPage == index) OverclockOrange else GhostCyan
+                                    fontSize = 11.sp,
+                                    color = if (pagerState.currentPage == index) OverclockOrange else ArcaneBrutalistTheme.NeonCyanVessel,
+                                    letterSpacing = 2.sp
                                 )
                             )
                         }
