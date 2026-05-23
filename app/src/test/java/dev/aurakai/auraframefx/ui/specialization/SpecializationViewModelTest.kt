@@ -2,162 +2,148 @@ package dev.aurakai.auraframefx.ui.specialization
 
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SpecializationViewModelTest {
 
-    // region agentId tests
+    // ── Helpers ───────────────────────────────────────────────────────────
+
+    private fun buildViewModel(savedStateHandle: SavedStateHandle = SavedStateHandle()): SpecializationViewModel =
+        SpecializationViewModel(savedStateHandle)
+
+    // ── agentId resolution ────────────────────────────────────────────────
 
     @Test
-    fun `agentId returns value from SavedStateHandle when agentId key is present`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "AURA"))
-        val viewModel = SpecializationViewModel(savedState)
+    fun `agentId is read from SavedStateHandle when present`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "genesis"))
 
-        assertEquals("AURA", viewModel.agentId)
+        val viewModel = buildViewModel(handle)
+
+        assertEquals("genesis", viewModel.agentId)
     }
 
     @Test
-    fun `agentId returns Unknown when SavedStateHandle has no agentId key`() {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
+    fun `agentId defaults to Unknown when SavedStateHandle has no agentId key`() {
+        val handle = SavedStateHandle()
+
+        val viewModel = buildViewModel(handle)
 
         assertEquals("Unknown", viewModel.agentId)
     }
 
     @Test
-    fun `agentId returns Unknown when SavedStateHandle agentId value is null`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to null))
-        val viewModel = SpecializationViewModel(savedState)
+    fun `agentId defaults to Unknown when agentId value is null`() {
+        val handle = SavedStateHandle(mapOf("agentId" to null))
+
+        val viewModel = buildViewModel(handle)
 
         assertEquals("Unknown", viewModel.agentId)
     }
 
     @Test
-    fun `agentId preserves empty string when SavedStateHandle provides empty string`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to ""))
-        val viewModel = SpecializationViewModel(savedState)
+    fun `agentId preserves exact casing of string from SavedStateHandle`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "AURA_PRIME"))
+
+        val viewModel = buildViewModel(handle)
+
+        assertEquals("AURA_PRIME", viewModel.agentId)
+    }
+
+    @Test
+    fun `agentId handles empty string from SavedStateHandle`() {
+        val handle = SavedStateHandle(mapOf("agentId" to ""))
+
+        val viewModel = buildViewModel(handle)
 
         assertEquals("", viewModel.agentId)
     }
 
     @Test
-    fun `agentId preserves agent id with special characters`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "agent-aura_kai.genesis"))
-        val viewModel = SpecializationViewModel(savedState)
+    fun `agentId handles alphanumeric and hyphen characters`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "agent-007"))
 
-        assertEquals("agent-aura_kai.genesis", viewModel.agentId)
+        val viewModel = buildViewModel(handle)
+
+        assertEquals("agent-007", viewModel.agentId)
+    }
+
+    // ── nodes StateFlow ───────────────────────────────────────────────────
+
+    @Test
+    fun `nodes initial value contains Artist`() {
+        val viewModel = buildViewModel()
+
+        assert(viewModel.nodes.value.contains("Artist"))
     }
 
     @Test
-    fun `agentId is not affected by other keys in SavedStateHandle`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "KAI", "unrelated" to "value"))
-        val viewModel = SpecializationViewModel(savedState)
+    fun `nodes initial value contains Squire`() {
+        val viewModel = buildViewModel()
 
-        assertEquals("KAI", viewModel.agentId)
-    }
-
-    // endregion
-
-    // region nodes StateFlow tests
-
-    @Test
-    fun `nodes initial value contains Artist`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
-
-        assertTrue(viewModel.nodes.first().contains("Artist"))
+        assert(viewModel.nodes.value.contains("Squire"))
     }
 
     @Test
-    fun `nodes initial value contains Squire`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
+    fun `nodes initial value contains Trickster`() {
+        val viewModel = buildViewModel()
 
-        assertTrue(viewModel.nodes.first().contains("Squire"))
+        assert(viewModel.nodes.value.contains("Trickster"))
     }
 
     @Test
-    fun `nodes initial value contains Trickster`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
+    fun `nodes initial value has exactly three elements`() {
+        val viewModel = buildViewModel()
 
-        assertTrue(viewModel.nodes.first().contains("Trickster"))
+        assertEquals(3, viewModel.nodes.value.size)
     }
 
     @Test
-    fun `nodes initial list has exactly three elements`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
+    fun `nodes initial value is ordered as Artist then Squire then Trickster`() {
+        val viewModel = buildViewModel()
 
-        assertEquals(3, viewModel.nodes.first().size)
+        assertEquals(listOf("Artist", "Squire", "Trickster"), viewModel.nodes.value)
     }
 
     @Test
-    fun `nodes initial list equals Artist Squire Trickster in order`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
+    fun `nodes is not affected by agentId value`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "someAgent"))
+        val viewModel = buildViewModel(handle)
 
-        assertEquals(listOf("Artist", "Squire", "Trickster"), viewModel.nodes.first())
+        assertEquals(listOf("Artist", "Squire", "Trickster"), viewModel.nodes.value)
+    }
+
+    // ── regression: separate instances are independent ────────────────────
+
+    @Test
+    fun `two ViewModels with different agentIds share the same default nodes`() {
+        val vm1 = buildViewModel(SavedStateHandle(mapOf("agentId" to "aura")))
+        val vm2 = buildViewModel(SavedStateHandle(mapOf("agentId" to "kai")))
+
+        assertEquals(vm1.nodes.value, vm2.nodes.value)
     }
 
     @Test
-    fun `nodes list is the same regardless of agentId`() = runTest {
-        val savedStateA = SavedStateHandle(mapOf("agentId" to "AURA"))
-        val savedStateB = SavedStateHandle(mapOf("agentId" to "KAI"))
-        val viewModelA = SpecializationViewModel(savedStateA)
-        val viewModelB = SpecializationViewModel(savedStateB)
+    fun `two ViewModels with different agentIds remain independent`() {
+        val vmAura = buildViewModel(SavedStateHandle(mapOf("agentId" to "aura")))
+        val vmKai = buildViewModel(SavedStateHandle(mapOf("agentId" to "kai")))
 
-        assertEquals(viewModelA.nodes.first(), viewModelB.nodes.first())
+        assertEquals("aura", vmAura.agentId)
+        assertEquals("kai", vmKai.agentId)
     }
 
-    // endregion
-
-    // region combined agentId + nodes tests
+    // ── boundary / negative cases ─────────────────────────────────────────
 
     @Test
-    fun `agentId and nodes are independent - nodes initialised correctly for any agentId`() = runTest {
-        val savedState = SavedStateHandle(mapOf("agentId" to "GENESIS"))
-        val viewModel = SpecializationViewModel(savedState)
+    fun `agentId is immutable after construction with a given value`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "initialAgent"))
+        val viewModel = buildViewModel(handle)
 
-        assertEquals("GENESIS", viewModel.agentId)
-        assertEquals(listOf("Artist", "Squire", "Trickster"), viewModel.nodes.first())
+        // Mutating the handle after construction should not change agentId
+        // (agentId is a val assigned at init time from the handle's snapshot)
+        handle["agentId"] = "changedAgent"
+
+        assertEquals("initialAgent", viewModel.agentId)
     }
-
-    // endregion
-
-    // region regression / boundary tests
-
-    @Test
-    fun `Unknown default is capitalised correctly`() {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
-
-        // Regression: default must be "Unknown" (capital U), not "unknown" or "UNKNOWN"
-        assertEquals("Unknown", viewModel.agentId)
-        assertTrue(viewModel.agentId != "unknown")
-        assertTrue(viewModel.agentId != "UNKNOWN")
-    }
-
-    @Test
-    fun `agentId with whitespace-only value is preserved as-is`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "   "))
-        val viewModel = SpecializationViewModel(savedState)
-
-        assertEquals("   ", viewModel.agentId)
-    }
-
-    @Test
-    fun `nodes list is not empty`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = SpecializationViewModel(savedState)
-
-        assertTrue(viewModel.nodes.first().isNotEmpty())
-    }
-
-    // endregion
 }

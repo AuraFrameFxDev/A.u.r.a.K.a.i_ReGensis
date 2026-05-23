@@ -2,153 +2,135 @@ package dev.aurakai.auraframefx.ui.arena
 
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TrainingArenaViewModelTest {
 
-    // region agentId tests
+    // ── Helpers ───────────────────────────────────────────────────────────
+
+    private fun buildViewModel(savedStateHandle: SavedStateHandle = SavedStateHandle()): TrainingArenaViewModel =
+        TrainingArenaViewModel(savedStateHandle)
+
+    // ── agentId resolution ────────────────────────────────────────────────
 
     @Test
-    fun `agentId returns value from SavedStateHandle when agentId key is present`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "KAI"))
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `agentId is read from SavedStateHandle when present`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "aura"))
 
-        assertEquals("KAI", viewModel.agentId)
+        val viewModel = buildViewModel(handle)
+
+        assertEquals("aura", viewModel.agentId)
     }
 
     @Test
-    fun `agentId returns Unknown when SavedStateHandle has no agentId key`() {
-        val savedState = SavedStateHandle()
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `agentId defaults to Unknown when SavedStateHandle has no agentId key`() {
+        val handle = SavedStateHandle()
+
+        val viewModel = buildViewModel(handle)
 
         assertEquals("Unknown", viewModel.agentId)
     }
 
     @Test
-    fun `agentId returns Unknown when SavedStateHandle agentId value is null`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to null))
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `agentId defaults to Unknown when agentId value is null`() {
+        val handle = SavedStateHandle(mapOf("agentId" to null))
+
+        val viewModel = buildViewModel(handle)
 
         assertEquals("Unknown", viewModel.agentId)
     }
 
     @Test
-    fun `agentId preserves empty string when SavedStateHandle provides empty string`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to ""))
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `agentId preserves the exact string value from SavedStateHandle`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "KAI_SOVEREIGN"))
+
+        val viewModel = buildViewModel(handle)
+
+        assertEquals("KAI_SOVEREIGN", viewModel.agentId)
+    }
+
+    @Test
+    fun `agentId handles empty string from SavedStateHandle`() {
+        val handle = SavedStateHandle(mapOf("agentId" to ""))
+
+        val viewModel = buildViewModel(handle)
 
         assertEquals("", viewModel.agentId)
     }
 
     @Test
-    fun `agentId preserves agent id with special characters`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "agent-kai_genesis.v2"))
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `agentId handles special characters and spaces`() {
+        val handle = SavedStateHandle(mapOf("agentId" to "Agent 47 / Genesis-Alpha"))
 
-        assertEquals("agent-kai_genesis.v2", viewModel.agentId)
+        val viewModel = buildViewModel(handle)
+
+        assertEquals("Agent 47 / Genesis-Alpha", viewModel.agentId)
+    }
+
+    // ── progress StateFlow ────────────────────────────────────────────────
+
+    @Test
+    fun `progress initial value is 0f`() {
+        val viewModel = buildViewModel()
+
+        assertEquals(0f, viewModel.progress.value, 0.0001f)
     }
 
     @Test
-    fun `agentId is not affected by other keys in SavedStateHandle`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "AURA", "otherKey" to "otherValue"))
-        val viewModel = TrainingArenaViewModel(savedState)
-
-        assertEquals("AURA", viewModel.agentId)
-    }
-
-    // endregion
-
-    // region progress StateFlow tests
-
-    @Test
-    fun `progress initial value is 0f`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = TrainingArenaViewModel(savedState)
-
-        assertEquals(0f, viewModel.progress.first())
-    }
-
-    @Test
-    fun `startTraining sets progress to 0_5f`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `startTraining sets progress to 0_5`() = runTest {
+        val viewModel = buildViewModel()
 
         viewModel.startTraining()
 
-        assertEquals(0.5f, viewModel.progress.first())
+        assertEquals(0.5f, viewModel.progress.value, 0.0001f)
     }
 
     @Test
-    fun `progress before startTraining is not 0_5f`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = TrainingArenaViewModel(savedState)
-
-        val progressBeforeStart = viewModel.progress.first()
-        assert(progressBeforeStart != 0.5f) {
-            "Progress should not be 0.5f before startTraining() is called"
-        }
-    }
-
-    @Test
-    fun `startTraining can be called multiple times without error`() = runTest {
-        val savedState = SavedStateHandle()
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `startTraining can be called multiple times and remains at 0_5`() = runTest {
+        val viewModel = buildViewModel()
 
         viewModel.startTraining()
         viewModel.startTraining()
 
-        assertEquals(0.5f, viewModel.progress.first())
-    }
-
-    // endregion
-
-    // region agentId combined with progress tests
-
-    @Test
-    fun `agentId and progress are independent - progress starts at 0 regardless of agentId`() = runTest {
-        val savedState = SavedStateHandle(mapOf("agentId" to "GENESIS"))
-        val viewModel = TrainingArenaViewModel(savedState)
-
-        assertEquals("GENESIS", viewModel.agentId)
-        assertEquals(0f, viewModel.progress.first())
+        assertEquals(0.5f, viewModel.progress.value, 0.0001f)
     }
 
     @Test
-    fun `after startTraining agentId remains unchanged`() = runTest {
-        val savedState = SavedStateHandle(mapOf("agentId" to "TRINITY"))
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `progress is not affected by agentId value`() = runTest {
+        val handle = SavedStateHandle(mapOf("agentId" to "genesis"))
+        val viewModel = buildViewModel(handle)
+
+        // progress stays at initial before training
+        assertEquals(0f, viewModel.progress.value, 0.0001f)
 
         viewModel.startTraining()
 
-        assertEquals("TRINITY", viewModel.agentId)
+        assertEquals(0.5f, viewModel.progress.value, 0.0001f)
     }
 
-    // endregion
-
-    // region regression / boundary tests
+    // ── regression: separate instances are independent ────────────────────
 
     @Test
-    fun `agentId with whitespace-only value is preserved as-is`() {
-        val savedState = SavedStateHandle(mapOf("agentId" to "   "))
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `two ViewModels with different agentIds are independent`() {
+        val vmAura = buildViewModel(SavedStateHandle(mapOf("agentId" to "aura")))
+        val vmKai = buildViewModel(SavedStateHandle(mapOf("agentId" to "kai")))
 
-        assertEquals("   ", viewModel.agentId)
+        assertEquals("aura", vmAura.agentId)
+        assertEquals("kai", vmKai.agentId)
     }
 
     @Test
-    fun `Unknown default does not match any real agent id case-sensitively`() {
-        val savedState = SavedStateHandle()
-        val viewModel = TrainingArenaViewModel(savedState)
+    fun `startTraining on one instance does not affect another`() = runTest {
+        val vm1 = buildViewModel()
+        val vm2 = buildViewModel()
 
-        // Regression: default must be capitalised "Unknown", not "unknown" or "UNKNOWN"
-        assertEquals("Unknown", viewModel.agentId)
-        assert(viewModel.agentId != "unknown")
-        assert(viewModel.agentId != "UNKNOWN")
+        vm1.startTraining()
+
+        assertEquals(0.5f, vm1.progress.value, 0.0001f)
+        assertEquals(0f, vm2.progress.value, 0.0001f)
     }
-
-    // endregion
 }

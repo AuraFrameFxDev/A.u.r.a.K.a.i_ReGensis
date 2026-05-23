@@ -1,207 +1,205 @@
 package dev.aurakai.auraframefx.ui.navigation
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Tests for [AuraDestinations] — the route constants and path-builder helpers
- * introduced in ReGenesisNavGraph.kt when AuraNavGraph.kt was consolidated.
+ * Tests for [AuraDestinations] which was introduced (moved from the deleted AuraNavGraph.kt)
+ * into ReGenesisNavGraph.kt in this PR.
+ *
+ * Covers:
+ * - Route constant values
+ * - Route template format (presence of path parameter placeholders)
+ * - Path-building helper functions
  */
 class AuraDestinationsTest {
 
-    // region constant value tests
+    // ── Route constants ───────────────────────────────────────────────────
 
     @Test
-    fun `COMMAND_DECK equals command_deck`() {
+    fun `COMMAND_DECK route is command_deck`() {
         assertEquals("command_deck", AuraDestinations.COMMAND_DECK)
     }
 
     @Test
-    fun `LOADOUT_BUILDER equals loadout_builder`() {
+    fun `LOADOUT_BUILDER route is loadout_builder`() {
         assertEquals("loadout_builder", AuraDestinations.LOADOUT_BUILDER)
     }
 
     @Test
-    fun `SPECIALIZATION_TREE equals specialization_tree with agentId placeholder`() {
+    fun `SPECIALIZATION_TREE route template contains agentId placeholder`() {
+        assertTrue(
+            "SPECIALIZATION_TREE must include {agentId} placeholder",
+            AuraDestinations.SPECIALIZATION_TREE.contains("{agentId}")
+        )
+    }
+
+    @Test
+    fun `SPECIALIZATION_TREE route starts with specialization_tree`() {
+        assertTrue(
+            "SPECIALIZATION_TREE must start with specialization_tree/",
+            AuraDestinations.SPECIALIZATION_TREE.startsWith("specialization_tree/")
+        )
+    }
+
+    @Test
+    fun `SPECIALIZATION_TREE route equals specialization_tree with agentId placeholder`() {
         assertEquals("specialization_tree/{agentId}", AuraDestinations.SPECIALIZATION_TREE)
     }
 
     @Test
-    fun `TRAINING_ARENA equals training_arena with agentId placeholder`() {
+    fun `TRAINING_ARENA route template contains agentId placeholder`() {
+        assertTrue(
+            "TRAINING_ARENA must include {agentId} placeholder",
+            AuraDestinations.TRAINING_ARENA.contains("{agentId}")
+        )
+    }
+
+    @Test
+    fun `TRAINING_ARENA route starts with training_arena`() {
+        assertTrue(
+            "TRAINING_ARENA must start with training_arena/",
+            AuraDestinations.TRAINING_ARENA.startsWith("training_arena/")
+        )
+    }
+
+    @Test
+    fun `TRAINING_ARENA route equals training_arena with agentId placeholder`() {
         assertEquals("training_arena/{agentId}", AuraDestinations.TRAINING_ARENA)
     }
 
-    // endregion
-
-    // region constant non-emptiness tests
+    // ── specTreePath helper ───────────────────────────────────────────────
 
     @Test
-    fun `COMMAND_DECK is not blank`() {
-        assertTrue(AuraDestinations.COMMAND_DECK.isNotBlank())
-    }
-
-    @Test
-    fun `LOADOUT_BUILDER is not blank`() {
-        assertTrue(AuraDestinations.LOADOUT_BUILDER.isNotBlank())
-    }
-
-    @Test
-    fun `SPECIALIZATION_TREE is not blank`() {
-        assertTrue(AuraDestinations.SPECIALIZATION_TREE.isNotBlank())
-    }
-
-    @Test
-    fun `TRAINING_ARENA is not blank`() {
-        assertTrue(AuraDestinations.TRAINING_ARENA.isNotBlank())
-    }
-
-    // endregion
-
-    // region specTreePath helper tests
-
-    @Test
-    fun `specTreePath returns correct path for a given agentId`() {
+    fun `specTreePath builds correct path for a given agentId`() {
         assertEquals("specialization_tree/aura", AuraDestinations.specTreePath("aura"))
     }
 
     @Test
-    fun `specTreePath returns correct path for uppercase agentId`() {
-        assertEquals("specialization_tree/GENESIS", AuraDestinations.specTreePath("GENESIS"))
+    fun `specTreePath builds correct path for uppercase agentId`() {
+        assertEquals("specialization_tree/KAI", AuraDestinations.specTreePath("KAI"))
     }
 
     @Test
-    fun `specTreePath returns correct path for numeric agentId`() {
-        assertEquals("specialization_tree/42", AuraDestinations.specTreePath("42"))
+    fun `specTreePath builds correct path for mixed-case agentId`() {
+        assertEquals("specialization_tree/Genesis_Alpha", AuraDestinations.specTreePath("Genesis_Alpha"))
     }
 
     @Test
-    fun `specTreePath returns path with empty segment for empty agentId`() {
+    fun `specTreePath with empty string produces correct path`() {
         assertEquals("specialization_tree/", AuraDestinations.specTreePath(""))
     }
 
     @Test
-    fun `specTreePath prefix matches SPECIALIZATION_TREE base without placeholder`() {
-        val base = AuraDestinations.SPECIALIZATION_TREE.removeSuffix("/{agentId}")
-        val path = AuraDestinations.specTreePath("testAgent")
-        assertTrue(path.startsWith(base))
+    fun `specTreePath does not contain placeholder braces`() {
+        val path = AuraDestinations.specTreePath("aura")
+        assertTrue(
+            "specTreePath should not contain {agentId} placeholder after substitution",
+            !path.contains("{") && !path.contains("}")
+        )
     }
 
     @Test
-    fun `specTreePath does not contain agentId placeholder braces`() {
-        val path = AuraDestinations.specTreePath("someAgent")
-        assertFalse(path.contains("{agentId}"))
+    fun `specTreePath result can be used for navigation by starting with correct prefix`() {
+        val path = AuraDestinations.specTreePath("genesis")
+        assertTrue(path.startsWith("specialization_tree/"))
     }
 
-    // endregion
+    @Test
+    fun `specTreePath result suffix matches the agentId argument`() {
+        val agentId = "sovereign_agent"
+        val path = AuraDestinations.specTreePath(agentId)
+        assertTrue(path.endsWith(agentId))
+    }
 
-    // region arenaPath helper tests
+    // ── arenaPath helper ──────────────────────────────────────────────────
 
     @Test
-    fun `arenaPath returns correct path for a given agentId`() {
+    fun `arenaPath builds correct path for a given agentId`() {
         assertEquals("training_arena/kai", AuraDestinations.arenaPath("kai"))
     }
 
     @Test
-    fun `arenaPath returns correct path for uppercase agentId`() {
-        assertEquals("training_arena/TRINITY", AuraDestinations.arenaPath("TRINITY"))
+    fun `arenaPath builds correct path for uppercase agentId`() {
+        assertEquals("training_arena/AURA", AuraDestinations.arenaPath("AURA"))
     }
 
     @Test
-    fun `arenaPath returns correct path for numeric agentId`() {
-        assertEquals("training_arena/99", AuraDestinations.arenaPath("99"))
+    fun `arenaPath builds correct path for numeric agentId`() {
+        assertEquals("training_arena/007", AuraDestinations.arenaPath("007"))
     }
 
     @Test
-    fun `arenaPath returns path with empty segment for empty agentId`() {
+    fun `arenaPath with empty string produces correct path`() {
         assertEquals("training_arena/", AuraDestinations.arenaPath(""))
     }
 
     @Test
-    fun `arenaPath prefix matches TRAINING_ARENA base without placeholder`() {
-        val base = AuraDestinations.TRAINING_ARENA.removeSuffix("/{agentId}")
-        val path = AuraDestinations.arenaPath("testAgent")
-        assertTrue(path.startsWith(base))
-    }
-
-    @Test
-    fun `arenaPath does not contain agentId placeholder braces`() {
-        val path = AuraDestinations.arenaPath("someAgent")
-        assertFalse(path.contains("{agentId}"))
-    }
-
-    // endregion
-
-    // region uniqueness tests
-
-    @Test
-    fun `all four route constants are distinct`() {
-        val routes = setOf(
-            AuraDestinations.COMMAND_DECK,
-            AuraDestinations.LOADOUT_BUILDER,
-            AuraDestinations.SPECIALIZATION_TREE,
-            AuraDestinations.TRAINING_ARENA,
+    fun `arenaPath does not contain placeholder braces`() {
+        val path = AuraDestinations.arenaPath("kai")
+        assertTrue(
+            "arenaPath should not contain {agentId} placeholder after substitution",
+            !path.contains("{") && !path.contains("}")
         )
-        assertEquals(4, routes.size)
     }
 
     @Test
-    fun `no route constant contains spaces`() {
-        listOf(
-            AuraDestinations.COMMAND_DECK,
-            AuraDestinations.LOADOUT_BUILDER,
-            AuraDestinations.SPECIALIZATION_TREE,
-            AuraDestinations.TRAINING_ARENA,
-        ).forEach { route ->
-            assertFalse("Route '$route' must not contain spaces", route.contains(' '))
-        }
-    }
-
-    // endregion
-
-    // region parameterised route format tests
-
-    @Test
-    fun `SPECIALIZATION_TREE contains agentId placeholder in braces`() {
-        assertTrue(AuraDestinations.SPECIALIZATION_TREE.contains("{agentId}"))
+    fun `arenaPath result can be used for navigation by starting with correct prefix`() {
+        val path = AuraDestinations.arenaPath("genesis")
+        assertTrue(path.startsWith("training_arena/"))
     }
 
     @Test
-    fun `TRAINING_ARENA contains agentId placeholder in braces`() {
-        assertTrue(AuraDestinations.TRAINING_ARENA.contains("{agentId}"))
+    fun `arenaPath result suffix matches the agentId argument`() {
+        val agentId = "arena_challenger"
+        val path = AuraDestinations.arenaPath(agentId)
+        assertTrue(path.endsWith(agentId))
+    }
+
+    // ── cross-helper: paths use different base segments ───────────────────
+
+    @Test
+    fun `specTreePath and arenaPath produce different paths for the same agentId`() {
+        val agentId = "aura"
+        val specPath = AuraDestinations.specTreePath(agentId)
+        val arenaPath = AuraDestinations.arenaPath(agentId)
+
+        assertTrue(
+            "specTreePath and arenaPath must differ",
+            specPath != arenaPath
+        )
+    }
+
+    // ── regression: SPECIALIZATION_TREE template matches specTreePath format ──
+
+    @Test
+    fun `SPECIALIZATION_TREE template is consistent with specTreePath output format`() {
+        val template = AuraDestinations.SPECIALIZATION_TREE          // "specialization_tree/{agentId}"
+        val resolved = AuraDestinations.specTreePath("testId")       // "specialization_tree/testId"
+
+        val templatePrefix = template.substringBefore("{agentId}")
+        val resolvedPrefix = resolved.substringBefore("testId")
+
+        assertEquals(
+            "Route template prefix must match specTreePath prefix",
+            templatePrefix,
+            resolvedPrefix
+        )
     }
 
     @Test
-    fun `specTreePath and arenaPath produce different routes for the same agentId`() {
-        val id = "agent_007"
-        assertFalse(AuraDestinations.specTreePath(id) == AuraDestinations.arenaPath(id))
+    fun `TRAINING_ARENA template is consistent with arenaPath output format`() {
+        val template = AuraDestinations.TRAINING_ARENA               // "training_arena/{agentId}"
+        val resolved = AuraDestinations.arenaPath("testId")         // "training_arena/testId"
+
+        val templatePrefix = template.substringBefore("{agentId}")
+        val resolvedPrefix = resolved.substringBefore("testId")
+
+        assertEquals(
+            "Route template prefix must match arenaPath prefix",
+            templatePrefix,
+            resolvedPrefix
+        )
     }
-
-    // endregion
-
-    // region regression tests
-
-    @Test
-    fun `specTreePath with whitespace agentId is preserved exactly`() {
-        // Regression: no trimming should occur inside the helper
-        assertEquals("specialization_tree/ whitespace ", AuraDestinations.specTreePath(" whitespace "))
-    }
-
-    @Test
-    fun `arenaPath with whitespace agentId is preserved exactly`() {
-        assertEquals("training_arena/ whitespace ", AuraDestinations.arenaPath(" whitespace "))
-    }
-
-    @Test
-    fun `COMMAND_DECK does not use slash separator`() {
-        assertFalse(AuraDestinations.COMMAND_DECK.contains('/'))
-    }
-
-    @Test
-    fun `LOADOUT_BUILDER does not use slash separator`() {
-        assertFalse(AuraDestinations.LOADOUT_BUILDER.contains('/'))
-    }
-
-    // endregion
 }
