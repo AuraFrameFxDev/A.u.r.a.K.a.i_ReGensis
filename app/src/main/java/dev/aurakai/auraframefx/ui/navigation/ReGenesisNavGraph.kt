@@ -6,17 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.AuraSphereGridScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
-import dev.aurakai.auraframefx.domains.emergentswarm.OperationsHubScreen
-import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
-import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
-import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen
-import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.romtools.ui.RomToolsScreen
 import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
@@ -39,22 +32,7 @@ fun ReGenesisNavGraph(
             ReGenesisCommandDeck(navController)
         }
 
-        // ── 8-Hub Substrate Routes (Mapped to Tabbed Screens) ────────────────
-        composable("neural_nexus") { NexusLiveHeartScreen(navController) }
-        composable("ldo_architecture") { LdoArchitectureScreen(navController) }
-        composable("chroma_forge") { ArcaneChromaForgeScreen(navController) }
-        composable("sentinel_matrix") {
-            // Re-map to a specific functional screen since Hub was a carousel
-            ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("oracle_drive") { OracleDriveHubScreen(navController) }
-        composable("emergent_swarm") { EmergentSwarmScreen(navController) }
-        composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
-        composable("nexus_memory_core") { NexusMemoryCoreScreen(navController) }
-        composable("escape_hatch") { EscapeHatchScreen(navController) }
-
         // --- SUB-GATE ROUTES (LEVEL 3 / DETAILED) ---
-        composable("chroma_forge") { ArcaneChromaForgeScreen(navController) }
         composable("lineage_map") { LineageMapScreen(navController) { navController.popBackStack() } }
         composable("sphere_grid") { AuraSphereGridScreen() }
         composable("fusion_mode") { ThemedGateScreens.FusionModeGateScreen(navController) { navController.popBackStack() } }
@@ -75,10 +53,11 @@ fun ReGenesisNavGraph(
         composable("kai/bootloader") { ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() } }
         composable("kai/lsposed") { ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() } }
 
-        // ── Legacy / Support Routes ──────────────────────────────────────────
+        // ── Support / Other Routes ──────────────────────────────────────────
         composable("gate_image_picker") { GateDomainImagePicker(navController) { navController.popBackStack() } }
-        composable("operations_hub") { OperationsHubScreen(navController) }
         composable("sentient_shell") { ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() } }
+        composable("nexus_memory_core") { NexusMemoryCoreScreen(navController) }
+        composable("escape_hatch") { EscapeHatchScreen(navController) }
 
         // ── Agent Profiles Sub-Routes ──────────────────────────────────────
         composable("sovereign_character/{agentName}") { backStackEntry ->

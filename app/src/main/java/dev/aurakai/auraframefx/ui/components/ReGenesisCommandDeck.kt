@@ -123,7 +123,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             onNavigateBack = { }
                         )
 
-                        ReGenesisRoute.OperationsHub -> OperationsHubScreen(navController)
+                        ReGenesisRoute.OperationsHub -> EmergentSwarmScreen(navController)
                     }
                 }
             }
