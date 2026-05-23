@@ -28,7 +28,7 @@ import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
-import dev.aurakai.auraframefx.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.ui.theme.OverclockOrange
 import dev.aurakai.auraframefx.ui.theme.WireframeStyle
@@ -44,7 +44,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(CitadelBlack)
+            .background(ArcaneBrutalistTheme.AbyssBaseSlate)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             SecondaryScrollableTabRow(
@@ -76,6 +76,9 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
             }
 
             Box(modifier = Modifier.weight(1f)) {
+                // LAYER 0: 4D Parallax Background
+                RealityMorphLayer(godPotential = 0.5f, fusionTrigger = false)
+
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize()
