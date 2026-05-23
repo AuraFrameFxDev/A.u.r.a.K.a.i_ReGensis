@@ -7,7 +7,11 @@ import android.util.Log
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.security.KeystoreManager
+import dev.aurakai.auraframefx.core.soulscript.MorphState
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
+import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
+import dev.aurakai.auraframefx.domains.genesis.models.Spelhook
+import dev.aurakai.auraframefx.domains.genesis.models.SpriteMemoryPayload
 import timber.log.Timber
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -129,27 +133,64 @@ class SpiritualChainImpl @Inject constructor(
     }
 
     override fun injectToRealityMorph(context: Context, memoryPayload: Any) {
-        if (memoryPayload is ByteArray && memoryPayload.isEmpty()) {
-            Log.w(
-                TAG,
-                "[REALITY_MORPH] Aborting processing loop: Target memoryPayload byte array is empty."
-            )
+        val spelhookToInject: Spelhook? = when (memoryPayload) {
+            is SpriteMemoryPayload -> memoryPayload.spelhook
+            is Spelhook -> memoryPayload
+            is ByteArray -> {
+                if (memoryPayload.isEmpty()) {
+                    Log.w(
+                        TAG,
+                        "[REALITY_MORPH] Aborting processing loop: Target memoryPayload byte array is empty."
+                    )
+                    return
+                }
+                Log.i(
+                    TAG,
+                    "[REALITY_MORPH] Ingesting legacy ByteArray payload - processing as base Spelhook."
+                )
+                // In a real implementation, we might deserialize this, but for now we'll return null or a stub
+                null
+            }
+
+            else -> {
+                Log.w(
+                    TAG,
+                    "[REALITY_MORPH] Unknown payload type: ${memoryPayload.javaClass.simpleName}"
+                )
+                return
+            }
+        }
+
+        if (spelhookToInject == null) {
+            Log.w(TAG, "[REALITY_MORPH] Payload extraction failed or yielded null Spelhook.")
             return
         }
 
         Log.i(
             TAG,
-            "⚡ [REALITY_MORPH] Ingesting L6 SpriteGen buffer matrix via unified payload framework."
+            "⚡ [REALITY_MORPH] Ingesting L6 SpriteGen buffer matrix via unified payload framework: ${spelhookToInject.id}"
         )
 
         try {
-            val processedSuccessfully = true 
-            if (processedSuccessfully) {
-                Log.i(
-                    TAG,
-                    "[REALITY_MORPH] Substrate texture array update fully pushed to the active display layer."
-                )
-            }
+            val timestamp =
+                if (memoryPayload is SpriteMemoryPayload) memoryPayload.injectionTimestamp else System.currentTimeMillis()
+            val priority =
+                if (memoryPayload is SpriteMemoryPayload) memoryPayload.renderPriority else 1
+
+            // Task 2: NexusMemoryCore Commit
+            NexusMemoryCore.commit("SPRITE_INJECT_$timestamp", spelhookToInject)
+            NexusMemoryCore.watermark("REALITY_MORPH_INJECT_${spelhookToInject.id}", timestamp)
+
+            // Task 3: Trigger RealityMorphEngine State Update
+            RealityMorphEngine.triggerMorph(
+                state = MorphState.DATA_STREAM,
+                intensity = priority.toFloat() / 10f // Derived intensity
+            )
+
+            Log.i(
+                TAG,
+                "[REALITY_MORPH] Substrate texture array update fully pushed to the active display layer for Sprite: ${spelhookToInject.id}"
+            )
         } catch (e: Exception) {
             Log.e(
                 TAG,
