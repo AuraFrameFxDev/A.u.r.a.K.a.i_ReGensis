@@ -22,7 +22,7 @@ import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
 @Composable
 fun ReGenesisNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "command_deck"
+    startDestination: String = "command_deck",
 ) {
     NavHost(
         navController = navController,
@@ -40,7 +40,7 @@ fun ReGenesisNavGraph(
         composable("collab_canvas") { ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() } }
         composable("conference_room") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
         composable("task_assignment") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
-        composable("aura_lab") { WorkingLabScreen(onNavigate = { navController.navigate(it) }) }
+        composable("aura_lab") { WorkingLabScreen { navController.navigate(it) } }
         composable("regencore_engine") { RegenCoreEngineScreen(navController) }
 
         // KAI FORTRESS SUB-GATES

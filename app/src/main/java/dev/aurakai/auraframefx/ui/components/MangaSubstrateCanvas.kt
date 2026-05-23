@@ -24,7 +24,6 @@ fun MangaSubstrateCanvas(
             val nativePaint = Paint().asFrameworkPaint().apply {
                 isAntiAlias = false // ZERO ANTI-ALIASING MANDATE
                 isDither = false
-                filterBitmap = false
             }
             // Execute sharp code stream rendering
             drawingBlock()
