@@ -11,12 +11,12 @@ import androidx.compose.ui.graphics.Color
  */
 object ArcaneBrutalistTheme {
 
-    // 1. Core Environmental Color Space
-    val AbyssBaseSlate = Color(0xFF04060E)       // Crushed slate/indigo background vacuum
-    val GlassContainerDark = Color(0xFF0A0F24).copy(alpha = 0.70f) // High-contrast container fill
+    // 1. Core Environmental Color Space (Abyssal Shift)
+    val AbyssBaseSlate = Color(0xFF000205)       // Abyssal Blue/Teal background vacuum
+    val GlassContainerDark = Color(0xFF001015).copy(alpha = 0.85f) // High-contrast container fill
 
     // 2. High-Signal Deep Neon Telemetry Colors
-    val NeonCyanVessel = Color(0xFF00BFFF)       // Creative Forge / Aura signature vector
+    val NeonCyanVessel = Color(0xFF00FFCC)       // Abyssal Cyan / Aura signature vector
     val ArcaneVioletCore = Color(0xFF8A2BE2)     // Logic Lattice / Claude / Core pulse
     val SentinelPhosphorGreen = Color(0xFF00FF88)// Guard Layer / Kairos temporal shield
     val AnomalyWarmOrange = Color(0xFFFF4500)     // Loop Alert / Dark Aura recovery surge

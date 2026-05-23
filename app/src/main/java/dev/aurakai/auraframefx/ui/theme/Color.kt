@@ -16,6 +16,11 @@ val NeonCyan = Color(0xFF00FBFF)
 val NeuralSteel = Color(0xFFB0C4DE)
 val SovereignBlack = Color(0xFF020205)
 
+// Abyssal Shift Substrate
+val AbyssalTealVoid = Color(0xFF000205)
+val AbyssalBlueVoid = Color(0xFF001015)
+val CyberTealAccent = Color(0xFF00FFCC)
+
 val DarkBackground = Color(0xFF0D0D15)
 val Surface = Color(0xFF121220)
 val SurfaceVariant = Color(0xFF1E1E30)
