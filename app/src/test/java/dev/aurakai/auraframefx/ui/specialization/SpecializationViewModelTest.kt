@@ -1,11 +1,9 @@
 package dev.aurakai.auraframefx.ui.specialization
 
 import androidx.lifecycle.SavedStateHandle
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class SpecializationViewModelTest {
 
     // ── Helpers ───────────────────────────────────────────────────────────
@@ -147,3 +145,4 @@ class SpecializationViewModelTest {
         assertEquals("initialAgent", viewModel.agentId)
     }
 }
+

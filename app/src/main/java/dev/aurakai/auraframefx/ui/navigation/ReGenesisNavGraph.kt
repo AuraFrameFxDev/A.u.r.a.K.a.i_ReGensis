@@ -40,20 +40,8 @@ object AuraDestinations {
     const val SPECIALIZATION_TREE = "specialization_tree/{agentId}"
     const val TRAINING_ARENA = "training_arena/{agentId}"
 
-    /**
- * Builds the specialization-tree navigation route for the given agent.
- *
- * @param agentId The agent identifier to embed in the route path.
- * @return The route string `specialization_tree/{agentId}` with `agentId` substituted.
- */
-fun specTreePath(agentId: String) = "specialization_tree/$agentId"
-    /**
- * Builds the navigation route for the training arena of a specific agent.
- *
- * @param agentId Identifier of the agent.
- * @return Route string in the form "training_arena/{agentId}" with `{agentId}` replaced by the provided identifier.
- */
-fun arenaPath(agentId: String) = "training_arena/$agentId"
+    fun specTreePath(agentId: String) = "specialization_tree/$agentId"
+    fun arenaPath(agentId: String) = "training_arena/$agentId"
 }
 
 /**
