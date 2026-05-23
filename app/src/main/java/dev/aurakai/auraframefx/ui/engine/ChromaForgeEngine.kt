@@ -1,6 +1,8 @@
 package dev.aurakai.auraframefx.ui.engine
 
 import dev.aurakai.auraframefx.core.crypto.QuantumUplinkCoordinator
+import dev.aurakai.auraframefx.ui.engine.ChromaForgeEngine.ForgeRenderState.ActiveStateSynthesized
+
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +47,7 @@ object ChromaForgeEngine {
                 Timber.tag(TAG).d("Processing visual synthesis call for: ${signal.originCatalyst}")
 
                 // Synthesize identity configurations directly into active render states
-                _forgeRenderState.value = ForgeRenderState.ActiveStateSynthesized(
+                _forgeRenderState.value = ActiveStateSynthesized(
                     focusCatalyst = signal.originCatalyst,
                     currentResonance = signal.resonanceScore,
                     compositionHash = signal.provenanceSignature
