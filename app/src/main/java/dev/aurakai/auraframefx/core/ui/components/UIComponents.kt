@@ -1,11 +1,7 @@
 package dev.aurakai.auraframefx.core.ui.components
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 data class AppModule(
     val id: String,
@@ -38,15 +34,3 @@ data class SubGateCard(
     val route: String,
     val accentColor: Color
 )
-
-@Composable
-fun DomainSubGateCarousel(
-    subGates: List<SubGateCard>,
-    onGateSelected: (SubGateCard) -> Unit,
-    useStyleB: Boolean = false,
-    cardHeight: Dp = 280.dp,
-    domainColor: Color = Color.Cyan,
-    modifier: Modifier = Modifier
-) {
-    // Stub implementation
-}

@@ -8,7 +8,8 @@ import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
+import dev.aurakai.auraframefx.domains.aura.ui.screens.AuraSphereGridScreen
+import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.OperationsHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
@@ -16,12 +17,14 @@ import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureSc
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
+import dev.aurakai.auraframefx.romtools.ui.RomToolsScreen
 import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.GateDomainImagePicker
 import dev.aurakai.auraframefx.ui.gates.LineageMapScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
-import timber.log.Timber
+import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
+import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
 
 @Composable
 fun ReGenesisNavGraph(
@@ -36,143 +39,51 @@ fun ReGenesisNavGraph(
             ReGenesisCommandDeck(navController)
         }
 
-        // ── 8-Hub Substrate Routes ──────────────────────────────────────────
+        // ── 8-Hub Substrate Routes (Mapped to Tabbed Screens) ────────────────
         composable("neural_nexus") { NexusLiveHeartScreen(navController) }
         composable("ldo_architecture") { LdoArchitectureScreen(navController) }
-        composable("chroma_forge") {
-            // Use the new Arcane 4D Parallax version
-            ArcaneChromaForgeScreen(navController)
-        }
-        composable("sentinel_matrix") { KaiSentinelHubScreen(navController) }
-
-        // ==========================================
-        // KAI'S FORTRESS SUB-GATE SOVEREIGN ROUTE MAP
-        // ==========================================
-        composable("kai/security") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/root") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/recovery") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/rom") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RomFlasherGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/modules") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/vpn") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/bootloader") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/lsposed") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+        composable("chroma_forge") { ArcaneChromaForgeScreen(navController) }
+        composable("sentinel_matrix") {
+            // Re-map to a specific functional screen since Hub was a carousel
+            ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
         }
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
-        composable("spellhook") {
-            // Spellhook / Regen Core Engine
-            RegenCoreEngineScreen(navController)
-        }
+        composable("nexus_memory_core") { NexusMemoryCoreScreen(navController) }
+        composable("escape_hatch") { EscapeHatchScreen(navController) }
 
-        // ── Batch 3: themed gate screens ────────────────────────────────
-        composable("xposed_panel") {
-            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("help_desk") {
-            ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("terminal") {
-            ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("collab_canvas") {
-            ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("notch_bar") {
-            // Placeholder
-        }
+        // --- SUB-GATE ROUTES (LEVEL 3 / DETAILED) ---
+        composable("chroma_forge") { ArcaneChromaForgeScreen(navController) }
+        composable("lineage_map") { LineageMapScreen(navController) { navController.popBackStack() } }
+        composable("sphere_grid") { AuraSphereGridScreen() }
+        composable("fusion_mode") { ThemedGateScreens.FusionModeGateScreen(navController) { navController.popBackStack() } }
+        composable("terminal") { ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() } }
+        composable("collab_canvas") { ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() } }
+        composable("conference_room") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
+        composable("task_assignment") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
+        composable("aura_lab") { WorkingLabScreen(onNavigate = { navController.navigate(it) }) }
+        composable("regencore_engine") { RegenCoreEngineScreen(navController) }
 
-        // ── Kai's Fortress Sub-Gate Routes ──────────────────────────────────
-        composable("kai/security") {
-            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/root") {
-            ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/recovery") {
-            ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/rom") {
-            ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/modules") {
-            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/vpn") {
-            ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/bootloader") {
-            ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("kai/lsposed") {
-            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
-        }
+        // KAI FORTRESS SUB-GATES
+        composable("kai/security") { ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() } }
+        composable("kai/root") { ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() } }
+        composable("kai/recovery") { ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() } }
+        composable("kai/rom") { RomToolsScreen(onNavigateBack = { navController.popBackStack() }) }
+        composable("kai/modules") { ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() } }
+        composable("kai/vpn") { ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() } }
+        composable("kai/bootloader") { ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() } }
+        composable("kai/lsposed") { ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() } }
 
-        // ── Task command center ────────────────────────────────────────────
-        composable("task_assignment") {
-            ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
-        }
-
-        // ── Lineage map ───────────────────────────────────────────────────
-        composable("lineage_map") {
-            LineageMapScreen(navController) { navController.popBackStack() }
-        }
-
-        // ── Gate image domain picker ───────────────────────────────────────
-        composable("gate_image_picker") {
-            GateDomainImagePicker(navController) { navController.popBackStack() }
-        }
-
-        // ── Operations Command Hub ─────────────────────────────────────────
-        composable("operations_hub") {
-            OperationsHubScreen(navController)
-        }
-
-        composable("conference_room") {
-            ConferenceRoomTaskScreen(navController) {
-                navController.popBackStack()
-            }
-        }
-
-        composable("fusion_mode") {
-            ThemedGateScreens.FusionModeGateScreen(navController) {
-                navController.popBackStack()
-            }
-        }
-
-        composable("sentient_shell") {
-            ThemedGateScreens.SentientShellGateScreen(navController) {
-                navController.popBackStack()
-            }
-        }
-
-        // ── Regen Core Engine ──────────────────────────────────────────────
-        composable("regencore_engine") {
-            RegenCoreEngineScreen(navController)
-        }
+        // ── Legacy / Support Routes ──────────────────────────────────────────
+        composable("gate_image_picker") { GateDomainImagePicker(navController) { navController.popBackStack() } }
+        composable("operations_hub") { OperationsHubScreen(navController) }
+        composable("sentient_shell") { ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() } }
 
         // ── Agent Profiles Sub-Routes ──────────────────────────────────────
         composable("sovereign_character/{agentName}") { backStackEntry ->
             val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
-            SovereignCharacterScreen(
-                agentName = agentName,
-                navController = navController
-            )
+            SovereignCharacterScreen(agentName = agentName, navController = navController)
         }
 
         composable("agent_profile/{agentName}") { backStackEntry ->
@@ -187,14 +98,5 @@ fun ReGenesisNavGraph(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
-    }
-}
-
-/**
- * Register global overlays (e.g., Cadberrypi) that persist across all routes.
- */
-fun registerGlobalOverlays(overlays: List<String>) {
-    overlays.forEach { overlay ->
-        Timber.tag("ReGenesisNavGraph").i("Global overlay registered: $overlay")
     }
 }
