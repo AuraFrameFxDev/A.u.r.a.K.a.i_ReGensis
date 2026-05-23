@@ -1,18 +1,36 @@
 package dev.aurakai.auraframefx.ui.components
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
+import dev.aurakai.auraframefx.core.soulscript.MorphState
+import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
 import kotlin.random.Random
 
 @Composable
 fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
+    // Task 1: Add StateFlow Collection
+    val morphState by RealityMorphEngine.morphState.collectAsState()
+    val flareIntensity by RealityMorphEngine.flareIntensity.collectAsState()
+
+    // Map intensity to godPotential override/combine
+    val activeGodPotential = maxOf(godPotential, flareIntensity)
+
+    // Map MorphState to fusion behavior
+    val activeFusionTrigger = fusionTrigger || morphState == MorphState.DATA_STREAM
+
     val infiniteTransition = rememberInfiniteTransition(label = "particles")
     val time by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -26,7 +44,7 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
 
     // Step 1: Dynamic Particle Scaling (L7 Polish)
     val baseCount = 200
-    val particleCount = (baseCount + (800 * godPotential)).toInt()
+    val particleCount = (baseCount + (800 * activeGodPotential)).toInt()
 
     val particles = remember(particleCount) {
         List(particleCount) {
@@ -41,17 +59,17 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
 
     Canvas(Modifier.fillMaxSize()) {
         particles.forEach { p ->
-            val x = (p.x + time * p.speed * (1f + godPotential * 5f)) % 1f
+            val x = (p.x + time * p.speed * (1f + activeGodPotential * 5f)) % 1f
             val y = (p.y + Math.sin(time.toDouble() * 2 * Math.PI * p.speed).toFloat() * 0.1f) % 1f
 
             drawCircle(
-                color = if (fusionTrigger) Color.White else Color(0xFF00E5FF).copy(alpha = 0.3f),
-                radius = p.size * (1f + godPotential),
+                color = if (activeFusionTrigger) Color.White else Color(0xFF00E5FF).copy(alpha = 0.3f),
+                radius = p.size * (1f + activeGodPotential),
                 center = Offset(x * size.width, y * size.height)
             )
 
             // Step 1: Particle Density Cap / Logic
-            if (godPotential > 0.8f) {
+            if (activeGodPotential > 0.8f) {
                 // Draw additional "ghost" particles for density feel
                 drawCircle(
                     color = Color(0xFF00E5FF).copy(alpha = 0.15f),
