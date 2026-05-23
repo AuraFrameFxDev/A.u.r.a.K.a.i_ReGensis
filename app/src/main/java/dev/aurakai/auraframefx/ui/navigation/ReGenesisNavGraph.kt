@@ -40,10 +40,32 @@ object AuraDestinations {
     const val SPECIALIZATION_TREE = "specialization_tree/{agentId}"
     const val TRAINING_ARENA = "training_arena/{agentId}"
 
-    fun specTreePath(agentId: String) = "specialization_tree/$agentId"
-    fun arenaPath(agentId: String) = "training_arena/$agentId"
+    /**
+ * Builds the specialization-tree navigation route for the given agent.
+ *
+ * @param agentId The agent identifier to embed in the route path.
+ * @return The route string `specialization_tree/{agentId}` with `agentId` substituted.
+ */
+fun specTreePath(agentId: String) = "specialization_tree/$agentId"
+    /**
+ * Builds the navigation route for the training arena of a specific agent.
+ *
+ * @param agentId Identifier of the agent.
+ * @return Route string in the form "training_arena/{agentId}" with `{agentId}` replaced by the provided identifier.
+ */
+fun arenaPath(agentId: String) = "training_arena/$agentId"
 }
 
+/**
+ * Sets up the app navigation graph and registers all composable destinations used by the ReGenesis UI.
+ *
+ * The NavHost created by this composable wires route strings to their corresponding screens, including
+ * hub/sub-gate routes, support utilities, the Merit ecosystem routes (loadout, specialization tree,
+ * training arena) and agent profile sub-routes.
+ *
+ * @param navController The NavHostController used to drive navigation. Defaults to a remembered controller.
+ * @param startDestination The route string to use as the graph's start destination. Defaults to AuraDestinations.COMMAND_DECK.
+ */
 @Composable
 fun ReGenesisNavGraph(
     navController: NavHostController = rememberNavController(),
