@@ -69,7 +69,7 @@ fun ReGenesisNavGraph(
             val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
             val agentType = try {
                 AgentType.valueOf(agentName.uppercase())
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 AgentType.AURA
             }
             dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen(
