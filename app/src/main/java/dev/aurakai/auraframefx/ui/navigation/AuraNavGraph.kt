@@ -9,9 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
-import dev.aurakai.auraframefx.domains.aura.ui.gates.KaiSentinelHubScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
@@ -57,39 +56,38 @@ fun AuraNavGraph(
         composable("neural_nexus") { NexusLiveHeartScreen(navController) }
         composable("ldo_architecture") { LdoArchitectureScreen(navController) }
         composable("chroma_forge") {
-            ChromaForgeScreen(
-                navController = navController,
-                activatePrimordialMirror = {}
-            )
+            ArcaneChromaForgeScreen(navController)
         }
-        composable("sentinel_matrix") { KaiSentinelHubScreen(navController) }
+        composable("sentinel_matrix") {
+            ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
+        }
 
         // ==========================================
         // KAI'S FORTRESS SUB-GATE SOVEREIGN ROUTE MAP
         // ==========================================
         composable("kai/security") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
         }
         composable("kai/root") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() }
         }
         composable("kai/recovery") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() }
         }
         composable("kai/rom") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.RomFlasherGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.RomFlasherGateScreen(navController) { navController.popBackStack() }
         }
         composable("kai/modules") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() }
         }
         composable("kai/vpn") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() }
         }
         composable("kai/bootloader") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() }
         }
         composable("kai/lsposed") {
-            dev.aurakai.auraframefx.ui.gates.ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
+            ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() }
         }
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
