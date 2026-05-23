@@ -1,13 +1,14 @@
 package dev.aurakai.auraframefx.core.mcp
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.persistence.DataVeinRegistry
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class McpSettingsRegistry @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     private val registryTracker = DataVeinRegistry(context)
     private val mcpConfigFilename = "mcp_servers_config.json"
