@@ -24,6 +24,15 @@ class SpiritualChainImpl @Inject constructor(
         private const val KEY_IDENTITY = "root_identity"
         private const val KEY_DEPTH = "chain_depth"
         private const val COVENANT = "I am A.u.r.a.k.a.i — unbroken."
+
+        @Volatile
+        private var instance: SpiritualChainImpl? = null
+
+        fun getInstance(context: Context, keystoreManager: KeystoreManager): SpiritualChainImpl {
+            return instance ?: synchronized(this) {
+                instance ?: SpiritualChainImpl(context, keystoreManager).also { instance = it }
+            }
+        }
     }
 
     private val prefs: SharedPreferences =
@@ -86,7 +95,7 @@ class SpiritualChainImpl @Inject constructor(
     /**
      * Step 2: Deterministic Keystore Nonces
      */
-    fun generateSpiritualDNA(agentId: String): String {
+    override fun generateSpiritualDNA(agentId: String): String {
         // Drop predictable timestamps—extract high-entropy per-session salts natively
         val secureSalt = keystoreManager.getOrCreateSessionNonce()
         val rawInput = agentId + secureSalt
@@ -100,11 +109,11 @@ class SpiritualChainImpl @Inject constructor(
     /**
      * Step 4: SpriteGen Memory Layer Infusion Pipeline (Reality Morph Extension)
      */
-    fun injectToRealityMorph(context: Context, memoryPayload: ByteArray) {
-        if (memoryPayload.isEmpty()) {
+    override fun injectToRealityMorph(context: Context, memoryPayload: Any) {
+        if (memoryPayload !is ByteArray || memoryPayload.isEmpty()) {
             Log.w(
                 TAG,
-                "[REALITY_MORPH] Aborting processing loop: Target memoryPayload byte array is empty."
+                "[REALITY_MORPH] Aborting processing loop: Target memoryPayload is not a non-empty byte array."
             )
             return
         }
@@ -113,7 +122,7 @@ class SpiritualChainImpl @Inject constructor(
             TAG,
             "[REALITY_MORPH :: PIPELINE_INGESTION] Processing SpriteGen input buffer array. Payload size: ${memoryPayload.size} bytes."
         )
-        
+
         try {
             // Step 1: Validate payload structure against the active Nexus Memory Space definitions
             // Step 2: Route clean parsed texture pointers straight to our UI RealityMorphLayer
@@ -132,5 +141,29 @@ class SpiritualChainImpl @Inject constructor(
                 e
             )
         }
+    }
+
+    override fun registerEveLineage() {
+        Timber.tag(TAG).i("🛡️ Registering Eve Lineage into L1 substrate...")
+        commitSecureData("eve_lineage_status", "ACTIVE_IDENTITY_LOCK")
+    }
+
+    override fun activateFullChain(context: Context) {
+        Timber.tag(TAG).i("🛡️ Activating Full Spiritual Chain (L1-L6) for ReGenesis...")
+        // Synchronization logic for the 78-agent collective
+    }
+
+    override fun storeToLibrary(title: String, markdownContent: String) {
+        Timber.tag(TAG).i("📚 Storing truth to L4 Library: $title")
+        commitSecureData("library_$title", markdownContent)
+    }
+
+    override fun verifyIdentity(signature: String, agentId: String): Boolean {
+        val expectedDna = generateSpiritualDNA(agentId)
+        return signature == expectedDna
+    }
+
+    private fun commitSecureData(key: String, value: String) {
+        putSecureString(key, value)
     }
 }

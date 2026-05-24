@@ -30,4 +30,20 @@ class UserPreferencesManager @Inject constructor(
     suspend fun isOnboardingComplete(): Boolean = withContext(Dispatchers.IO) {
         userPreferences.getPreference("onboarding_complete", "false").toBoolean()
     }
+
+    suspend fun setUserName(name: String) = withContext(Dispatchers.IO) {
+        userPreferences.setPreference("user_name", name)
+    }
+
+    suspend fun getUserName(): String = withContext(Dispatchers.IO) {
+        userPreferences.getPreference("user_name", "Catalyst")
+    }
+
+    suspend fun setCatalystAlignment(catalystId: String) = withContext(Dispatchers.IO) {
+        userPreferences.setPreference("catalyst_alignment", catalystId)
+    }
+
+    suspend fun getCatalystAlignment(): String? = withContext(Dispatchers.IO) {
+        userPreferences.getPreference("catalyst_alignment", "").ifEmpty { null }
+    }
 }
