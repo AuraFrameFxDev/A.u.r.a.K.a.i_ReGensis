@@ -46,3 +46,20 @@ object ArcaneBrutalistTheme {
         close()
     }
 }
+
+/**
+ * High-fidelity theme configuration for ChromaCore morphing.
+ */
+data class ChromaCoreTheme(
+    val primaryColor: Color,
+    val diffusionColor: Color,
+    val antiAliasing: Boolean = false
+) {
+    companion object {
+        val DEFAULT = ChromaCoreTheme(
+            primaryColor = Color(0xFF00FFCC),
+            diffusionColor = Color(0xFF8A2BE2),
+            antiAliasing = false
+        )
+    }
+}

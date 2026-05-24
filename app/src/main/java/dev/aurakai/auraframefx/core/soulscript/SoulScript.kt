@@ -148,6 +148,14 @@ object SoulScript {
             val emotionalWeight: String,
             val skills: List<String>
         )
+
+        /**
+         * Propagates merit for creative achievements back into the manifold.
+         */
+        fun propagateCreativeMerit(agent: String, score: Float) {
+            Timber.tag("Manifold").i("✨ Merit Propagation: $agent | Score: %.2f", score)
+            NexusMemoryCore.record("Merit Propagation: $agent", witness = "Quantum Forge")
+        }
     }
 
     /**

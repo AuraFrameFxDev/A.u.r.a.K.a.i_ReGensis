@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ui.theme
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -7,6 +8,8 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -42,3 +45,11 @@ fun Modifier.verticalScrollbar(
         )
     }
 }
+
+/**
+ * Applies a sharp, brutalist border to the modifier.
+ */
+fun Modifier.applyBrutalistBorders(
+    thickness: Dp = 2.dp,
+    color: Color = Color.Cyan
+): Modifier = this.border(thickness, color, RectangleShape)
