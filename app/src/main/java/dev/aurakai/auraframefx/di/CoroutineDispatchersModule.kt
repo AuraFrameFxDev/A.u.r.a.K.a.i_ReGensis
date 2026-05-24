@@ -33,6 +33,13 @@ object CoroutineDispatchersModule {
     @Named(DEFAULT_DISPATCHER)
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 
+    /**
+     * Provides an unqualified Default Coroutine Dispatcher for general injection.
+     * This is used by components that don't need a specific named dispatcher.
+     */
+    @Provides
+    fun providesCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
     // You could also provide Dispatchers.Main if needed, though it's often accessed directly.
     // @Provides
     // fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main

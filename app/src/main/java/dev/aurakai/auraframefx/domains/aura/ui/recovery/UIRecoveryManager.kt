@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.aurakai.auraframefx.di.AppStateDataStoreAnnotation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -41,7 +42,7 @@ import javax.inject.Singleton
 @Singleton
 open class UIRecoveryManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    @dev.aurakai.auraframefx.di.AppStateDataStoreAnnotation private val dataStore: DataStore<Preferences>
+    @AppStateDataStoreAnnotation private val dataStore: DataStore<Preferences>
 ) {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val json = Json { ignoreUnknownKeys = true }
