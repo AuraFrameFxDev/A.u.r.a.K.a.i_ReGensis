@@ -13,17 +13,24 @@ import androidx.compose.ui.Modifier
 @Composable
 fun SpecializationTreeScreen(
     viewModel: SpecializationViewModel,
-    onBackTriggered: () -> Unit
+    onBackTriggered: () -> Unit,
+    onProceedToArena: (String) -> Unit
 ) {
     val nodes by viewModel.nodes.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Text("Specialization Tree", style = MaterialTheme.typography.headlineMedium)
+        Text(
+            "Specialization Tree for ${viewModel.agentId}",
+            style = MaterialTheme.typography.headlineMedium
+        )
         nodes.forEach { node ->
             Text("- $node")
         }
         Button(onClick = onBackTriggered) {
             Text("Back")
+        }
+        Button(onClick = { onProceedToArena(viewModel.agentId) }) {
+            Text("Proceed to Training")
         }
     }
 }

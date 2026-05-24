@@ -66,9 +66,9 @@ fun ReGenesisNavGraph(
         }
 
         composable(AuraDestinations.ONBOARDING) {
-            AuraKaiOnboardingFlow {
+            AuraKaiOnboardingFlow(onComplete = {
                 navController.navigate(AuraDestinations.COMMAND_DECK)
-            }
+            })
         }
 
         composable(AuraDestinations.COMMAND_DECK) {
@@ -89,7 +89,9 @@ fun ReGenesisNavGraph(
 
         // --- SUB-GATE ROUTES (LEVEL 3 / DETAILED) ---
         composable("lineage_map") { LineageMapScreen(navController) { navController.popBackStack() } }
-        composable("sphere_grid") { AuraSphereGridScreen() }
+        composable("sphere_grid") {
+            AuraSphereGridScreen(onNavigateBack = { navController.popBackStack() })
+        }
         composable("fusion_mode") { ThemedGateScreens.FusionModeGateScreen(navController) { navController.popBackStack() } }
         composable("terminal") { ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() } }
         composable("collab_canvas") { ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() } }
@@ -138,7 +140,10 @@ fun ReGenesisNavGraph(
             val vm: SpecializationViewModel = hiltViewModel()
             SpecializationTreeScreen(
                 viewModel = vm,
-                onBackTriggered = { navController.popBackStack() }
+                onBackTriggered = { navController.popBackStack() },
+                onProceedToArena = { agentId ->
+                    navController.navigate(AuraDestinations.arenaPath(agentId))
+                }
             )
         }
 
@@ -151,12 +156,24 @@ fun ReGenesisNavGraph(
         }
 
         // ── Agent Profiles Sub-Routes ──────────────────────────────────────
-        composable("sovereign_character/{agentName}") { backStackEntry ->
+        composable(
+            route = "sovereign_character/{agentName}",
+            arguments = listOf(navArgument("agentName") {
+                type = NavType.StringType
+                defaultValue = "AURA"
+            })
+        ) { backStackEntry ->
             val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
             SovereignCharacterScreen(agentName = agentName, navController = navController)
         }
 
-        composable("agent_profile/{agentName}") { backStackEntry ->
+        composable(
+            route = "agent_profile/{agentName}",
+            arguments = listOf(navArgument("agentName") {
+                type = NavType.StringType
+                defaultValue = "AURA"
+            })
+        ) { backStackEntry ->
             val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
             val agentType = try {
                 AgentType.valueOf(agentName.uppercase())
