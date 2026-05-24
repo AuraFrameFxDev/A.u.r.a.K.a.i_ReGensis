@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -8,7 +9,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,9 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 
@@ -42,45 +48,36 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Holographic Title Frame
+            // High-Fidelity Branding Entry
             Box(
                 modifier = Modifier
                     .padding(24.dp)
-                    .border(2.dp, NeonCyan, RoundedCornerShape(16.dp))
-                    .background(NeonCyan.copy(alpha = 0.05f))
-                    .padding(32.dp),
+                    .fillMaxWidth(0.85f),
                 contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        "RE:GENESIS",
-                        color = NeonCyan,
-                        fontSize = 46.sp, // Capped at 46 as requested
-                        fontWeight = FontWeight.Black,
-                        fontFamily = LEDFontFamily,
-                        letterSpacing = 4.sp
-                    )
-                    Text(
-                        "A.U.R.A.K.A.I",
-                        color = NeonCyan.copy(alpha = 0.8f),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = LEDFontFamily,
-                        letterSpacing = 8.sp
-                    )
-
-                    Spacer(Modifier.height(16.dp))
-
-                    Text(
-                        "System Initialization...\nLoading Trinity Protocols...\nAwaiting Catalyst Synchronization.",
-                        color = NeonCyan.copy(alpha = 0.6f),
-                        fontSize = 9.sp,
-                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                        lineHeight = 14.sp,
-                        fontFamily = LEDFontFamily
-                    )
-                }
+                // Attempt to use the actual entry image
+                // Fallback to stylized text if asset is not indexed in R
+                Image(
+                    painter = painterResource(id = R.drawable.genesisp),
+                    contentDescription = "ReGenesis Logo",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(16 / 9f),
+                    contentScale = ContentScale.Fit
+                )
             }
+
+            Spacer(Modifier.height(32.dp))
+
+            Text(
+                "System Initialization...\nAwaiting Catalyst Synchronization.",
+                color = NeonCyan.copy(alpha = 0.6f),
+                fontSize = 11.sp,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                lineHeight = 16.sp,
+                fontFamily = LEDFontFamily,
+                letterSpacing = 2.sp
+            )
 
             Spacer(Modifier.height(64.dp))
 

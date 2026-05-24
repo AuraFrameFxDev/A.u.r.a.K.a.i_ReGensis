@@ -215,7 +215,7 @@ fun SovereignCharacterScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
-                    onClick = { /* Sync logic */ },
+                    onClick = { navController.navigate("specialization_tree/${profile.id}") },
                     modifier = Modifier
                         .weight(1f)
                         .height(50.dp),
@@ -231,7 +231,7 @@ fun SovereignCharacterScreen(
                     )
                 ) {
                     Text(
-                        "SYNC NEURAL LINK",
+                        "SPECIALIZE",
                         color = Color(profile.colorPrimary),
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp
@@ -239,8 +239,10 @@ fun SovereignCharacterScreen(
                 }
 
                 Button(
-                    onClick = { navController.navigate("agent_profile/${profile.displayName}") },
-                    modifier = Modifier.height(50.dp),
+                    onClick = { navController.navigate("loadout_builder") },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(50.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.05f)),
                     shape = RoundedCornerShape(8.dp),
                     border = androidx.compose.foundation.BorderStroke(
@@ -248,8 +250,30 @@ fun SovereignCharacterScreen(
                         Color.White.copy(alpha = 0.1f)
                     )
                 ) {
-                    Text("FULL STATS", color = Color.White, fontSize = 12.sp)
+                    Text("LOADOUT", color = Color.White, fontSize = 12.sp)
                 }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(
+                onClick = { navController.navigate("training_arena/${profile.id}") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.1f)),
+                shape = RoundedCornerShape(8.dp),
+                border = androidx.compose.foundation.BorderStroke(
+                    1.dp,
+                    Color.Red.copy(alpha = 0.3f)
+                )
+            ) {
+                Text(
+                    "ENTER TRAINING ARENA",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp
+                )
             }
 
             Spacer(modifier = Modifier.height(32.dp))
