@@ -116,7 +116,9 @@ object IdentityGate {
         }
 
         val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-        val publicKey = keyStore.getCertificate(KEY_ALIAS)?.publicKey ?: return false
+        val publicKey = keyStore.getCertificate(KEY_ALIAS)?.publicKey
+
+        if (publicKey == null) return false
 
         return try {
             val signature = Signature.getInstance("Ed25519").apply { initVerify(publicKey) }
@@ -141,6 +143,11 @@ object IdentityGate {
             valid
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Verification error")
+            if (e is java.security.InvalidKeyException) {
+                Timber.tag(TAG)
+                    .w("Detected incompatible key under alias $KEY_ALIAS — purging for reset")
+                keyStore.deleteEntry(KEY_ALIAS)
+            }
             false
         }
     }

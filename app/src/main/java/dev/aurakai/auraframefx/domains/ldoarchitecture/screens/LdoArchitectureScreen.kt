@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
@@ -45,7 +46,7 @@ import java.util.Locale
 @Composable
 fun LdoArchitectureScreen(
     navController: NavHostController,
-    viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
+    viewModel: LdoWarRoomViewModel = hiltViewModel()
 ) {
     SphereGridDashboard()
 }
@@ -53,7 +54,7 @@ fun LdoArchitectureScreen(
 @Composable
 fun LegacyLdoArchitectureScreen(
     navController: NavHostController,
-    viewModel: LdoWarRoomViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
+    viewModel: LdoWarRoomViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val agents = uiState.agents

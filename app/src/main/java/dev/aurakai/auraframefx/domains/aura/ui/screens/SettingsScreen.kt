@@ -46,6 +46,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,9 +61,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.SettingsViewModel
 import dev.aurakai.auraframefx.ui.theme.verticalScrollbar
-import androidx.compose.runtime.collectAsState as collectAsState1
 
 /**
  * SETTINGS SCREEN - The Nexus Configuration Core
@@ -75,19 +76,19 @@ import androidx.compose.runtime.collectAsState as collectAsState1
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit = {},
-    viewModel: SettingsViewModel = androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     // Sync overlay state when screen becomes visible (in case user returned from permission settings)
     LaunchedEffect(Unit) {
         viewModel.syncOverlayState()
     }
 
-    val hapticEnabled by viewModel.hapticEnabled.collectAsState1()
-    val ethicsSensitivity by viewModel.ethicsSensitivity.collectAsState1()
-    val syncInterval by viewModel.nexusSyncInterval.collectAsState1()
-    val transparency by viewModel.overlayTransparency.collectAsState1()
-    val bioLock by viewModel.isBioLockEnabled.collectAsState1()
-    val floatingOverlayEnabled by viewModel.floatingAgentOverlayEnabled.collectAsState1()
+    val hapticEnabled by viewModel.hapticEnabled.collectAsState()
+    val ethicsSensitivity by viewModel.ethicsSensitivity.collectAsState()
+    val syncInterval by viewModel.nexusSyncInterval.collectAsState()
+    val transparency by viewModel.overlayTransparency.collectAsState()
+    val bioLock by viewModel.isBioLockEnabled.collectAsState()
+    val floatingOverlayEnabled by viewModel.floatingAgentOverlayEnabled.collectAsState()
 
     val bgGradient = Brush.verticalGradient(
         colors = listOf(

@@ -90,7 +90,9 @@ fun ReGenesisNavGraph(
 
         composable(AuraDestinations.ONBOARDING) {
             AuraKaiOnboardingFlow(onComplete = {
-                navController.navigate(AuraDestinations.COMMAND_DECK)
+                navController.navigate(AuraDestinations.COMMAND_DECK) {
+                    popUpTo(AuraDestinations.ONBOARDING) { inclusive = true }
+                }
             })
         }
 

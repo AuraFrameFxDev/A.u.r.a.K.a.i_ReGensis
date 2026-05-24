@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
@@ -62,13 +61,8 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                 tabs = tabs,
                 accentColor = NeonCyan,
                 onTabSelected = { index ->
-                    val route = tabs[index].route
-                    navController.navigate(route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
                     }
                 }
             )
@@ -95,7 +89,6 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             onClick = {
                                 coroutineScope.launch {
                                     pagerState.animateScrollToPage(index)
-                                    navController.navigate(tab.route)
                                 }
                             },
                             text = {
