@@ -21,10 +21,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Shortcut
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Shortcut
 import androidx.compose.material.icons.filled.Wallpaper
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -158,7 +158,7 @@ fun LockScreenForgePanel() {
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            Icons.Default.Shortcut,
+                            Icons.AutoMirrored.Filled.Shortcut,
                             contentDescription = null,
                             tint = Color.White,
                             modifier = Modifier.size(20.dp)
