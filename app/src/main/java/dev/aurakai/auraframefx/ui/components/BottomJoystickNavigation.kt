@@ -26,15 +26,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.Task
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,33 +49,23 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 
 /**
+ * 🎮 NAV TAB DATA STRUCTURE
+ */
+data class NavTab(val icon: ImageVector, val shortLabel: String, val route: String)
+
+/**
  * 🎮 BOTTOM JOYSTICK NAVIGATION - UNIFIED NEON AQUA
  * Synchronized with the 7-Domain "Exodus 2026" Build.
  */
 @Composable
 fun BottomJoystickNavigation(
     selectedIndex: Int,
-    tabs: List<String>,
+    tabs: List<NavTab>,
     accentColor: Color,
     onTabSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var dragOffset by remember { mutableFloatStateOf(0f) }
-
-    val tabIcons = listOf(
-        Icons.Default.Dashboard,    // L9: SURFACE
-        Icons.Default.Hub,          // TRINITY CORE
-        Icons.Default.Palette,      // CHROMA FORGE
-        Icons.Default.Security,     // SENTINEL MATRIX
-        Icons.AutoMirrored.Filled.MenuBook,     // L4: LIBRARY
-        Icons.Default.AutoAwesome,  // L5: SWARM
-        Icons.Default.Task,          // OPERATIONS
-        Icons.Default.Memory        // SENTIENT SHELL
-    )
-
-    val shortLabels = listOf(
-        "SURF", "CORE", "AURA", "KAI", "LIB", "SWRM", "OPS", "SHELL"
-    )
 
     Box(
         modifier = modifier
@@ -136,10 +117,10 @@ fun BottomJoystickNavigation(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                tabs.forEachIndexed { index, _ ->
+                tabs.forEachIndexed { index, tab ->
                     BottomNavItem(
-                        icon = tabIcons[index],
-                        label = shortLabels[index],
+                        icon = tab.icon,
+                        label = tab.shortLabel,
                         isSelected = index == selectedIndex,
                         color = NeonCyan,
                         onClick = { onTabSelected(index) }
