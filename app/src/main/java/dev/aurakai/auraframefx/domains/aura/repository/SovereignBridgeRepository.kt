@@ -1,17 +1,36 @@
 package dev.aurakai.auraframefx.domains.aura.repository
 
-import dev.aurakai.auraframefx.domains.aura.ConnectorStatus
-import dev.aurakai.auraframefx.domains.aura.MCPConnector
+import dev.aurakai.auraframefx.mcp.ConnectorStatus
+import dev.aurakai.auraframefx.mcp.MCPBridgeOrchestrator
+import dev.aurakai.auraframefx.mcp.MCPConnector
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SovereignBridgeRepository @Inject constructor() {
+class SovereignBridgeRepository @Inject constructor(
+    private val mcpOrchestrator: MCPBridgeOrchestrator
+) {
+    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private val _connectors = MutableStateFlow<List<MCPConnector>>(initialConnectors())
     val connectors: StateFlow<List<MCPConnector>> = _connectors.asStateFlow()
+
+    init {
+        // Sync with MCP Orchestrator
+        scope.launch {
+            mcpOrchestrator.connectors.collect { updated ->
+                if (updated.isNotEmpty()) {
+                    _connectors.value = updated
+                }
+            }
+        }
+    }
 
     private fun initialConnectors() = listOf(
         MCPConnector(

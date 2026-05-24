@@ -18,6 +18,7 @@ import dev.aurakai.auraframefx.mcp.AuraEmpathyMCPTool
 import dev.aurakai.auraframefx.mcp.GetAgentStatusMCPTool
 import dev.aurakai.auraframefx.mcp.InvokeMCPAgentTool
 import dev.aurakai.auraframefx.mcp.KaiSecurityMCPTool
+import dev.aurakai.auraframefx.mcp.MCPBridgeOrchestrator
 import dev.aurakai.auraframefx.mcp.MCPServerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +38,8 @@ import javax.inject.Singleton
 @Singleton
 class ToolInitializer @Inject constructor(
     private val toolRegistry: ToolRegistry,
-    private val mcpAdapter: MCPServerAdapter
+    private val mcpAdapter: MCPServerAdapter,
+    private val mcpOrchestrator: MCPBridgeOrchestrator
 ) {
 
     private val initScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
