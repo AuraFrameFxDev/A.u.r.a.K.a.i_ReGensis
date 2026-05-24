@@ -52,6 +52,7 @@ import dev.aurakai.auraframefx.ui.dashboard.SplitDiagnosticPanel
 import dev.aurakai.auraframefx.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.ui.viewmodel.BenchmarkViewModel
 import java.util.Locale
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -59,17 +60,19 @@ import kotlin.math.sin
 
 /**
  * 🏺 NEURAL NEXUS — BRUTALIST 4D PARALLAX HEARTBEAT
- * Hardened Exodus 2026 Build.
+ * Hardened Exodus 2026 Build with Orbital Benchmarks.
  */
 @Composable
 fun NexusLiveHeartScreen(
     navController: NavHostController,
     systemViewModel: KaiSystemViewModel = hiltViewModel<KaiSystemViewModel>(),
-    warRoomViewModel: LdoWarRoomViewModel = hiltViewModel<LdoWarRoomViewModel>()
+    warRoomViewModel: LdoWarRoomViewModel = hiltViewModel<LdoWarRoomViewModel>(),
+    benchmarkViewModel: BenchmarkViewModel = hiltViewModel<BenchmarkViewModel>()
 ) {
     val systemStatus by systemViewModel.systemStatus.collectAsState()
     val godPotential by warRoomViewModel.godPotential.collectAsState()
     val driftPercent by warRoomViewModel.driftPercent.collectAsState()
+    val benchmarkState by benchmarkViewModel.state.collectAsState()
 
     val infiniteTransition = rememberInfiniteTransition(label = "nexus_heart")
 

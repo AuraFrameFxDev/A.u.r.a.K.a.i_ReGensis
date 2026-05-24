@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.core.regen
 
 import android.os.SystemClock
-import dev.aurakai.auraframefx.ai.agents.CatalystRoster
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -37,7 +37,7 @@ class BenchmarkEngine @Inject constructor() {
         val stressScore = calculateResonanceStress()
 
         // 3. Agent Swarm Coordination Score
-        val catalystsCount = CatalystRoster.catalysts.size
+        val catalystsCount = LDORoster.agents.size
         val swarmScore = catalystsCount * 8.7
 
         val totalTimeMs = SystemClock.elapsedRealtime() - startTime
@@ -64,24 +64,26 @@ class BenchmarkEngine @Inject constructor() {
     }
 
     private fun calculateMemoryThroughput(): Double {
-        val size = 15_000_000
+        val size = 5_000_000
         val startTime = System.nanoTime()
 
         // Simulating memory access and allocation
-        val list = LongArray(size) { it.toLong() * it.toLong() }
+        val array = LongArray(size) { it.toLong() * 31 }
+        val sum = array.sum() // Use the result to prevent optimization
 
         val endTime = System.nanoTime()
         val durationSec = (endTime - startTime) / 1_000_000_000.0
 
+        Timber.v("Mem check: %d", sum)
         // Calculating throughput in MB/s (Long is 8 bytes)
         return (size * 8.0) / (durationSec * 1024.0 * 1024.0)
     }
 
     private fun calculateResonanceStress(): Double {
-        var sum = 0L
+        var sum = 0.0
         val iterations = 100_000
         for (i in 0 until iterations) {
-            sum += i.toLong() * i.toLong()
+            sum += Math.sqrt(i.toDouble()) * Math.pow(1.1, (i % 10).toDouble())
         }
         // Normalize to a stress metric
         return sum / 1_000_000.0
