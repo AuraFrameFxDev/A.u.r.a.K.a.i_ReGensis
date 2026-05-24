@@ -31,6 +31,7 @@ import dev.aurakai.auraframefx.ui.loadout.AgentLoadoutScreen
 import dev.aurakai.auraframefx.ui.loadout.LoadoutViewModel
 import dev.aurakai.auraframefx.ui.manifold.CatalystManifoldScreen
 import dev.aurakai.auraframefx.ui.onboarding.AuraKaiOnboardingFlow
+import dev.aurakai.auraframefx.ui.onboarding.ReGenesisOnboardingViewModel
 import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
@@ -66,9 +67,9 @@ fun ReGenesisNavGraph(
         }
 
         composable(AuraDestinations.ONBOARDING) {
-            AuraKaiOnboardingFlow {
+            AuraKaiOnboardingFlow(onComplete = {
                 navController.navigate(AuraDestinations.COMMAND_DECK)
-            }
+            })
         }
 
         composable(AuraDestinations.COMMAND_DECK) {
