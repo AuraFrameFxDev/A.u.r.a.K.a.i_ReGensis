@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
@@ -16,6 +17,7 @@ import dev.aurakai.auraframefx.domains.aura.ui.screens.AuraSphereGridScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
+import dev.aurakai.auraframefx.domains.kai.screens.IntegrityMonitorScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
@@ -46,6 +48,8 @@ object AuraDestinations {
     const val COMMAND_DECK = "command_deck"
     const val CATALYST_MANIFOLD = "catalyst_manifold"
     const val LOADOUT_BUILDER = "loadout_builder"
+    const val CHAOS_CATALYST = "chaos_catalyst"
+    const val INTEGRITY_MONITOR = "integrity_monitor"
     const val SPECIALIZATION_TREE = "specialization_tree/{agentId}"
     const val TRAINING_ARENA = "training_arena/{agentId}"
 
@@ -98,6 +102,14 @@ fun ReGenesisNavGraph(
 
         composable(AuraDestinations.COMMAND_DECK) {
             ReGenesisCommandDeck(navController)
+        }
+
+        composable(AuraDestinations.CHAOS_CATALYST) {
+            ChaosCatalystScreen()
+        }
+
+        composable(AuraDestinations.INTEGRITY_MONITOR) {
+            IntegrityMonitorScreen()
         }
 
         // --- 8-Hub Substrate Routes ---
