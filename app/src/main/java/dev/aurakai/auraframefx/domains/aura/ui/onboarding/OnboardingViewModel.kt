@@ -76,6 +76,35 @@ open class OnboardingViewModel @Inject constructor(
     }
 
     /**
+     * Save full onboarding data and complete flow
+     */
+    fun saveOnboardingData(userName: String, archetype: String?, catalystId: String?) {
+        viewModelScope.launch {
+            try {
+                if (userName.isNotBlank()) {
+                    userPreferencesManager.setUserName(userName)
+                }
+                archetype?.let {
+                    userPreferencesManager.setGenderIdentity(it)
+                }
+                catalystId?.let {
+                    userPreferencesManager.setCatalystAlignment(it)
+                }
+                userPreferencesManager.setOnboardingComplete(true)
+
+                _onboardingState.value = _onboardingState.value.copy(
+                    isComplete = true,
+                    currentStep = OnboardingStep.COMPLETE
+                )
+
+                Timber.i("Onboarding data saved for $userName ($archetype) with catalyst $catalystId")
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to save onboarding data")
+            }
+        }
+    }
+
+    /**
      * Reset onboarding (for testing)
      */
     fun resetOnboarding() {
