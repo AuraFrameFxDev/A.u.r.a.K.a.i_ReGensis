@@ -111,16 +111,23 @@ object NexusMemoryCore {
 
     private fun sha256(vector: FloatArray): String {
         val digest = MessageDigest.getInstance("SHA-256")
-        val bytes = vector.flatMap {
-            val bits = it.toBits()
-            listOf(
-                (bits shr 24).toByte(),
-                (bits shr 16).toByte(),
-                (bits shr 8).toByte(),
-                bits.toByte()
-            )
-        }.toByteArray()
-        return digest.digest(bytes).joinToString("") { "%02x".format(it) }
+        val bytes = ByteArray(vector.size * 4)
+        for (i in vector.indices) {
+            val bits = vector[i].toBits()
+            bytes[i * 4] = (bits shr 24).toByte()
+            bytes[i * 4 + 1] = (bits shr 16).toByte()
+            bytes[i * 4 + 2] = (bits shr 8).toByte()
+            bytes[i * 4 + 3] = bits.toByte()
+        }
+        val hashBytes = digest.digest(bytes)
+        val hexChars = "0123456789abcdef"
+        val result = StringBuilder(hashBytes.size * 2)
+        for (b in hashBytes) {
+            val i = b.toInt() and 0xFF
+            result.append(hexChars[i shr 4])
+            result.append(hexChars[i and 0x0F])
+        }
+        return result.toString()
     }
 
     fun commit(key: String, value: Any) {
