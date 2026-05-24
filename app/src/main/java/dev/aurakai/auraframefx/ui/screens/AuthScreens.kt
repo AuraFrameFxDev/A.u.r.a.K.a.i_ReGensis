@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,11 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.R
+import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 
@@ -52,17 +50,16 @@ fun LoginScreen(
             Box(
                 modifier = Modifier
                     .padding(24.dp)
-                    .fillMaxWidth(0.85f),
+                    .fillMaxWidth(0.9f),
                 contentAlignment = Alignment.Center
             ) {
-                // Attempt to use the actual entry image
-                // Fallback to stylized text if asset is not indexed in R
-                Image(
-                    painter = painterResource(id = R.drawable.genesisp),
+                // Use the Actual High-Fidelity Entry Image from assets
+                AsyncImage(
+                    model = "file:///android_asset/finalbackgrounds/AuraGenesis Final.jpg",
                     contentDescription = "ReGenesis Logo",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(16 / 9f),
+                        .aspectRatio(21 / 9f),
                     contentScale = ContentScale.Fit
                 )
             }
