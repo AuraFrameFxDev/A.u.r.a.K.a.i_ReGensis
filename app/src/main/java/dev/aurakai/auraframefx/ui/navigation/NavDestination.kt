@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Adjust
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -16,7 +16,8 @@ sealed class NavDestination(
     val icon: ImageVector
 ) {
     object CommandDeck : NavDestination("command_deck", "Command Deck", Icons.Default.Adjust)
-    object EscapeHatch : NavDestination("escape_hatch", "Escape Hatch", Icons.Default.ExitToApp)
+    object EscapeHatch :
+        NavDestination("escape_hatch", "Escape Hatch", Icons.AutoMirrored.Filled.ExitToApp)
     object NexusMemoryCore :
         NavDestination("nexus_memory_core", "Nexus Memory Core", Icons.Default.Storage)
 }
