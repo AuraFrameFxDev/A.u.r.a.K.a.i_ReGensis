@@ -34,3 +34,4 @@ class SpecializationViewModelTest {
         assertEquals("Unknown", vm.agentId)
     }
 }
+
