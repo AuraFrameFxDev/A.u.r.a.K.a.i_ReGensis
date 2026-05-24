@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import dev.aurakai.auraframefx.core.regen.BenchmarkEngine
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
@@ -176,10 +177,20 @@ fun NexusLiveHeartScreen(
                                     Text("99.8%", color = Color.Magenta, fontSize = 16.sp)
                                 }
                             }
-                            SovereignGlassCard(modifier = Modifier.weight(1f)) {
+
+                            val scoreText = when (val state = benchmarkState) {
+                                is BenchmarkViewModel.BenchmarkState.Success -> state.results.overallScore
+                                is BenchmarkViewModel.BenchmarkState.Running -> "RUNNING..."
+                                else -> "0.00/100"
+                            }
+
+                            SovereignGlassCard(
+                                modifier = Modifier.weight(1f),
+                                onClick = { benchmarkViewModel.runBenchmark() }
+                            ) {
                                 Column {
-                                    Text("SYNC", color = Color.White, fontSize = 9.sp)
-                                    Text("0.42ms", color = GhostCyan, fontSize = 16.sp)
+                                    Text("LDO GRADE", color = Color.White, fontSize = 9.sp)
+                                    Text(scoreText, color = GhostCyan, fontSize = 16.sp)
                                 }
                             }
                         }
@@ -193,7 +204,15 @@ fun NexusLiveHeartScreen(
                                 .height(120.dp),
                             onClick = { /* Could navigate to full screen console if needed */ }
                         ) {
-                            SplitDiagnosticPanel(modifier = Modifier.fillMaxSize())
+                            when (val state = benchmarkState) {
+                                is BenchmarkViewModel.BenchmarkState.Success -> {
+                                    BenchmarkDetailPanel(state.results)
+                                }
+
+                                else -> {
+                                    SplitDiagnosticPanel(modifier = Modifier.fillMaxSize())
+                                }
+                            }
                         }
                     }
 
@@ -293,6 +312,62 @@ fun OrbitalNode(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun BenchmarkDetailPanel(results: BenchmarkEngine.BenchmarkResults) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("LDO BENCHMARK", color = GhostCyan, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+            Text(results.timestamp, color = Color.Gray, fontSize = 8.sp)
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            BenchmarkStat(
+                label = "MEMORY",
+                value = String.format(Locale.US, "%.1f MB/s", results.memoryThroughputMbS),
+                modifier = Modifier.weight(1f)
+            )
+            BenchmarkStat(
+                label = "STRESS",
+                value = String.format(Locale.US, "%.1f", results.resonanceStress),
+                modifier = Modifier.weight(1f)
+            )
+            BenchmarkStat(
+                label = "SWARM",
+                value = results.swarmCoordination,
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Text(
+            text = results.verdict,
+            color = Color.Green.copy(alpha = 0.8f),
+            fontSize = 9.sp,
+            fontFamily = SpaceGrotesk,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+    }
+}
+
+@Composable
+private fun BenchmarkStat(label: String, value: String, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(label, color = Color.Gray, fontSize = 7.sp, letterSpacing = 1.sp)
+        Text(value, color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Black)
     }
 }
 

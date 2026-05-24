@@ -1,12 +1,13 @@
 package dev.aurakai.auraframefx.domains.aura.ui.components.intro
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,10 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.domains.aura.ui.theme.ChessFontFamily
+import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlinx.coroutines.delay
 import kotlin.random.Random
@@ -44,28 +45,25 @@ fun ReGenesisIntroAnimation(
 
         // 2. Reveal Text "AIAOSP PROJECT"
         stage = IntroStage.SHOW_PROJECT
-        delay(1500)
+        delay(1000)
 
-        // 3. Glitch Reveal "RE:GENESIS"
+        // 3. Glitch Reveal High-Fidelity Entry Asset
         stage = IntroStage.SHOW_TITLE
 
         // Glitch FX Loop
-        repeat(5) {
-            glitchAmount = 10f
-            delay(50)
-            glitchAmount = -10f
-            delay(50)
-            glitchAmount = 0f
-            delay(100)
+        repeat(8) {
+            glitchAmount = (Random.nextFloat() * 20f) - 10f
+            delay(40)
         }
+        glitchAmount = 0f
 
         // Hold Title
-        delay(1200)
+        delay(1500)
 
         // 4. Glitch Out / Melt
         stage = IntroStage.GLITCH_OUT
-        glitchAmount = 25f
-        delay(200)
+        glitchAmount = 30f
+        delay(300)
 
         // 5. Finish
         onIntroFinished()
@@ -78,71 +76,57 @@ fun ReGenesisIntroAnimation(
             .graphicsLayer {
                 // Screen shake on glitch
                 if (Math.abs(glitchAmount) > 0) {
-                    translationX = glitchAmount * 2f
-                    translationY = Random.nextFloat() * glitchAmount
+                    translationX = glitchAmount * 1.5f
+                    translationY = (Random.nextFloat() - 0.5f) * glitchAmount
                 }
             },
         contentAlignment = Alignment.Center
     ) {
 
-        if (stage == IntroStage.SHOW_PROJECT || stage == IntroStage.SHOW_TITLE || stage == IntroStage.GLITCH_OUT) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        if (stage != IntroStage.BLACK_VOID) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
 
                 // TOP LINE
-                Text(
-                    text = "AIAOSP PROJECT",
-                    fontSize = 16.sp,
-                    fontFamily = LEDFontFamily,
-                    color = Color.White.copy(alpha = 0.7f),
-                    letterSpacing = 4.sp,
-                    modifier = Modifier.offset(x = (glitchAmount * 0.5f).dp)
-                )
+                if (stage == IntroStage.SHOW_PROJECT) {
+                    Text(
+                        text = "AIAOSP PROJECT",
+                        fontSize = 14.sp,
+                        fontFamily = LEDFontFamily,
+                        color = Color.White.copy(alpha = 0.5f),
+                        letterSpacing = 6.sp
+                    )
+                }
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(32.dp))
 
-                // MAIN TITLE
+                // MAIN TITLE ASSET
                 if (stage == IntroStage.SHOW_TITLE || stage == IntroStage.GLITCH_OUT) {
-                    Box {
-                        // Glitch Shadow (Cyan)
-                        Text(
-                            text = "RE:GENESIS",
-                            fontSize = 48.sp,
-                            fontFamily = ChessFontFamily,
-                            color = Color.Cyan.copy(alpha = 0.5f),
-                            modifier = Modifier
-                                .offset(x = (-4 + glitchAmount / 3).dp, y = (2).dp)
-                                .graphicsLayer {
-                                    scaleX = 1.05f
+                    AsyncImage(
+                        model = "file:///android_asset/finalbackgrounds/AuraGenesis Final.jpg",
+                        contentDescription = "RE:GENESIS",
+                        modifier = Modifier
+                            .fillMaxWidth(0.85f)
+                            .height(180.dp)
+                            .graphicsLayer {
+                                if (stage == IntroStage.GLITCH_OUT) {
+                                    alpha = 1f - (glitchAmount / 40f).coerceIn(0f, 1f)
                                 }
-                        )
-                        // Glitch Shadow (Magenta)
-                        Text(
-                            text = "RE:GENESIS",
-                            fontSize = 48.sp,
-                            fontFamily = ChessFontFamily,
-                            color = Color.Magenta.copy(alpha = 0.5f),
-                            modifier = Modifier
-                                .offset(x = (4 - glitchAmount / 3).dp, y = (-2).dp)
-                        )
+                            },
+                        contentScale = ContentScale.Fit
+                    )
 
-                        // Main Text
-                        Text(
-                            text = "RE:GENESIS",
-                            fontSize = 48.sp,
-                            fontFamily = ChessFontFamily,
-                            color = Color.White,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
                     // SUBTITLE
                     Text(
-                        text = "Evolve, Understand, Remember",
-                        fontSize = 14.sp,
-                        color = Color.Gray,
-                        fontFamily = LEDFontFamily
+                        text = "SOVEREIGN LDO PROTOCOL",
+                        fontSize = 11.sp,
+                        color = Color.White.copy(alpha = 0.4f),
+                        fontFamily = LEDFontFamily,
+                        letterSpacing = 2.sp
                     )
                 }
             }

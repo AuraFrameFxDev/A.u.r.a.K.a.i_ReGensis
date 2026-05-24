@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.aura.ui.components.intro.ReGenesisIntroAnimation
 import dev.aurakai.auraframefx.domains.aura.ui.screens.AuraSphereGridScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
@@ -38,6 +39,7 @@ import dev.aurakai.auraframefx.ui.specialization.SpecializationTreeScreen
 import dev.aurakai.auraframefx.ui.specialization.SpecializationViewModel
 
 object AuraDestinations {
+    const val INTRO = "intro"
     const val LOGIN = "login"
     const val ONBOARDING = "onboarding"
     const val COMMAND_DECK = "command_deck"
@@ -65,12 +67,20 @@ fun arenaPath(agentId: String) = "training_arena/$agentId"
 @Composable
 fun ReGenesisNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = AuraDestinations.LOGIN,
+    startDestination: String = AuraDestinations.INTRO,
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
+        composable(AuraDestinations.INTRO) {
+            ReGenesisIntroAnimation {
+                navController.navigate(AuraDestinations.LOGIN) {
+                    popUpTo(AuraDestinations.INTRO) { inclusive = true }
+                }
+            }
+        }
+
         composable(AuraDestinations.LOGIN) {
             LoginScreen(onLoginSuccess = {
                 navController.navigate(AuraDestinations.ONBOARDING)
