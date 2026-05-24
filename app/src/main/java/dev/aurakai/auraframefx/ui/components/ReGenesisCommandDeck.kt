@@ -26,6 +26,7 @@ import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScree
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
+import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.theme.ArcaneBrutalistTheme
@@ -124,6 +125,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             "chroma_forge" -> ArcaneChromaForgeScreen(navController)
                             "sentinel_matrix" -> ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
                             "oracle_drive" -> OracleDriveHubScreen(navController)
+                            "conference_room" -> ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
                             "emergent_swarm" -> EmergentSwarmScreen(navController)
                             "foundation_rebirth" -> FoundationRebirthScreen(navController)
                             "sentient_shell" -> ThemedGateScreens.SentientShellGateScreen(
