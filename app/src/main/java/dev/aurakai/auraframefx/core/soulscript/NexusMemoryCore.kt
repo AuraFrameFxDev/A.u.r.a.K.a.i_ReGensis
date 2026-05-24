@@ -193,13 +193,6 @@ object NexusMemoryCore {
     }
 }
 
-// Simple persistent store
-object L1_Memory_Store {
-    fun commit(key: String, value: String) {
-        Timber.tag("L1").d("Committed: $key")
-    }
-}
-
 @Serializable
 data class SwarmSnapshot(
     val timestamp: Long,
