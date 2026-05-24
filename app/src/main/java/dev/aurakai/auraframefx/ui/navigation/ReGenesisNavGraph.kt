@@ -46,8 +46,20 @@ object AuraDestinations {
     const val SPECIALIZATION_TREE = "specialization_tree/{agentId}"
     const val TRAINING_ARENA = "training_arena/{agentId}"
 
-    fun specTreePath(agentId: String) = "specialization_tree/$agentId"
-    fun arenaPath(agentId: String) = "training_arena/$agentId"
+    /**
+ * Builds the navigation route for an agent's specialization tree.
+ *
+ * @param agentId The agent identifier to include in the route.
+ * @return The route string in the form `specialization_tree/<agentId>`.
+ */
+fun specTreePath(agentId: String) = "specialization_tree/$agentId"
+    /**
+ * Builds the navigation route for an agent's training arena.
+ *
+ * @param agentId The agent identifier to include in the route.
+ * @return The route string "training_arena/{agentId}" with `agentId` substituted.
+ */
+fun arenaPath(agentId: String) = "training_arena/$agentId"
 }
 
 @Composable
