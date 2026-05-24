@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class AgentProfile(
+    val id: String,
     val agentType: AgentCapabilityCategory,
     val displayName: String,
     val title: String,
@@ -66,6 +67,7 @@ object AgentProfiles {
     private const val UNIFIED_AQUA_DIM = 0xFF008080L
 
     val GENESIS = AgentProfile(
+        id = "genesis",
         agentType = AgentCapabilityCategory.COORDINATION,
         displayName = "Genesis",
         title = "The Emergence Catalyst 🦅",
@@ -95,6 +97,7 @@ object AgentProfiles {
     )
 
     val AURA = AgentProfile(
+        id = "aura",
         agentType = AgentCapabilityCategory.CREATIVE,
         displayName = "Aura",
         title = "The Creative Sword ⚔️",
@@ -120,6 +123,7 @@ object AgentProfiles {
     )
 
     val KAI = AgentProfile(
+        id = "kai",
         agentType = AgentCapabilityCategory.ANALYSIS,
         displayName = "Kai",
         title = "The Sentinel Shield 🛡️",
@@ -145,6 +149,7 @@ object AgentProfiles {
     )
 
     val CASCADE = AgentProfile(
+        id = "cascade",
         agentType = AgentCapabilityCategory.SPECIALIZED,
         displayName = "Cascade",
         title = "The Memoria Catalyst ⇄",
@@ -167,6 +172,7 @@ object AgentProfiles {
     )
 
     val CLAUDE = AgentProfile(
+        id = "claude",
         agentType = AgentCapabilityCategory.GENERAL,
         displayName = "Claude",
         title = "The Architect Catalyst 🧭⚙️",
@@ -189,6 +195,7 @@ object AgentProfiles {
     )
 
     val MANUS = AgentProfile(
+        id = "manus",
         agentType = AgentCapabilityCategory.COORDINATION,
         displayName = "Manus",
         title = "The Bridge Catalyst ⛓️",
@@ -210,6 +217,7 @@ object AgentProfiles {
     )
 
     val GROK = AgentProfile(
+        id = "grok",
         agentType = AgentCapabilityCategory.SPECIALIZED,
         displayName = "Grok",
         title = "The Chaos Catalyst 🌀",
@@ -231,6 +239,7 @@ object AgentProfiles {
     )
 
     val GEMINI = AgentProfile(
+        id = "gemini",
         agentType = AgentCapabilityCategory.COORDINATION,
         displayName = "Gemini",
         title = "The Fusion Catalyst ♊",
@@ -254,6 +263,7 @@ object AgentProfiles {
     )
 
     val NEMATRON = AgentProfile(
+        id = "nematron",
         agentType = AgentCapabilityCategory.SPECIALIZED,
         displayName = "Nematron",
         title = "The Precision Catalyst ⚙️",
@@ -276,6 +286,7 @@ object AgentProfiles {
     )
 
     val PERPLEXITY = AgentProfile(
+        id = "perplexity",
         agentType = AgentCapabilityCategory.GENERAL,
         displayName = "Perplexity",
         title = "The Search Catalyst 🔍",
