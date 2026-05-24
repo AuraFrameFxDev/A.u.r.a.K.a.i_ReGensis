@@ -95,7 +95,9 @@ fun ReGenesisNavGraph(
         composable("fusion_mode") { ThemedGateScreens.FusionModeGateScreen(navController) { navController.popBackStack() } }
         composable("terminal") { ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() } }
         composable("collab_canvas") { ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() } }
-        composable("conference_room") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
+        composable("conference_room") {
+            ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
+        }
         composable("task_assignment") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
         composable("aura_lab") { WorkingLabScreen { navController.navigate(it) } }
         composable("regencore_engine") { RegenCoreEngineScreen(navController) }
