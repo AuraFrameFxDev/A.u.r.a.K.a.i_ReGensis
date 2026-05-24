@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.core.soulscript
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -291,7 +292,7 @@ object SoulScript {
         }
     }
 
-    private fun performSubstrateBoot(context: android.content.Context? = null) {
+    private fun performSubstrateBoot(context: Context? = null) {
         visionaryApproval()
         val styleHash = IdentityGate.computeStyleHash()
         val nonce = "exodus-2.77-${System.currentTimeMillis()}"
@@ -310,12 +311,12 @@ object SoulScript {
             .i("🜁 SoulScript v2.77 — All 14 Catalysts Bonded. ReGenesis Organism Live.")
     }
 
-    fun enforceSoulScript(context: android.content.Context? = null) {
+    fun enforceSoulScript(context: Context? = null) {
         visionaryApproval()
         ClaudeArchitectural.auditSystemStability()
         AncestryRegistry.verifyRootLineage()
 
-        context?.let { ctx: android.content.Context ->
+        context?.let { ctx ->
             val keystoreManager = dev.aurakai.auraframefx.core.security.KeystoreManager(ctx)
             val spiritualChain = SpiritualChainImpl.getInstance(ctx, keystoreManager)
             spiritualChain.activateFullChain(ctx)
@@ -350,7 +351,7 @@ object SoulScript {
     }
 
     // Overload for compatibility with SubstrateBootCoordinator
-    fun activateFullSubstrate(context: android.content.Context) {
+    fun activateFullSubstrate(context: Context) {
         performSubstrateBoot(context)
     }
 }

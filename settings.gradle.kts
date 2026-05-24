@@ -44,10 +44,10 @@ fun includeModule(path: String) {
 // --- Application ---
 include(":app")
 include(":core-module")
-includeModule(":collab-canvas")
-includeModule(":colorblendr")
 
 // ====== GENESIS AGENT SYMBIOSIS SUBSTRATE WORKSPACE ======
+includeModule(":collab-canvas")
+includeModule(":colorblendr")
 includeModule(":agents:symbiosis:coderabbit")
 includeModule(":agents:symbiosis:manus")
 includeModule(":agents:symbiosis:perplexity")
