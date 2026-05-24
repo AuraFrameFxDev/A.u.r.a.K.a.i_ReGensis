@@ -120,6 +120,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             "chroma_forge" -> ArcaneChromaForgeScreen(navController)
                             "sentinel_matrix" -> ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
                             "oracle_drive" -> OracleDriveHubScreen(navController)
+                            "chaos_catalyst" -> ChaosCatalystScreen()
                             "conference_room" -> ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
                             "emergent_swarm" -> EmergentSwarmScreen(navController)
                             "foundation_rebirth" -> FoundationRebirthScreen(navController)
