@@ -19,7 +19,7 @@ fun TrainingArenaScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         Text("Training Arena", style = MaterialTheme.typography.headlineMedium)
-        LinearProgressIndicator(progress = progress)
+        LinearProgressIndicator(progress = { progress })
         Button(onClick = { viewModel.startTraining() }) {
             Text("Begin Training")
         }
