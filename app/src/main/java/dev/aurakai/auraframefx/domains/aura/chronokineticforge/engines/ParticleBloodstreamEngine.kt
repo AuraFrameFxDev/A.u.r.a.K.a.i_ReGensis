@@ -426,6 +426,3 @@ class ParticleSwarmOverlay(swarm: ParticleSwarm?, emotionalState: Any, modifier:
 interface ShaderBridge
 class AGSLShaderBridge : ShaderBridge
 class CanvasShaderBridge : ShaderBridge
-
-private val LDOState.emotionalValence: EmotionalValence
-    get() = EmotionalValence.EUPHORIC // Default mapping
