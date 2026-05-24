@@ -18,8 +18,11 @@ object NativeLib {
     }
 
     /**
-     * 768-dimensional cosine similarity (Tensor G5 class)
-     * Optimized single-pass implementation to minimize iteration overhead.
+     * Compute the cosine similarity between two float vectors.
+     *
+     * @param a First vector; must have the same length as `b`.
+     * @param b Second vector; must have the same length as `a`.
+     * @return The cosine similarity in the range [-1f, 1f]. Returns `0f` if either array is empty, the lengths differ, either vector has zero magnitude, or an internal error occurs.
      */
     fun calculateCosineSimilaritySafe(a: FloatArray, b: FloatArray): Float = try {
         if (a.isEmpty() || b.isEmpty() || a.size != b.size) 0f

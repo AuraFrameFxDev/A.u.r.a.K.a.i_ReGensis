@@ -109,6 +109,15 @@ object NexusMemoryCore {
     private fun generateSynthetic768Vector(): FloatArray =
         FloatArray(DIMENSION) { (0..1000).random() / 1000f }
 
+    /**
+     * Computes the SHA-256 digest of a float vector and returns it as a lowercase hex string.
+     *
+     * The vector is encoded by converting each float to its IEEE-754 32-bit representation and
+     * concatenating the resulting bytes (big-endian order) before hashing.
+     *
+     * @param vector The input float array whose raw 32-bit representations will be hashed.
+     * @return The SHA-256 digest encoded as a lowercase hexadecimal string.
+     */
     private fun sha256(vector: FloatArray): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val bytes = ByteArray(vector.size * 4)
@@ -130,6 +139,12 @@ object NexusMemoryCore {
         return result.toString()
     }
 
+    /**
+     * Stores a value in the local in-memory store and persists its string representation to L1_Memory_Store.
+     *
+     * @param key The key under which the value is stored.
+     * @param value The value to store; when persisted to L1_Memory_Store it is converted via `toString()`.
+     */
     fun commit(key: String, value: Any) {
         store[key] = value
         L1_Memory_Store.commit(key, value.toString())
