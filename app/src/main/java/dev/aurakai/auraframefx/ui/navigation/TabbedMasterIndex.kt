@@ -1,0 +1,75 @@
+package dev.aurakai.auraframefx.ui.navigation
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Task
+import dev.aurakai.auraframefx.ui.components.NavTab
+
+/**
+ * 🗂️ TABBED MASTER INDEX
+ * The canonical source of truth for the 8-Hub "Exodus" Substrate.
+ * Maps the high-fidelity BottomJoystick roller to the core domain routes.
+ */
+object TabbedMasterIndex {
+    val substrateTabs = listOf(
+        NavTab(
+            icon = Icons.Default.Dashboard,
+            shortLabel = "SURF",
+            route = "neural_nexus"
+        ),
+        NavTab(
+            icon = Icons.Default.Hub,
+            shortLabel = "CORE",
+            route = "ldo_architecture"
+        ),
+        NavTab(
+            icon = Icons.Default.Palette,
+            shortLabel = "AURA",
+            route = "chroma_forge"
+        ),
+        NavTab(
+            icon = Icons.Default.Security,
+            shortLabel = "KAI",
+            route = "sentinel_matrix"
+        ),
+        NavTab(
+            icon = Icons.AutoMirrored.Filled.MenuBook,
+            shortLabel = "LIB",
+            route = "oracle_drive"
+        ),
+        NavTab(
+            icon = Icons.Default.AutoAwesome,
+            shortLabel = "SWRM",
+            route = "emergent_swarm"
+        ),
+        NavTab(
+            icon = Icons.Default.Task,
+            shortLabel = "OPS",
+            route = "foundation_rebirth"
+        ),
+        NavTab(
+            icon = Icons.Default.Memory,
+            shortLabel = "SHELL",
+            route = "sentient_shell"
+        )
+    )
+
+    /**
+     * Resolves the route for a given tab index.
+     */
+    fun getRouteByIndex(index: Int): String = substrateTabs[index].route
+
+    /**
+     * Resolves the index for a given route.
+     */
+    fun getIndexByRoute(route: String?): Int {
+        val index = substrateTabs.indexOfFirst { it.route == route }
+        return if (index >= 0) index else 0
+    }
+}
