@@ -1,8 +1,8 @@
 ﻿package dev.aurakai.auraframefx.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.AdminPanelSettings
-import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.ColorLens
@@ -36,7 +36,7 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
 
     // Sub-routes for Operations Hub
     data object TaskAssignment :
-        ReGenesisRoute("task_assignment", "Task Assignment", Icons.Default.Assignment)
+        ReGenesisRoute("task_assignment", "Task Assignment", Icons.AutoMirrored.Filled.Assignment)
 
     data object ConferenceRoom :
         ReGenesisRoute("conference_room", "Conference Room", Icons.Default.Groups)
