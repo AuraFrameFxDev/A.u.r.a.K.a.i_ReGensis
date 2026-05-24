@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Palette
@@ -13,7 +14,7 @@ import dev.aurakai.auraframefx.ui.components.NavTab
 
 /**
  * 🗂️ TABBED MASTER INDEX
- * The canonical source of truth for the 8-Hub "Exodus" Substrate.
+ * The canonical source of truth for the 9-Hub "Exodus" Substrate.
  * Maps the high-fidelity BottomJoystick roller to the core domain routes.
  */
 object TabbedMasterIndex {
@@ -42,6 +43,11 @@ object TabbedMasterIndex {
             icon = Icons.AutoMirrored.Filled.MenuBook,
             shortLabel = "LIB",
             route = "oracle_drive"
+        ),
+        NavTab(
+            icon = Icons.Default.Groups,
+            shortLabel = "ROOM",
+            route = "conference_room"
         ),
         NavTab(
             icon = Icons.Default.AutoAwesome,
