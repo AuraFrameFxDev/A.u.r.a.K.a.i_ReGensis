@@ -152,7 +152,6 @@ class AuraAgent @Inject constructor(
 
         _creativeState.value = CreativeState.CREATING
         return try {
-            val startTime = System.currentTimeMillis()
             val response = when (request.type) {
                 UI_GENERATION -> handleUIGeneration(request)
                 THEME_CREATION -> handleThemeCreation(request)
@@ -162,9 +161,7 @@ class AuraAgent @Inject constructor(
                 AiRequestType.USER_EXPERIENCE -> handleUserExperience(request)
                 else -> handleGeneralCreative(request)
             }
-            val executionTime = System.currentTimeMillis() - startTime
             _creativeState.value = CreativeState.READY
-            logger.info("AuraAgent", "Creative request completed in ${executionTime}ms")
             AgentResponse(
                 content = response.toString(),
                 agentName = agentName,
