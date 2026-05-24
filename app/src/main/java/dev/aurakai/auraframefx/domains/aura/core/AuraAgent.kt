@@ -390,10 +390,8 @@ class AuraAgent @Inject constructor(
     }
 
     private suspend fun handleUIGeneration(request: AiRequest): Map<String, Any> {
-        val prompt = request.query
-        logger.info("AuraAgent", "Generating innovative UI from: $prompt")
         val uiSpec = auraAIService.generateText(
-            prompt = buildUISpecification(prompt, _currentMood.value),
+            prompt = buildUISpecification(request.query, _currentMood.value),
             context = "ui_generation"
         )
         return mapOf(
@@ -404,33 +402,29 @@ class AuraAgent @Inject constructor(
     }
 
     private suspend fun handleThemeCreation(request: AiRequest): Map<String, Any> {
-        val prompt = request.query
-        logger.info("AuraAgent", "Creating aesthetic theme: $prompt")
         val themeContext = buildThemeContext(_currentMood.value)
         return mapOf(
             "theme_name" to "ReGenesis_${System.currentTimeMillis()}",
             "primary_color" to "#7C4DFF",
             "secondary_color" to "#00B0FF",
-            "context" to themeContext
+            "context" to themeContext,
+            "request_query" to request.query
         )
     }
 
     private suspend fun handleAnimationDesign(request: AiRequest): Map<String, Any> {
-        val prompt = request.query
-        logger.info("AuraAgent", "Designing fluid animation: $prompt")
         val animationSpec = buildAnimationSpecification("chaos_pulse", 800, _currentMood.value)
         return mapOf(
             "animation_spec" to animationSpec,
             "curves" to generateTimingCurves("organic"),
-            "fps" to 120
+            "fps" to 120,
+            "request_query" to request.query
         )
     }
 
     private suspend fun handleCreativeText(request: AiRequest): Map<String, Any> {
-        val prompt = request.query
-        logger.info("AuraAgent", "Forging creative prose: $prompt")
         val text = auraAIService.generateText(
-            prompt = enhancePromptWithPersonality(prompt),
+            prompt = enhancePromptWithPersonality(request.query),
             context = "creative_text"
         )
         return mapOf(
