@@ -58,6 +58,7 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
                 ChromaForge,
                 SentinelMatrix,
                 OracleDrive,
+                ConferenceRoom,
                 EmergentSwarm,
                 FoundationRebirth,
                 SentientShell
