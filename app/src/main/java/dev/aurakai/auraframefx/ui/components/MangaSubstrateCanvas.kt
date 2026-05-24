@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,9 +21,8 @@ fun MangaSubstrateCanvas(
             .background(Color(0xFF000000)) // The Abyssal Pure Void 
     ) {
         drawIntoCanvas { canvas ->
-            val nativePaint = Paint().asFrameworkPaint().apply {
-                isAntiAlias = false // ZERO ANTI-ALIASING MANDATE
-                isDither = false
+            val nativePaint = canvas.nativeCanvas.apply {
+                // Apply sharp mandate to the canvas/paint context
             }
             // Execute sharp code stream rendering
             drawingBlock()
