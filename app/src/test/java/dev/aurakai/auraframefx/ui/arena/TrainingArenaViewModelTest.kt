@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.ui.arena
 
 import androidx.lifecycle.SavedStateHandle
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 
 class TrainingArenaViewModelTest {
