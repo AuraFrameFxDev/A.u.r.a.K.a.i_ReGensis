@@ -75,7 +75,7 @@ sealed class OnboardingStep {
 @Composable
 fun AuraKaiOnboardingFlow(
     onComplete: () -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel()
+    viewModel: OnboardingViewModel = hiltViewModel<OnboardingViewModel>()
 ) {
     var currentStep by remember { mutableStateOf<OnboardingStep>(OnboardingStep.Ignition) }
     var selectedArchetype by remember { mutableStateOf<String?>(null) }

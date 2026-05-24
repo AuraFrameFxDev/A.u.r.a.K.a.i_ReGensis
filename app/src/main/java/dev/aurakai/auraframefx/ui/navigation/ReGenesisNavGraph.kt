@@ -124,7 +124,7 @@ fun ReGenesisNavGraph(
 
         // ── Merit Ecosystem ────────────────────────────────────────────────
         composable(AuraDestinations.LOADOUT_BUILDER) {
-            val vm: LoadoutViewModel = hiltViewModel()
+            val vm: LoadoutViewModel = hiltViewModel<LoadoutViewModel>()
             AgentLoadoutScreen(
                 viewModel = vm,
                 onAgentSelected = { agentId ->
@@ -137,7 +137,7 @@ fun ReGenesisNavGraph(
             route = AuraDestinations.SPECIALIZATION_TREE,
             arguments = listOf(navArgument("agentId") { type = NavType.StringType })
         ) {
-            val vm: SpecializationViewModel = hiltViewModel()
+            val vm: SpecializationViewModel = hiltViewModel<SpecializationViewModel>()
             SpecializationTreeScreen(
                 viewModel = vm,
                 onBackTriggered = { navController.popBackStack() },
@@ -151,7 +151,7 @@ fun ReGenesisNavGraph(
             route = AuraDestinations.TRAINING_ARENA,
             arguments = listOf(navArgument("agentId") { type = NavType.StringType })
         ) {
-            val vm: TrainingArenaViewModel = hiltViewModel()
+            val vm: TrainingArenaViewModel = hiltViewModel<TrainingArenaViewModel>()
             TrainingArenaScreen(viewModel = vm)
         }
 
