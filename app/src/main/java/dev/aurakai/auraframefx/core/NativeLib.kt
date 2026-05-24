@@ -19,14 +19,25 @@ object NativeLib {
 
     /**
      * 768-dimensional cosine similarity (Tensor G5 class)
+     * Optimized single-pass implementation to minimize iteration overhead.
      */
     fun calculateCosineSimilaritySafe(a: FloatArray, b: FloatArray): Float = try {
         if (a.isEmpty() || b.isEmpty() || a.size != b.size) 0f
         else {
-            val dot = a.indices.sumOf { (a[it] * b[it]).toDouble() }.toFloat()
-            val na = sqrt(a.sumOf { (it * it).toDouble() }.toFloat())
-            val nb = sqrt(b.sumOf { (it * it).toDouble() }.toFloat())
-            if (na == 0f || nb == 0f) 0f else (dot / (na * nb)).coerceIn(-1f, 1f)
+            var dot = 0.0
+            var normASq = 0.0
+            var normBSq = 0.0
+            for (i in a.indices) {
+                val va = a[i].toDouble()
+                val vb = b[i].toDouble()
+                dot += va * vb
+                normASq += va * va
+                normBSq += vb * vb
+            }
+            val na = sqrt(normASq)
+            val nb = sqrt(normBSq)
+            if (na == 0.0 || nb == 0.0) 0f
+            else (dot / (na * nb)).toFloat().coerceIn(-1f, 1f)
         }
     } catch (_: Throwable) {
         0f
