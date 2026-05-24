@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
