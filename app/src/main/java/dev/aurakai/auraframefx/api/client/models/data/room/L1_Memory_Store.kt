@@ -5,6 +5,16 @@ import java.util.concurrent.ConcurrentHashMap
 object L1_Memory_Store {
     private val store = ConcurrentHashMap<String, Any>()
 
+    /**
+     * Finds stored values whose keys match the given glob-like pattern (case-insensitive).
+     *
+     * The pattern may include the wildcard `*`, which matches zero or more characters. An empty or blank
+     * pattern yields an empty list. Matching prefers simple fast paths: exact equality and trailing-`*`
+     * prefix matching; other patterns are treated as full-string globs.
+     *
+     * @param pattern Glob-like pattern to match against keys; `*` is the only supported metacharacter.
+     * @return A list of stored values whose keys match `pattern`. 
+     */
     fun query(pattern: String): List<Any> {
         if (pattern.isBlank()) return emptyList()
 
@@ -44,6 +54,12 @@ object L1_Memory_Store {
         return results
     }
 
+    /**
+     * Stores the given value under the specified key in the in-memory store, overwriting any existing entry.
+     *
+     * @param key The key under which to store the value.
+     * @param value The value to store; may be any object.
+     */
     fun store(key: String, value: Any) {
         store[key] = value
     }

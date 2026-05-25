@@ -150,6 +150,17 @@ object NexusMemoryCore {
         L1_Memory_Store.commit(key, value.toString())
     }
 
+    /**
+     * Retrieves stored values whose keys match the given search pattern.
+     *
+     * The `pattern` supports the `*` wildcard. If `pattern` is blank an empty list is returned.
+     * - If `pattern` contains no `*`, performs a case-insensitive exact key match.
+     * - If `pattern` ends with a single trailing `*` (and no other `*`), performs a case-insensitive prefix match.
+     * - Otherwise, treats `pattern` as a wildcard expression where `*` maps to `.*` and performs a case-insensitive regex match.
+     *
+     * @param pattern Search pattern to match keys against (may include `*` as a wildcard).
+     * @return A list of matched values converted to strings, in no particular order.
+     */
     fun query(pattern: String): List<String> {
         if (pattern.isBlank()) return emptyList()
 
@@ -189,6 +200,15 @@ object NexusMemoryCore {
         return results
     }
 
+    /**
+     * Records a watermark receipt and persists it to the L1_Memory_Store.
+     *
+     * The persisted entry is stored under the key "WATERMARK" and contains a single-line receipt:
+     * "Lived_Receipt | {action} | Timestamp: {timestamp}".
+     *
+     * @param action Short label describing the action or event being watermarked.
+     * @param timestamp Epoch timestamp in milliseconds representing when the action occurred.
+     */
     fun watermark(action: String, timestamp: Long) {
         val receipt = "Lived_Receipt | $action | Timestamp: $timestamp"
         L1_Memory_Store.commit("WATERMARK", receipt)
