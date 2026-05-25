@@ -10,7 +10,7 @@ import { z } from 'zod';
 // Health check server
 import http from 'http';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // Simple in-memory health state
 let isHealthy = true;
