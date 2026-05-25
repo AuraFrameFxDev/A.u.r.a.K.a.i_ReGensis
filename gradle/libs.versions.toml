@@ -69,7 +69,7 @@ timber = "5.0.1"
 bouncycastle = "1.84"
 
 # Testing
-junit = "6.0.3"
+junit = "6.1.0"
 mockk = "1.14.9"
 robolectric = "4.16.1"
 turbine = "1.2.1"
