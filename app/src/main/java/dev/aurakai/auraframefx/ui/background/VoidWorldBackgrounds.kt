@@ -27,18 +27,19 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-// ─── AuraKai Neon Void Palette ────────────────────────────────────────────────
-private val Void = Color(0xFF020205)
-private val VoidDeep = Color(0xFF000208)
-private val Cyan = Color(0xFF00F0FF)
-private val CyanDim = Color(0xFF00B8CC)
-private val Teal = Color(0xFF00FFC8)
-private val Blue = Color(0xFF00D9FF)
-private val Orange = Color(0xFFFF6600)
-private val Magenta = Color(0xFFCC00FF)
-private val Green = Color(0xFF39FF14)
-private val Violet = Color(0xFF8A2BE2)
-private val White = Color(0xFFE8FAFF)
+// ─── AuraKai Neon Void Palette (canonical — locked from art reference) ────────
+// Base: deep violet/indigo void. Accents: cyan + magenta + electric purple.
+private val Void       = Color(0xFF050008)   // Master void — deep purple-black
+private val VoidDeep   = Color(0xFF080012)   // Deeper void — violet layer
+private val VoidSurface= Color(0xFF0D0018)   // Surface void — panel ambient
+private val Cyan       = Color(0xFF00F5FF)   // Crystal edge cyan (image 1)
+private val CyanDim    = Color(0xFF00B8CC)   // Dim cyan
+private val Teal       = Color(0xFF00FFD4)   // Phoenix teal (image 12)
+private val Blue       = Color(0xFF00D9FF)   // Mid-range blue
+private val Magenta    = Color(0xFFFF00D4)   // Hot magenta (image 12 rings) — NOT orange
+private val Green      = Color(0xFF39FF14)   // Sentinel phosphor
+private val Violet     = Color(0xFF7B00FF)   // Electric purple (crystal structure)
+private val White      = Color(0xFFE8FAFF)   // HUD highlight
 
 // ─── Route → Background mapping ───────────────────────────────────────────────
 enum class VoidBackground {
@@ -70,7 +71,8 @@ fun VoidWorldBackground(type: VoidBackground, modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
             .background(
-                Brush.verticalGradient(listOf(VoidDeep, Void))
+                // Violet/indigo gradient base — locked from image 1 (crystal city) + image 8 (city dive)
+                Brush.verticalGradient(listOf(VoidDeep, Void, VoidSurface.copy(alpha = 0.6f)))
             )
     ) {
         when (type) {
@@ -186,7 +188,7 @@ private fun ChromaVoid() {
         listOf(
             Source(0.15f, 0.00f, Cyan),
             Source(0.38f, 0.20f, Magenta),
-            Source(0.62f, 0.42f, Orange),
+            Source(0.62f, 0.42f, Violet),
             Source(0.82f, 0.65f, Teal),
             Source(0.50f, 0.85f, Blue)
         )
@@ -320,10 +322,11 @@ private fun OracleVoid() {
 @Composable
 private fun ChaosVoid() {
     val tr = rememberInfiniteTransition(label = "chao")
-    val t   by tr.animateFloat(0f, 1f, infiniteRepeatable(tween(6000, easing = LinearEasing)), "t")
-    val flicker by tr.animateFloat(0f, 1f, infiniteRepeatable(tween(120, easing = LinearEasing), RepeatMode.Restart), "f")
+    val t by tr.animateFloat(0f, 1f, infiniteRepeatable(tween(6000, easing = LinearEasing)), "t")
 
     val boltSeeds = remember { List(8) { Pair(Random.nextLong(), Random.nextLong()) } }
+    // remember must be in Composable scope — NOT inside Canvas lambda
+    val chaos = remember { List(40) { Triple(Random.nextFloat(), Random.nextFloat(), Random.nextFloat()) } }
 
     Canvas(Modifier.fillMaxSize()) {
         val w = size.width; val h = size.height
@@ -348,8 +351,8 @@ private fun ChaosVoid() {
                 repeat(segments) {
                     val nx = cx + (rnd.nextFloat() - 0.5f) * w * 0.15f
                     val ny = cy + h / segments
-                    drawLine(Orange.copy(alpha = alpha * 0.9f), Offset(cx, cy), Offset(nx, ny), 2f)
-                    drawLine(White.copy(alpha = alpha * 0.4f), Offset(cx, cy), Offset(nx, ny), 5f)
+                    drawLine(Magenta.copy(alpha = alpha * 0.9f), Offset(cx, cy), Offset(nx, ny), 2f)
+                    drawLine(Cyan.copy(alpha = alpha * 0.35f), Offset(cx, cy), Offset(nx, ny), 5f)
                     cx = nx; cy = ny
                 }
 
@@ -369,12 +372,11 @@ private fun ChaosVoid() {
         }
 
         // Chaos particles flying across
-        val chaos = remember { List(40) { Triple(Random.nextFloat(), Random.nextFloat(), Random.nextFloat()) } }
         chaos.forEach { (sx, sy, ph) ->
             val pt = (t * 2f + ph) % 1f
             val px = (sx + pt * 0.5f) % 1f
             val py = sy + sin(pt * PI.toFloat() * 2f + ph * 10f) * 0.08f
-            drawCircle(Orange.copy(alpha = 0.5f - pt * 0.4f), 2.5f, Offset(px * w, py * h))
+            drawCircle(Magenta.copy(alpha = 0.5f - pt * 0.4f), 2.5f, Offset(px * w, py * h))
         }
     }
 }
@@ -477,52 +479,127 @@ private fun SwarmVoid() {
     }
 }
 
-// ─── 9. FOUNDATION CRYSTAL — Crystalline structures growing from center ────────
+// ─── 9. FOUNDATION CRYSTAL — Angular crystal shards flying in violet void ─────
+// Visual reference: image 1 (purple/cyan crystal city towers diving at angle)
+// Deep violet/indigo void with geometric slabs at 30–45° angles, cyan neon edges,
+// violet semi-transparent faces — multiple depth layers for parallax feel.
 @Composable
 private fun CrystalVoid() {
-    val tr = rememberInfiniteTransition(label = "crys")
-    val t  by tr.animateFloat(0f, 1f, infiniteRepeatable(tween(16000, easing = LinearEasing)), "t")
-    val glow by tr.animateFloat(0.4f, 1f, infiniteRepeatable(tween(3000, easing = FastOutSlowInEasing), RepeatMode.Reverse), "g")
+    data class Shard(
+        val cx: Float, val cy: Float,   // normalised center position
+        val width: Float, val height: Float,
+        val angleDeg: Float,            // rotation angle
+        val depth: Float,               // 0=far/dim, 1=close/bright
+        val faceColor: Color,
+        val edgeColor: Color,
+        val driftX: Float,              // normalised drift speed per cycle
+        val driftY: Float,
+        val phase: Float
+    )
 
-    val branches = remember {
-        List(12) {
-            val baseAngle = it * 2f * PI.toFloat() / 12
-            val depth = 3
-            buildList<Pair<Float, Float>> {
-                fun branch(angle: Float, length: Float, d: Int) {
-                    if (d == 0 || length < 0.02f) return
-                    add(angle to length)
-                    branch(angle + 0.4f, length * 0.65f, d - 1)
-                    branch(angle - 0.4f, length * 0.65f, d - 1)
-                }
-                branch(baseAngle, 0.22f, depth)
-            }
-        }
+    val shards = remember {
+        val rng = Random(0xC4175A1)
+        List(26) {
+            val depth = rng.nextFloat()
+            val facePick = listOf(
+                Color(0xFF3A006F),   // deep electric violet
+                Color(0xFF1A0040),   // almost-black violet
+                Color(0xFF280060),   // mid violet
+                Color(0xFF0D003A)    // near-black indigo
+            ).random(rng)
+            val edgePick = if (rng.nextFloat() > 0.35f) Color(0xFF00F5FF) else Color(0xFFFF00D4)
+            Shard(
+                cx       = rng.nextFloat() * 1.4f - 0.2f,
+                cy       = rng.nextFloat() * 1.6f - 0.3f,
+                width    = (rng.nextFloat() * 0.25f + 0.06f) * (0.5f + depth * 0.5f),
+                height   = (rng.nextFloat() * 0.55f + 0.12f) * (0.5f + depth * 0.5f),
+                angleDeg = rng.nextFloat() * 70f - 35f + if (rng.nextFloat() > 0.5f) 0f else 90f,
+                depth    = depth,
+                faceColor= facePick,
+                edgeColor= edgePick,
+                driftX   = (rng.nextFloat() - 0.5f) * 0.04f,
+                driftY   = (rng.nextFloat() - 0.5f) * 0.025f,
+                phase    = rng.nextFloat()
+            )
+        }.sortedBy { it.depth }  // paint back-to-front
     }
+
+    val tr = rememberInfiniteTransition(label = "crys")
+    val t  by tr.animateFloat(0f, 1f, infiniteRepeatable(tween(28000, easing = LinearEasing)), "t")
+    val breathe by tr.animateFloat(0.85f, 1.0f, infiniteRepeatable(tween(4200, easing = FastOutSlowInEasing), RepeatMode.Reverse), "br")
 
     Canvas(Modifier.fillMaxSize()) {
         val w = size.width; val h = size.height
-        val cx = w / 2f; val cy = h / 2f
 
-        branches.forEachIndexed { bi, branchList ->
-            branchList.forEachIndexed { li, (angle, length) ->
-                val growT = (t + bi * 0.08f + li * 0.02f) % 1f
-                val grown = growT.coerceAtMost(1f)
-                val startR = li * w * 0.04f
-                val endR   = startR + length * w * grown
+        shards.forEach { s ->
+            // Slow drift + subtle breathe
+            val px = ((s.cx + s.driftX * (t + s.phase)) % 1.4f - 0.2f + 1.6f) % 1.6f - 0.2f
+            val py = ((s.cy + s.driftY * (t + s.phase)) % 1.6f - 0.3f + 1.9f) % 1.9f - 0.3f
 
-                val color = if (li % 2 == 0) Blue else Violet
-                drawLine(
-                    color.copy(alpha = glow * (0.5f - li * 0.08f).coerceAtLeast(0.05f)),
-                    Offset(cx + cos(angle) * startR, cy + sin(angle) * startR),
-                    Offset(cx + cos(angle) * endR,   cy + sin(angle) * endR),
-                    strokeWidth = (3f - li * 0.7f).coerceAtLeast(0.8f)
-                )
-                drawCircle(Cyan.copy(alpha = glow * 0.7f), 3f, Offset(cx + cos(angle) * endR, cy + sin(angle) * endR))
+            val scx = px * w
+            val scy = py * h
+            val sw  = s.width  * w * breathe
+            val sh  = s.height * h * breathe
+
+            val faceAlpha = (0.18f + s.depth * 0.30f) // far shards more transparent
+            val edgeAlpha = (0.45f + s.depth * 0.50f)
+            val glowAlpha = s.depth * 0.20f
+
+            // Build shard as rotated parallelogram (Path)
+            val rad = Math.toRadians(s.angleDeg.toDouble()).toFloat()
+            val cosA = cos(rad); val sinA = sin(rad)
+            fun rotX(lx: Float, ly: Float) = scx + lx * cosA - ly * sinA
+            fun rotY(lx: Float, ly: Float) = scy + lx * sinA + ly * cosA
+
+            val hw = sw / 2f; val hh = sh / 2f
+            // Parallelogram: slight shear on X for crystal feel
+            val shear = hw * 0.25f
+            val path = Path().apply {
+                moveTo(rotX(-hw + shear, -hh), rotY(-hw + shear, -hh))
+                lineTo(rotX( hw + shear, -hh), rotY( hw + shear, -hh))
+                lineTo(rotX( hw - shear,  hh), rotY( hw - shear,  hh))
+                lineTo(rotX(-hw - shear,  hh), rotY(-hw - shear,  hh))
+                close()
             }
+
+            // Glow halo behind shard
+            if (glowAlpha > 0.02f) {
+                drawCircle(
+                    brush = Brush.radialGradient(
+                        colors = listOf(s.edgeColor.copy(alpha = glowAlpha), Color.Transparent),
+                        center = Offset(scx, scy),
+                        radius = (sw + sh) * 0.5f
+                    ),
+                    radius = (sw + sh) * 0.5f,
+                    center = Offset(scx, scy)
+                )
+            }
+
+            // Face fill
+            drawPath(path, s.faceColor.copy(alpha = faceAlpha))
+
+            // Cyan/magenta neon edge
+            drawPath(path, s.edgeColor.copy(alpha = edgeAlpha), style = Stroke(strokeWidth = (0.8f + s.depth * 1.8f)))
+
+            // Bright highlight on top edge (edge-lit crystal look)
+            val topStart = Offset(rotX(-hw + shear, -hh), rotY(-hw + shear, -hh))
+            val topEnd   = Offset(rotX( hw + shear, -hh), rotY( hw + shear, -hh))
+            drawLine(
+                color = White.copy(alpha = s.depth * 0.35f),
+                start = topStart, end = topEnd,
+                strokeWidth = 0.8f
+            )
         }
 
-        drawCircle(Brush.radialGradient(listOf(Cyan.copy(alpha = glow * 0.5f), Color.Transparent), Offset(cx, cy), w * 0.08f), w * 0.08f, Offset(cx, cy))
+        // Atmospheric purple-to-transparent vignette at edges
+        drawRect(
+            brush = Brush.radialGradient(
+                colors = listOf(Color.Transparent, Color(0x880A0018)),
+                center = Offset(w / 2, h / 2),
+                radius = maxOf(w, h) * 0.75f
+            ),
+            size = size
+        )
     }
 }
 

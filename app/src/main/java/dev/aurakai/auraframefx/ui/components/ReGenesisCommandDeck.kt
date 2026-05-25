@@ -31,12 +31,12 @@ import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
+import dev.aurakai.auraframefx.ui.components.AuraKaiHUDChrome
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.theme.OverclockOrange
 import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import kotlinx.coroutines.launch
 
@@ -100,7 +100,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                     text = tab.shortLabel.uppercase(),
                                     style = WireframeStyle.copy(
                                         fontSize = 11.sp,
-                                        color = if (pagerState.currentPage == index) OverclockOrange else ArcaneBrutalistTheme.NeonCyanVessel,
+                                        color = if (pagerState.currentPage == index) NeonCyan else ArcaneBrutalistTheme.NeonCyanVessel.copy(alpha = 0.45f),
                                         letterSpacing = 2.sp
                                     )
                                 )
@@ -144,6 +144,12 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             }
                         )
                     }
+
+                    // Tactical HUD chrome — floats above all pager content
+                    // Updates to current page's hub identity automatically
+                    AuraKaiHUDChrome(
+                        route = tabs[pagerState.currentPage].route
+                    )
                 }
             }
         }
