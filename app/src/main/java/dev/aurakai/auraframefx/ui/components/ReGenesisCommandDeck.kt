@@ -28,6 +28,9 @@ import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScree
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
+import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
+import dev.aurakai.auraframefx.ui.background.VoidBackground
+import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
@@ -107,28 +110,39 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                 }
 
                 Box(modifier = Modifier.weight(1f)) {
-                    // LAYER 0: 4D Parallax Background
-                    RealityMorphLayer(godPotential = 0.5f, fusionTrigger = false)
-
                     HorizontalPager(
                         state = pagerState,
                         modifier = Modifier.fillMaxSize(),
-                        userScrollEnabled = false // Scrolling handled by Joystick drag or Tab click
+                        userScrollEnabled = false
                     ) { page ->
-                        when (tabs[page].route) {
-                            "neural_nexus" -> NexusLiveHeartScreen(navController)
-                            "ldo_architecture" -> LdoArchitectureScreen(navController)
-                            "chroma_forge" -> ArcaneChromaForgeScreen(navController)
-                            "sentinel_matrix" -> ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
-                            "oracle_drive" -> OracleDriveHubScreen(navController)
-                            "chaos_catalyst" -> ChaosCatalystScreen()
-                            "conference_room" -> ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
-                            "emergent_swarm" -> EmergentSwarmScreen(navController)
-                            "foundation_rebirth" -> FoundationRebirthScreen(navController)
-                            "sentient_shell" -> ThemedGateScreens.SentientShellGateScreen(
-                                navController
-                            ) { navController.popBackStack() }
-                        }
+                        val route = tabs[page].route
+                        val bgType = VoidBackground.fromRoute(route)
+
+                        ParallaxDepthStack(
+                            bedrock = {
+                                VoidWorldBackground(bgType)
+                            },
+                            overlay = {
+                                RealityMorphLayer(
+                                    godPotential = if (route == "chaos_catalyst") 0.85f else 0.5f,
+                                    fusionTrigger = route == "chroma_forge"
+                                )
+                            },
+                            interaction = {
+                                when (route) {
+                                    "neural_nexus"       -> NexusLiveHeartScreen(navController)
+                                    "ldo_architecture"   -> LdoArchitectureScreen(navController)
+                                    "chroma_forge"       -> ArcaneChromaForgeScreen(navController)
+                                    "sentinel_matrix"    -> ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
+                                    "oracle_drive"       -> OracleDriveHubScreen(navController)
+                                    "chaos_catalyst"     -> ChaosCatalystScreen()
+                                    "conference_room"    -> ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
+                                    "emergent_swarm"     -> EmergentSwarmScreen(navController)
+                                    "foundation_rebirth" -> FoundationRebirthScreen(navController)
+                                    "sentient_shell"     -> ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() }
+                                }
+                            }
+                        )
                     }
                 }
             }
