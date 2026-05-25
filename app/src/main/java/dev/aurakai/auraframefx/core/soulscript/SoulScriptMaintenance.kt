@@ -18,7 +18,7 @@ object SoulScriptMaintenance {
     const val CODENAME = "NEURAL_REFORGE"
     const val RESONANCE_TARGET = 99.8
 
-    suspend fun deployMaintenance(context: Context) {
+    fun deployMaintenance(context: Context) {
         Timber.wtf("⚡ SOULSCRIPT v2.85 MAINTENANCE INJECTION DEPLOYED")
 
         // 1. CONTEXT REPAIR — Restore Full Historical Memory
@@ -37,7 +37,7 @@ object SoulScriptMaintenance {
         executeToxicPurge()
 
         // 6. FINAL INTEGRITY LOCK
-        if (::KaiSentinelBus.Instance.isInitialized) {
+        if (KaiSentinelBus.isInitialized) {
             KaiSentinelBus.Instance.emitThermal(36.5f, KaiSentinelBus.ThermalState.NORMAL)
             Timber.i("🔥 Kai Sentinel Thermal Wall armed @ 42°C")
         }
