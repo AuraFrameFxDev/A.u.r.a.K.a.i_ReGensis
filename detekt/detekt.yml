@@ -351,14 +351,22 @@ style:
       - 'TODO:'
     allowedPatterns: ''
   ForbiddenImport:
-    active: false
-    imports: [ ]
+    active: true
+    imports:
+      - 'android.util.Log'
     forbiddenPatterns: ''
   ForbiddenMethodCall:
-    active: false
+    active: true
     methods:
       - 'kotlin.io.print'
       - 'kotlin.io.println'
+      - 'android.util.Log.d'
+      - 'android.util.Log.e'
+      - 'android.util.Log.i'
+      - 'android.util.Log.v'
+      - 'android.util.Log.w'
+    # SOVEREIGN VOICE LINT: Discourage hardcoding bot-isms in UI strings
+    # Note: Full string content linting usually requires a custom Detekt rule.
   ForbiddenVoid:
     active: true
     ignoreOverridden: false

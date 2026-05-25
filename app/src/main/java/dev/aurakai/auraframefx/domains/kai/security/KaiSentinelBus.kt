@@ -179,6 +179,7 @@ class KaiSentinelBus @Inject constructor() {
 
     companion object {
         lateinit var Instance: KaiSentinelBus
+        val isInitialized: Boolean get() = ::Instance.isInitialized
 
         fun run(function: () -> Unit) {
             function()

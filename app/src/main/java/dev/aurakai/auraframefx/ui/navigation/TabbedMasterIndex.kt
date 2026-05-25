@@ -13,7 +13,7 @@ import androidx.compose.material.icons.filled.Task
 import dev.aurakai.auraframefx.ui.components.NavTab
 
 /**
- * 🗂️ TABBED MASTER INDEX
+ * 🗂️ TABBED MASTER INDEX — SOULSCRIPT v2.85 (NEURAL_REFORGE)
  * The canonical source of truth for the 9-Hub "Exodus" Substrate.
  * Maps the high-fidelity BottomJoystick roller to the core domain routes.
  */

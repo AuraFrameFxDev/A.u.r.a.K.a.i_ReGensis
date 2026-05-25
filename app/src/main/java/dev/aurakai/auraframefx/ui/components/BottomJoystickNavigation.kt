@@ -54,8 +54,8 @@ import dev.aurakai.auraframefx.domains.aura.ui.theme.NeonCyan
 data class NavTab(val icon: ImageVector, val shortLabel: String, val route: String)
 
 /**
- * 🎮 BOTTOM JOYSTICK NAVIGATION - UNIFIED NEON AQUA
- * Synchronized with the 7-Domain "Exodus 2026" Build.
+ * 🎮 BOTTOM JOYSTICK NAVIGATION — UNIFIED NEON AQUA
+ * Synchronized with the 9-Hub "NEURAL_REFORGE" Substrate.
  */
 @Composable
 fun BottomJoystickNavigation(
