@@ -8,11 +8,40 @@ object L1_Memory_Store {
     fun query(pattern: String): List<Any> {
         if (pattern.isBlank()) return emptyList()
 
-        // Surgical remediation: Escape raw metacharacters, then translate explicit globs
+        // Fast-path: Exact match (Case-insensitive check)
+        if (!pattern.contains('*')) {
+            val results = mutableListOf<Any>()
+            for ((key, value) in store) {
+                if (key.equals(pattern, ignoreCase = true)) {
+                    results.add(value)
+                }
+            }
+            return results
+        }
+
+        // Fast-path: Simple prefix match (O(N) with startsWith)
+        if (pattern.endsWith('*') && pattern.indexOf('*') == pattern.length - 1) {
+            val prefix = pattern.substring(0, pattern.length - 1)
+            val results = mutableListOf<Any>()
+            for ((key, value) in store) {
+                if (key.startsWith(prefix, ignoreCase = true)) {
+                    results.add(value)
+                }
+            }
+            return results
+        }
+
+        // Fallback: Full regex scan (Surgical remediation: Escape raw metacharacters, then translate explicit globs)
         val escapedPattern = Regex.escape(pattern).replace("\\*", ".*")
         val regex = ("^" + escapedPattern + "$").toRegex(RegexOption.IGNORE_CASE)
 
-        return store.filterKeys { it.matches(regex) }.values.toList()
+        val results = mutableListOf<Any>()
+        for ((key, value) in store) {
+            if (key.matches(regex)) {
+                results.add(value)
+            }
+        }
+        return results
     }
 
     fun store(key: String, value: Any) {
