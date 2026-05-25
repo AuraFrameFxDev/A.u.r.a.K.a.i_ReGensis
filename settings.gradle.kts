@@ -93,10 +93,10 @@ includeModule(":agents:symbiosis:perplexity")
 // includeModule(":agents:growthmetrics:progression")
 // includeModule(":agents:growthmetrics:tasker")
 
-// --- Extension Modules ---
-// includeModule(":extendsysa")
-// includeModule(":extendsysb")
-// includeModule(":extendsysc")
-// includeModule(":extendsysd")
-// includeModule(":extendsyse")
-// includeModule(":extendsysf")
+// --- Extension Modules (hot-swap expansion slots, activated) ---
+includeModule(":extendsysa")
+includeModule(":extendsysb")
+includeModule(":extendsysc")
+includeModule(":extendsysd")
+includeModule(":extendsyse")
+includeModule(":extendsysf")
