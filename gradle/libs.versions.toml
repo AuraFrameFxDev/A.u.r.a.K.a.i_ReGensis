@@ -76,7 +76,7 @@ turbine = "1.2.1"
 google-services = "4.4.4"
 firebase-crashlytics = "3.0.7"
 desugar-jdk-libs = "2.1.5"
-remote-creation-compose = "1.0.0-alpha010"
+remote-creation-compose = "1.0.0-alpha11"
 
 [libraries]
 # Build Logic Dependencies
