@@ -21,42 +21,42 @@ object TabbedMasterIndex {
     val substrateTabs = listOf(
         NavTab(
             icon = Icons.Default.Dashboard,
-            shortLabel = "SURF",
+            shortLabel = "SysView",
             route = "neural_nexus"
         ),
         NavTab(
             icon = Icons.Default.Hub,
-            shortLabel = "CORE",
+            shortLabel = "LdoDevops",
             route = "ldo_architecture"
         ),
         NavTab(
             icon = Icons.Default.Palette,
-            shortLabel = "AURA",
+            shortLabel = "Chronokinetic Forge",
             route = "chroma_forge"
         ),
         NavTab(
             icon = Icons.Default.Security,
-            shortLabel = "KAI",
+            shortLabel = "Security",
             route = "sentinel_matrix"
         ),
         NavTab(
             icon = Icons.AutoMirrored.Filled.MenuBook,
-            shortLabel = "LIB",
+            shortLabel = "Oracle",
             route = "oracle_drive"
         ),
         NavTab(
             icon = Icons.Default.Groups,
-            shortLabel = "ROOM",
+            shortLabel = "Collab",
             route = "conference_room"
         ),
         NavTab(
             icon = Icons.Default.AutoAwesome,
-            shortLabel = "SWRM",
+            shortLabel = "task",
             route = "emergent_swarm"
         ),
         NavTab(
             icon = Icons.Default.Task,
-            shortLabel = "OPS",
+            shortLabel = "ICE",
             route = "foundation_rebirth"
         ),
         NavTab(
