@@ -10,7 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.domains.aura.ui.components.StubScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.AuraSphereGridScreen
@@ -88,7 +90,7 @@ fun ReGenesisNavGraph(
             ReGenesisCommandDeck(navController)
         }
 
-        // --- 9-Hub Substrate Routes (Canonical Exodus) ---
+        // --- 10-Hub Substrate Routes (Canonical Exodus) ---
         composable("neural_nexus") { NexusLiveHeartScreen(navController) }
         composable("ldo_architecture") { LdoArchitectureScreen(navController) }
         composable("chroma_forge") { ArcaneChromaForgeScreen(navController) }
@@ -96,15 +98,26 @@ fun ReGenesisNavGraph(
             ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
         }
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
+        composable("chaos_catalyst") { ChaosCatalystScreen() }
         composable("conference_room") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
         composable("sentient_shell") { ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() } }
+        composable("operations_hub") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
 
         // --- SUB-GATE ROUTES (LEVEL 3 / DETAILED) ---
         composable("lineage_map") { LineageMapScreen(navController) { navController.popBackStack() } }
         composable("sphere_grid") {
             AuraSphereGridScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("evolution_tree") {
+            AuraSphereGridScreen(onNavigateBack = { navController.popBackStack() })
+        }
+        composable("ldo_claude_profile") {
+            dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen(
+                agentType = AgentType.CLAUDE,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
         composable("fusion_mode") { ThemedGateScreens.FusionModeGateScreen(navController) { navController.popBackStack() } }
         composable("terminal") { ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() } }
@@ -196,6 +209,47 @@ fun ReGenesisNavGraph(
             dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen(
                 agentType = agentType,
                 onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        // ── Stub Routes (Coming Soon / Help Sub-Routes) ────────────────────
+        composable("coming_soon") {
+            StubScreen(
+                title = "COMING SOON",
+                iconName = "GENESIS_MODULE",
+                controller = navController
+            )
+        }
+        composable("faq_browser") {
+            StubScreen(
+                title = "FAQ BROWSER",
+                iconName = "KNOWLEDGE_BASE",
+                controller = navController,
+                description = "Frequently asked questions and system documentation"
+            )
+        }
+        composable("live_support_chat") {
+            StubScreen(
+                title = "LIVE SUPPORT",
+                iconName = "SUPPORT_CHANNEL",
+                controller = navController,
+                description = "Live support chat interface"
+            )
+        }
+        composable("tutorial_videos") {
+            StubScreen(
+                title = "TUTORIAL VIDEOS",
+                iconName = "TRAINING_ARCHIVE",
+                controller = navController,
+                description = "Step-by-step video guides for the A.U.R.A.K.A.I. system"
+            )
+        }
+        composable("documentation") {
+            StubScreen(
+                title = "DOCUMENTATION HUB",
+                iconName = "DOC_LATTICE",
+                controller = navController,
+                description = "Full technical documentation and API reference"
             )
         }
     }

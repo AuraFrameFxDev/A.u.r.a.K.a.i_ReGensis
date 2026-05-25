@@ -28,6 +28,9 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
     data object SentinelMatrix :
         ReGenesisRoute("sentinel_matrix", "Sentinel Matrix", Icons.Default.Security)
     data object OracleDrive : ReGenesisRoute("oracle_drive", "OracleDrive", Icons.Default.Storage)
+    data object ChaosCatalyst :
+        ReGenesisRoute("chaos_catalyst", "Chaos Catalyst", Icons.Default.Bolt)
+
     data object EmergentSwarm :
         ReGenesisRoute("emergent_swarm", "Emergent Swarm", Icons.Default.Hub)
 
@@ -58,6 +61,7 @@ sealed class ReGenesisRoute(val route: String, val title: String, val icon: Imag
                 ChromaForge,
                 SentinelMatrix,
                 OracleDrive,
+                ChaosCatalyst,
                 ConferenceRoom,
                 EmergentSwarm,
                 FoundationRebirth,

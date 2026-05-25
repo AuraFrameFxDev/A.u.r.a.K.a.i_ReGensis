@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
@@ -43,6 +44,11 @@ object TabbedMasterIndex {
             icon = Icons.AutoMirrored.Filled.MenuBook,
             shortLabel = "Oracle",
             route = "oracle_drive"
+        ),
+        NavTab(
+            icon = Icons.Default.Bolt,
+            shortLabel = "Chaos",
+            route = "chaos_catalyst"
         ),
         NavTab(
             icon = Icons.Default.Groups,
