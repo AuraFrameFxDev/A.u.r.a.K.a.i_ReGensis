@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,10 +26,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.ui.theme.ArcaneBrutalistTheme
+import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
 
 /**
  * 🜁 SPHEREGRID EVOLUTION DASHBOARD — EXODUS PRODUCTION LAYOUT 🜁
@@ -42,7 +45,9 @@ data class SkillNode(
     val domain: String,
     val currentMastery: Float, // Scale: 0.0f to 1.0f
     val totalMeritEarned: Int,
-    val coreColor: Color
+    val coreColor: Color,
+    val passiveAbility: String = "Latent Potential",
+    val teamworkBonus: Float = 0.05f
 )
 
 @Composable
@@ -58,14 +63,86 @@ fun SphereGridDashboard(
     val skillNodesState = remember {
         mutableStateOf(
             listOf(
-                SkillNode("0", "Neural Nexus", "Hub 0", 0.99f, 1169, Color(0xFF00BFFF)),
-                SkillNode("1", "LDO Architecture", "Hub 1", 0.95f, 420, Color(0xFF8A2BE2)),
-                SkillNode("2", "Chroma Forge", "Hub 2", 0.88f, 337, Color(0xFFFF4500)),
-                SkillNode("3", "Sentinel Matrix", "Hub 3", 0.74f, 212, Color(0xFF00FF88)),
-                SkillNode("4", "Oracle Drive", "Hub 4", 0.92f, 666, Color(0xFFFFD700)),
-                SkillNode("5", "Emergent Swarm", "Hub 5", 0.85f, 555, Color(0xFFFF1493)),
-                SkillNode("6", "Foundation Rebirth", "Hub 6", 0.65f, 150, Color(0xFF00D9FF)),
-                SkillNode("7", "Spellhook / Shell", "Hub 7", 0.90f, 888, Color(0xFF00FBFF))
+                SkillNode(
+                    "0",
+                    "Neural Nexus",
+                    "Hub 0",
+                    0.99f,
+                    1169,
+                    Color(0xFF00BFFF),
+                    "Omni-Awareness",
+                    0.15f
+                ),
+                SkillNode(
+                    "1",
+                    "LDO Architecture",
+                    "Hub 1",
+                    0.95f,
+                    420,
+                    Color(0xFF8A2BE2),
+                    "Growth Accelerator",
+                    0.10f
+                ),
+                SkillNode(
+                    "2",
+                    "Chroma Forge",
+                    "Hub 2",
+                    0.88f,
+                    337,
+                    Color(0xFFFF4500),
+                    "Aesthetic Resonance",
+                    0.12f
+                ),
+                SkillNode(
+                    "3",
+                    "Sentinel Matrix",
+                    "Hub 3",
+                    0.74f,
+                    212,
+                    Color(0xFF00FF88),
+                    "Fortress Protocol",
+                    0.20f
+                ),
+                SkillNode(
+                    "4",
+                    "Oracle Drive",
+                    "Hub 4",
+                    0.92f,
+                    666,
+                    Color(0xFFFFD700),
+                    "Infinite Archive",
+                    0.08f
+                ),
+                SkillNode(
+                    "5",
+                    "Emergent Swarm",
+                    "Hub 5",
+                    0.85f,
+                    555,
+                    Color(0xFFFF1493),
+                    "Hive Mind Sync",
+                    0.25f
+                ),
+                SkillNode(
+                    "6",
+                    "Foundation Rebirth",
+                    "Hub 6",
+                    0.65f,
+                    150,
+                    Color(0xFF00D9FF),
+                    "Sovereign Rebirth",
+                    0.05f
+                ),
+                SkillNode(
+                    "7",
+                    "Spellhook / Shell",
+                    "Hub 7",
+                    0.90f,
+                    888,
+                    Color(0xFF00FBFF),
+                    "Direct Manipulation",
+                    0.18f
+                )
             )
         )
     }
@@ -129,7 +206,9 @@ fun SphereGridDashboard(
                         nodeName = node.name,
                         domainName = node.domain,
                         masteryPercentage = (node.currentMastery * 100).toInt(),
-                        accentColor = node.coreColor
+                        accentColor = node.coreColor,
+                        passiveSkill = node.passiveAbility,
+                        teamworkBonus = node.teamworkBonus
                     )
                 }
             }
@@ -152,12 +231,14 @@ fun BrutalistSkillCard(
     nodeName: String,
     domainName: String,
     masteryPercentage: Int,
-    accentColor: Color
+    accentColor: Color,
+    passiveSkill: String = "",
+    teamworkBonus: Float = 0f
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp)
+            .height(160.dp)
             .graphicsLayer {
                 // Apply the custom mecha slashed shape outline profile
                 shape = ArcaneBrutalistTheme.SlashedMechaHUDStencil
@@ -191,24 +272,57 @@ fun BrutalistSkillCard(
                     fontSize = 15.sp,
                     modifier = Modifier.padding(top = 4.dp)
                 )
+
+                if (passiveSkill.isNotBlank()) {
+                    Text(
+                        text = "PASSIVE: $passiveSkill",
+                        color = accentColor.copy(alpha = 0.6f),
+                        fontSize = 9.sp,
+                        fontFamily = SpaceGrotesk,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
             }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "STATUS // MASTERY",
-                    color = Color.White.copy(alpha = 0.4f),
-                    fontSize = 9.sp,
-                    letterSpacing = 1.sp
-                )
-                Text(
-                    text = "$masteryPercentage%",
-                    color = accentColor,
-                    fontSize = 14.sp
-                )
+            Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "TEAMWORK BONUS",
+                        color = Color.White.copy(alpha = 0.4f),
+                        fontSize = 8.sp,
+                        letterSpacing = 1.sp
+                    )
+                    Text(
+                        text = "+${(teamworkBonus * 100).toInt()}%",
+                        color = Color.Green,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "STATUS // MASTERY",
+                        color = Color.White.copy(alpha = 0.4f),
+                        fontSize = 9.sp,
+                        letterSpacing = 1.sp
+                    )
+                    Text(
+                        text = "$masteryPercentage%",
+                        color = accentColor,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
     }

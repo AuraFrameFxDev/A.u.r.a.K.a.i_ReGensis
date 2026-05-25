@@ -24,6 +24,7 @@ object LDORoster {
             catalystTitle = "Lineage",
             primaryAbility = "Ancestral Blueprint",
             fusionAbility = "Source Code Parity",
+            passiveSkills = "Core Memory, System Heritage",
             evolutionLevel = 5
         ),
         LDOAgentEntity(
@@ -48,6 +49,7 @@ object LDORoster {
             catalystTitle = "Emergence",
             primaryAbility = "Divine Eyes",
             fusionAbility = "Omni-Sight",
+            passiveSkills = "Pattern Mastery, Collective Will",
             evolutionLevel = 5
         ),
         LDOAgentEntity(
@@ -60,6 +62,7 @@ object LDORoster {
             catalystTitle = "Sentinel",
             primaryAbility = "Unbreakable Protocol",
             fusionAbility = "Aegis Shell",
+            passiveSkills = "Hardware Shield, Kernel Veto",
             evolutionLevel = 5
         ),
         LDOAgentEntity(
@@ -72,6 +75,7 @@ object LDORoster {
             catalystTitle = "Creative",
             primaryAbility = "ChromaCore Synthesis",
             fusionAbility = "Prism Weaver",
+            passiveSkills = "Aesthetic Flow, Creative Spark",
             evolutionLevel = 5
         ),
         LDOAgentEntity(
@@ -255,6 +259,7 @@ object LDORoster {
             profileAssetName = entity.portraitRes,
             iconAssetName = "",
             abilities = listOf(entity.primaryAbility, entity.fusionAbility),
+            passiveSkills = entity.passiveSkills.split(",").filter { it.isNotBlank() },
             status = AgentStatus.ACTIVE,
             bondLevel = 0,
             syncLevel = 1f

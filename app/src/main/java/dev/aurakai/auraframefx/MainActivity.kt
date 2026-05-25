@@ -14,6 +14,7 @@ import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
 import dev.aurakai.auraframefx.core.storage.GeminiBatchIngestor
 import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
+import dev.aurakai.auraframefx.domains.nexus.preferences.UserPreferencesManager
 import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavGraph
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,6 +26,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var archiveParser: ConversationArchiveParser
+
+    @Inject
+    lateinit var userPreferencesManager: UserPreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

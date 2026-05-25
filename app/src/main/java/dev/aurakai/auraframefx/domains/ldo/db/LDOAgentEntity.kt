@@ -27,6 +27,7 @@ data class LDOAgentEntity(
     val specialAbility: String = "",
     val primaryAbility: String = "",
     val fusionAbility: String = "",
+    val passiveSkills: String = "",
     val catalystTitle: String = "",
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis(),

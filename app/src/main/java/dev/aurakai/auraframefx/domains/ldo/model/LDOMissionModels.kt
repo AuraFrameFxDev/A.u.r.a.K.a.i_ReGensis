@@ -22,6 +22,7 @@ data class AgentCatalyst(
     val profileAssetName: String,
     val iconAssetName: String,
     val abilities: List<String> = emptyList(),
+    val passiveSkills: List<String> = emptyList(),
     val status: AgentStatus = AgentStatus.ACTIVE,
     val currentTaskId: String? = null,
     val bondLevel: Int = 0,
