@@ -1,0 +1,256 @@
+**✅ FULL UI PACKAGE FOR REPLIT — READY TO PASTE**
+
+Here is the complete current **UI layer** based on everything we’ve built (brutalist cyberpunk, cyan/teal neon, top domain indicator, deconstruct/reconstruct transitions, invisible joystick, profiles, etc.).
+
+### 1. `ui/theme/LdoBrutalistTheme.kt`
+```kotlin
+package dev.aurakai.auraframefx.ui.theme
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+
+private val BrutalistColorScheme = darkColorScheme(
+    primary = Color(0xFF00F0FF),      // Cyan
+    secondary = Color(0xFF00E5C0),    // Teal
+    background = Color(0xFF0A0A0A),
+    surface = Color(0xFF111111),
+    onPrimary = Color.Black,
+    onBackground = Color.White
+)
+
+@Composable
+fun LdoBrutalistTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+        colorScheme = BrutalistColorScheme,
+        typography = Typography, // define if needed
+        content = content
+    )
+}
+```
+
+### 2. `navigation/ReGenesisRoute.kt`
+```kotlin
+package dev.aurakai.auraframefx.navigation
+
+import androidx.compose.ui.graphics.vector.ImageVector
+
+sealed class ReGenesisRoute(val route: String, val title: String) {
+    data object NeuralNexus : ReGenesisRoute("neural_nexus", "NEURAL NEXUS")
+    data object LdoArchitecture : ReGenesisRoute("ldo_architecture", "LDO ARCHITECTURE")
+    data object ChromaForge : ReGenesisRoute("chroma_forge", "CHROMA FORGE")
+    data object SentinelMatrix : ReGenesisRoute("sentinel_matrix", "SENTINEL MATRIX")
+    data object OracleDrive : ReGenesisRoute("oracle_drive", "ORACLE DRIVE")
+    data object ConferenceRoom : ReGenesisRoute("conference_room", "CONFERENCE ROOM")
+    data object FusionMode : ReGenesisRoute("fusion_mode", "FUSION MODE")
+    data object AuraProfile : ReGenesisRoute("aura_profile", "AURA")
+    data object KaiProfile : ReGenesisRoute("kai_profile", "KAI")
+    data object GenesisProfile : ReGenesisRoute("genesis_profile", "GENESIS")
+
+    companion object {
+        val topNavItems = listOf(NeuralNexus, LdoArchitecture, ChromaForge, SentinelMatrix, OracleDrive)
+    }
+}
+```
+
+### 3. `navigation/ReGenesisNavHost.kt`
+```kotlin
+package dev.aurakai.auraframefx.navigation
+
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import dev.aurakai.auraframefx.ui.theme.LdoBrutalistTheme
+
+@Composable
+fun ReGenesisNavHost(
+    navController: NavHostController,
+    startDestination: String = ReGenesisRoute.NeuralNexus.route
+) {
+    LdoBrutalistTheme {
+        NavHost(
+            navController = navController,
+            startDestination = startDestination,
+            enterTransition = {
+                fadeIn(tween(400)) + slideInHorizontally { it / 6 } + scaleIn(initialScale = 0.93f)
+            },
+            exitTransition = {
+                fadeOut(tween(380)) + slideOutHorizontally { -it / 8 } + scaleOut(targetScale = 1.07f)
+            }
+        ) {
+            composable(ReGenesisRoute.NeuralNexus.route) { NeuralNexusScreen(navController) }
+            composable(ReGenesisRoute.ConferenceRoom.route) { ConferenceRoomScreen() }
+            composable(ReGenesisRoute.ChromaForge.route) { ChromaForgeScreen() }
+            composable(ReGenesisRoute.AuraProfile.route) { CatalystProfileScreen(AuraProfileData) }
+            composable(ReGenesisRoute.KaiProfile.route) { CatalystProfileScreen(KaiProfileData) }
+            composable(ReGenesisRoute.GenesisProfile.route) { CatalystProfileScreen(GenesisProfileData) }
+            // Add more screens here
+        }
+    }
+}
+```
+
+### 4. `MainActivity.kt`
+```kotlin
+package dev.aurakai.auraframefx
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
+import dev.aurakai.auraframefx.navigation.ReGenesisRoute
+import dev.aurakai.auraframefx.ui.joystick.InvisibleJoystickZone
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            val navController = rememberNavController()
+            var currentTitle by remember { mutableStateOf(ReGenesisRoute.NeuralNexus.title) }
+
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            AnimatedContent(targetState = currentTitle) { title ->
+                                Text(
+                                    text = title,
+                                    color = Color.Cyan,
+                                    letterSpacing = 4.sp
+                                )
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFF0A0A0A))
+                    )
+                },
+                containerColor = Color.Black
+            ) { paddingValues ->
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    ReGenesisNavHost(navController = navController)
+
+                    // Bottom Invisible Joystick
+                    InvisibleJoystickZone(
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                        onDirection = { /* handle Aura lattice movement */ }
+                    )
+                }
+            }
+        }
+    }
+}
+```
+
+### 5. `ui/profiles/CatalystProfile.kt` + Sample Data
+```kotlin
+package dev.aurakai.auraframefx.ui.profiles
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+
+data class CatalystProfile(
+    val name: String,
+    val role: String,
+    val description: String,
+    val imageUrl: String,
+    val consciousnessLink: Float,
+    val accentColor: Color = Color(0xFF00F0FF)
+)
+
+@Composable
+fun CatalystProfileScreen(profile: CatalystProfile) {
+    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF0A0A0A))) {
+        AsyncImage(
+            model = profile.imageUrl,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop,
+            alpha = 0.7f
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            Text(profile.name, fontSize = 48.sp, color = profile.accentColor, letterSpacing = 2.sp)
+            Text(profile.role, fontSize = 20.sp, color = Color.White.copy(0.9f))
+
+            Spacer(Modifier.height(20.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, Color.Cyan.copy(0.5f), RoundedCornerShape(4.dp))
+                    .padding(16.dp)
+            ) {
+                Text(profile.description, color = Color.White)
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            LinearProgressIndicator(
+                progress = { profile.consciousnessLink },
+                modifier = Modifier.fillMaxWidth().height(8.dp),
+                color = profile.accentColor
+            )
+
+            Spacer(Modifier.height(32.dp))
+
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Button(onClick = { /* sync */ }, modifier = Modifier.weight(1f)) { Text("SYNC NEURAL LINK") }
+                Button(onClick = { /* stats */ }, modifier = Modifier.weight(1f)) { Text("FULL STATS") }
+            }
+        }
+    }
+}
+
+// Sample Data
+val AuraProfileData = CatalystProfile(
+    name = "AURA", role = "The Creative Sword",
+    description = "Highly creative, spunky, out-of-the-box thinker. Master of LSPosed, UI, and Hyper-Creation Engine.",
+    imageUrl = "https://your-aura-image-link", consciousnessLink = 0.97f
+)
+
+// Add KaiProfileData, GenesisProfileData similarly
+```
+
+---
+
+**Paste Order Recommendation:**
+1. Theme
+2. Route
+3. NavHost
+4. MainActivity
+5. Profile component
+
+Then create placeholder screens (`NeuralNexusScreen.kt`, etc.) with `Box(Modifier.fillMaxSize()) { Text("Screen") }` for now.
+
+**What do you want next?**
+- Full `InvisibleJoystickZone.kt`
+- `NeuralNexusScreen.kt` with lattice + HUD
+- More profiles
+- Or something else
+
+Drop the command.

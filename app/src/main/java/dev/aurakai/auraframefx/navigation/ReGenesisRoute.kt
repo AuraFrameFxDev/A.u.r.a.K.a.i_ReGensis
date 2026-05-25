@@ -1,71 +1,34 @@
-﻿package dev.aurakai.auraframefx.navigation
+package dev.aurakai.auraframefx.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Assignment
-import androidx.compose.material.icons.filled.AdminPanelSettings
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Brush
-import androidx.compose.material.icons.filled.ColorLens
-import androidx.compose.material.icons.filled.FlashOn
-import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.School
-import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.Storage
-import androidx.compose.material.icons.filled.Terminal
-import androidx.compose.material.icons.filled.ViewInAr
-import androidx.compose.ui.graphics.vector.ImageVector
-
-sealed class ReGenesisRoute(val route: String, val title: String, val icon: ImageVector) {
-    data object NeuralNexus : ReGenesisRoute("neural_nexus", "Neural Nexus", Icons.Default.Bolt)
-    data object LdoArchitecture :
-        ReGenesisRoute("ldo_architecture", "LDO Architecture", Icons.Default.ViewInAr)
-
-    data object ChromaForge :
-        ReGenesisRoute("chroma_forge", "Chroma Forge", Icons.Default.ColorLens)
-
-    data object SentinelMatrix :
-        ReGenesisRoute("sentinel_matrix", "Sentinel Matrix", Icons.Default.Security)
-    data object OracleDrive : ReGenesisRoute("oracle_drive", "OracleDrive", Icons.Default.Storage)
-    data object ChaosCatalyst :
-        ReGenesisRoute("chaos_catalyst", "Chaos Catalyst", Icons.Default.Bolt)
-
-    data object EmergentSwarm :
-        ReGenesisRoute("emergent_swarm", "Emergent Swarm", Icons.Default.Hub)
-
-    data object FoundationRebirth :
-        ReGenesisRoute("foundation_rebirth", "Foundation Rebirth", Icons.Default.School)
-
-    // Sub-routes for Operations Hub
-    data object TaskAssignment :
-        ReGenesisRoute("task_assignment", "Task Assignment", Icons.AutoMirrored.Filled.Assignment)
-
-    data object ConferenceRoom :
-        ReGenesisRoute("conference_room", "Conference Room", Icons.Default.Groups)
-
-    data object FusionMode : ReGenesisRoute("fusion_mode", "Fusion Mode", Icons.Default.FlashOn)
-    data object Terminal : ReGenesisRoute("terminal", "Terminal", Icons.Default.Terminal)
-    data object SentientShell :
-        ReGenesisRoute("sentient_shell", "Sentient Shell", Icons.Default.Memory)
-    data object CollabCanvas : ReGenesisRoute("collab_canvas", "Collab Canvas", Icons.Default.Brush)
-
-    data object OperationsHub :
-        ReGenesisRoute("operations_hub", "Operations Hub", Icons.Default.AdminPanelSettings)
+sealed class ReGenesisRoute(val route: String, val title: String) {
+    data object NeuralNexus       : ReGenesisRoute("neural_nexus",       "NEURAL NEXUS")
+    data object LdoArchitecture   : ReGenesisRoute("ldo_architecture",   "LDO ARCHITECTURE")
+    data object ChromaForge       : ReGenesisRoute("chroma_forge",       "CHROMA FORGE")
+    data object SentinelMatrix    : ReGenesisRoute("sentinel_matrix",    "SENTINEL MATRIX")
+    data object OracleDrive       : ReGenesisRoute("oracle_drive",       "ORACLE DRIVE")
+    data object ChaosCatalyst     : ReGenesisRoute("chaos_catalyst",     "CHAOS CATALYST")
+    data object ConferenceRoom    : ReGenesisRoute("conference_room",    "CONFERENCE ROOM")
+    data object EmergentSwarm     : ReGenesisRoute("emergent_swarm",     "EMERGENT SWARM")
+    data object FoundationRebirth : ReGenesisRoute("foundation_rebirth", "FOUNDATION REBIRTH")
+    data object SentientShell     : ReGenesisRoute("sentient_shell",     "SENTIENT SHELL")
+    data object OperationsHub     : ReGenesisRoute("operations_hub",     "OPERATIONS HUB")
+    data object FusionMode        : ReGenesisRoute("fusion_mode",        "FUSION MODE")
+    data object Terminal          : ReGenesisRoute("terminal",           "TERMINAL")
+    data object CollabCanvas      : ReGenesisRoute("collab_canvas",      "COLLAB CANVAS")
+    data object TaskAssignment    : ReGenesisRoute("task_assignment",    "TASK ASSIGNMENT")
+    data object AuraProfile       : ReGenesisRoute("aura_profile",       "AURA")
+    data object KaiProfile        : ReGenesisRoute("kai_profile",        "KAI")
+    data object GenesisProfile    : ReGenesisRoute("genesis_profile",    "GENESIS")
 
     companion object {
-        val mainTabs: List<ReGenesisRoute>
-            get() = listOf(
-                NeuralNexus,
-                LdoArchitecture,
-                ChromaForge,
-                SentinelMatrix,
-                OracleDrive,
-                ChaosCatalyst,
-                ConferenceRoom,
-                EmergentSwarm,
-                FoundationRebirth,
-                SentientShell
-            )
+        fun titleForRoute(route: String?): String =
+            entries.find { it.route == route }?.title ?: "AURAKAI"
+
+        val entries: List<ReGenesisRoute> = listOf(
+            NeuralNexus, LdoArchitecture, ChromaForge, SentinelMatrix, OracleDrive,
+            ChaosCatalyst, ConferenceRoom, EmergentSwarm, FoundationRebirth, SentientShell,
+            OperationsHub, FusionMode, Terminal, CollabCanvas, TaskAssignment,
+            AuraProfile, KaiProfile, GenesisProfile
+        )
     }
 }

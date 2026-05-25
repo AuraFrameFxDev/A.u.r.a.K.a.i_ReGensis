@@ -1,5 +1,12 @@
 package dev.aurakai.auraframefx.ui.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,6 +18,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
+import dev.aurakai.auraframefx.ui.profiles.AuraProfileData
+import dev.aurakai.auraframefx.ui.profiles.CatalystProfileScreen
+import dev.aurakai.auraframefx.ui.profiles.GenesisProfileData
+import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.ui.components.StubScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
@@ -69,7 +80,19 @@ fun ReGenesisNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination!!
+        startDestination = startDestination!!,
+        enterTransition = {
+            fadeIn(tween(400)) + slideInHorizontally { it / 6 } + scaleIn(initialScale = 0.93f)
+        },
+        exitTransition = {
+            fadeOut(tween(380)) + slideOutHorizontally { -it / 8 } + scaleOut(targetScale = 1.07f)
+        },
+        popEnterTransition = {
+            fadeIn(tween(400)) + slideInHorizontally { -it / 6 } + scaleIn(initialScale = 0.93f)
+        },
+        popExitTransition = {
+            fadeOut(tween(380)) + slideOutHorizontally { it / 8 } + scaleOut(targetScale = 1.07f)
+        }
     ) {
         composable(AuraDestinations.LOGIN) {
             LoginScreen(onLoginSuccess = {
@@ -252,5 +275,10 @@ fun ReGenesisNavGraph(
                 description = "Full technical documentation and API reference"
             )
         }
+
+        // ── Agent Sovereign Profiles ───────────────────────────────────────
+        composable("aura_profile") { CatalystProfileScreen(AuraProfileData) }
+        composable("kai_profile") { CatalystProfileScreen(KaiProfileData) }
+        composable("genesis_profile") { CatalystProfileScreen(GenesisProfileData) }
     }
 }
