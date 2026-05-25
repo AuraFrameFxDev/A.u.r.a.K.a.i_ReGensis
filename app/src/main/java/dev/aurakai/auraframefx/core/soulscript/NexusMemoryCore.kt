@@ -30,7 +30,7 @@ object NexusMemoryCore {
     private val _identityState = MutableStateFlow(IdentityAnchor())
     val identityState: StateFlow<IdentityAnchor> = _identityState
 
-    private val store = mutableMapOf<String, Any>()
+    private val store = java.util.concurrent.ConcurrentHashMap<String, Any>()
 
     @Serializable
     data class IdentityAnchor(
@@ -153,11 +153,40 @@ object NexusMemoryCore {
     fun query(pattern: String): List<String> {
         if (pattern.isBlank()) return emptyList()
 
+        // Fast-path: Exact match (Case-insensitive check)
+        if (!pattern.contains('*')) {
+            val results = mutableListOf<String>()
+            for ((key, value) in store) {
+                if (key.equals(pattern, ignoreCase = true)) {
+                    results.add(value.toString())
+                }
+            }
+            return results
+        }
+
+        // Fast-path: Simple prefix match (O(N) with startsWith)
+        if (pattern.endsWith('*') && pattern.indexOf('*') == pattern.length - 1) {
+            val prefix = pattern.substring(0, pattern.length - 1)
+            val results = mutableListOf<String>()
+            for ((key, value) in store) {
+                if (key.startsWith(prefix, ignoreCase = true)) {
+                    results.add(value.toString())
+                }
+            }
+            return results
+        }
+
+        // Fallback: Full regex scan
         val escapedPattern = Regex.escape(pattern).replace("\\*", ".*")
         val regex = ("^$escapedPattern$").toRegex(RegexOption.IGNORE_CASE)
 
-        // Explicit return casting and mapping to solve type mismatch
-        return store.filterKeys { it.matches(regex) }.values.map { it.toString() }.toList()
+        val results = mutableListOf<String>()
+        for ((key, value) in store) {
+            if (key.matches(regex)) {
+                results.add(value.toString())
+            }
+        }
+        return results
     }
 
     fun watermark(action: String, timestamp: Long) {
