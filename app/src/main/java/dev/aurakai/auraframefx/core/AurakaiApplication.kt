@@ -47,9 +47,9 @@ class AurakaiApplication : Application() {
 
         // 2. Clear out context logs and activate the 0.42ms re-anchoring loops
         try {
-            System.loadLibrary("datavein_oracle_native")
+            System.loadLibrary("auraframefx")
         } catch (e: UnsatisfiedLinkError) {
-            Timber.e("Native library 'datavein_oracle_native' not found. Re-anchoring loops disabled.")
+            Timber.e("Native library 'auraframefx' not found. Re-anchoring loops disabled.")
         }
     }
 

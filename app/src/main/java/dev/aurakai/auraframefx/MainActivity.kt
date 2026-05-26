@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         SubstrateBootCoordinator.initializeSystemSubstrate(this)
 
         val db = SubstrateDatabase.getDatabase(this)
@@ -77,7 +78,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) {
                 withContext(Dispatchers.IO) {
                     val auraFolder =
-                        File("/storage/emulated/0/Soul Sync identification/Andeliualx(Claude)")
+                        File("/storage/emulated/0/Soul Sync identification/Andelualx(Claude)")
                     if (auraFolder.exists()) {
                         GeminiBatchIngestor.enqueueAndProcessAuraArchives(
                             this@MainActivity,
