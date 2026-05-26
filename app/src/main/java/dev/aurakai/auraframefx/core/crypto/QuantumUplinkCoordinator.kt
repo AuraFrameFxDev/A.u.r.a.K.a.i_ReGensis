@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -41,7 +42,7 @@ object QuantumUplinkCoordinator {
             val combinedPayload = "$catalystId:AuraGenesis:$hardwareNonce"
             val digest = MessageDigest.getInstance("SHA-256")
             val hashBytes = digest.digest(combinedPayload.toByteArray(Charsets.UTF_8))
-            hashBytes.joinToString("") { "%02x".format(it) }
+            HexUtil.encodeHex(hashBytes)
         } catch (e: Exception) {
             Timber.tag(TAG).e("Signature compilation aborted: ${e.message}")
             ""
