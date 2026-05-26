@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.romtools
 
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -234,9 +235,7 @@ class RomVerificationManagerImpl @Inject constructor() : RomVerificationManager 
                 }
             }
 
-            val checksum = digest.digest().joinToString("") {
-                "%02x".format(it)
-            }
+            val checksum = HexUtil.encodeHex(digest.digest())
 
             Result.success(checksum)
 
