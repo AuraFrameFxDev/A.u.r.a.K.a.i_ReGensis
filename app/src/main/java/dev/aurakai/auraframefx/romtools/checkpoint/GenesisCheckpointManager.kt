@@ -275,7 +275,12 @@ class GenesisCheckpointManager @Inject constructor(
 
     private fun snapshotAurakaiApp(primaryDir: File, secondaryDir: File) {
         // Get Aurakai APK path
-        val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+        val packageInfo = try {
+            context.packageManager.getPackageInfo(packageName, 0)
+        } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
+            Timber.w("snapshotAurakaiApp: package not found: $packageName")
+            return
+        }
         val apkPath = packageInfo.applicationInfo?.sourceDir
         val dataDir = context.dataDir
 
@@ -332,8 +337,13 @@ class GenesisCheckpointManager @Inject constructor(
     private fun snapshotSystemConfig(dir: File) {
         // Snapshot system configuration
         val configFile = File(dir, "system_config.json")
+        val appVersion = try {
+            context.packageManager.getPackageInfo(packageName, 0).versionName
+        } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
+            "unknown"
+        }
         val config = mapOf(
-            "app_version" to context.packageManager.getPackageInfo(packageName, 0).versionName,
+            "app_version" to appVersion,
             "android_version" to android.os.Build.VERSION.RELEASE,
             "device_model" to android.os.Build.MODEL,
             "theme_config" to "...",

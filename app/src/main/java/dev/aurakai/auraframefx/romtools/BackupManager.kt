@@ -79,7 +79,12 @@ class BackupManagerImpl @Inject constructor(
             val partitions = mutableListOf<String>()
 
             // 1. Backup APK
-            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            val packageInfo = try {
+                context.packageManager.getPackageInfo(context.packageName, 0)
+            } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
+                Timber.e("Failed to get package info for backup: ${context.packageName}")
+                return@withContext Result.failure(e)
+            }
             val apkSource = File(packageInfo.applicationInfo!!.sourceDir)
             val apkDest = File(backupDir, "base.apk")
 

@@ -122,7 +122,12 @@ class AurakaiRetentionManagerImpl @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.N)
     private fun backupAurakaiApkAndData(): Result<BackupPaths> {
         return try {
-            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+            val packageInfo = try {
+                context.packageManager.getPackageInfo(packageName, 0)
+            } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
+                Timber.e("backupAurakaiApkAndData: package not found: $packageName")
+                return Result.failure(e)
+            }
             val apkPath = packageInfo.applicationInfo!!.sourceDir
             val dataDir = context.dataDir
 
@@ -284,7 +289,12 @@ esac
 
             val zipFile =
                 File(recoveryZipDir, "aurakai_installer_${System.currentTimeMillis()}.zip")
-            val packageInfo = context.packageManager.getPackageInfo(packageName, 0)
+            val packageInfo = try {
+                context.packageManager.getPackageInfo(packageName, 0)
+            } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
+                Timber.e("generateRecoveryFlashableZip: package not found: $packageName")
+                return Result.failure(e)
+            }
             val apkPath = packageInfo.applicationInfo!!.sourceDir
 
             ZipOutputStream(zipFile.outputStream()).use { zip ->

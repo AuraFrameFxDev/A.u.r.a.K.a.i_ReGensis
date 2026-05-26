@@ -58,6 +58,7 @@ fun Cadberrypi() {
     val position by animateOffsetAsState(targetValue = target, tween(1600, easing = EaseInOutQuad))
 
     LaunchedEffect(Unit) {
+        delay(5000L) // give the app 5s to settle before wandering starts
         while (true) {
             delay(Random.nextLong(1000L, 2800L))
             if (!expanded) {
