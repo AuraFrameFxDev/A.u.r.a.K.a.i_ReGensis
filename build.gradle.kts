@@ -67,6 +67,21 @@ subprojects {
             }
         }
     }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // IDE DEBUGGER WORKAROUND: Fix missing mapPath() in Gradle 9+
+    // ═══════════════════════════════════════════════════════════════════════════
+    (dependencies as? Any)?.let { handler ->
+        try {
+            val mc = handler.javaClass.getMethod("getMetaClass").invoke(handler)
+            mc.javaClass.getMethod("setProperty", String::class.java, Any::class.java)
+                .invoke(mc, "mapPath", object : groovy.lang.Closure<Any?>(handler) {
+                    @Suppress("unused")
+                    fun doCall(path: String) = project.files(path)
+                })
+        } catch (_: Exception) {
+        }
+    }
 }
 
 // Root project level tasks/config can go here if needed

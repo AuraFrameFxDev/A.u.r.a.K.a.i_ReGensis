@@ -118,6 +118,7 @@
 
     <!-- Xposed/LSPosed Module Configuration -->
     <string name="xposed_description">Aurakai AI Framework Hooks - System-level AI platform integration and advanced framework modifications for enhanced AI processing capabilities.</string>
+    <string name="accessibility_service_description">Aurakai Neural Accessibility Service - Monitors system events to optimize AI processing and UI responsiveness.</string>
 
     <!-- Permissions -->
     <string name="permission_receive_integrity_violation_label">Receive Integrity Violation Broadcasts</string>
