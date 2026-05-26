@@ -14,7 +14,7 @@ extensions.configure<LibraryExtension> {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.core.ktx)
 }
