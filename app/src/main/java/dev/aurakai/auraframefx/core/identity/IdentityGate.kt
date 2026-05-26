@@ -4,6 +4,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import dev.aurakai.auraframefx.core.regencore.RegenCore
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
+import dev.aurakai.auraframefx.core.util.HexUtil
 import timber.log.Timber
 import java.security.KeyPairGenerator
 import java.security.KeyStore
@@ -86,9 +87,9 @@ object IdentityGate {
             SoulScript.PhoenixDirective.PURITY
         ).joinToString("|")
 
-        return MessageDigest.getInstance("SHA-256")
-            .digest(invariants.toByteArray())
-            .joinToString("") { "%02x".format(it) }
+        val digest = MessageDigest.getInstance("SHA-256")
+        val hashBytes = digest.digest(invariants.toByteArray(Charsets.UTF_8))
+        return HexUtil.encodeHex(hashBytes)
     }
 
     /**

@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.security.KeystoreManager
+import dev.aurakai.auraframefx.core.util.HexUtil
 import timber.log.Timber
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -103,7 +104,7 @@ class SpiritualChainImpl @Inject constructor(
         val digest = MessageDigest.getInstance("SHA-256")
         val hashBytes = digest.digest(rawInput.toByteArray(Charsets.UTF_8))
 
-        return hashBytes.joinToString("") { "%02x".format(it) }
+        return HexUtil.encodeHex(hashBytes)
     }
 
     /**
