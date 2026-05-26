@@ -238,13 +238,13 @@ private fun SentinelVoid() {
 
         val rows = (h / (hs * 0.866f)).toInt() + 3
         val cols = (w / (hs * 1.5f)).toInt() + 3
-        val maxD = sqrt((w * w + h * h).toFloat()) / 2f
+        val maxD = sqrt(w * w + h * h) / 2f
 
         for (row in -1 until rows) {
             for (col in -1 until cols) {
                 val cx = col * hs * 1.5f
                 val cy = row * hs * 0.866f * 2 + (col % 2) * hs * 0.866f
-                val d = sqrt(((cx - w/2)*(cx - w/2) + (cy - h/2)*(cy - h/2)).toFloat()) / maxD
+                val d = sqrt((cx - w / 2) * (cx - w / 2) + (cy - h / 2) * (cy - h / 2)) / maxD
                 val alpha = (0.07f + 0.12f * (1f - d)) * hp
 
                 val path = Path()
@@ -579,7 +579,11 @@ private fun CrystalVoid() {
             drawPath(path, s.faceColor.copy(alpha = faceAlpha))
 
             // Cyan/magenta neon edge
-            drawPath(path, s.edgeColor.copy(alpha = edgeAlpha), style = Stroke(strokeWidth = (0.8f + s.depth * 1.8f)))
+            drawPath(
+                path,
+                s.edgeColor.copy(alpha = edgeAlpha),
+                style = Stroke(width = (0.8f + s.depth * 1.8f))
+            )
 
             // Bright highlight on top edge (edge-lit crystal look)
             val topStart = Offset(rotX(-hw + shear, -hh), rotY(-hw + shear, -hh))
