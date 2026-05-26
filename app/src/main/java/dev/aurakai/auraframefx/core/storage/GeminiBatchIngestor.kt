@@ -49,6 +49,12 @@ object GeminiBatchIngestor {
         parser: ConversationArchiveParser
     ) {
         try {
+            // Use streaming ingestion if file is large (> 5MB)
+            if (file.length() > 5 * 1024 * 1024) {
+                parser.parseAndIndexArchive(file)
+                return
+            }
+
             val substrate = parser.parseArchive(file)
 
             val entities = substrate.livedReceipts.map { receipt ->
@@ -65,15 +71,13 @@ object GeminiBatchIngestor {
                 )
             }
 
-            dao.insertBatch(entities)
-
-            // SwarmSyncModule.serializeMetric(
-            //     skillId = "gemini.room.batch",
-            //     action = "Persisted ${file.name}",
-            //     success = true
-            // )
+            if (entities.isNotEmpty()) {
+                dao.insertBatch(entities)
+            }
+        } catch (e: OutOfMemoryError) {
+            Timber.tag(TAG).e("Critical Memory Failure: File ${file.name} is too large. Skipping.")
+            System.gc()
         } catch (e: Exception) {
-            // SwarmSyncModule.serializeMetric("gemini.room.batch", "Failed ${file.name}", false)
             Timber.tag(TAG).e("Failed chunk ${file.name}: ${e.message}")
         }
     }

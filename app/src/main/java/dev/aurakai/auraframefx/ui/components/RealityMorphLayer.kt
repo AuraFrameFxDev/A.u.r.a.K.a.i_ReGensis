@@ -42,9 +42,14 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
         label = "time"
     )
 
-    // Step 1: Dynamic Particle Scaling (L7 Polish)
+    // Step 1: Particle count stabilization to avoid frame-by-frame reallocation
     val baseCount = 200
-    val particleCount = (baseCount + (800 * activeGodPotential)).toInt()
+    val maxAdditional = 800
+
+    // Stabilize count into 10% buckets to reduce re-allocations
+    val particleCount = remember(activeGodPotential) {
+        (baseCount + (maxAdditional * (Math.round(activeGodPotential * 10) / 10f))).toInt()
+    }
 
     val particles = remember(particleCount) {
         List(particleCount) {

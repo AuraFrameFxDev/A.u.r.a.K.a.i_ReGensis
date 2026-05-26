@@ -46,20 +46,27 @@ object IdentityGate {
                 "AndroidKeyStore"
             )
 
-            val spec = KeyGenParameterSpec.Builder(
+            val builder = KeyGenParameterSpec.Builder(
                 KEY_ALIAS,
                 KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
             )
                 .setDigests(KeyProperties.DIGEST_NONE)           // Ed25519 doesn't use digest
-                .setIsStrongBoxBacked(true)                      // Prefer hardware StrongBox
                 .setUserAuthenticationRequired(false)            // Can be enabled later
                 .setAttestationChallenge("soulscript-sovereign-${System.currentTimeMillis()}".toByteArray())
-                .build()
 
-            generator.initialize(spec)
-            generator.generateKeyPair()
+            // Attempt StrongBox, fallback to standard TEE if unavailable
+            try {
+                builder.setIsStrongBoxBacked(true)
+                generator.initialize(builder.build())
+                generator.generateKeyPair()
+            } catch (e: Exception) {
+                Timber.w("StrongBox unavailable for IdentityGate, falling back: ${e.message}")
+                builder.setIsStrongBoxBacked(false)
+                generator.initialize(builder.build())
+                generator.generateKeyPair()
+            }
 
-            Timber.tag(TAG).i("✅ Hardened Ed25519 sovereign key generated (StrongBox preferred)")
+            Timber.tag(TAG).i("✅ Hardened Ed25519 sovereign key generated")
             true
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to generate sovereign key — falling back to software")

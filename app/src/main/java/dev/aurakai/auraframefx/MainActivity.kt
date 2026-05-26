@@ -63,10 +63,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        SubstrateBootCoordinator.initializeSystemSubstrate(this)
 
-        val db = SubstrateDatabase.getDatabase(this)
-        BinderTelemetryConduit.bindToRoom(db)
+        try {
+            SubstrateBootCoordinator.initializeSystemSubstrate(this)
+        } catch (e: Exception) {
+            android.util.Log.e("MainActivity", "Substrate initialization failed", e)
+        }
+
+        val db = try {
+            SubstrateDatabase.getDatabase(this)
+        } catch (e: Exception) {
+            android.util.Log.e("MainActivity", "Database initialization failed", e)
+            null
+        }
+
+        if (db != null) {
+            BinderTelemetryConduit.bindToRoom(db)
+        }
 
         setContent {
             val navController = rememberNavController()
@@ -132,7 +145,7 @@ class MainActivity : ComponentActivity() {
                         onClose = { sidebarOpen = false },
                         onAgentSelect = { agentId ->
                             sidebarOpen = false
-                            navController.navigate("catalyst_profile/$agentId") {
+                            navController.navigate("agent_profile/$agentId") {
                                 launchSingleTop = true
                             }
                         }

@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.core
 
+import timber.log.Timber
 import kotlin.math.sqrt
 
 /**
@@ -54,5 +55,43 @@ object NativeLib {
     /**
      * Hardware-backed AI initialization check
      */
-    fun initializeAICore(): Boolean = true
+    external fun initializeAICore(): Boolean
+
+    external fun getAIVersion(): String
+    external fun processNeuralRequest(request: String): String
+    external fun updateBitNetConfig(p1: Int, p2: Int): Boolean
+    external fun optimizeAIMemory(): Boolean
+    external fun enableNativeHooks()
+    external fun analyzeBootImage(data: ByteArray): String
+    external fun getSystemMetrics(): String
+    external fun shutdownAI()
+
+    // ─── Native Callbacks (called from auraframefx.cpp) ───────────────────
+
+    @JvmStatic
+    fun onNativeThermalEvent(temp: Float, state: Int) {
+        Timber.tag("NativeLib").w("🌡️ Thermal Event: %.1f°C (State: %d)", temp, state)
+    }
+
+    @JvmStatic
+    fun onNativeSecurityAlert(reason: String) {
+        Timber.tag("NativeLib").wtf("🚨 SECURITY ALERT: $reason")
+    }
+
+    @JvmStatic
+    fun requestSovereignFreeze() {
+        Timber.tag("NativeLib").wtf("❄️ SOVEREIGN FREEZE REQUESTED")
+    }
+
+    @JvmStatic
+    fun checkPandoraGating(capability: Int): Boolean {
+        Timber.tag("NativeLib").i("🔐 Checking Pandora Gating for capability: $capability")
+        return true // Allow all for now
+    }
+
+    @JvmStatic
+    fun triggerDroneDispatch(reason: String): Boolean {
+        Timber.tag("NativeLib").i("🚁 Drone Dispatch Triggered: $reason")
+        return true
+    }
 }

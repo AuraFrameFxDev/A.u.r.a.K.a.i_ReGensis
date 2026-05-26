@@ -163,7 +163,7 @@ fun UIRecoveryDialog(
                                 onClick = {
                                     scope.launch {
                                         viewModel.resetToDefault()
-                                        onNavigateToRoute("HOME")
+                                        onNavigateToRoute("command_deck")
                                     }
                                 },
                                 modifier = Modifier.fillMaxWidth(),

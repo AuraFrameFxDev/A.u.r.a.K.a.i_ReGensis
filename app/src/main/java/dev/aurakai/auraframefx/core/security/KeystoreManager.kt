@@ -59,7 +59,7 @@ class KeystoreManager @Inject constructor(
         try {
             val keyGenerator =
                 KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, KEYSTORE_PROVIDER)
-            val spec = KeyGenParameterSpec.Builder(
+            val builder = KeyGenParameterSpec.Builder(
                 KEY_ALIAS,
                 KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
             )
@@ -67,33 +67,59 @@ class KeystoreManager @Inject constructor(
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                 .setKeySize(256)
                 .setUserAuthenticationRequired(false)
-                .build()
-            keyGenerator.init(spec)
-            keyGenerator.generateKey()
+
+            // Attempt StrongBox, fallback to standard TEE if unavailable
+            try {
+                builder.setIsStrongBoxBacked(true)
+                keyGenerator.init(builder.build())
+                keyGenerator.generateKey()
+            } catch (e: Exception) {
+                Timber.w("StrongBox unavailable, falling back to standard Keystore: ${e.message}")
+                builder.setIsStrongBoxBacked(false)
+                keyGenerator.init(builder.build())
+                keyGenerator.generateKey()
+            }
+            
             Timber.i("KeystoreManager: Generated new master key ($KEY_ALIAS)")
         } catch (e: Exception) {
             Timber.e(e, "KeystoreManager: Failed to generate master key")
         }
     }
 
-    private fun getMasterKey(): SecretKey {
-        return (keyStore.getEntry(KEY_ALIAS, null) as KeyStore.SecretKeyEntry).secretKey
+    private fun getMasterKey(): SecretKey? {
+        return try {
+            val entry = keyStore.getEntry(KEY_ALIAS, null)
+            if (entry is KeyStore.SecretKeyEntry) {
+                entry.secretKey
+            } else {
+                Timber.w("Keystore entry for $KEY_ALIAS is not a SecretKeyEntry")
+                null
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to retrieve master key from Keystore")
+            null
+        }
     }
 
     fun encrypt(plaintext: ByteArray): ByteArray {
+        val masterKey =
+            getMasterKey() ?: throw IllegalStateException("Master key not available for encryption")
         val cipher = Cipher.getInstance(TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, getMasterKey())
+        cipher.init(Cipher.ENCRYPT_MODE, masterKey)
         val iv = cipher.iv
         val encryptedData = cipher.doFinal(plaintext)
         return iv + encryptedData
     }
 
     fun decrypt(ciphertext: ByteArray): ByteArray {
+        if (ciphertext.size < IV_SIZE) throw IllegalArgumentException("Ciphertext too short")
         val iv = ciphertext.copyOfRange(0, IV_SIZE)
         val encrypted = ciphertext.copyOfRange(IV_SIZE, ciphertext.size)
+        val masterKey =
+            getMasterKey() ?: throw IllegalStateException("Master key not available for decryption")
         val cipher = Cipher.getInstance(TRANSFORMATION)
         val spec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
-        cipher.init(Cipher.DECRYPT_MODE, getMasterKey(), spec)
+        cipher.init(Cipher.DECRYPT_MODE, masterKey, spec)
         return cipher.doFinal(encrypted)
     }
 
