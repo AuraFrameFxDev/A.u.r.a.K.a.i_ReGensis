@@ -170,7 +170,7 @@ androidx-security-crypto = { module = "androidx.security:security-crypto", versi
 androidx-credentials = { module = "androidx.credentials:credentials", version = "1.6.0" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version = "1.6.0" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.2.0" }
-billing-ktx = { module = "com.android.billingclient:billing-ktx", version = "8.3.0" }
+billing-ktx = { module = "com.android.billingclient:billing-ktx", version = "9.0.0" }
 langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.ref = "langchain4j" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 
