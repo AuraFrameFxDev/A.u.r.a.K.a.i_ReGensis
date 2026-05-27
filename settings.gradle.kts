@@ -69,7 +69,11 @@ includeModule(":aura:reactivedesign:auraslab")
 // --- Trinity ---
 includeModule(":trinity:aura")
 
-// --- Kai → SentinelsFortress --- include(":kai") includeModule(":kai:sentinelsfortress:security") includeModule(":kai:sentinelsfortress:systemintegrity") includeModule(":kai:sentinelsfortress:threatmonitor")
+// --- Kai → SentinelsFortress ---
+include(":kai")
+includeModule(":kai:sentinelsfortress:security")
+includeModule(":kai:sentinelsfortress:systemintegrity")
+includeModule(":kai:sentinelsfortress:threatmonitor")
 
 // --- Genesis → OracleDrive ---
 include(":genesis")
@@ -83,7 +87,13 @@ includeModule(":cascade:datastream:routing")
 includeModule(":cascade:datastream:delivery")
 includeModule(":cascade:datastream:taskmanager")
 
-// --- Agents → GrowthMetrics --- includeModule(":agents:growthmetrics:metareflection") includeModule(":agents:growthmetrics:nexusmemory") includeModule(":agents:growthmetrics:spheregrid") includeModule(":agents:growthmetrics:identity") includeModule(":agents:growthmetrics:progression") includeModule(":agents:growthmetrics:tasker")
+// --- Agents → GrowthMetrics ---
+includeModule(":agents:growthmetrics:metareflection")
+includeModule(":agents:growthmetrics:nexusmemory")
+includeModule(":agents:growthmetrics:spheregrid")
+includeModule(":agents:growthmetrics:identity")
+includeModule(":agents:growthmetrics:progression")
+includeModule(":agents:growthmetrics:tasker")
 
 // --- Extension Modules (hot-swap expansion slots, activated) ---
 includeModule(":extendsysa")

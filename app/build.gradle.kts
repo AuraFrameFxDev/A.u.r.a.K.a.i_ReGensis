@@ -94,8 +94,8 @@ dependencies {
     implementation(project(":agents:chaos"))
     implementation(project(":agents:growthmetrics:nexusmemory"))
     implementation(project(":agents:growthmetrics:metareflection"))
-    // implementation(project(":core-module"))
-    // implementation(project(":aura"))
+    implementation(project(":core-module"))
+    implementation(project(":aura"))
     // ... other project deps removed
 
     // UI / Compose

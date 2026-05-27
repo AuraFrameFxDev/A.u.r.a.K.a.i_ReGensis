@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.LibraryExtension
+import org.gradle.kotlin.dsl.dependencies
 
 plugins {
     id("genesis.android.library.hilt")
@@ -10,6 +11,7 @@ extensions.configure<LibraryExtension> {
 
 dependencies {
     implementation(project(":core-module"))
+    implementation(project(":aura"))
     implementation(project(":kai:sentinelsfortress:security"))
     implementation(project(":genesis:oracledrive"))
     implementation(project(":genesis:oracledrive:rootmanagement"))
