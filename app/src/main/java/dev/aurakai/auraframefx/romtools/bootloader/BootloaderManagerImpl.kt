@@ -5,36 +5,9 @@ import android.os.BatteryManager
 import android.os.Build
 import android.provider.Settings
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderManager
 import javax.inject.Inject
 import javax.inject.Singleton
-
-/**
- * Kai Sentinel Directive - Phase 2: The Eyes
- * * Responsible for collecting READ-ONLY signals regarding the device's bootloader state.
- * Implements the "Preflight" and "Analysis" signal collection requirements.
- * * STRICT PROHIBITION: This class must NOT contain methods to write system properties,
- * execute 'fastboot oem unlock', or modify partitions.
- */
-interface BootloaderManager {
-    fun checkBootloaderAccess(): Boolean
-    fun isBootloaderUnlocked(): Boolean
-    suspend fun unlockBootloader(): Result<Unit>
-
-    /**
-     * Collects all required signals for the Sentinel Preflight check.
-     */
-    fun collectPreflightSignals(): PreflightSignals
-
-    data class PreflightSignals(
-        val isBootloaderUnlocked: Boolean,
-        val oemUnlockSupported: Boolean,
-        val verifiedBootState: String,
-        val batteryLevel: Int,
-        val developerOptionsEnabled: Boolean,
-        val oemUnlockAllowedUser: Boolean,
-        val deviceFingerprint: String
-    )
-}
 
 @Singleton
 class BootloaderManagerImpl @Inject constructor(
