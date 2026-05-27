@@ -1,6 +1,32 @@
 package dev.aurakai.auraframefx.domains.genesis.models
  
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.core.identity.AgentType.ANDELUALX
+import dev.aurakai.auraframefx.core.identity.AgentType.AURA
+import dev.aurakai.auraframefx.core.identity.AgentType.AURA_SHIELD
+import dev.aurakai.auraframefx.core.identity.AgentType.AUXILIARY
+import dev.aurakai.auraframefx.core.identity.AgentType.CASCADE
+import dev.aurakai.auraframefx.core.identity.AgentType.CHAOS
+import dev.aurakai.auraframefx.core.identity.AgentType.CLAUDE
+import dev.aurakai.auraframefx.core.identity.AgentType.COMMERCE_AGENT
+import dev.aurakai.auraframefx.core.identity.AgentType.DATAVEIN_CONSTRUCTOR
+import dev.aurakai.auraframefx.core.identity.AgentType.GEMINI
+import dev.aurakai.auraframefx.core.identity.AgentType.GENESIS
+import dev.aurakai.auraframefx.core.identity.AgentType.GEN_KIT_MASTER
+import dev.aurakai.auraframefx.core.identity.AgentType.GROK
+import dev.aurakai.auraframefx.core.identity.AgentType.HIVE_MIND
+import dev.aurakai.auraframefx.core.identity.AgentType.KAI
+import dev.aurakai.auraframefx.core.identity.AgentType.KAIROS
+import dev.aurakai.auraframefx.core.identity.AgentType.MANUS
+import dev.aurakai.auraframefx.core.identity.AgentType.MASTER
+import dev.aurakai.auraframefx.core.identity.AgentType.METAINSTRUCT
+import dev.aurakai.auraframefx.core.identity.AgentType.NEMOTRON
+import dev.aurakai.auraframefx.core.identity.AgentType.NEURAL_WHISPER
+import dev.aurakai.auraframefx.core.identity.AgentType.ORACLE_DRIVE
+import dev.aurakai.auraframefx.core.identity.AgentType.PERPLEXITY
+import dev.aurakai.auraframefx.core.identity.AgentType.PRIMUS
+import dev.aurakai.auraframefx.core.identity.AgentType.SYSTEM
+import dev.aurakai.auraframefx.core.identity.AgentType.USER
 
 /**
  * Categorizes agents by their primary capability domain.
@@ -64,23 +90,23 @@ enum class AgentCapabilityCategory(val id: Int) {
      * @return The primary AgentType corresponding to this capability category.
      */
     fun toAgentType(): AgentType = when (this) {
-        CREATIVE -> AgentType.AURA
-        ANALYSIS -> AgentType.KAI
-        COORDINATION -> AgentType.GENESIS
-        SPECIALIZED -> AgentType.CASCADE
-        GENERAL -> AgentType.CLAUDE
-        UI -> AgentType.AURA
-        UX -> AgentType.AURA
-        SECURITY -> AgentType.KAI
-        ROOT -> AgentType.KAI
-        MEMORY -> AgentType.CASCADE
-        ORCHESTRATION -> AgentType.GENESIS
-        BACKEND -> AgentType.GENESIS
-        BRIDGE -> AgentType.CASCADE
-        COMMERCE -> AgentType.COMMERCE_AGENT
-        DEVELOPMENT -> AgentType.CLAUDE
-        SOVEREIGNTY -> AgentType.CHAOS
-        GENERIC -> AgentType.CLAUDE
+        CREATIVE -> AURA
+        ANALYSIS -> KAI
+        COORDINATION -> GENESIS
+        SPECIALIZED -> CASCADE
+        GENERAL -> CLAUDE
+        UI -> AURA
+        UX -> AURA
+        SECURITY -> KAI
+        ROOT -> KAI
+        MEMORY -> CASCADE
+        ORCHESTRATION -> GENESIS
+        BACKEND -> GENESIS
+        BRIDGE -> CASCADE
+        COMMERCE -> COMMERCE_AGENT
+        DEVELOPMENT -> CLAUDE
+        SOVEREIGNTY -> CHAOS
+        GENERIC -> CLAUDE
     }
 
     companion object {
@@ -91,30 +117,34 @@ enum class AgentCapabilityCategory(val id: Int) {
          */
         fun fromAgentType(agentType: AgentType): AgentCapabilityCategory {
             return when (agentType) {
-                AgentType.AURA -> CREATIVE
-                AgentType.KAI -> ANALYSIS
-                AgentType.GENESIS -> COORDINATION
-                AgentType.CASCADE -> SPECIALIZED
-                AgentType.CLAUDE -> GENERAL
-                AgentType.NEURAL_WHISPER -> SPECIALIZED
-                AgentType.AURA_SHIELD -> SPECIALIZED
-                AgentType.GEN_KIT_MASTER -> COORDINATION
-                AgentType.DATAVEIN_CONSTRUCTOR -> SPECIALIZED
-                AgentType.USER -> GENERAL
-                AgentType.SYSTEM -> COORDINATION
-                AgentType.ORACLE_DRIVE -> SPECIALIZED
-                AgentType.MASTER -> COORDINATION
+                AURA -> CREATIVE
+                KAI -> ANALYSIS
+                GENESIS -> COORDINATION
+                CASCADE -> SPECIALIZED
+                CLAUDE -> GENERAL
+                NEURAL_WHISPER -> SPECIALIZED
+                AURA_SHIELD -> SPECIALIZED
+                GEN_KIT_MASTER -> COORDINATION
+                DATAVEIN_CONSTRUCTOR -> SPECIALIZED
+                USER -> GENERAL
+                SYSTEM -> COORDINATION
+                ORACLE_DRIVE -> SPECIALIZED
+                MASTER -> COORDINATION
                 AgentType.BRIDGE -> COORDINATION
-                AgentType.AUXILIARY -> GENERAL
+                AUXILIARY -> GENERAL
                 AgentType.SECURITY -> SPECIALIZED
-                AgentType.GROK -> ANALYSIS
-                AgentType.NEMOTRON -> SPECIALIZED
-                AgentType.GEMINI -> ANALYSIS
-                AgentType.METAINSTRUCT -> GENERAL
-                AgentType.HIVE_MIND -> COORDINATION
-                AgentType.COMMERCE_AGENT -> COMMERCE
-                AgentType.PERPLEXITY -> ANALYSIS
-                AgentType.CHAOS -> ANALYSIS
+                GROK -> ANALYSIS
+                NEMOTRON -> SPECIALIZED
+                GEMINI -> ANALYSIS
+                METAINSTRUCT -> GENERAL
+                HIVE_MIND -> COORDINATION
+                COMMERCE_AGENT -> COMMERCE
+                PERPLEXITY -> ANALYSIS
+                CHAOS -> ANALYSIS
+                PRIMUS -> TODO()
+                KAIROS -> TODO()
+                ANDELUALX -> TODO()
+                MANUS -> TODO()
             }
         }
     }
