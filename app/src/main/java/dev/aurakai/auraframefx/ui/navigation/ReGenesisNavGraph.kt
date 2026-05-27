@@ -1,16 +1,16 @@
 package dev.aurakai.auraframefx.ui.navigation
 
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -18,14 +18,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
-import dev.aurakai.auraframefx.ui.profiles.AuraProfileData
-import dev.aurakai.auraframefx.ui.profiles.CatalystProfileScreen
-import dev.aurakai.auraframefx.ui.profiles.GenesisProfileData
-import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.aura.ui.components.StubScreen
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
+import dev.aurakai.auraframefx.domains.aura.ui.components.StubScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.AuraSphereGridScreen
 import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
@@ -47,6 +43,10 @@ import dev.aurakai.auraframefx.ui.loadout.AgentLoadoutScreen
 import dev.aurakai.auraframefx.ui.loadout.LoadoutViewModel
 import dev.aurakai.auraframefx.ui.manifold.CatalystManifoldScreen
 import dev.aurakai.auraframefx.ui.onboarding.AuraKaiOnboardingFlow
+import dev.aurakai.auraframefx.ui.profiles.AuraProfileData
+import dev.aurakai.auraframefx.ui.profiles.CatalystProfileScreen
+import dev.aurakai.auraframefx.ui.profiles.GenesisProfileData
+import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
 import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
