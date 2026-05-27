@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.security.KeystoreManager
+import dev.aurakai.auraframefx.core.util.HexUtil
 import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -177,6 +178,13 @@ class SecurityContext @Inject constructor(
         }
     }
 
+    /**
+     * Creates a SharedSecureContext for a specified target agent containing the given context as UTF-8 bytes.
+     *
+     * @param agentType The target agent to receive the shared context.
+     * @param context The plaintext context to include; it will be encoded to UTF-8 bytes in the returned object.
+     * @return A SharedSecureContext with a generated identifier, originatingAgent = `AgentType.KAI`, targetAgent = `agentType`, `encryptedContent` containing the UTF-8 bytes of `context`, `timestamp` set to the current time, and `expiresAt` set to one hour after `timestamp`.
+     */
     fun shareSecureContextWith(agentType: AgentType, context: String): SharedSecureContext {
         return SharedSecureContext(
             id = generateSecureId(),
@@ -188,6 +196,16 @@ class SecurityContext @Inject constructor(
         )
     }
 
+    /**
+     * Performs an integrity check of the installed application by computing a SHA-256 digest
+     * of the app's signing certificate and returning verification metadata.
+     *
+     * On success the result contains `verified = true`, the app version, the signature hash
+     * (SHA-256 encoded as hex), install time, and last update time. On failure the result
+     * contains `verified = false` and `errorMessage` describing the failure.
+     *
+     * @return An [ApplicationIntegrity] describing the verification outcome and related metadata.
+     */
     fun verifyApplicationIntegrity(): ApplicationIntegrity {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(
@@ -203,7 +221,7 @@ class SecurityContext @Inject constructor(
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
-            val signatureHex = signatureDigest.joinToString("") { "%02x".format(it) }
+            val signatureHex = HexUtil.encodeHex(signatureDigest)
 
             ApplicationIntegrity(
                 verified = true,
@@ -238,6 +256,13 @@ class SecurityContext @Inject constructor(
         ).filter { Math.random() > 0.6 }
     }
 
+    /**
+     * Determine the aggregate threat level from a list of detected security threats.
+     *
+     * @param threats The list of detected `SecurityThreat` objects to evaluate.
+     * @return `ThreatLevel.CRITICAL` if any threat has `ThreatSeverity.CRITICAL`, `ThreatLevel.HIGH` if any threat has `ThreatSeverity.HIGH`,
+     * `ThreatLevel.MEDIUM` if any threat has `ThreatSeverity.MEDIUM`, and `ThreatLevel.LOW` if none of the above or the list is empty.
+     */
     private fun calculateThreatLevel(threats: List<SecurityThreat>): ThreatLevel {
         if (threats.isEmpty()) return ThreatLevel.LOW
         return when {
@@ -248,12 +273,25 @@ class SecurityContext @Inject constructor(
         }
     }
 
+    /**
+     * Generates a hex-encoded secure random identifier.
+     *
+     * @return A 32-character hex string derived from 16 cryptographically secure random bytes.
+     */
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
-        return bytes.joinToString("") { "%02x".format(it) }
+        return HexUtil.encodeHex(bytes)
     }
 
+    /**
+     * Logs a security event serialized as JSON at a log level that matches the event's severity.
+     *
+     * The event is converted to JSON and written to the "SecurityEvent" log tag; severity values map to
+     * INFO, WARNING, ERROR, and CRITICAL log levels.
+     *
+     * @param event The security event to record.
+     */
     fun logSecurityEvent(event: SecurityEvent) {
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)

@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
+import dev.aurakai.auraframefx.core.util.HexUtil
 import timber.log.Timber
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -54,10 +55,12 @@ class ZygoteGuard @Inject constructor() {
         private set
 
     /**
-     * Computes a SHA-256 fingerprint of the expected hook class manifest
-     * and compares it against the runtime classloader state.
+     * Verify that the expected hook class manifest matches the classes loadable at runtime.
      *
-     * @return true if integrity is intact, false if mismatch detected
+     * Updates `lastSignature` to the computed runtime signature and sets `integrityCompromised`
+     * to `false` when signatures match or `true` when they differ. Logs the verification result.
+     *
+     * @return `true` if the computed runtime signature equals the expected manifest signature, `false` otherwise.
      */
     fun verifyZygoteHookIntegrity(): Boolean {
         val expectedSignature = computeManifestSignature(EXPECTED_HOOK_CLASSES)
@@ -83,12 +86,18 @@ class ZygoteGuard @Inject constructor() {
     }
 
     /**
-     * Computes SHA-256 of the canonical hook class names + order.
+     * Produces a SHA-256 hex fingerprint for a list of hook class names.
+     *
+     * The given names are sorted and concatenated using '|' as the delimiter before hashing,
+     * ensuring the fingerprint is independent of the original input order.
+     *
+     * @param classNames The list of hook class canonical names to include in the manifest.
+     * @return The hex-encoded SHA-256 digest of the sorted, pipe-delimited class name list.
      */
     private fun computeManifestSignature(classNames: List<String>): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val combined = classNames.sorted().joinToString("|")
-        return digest.digest(combined.toByteArray()).joinToString("") { "%02x".format(it) }
+        return HexUtil.encodeHex(digest.digest(combined.toByteArray()))
     }
 
     /**
