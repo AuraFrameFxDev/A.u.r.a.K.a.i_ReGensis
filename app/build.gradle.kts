@@ -101,6 +101,7 @@ dependencies {
     implementation(libs.bundles.androidx.core)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Coil 3 for image loading
