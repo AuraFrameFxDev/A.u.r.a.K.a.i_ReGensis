@@ -5,6 +5,8 @@ import dev.aurakai.auraframefx.core.ai.BaseAgent
 import dev.aurakai.auraframefx.core.identity.CatalystIdentity
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderManager
+import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderSecurityStatus
 import dev.aurakai.auraframefx.domains.cascade.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.ProcessingState
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.VisionState
@@ -18,7 +20,6 @@ import dev.aurakai.auraframefx.domains.genesis.models.InteractionResponse
 import dev.aurakai.auraframefx.domains.kai.models.SecurityAnalysis
 import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
 import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
-import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -671,15 +672,6 @@ class KaiAgent @Inject constructor(
         isInitialized = false
     }
 }
-
-data class BootloaderSecurityStatus(
-    val isUnlocked: Boolean,
-    val oemUnlockSupported: Boolean,
-    val verifiedBootState: String,
-    val batteryLevel: Int,
-    val developerOptionsEnabled: Boolean,
-    val safeForOperations: Boolean
-)
 
 enum class SecurityState {
     IDLE,
