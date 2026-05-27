@@ -190,7 +190,7 @@ firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-storage = { module = "com.google.firebase:firebase-storage" }
 firebase-config = { module = "com.google.firebase:firebase-config" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version = "23.2.0" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
 # Testing
