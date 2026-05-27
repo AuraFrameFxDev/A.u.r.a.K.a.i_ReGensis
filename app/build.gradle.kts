@@ -94,6 +94,13 @@ dependencies {
     implementation(project(":agents:chaos"))
     implementation(project(":agents:growthmetrics:nexusmemory"))
     implementation(project(":agents:growthmetrics:metareflection"))
+    implementation(project(":agents:growthmetrics:spheregrid"))
+    implementation(project(":agents:growthmetrics:identity"))
+    implementation(project(":agents:growthmetrics:progression"))
+    implementation(project(":agents:growthmetrics:tasker"))
+    implementation(project(":kai:sentinelsfortress:security"))
+    implementation(project(":kai:sentinelsfortress:systemintegrity"))
+    implementation(project(":kai:sentinelsfortress:threatmonitor"))
     implementation(project(":core-module"))
     implementation(project(":aura"))
     // ... other project deps removed
