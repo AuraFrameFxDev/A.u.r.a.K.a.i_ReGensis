@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.security
 
 import android.content.Context
-import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.utils.i
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.i
 import io.mockk.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*

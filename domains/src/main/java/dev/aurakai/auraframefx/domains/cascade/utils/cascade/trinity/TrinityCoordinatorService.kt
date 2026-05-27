@@ -2,10 +2,10 @@ package dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity
 
 import androidx.lifecycle.viewModelScope
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.cascade.utils.d
-import dev.aurakai.auraframefx.domains.cascade.utils.e
-import dev.aurakai.auraframefx.domains.cascade.utils.i
-import dev.aurakai.auraframefx.domains.cascade.utils.w
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.d
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.e
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.i
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.w
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType

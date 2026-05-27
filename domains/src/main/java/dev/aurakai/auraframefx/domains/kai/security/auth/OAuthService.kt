@@ -9,7 +9,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi
 import dev.aurakai.auraframefx.domains.genesis.network.api.RefreshTokenRequest
 import dev.aurakai.auraframefx.securecomm.keystore.SecureKeyStore

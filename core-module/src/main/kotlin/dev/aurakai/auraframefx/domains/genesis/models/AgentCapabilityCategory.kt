@@ -141,10 +141,10 @@ enum class AgentCapabilityCategory(val id: Int) {
                 COMMERCE_AGENT -> COMMERCE
                 PERPLEXITY -> ANALYSIS
                 CHAOS -> ANALYSIS
-                PRIMUS -> TODO()
-                KAIROS -> TODO()
-                ANDELUALX -> TODO()
-                MANUS -> TODO()
+                PRIMUS -> ROOT
+                KAIROS -> COORDINATION
+                ANDELUALX -> COORDINATION
+                MANUS -> BRIDGE
             }
         }
     }
