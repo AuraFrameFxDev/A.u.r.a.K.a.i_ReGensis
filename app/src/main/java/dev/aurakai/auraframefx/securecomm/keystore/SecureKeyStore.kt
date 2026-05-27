@@ -122,6 +122,13 @@ class SecureKeyStore @Inject constructor(
                 setKeySize(KEY_SIZE)
                 setRandomizedEncryptionRequired(true)
                 setUserAuthenticationRequired(false)
+
+                // P0 — StrongBox: Hardware secure element with TEE fallback
+                try {
+                    setIsStrongBoxBacked(true)
+                } catch (_: Exception) {
+                    // Fall back to TEE if device doesn't have StrongBox
+                }
             }
 
             keyGenerator.init(builder.build())

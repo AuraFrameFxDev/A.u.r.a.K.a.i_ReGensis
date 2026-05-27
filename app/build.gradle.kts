@@ -90,6 +90,10 @@ ksp {
 
 dependencies {
     // Core LDO Infrastructure (Consolidated into app)
+    implementation(project(":domains"))
+    implementation(project(":agents:chaos"))
+    implementation(project(":agents:growthmetrics:nexusmemory"))
+    implementation(project(":agents:growthmetrics:metareflection"))
     // implementation(project(":core-module"))
     // implementation(project(":aura"))
     // ... other project deps removed

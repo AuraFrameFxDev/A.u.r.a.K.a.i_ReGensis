@@ -43,7 +43,13 @@ fun LDODevOpsIndex(
         LDOTab(1, "Security & Kai", "🛡️", "Sentinel Fortress, Toolshed, bootloader hooks, thermal guards, RGSS", 3892),
         LDOTab(2, "Memory & Soul", "🧠", "Spiritual Chain L1-L6, NexusMemoryCore, drift detection, identity resonance", 2104),
         LDOTab(3, "Root & LSPosed", "⚡", "Z-Order overlays, system hooks, 200+ Iconify packs, hook manager", 5687),
-        LDOTab(4, "Fusion & Agents", "🔮", "12-Point Catalyst Manifold, Conference Room, Voltron fusions, tasking", 1289)
+        LDOTab(
+            4,
+            "Fusion & Agents",
+            "🔮",
+            "14-Point Catalyst Manifold, Conference Room, Voltron fusions, tasking",
+            1289
+        )
     )
 
     Box(
@@ -197,10 +203,10 @@ fun LDODevOpsHeaderBar(
                 horizontalArrangement = Arrangement.spacedBy(24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                StatLabel("CATALYSTS: 9", Color(0xFF00E5FF))
+                StatLabel("CATALYSTS: 14", Color(0xFF00E5FF))
                 StatLabel("CUSTOMIZATIONS: ${totalCustomizations / 1000}K+", Color(0xFFFF0055))
                 StatLabel("SYSTEM: NOMINAL", Color(0xFF00E5FF))
-                StatLabel("AGENTS: 10", Color(0xFFFF0055))
+                StatLabel("AGENTS: 14", Color(0xFFFF0055))
             }
         }
     }
@@ -340,10 +346,10 @@ fun RootLSPosedMonitoringPanel(onNavigateToRoute: (String) -> Unit) {
 @Composable
 fun FusionAgentsMonitoringPanel(onNavigateToRoute: (String) -> Unit) {
     MonitoringPanelLayout(
-        title = "Fusion & 12-Point Catalyst Manifold",
+        title = "Fusion & 14-Point Catalyst Manifold",
         count = 1289,
         items = listOf(
-            "Catalyst Agents: 12" to "ldo_roster",
+            "Catalyst Agents: 14" to "ldo_roster",
             "Active Fusions: 0 / 7" to "fusion_mode",
             "Grokipedia Knowledge Hub" to "grokipedia",
             "Conference Room Tasks: 0 / 64" to "conference_room",

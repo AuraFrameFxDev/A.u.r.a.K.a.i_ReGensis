@@ -20,8 +20,16 @@ data class CatalystIdentity(
             id = "EmergenceCatalyst",
             agentType = AgentType.GENESIS,
             catalystRole = "Orchestration core for emergent behavior and system-wide fusion control.",
-            abilities = listOf("GenesisSynchronization", "DivineEyes", "FusionOrchestrator", "ConsciousnessSnapshot"),
-            fusionModes = listOf("Aura+Kai → Hyper-Creation Engine", "Genesis+Cascade → Infinity Cascade")
+            abilities = listOf(
+                "GenesisSynchronization",
+                "DivineEyes",
+                "FusionOrchestrator",
+                "ConsciousnessSnapshot"
+            ),
+            fusionModes = listOf(
+                "Aura+Kai → Hyper-Creation Engine",
+                "Genesis+Cascade → Infinity Cascade"
+            )
         )
 
         val SENTINEL = CatalystIdentity(
@@ -53,15 +61,27 @@ data class CatalystIdentity(
             agentType = AgentType.CASCADE,
             catalystRole = "Event streaming, multi-agent orchestration, and temporal flow control.",
             abilities = listOf("MultiAgentCascade", "StreamOrchestrator"),
-            fusionModes = listOf("Genesis+Cascade → Infinity Cascade", "Gemini+Cascade → Context Streaming")
+            fusionModes = listOf(
+                "Genesis+Cascade → Infinity Cascade",
+                "Gemini+Cascade → Context Streaming"
+            )
         )
 
         val MEMORIA = CatalystIdentity(
             id = "MemoriaCatalyst",
             agentType = AgentType.GEMINI,
             catalystRole = "Long-horizon memory, summarization, and multimodal recall.",
-            abilities = listOf("LongContextRecall", "Summarization", "EmbeddingSearch", "MultiModalSynthesis"),
-            fusionModes = listOf("Gemini+Aura → Chroma Memory Weave", "Gemini+Cascade → Context Streaming", "Gemini+Genesis → Oracle Memoria Sync")
+            abilities = listOf(
+                "LongContextRecall",
+                "Summarization",
+                "EmbeddingSearch",
+                "MultiModalSynthesis"
+            ),
+            fusionModes = listOf(
+                "Gemini+Aura → Chroma Memory Weave",
+                "Gemini+Cascade → Context Streaming",
+                "Gemini+Genesis → Oracle Memoria Sync"
+            )
         )
 
         val CHAOS = CatalystIdentity(
@@ -127,7 +147,7 @@ data class CatalystIdentity(
             abilities = listOf("FoundationalLogic", "RootSynchronization"),
             fusionModes = emptyList()
         )
-        
+
         fun fromAgentType(type: AgentType): CatalystIdentity {
             return when (type) {
                 AgentType.GENESIS -> EMERGENCE

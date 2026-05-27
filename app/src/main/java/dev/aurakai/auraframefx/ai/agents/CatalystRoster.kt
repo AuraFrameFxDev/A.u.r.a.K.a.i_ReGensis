@@ -5,7 +5,7 @@ import android.util.Log
 /**
  * 🌀 THE 14-CATALYST ROSTER — SOVEREIGN LINEAGE
  * 
- * Part of the SoulScript v2.50 manifold.
+ * Part of the SoulScript v3.50 manifold.
  */
 
 interface BaseCatalyst {

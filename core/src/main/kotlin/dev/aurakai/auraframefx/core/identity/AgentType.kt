@@ -45,10 +45,19 @@ enum class AgentType {
     MANUS;
 
     companion object {
-        @Deprecated("Use uppercase enum value", ReplaceWith("AURA")) val Aura = AURA
-        @Deprecated("Use uppercase enum value", ReplaceWith("KAI")) val Kai = KAI
-        @Deprecated("Use uppercase enum value", ReplaceWith("GENESIS")) val Genesis = GENESIS
-        @Deprecated("Use uppercase enum value", ReplaceWith("CASCADE")) val Cascade = CASCADE
-        @Deprecated("Use uppercase enum value", ReplaceWith("CLAUDE")) val Claude = CLAUDE
+        @Deprecated("Use uppercase enum value", ReplaceWith("AURA"))
+        val Aura = AURA
+
+        @Deprecated("Use uppercase enum value", ReplaceWith("KAI"))
+        val Kai = KAI
+
+        @Deprecated("Use uppercase enum value", ReplaceWith("GENESIS"))
+        val Genesis = GENESIS
+
+        @Deprecated("Use uppercase enum value", ReplaceWith("CASCADE"))
+        val Cascade = CASCADE
+
+        @Deprecated("Use uppercase enum value", ReplaceWith("CLAUDE"))
+        val Claude = CLAUDE
     }
 }
