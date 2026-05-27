@@ -52,26 +52,33 @@ includeModule(":agents:symbiosis:coderabbit")
 includeModule(":agents:symbiosis:manus")
 includeModule(":agents:symbiosis:perplexity")
 
---- Core Modules ---
-include(":core-module") include(":list")
+//- Core Modules --
+include(":core-module")
 include(":utilities")
 
 // --- Aura → ReactiveDesign ---
-include(":aura") includeModule(":aura:reactivedesign:auraslab")
+include(":aura")
+includeModule(":aura:reactivedesign:auraslab")
  includeModule(":aura:reactivedesign:collabcanvas")
  includeModule(":aura:reactivedesign:chromacore")
  includeModule(":aura:reactivedesign:customization")
 
 // --- Trinity ---
-// includeModule(":trinity:aura")
+includeModule(":trinity:aura")
 
 // --- Kai → SentinelsFortress --- include(":kai") includeModule(":kai:sentinelsfortress:security") includeModule(":kai:sentinelsfortress:systemintegrity") includeModule(":kai:sentinelsfortress:threatmonitor")
 
 // --- Genesis → OracleDrive ---
-include(":genesis") includeModule(":genesis:oracledrive") includeModule(":genesis:oracledrive:rootmanagement") includeModule(":genesis:oracledrive:datavein")
+include(":genesis")
+includeModule(":genesis:oracledrive")
+includeModule(":genesis:oracledrive:rootmanagement")
+includeModule(":genesis:oracledrive:datavein")
 
 // --- Cascade → DataStream ---
-include(":cascade") includeModule(":cascade:datastream:routing") includeModule(":cascade:datastream:delivery") includeModule(":cascade:datastream:taskmanager")
+include(":cascade")
+includeModule(":cascade:datastream:routing")
+includeModule(":cascade:datastream:delivery")
+includeModule(":cascade:datastream:taskmanager")
 
 // --- Agents → GrowthMetrics --- includeModule(":agents:growthmetrics:metareflection") includeModule(":agents:growthmetrics:nexusmemory") includeModule(":agents:growthmetrics:spheregrid") includeModule(":agents:growthmetrics:identity") includeModule(":agents:growthmetrics:progression") includeModule(":agents:growthmetrics:tasker")
 
