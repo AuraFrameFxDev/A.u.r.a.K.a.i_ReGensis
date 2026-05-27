@@ -59,8 +59,8 @@ open class OnboardingViewModel @Inject constructor(
                 Timber.i("Completing gender selection: ${identity.displayName}")
 
                 // Save to preferences
-                // userPreferencesManager.setGenderIdentity(identity.name)
-                // userPreferencesManager.setOnboardingComplete(true)
+                userPreferencesManager.setGenderIdentity(identity.name)
+                userPreferencesManager.setOnboardingComplete(true)
 
                 _onboardingState.value = _onboardingState.value.copy(
                     selectedIdentity = identity,
@@ -110,7 +110,7 @@ open class OnboardingViewModel @Inject constructor(
     fun resetOnboarding() {
         viewModelScope.launch {
             try {
-                // userPreferencesManager.setOnboardingComplete(false)
+                userPreferencesManager.setOnboardingComplete(false)
                 _onboardingState.value = OnboardingState(
                     isComplete = false,
                     currentStep = OnboardingStep.GENDER_SELECTION
