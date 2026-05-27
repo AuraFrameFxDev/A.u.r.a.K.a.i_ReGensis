@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.cascade
 
+import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
-import dev.aurakai.auraframefx.domains.cascade.utils.AuraFxLogger
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import kotlinx.coroutines.flow.Flow
