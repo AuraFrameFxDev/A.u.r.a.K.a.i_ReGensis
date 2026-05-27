@@ -5,8 +5,6 @@ import com.android.build.api.dsl.LibraryExtension
 
 plugins {
     id("genesis.android.library")
-    id("com.google.devtools.ksp")//Hilt is temporarily disabled due to AGP 9.x incompatibility
-    id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
