@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.kai.viewmodels.IntegrityMonitorViewModel
 import dev.aurakai.auraframefx.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.ui.theme.NeonMagenta

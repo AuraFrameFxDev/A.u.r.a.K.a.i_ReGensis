@@ -37,12 +37,10 @@ open class OnboardingViewModel @Inject constructor(
     private fun loadOnboardingStatus() {
         viewModelScope.launch {
             try {
-                // Check if onboarding is complete
-                // This would typically come from UserPreferencesManager
-                // For now, we'll assume it's not complete
+                val complete = userPreferencesManager.isOnboardingComplete()
                 _onboardingState.value = OnboardingState(
-                    isComplete = false,
-                    currentStep = OnboardingStep.GENDER_SELECTION
+                    isComplete = complete,
+                    currentStep = if (complete) OnboardingStep.COMPLETE else OnboardingStep.GENDER_SELECTION
                 )
             } catch (e: Exception) {
                 Timber.e(e, "Failed to load onboarding status")
