@@ -178,6 +178,13 @@ class SecurityContext @Inject constructor(
         }
     }
 
+    /**
+     * Creates a SharedSecureContext for a specified target agent containing the given context as UTF-8 bytes.
+     *
+     * @param agentType The target agent to receive the shared context.
+     * @param context The plaintext context to include; it will be encoded to UTF-8 bytes in the returned object.
+     * @return A SharedSecureContext with a generated identifier, originatingAgent = `AgentType.KAI`, targetAgent = `agentType`, `encryptedContent` containing the UTF-8 bytes of `context`, `timestamp` set to the current time, and `expiresAt` set to one hour after `timestamp`.
+     */
     fun shareSecureContextWith(agentType: AgentType, context: String): SharedSecureContext {
         return SharedSecureContext(
             id = generateSecureId(),
@@ -249,6 +256,13 @@ class SecurityContext @Inject constructor(
         ).filter { Math.random() > 0.6 }
     }
 
+    /**
+     * Determine the aggregate threat level from a list of detected security threats.
+     *
+     * @param threats The list of detected `SecurityThreat` objects to evaluate.
+     * @return `ThreatLevel.CRITICAL` if any threat has `ThreatSeverity.CRITICAL`, `ThreatLevel.HIGH` if any threat has `ThreatSeverity.HIGH`,
+     * `ThreatLevel.MEDIUM` if any threat has `ThreatSeverity.MEDIUM`, and `ThreatLevel.LOW` if none of the above or the list is empty.
+     */
     private fun calculateThreatLevel(threats: List<SecurityThreat>): ThreatLevel {
         if (threats.isEmpty()) return ThreatLevel.LOW
         return when {

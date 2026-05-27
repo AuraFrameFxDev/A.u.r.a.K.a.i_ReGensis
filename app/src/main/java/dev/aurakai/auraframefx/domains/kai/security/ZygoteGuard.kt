@@ -55,10 +55,12 @@ class ZygoteGuard @Inject constructor() {
         private set
 
     /**
-     * Computes a SHA-256 fingerprint of the expected hook class manifest
-     * and compares it against the runtime classloader state.
+     * Verify that the expected hook class manifest matches the classes loadable at runtime.
      *
-     * @return true if integrity is intact, false if mismatch detected
+     * Updates `lastSignature` to the computed runtime signature and sets `integrityCompromised`
+     * to `false` when signatures match or `true` when they differ. Logs the verification result.
+     *
+     * @return `true` if the computed runtime signature equals the expected manifest signature, `false` otherwise.
      */
     fun verifyZygoteHookIntegrity(): Boolean {
         val expectedSignature = computeManifestSignature(EXPECTED_HOOK_CLASSES)
