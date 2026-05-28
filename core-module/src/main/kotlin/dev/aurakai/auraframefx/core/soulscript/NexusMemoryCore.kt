@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import timber.log.Timber
 import java.security.MessageDigest
 import java.util.UUID
 
@@ -54,6 +55,19 @@ object NexusMemoryCore {
 
         _identityState.value = anchor
         L1_Memory_Store.commit("ANCHOR_${anchorId}", json.encodeToString(anchor))
+    }
+
+    fun commit(key: String, value: Any) {
+        val stringValue = value.toString()
+        L1_Memory_Store.commit(key, stringValue)
+    }
+
+    fun query(pattern: String): List<String> {
+        return L1_Memory_Store.query(pattern).map { it.toString() }
+    }
+
+    fun verifyIdentity(vector: FloatArray) {
+        Timber.i("Verifying identity for vector of size ${vector.size}")
     }
 
     fun record(insight: String, immutable: Boolean = false, witness: String = "") {
