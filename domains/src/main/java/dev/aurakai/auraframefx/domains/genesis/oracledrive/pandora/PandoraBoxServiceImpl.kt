@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.genesis.oracledrive.pandora
 
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraAuditEvent
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxState
-import dev.aurakai.auraframefx.ai.kai.chaos.UnlockResult
-import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
+import dev.aurakai.auraframefx.core.ai.PandoraAuditEvent
+import dev.aurakai.auraframefx.core.ai.PandoraBoxService
+import dev.aurakai.auraframefx.core.ai.PandoraBoxState
+import dev.aurakai.auraframefx.core.ai.UnlockResult
+import dev.aurakai.auraframefx.core.ai.UnlockTier
 import dev.aurakai.auraframefx.di.PandoraPreferences
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import dev.aurakai.auraframefx.domains.kai.security.SecurePreferences

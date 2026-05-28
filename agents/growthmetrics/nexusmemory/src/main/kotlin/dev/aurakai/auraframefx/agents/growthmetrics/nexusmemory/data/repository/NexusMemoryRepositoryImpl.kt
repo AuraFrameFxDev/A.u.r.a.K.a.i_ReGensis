@@ -5,9 +5,9 @@ import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.dao.M
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entity.MemoryEntity
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entity.MemoryType
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.domain.repository.NexusMemoryRepository
+import dev.aurakai.auraframefx.core.security.CryptoManager
 import dev.aurakai.auraframefx.domains.genesis.ai.clients.MultimodalContent
 import dev.aurakai.auraframefx.domains.genesis.ai.clients.VertexAIClient
-import dev.aurakai.auraframefx.securecomm.crypto.CryptoManager
 import kotlinx.coroutines.flow.Flow
 import javax.crypto.spec.SecretKeySpec
 import javax.inject.Inject

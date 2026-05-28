@@ -48,14 +48,14 @@ class CascadeAgent @Inject constructor(
     private val messageBus: dagger.Lazy<AgentMessageBus>,
     private val memoryManager: MemoryManager,
     private val contextManager: ContextManager,
-    private val grokAdapter: dagger.Lazy<dev.aurakai.auraframefx.ai.adapters.GrokAdapter>
+    private val grokAdapter: dagger.Lazy<dev.aurakai.auraframefx.core.ai.GrokAdapter>
 ) : BaseAgent(
     agentName = "Cascade",
     identity = CatalystIdentity.DATA_STREAM
-), dev.aurakai.auraframefx.ai.orchestrator.CascadeOrchestrator {
+), dev.aurakai.auraframefx.core.ai.CascadeOrchestrator {
 
     private val chaosMonitor by lazy {
-        dev.aurakai.auraframefx.ai.chaos.ChaosMonitor(
+        dev.aurakai.auraframefx.core.ai.ChaosMonitor(
             memoryManager,
             grokAdapter.get(),
             this
@@ -73,7 +73,7 @@ class CascadeAgent @Inject constructor(
         )
     }
 
-    override suspend fun notifyAgentActivity(activity: dev.aurakai.auraframefx.ai.models.AgentActivityEvent) {
+    override suspend fun notifyAgentActivity(activity: dev.aurakai.auraframefx.core.ai.AgentActivityEvent) {
         chaosMonitor.onAgentActivity(activity)
     }
 
@@ -83,7 +83,7 @@ class CascadeAgent @Inject constructor(
 
         // Notify ChaosMonitor of agent activity
         notifyAgentActivity(
-            dev.aurakai.auraframefx.ai.models.AgentActivityEvent(
+            dev.aurakai.auraframefx.core.ai.AgentActivityEvent(
                 agentName = message.from,
                 rawPrompt = "Incoming message: ${message.type}",
                 response = message.content,
