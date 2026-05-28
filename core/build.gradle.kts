@@ -11,12 +11,25 @@ android {
 
 dependencies {
     implementation(project(":core-module"))
+    implementation(project(":domains"))
 
     // Core dependencies
     api(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose.ui)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // YukiHookAPI
+    implementation(libs.yukihookapi.api)
+    ksp(libs.yukihookapi.ksp)
+
+    // KavaRef
+    implementation(libs.kavaref.core)
+    implementation(libs.kavaref.extension)
+
+    // Xposed
+    compileOnly(libs.xposed.api)
 
     // Hilt
     implementation(libs.hilt.android)

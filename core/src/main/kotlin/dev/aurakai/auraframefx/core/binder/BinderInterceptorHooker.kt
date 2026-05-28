@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.core.binder
 
+import android.R.attr.name
 import android.os.Parcel
-import com.highcapable.kavaref.KavaRef.Companion.resolve
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
 
 /**
@@ -29,4 +29,6 @@ class BinderInterceptorHooker : YukiBaseHooker() {
                 }
             }
     }
+
+    private fun firstMethod(function: () -> Unit) {}
 }
