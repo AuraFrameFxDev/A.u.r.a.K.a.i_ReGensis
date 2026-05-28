@@ -1,6 +1,8 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
+import dev.aurakai.auraframefx.core.security.EncryptionStatus
+import dev.aurakai.auraframefx.core.security.SecurityContext
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.GenesisBridgeService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
