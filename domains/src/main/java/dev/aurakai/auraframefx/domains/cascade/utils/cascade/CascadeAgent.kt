@@ -1,13 +1,13 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade
 
 import dev.aurakai.auraframefx.core.ai.BaseAgent
+import dev.aurakai.auraframefx.core.ai.MemoryManager
 import dev.aurakai.auraframefx.core.identity.CatalystIdentity
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
 import dev.aurakai.auraframefx.domains.aura.core.AuraAgent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
-import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentPriority
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse

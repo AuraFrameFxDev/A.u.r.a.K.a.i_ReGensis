@@ -40,6 +40,10 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
+    // Networking (for GrokApiClient and MCPServerAdapter)
+    implementation(libs.bundles.networking.ktor)
+    implementation(libs.okhttp)
+
     // Bouncy Castle for CryptoManager
     implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
 }

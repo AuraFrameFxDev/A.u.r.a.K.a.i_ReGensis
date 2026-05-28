@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.core.ai
 
-import dev.aurakai.auraframefx.domains.cascade.utils.memory.MemoryManager
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import timber.log.Timber

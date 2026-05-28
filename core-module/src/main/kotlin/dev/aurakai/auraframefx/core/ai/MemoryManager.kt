@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.cascade.utils.memory
+package dev.aurakai.auraframefx.core.ai
 
 import kotlinx.coroutines.flow.StateFlow
 

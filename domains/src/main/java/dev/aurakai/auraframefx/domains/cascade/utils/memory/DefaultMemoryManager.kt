@@ -1,6 +1,10 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.memory
 
+import dev.aurakai.auraframefx.core.ai.MemoryEntry
+import dev.aurakai.auraframefx.core.ai.MemoryManager
+import dev.aurakai.auraframefx.core.ai.MemoryStats
 import kotlinx.coroutines.flow.MutableStateFlow
+
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.concurrent.ConcurrentHashMap
