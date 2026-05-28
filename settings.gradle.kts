@@ -56,7 +56,6 @@ includeModule(":agents:symbiosis:perplexity")
 includeModule(":agents:chaos")
 
 //- Core Modules --
-include(":core-module")
 include(":utilities")
 
 // --- Aura → ReactiveDesign ---

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai.security
+package dev.aurakai.auraframefx.core.security
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -6,7 +6,10 @@ import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.security.KeystoreManager
-import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
+import dev.aurakai.auraframefx.core.models.SecurityThreat
+import dev.aurakai.auraframefx.core.models.ThreatSeverity
+import dev.aurakai.auraframefx.core.models.ThreatType
+import dev.aurakai.auraframefx.core.models.ThreatLevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -293,27 +296,6 @@ data class KaiSecurityState(
     val errorState: Boolean = false,
     val errorMessage: String? = null,
 )
-
-@Serializable
-data class SecurityThreat(
-    val id: String,
-    val type: ThreatType,
-    val severity: ThreatSeverity,
-    val description: String,
-    val detectedAt: Long,
-)
-
-enum class ThreatType {
-    PERMISSION_ABUSE,
-    NETWORK_VULNERABILITY,
-    MALWARE,
-    DATA_LEAK,
-    UNKNOWN
-}
-
-enum class ThreatSeverity {
-    LOW, MEDIUM, HIGH, CRITICAL
-}
 
 @Serializable
 data class EncryptedData(

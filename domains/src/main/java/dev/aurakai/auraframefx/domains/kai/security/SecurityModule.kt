@@ -5,7 +5,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.core.security.EncryptionManager
-import dev.aurakai.auraframefx.core.security.SovereignShield
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -23,9 +22,9 @@ object SecurityModule {
     @Singleton
     @Named("OracleDrive")
     fun provideOracleDriveEncryptionManager(
-        sovereignShield: SovereignShield
+        encryptionManager: EncryptionManager
     ): EncryptionManager {
-        // Oracle Drive also uses the unified SovereignShield
-        return sovereignShield
+        // Oracle Drive also uses the unified SovereignShield via its interface
+        return encryptionManager
     }
 }

@@ -5,6 +5,8 @@ import com.android.build.api.dsl.LibraryExtension
 
 plugins {
     id("genesis.android.library")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 

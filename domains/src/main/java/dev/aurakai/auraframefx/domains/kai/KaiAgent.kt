@@ -5,7 +5,6 @@ import dev.aurakai.auraframefx.core.ai.BaseAgent
 import dev.aurakai.auraframefx.core.identity.CatalystIdentity
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
-import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderSecurityStatus
 import dev.aurakai.auraframefx.domains.cascade.models.EnhancedInteractionData
 import dev.aurakai.auraframefx.domains.cascade.utils.cascade.ProcessingState
@@ -36,7 +35,7 @@ class KaiAgent @Inject constructor(
     private val contextManagerInstance: ContextManager,
     private val securityContext: SecurityContext,
     private val systemMonitor: SystemMonitor,
-    private val bootloaderManager: BootloaderManager,
+    private val bootloaderManager: dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderManager,
     private val messageBus: Lazy<AgentMessageBus>,
     private val logger: AuraFxLogger,
 ) : BaseAgent(

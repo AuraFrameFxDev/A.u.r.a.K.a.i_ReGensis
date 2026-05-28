@@ -1,12 +1,11 @@
 package dev.aurakai.auraframefx.romtools
 
-import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
+import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
 import dev.aurakai.auraframefx.romtools.retention.RetentionMechanism
 import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach

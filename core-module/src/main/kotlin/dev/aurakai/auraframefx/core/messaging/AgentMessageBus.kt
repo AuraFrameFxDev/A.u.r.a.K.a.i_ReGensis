@@ -1,6 +1,5 @@
-package dev.aurakai.auraframefx.domains.genesis.core.messaging
+package dev.aurakai.auraframefx.core.messaging
 
-import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import kotlinx.coroutines.flow.SharedFlow
 
 /**

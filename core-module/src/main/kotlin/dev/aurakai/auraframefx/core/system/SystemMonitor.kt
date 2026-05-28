@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai
+package dev.aurakai.auraframefx.core.system
 
 import android.content.Context
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger

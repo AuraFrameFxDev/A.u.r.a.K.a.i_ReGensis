@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.romtools.BackupManager
 import dev.aurakai.auraframefx.romtools.BackupManagerImpl
 import dev.aurakai.auraframefx.romtools.FlashManager
@@ -18,7 +19,6 @@ import dev.aurakai.auraframefx.romtools.RomVerificationManager
 import dev.aurakai.auraframefx.romtools.RomVerificationManagerImpl
 import dev.aurakai.auraframefx.romtools.SystemModificationManager
 import dev.aurakai.auraframefx.romtools.SystemModificationManagerImpl
-import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManagerImpl
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManager
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderSafetyManagerImpl

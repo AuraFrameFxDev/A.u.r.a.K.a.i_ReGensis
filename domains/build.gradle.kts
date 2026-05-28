@@ -10,7 +10,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core-module"))
+    api(project(":core-module"))
 
     // Core dependencies
     api(libs.androidx.core.ktx)
