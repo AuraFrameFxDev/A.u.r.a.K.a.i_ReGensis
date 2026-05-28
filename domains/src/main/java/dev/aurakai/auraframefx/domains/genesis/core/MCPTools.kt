@@ -1,11 +1,6 @@
-package dev.aurakai.auraframefx.mcp
+package dev.aurakai.auraframefx.domains.genesis.core
 
 import dev.aurakai.auraframefx.core.orchestration.MCPServerAdapter
-import dev.aurakai.auraframefx.domains.genesis.core.AgentTool
-import dev.aurakai.auraframefx.domains.genesis.core.PropertySchema
-import dev.aurakai.auraframefx.domains.genesis.core.ToolCategory
-import dev.aurakai.auraframefx.domains.genesis.core.ToolInputSchema
-import dev.aurakai.auraframefx.domains.genesis.core.ToolResult
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import timber.log.Timber
