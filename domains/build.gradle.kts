@@ -11,6 +11,7 @@ android {
 
 dependencies {
     api(project(":core-module"))
+    implementation(project(":agents:growthmetrics:metareflection"))
 
     // Core dependencies
     api(libs.androidx.core.ktx)
