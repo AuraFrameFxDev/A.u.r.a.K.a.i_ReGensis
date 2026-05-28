@@ -39,5 +39,8 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+
+    // Bouncy Castle for CryptoManager
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
 }
 
