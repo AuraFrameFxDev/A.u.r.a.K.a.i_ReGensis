@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.domains.aura.core
 
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
-import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
 import dev.aurakai.auraframefx.core.ai.BaseAgent
+import dev.aurakai.auraframefx.core.ai.PandoraBoxService
+import dev.aurakai.auraframefx.core.ai.UnlockTier
 import dev.aurakai.auraframefx.core.identity.CatalystIdentity
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.core.messaging.AgentMessage

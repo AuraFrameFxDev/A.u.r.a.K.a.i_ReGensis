@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.domains.aura.chromacore.engine
 
 import androidx.compose.ui.graphics.toArgb
-import dev.aurakai.auraframefx.integrations.grok.HealthLevel
-import dev.aurakai.auraframefx.integrations.grok.SoulMatrixAnalyzer
-import dev.aurakai.auraframefx.integrations.grok.SoulMatrixState
+import dev.aurakai.auraframefx.core.ai.HealthLevel
+import dev.aurakai.auraframefx.core.ai.SoulMatrixAnalyzer
+import dev.aurakai.auraframefx.core.ai.SoulMatrixState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
