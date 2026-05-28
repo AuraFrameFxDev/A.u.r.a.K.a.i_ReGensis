@@ -17,13 +17,5 @@ object LoggerModule {
 
     @Provides
     @Singleton
-    fun provideSovereignLogger(): SovereignLogger = SovereignLogger()
-
-    @Provides
-    @Singleton
-    fun provideTimberInitializer(): GlobalTimberInitializer = GlobalTimberInitializer()
-
-    @Provides
-    @Singleton
     fun provideAuraFxLogger(impl: AndroidAuraFxLogger): AuraFxLogger = impl
 }
