@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.overlays
+package dev.aurakai.auraframefx.core.ui.overlays
 
 import android.content.Context
 import android.content.Intent
