@@ -26,19 +26,13 @@ data class AIConfig(
 
     companion object {
         /**
-         * Creates default config loading API key from BuildConfig.
-         * Throws if API key is not configured in gradle.properties or environment.
+         * Creates default config.
+         * Note: API key should be provided by the caller or injected.
          */
         fun createDefault(): AIConfig {
-            val apiKey = dev.aurakai.auraframefx.BuildConfig.GEMINI_API_KEY
-                .takeIf { it.isNotBlank() }
-                ?: throw IllegalStateException(
-                    "API key not configured. Add GEMINI_API_KEY to gradle.properties or environment variables."
-                )
-
             return AIConfig(
                 modelName = "AeGenesis-consciousness-v1",
-                apiKey = apiKey,
+                apiKey = "", // Should be provided by app
                 projectId = "AeGenesis-platform"
             )
         }

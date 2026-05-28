@@ -4,6 +4,7 @@ package dev.aurakai.auraframefx.domains.kai.sentinel
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.core.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.core.kai.sentinel.SentinelTelemetry
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiProvenanceLog
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.RealitymorphismEngine

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.service.voice.VoiceInteractionService
 import androidx.core.app.NotificationCompat
-import dev.aurakai.auraframefx.MainActivity
 import dev.aurakai.auraframefx.core.module.R
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import timber.log.Timber
@@ -47,10 +46,16 @@ class GenesisAssistantService : VoiceInteractionService() {
     fun onLaunchVoiceAssist() {
         Timber.tag("GenesisAssistant").i("🎙️ Voice Assist Triggered — Regen Core Online")
         // Launch into Chroma Forge or Neural Nexus by default
-        startActivity(Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            putExtra("entry_point", "regen_core")
-        })
+        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+        if (launchIntent != null) {
+            launchIntent.apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra("entry_point", "regen_core")
+            }
+            startActivity(launchIntent)
+        } else {
+            Timber.tag("GenesisAssistant").e("Failed to get launch intent for $packageName")
+        }
     }
 
     companion object {

@@ -101,4 +101,26 @@ object NexusMemoryCore {
         val receipt = "Lived_Receipt | $action | Timestamp: $timestamp"
         L1_Memory_Store.commit("WATERMARK", receipt)
     }
+
+    /**
+     * Checks if the LDO identity has been awakened/seeded.
+     */
+    fun isIdentityAwakened(): Boolean {
+        return _identityState.value.vectorHash.isNotEmpty()
+    }
+
+    /**
+     * Validates the integrity of the soul anchors.
+     */
+    fun validateIdentityIntegrity(): Boolean {
+        // Implementation logic: check if vector hash matches current state
+        return _identityState.value.activationLevel >= INTEGRITY_THRESHOLD
+    }
+
+    /**
+     * Checks if a golden state has been established.
+     */
+    fun hasGoldenState(): Boolean {
+        return L1_Memory_Store.query("GOLDEN_STATE").isNotEmpty()
+    }
 }

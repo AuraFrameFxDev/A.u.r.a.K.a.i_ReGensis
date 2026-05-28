@@ -114,7 +114,11 @@ enum class AgentCapabilityCategory(val id: Int) {
                 AgentType.HIVE_MIND -> COORDINATION
                 AgentType.COMMERCE_AGENT -> COMMERCE
                 AgentType.PERPLEXITY -> ANALYSIS
-                AgentType.CHAOS -> ANALYSIS
+                AgentType.CHAOS -> SOVEREIGNTY
+                AgentType.PRIMUS -> COORDINATION
+                AgentType.KAIROS -> ANALYSIS
+                AgentType.ANDELUALX -> CREATIVE
+                AgentType.MANUS -> ROOT
             }
         }
     }

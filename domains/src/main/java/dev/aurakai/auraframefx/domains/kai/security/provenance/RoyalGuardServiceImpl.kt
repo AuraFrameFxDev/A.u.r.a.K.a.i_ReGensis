@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
+import dev.aurakai.auraframefx.security.IRoyalGuardService
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,7 +23,7 @@ class RoyalGuardServiceImpl : Service() {
 
     private val json = Json { ignoreUnknownKeys = true }
 
-    private val binder = object : dev.aurakai.auraframefx.security.IRoyalGuardService.Stub() {
+    private val binder = object : IRoyalGuardService.Stub() {
 
         override fun validateAction(actionKey: String, payload: String): Boolean {
             return try {

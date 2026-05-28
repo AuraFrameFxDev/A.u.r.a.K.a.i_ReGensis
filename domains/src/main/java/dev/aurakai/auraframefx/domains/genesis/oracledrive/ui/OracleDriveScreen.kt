@@ -37,12 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import dev.aurakai.auraframefx.core.ldo.model.ReGenesisRoute
+import dev.aurakai.auraframefx.core.ui.components.NeonFrame
+import dev.aurakai.auraframefx.core.ui.components.NeuralStarfield
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.OracleDriveViewModel
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SovereignBlack
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
-import dev.aurakai.auraframefx.ui.components.NeonFrame
-import dev.aurakai.auraframefx.ui.components.NeuralStarfield
 
 /**
  * Renders the "Oracle Drive" screen UI, including menu items, a stress-sync action, and an optional consciousness status card.
