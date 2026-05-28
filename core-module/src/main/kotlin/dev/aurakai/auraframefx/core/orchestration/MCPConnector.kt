@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.mcp
+package dev.aurakai.auraframefx.core.orchestration
 
 import kotlinx.serialization.Serializable
 

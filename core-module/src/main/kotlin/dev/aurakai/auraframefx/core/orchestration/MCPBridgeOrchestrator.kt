@@ -23,6 +23,9 @@ class MCPBridgeOrchestrator @Inject constructor(
     private val _isInitialized = MutableStateFlow(false)
     val isInitialized: StateFlow<Boolean> = _isInitialized.asStateFlow()
 
+    private val _connectors = MutableStateFlow<List<MCPConnector>>(emptyList())
+    val connectors: StateFlow<List<MCPConnector>> = _connectors.asStateFlow()
+
     init {
         initializeSovereignSubstrate()
     }
