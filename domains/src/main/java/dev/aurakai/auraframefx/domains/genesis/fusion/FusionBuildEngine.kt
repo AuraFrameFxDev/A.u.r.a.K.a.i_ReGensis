@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.fusion
 
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
-import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.genesis.services.AgentWebExplorationService
 import dev.aurakai.auraframefx.domains.nexus.models.core.ArkProject
 import dev.aurakai.auraframefx.domains.nexus.models.core.ArkStatus

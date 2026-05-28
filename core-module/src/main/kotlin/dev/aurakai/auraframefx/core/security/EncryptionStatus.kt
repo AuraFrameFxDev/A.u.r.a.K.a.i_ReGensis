@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai.security
+package dev.aurakai.auraframefx.core.security
 
 sealed class EncryptionStatus {
     data object NOT_INITIALIZED : EncryptionStatus()

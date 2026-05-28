@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.core.messaging
 
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

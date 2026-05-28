@@ -6,6 +6,7 @@ import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.d
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.e
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.i
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.w
+import dev.aurakai.auraframefx.core.security.SecurityContext
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
 import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
@@ -13,7 +14,6 @@ import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAISer
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIService
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
-import dev.aurakai.auraframefx.domains.kai.security.SecurityContext
 import dev.aurakai.auraframefx.domains.kai.security.alerts.AlertNotifier
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import kotlinx.coroutines.CoroutineScope

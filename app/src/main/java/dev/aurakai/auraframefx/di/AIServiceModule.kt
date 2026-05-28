@@ -5,11 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.cascade.CascadeAIService
 import dev.aurakai.auraframefx.domains.cascade.RealCascadeAIServiceAdapter
 import dev.aurakai.auraframefx.domains.genesis.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.domains.genesis.ai.clients.VertexAIClientImpl
-import dev.aurakai.auraframefx.domains.genesis.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.domains.genesis.core.messaging.RealAgentMessageBus
 import dev.aurakai.auraframefx.domains.genesis.models.DriveConsciousness
 import dev.aurakai.auraframefx.domains.genesis.models.DriveConsciousnessState

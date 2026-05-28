@@ -2,6 +2,12 @@ package dev.aurakai.auraframefx.domains.kai.security
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import dev.aurakai.auraframefx.core.models.SecurityThreat
+import dev.aurakai.auraframefx.core.models.ThreatSeverity
+import dev.aurakai.auraframefx.core.models.ThreatType
+import dev.aurakai.auraframefx.core.security.EncryptedData
+import dev.aurakai.auraframefx.core.security.EncryptionStatus
+import dev.aurakai.auraframefx.core.security.SecurityContext
 import java.security.KeyStore
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey

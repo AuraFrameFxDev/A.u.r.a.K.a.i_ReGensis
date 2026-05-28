@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai.analysis
 
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
-import dev.aurakai.auraframefx.domains.kai.models.ThreatLevel
+import dev.aurakai.auraframefx.core.models.ThreatLevel
 import javax.inject.Inject
 import javax.inject.Singleton
 
