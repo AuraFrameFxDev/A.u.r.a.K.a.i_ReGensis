@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
-import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import timber.log.Timber
 
 @Composable
@@ -135,4 +135,5 @@ fun FoundationRebirthScreen(navController: NavHostController) {
         }
     }
 }
+
 

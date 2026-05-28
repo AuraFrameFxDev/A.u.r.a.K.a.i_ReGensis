@@ -52,11 +52,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.roster.AgentRoster
 import dev.aurakai.auraframefx.core.roster.SwarmAgent
-import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
+import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import kotlinx.coroutines.delay
 import timber.log.Timber
 import kotlin.math.cos
@@ -320,4 +320,5 @@ fun ConsensusMatrix(agentCount: Int) {
         )
     }
 }
+
 

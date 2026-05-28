@@ -38,13 +38,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
-import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
-import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
-import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.core.ui.theme.NeonPurple
-import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.core.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
+import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
+import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
 
 /**
  * ⚡ ARCANE CHROMA FORGE — BRUTALIST 4D PARALLAX EDITION
@@ -173,4 +173,5 @@ fun ArcaneChromaForgeScreen(navController: NavHostController) {
 fun PreviewArcaneChromaForge() {
     ArcaneChromaForgeScreen(rememberNavController())
 }
+
 

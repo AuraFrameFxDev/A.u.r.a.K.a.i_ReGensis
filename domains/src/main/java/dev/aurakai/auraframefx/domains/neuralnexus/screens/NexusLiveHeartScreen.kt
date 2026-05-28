@@ -44,15 +44,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.regen.BenchmarkEngine
+import dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.core.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.domains.kai.viewmodels.KaiSystemViewModel
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import dev.aurakai.auraframefx.ui.dashboard.SplitDiagnosticPanel
-import dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
-import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.ui.viewmodel.BenchmarkViewModel
 import java.util.Locale
 import kotlin.math.cos
@@ -397,4 +397,5 @@ fun ArcaneGridOverlay(modifier: Modifier = Modifier) {
         }
     }
 }
+
 

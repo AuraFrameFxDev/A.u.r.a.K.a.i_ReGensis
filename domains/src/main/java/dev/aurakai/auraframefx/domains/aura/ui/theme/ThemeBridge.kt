@@ -16,14 +16,14 @@ val KaiNeonGreen = Color(0xFF39FF14)
 val GenesisNeonPink = Color(0xFFFF00FF)
 
 // Font Families
-val ChessFontFamily = dev.aurakai.auraframefx.ui.theme.CruiserFontFamily
-val LEDFontFamily = dev.aurakai.auraframefx.ui.theme.LEDFontFamily
-val CruiserFontFamily = dev.aurakai.auraframefx.ui.theme.CruiserFontFamily
-val SpaceGrotesk = dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
+val ChessFontFamily = dev.aurakai.auraframefx.core.ui.theme.CruiserFontFamily
+val LEDFontFamily = dev.aurakai.auraframefx.core.ui.theme.LEDFontFamily
+val CruiserFontFamily = dev.aurakai.auraframefx.core.ui.theme.CruiserFontFamily
+val SpaceGrotesk = dev.aurakai.auraframefx.core.ui.theme.SpaceGrotesk
 
 // Core Exports
-val AppTypography = dev.aurakai.auraframefx.ui.theme.AppTypography
-val CyberpunkColorScheme = dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
+val AppTypography = dev.aurakai.auraframefx.core.ui.theme.AppTypography
+val CyberpunkColorScheme = dev.aurakai.auraframefx.core.ui.theme.model.CyberpunkColorScheme
 
 typealias AgentDomain = dev.aurakai.auraframefx.core.ui.theme.AgentDomain
 typealias CyberpunkTextColor = dev.aurakai.auraframefx.core.ui.theme.CyberpunkTextColor
@@ -39,7 +39,7 @@ val NeonBlue = dev.aurakai.auraframefx.core.ui.theme.NeonBlue
 val NeonPink = Color(0xFFFF00FF)
 val NeonTeal = dev.aurakai.auraframefx.core.ui.theme.NeonTeal
 val SovereignBlack = dev.aurakai.auraframefx.core.ui.theme.SovereignBlack
-val WireframeStyle = dev.aurakai.auraframefx.ui.theme.WireframeStyle
+val WireframeStyle = dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
 val OverclockOrange = Color(0xFFFF9B00)
 
 fun getAgentColor(agentName: String): Color {
