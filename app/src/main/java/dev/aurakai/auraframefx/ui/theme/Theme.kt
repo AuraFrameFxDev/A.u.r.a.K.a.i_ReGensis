@@ -22,9 +22,37 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.aura.models.Emotion
+import dev.aurakai.auraframefx.core.ui.theme.AppTypography
+import dev.aurakai.auraframefx.core.ui.theme.DarkBackground
+import dev.aurakai.auraframefx.core.ui.theme.ErrorColor
+import dev.aurakai.auraframefx.core.ui.theme.LightBackground
+import dev.aurakai.auraframefx.core.ui.theme.LightOnBackground
+import dev.aurakai.auraframefx.core.ui.theme.LightOnError
+import dev.aurakai.auraframefx.core.ui.theme.LightOnPrimary
+import dev.aurakai.auraframefx.core.ui.theme.LightOnSecondary
+import dev.aurakai.auraframefx.core.ui.theme.LightOnSurface
+import dev.aurakai.auraframefx.core.ui.theme.LightOnSurfaceVariant
+import dev.aurakai.auraframefx.core.ui.theme.LightOnTertiary
+import dev.aurakai.auraframefx.core.ui.theme.LightPrimary
+import dev.aurakai.auraframefx.core.ui.theme.LightSecondary
+import dev.aurakai.auraframefx.core.ui.theme.LightSurface
+import dev.aurakai.auraframefx.core.ui.theme.LightSurfaceVariant
+import dev.aurakai.auraframefx.core.ui.theme.LightTertiary
+import dev.aurakai.auraframefx.core.ui.theme.NeonBlue
+import dev.aurakai.auraframefx.core.ui.theme.NeonGreen
+import dev.aurakai.auraframefx.core.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.core.ui.theme.NeonRed
+import dev.aurakai.auraframefx.core.ui.theme.NeonTeal
+import dev.aurakai.auraframefx.core.ui.theme.OnPrimary
+import dev.aurakai.auraframefx.core.ui.theme.OnSecondary
+import dev.aurakai.auraframefx.core.ui.theme.OnSurface
+import dev.aurakai.auraframefx.core.ui.theme.OnSurfaceVariant
+import dev.aurakai.auraframefx.core.ui.theme.OnTertiary
+import dev.aurakai.auraframefx.core.ui.theme.Surface
+import dev.aurakai.auraframefx.core.ui.theme.SurfaceVariant
+import dev.aurakai.auraframefx.core.ui.theme.model.CyberpunkColorScheme
+import dev.aurakai.auraframefx.core.ui.theme.model.SolarizedColorScheme
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
-import dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
-import dev.aurakai.auraframefx.ui.theme.model.SolarizedColorScheme
 
 lateinit var emotion: Emotion
 private val DarkColorScheme = darkColorScheme(
