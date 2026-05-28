@@ -62,8 +62,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.core.ui.theme.verticalScrollbar
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.SettingsViewModel
-import dev.aurakai.auraframefx.ui.theme.verticalScrollbar
 
 /**
  * SETTINGS SCREEN - The Nexus Configuration Core
