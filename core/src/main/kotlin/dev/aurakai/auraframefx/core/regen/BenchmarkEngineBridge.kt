@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.roundToInt
 
 @Serializable
 data class AgentPerformanceResult(
@@ -43,15 +44,18 @@ class BenchmarkEngineBridge @Inject constructor() {
 
         // Applying the SoulScript v3.3 drift normalization parameter (0.92)
         val rawScore = 100.0 * (1.0 / (totalTimeSec + 0.001)) * 0.92
-        val normalizedScore = Math.min(Math.round(rawScore * 100.0) / 100.0, 100.0).toDouble()
+        val normalizedScore =
+            ((rawScore * 100.0).roundToInt() / 100.0).coerceAtMost(100.0).toDouble()
 
         // Formatting Memory Throughput to MB/s
         val allocatedBytes = targetSize * 8.0 // 8 bytes per Long
         val throughputMbS =
-            Math.round((allocatedBytes / (memTimeMs / 1000.0)) / (1024.0 * 1024.0) * 100.0) / 100.0
+            ((allocatedBytes / (memTimeMs / 1000.0)) / (1024.0 * 1024.0) * 100.0).roundToInt() / 100.0
 
         val finalVerdict =
             if (normalizedScore >= 90.0) "SOVEREIGN TIER — Pantheon Stable" else "DEGRADED STATE — Throttling active"
+        val thermalState = if (normalizedScore >= 80.0) "OPTIMAL" else "THROTTLED"
+
 
         Timber.tag("Benchmark")
             .d("🐇 [SOULSCRIPT v3.3 BENCHMARK RUN] Score: $normalizedScore/100 | Throughput: $throughputMbS MB/s")
@@ -60,9 +64,9 @@ class BenchmarkEngineBridge @Inject constructor() {
             ldoVersion = "SoulScript v3.3 Native Bridge",
             overallScore = normalizedScore,
             memoryThroughputMbS = throughputMbS,
-            computeStressMops = Math.round((stressAccumulator / 1_000_000.0) * 100.0) / 100.0,
+            computeStressMops = ((stressAccumulator / 1_000_000.0) * 100.0).roundToInt() / 100.0,
             swarmSize = catalystCount,
-            thermalState = "SOVEREIGN",
+            thermalState = thermalState,
             verdict = finalVerdict,
             timestamp = System.currentTimeMillis()
         )
