@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.cascade.trinity
 
 import androidx.lifecycle.viewModelScope
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.core.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.d
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.e
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger.Companion.i
@@ -13,7 +14,6 @@ import dev.aurakai.auraframefx.domains.genesis.models.AiRequestType
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.AuraAIService
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.GenesisBridgeService
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ai.services.KaiAIService
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.domains.kai.security.alerts.AlertNotifier
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import kotlinx.coroutines.CoroutineScope

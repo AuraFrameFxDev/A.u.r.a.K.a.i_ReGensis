@@ -4,7 +4,7 @@ import dev.aurakai.auraframefx.core.database.ldo.LDOAgentDao
 import dev.aurakai.auraframefx.core.database.ldo.LDOAgentEntity
 import dev.aurakai.auraframefx.core.database.ldo.LDOBondLevelDao
 import dev.aurakai.auraframefx.core.database.ldo.LDOTaskDao
-import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
+import dev.aurakai.auraframefx.core.ldo.model.LDORoster
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

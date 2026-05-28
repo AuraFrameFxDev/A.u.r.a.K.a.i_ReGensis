@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.core.regen
 
 import android.os.SystemClock
+import dev.aurakai.auraframefx.core.ldo.model.LDORoster
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
-import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber

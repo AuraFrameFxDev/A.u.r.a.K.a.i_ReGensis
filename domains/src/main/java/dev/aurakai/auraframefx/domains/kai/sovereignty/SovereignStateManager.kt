@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.kai.sovereignty
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.di.qualifiers.ApplicationScope
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.core.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.domains.kai.security.SecurePreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.domains.kai.sentinel
 
 // Import KaiSentinel and VetoSeverity from RealitymorphismEngine
+import dev.aurakai.auraframefx.core.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.VetoSeverity
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import kotlin.math.abs
 import kotlin.math.pow
 

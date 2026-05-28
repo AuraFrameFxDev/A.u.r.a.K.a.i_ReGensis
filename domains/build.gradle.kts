@@ -27,6 +27,8 @@ dependencies {
     // Root & Hooks
     implementation(libs.libsu.core)
     implementation(libs.yukihookapi.api)
+    implementation(libs.kavaref.core)
+    implementation(libs.kavaref.extension)
 
     // Serialization
 

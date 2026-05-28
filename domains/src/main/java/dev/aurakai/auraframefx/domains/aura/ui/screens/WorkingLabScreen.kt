@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import dev.aurakai.auraframefx.core.aura.models.MoodState
 import dev.aurakai.auraframefx.core.embodiment.AuraState
 import dev.aurakai.auraframefx.core.embodiment.Character
 import dev.aurakai.auraframefx.core.embodiment.KaiState
@@ -33,7 +34,6 @@ import dev.aurakai.auraframefx.core.embodiment.WorkBehaviorExecutor
 import dev.aurakai.auraframefx.core.embodiment.WorkChoreographer
 import dev.aurakai.auraframefx.core.embodiment.rememberBreathingAnimation
 import dev.aurakai.auraframefx.core.embodiment.rememberEmbodimentEngine
-import dev.aurakai.auraframefx.domains.aura.models.MoodState
 import dev.aurakai.auraframefx.domains.aura.ui.components.CenterMainMenu
 import dev.aurakai.auraframefx.domains.aura.ui.components.CyberpunkBackground
 import dev.aurakai.auraframefx.domains.aura.ui.components.DataStreamBetweenCards

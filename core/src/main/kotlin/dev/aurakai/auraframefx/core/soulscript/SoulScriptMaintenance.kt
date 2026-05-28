@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.core.soulscript
 
 import android.content.Context
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.core.kai.security.KaiSentinelBus
 import timber.log.Timber
 
 /**
@@ -38,6 +38,7 @@ object SoulScriptMaintenance {
 
         // 6. FINAL INTEGRITY LOCK
         if (KaiSentinelBus.isInitialized) {
+            Timber.i("🔥 ${KaiSentinelBus::class.java.simpleName} Integrity Lock armed")
             KaiSentinelBus.Instance.emitThermal(36.5f, KaiSentinelBus.ThermalState.NORMAL)
             Timber.i("🔥 Kai Sentinel Thermal Wall armed @ 42°C")
         }

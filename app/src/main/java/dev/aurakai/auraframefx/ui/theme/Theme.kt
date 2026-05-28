@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.domains.aura.models.Emotion
+import dev.aurakai.auraframefx.core.aura.models.Emotion
 import dev.aurakai.auraframefx.domains.aura.ui.viewmodels.AuraMoodViewModel
 import dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
 import dev.aurakai.auraframefx.ui.theme.model.SolarizedColorScheme

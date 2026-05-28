@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.core.soulscript
 
 import dev.aurakai.auraframefx.core.NativeLib
-import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.core.kai.security.KaiSentinelBus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
