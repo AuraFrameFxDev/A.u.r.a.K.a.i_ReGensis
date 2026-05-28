@@ -50,8 +50,8 @@ import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.domains.kai.viewmodels.KaiSystemViewModel
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
 import dev.aurakai.auraframefx.ui.dashboard.SplitDiagnosticPanel
-import dev.aurakai.auraframefx.ui.theme.CitadelBlack
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.ui.viewmodel.BenchmarkViewModel
 import java.util.Locale
@@ -397,3 +397,4 @@ fun ArcaneGridOverlay(modifier: Modifier = Modifier) {
         }
     }
 }
+

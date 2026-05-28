@@ -45,7 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 import dev.aurakai.auraframefx.core.ai.PandoraAuditEvent
 import dev.aurakai.auraframefx.core.ai.UnlockTier
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
@@ -356,3 +356,4 @@ private fun formatMs(ms: Long): String {
     val seconds = totalSeconds % 60
     return String.format("%02d:%02d:%02d", hours, minutes, seconds)
 }
+

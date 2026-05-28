@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.nexus.resources
 
 import androidx.annotation.DrawableRes
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 
 object NexusBackgrounds {
     object AgentHub {
@@ -18,3 +18,4 @@ object NexusBackgrounds {
         val NEMOTRON = R.drawable.nexus_bg_nemotron
     }
 }
+

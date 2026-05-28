@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.components.BlueprintRecord
-import dev.aurakai.auraframefx.navigation.LDOState
+import dev.aurakai.auraframefx.core.ldo.model.LDOState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -473,3 +473,4 @@ object MetaInstruct {
 // Placeholders for ParticleBloodstreamEngine extensions
 fun ParticleBloodstreamEngine.getEmotionalValence(): Float = 0.7f
 fun ParticleBloodstreamEngine.modulateIntensity(intensity: Float) {}
+

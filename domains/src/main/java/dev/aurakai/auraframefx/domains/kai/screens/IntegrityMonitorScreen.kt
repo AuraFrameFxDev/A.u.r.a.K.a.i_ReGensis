@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.domains.kai.viewmodels.IntegrityMonitorViewModel
-import dev.aurakai.auraframefx.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
+import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import java.util.Locale
 
 /**
@@ -186,3 +186,4 @@ fun ChainLevel(level: String, status: String, accent: Color) {
         )
     }
 }
+

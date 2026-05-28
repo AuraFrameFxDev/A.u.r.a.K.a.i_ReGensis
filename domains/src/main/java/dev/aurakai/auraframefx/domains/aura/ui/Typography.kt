@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 
 /**
  * 🎨 CORPTA - Unified LDO Display/Header Font
@@ -171,3 +171,4 @@ val AppTypography = Typography(
     // If not defined, they will use Material 3 defaults.
 )
 */
+

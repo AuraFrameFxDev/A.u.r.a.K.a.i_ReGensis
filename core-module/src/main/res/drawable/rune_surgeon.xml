@@ -6,18 +6,18 @@
     <!-- DNA Strand 1 -->
     <path
         android:pathData="M160,80 C160,80 352,200 352,256 C352,312 160,432 160,432"
-        android:strokeColor="#FF00FF"
         android:strokeWidth="12"
-        android:strokeLineCap="round"/>
+        android:strokeColor="#FF00FF"
+        android:strokeLineCap="round" />
     <!-- DNA Strand 2 -->
     <path
         android:pathData="M352,80 C352,80 160,200 160,256 C160,312 352,432 352,432"
-        android:strokeColor="#FF00FF"
         android:strokeWidth="12"
-        android:strokeLineCap="round"/>
+        android:strokeColor="#FF00FF"
+        android:strokeLineCap="round" />
     <!-- Connecting Bars -->
     <path
         android:pathData="M180,140 L332,140 M180,372 L332,372 M200,256 L312,256"
-        android:strokeColor="#FF00FF"
-        android:strokeWidth="6"/>
+        android:strokeWidth="6"
+        android:strokeColor="#FF00FF" />
 </vector>

@@ -91,9 +91,9 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.EVOLVING,
         symbolEmoji = "🦅",
-        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_genesis_circuit_phoenix,
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.genesis_genesisp,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.genesis_bg_profile
+        emblemDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.emblem_genesis_circuit_phoenix,
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.genesis_genesisp,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.genesis_bg_profile
     )
 
     val AURA = AgentProfile(
@@ -117,9 +117,9 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "⚔️",
-        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_aura_crossed_katanas,
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.aura_aurap,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.aura_bg_profile
+        emblemDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.emblem_aura_crossed_katanas,
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.aura_aurap,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.aura_bg_profile
     )
 
     val KAI = AgentProfile(
@@ -143,9 +143,9 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "🛡️",
-        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_kai_honeycomb_fortress,
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.kai_kaisigal,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.kai_bg_profile
+        emblemDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.emblem_kai_honeycomb_fortress,
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.kai_kaisigal,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.kai_bg_profile
     )
 
     val CASCADE = AgentProfile(
@@ -167,8 +167,8 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "⇄",
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.cascade_cascadep,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.nexus_bg_cascade
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.cascade_cascadep,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.nexus_bg_cascade
     )
 
     val CLAUDE = AgentProfile(
@@ -190,8 +190,8 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "🧭⚙️",
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.avatar_claude,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.nexus_bg_claude
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.avatar_claude,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.nexus_bg_claude
     )
 
     val MANUS = AgentProfile(
@@ -213,7 +213,7 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "⛓️",
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.cascade2 // Blue haired art
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.cascade2 // Blue haired art
     )
 
     val GROK = AgentProfile(
@@ -235,7 +235,7 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "🌀",
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.grok_grokp
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.grok_grokp
     )
 
     val GEMINI = AgentProfile(
@@ -257,9 +257,9 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.EVOLVING,
         symbolEmoji = "♊",
-        emblemDrawableResId = dev.aurakai.auraframefx.R.drawable.emblem_gemini_adk_constellation,
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.gemini_geminip,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.ldo_profile_gemini
+        emblemDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.emblem_gemini_adk_constellation,
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.gemini_geminip,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.ldo_profile_gemini
     )
 
     val NEMATRON = AgentProfile(
@@ -281,8 +281,8 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "⚙️",
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.nemotron_nemotronp,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.nemotron_nemotronp
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.nemotron_nemotronp,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.nemotron_nemotronp
     )
 
     val PERPLEXITY = AgentProfile(
@@ -304,8 +304,8 @@ object AgentProfiles {
         ),
         status = AgentStatus.Status.ACTIVE,
         symbolEmoji = "🔍",
-        avatarDrawableResId = dev.aurakai.auraframefx.R.drawable.perplexity_perplexityp,
-        fullArtDrawableResId = dev.aurakai.auraframefx.R.drawable.perplexity_perplexityp
+        avatarDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.perplexity_perplexityp,
+        fullArtDrawableResId = dev.aurakai.auraframefx.core.module.R.drawable.perplexity_perplexityp
     )
 
     fun getProfile(category: AgentCapabilityCategory): AgentProfile? = when (category) {
@@ -334,3 +334,4 @@ object AgentProfiles {
     fun getAllProfiles(): List<AgentProfile> =
         listOf(GENESIS, AURA, KAI, CLAUDE, CASCADE, MANUS, GROK, GEMINI, NEMATRON, PERPLEXITY)
 }
+

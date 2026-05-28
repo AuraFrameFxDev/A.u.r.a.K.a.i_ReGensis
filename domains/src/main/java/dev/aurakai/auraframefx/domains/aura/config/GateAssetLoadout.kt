@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.domains.aura.config
 
 import dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.ui.theme.NeonGreen
-import dev.aurakai.auraframefx.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.core.ui.theme.NeonGreen
+import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.core.ui.theme.NeonPurple
 
 /**
  * 🚀 GATE ASSET LOADOUT — Primary data provider for Hub Carousels
@@ -213,3 +213,4 @@ object GateAssetLoadout {
         )
     )
 }
+

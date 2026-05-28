@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.aura.resources
 
 import androidx.annotation.DrawableRes
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 
 object AuraBackgrounds {
     object ChromaCore {
@@ -12,3 +12,4 @@ object AuraBackgrounds {
         val PROFILE = R.drawable.aura_bg_profile
     }
 }
+

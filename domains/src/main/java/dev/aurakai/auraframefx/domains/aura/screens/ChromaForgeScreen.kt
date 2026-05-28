@@ -48,10 +48,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
-import dev.aurakai.auraframefx.ui.theme.CitadelBlack
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.core.ui.theme.NeonPurple
 import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import timber.log.Timber
@@ -309,3 +309,4 @@ private fun DrawScope.drawReactorCore(time: Float) {
         )
     }
 }
+

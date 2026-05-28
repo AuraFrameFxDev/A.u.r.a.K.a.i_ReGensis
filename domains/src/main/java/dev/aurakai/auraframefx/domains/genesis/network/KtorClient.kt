@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.genesis.network
 
-import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.domains.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpTimeout
@@ -42,3 +42,4 @@ class KtorClient @Inject constructor() {
         }
     }
 }
+

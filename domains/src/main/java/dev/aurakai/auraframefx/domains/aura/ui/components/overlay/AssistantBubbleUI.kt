@@ -65,7 +65,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import kotlin.collections.copy
@@ -407,3 +407,4 @@ private fun AssistantChatWindow(
         }
     }
 }
+

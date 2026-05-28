@@ -498,7 +498,7 @@ class PythonProcessManager @Inject constructor(
     fun isBackendRunning(): Boolean = isHealthy()
 
     fun getBackendUrl(): String = try {
-        dev.aurakai.auraframefx.BuildConfig.GENESIS_BACKEND_URL
+        dev.aurakai.auraframefx.domains.BuildConfig.GENESIS_BACKEND_URL
     } catch (e: Exception) {
         "http://localhost:5000"
     }
@@ -555,3 +555,4 @@ class PythonProcessManager @Inject constructor(
  * pythonManager.stop()
  * ```
  */
+

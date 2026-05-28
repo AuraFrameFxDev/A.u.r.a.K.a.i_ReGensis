@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.domains.nexus.models
 
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 
 /**
  * 🏺 CHARACTER IMAGE MAP — Exodus 2026 Build
@@ -37,3 +37,4 @@ object CharacterImageMap {
         }
     }
 }
+

@@ -16,6 +16,6 @@
         android:strokeLineCap="round" />
     <!-- Inner Hub -->
     <path
-        android:pathData="M100,100 m-10,0 a10,10 0 1,1 20,0 a10,10 0 1,1 -20,0"
-        android:fillColor="#FFFFFF" />
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,100 m-10,0 a10,10 0 1,1 20,0 a10,10 0 1,1 -20,0" />
 </vector>

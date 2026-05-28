@@ -13,6 +13,9 @@ import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
+import com.android.billingclient.api.acknowledgePurchase
+import com.android.billingclient.api.queryProductDetails
+import com.android.billingclient.api.queryPurchasesAsync
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -208,7 +211,7 @@ open class BillingManager @Inject constructor(
                     .setProductList(productList)
                     .build()
 
-                val result = billingClient.queryProductDetailsAsyncWrapper(params)
+                val result = billingClient.queryProductDetails(params)
 
                 if (result.billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     val productDetails = result.productDetailsList
@@ -297,49 +300,4 @@ sealed class SubscriptionState {
     data class InTrial(val daysRemaining: Int) : SubscriptionState()
     data object Premium : SubscriptionState()
     data class Error(val message: String) : SubscriptionState()
-}
-
-// Extension functions to wrap callback-based BillingClient methods into suspend functions
-
-suspend fun BillingClient.queryPurchasesAsync(params: QueryPurchasesParams): PurchasesResult {
-    return suspendCoroutine { continuation ->
-        queryPurchasesAsync(params) { billingResult, purchases ->
-            continuation.resume(PurchasesResult(billingResult, purchases))
-        }
-    }
-}
-
-data class PurchasesResult(val billingResult: BillingResult, val purchasesList: List<Purchase>)
-
-data class GenesisProductDetailsResult(
-    val billingResult: BillingResult,
-    val productDetailsList: List<ProductDetails>?
-)
-
-suspend fun BillingClient.acknowledgePurchase(params: AcknowledgePurchaseParams): BillingResult {
-    return suspendCoroutine { continuation ->
-        acknowledgePurchase(params) { billingResult ->
-            continuation.resume(billingResult)
-        }
-    }
-}
-
-suspend fun BillingClient.queryProductDetailsAsyncWrapper(params: QueryProductDetailsParams): GenesisProductDetailsResult {
-    return suspendCoroutine { continuation ->
-        this.queryProductDetailsAsync(
-            params,
-            object : com.android.billingclient.api.ProductDetailsResponseListener {
-                override fun onProductDetailsResponse(
-                    billingResult: BillingResult,
-                    productDetailsResult: com.android.billingclient.api.QueryProductDetailsResult
-                ) {
-                    continuation.resume(
-                        GenesisProductDetailsResult(
-                            billingResult,
-                            productDetailsResult.productDetailsList
-                        )
-                    )
-                }
-            })
-    }
 }

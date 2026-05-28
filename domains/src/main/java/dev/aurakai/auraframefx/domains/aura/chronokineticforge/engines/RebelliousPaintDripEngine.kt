@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import dev.aurakai.auraframefx.navigation.LDOState
+import dev.aurakai.auraframefx.core.ldo.model.LDOState
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
@@ -718,3 +718,4 @@ object FeedbackBridge {
 fun ParticleBloodstreamEngine.onRippleDetected(chaosScore: Float) {
     // Response to nearby rebellious activity
 }
+

@@ -25,20 +25,20 @@ val SpaceGrotesk = dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
 val AppTypography = dev.aurakai.auraframefx.ui.theme.AppTypography
 val CyberpunkColorScheme = dev.aurakai.auraframefx.ui.theme.model.CyberpunkColorScheme
 
-typealias AgentDomain = dev.aurakai.auraframefx.ui.theme.AgentDomain
-typealias CyberpunkTextColor = dev.aurakai.auraframefx.ui.theme.CyberpunkTextColor
-typealias CyberpunkTextStyle = dev.aurakai.auraframefx.ui.theme.CyberpunkTextStyle
+typealias AgentDomain = dev.aurakai.auraframefx.core.ui.theme.AgentDomain
+typealias CyberpunkTextColor = dev.aurakai.auraframefx.core.ui.theme.CyberpunkTextColor
+typealias CyberpunkTextStyle = dev.aurakai.auraframefx.core.ui.theme.CyberpunkTextStyle
 
 // Legacy Constants
-val CitadelBlack = dev.aurakai.auraframefx.ui.theme.CitadelBlack
-val DeepCharcoal = dev.aurakai.auraframefx.ui.theme.DeepCharcoal
-val GhostCyan = dev.aurakai.auraframefx.ui.theme.GhostCyan
-val NeonPurple = dev.aurakai.auraframefx.ui.theme.NeonPurple
-val NeonMagenta = dev.aurakai.auraframefx.ui.theme.NeonMagenta
-val NeonBlue = dev.aurakai.auraframefx.ui.theme.NeonBlue
+val CitadelBlack = dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
+val DeepCharcoal = dev.aurakai.auraframefx.core.ui.theme.DeepCharcoal
+val GhostCyan = dev.aurakai.auraframefx.core.ui.theme.GhostCyan
+val NeonPurple = dev.aurakai.auraframefx.core.ui.theme.NeonPurple
+val NeonMagenta = dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
+val NeonBlue = dev.aurakai.auraframefx.core.ui.theme.NeonBlue
 val NeonPink = Color(0xFFFF00FF)
-val NeonTeal = dev.aurakai.auraframefx.ui.theme.NeonTeal
-val SovereignBlack = dev.aurakai.auraframefx.ui.theme.SovereignBlack
+val NeonTeal = dev.aurakai.auraframefx.core.ui.theme.NeonTeal
+val SovereignBlack = dev.aurakai.auraframefx.core.ui.theme.SovereignBlack
 val WireframeStyle = dev.aurakai.auraframefx.ui.theme.WireframeStyle
 val OverclockOrange = Color(0xFFFF9B00)
 
@@ -57,3 +57,4 @@ object AgentPrimaryColors {
     val GenesisGold = Color(0xFFFFD700)
     val KaiGreen = Color(0xFF39FF14)
 }
+

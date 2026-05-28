@@ -34,7 +34,7 @@ object FeatureToggles {
     val isPaywallEnabled: Boolean
         get() {
             return try {
-                val cls = Class.forName("dev.aurakai.auraframefx.BuildConfig")
+                val cls = Class.forName("dev.aurakai.auraframefx.domains.BuildConfig")
                 val field = cls.getField("ENABLE_PAYWALL")
                 (field.get(null) as? Boolean) ?: true
             } catch (t: Throwable) {
@@ -42,3 +42,4 @@ object FeatureToggles {
             }
         }
 }
+

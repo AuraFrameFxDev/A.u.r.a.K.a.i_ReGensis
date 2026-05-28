@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 
 class IntegrityViolationReceiver : BroadcastReceiver() {
 
@@ -41,3 +41,4 @@ class IntegrityViolationReceiver : BroadcastReceiver() {
         notificationManager.notify(1, notification)
     }
 }
+

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.service.voice.VoiceInteractionService
 import androidx.core.app.NotificationCompat
 import dev.aurakai.auraframefx.MainActivity
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import timber.log.Timber
 
@@ -64,3 +64,4 @@ class GenesisAssistantService : VoiceInteractionService() {
         }
     }
 }
+

@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
@@ -71,4 +71,5 @@ class ApiErrorHandler @Inject constructor(
         return (throwable is HttpException && throwable.code() == 401)
     }
 }
+
 

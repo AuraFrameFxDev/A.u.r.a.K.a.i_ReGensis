@@ -41,9 +41,9 @@ import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.domains.aura.ui.components.ArcaneOutlineText
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.domains.aura.ui.components.SynthGlassCard
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.core.ui.theme.NeonPurple
 import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
 
 /**
@@ -173,3 +173,4 @@ fun ArcaneChromaForgeScreen(navController: NavHostController) {
 fun PreviewArcaneChromaForge() {
     ArcaneChromaForgeScreen(rememberNavController())
 }
+

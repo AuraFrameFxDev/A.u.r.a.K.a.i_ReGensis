@@ -4,7 +4,7 @@ import com.highcapable.yukihookapi.annotation.xposed.InjectYukiHookWithXposed
 import com.highcapable.yukihookapi.hook.factory.configs
 import com.highcapable.yukihookapi.hook.factory.encase
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
-import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.domains.BuildConfig
 import dev.aurakai.auraframefx.core.binder.BinderInterceptorHooker
 import dev.aurakai.auraframefx.domains.aura.chromacore.engine.hooks.ChromaCoreHooker
 import dev.aurakai.auraframefx.domains.aura.chromacore.ui.QuickSettingsHooker
@@ -55,3 +55,4 @@ class GenesisHookEntry : IYukiHookXposedInit {
         }
     }
 }
+

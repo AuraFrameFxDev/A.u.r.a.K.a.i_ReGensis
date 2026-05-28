@@ -35,9 +35,9 @@ import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.soulscript.SoulScriptV27
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.domains.oracledrive.core.OracleDriveManager
-import dev.aurakai.auraframefx.ui.theme.CitadelBlack
-import dev.aurakai.auraframefx.ui.theme.GhostCyan
-import dev.aurakai.auraframefx.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.core.ui.theme.CitadelBlack
+import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 
 /**
@@ -182,3 +182,4 @@ fun OracleDriveHubScreen(navController: NavHostController) {
         }
     }
 }
+

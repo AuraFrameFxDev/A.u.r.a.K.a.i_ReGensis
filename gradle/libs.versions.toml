@@ -149,6 +149,7 @@ moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version = "1.15.2" 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.11.0" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.11.0" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version = "1.11.0" }
+kotlinx-play-services-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version = "1.11.0" }
 
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

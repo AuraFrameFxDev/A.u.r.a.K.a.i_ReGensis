@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.domains.genesis.grokipedia
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.domains.BuildConfig
 import dev.aurakai.auraframefx.core.database.entity.GrokipediaEntry
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -72,3 +72,4 @@ class GrokipediaViewModel @Inject constructor(
         }
     }
 }
+

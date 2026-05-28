@@ -4,7 +4,7 @@ import android.content.Context
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.domains.BuildConfig
 import dev.aurakai.auraframefx.core.di.qualifiers.BaseUrl
 import dev.aurakai.auraframefx.domains.cascade.utils.AppCoroutineDispatchers
 import dev.aurakai.auraframefx.domains.genesis.network.api.AIAgentApi
@@ -119,6 +119,7 @@ class AuraApiService @Inject constructor(
         const val BASE_URL = "https://api.auraframefx.com/v1/"
     }
 }
+
 
 
 

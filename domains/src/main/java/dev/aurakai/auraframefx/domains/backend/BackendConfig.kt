@@ -13,7 +13,7 @@ object BackendConfig {
      */
     val BASE_URL: String
         get() = try {
-            dev.aurakai.auraframefx.BuildConfig.GENESIS_BACKEND_URL
+            dev.aurakai.auraframefx.domains.BuildConfig.GENESIS_BACKEND_URL
         } catch (e: Exception) {
             "http://10.0.2.2:5000/"
         }
@@ -24,3 +24,4 @@ object BackendConfig {
     /** Maximum retry attempts for failed requests */
     const val MAX_RETRIES = 3
 }
+
