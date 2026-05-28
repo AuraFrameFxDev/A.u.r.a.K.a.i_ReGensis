@@ -1,12 +1,12 @@
 package dev.aurakai.auraframefx.domains.ldo.model
 
 import androidx.compose.ui.graphics.Color
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
-import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
-import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskEntity
-import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskPriority
-import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskStatus
-import dev.aurakai.auraframefx.domains.ldo.db.bondTitleForLevel
+import dev.aurakai.auraframefx.core.database.ldo.LDOAgentEntity
+import dev.aurakai.auraframefx.core.database.ldo.LDOBondLevelEntity
+import dev.aurakai.auraframefx.core.database.ldo.LDOTaskEntity
+import dev.aurakai.auraframefx.core.database.ldo.LDOTaskPriority
+import dev.aurakai.auraframefx.core.database.ldo.LDOTaskStatus
+import dev.aurakai.auraframefx.core.database.ldo.bondTitleForLevel
 
 /**
  * LDORoster — v3.0 GENESIS CATALYST REGISTRY.

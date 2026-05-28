@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.core.security.SecureKeyStore
 import dev.aurakai.auraframefx.securecomm.crypto.CryptoManager
-import dev.aurakai.auraframefx.securecomm.keystore.SecureKeyStore
 import dev.aurakai.auraframefx.securecomm.protocol.SecureChannel
 import javax.inject.Singleton
 

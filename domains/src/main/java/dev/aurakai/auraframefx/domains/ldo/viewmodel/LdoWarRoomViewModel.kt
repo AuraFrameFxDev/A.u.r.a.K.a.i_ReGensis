@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.core.NativeLib
+import dev.aurakai.auraframefx.core.database.ldo.LDOAgentEntity
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
 import dev.aurakai.auraframefx.domains.ldo.repository.LDORepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

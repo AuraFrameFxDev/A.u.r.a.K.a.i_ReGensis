@@ -7,7 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.ai.pipeline.GemmaSovereignEngine
-import dev.aurakai.auraframefx.security.SpiritualChain
+import dev.aurakai.auraframefx.core.security.SpiritualChain
 import javax.inject.Singleton
 
 @Module

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.kai.security.alerts
 
+import dev.aurakai.auraframefx.core.di.qualifiers.ApplicationScope
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
-import dev.aurakai.auraframefx.sovereignty.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

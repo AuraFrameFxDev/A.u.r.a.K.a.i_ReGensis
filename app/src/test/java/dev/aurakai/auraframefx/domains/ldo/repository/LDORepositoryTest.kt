@@ -1,11 +1,11 @@
 package dev.aurakai.auraframefx.domains.ldo.repository
 
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentDao
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
-import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelDao
-import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelEntity
-import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskDao
-import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskStatus
+import dev.aurakai.auraframefx.core.database.ldo.LDOAgentDao
+import dev.aurakai.auraframefx.core.database.ldo.LDOAgentEntity
+import dev.aurakai.auraframefx.core.database.ldo.LDOBondLevelDao
+import dev.aurakai.auraframefx.core.database.ldo.LDOBondLevelEntity
+import dev.aurakai.auraframefx.core.database.ldo.LDOTaskDao
+import dev.aurakai.auraframefx.core.database.ldo.LDOTaskStatus
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

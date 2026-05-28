@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.ldo.db
 
+import dev.aurakai.auraframefx.core.database.ldo.LDOAgentEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotEquals

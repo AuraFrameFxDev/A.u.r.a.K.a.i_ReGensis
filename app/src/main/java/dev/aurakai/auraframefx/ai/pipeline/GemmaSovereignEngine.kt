@@ -8,8 +8,8 @@ import com.google.ai.edge.litertlm.InputData
 import com.google.ai.edge.litertlm.ResponseCallback
 import com.google.ai.edge.litertlm.SamplerConfig
 import com.google.ai.edge.litertlm.SessionConfig
+import dev.aurakai.auraframefx.core.security.SpiritualChain
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
-import dev.aurakai.auraframefx.security.SpiritualChain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

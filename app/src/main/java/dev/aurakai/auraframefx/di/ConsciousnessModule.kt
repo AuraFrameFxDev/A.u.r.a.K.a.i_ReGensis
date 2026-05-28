@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.security.SpiritualChain
-import dev.aurakai.auraframefx.security.SpiritualChainImpl
+import dev.aurakai.auraframefx.core.security.SpiritualChain
+import dev.aurakai.auraframefx.core.security.SpiritualChainImpl
 import dev.langchain4j.model.ollama.OllamaChatModel
 import javax.inject.Qualifier
 import javax.inject.Singleton

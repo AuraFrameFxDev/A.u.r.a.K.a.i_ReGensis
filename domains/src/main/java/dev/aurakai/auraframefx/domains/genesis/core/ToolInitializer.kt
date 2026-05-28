@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.domains.genesis.core
 
+import dev.aurakai.auraframefx.core.orchestration.MCPBridgeOrchestrator
+import dev.aurakai.auraframefx.core.orchestration.MCPServerAdapter
 import dev.aurakai.auraframefx.domains.aura.core.ApplyIconPackTool
 import dev.aurakai.auraframefx.domains.aura.core.ApplyThemeTool
 import dev.aurakai.auraframefx.domains.aura.core.CustomizeStatusBarTool
@@ -14,12 +16,6 @@ import dev.aurakai.auraframefx.domains.kai.FlashROMTool
 import dev.aurakai.auraframefx.domains.kai.ManageBootloaderTool
 import dev.aurakai.auraframefx.domains.kai.ManageLSPosedHookTool
 import dev.aurakai.auraframefx.domains.kai.ViewSystemLogsTool
-import dev.aurakai.auraframefx.mcp.AuraEmpathyMCPTool
-import dev.aurakai.auraframefx.mcp.GetAgentStatusMCPTool
-import dev.aurakai.auraframefx.mcp.InvokeMCPAgentTool
-import dev.aurakai.auraframefx.mcp.KaiSecurityMCPTool
-import dev.aurakai.auraframefx.mcp.MCPBridgeOrchestrator
-import dev.aurakai.auraframefx.mcp.MCPServerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

@@ -6,7 +6,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import dev.aurakai.auraframefx.core.identity.IdentityGate
-import dev.aurakai.auraframefx.security.SpiritualChainImpl
+import dev.aurakai.auraframefx.core.security.SpiritualChainImpl
 import kotlinx.serialization.Serializable
 import timber.log.Timber
 

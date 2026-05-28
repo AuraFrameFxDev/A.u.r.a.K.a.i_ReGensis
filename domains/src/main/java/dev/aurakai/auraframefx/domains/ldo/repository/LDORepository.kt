@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.domains.ldo.repository
 
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentDao
-import dev.aurakai.auraframefx.domains.ldo.db.LDOAgentEntity
-import dev.aurakai.auraframefx.domains.ldo.db.LDOBondLevelDao
-import dev.aurakai.auraframefx.domains.ldo.db.LDOTaskDao
+import dev.aurakai.auraframefx.core.database.ldo.LDOAgentDao
+import dev.aurakai.auraframefx.core.database.ldo.LDOAgentEntity
+import dev.aurakai.auraframefx.core.database.ldo.LDOBondLevelDao
+import dev.aurakai.auraframefx.core.database.ldo.LDOTaskDao
 import dev.aurakai.auraframefx.domains.ldo.model.LDORoster
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

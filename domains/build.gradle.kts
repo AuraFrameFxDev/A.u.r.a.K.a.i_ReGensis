@@ -11,13 +11,24 @@ android {
 
 dependencies {
     api(project(":core-module"))
+    api(project(":core"))
     implementation(project(":agents:growthmetrics:metareflection"))
 
-    // Core dependencies
-    api(libs.androidx.core.ktx)
+    // UI & Navigation
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose.ui)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Image Loading
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
+
+    // Root & Hooks
+    implementation(libs.libsu.core)
+    implementation(libs.yukihookapi.api)
+
+    // Serialization
 
     // Networking (used by some domains like genesis/network)
     implementation(libs.bundles.networking.retrofit)

@@ -10,9 +10,9 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
+import dev.aurakai.auraframefx.core.security.SecureKeyStore
 import dev.aurakai.auraframefx.domains.genesis.network.api.AuthApi
 import dev.aurakai.auraframefx.domains.genesis.network.api.RefreshTokenRequest
-import dev.aurakai.auraframefx.securecomm.keystore.SecureKeyStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

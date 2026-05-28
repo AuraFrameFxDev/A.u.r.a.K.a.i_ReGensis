@@ -5,12 +5,12 @@ import dev.aurakai.auraframefx.core.ai.PandoraBoxService
 import dev.aurakai.auraframefx.core.ai.PandoraBoxState
 import dev.aurakai.auraframefx.core.ai.UnlockResult
 import dev.aurakai.auraframefx.core.ai.UnlockTier
-import dev.aurakai.auraframefx.di.PandoraPreferences
+import dev.aurakai.auraframefx.core.di.qualifiers.ApplicationScope
+import dev.aurakai.auraframefx.core.di.qualifiers.PandoraPreferences
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import dev.aurakai.auraframefx.domains.kai.security.SecurePreferences
 import dev.aurakai.auraframefx.domains.kai.security.provenance.ProvenanceValidator
 import dev.aurakai.auraframefx.domains.kai.security.veto.PredictiveVetoMonitor
-import dev.aurakai.auraframefx.sovereignty.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
