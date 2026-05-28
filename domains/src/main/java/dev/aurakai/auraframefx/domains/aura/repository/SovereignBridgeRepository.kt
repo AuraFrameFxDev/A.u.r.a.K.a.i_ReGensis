@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.domains.aura.repository
 
-import dev.aurakai.auraframefx.mcp.ConnectorStatus
-import dev.aurakai.auraframefx.mcp.MCPBridgeOrchestrator
-import dev.aurakai.auraframefx.mcp.MCPConnector
+import dev.aurakai.auraframefx.core.orchestration.ConnectorStatus
+import dev.aurakai.auraframefx.core.orchestration.MCPBridgeOrchestrator
+import dev.aurakai.auraframefx.core.orchestration.MCPConnector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

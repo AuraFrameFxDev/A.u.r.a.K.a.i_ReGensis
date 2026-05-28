@@ -46,8 +46,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.R
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraAuditEvent
-import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
+import dev.aurakai.auraframefx.core.ai.PandoraAuditEvent
+import dev.aurakai.auraframefx.core.ai.UnlockTier
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import java.text.SimpleDateFormat

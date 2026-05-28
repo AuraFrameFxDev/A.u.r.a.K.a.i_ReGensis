@@ -8,6 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.ai.adapters.GrokAdapter
 import dev.aurakai.auraframefx.core.ai.MemoryManager
+import dev.aurakai.auraframefx.core.ai.SoulMatrixAnalyzer
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager

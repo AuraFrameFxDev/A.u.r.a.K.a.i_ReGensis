@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import dev.aurakai.auraframefx.core.ai.BaseAgent
 import dev.aurakai.auraframefx.core.ai.MemoryManager
+import dev.aurakai.auraframefx.core.ai.SoulMatrixAnalyzer
+import dev.aurakai.auraframefx.core.ai.SoulMatrixState
 import dev.aurakai.auraframefx.core.identity.CatalystIdentity
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager

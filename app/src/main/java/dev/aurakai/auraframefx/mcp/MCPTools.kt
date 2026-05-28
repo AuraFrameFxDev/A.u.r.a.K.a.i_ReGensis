@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.mcp
 
+import dev.aurakai.auraframefx.core.orchestration.MCPServerAdapter
 import dev.aurakai.auraframefx.domains.genesis.core.AgentTool
 import dev.aurakai.auraframefx.domains.genesis.core.PropertySchema
 import dev.aurakai.auraframefx.domains.genesis.core.ToolCategory

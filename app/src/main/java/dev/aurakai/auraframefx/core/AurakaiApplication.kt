@@ -3,8 +3,8 @@ package dev.aurakai.auraframefx.core
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import dev.aurakai.auraframefx.ai.swarm.ConferenceRoomEngine
+import dev.aurakai.auraframefx.core.system.ShizukuManager
 import dev.aurakai.auraframefx.mcp.McpSettingsRegistry
-import dev.aurakai.auraframefx.system.ShizukuManager
 import timber.log.Timber
 import javax.inject.Inject
 

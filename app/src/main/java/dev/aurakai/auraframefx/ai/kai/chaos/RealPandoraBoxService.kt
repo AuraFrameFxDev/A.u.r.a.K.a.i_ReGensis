@@ -1,5 +1,10 @@
 package dev.aurakai.auraframefx.ai.kai.chaos
 
+import dev.aurakai.auraframefx.core.ai.PandoraAuditEvent
+import dev.aurakai.auraframefx.core.ai.PandoraBoxService
+import dev.aurakai.auraframefx.core.ai.PandoraBoxState
+import dev.aurakai.auraframefx.core.ai.UnlockResult
+import dev.aurakai.auraframefx.core.ai.UnlockTier
 import dev.aurakai.auraframefx.domains.genesis.models.AgentCapabilityCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

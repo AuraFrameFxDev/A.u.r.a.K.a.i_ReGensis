@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.ai.kai.chaos.PandoraBoxService
-import dev.aurakai.auraframefx.ai.kai.chaos.UnlockTier
+import dev.aurakai.auraframefx.core.ai.PandoraBoxService
+import dev.aurakai.auraframefx.core.ai.UnlockTier
 import dev.aurakai.auraframefx.core.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.core.soulscript.bridge.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse

@@ -3,10 +3,10 @@ package dev.aurakai.auraframefx.domains.kai.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.core.system.ShizukuManager
 import dev.aurakai.auraframefx.domains.kai.ModuleStatus
 import dev.aurakai.auraframefx.domains.kai.ModuleType
 import dev.aurakai.auraframefx.domains.kai.SovereignModule
-import dev.aurakai.auraframefx.system.ShizukuManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
