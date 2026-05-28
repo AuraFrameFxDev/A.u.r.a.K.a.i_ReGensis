@@ -40,6 +40,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
+    // DataStore
+    api(libs.androidx.datastore.preferences)
+
     // Networking (for GrokApiClient and MCPServerAdapter)
     implementation(libs.bundles.networking.ktor)
     implementation(libs.okhttp)
