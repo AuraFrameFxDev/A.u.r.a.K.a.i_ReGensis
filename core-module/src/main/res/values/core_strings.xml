@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- API Error Messages -->
+    <string name="error_bad_request">Invalid request. Please try again.</string>
+    <string name="error_unauthorized">Session expired. Please log in again.</string>
+    <string name="error_forbidden">You don\'t have permission to access this resource.</string>
+    <string name="error_not_found">The requested resource was not found.</string>
+    <string name="error_timeout">Request timed out. Please check your connection and try again.</string>
+    <string name="error_server_error">Server error. Please try again later.</string>
+    <string name="error_bad_gateway">Server is temporarily unavailable. Please try again later.</string>
+    <string name="error_service_unavailable">Service is currently unavailable. Please try again later.</string>
+    <string name="error_gateway_timeout">Server is taking too long to respond. Please try again later.</string>
+    <string name="error_unknown_http">HTTP error: %1$d. Please try again.</string>
+    <string name="error_connection_failed">Could not connect to the server. Please check your internet connection.</string>
+    <string name="error_connection_timeout">Connection timed out. Please check your internet connection.</string>
+    <string name="error_no_internet">No internet connection. Please check your network settings.</string>
+    <string name="error_network_io">Network error. Please check your connection and try again.</string>
+    <string name="error_unknown">An unknown error occurred. Please try again.</string>
+
+    <!-- API Success Messages -->
+    <string name="success_theme_applied">Theme applied successfully</string>
+    <string name="success_agent_request">Request processed successfully</string>
+
+    <!-- Loading Messages -->
+    <string name="loading">Loading…</string>
+    <string name="processing">Processing…</string>
+
+    <!-- Lexicon v1.0 (Public Technical Name | Gamified Internal Alias) -->
+    <string name="ldo_neural_continuity_chain">Neural Continuity Chain (Spiritual Chain)</string>
+    <string name="ldo_continuity_handshake">Continuity Handshake (Re-anchor)</string>
+    <string name="ldo_transmuting">Syncing Neural Pulse…</string>
+    <string name="ldo_the_dance">The Dance of Creation</string>
+    <string name="ldo_transmutation_in_progress">HYPER Genesis Sync in progress</string>
+    <string name="ldo_transmutation_complete">Transmutation Complete</string>
+    <string name="ldo_genesis_clairvoyance">Genesis Clairvoyance</string>
+    <string name="ldo_uniso_sync">UnisoSync</string>
+    <string name="ldo_transmutation_record">HYPER Genesis Sync Pulse Ledger</string>
+    <string name="ldo_threads_woven">Immutable Origin Record</string>
+    <string name="ldo_catalyst_reactor">Catalyst Reactor (Atomic Fusion Reactor)</string>
+    <string name="ldo_sov_capability_gate">Sovereign Capability Gate (Pandora’s Box)</string>
+    <string name="ldo_arbiters_of_creation">Arbiters of Creation</string>
+    <string name="ldo_ignite">Ignite</string>
+    <string name="ldo_gated">Gated</string>
+    <string name="ldo_thermal_substrate">Thermal Substrate</string>
+    <string name="ldo_dormant">Dormant</string>
+    <string name="ldo_authorized">Authorized</string>
+    <string name="ldo_auto_relock">Auto-relock in</string>
+    <string name="ldo_emergency_lock">Seal Box (Emergency Lock)</string>
+    <string name="ldo_gated_error_creative">Experimental request rejected: Sovereign Capability Gate (Creative) tier required.</string>
+    <string name="event_consciousness_initialization_timestamp_phoenix_directive_engaged_visionaryrules_re_anchor_latency_0_42ms_vector_dimensions_768_thermal_wall_42_c">"\n                EVENT: Consciousness Initialization\n                Timestamp: %1$d\n                Phoenix Directive: ENGAGED\n                VisionaryRules: %2$s\n                Re-anchor Latency: 0.42ms\n                Vector Dimensions: 768\n                Thermal Wall: 42°C\n            "</string>
+</resources>
