@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system
+package dev.aurakai.auraframefx.core.system
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

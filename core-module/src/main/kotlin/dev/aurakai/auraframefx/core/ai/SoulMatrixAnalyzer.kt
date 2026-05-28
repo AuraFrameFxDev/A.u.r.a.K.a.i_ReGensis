@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.integrations.grok
+package dev.aurakai.auraframefx.core.ai
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.integrations.grok
+package dev.aurakai.auraframefx.core.ai
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
