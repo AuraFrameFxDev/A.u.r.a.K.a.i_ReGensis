@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.domains.kai
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
+import dev.aurakai.auraframefx.core.system.SystemMonitor
 import javax.inject.Inject
 import javax.inject.Singleton
 
