@@ -88,7 +88,20 @@ class ZygoteGuard @Inject constructor() {
     private fun computeManifestSignature(classNames: List<String>): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val combined = classNames.sorted().joinToString("|")
-        return digest.digest(combined.toByteArray()).joinToString("") { "%02x".format(it) }
+        val hashBytes = digest.digest(combined.toByteArray())
+        // ⚡ Bolt Optimization: Allocation-free hex encoding avoids String.format() and joinToString overhead
+        return encodeHex(hashBytes)
+    }
+
+    private fun encodeHex(bytes: ByteArray): String {
+        val hexChars = "0123456789abcdef".toCharArray()
+        val result = CharArray(bytes.size * 2)
+        for (i in bytes.indices) {
+            val b = bytes[i].toInt() and 0xFF
+            result[i * 2] = hexChars[b ushr 4]
+            result[i * 2 + 1] = hexChars[b and 0x0F]
+        }
+        return String(result)
     }
 
     /**

@@ -203,7 +203,8 @@ class SecurityContext @Inject constructor(
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
-            val signatureHex = signatureDigest.joinToString("") { "%02x".format(it) }
+            // ⚡ Bolt Optimization: Allocation-free hex encoding avoids String.format() and joinToString overhead
+            val signatureHex = encodeHex(signatureDigest)
 
             ApplicationIntegrity(
                 verified = true,
@@ -251,7 +252,19 @@ class SecurityContext @Inject constructor(
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
-        return bytes.joinToString("") { "%02x".format(it) }
+        // ⚡ Bolt Optimization: Allocation-free hex encoding avoids String.format() and joinToString overhead
+        return encodeHex(bytes)
+    }
+
+    private fun encodeHex(bytes: ByteArray): String {
+        val hexChars = "0123456789abcdef".toCharArray()
+        val result = CharArray(bytes.size * 2)
+        for (i in bytes.indices) {
+            val b = bytes[i].toInt() and 0xFF
+            result[i * 2] = hexChars[b ushr 4]
+            result[i * 2 + 1] = hexChars[b and 0x0F]
+        }
+        return String(result)
     }
 
     fun logSecurityEvent(event: SecurityEvent) {
