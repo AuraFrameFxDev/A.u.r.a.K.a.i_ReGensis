@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.theme.model
+package dev.aurakai.auraframefx.core.ui.theme.model
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
