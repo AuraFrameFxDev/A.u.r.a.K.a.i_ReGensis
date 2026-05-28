@@ -11,7 +11,6 @@ android {
 
 dependencies {
     implementation(project(":core-module"))
-    implementation(project(":domains"))
 
     // Core dependencies
     api(libs.androidx.core.ktx)
