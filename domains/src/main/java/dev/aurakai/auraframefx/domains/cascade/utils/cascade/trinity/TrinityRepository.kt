@@ -37,6 +37,8 @@ import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.Result.Companion.failure
+import kotlin.Result.Companion.success
 import dev.aurakai.auraframefx.domains.genesis.network.model.Theme as NetworkTheme
 import dev.aurakai.auraframefx.domains.genesis.network.model.User as NetworkUser
 
@@ -165,9 +167,9 @@ open class TrinityRepository @Inject constructor(
     fun getCurrentUser() = flow {
         try {
             val response = apiService.userApi.getCurrentUser()
-            emit(Result.success(mapToUserData(response)))
+            emit(success(mapToUserData(response)))
         } catch (e: Exception) {
-            emit(Result.failure(e))
+            emit(failure(e))
         }
     }
 
@@ -180,9 +182,9 @@ open class TrinityRepository @Inject constructor(
     fun getAgentStatus(agentType: String) = flow {
         try {
             val response = apiService.aiAgentApi.getAgentStatus(agentType)
-            emit(Result.success(mapToDomainAgentStatus(response)))
+            emit(success(mapToDomainAgentStatus(response)))
         } catch (e: Exception) {
-            emit(Result.failure(e))
+            emit(failure(e))
         }
     }
 
