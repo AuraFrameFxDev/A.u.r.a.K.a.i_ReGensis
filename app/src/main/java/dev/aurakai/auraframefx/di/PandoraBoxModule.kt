@@ -10,14 +10,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.core.ai.PandoraBoxService
+import dev.aurakai.auraframefx.core.di.qualifiers.PandoraPreferences
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.pandora.PandoraBoxServiceImpl
 import dev.aurakai.auraframefx.domains.kai.security.SecurePreferences
-import javax.inject.Qualifier
 import javax.inject.Singleton
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class PandoraPreferences
 
 @Module
 @InstallIn(SingletonComponent::class)

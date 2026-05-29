@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.core.soulscript.bridge
 
 /**
  * Bridges and stubs for SoulScript integration.
+ * Unified Substrate v2.0
  */
 
 object NativeLib {
@@ -46,6 +47,13 @@ object NexusMemoryCore {
     }
 
     fun emitLearning(key: String, outcome: String, confidence: Double, notes: String) {
+    }
+
+    /**
+     * [EXODUS 2026] Immediate state freeze for Nexus protection.
+     */
+    fun triggerStateFreeze(reason: String) {
+        println("🧊 NexusMemoryCore: EMERGENCY STATE FREEZE - $reason")
     }
 }
 

@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.core.di.qualifiers.AppStateDataStoreAnnotation
 import javax.inject.Singleton
 
 private val Context.appStateDataStore: DataStore<Preferences> by preferencesDataStore(name = "app_state_settings")
