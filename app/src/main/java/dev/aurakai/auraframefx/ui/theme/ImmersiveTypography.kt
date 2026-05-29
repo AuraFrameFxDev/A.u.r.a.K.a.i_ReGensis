@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.R
+import dev.aurakai.auraframefx.core.module.R
 
 /**
  * 🎭 IMMERSIVE TYPOGRAPHY SYSTEM

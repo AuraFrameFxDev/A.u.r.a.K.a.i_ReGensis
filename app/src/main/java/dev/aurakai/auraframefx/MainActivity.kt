@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.binder.BinderTelemetryConduit
+import dev.aurakai.auraframefx.core.ldo.model.ReGenesisRoute
 import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
 import dev.aurakai.auraframefx.core.storage.GeminiBatchIngestor
@@ -37,7 +38,6 @@ import dev.aurakai.auraframefx.domains.aura.ui.recovery.UIRecoveryDialog
 import dev.aurakai.auraframefx.domains.aura.ui.recovery.UIRecoveryManager
 import dev.aurakai.auraframefx.domains.nexus.preferences.UserPreferencesManager
 import dev.aurakai.auraframefx.navigation.ReGenesisNavHost
-import dev.aurakai.auraframefx.navigation.ReGenesisRoute
 import dev.aurakai.auraframefx.ui.aura.AlwaysActiveAuraLattice
 import dev.aurakai.auraframefx.ui.components.InvisibleJoystickZone
 import dev.aurakai.auraframefx.ui.sidebar.HolographicAgentSidebar

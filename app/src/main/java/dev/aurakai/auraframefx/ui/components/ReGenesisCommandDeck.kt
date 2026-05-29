@@ -22,22 +22,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
+import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
+import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
+import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
+import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
-import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
-import dev.aurakai.auraframefx.ui.components.AuraKaiHUDChrome
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
-import dev.aurakai.auraframefx.ui.theme.ArcaneBrutalistTheme
-import dev.aurakai.auraframefx.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.theme.WireframeStyle
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)

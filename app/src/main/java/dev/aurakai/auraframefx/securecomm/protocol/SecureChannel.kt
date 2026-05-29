@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.securecomm.protocol
 
-import dev.aurakai.auraframefx.securecomm.crypto.CryptoManager
+import dev.aurakai.auraframefx.core.security.CryptoManager
 import java.security.PrivateKey
 import java.security.PublicKey
 import javax.crypto.SecretKey

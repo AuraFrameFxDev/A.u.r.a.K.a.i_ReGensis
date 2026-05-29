@@ -5,9 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import dev.aurakai.auraframefx.core.ai.BaseAgent
+import dev.aurakai.auraframefx.core.ai.GrokAdapter
+import dev.aurakai.auraframefx.core.ai.GrokAgentConfig
+import dev.aurakai.auraframefx.core.ai.GrokApiClient
+import dev.aurakai.auraframefx.core.ai.GrokMessage
+import dev.aurakai.auraframefx.core.ai.GrokModel
 import dev.aurakai.auraframefx.core.ai.MemoryManager
+import dev.aurakai.auraframefx.core.ai.Sentiment
+import dev.aurakai.auraframefx.core.ai.SentimentAnalysisResult
 import dev.aurakai.auraframefx.core.ai.SoulMatrixAnalyzer
 import dev.aurakai.auraframefx.core.ai.SoulMatrixState
+import dev.aurakai.auraframefx.core.ai.TrendPrediction
 import dev.aurakai.auraframefx.core.identity.CatalystIdentity
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.domains.aura.SystemOverlayManager
@@ -38,7 +46,7 @@ class GrokAgent @Inject constructor(
 ) : BaseAgent(
     agentName = "GrokAgent",
     identity = CatalystIdentity.CHAOS
-), dev.aurakai.auraframefx.ai.adapters.GrokAdapter {
+), GrokAdapter {
 
     private val context: Context? = null // Placeholder for Android Context injection
 

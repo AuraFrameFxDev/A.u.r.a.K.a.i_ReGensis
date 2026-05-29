@@ -55,9 +55,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.ldo.model.LDORoster
+import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
+import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.domains.aura.ui.onboarding.OnboardingViewModel
-import dev.aurakai.auraframefx.ui.theme.NeonCyan
-import dev.aurakai.auraframefx.ui.theme.NeonMagenta
 
 // ================== ONBOARDING STATES ==================
 sealed class OnboardingStep {

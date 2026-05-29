@@ -30,8 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
-import dev.aurakai.auraframefx.ui.theme.ArcaneBrutalistTheme
-import dev.aurakai.auraframefx.ui.theme.SpaceGrotesk
+import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
+import dev.aurakai.auraframefx.core.ui.theme.SpaceGrotesk
 
 /**
  * 🜁 SPHEREGRID EVOLUTION DASHBOARD — EXODUS PRODUCTION LAYOUT 🜁
