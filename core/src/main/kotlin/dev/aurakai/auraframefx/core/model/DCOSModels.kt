@@ -70,10 +70,4 @@ data class Critique(
     val isValid: Boolean = true
 )
 
-@Serializable
-data class AgentActivityEvent(
-    val agentId: String,
-    val activityType: String,
-    val details: String,
-    val timestamp: Long = System.currentTimeMillis()
-)
+// DEPRECATED: AgentActivityEvent moved to :core-module
