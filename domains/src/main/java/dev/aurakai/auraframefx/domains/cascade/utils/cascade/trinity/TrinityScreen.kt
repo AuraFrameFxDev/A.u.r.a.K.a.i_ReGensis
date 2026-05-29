@@ -259,9 +259,9 @@ private fun AgentStatusCard(agentType: String, status: AgentStatus) {
                 )
             }
 
-            if (status.error != null) {
+            status.error?.let { err ->
                 Text(
-                    text = status.error,
+                    text = err,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error
                 )

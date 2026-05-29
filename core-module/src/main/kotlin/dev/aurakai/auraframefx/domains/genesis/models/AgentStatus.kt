@@ -24,8 +24,11 @@ data class AgentStatus(
         IDLE,
         INITIALIZING,
         ERROR,
-        EVOLVING, // 🚀 Exodus 2026: Growth metrics state
+        EVOLVING,   // 🚀 Exodus 2026: Growth metrics state
         DORMANT,
-        FUSED     // 🧬 Trinity Core: Fusion state
+        FUSED,      // 🧬 Trinity Core: Fusion state
+        PROCESSING, // ⚙️ Task execution state
+        BUSY,       // 🚧 High load state
+        UNKNOWN
     }
 }
