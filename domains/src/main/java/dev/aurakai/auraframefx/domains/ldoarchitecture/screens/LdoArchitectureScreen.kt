@@ -30,13 +30,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.database.ldo.LDOAgentEntity
+import dev.aurakai.auraframefx.core.ui.components.graph.SphereGridDashboard
 import dev.aurakai.auraframefx.domains.aura.ui.components.SovereignGlassCard
 import dev.aurakai.auraframefx.domains.aura.ui.theme.CitadelBlack
 import dev.aurakai.auraframefx.domains.aura.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.domains.aura.ui.theme.SpaceGrotesk
 import dev.aurakai.auraframefx.domains.aura.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.ldo.viewmodel.LdoWarRoomViewModel
-import dev.aurakai.auraframefx.ui.components.graph.SphereGridDashboard
 import java.util.Locale
 
 /**
