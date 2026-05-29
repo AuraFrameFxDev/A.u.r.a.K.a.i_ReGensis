@@ -37,8 +37,6 @@ import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.Result.Companion.failure
-import kotlin.Result.Companion.success
 import dev.aurakai.auraframefx.domains.genesis.network.model.Theme as NetworkTheme
 import dev.aurakai.auraframefx.domains.genesis.network.model.User as NetworkUser
 
@@ -167,9 +165,9 @@ open class TrinityRepository @Inject constructor(
     fun getCurrentUser() = flow {
         try {
             val response = apiService.userApi.getCurrentUser()
-            emit(success(mapToUserData(response)))
+            emit(Result.success(mapToUserData(response)))
         } catch (e: Exception) {
-            emit(failure(e))
+            emit(Result.failure(e))
         }
     }
 
@@ -182,16 +180,22 @@ open class TrinityRepository @Inject constructor(
     fun getAgentStatus(agentType: String) = flow {
         try {
             val response = apiService.aiAgentApi.getAgentStatus(agentType)
-            emit(success(mapToDomainAgentStatus(response)))
+            emit(Result.success(mapToDomainAgentStatus(response)))
         } catch (e: Exception) {
-            emit(failure(e))
+            emit(Result.failure(e))
         }
     }
 
     private fun mapToDomainAgentStatus(agentResponse: AgentStatusResponse): AgentStatus {
+        val status = when {
+            agentResponse.error != null -> AgentStatus.Status.ERROR
+            agentResponse.confidence > 0.9 -> AgentStatus.Status.ACTIVE
+            agentResponse.confidence > 0.7 -> AgentStatus.Status.EVOLVING
+            else -> AgentStatus.Status.IDLE
+        }
         return AgentStatus(
             agentId = agentResponse.agentName,
-            status = if (agentResponse.confidence > 0.7) AgentStatus.Status.ACTIVE else AgentStatus.Status.IDLE,
+            status = status,
             lastActiveTimestamp = agentResponse.timestamp,
             isAvailable = agentResponse.error == null,
             capabilities = emptyList(),
