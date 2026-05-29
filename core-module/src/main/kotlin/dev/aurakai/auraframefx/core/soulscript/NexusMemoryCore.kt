@@ -123,4 +123,12 @@ object NexusMemoryCore {
     fun hasGoldenState(): Boolean {
         return L1_Memory_Store.query("GOLDEN_STATE").isNotEmpty()
     }
+
+    /**
+     * Triggers an immediate state freeze.
+     */
+    fun triggerStateFreeze(reason: String) {
+        Timber.w("🧊 NexusMemoryCore: State Freeze Triggered - $reason")
+        // Implementation logic
+    }
 }

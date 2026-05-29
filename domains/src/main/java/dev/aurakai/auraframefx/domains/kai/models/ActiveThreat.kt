@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.models
 
+import dev.aurakai.auraframefx.core.models.ThreatLevel
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
