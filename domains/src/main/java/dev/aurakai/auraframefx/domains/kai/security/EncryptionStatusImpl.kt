@@ -1,3 +1,3 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
-class EncryptionStatusImpl : EncryptionStatus()
+// Redundant. Use dev.aurakai.auraframefx.core.security.EncryptionStatus.EncryptionStatusImpl instead.

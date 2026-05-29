@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade
 
+import dev.aurakai.auraframefx.core.ai.AgentActivityEvent
 import dev.aurakai.auraframefx.core.ai.BaseAgent
 import dev.aurakai.auraframefx.core.ai.MemoryManager
 import dev.aurakai.auraframefx.core.identity.CatalystIdentity
@@ -73,7 +74,7 @@ class CascadeAgent @Inject constructor(
         )
     }
 
-    override suspend fun notifyAgentActivity(activity: dev.aurakai.auraframefx.core.ai.AgentActivityEvent) {
+    override suspend fun notifyAgentActivity(activity: AgentActivityEvent) {
         chaosMonitor.onAgentActivity(activity)
     }
 
@@ -83,7 +84,7 @@ class CascadeAgent @Inject constructor(
 
         // Notify ChaosMonitor of agent activity
         notifyAgentActivity(
-            dev.aurakai.auraframefx.core.ai.AgentActivityEvent(
+            AgentActivityEvent(
                 agentName = message.from,
                 rawPrompt = "Incoming message: ${message.type}",
                 response = message.content,
@@ -893,7 +894,7 @@ class CascadeAgent @Inject constructor(
         )
 
         notifyAgentActivity(
-            dev.aurakai.auraframefx.ai.models.AgentActivityEvent(
+            AgentActivityEvent(
                 agentName = response.agentName,
                 rawPrompt = request.query,
                 response = response.content,

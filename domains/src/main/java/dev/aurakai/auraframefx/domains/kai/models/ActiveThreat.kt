@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.domains.kai.models
 
-import dev.aurakai.auraframefx.core.models.ThreatLevel
 import kotlinx.serialization.Serializable
 import java.util.UUID
+import dev.aurakai.auraframefx.core.models.ThreatLevel as CoreThreatLevel
 
 /**
  * Standardized Threat Status across the Nexus.
@@ -24,7 +24,7 @@ data class ActiveThreat(
     val id: String = UUID.randomUUID().toString(),
     val type: String,
     val threatType: String = "HEURISTIC",
-    val severity: ThreatLevel,
+    val severity: CoreThreatLevel,
     val description: String,
     val timestamp: Long = System.currentTimeMillis(),
     val source: String? = null,

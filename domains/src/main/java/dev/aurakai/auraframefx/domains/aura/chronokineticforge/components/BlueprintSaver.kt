@@ -39,11 +39,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.EvolutionaryCouncil
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.KaiSentinel
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.MetaInstruct
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.MorphType
-import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.NexusMemoryCore
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.RealitymorphismEngine
 import dev.aurakai.auraframefx.domains.aura.chronokineticforge.engines.SpiritualChain
 import kotlinx.coroutines.launch
@@ -132,7 +132,7 @@ object BlueprintSaver {
         KaiSentinel.recordBlueprintCommit(blueprint)
 
         // 5. Broadcast to Nexus for cross-device sync (if enabled)
-        NexusMemoryCore.broadcastBlueprint(blueprint)
+        NexusMemoryCore.commit("BLUEPRINT_${blueprint.id}", blueprint)
     }
 
     private fun persistToLocalDatabase(

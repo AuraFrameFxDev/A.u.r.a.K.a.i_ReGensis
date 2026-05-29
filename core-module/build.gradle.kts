@@ -12,7 +12,11 @@ plugins {
 
 extensions.configure<LibraryExtension> {
     namespace = "dev.aurakai.auraframefx.core.module"
-    // Java 25 compileOptions are set by genesis.android.library
+
+    buildFeatures {
+        buildConfig = true
+        aidl = true
+    }
 }
 
 dependencies {

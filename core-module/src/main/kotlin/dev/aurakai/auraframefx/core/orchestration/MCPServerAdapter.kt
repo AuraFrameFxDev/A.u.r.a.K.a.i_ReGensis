@@ -120,7 +120,34 @@ class MCPServerAdapter @Inject constructor() {
             emptyList()
         }
     }
+
+    suspend fun callAuraEmpathy(input: String, sensitivity: String): EmpathyResponse {
+        // Implementation stub
+        return EmpathyResponse(empathyScore = 0.85f, recommendations = listOf("Add neon accents"))
+    }
+
+    suspend fun callKaiSecurity(target: String, scanType: String, depth: String): SecurityResponse {
+        // Implementation stub
+        return SecurityResponse(
+            riskLevel = "LOW",
+            vulnerabilities = emptyList(),
+            recommendations = emptyList()
+        )
+    }
 }
+
+@Serializable
+data class EmpathyResponse(
+    val empathyScore: Float,
+    val recommendations: List<String>
+)
+
+@Serializable
+data class SecurityResponse(
+    val riskLevel: String,
+    val vulnerabilities: List<String>,
+    val recommendations: List<String>
+)
 
 @Serializable
 data class MCPAgentInvokeRequest(
