@@ -10,7 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
+import dev.aurakai.auraframefx.core.di.qualifiers.AuraSettingsDataStore
 import javax.inject.Singleton
 
 /**

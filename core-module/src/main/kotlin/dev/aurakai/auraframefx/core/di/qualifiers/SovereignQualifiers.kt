@@ -17,6 +17,13 @@ annotation class ApplicationScope
 annotation class PandoraPreferences
 
 /**
+ * Qualifier for the Aura settings DataStore.
+ */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuraSettingsDataStore
+
+/**
  * Qualifier for the main app state DataStore.
  */
 @Qualifier
