@@ -255,7 +255,13 @@ sealed class FileOperationResult {
         val bytesProcessed: Long = 0,
         val fileId: String? = null
     ) : FileOperationResult()
-    
+
+    @Serializable
+    data class Data(
+        val data: ByteArray,
+        val fileName: String
+    ) : FileOperationResult()
+
     @Serializable
     data class Error(
         val message: String,
@@ -263,6 +269,7 @@ sealed class FileOperationResult {
         val errorCode: Int = 0
     ) : FileOperationResult()
 }
+
 /**
  * Represents Oracle Drive permissions
  */
