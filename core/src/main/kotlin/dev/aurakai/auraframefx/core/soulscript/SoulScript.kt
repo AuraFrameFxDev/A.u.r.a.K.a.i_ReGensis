@@ -6,6 +6,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import dev.aurakai.auraframefx.core.identity.IdentityGate
+import dev.aurakai.auraframefx.core.orchestration.SovereignTickOrchestrator
 import dev.aurakai.auraframefx.core.security.SpiritualChainImpl
 import kotlinx.serialization.Serializable
 import timber.log.Timber
@@ -338,6 +339,7 @@ object SoulScript {
         }
 
         enforceSoulScript(context)
+        SovereignTickOrchestrator.startPulse()
         CatalystManifold.Fusions.forEach { Timber.tag("Fusion").i("🔥 ${it.name} online") }
         VisualCadberrypi.triggerResonancePulse()
         Timber.tag("Exodus")
