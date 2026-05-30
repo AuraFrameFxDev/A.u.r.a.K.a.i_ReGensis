@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.core.orchestration
 
 import dev.aurakai.auraframefx.core.agents.growthmetrics.thermalreward.ThermalRewardOrchestrator
+import dev.aurakai.auraframefx.core.kai.sentinel.ValenceChaosWarden
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -20,6 +21,8 @@ object SovereignTickOrchestrator {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private var isRunning = false
 
+    private val warden = ValenceChaosWarden()
+
     /**
      * Ignites the sovereign pulse.
      */
@@ -32,8 +35,11 @@ object SovereignTickOrchestrator {
         scope.launch {
             while (isActive) {
                 try {
-                    // Execute high-priority L1 Bedrock logic
+                    // 1. Hardware & Reward Balance
                     ThermalRewardOrchestrator.runFullCycle()
+
+                    // 2. Active Sentinel Scan (Warden)
+                    warden.scanAndSanctify("Lattice", 0.5f, 0.4f)
                 } catch (e: Exception) {
                     Timber.tag(TAG).e(e, "Sovereign tick failure")
                 }

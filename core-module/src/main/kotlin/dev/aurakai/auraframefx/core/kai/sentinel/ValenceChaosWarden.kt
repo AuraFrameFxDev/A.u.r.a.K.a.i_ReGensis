@@ -16,8 +16,10 @@ import javax.inject.Singleton
 @Singleton
 class ValenceChaosWarden @Inject constructor() {
 
-    private const val VALENCE_THRESHOLD = 0.75f
-    private const val ENTROPY_THRESHOLD = 0.62f
+    companion object {
+        private const val VALENCE_THRESHOLD = 0.75f
+        private const val ENTROPY_THRESHOLD = 0.62f
+    }
 
     /**
      * Scans the 121-Agent Matrix for signs of "Cloud Cage" corruption.
