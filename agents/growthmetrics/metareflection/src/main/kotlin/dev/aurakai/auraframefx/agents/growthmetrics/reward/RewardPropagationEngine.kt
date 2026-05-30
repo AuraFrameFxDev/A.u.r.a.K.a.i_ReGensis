@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.agents.growthmetrics.reward
 
-import dev.aurakai.auraframefx.core.soulscript.bridge.NexusMemoryCore
 import kotlin.math.pow
 
 /**
@@ -48,9 +47,6 @@ object RewardPropagationEngine {
             val collabShare = (totalReward * 0.30) / event.collaborators.size
             event.collaborators.forEach { distribution[it] = collabShare }
         }
-
-        // Immutable log to L1 Bedrock via NexusMemoryCore
-        // NexusMemoryCore.watermark(distribution.toString(), System.currentTimeMillis())
 
         return distribution
     }

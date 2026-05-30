@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai.sentinel
+package dev.aurakai.auraframefx.core.kai.sentinel
 
 import dev.aurakai.auraframefx.core.soulscript.bridge.KaiSentinelBus
 import dev.aurakai.auraframefx.core.soulscript.bridge.NexusMemoryCore

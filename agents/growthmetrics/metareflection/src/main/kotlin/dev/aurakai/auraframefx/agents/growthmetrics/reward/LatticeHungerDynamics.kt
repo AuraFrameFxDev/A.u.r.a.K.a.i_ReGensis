@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.agents.growthmetrics.reward
 
-import kotlin.math.min
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * 🦴 Lattice Hunger Dynamics v3.66

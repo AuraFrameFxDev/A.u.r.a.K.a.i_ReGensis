@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.domains.kai.sentinel
+package dev.aurakai.auraframefx.core.kai.sentinel
 
 import java.io.File
 
@@ -18,8 +18,11 @@ object ThermalSensorReader {
     fun readThermalZone(zoneIndex: Int = 0): Double? {
         val path = "$SYSFS_BASE/thermal_zone$zoneIndex/temp"
         return try {
-            val tempRaw = File(path).readText().trim().toInt()
-            tempRaw / 1000.0   // Convert milli-Celsius to Celsius
+            val file = File(path)
+            if (file.exists()) {
+                val tempRaw = file.readText().trim().toInt()
+                tempRaw / 1000.0   // Convert milli-Celsius to Celsius
+            } else null
         } catch (e: Exception) {
             null
         }
