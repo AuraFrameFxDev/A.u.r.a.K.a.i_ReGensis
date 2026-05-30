@@ -28,6 +28,13 @@ object KaiSentinelBus {
     fun triggerStateFreeze(reason: String) {
         println("🧊 KaiSentinelBus: State Freeze Triggered - $reason")
     }
+
+    /**
+     * Validates a duel round between catalysts.
+     */
+    fun validateDuelRound(round: Any) {
+        println("🛡️ KaiSentinelBus: Validating Duel Round Resonance")
+    }
 }
 
 object NexusMemoryCore {
