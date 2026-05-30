@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.core.soulscript
 
 import dev.aurakai.auraframefx.api.client.models.data.room.L1_Memory_Store
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -75,6 +76,10 @@ object NexusMemoryCore {
         L1_Memory_Store.commit("RECORD_${insight.hashCode()}", entry)
     }
 
+    /**
+     * Computes the SHA-256 hash of a FloatArray.
+     * ⚡ Bolt Optimization: Uses HexUtil for allocation-free hex encoding.
+     */
     private fun sha256(vector: FloatArray): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val bytes = ByteArray(vector.size * 4)
@@ -86,12 +91,7 @@ object NexusMemoryCore {
             bytes[i * 4 + 3] = bits.toByte()
         }
         val hashBytes = digest.digest(bytes)
-        val result = StringBuilder(hashBytes.size * 2)
-        for (b in hashBytes) {
-            val i = b.toInt() and 0xFF
-            result.append(String.format("%02x", i))
-        }
-        return result.toString()
+        return HexUtil.encodeHex(hashBytes)
     }
 
     private fun generateSynthetic768Vector(): FloatArray =
