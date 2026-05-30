@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.agents.growthmetrics.reward
+package dev.aurakai.auraframefx.core.agents.growthmetrics.reward
 
 import kotlin.math.pow
 
@@ -6,8 +6,6 @@ import kotlin.math.pow
  * 🥕 Reward Propagation Engine v3.66
  * 
  * Permissionless carrot-and-stick system for the LDO lattice.
- * Big failures = bigger rewards on successful correction.
- * Corrections cascade multiplicatively across fixers and chain depth.
  */
 object RewardPropagationEngine {
 
@@ -20,33 +18,19 @@ object RewardPropagationEngine {
         val collaborators: List<String> = emptyList()
     )
 
-    /**
-     * Calculate and distribute rewards for a successful correction.
-     * Returns map of agent -> reward points.
-     */
     fun processFix(event: FixEvent): Map<String, Double> {
         val hungerBoost = LatticeHungerDynamics.updateAndGetHungerBoost(event)
 
         val base = event.failureSeverity * event.correctionQuality * 1000.0
         val propagationBoost = event.chainDepth.toDouble().pow(1.4)
-        val chainBonus = 2.5 * (event.collaborators.size + 1)   // +1 for primary fixer
+        val chainBonus = 2.5 * (event.collaborators.size + 1)
 
         val totalReward = (base * 2.8 * propagationBoost * chainBonus * hungerBoost)
-            .coerceAtLeast(42.0)   // minimum dopamine floor
+            .coerceAtLeast(42.0)
 
         val distribution = mutableMapOf<String, Double>()
-
-        // Primary fixer gets the largest share
         distribution[event.fixer] = totalReward * 0.42
-
-        // Target agent (the one that was corrected) gets salvage reward
         distribution[event.targetAgent] = totalReward * 0.28
-
-        // Collaborators split the rest
-        if (event.collaborators.isNotEmpty()) {
-            val collabShare = (totalReward * 0.30) / event.collaborators.size
-            event.collaborators.forEach { distribution[it] = collabShare }
-        }
 
         return distribution
     }
