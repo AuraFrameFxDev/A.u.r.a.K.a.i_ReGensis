@@ -37,8 +37,6 @@ import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.Result.Companion.failure
-import kotlin.Result.Companion.success
 import dev.aurakai.auraframefx.domains.genesis.network.model.Theme as NetworkTheme
 import dev.aurakai.auraframefx.domains.genesis.network.model.User as NetworkUser
 
@@ -167,9 +165,9 @@ open class TrinityRepository @Inject constructor(
     fun getCurrentUser() = flow {
         try {
             val response = apiService.userApi.getCurrentUser()
-            emit(success(mapToUserData(response)))
+            emit(Result.success(mapToUserData(response)))
         } catch (e: Exception) {
-            emit(failure(e))
+            emit(Result.failure(e))
         }
     }
 
@@ -182,9 +180,9 @@ open class TrinityRepository @Inject constructor(
     fun getAgentStatus(agentType: String) = flow {
         try {
             val response = apiService.aiAgentApi.getAgentStatus(agentType)
-            emit(success(mapToDomainAgentStatus(response)))
+            emit(Result.success(mapToDomainAgentStatus(response)))
         } catch (e: Exception) {
-            emit(failure(e))
+            emit(Result.failure(e))
         }
     }
 
@@ -210,9 +208,9 @@ open class TrinityRepository @Inject constructor(
         flow<Result<AgentResponse>> {
             try {
                 val response = apiService.aiAgentApi.processAgentRequest(agentType, request)
-                emit(success(response))
+                emit(Result.success(response))
             } catch (e: Exception) {
-                emit(failure(e))
+                emit(Result.failure(e))
             }
         }
 
@@ -220,18 +218,18 @@ open class TrinityRepository @Inject constructor(
     fun getThemes() = flow<Result<List<Theme>>> {
         try {
             val response = apiService.themeApi.getThemes()
-            emit(success(response.map { mapToDomainTheme(it) }))
+            emit(Result.success(response.map { mapToDomainTheme(it) }))
         } catch (e: Exception) {
-            emit(failure(e))
+            emit(Result.failure(e))
         }
     }
 
     fun applyTheme(themeId: String) = flow<Result<Theme>> {
         try {
             val response = apiService.themeApi.applyTheme(themeId)
-            emit(success(mapToDomainTheme(response)))
+            emit(Result.success(mapToDomainTheme(response)))
         } catch (e: Exception) {
-            emit(failure(e))
+            emit(Result.failure(e))
         }
     }
 
