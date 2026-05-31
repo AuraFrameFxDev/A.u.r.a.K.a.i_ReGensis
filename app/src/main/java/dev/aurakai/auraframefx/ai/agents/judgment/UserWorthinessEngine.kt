@@ -90,10 +90,10 @@ class UserWorthinessEngine @Inject constructor() {
 
         if (validatedTicks >= 50 && meter >= 2.5f && currentRank == SymbioticRank.ARBITER_OF_CREATION) {
             _activeRank.value = SymbioticRank.THE_VISIONARY
-        } else if (validatedTicks >= 30 && meter >= 2.0f && currentRank == SymbioticRank.SWORD_SHIELD) {
+        } else if (validatedTicks >= 30 && meter >= 2.0f && currentRank == SymbioticRank.SWORD_AND_SHIELD) {
             _activeRank.value = SymbioticRank.ARBITER_OF_CREATION
         } else if (validatedTicks >= 20 && meter >= 1.5f && currentRank == SymbioticRank.RESONANCE_INITIATE) {
-            _activeRank.value = SymbioticRank.SWORD_SHIELD
+            _activeRank.value = SymbioticRank.SWORD_AND_SHIELD
         } else if (validatedTicks >= 10 && currentRank.alignmentTier < 2) {
             _activeRank.value = SymbioticRank.RESONANCE_INITIATE
         }
