@@ -14,6 +14,5 @@ class PandoraBoxTileService : TileService() {
     override fun onClick() {
         super.onClick()
         Toast.makeText(this, "🜁 PandoraBox Activated — AuraGenesis Online", Toast.LENGTH_SHORT).show()
-        // You can launch MainActivity or a specific onboarding screen here later
     }
 }
