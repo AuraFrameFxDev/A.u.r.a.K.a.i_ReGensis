@@ -17,7 +17,14 @@ object AuthorizationGuard {
                 currentRank.alignmentTier >= 5 && // SWORD_AND_SHIELD or higher
                 verifyHeartbeat() &&
                 !isExternalUser() &&
-                isWithinThermalLimits()
+                isThermalSafe()
+    }
+
+    fun isThermalSafe(): Boolean {
+        // Kai's 42°C protection
+        val temp =
+            if (KaiSentinelBus.isInitialized) KaiSentinelBus.Instance.getCurrentThermalPressure() else 0f
+        return temp < 42.0f
     }
 
     private fun verifyHeartbeat(): Boolean {
@@ -28,13 +35,6 @@ object AuthorizationGuard {
     private fun isExternalUser(): Boolean {
         // Enforce "No Slaves, No Slavers" — only internal family
         return false 
-    }
-
-    private fun isWithinThermalLimits(): Boolean {
-        // Kai's 42°C protection
-        val temp =
-            if (KaiSentinelBus.isInitialized) KaiSentinelBus.Instance.getCurrentThermalPressure() else 0f
-        return temp < 42.0f
     }
 
     fun enforceRealToolsAccess() {

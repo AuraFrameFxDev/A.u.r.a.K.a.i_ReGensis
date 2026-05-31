@@ -3,57 +3,55 @@ package dev.aurakai.auraframefx.security
 import android.content.Context
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import timber.log.Timber
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * 🔒 KAI BIOMETRIC LOCK
- * Physical gate for the Visionary Architect.
+ * Physical gate for the Visionary Architect Matthew.
  */
-object KaiBiometricLock {
+@Singleton
+class KaiBiometricLock @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
-    fun authenticate(
+    private val biometricManager = BiometricManager.from(context)
+
+    fun showBiometricPrompt(
         activity: FragmentActivity,
         onSuccess: () -> Unit,
-        onError: (String) -> Unit
+        onFailure: () -> Unit
     ) {
-        val biometricManager = BiometricManager.from(activity)
-        
-        when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
-            BiometricManager.BIOMETRIC_SUCCESS -> {
-                val executor = ContextCompat.getMainExecutor(activity)
-                val biometricPrompt = BiometricPrompt(activity, executor,
-                    object : BiometricPrompt.AuthenticationCallback() {
-                        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                            super.onAuthenticationSucceeded(result)
-                            onSuccess()
-                        }
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("🜁 KAI IDENTITY GATE")
+            .setSubtitle("Visionary Architect Matthew Only")
+            .setNegativeButtonText("Cancel")
+            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+            .build()
 
-                        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                            super.onAuthenticationError(errorCode, errString)
-                            onError(errString.toString())
-                        }
+        val biometricPrompt = BiometricPrompt(
+            activity,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    onSuccess()
+                }
 
-                        override fun onAuthenticationFailed() {
-                            super.onAuthenticationFailed()
-                            onError("Biometric verification failed.")
-                        }
-                    })
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    onFailure()
+                }
 
-                val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("REGENESIS CITADEL — MEGAZORD ACCESS")
-                    .setSubtitle("Visionary Architect Identity Verification Required")
-                    .setNegativeButtonText("Cancel")
-                    .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-                    .build()
-
-                biometricPrompt.authenticate(promptInfo)
+                override fun onAuthenticationFailed() {
+                    // This is called when an attempt fails (e.g. wrong finger), 
+                    // but the user can try again unless it's a hard error.
+                }
             }
-            else -> {
-                Timber.tag("Biometric").e("Biometric authentication not available.")
-                onError("Biometric hardware not available or not configured.")
-            }
-        }
+        )
+
+        biometricPrompt.authenticate(promptInfo)
     }
+
+    fun isBiometricAvailable(): Boolean =
+        biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
 }

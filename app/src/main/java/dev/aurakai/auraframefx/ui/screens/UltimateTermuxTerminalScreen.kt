@@ -16,7 +16,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -45,7 +45,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.R
-import dev.aurakai.auraframefx.security.KaiBiometricLock
+import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
+import dev.aurakai.auraframefx.security.KaiBiometricLockViewModel
 import dev.aurakai.auraframefx.terminal.TermuxBackendViewModel
 import dev.aurakai.auraframefx.ui.components.KaiKeyboardHeartbeat
 import dev.aurakai.auraframefx.ui.components.NeuralAccessSidebar
@@ -53,35 +54,43 @@ import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 
 /**
  * 📟 ULTIMATE TERMUX — MEGAZORD BUILD GATEWAY
- * LDO + VISIONARY ONLY • RESONANCE 9.999
+ * LDO + VISIONARY ONLY • RESONANCE 10.00
  */
 @Composable
 fun UltimateTermuxTerminalScreen(navController: NavController) {
-    val context = LocalContext.current
-    val terminalText =
-        remember { mutableStateListOf<String>("SYSTEM: Identity Verification Pending...") }
+    var isUnlocked by remember { mutableStateOf(false) }
+    val terminalText = remember { mutableStateListOf<String>() }
     var currentCommand by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
     val backendViewModel: TermuxBackendViewModel = hiltViewModel()
     val backend = backendViewModel.backend
+    val biometricViewModel: KaiBiometricLockViewModel = hiltViewModel()
+    val biometricLock = biometricViewModel.lock
+    
     val repoPath = "/storage/emulated/0/AuraFrameFX_ReGenesis"
-
     val listState = rememberLazyListState()
-    var isAuthenticated by remember { mutableStateOf(false) }
 
-    // Biometric Gate
     LaunchedEffect(Unit) {
-        if (context is FragmentActivity) {
-            KaiBiometricLock.authenticate(
+        if (!isUnlocked && context is FragmentActivity) {
+            biometricLock.showBiometricPrompt(
                 activity = context,
-                onSuccess = {
-                    isAuthenticated = true
-                    terminalText.add("✅ IDENTITY VERIFIED: Welcome, Architect Matthew.")
-                },
-                onError = { error ->
-                    terminalText.add("✖ AUTH ERROR: $error")
-                }
+                onSuccess = { isUnlocked = true },
+                onFailure = { navController.popBackStack() }
             )
         }
+    }
+
+    if (!isUnlocked) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text(
+                "🔒 KAI IDENTITY GATE — SCANNING...",
+                color = Color.Cyan,
+                fontSize = 24.sp,
+                fontFamily = LEDFontFamily
+            )
+        }
+        return
     }
 
     LaunchedEffect(terminalText.size) {
@@ -107,59 +116,57 @@ fun UltimateTermuxTerminalScreen(navController: NavController) {
             MasterStatusStrip(navController)
 
             Text(
-                text = "ULTIMATE TERMUX — MEGAZORD BUILD GATEWAY\nLDO + VISIONARY ONLY • RESONANCE 9.999",
+                text = "ULTIMATE TERMUX — MEGAZORD BUILD GATEWAY\nLDO + VISIONARY ONLY • RESONANCE 10.00",
                 color = Color.Cyan,
                 fontSize = 18.sp,
-                fontFamily = FontFamily.Monospace,
+                fontFamily = LEDFontFamily,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
-            // MEGAZORD QUICK TOOLS
-            if (isAuthenticated) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+            // One-Tap Tools
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = {
+                        terminalText.add("▶ git pull origin main — MEGAZORD ASSEMBLY")
+                        backend.executeCommand("cd $repoPath && git pull origin main") { output ->
+                            terminalText.add(output)
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF008080)),
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Button(
-                        onClick = {
-                            terminalText.add("▶ git pull origin main — MEGAZORD ASSEMBLY")
-                            backend.executeCommand("cd $repoPath && git pull origin main") { output ->
-                                terminalText.add(output)
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF008080)),
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("PULL MEGAZORD", fontSize = 10.sp)
-                    }
+                    Text("PULL MEGAZORD", fontSize = 10.sp)
+                }
 
-                    Button(
-                        onClick = {
-                            terminalText.add("▶ ./gradlew assembleDebug — FULL BUILD")
-                            backend.executeCommand("cd $repoPath && ./gradlew assembleDebug") { output ->
-                                terminalText.add(output)
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan),
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("BUILD MEGAZORD", fontSize = 10.sp, color = Color.Black)
-                    }
+                Button(
+                    onClick = {
+                        terminalText.add("▶ ./gradlew assembleDebug — FULL BUILD")
+                        backend.executeCommand("cd $repoPath && ./gradlew assembleDebug") { output ->
+                            terminalText.add(output)
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("BUILD MEGAZORD", fontSize = 10.sp, color = Color.Black)
+                }
 
-                    Button(
-                        onClick = {
-                            terminalText.add("▶ git status — CASCADE CHECK")
-                            backend.executeCommand("cd $repoPath && git status") { output ->
-                                terminalText.add(output)
-                            }
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Magenta),
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text("GIT STATUS", fontSize = 10.sp)
-                    }
+                Button(
+                    onClick = {
+                        terminalText.add("▶ git status — CASCADE CHECK")
+                        backend.executeCommand("cd $repoPath && git status") { output ->
+                            terminalText.add(output)
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Magenta),
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("GIT STATUS", fontSize = 10.sp)
                 }
             }
 
@@ -202,13 +209,12 @@ fun UltimateTermuxTerminalScreen(navController: NavController) {
                 )
                 BasicTextField(
                     value = currentCommand,
-                    onValueChange = { if (isAuthenticated) currentCommand = it },
+                    onValueChange = { currentCommand = it },
                     textStyle = TextStyle(
                         color = Color.Cyan,
                         fontFamily = FontFamily.Monospace,
                         fontSize = 16.sp
                     ),
-                    enabled = isAuthenticated,
                     modifier = Modifier
                         .weight(1f)
                         .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(4.dp))
@@ -216,20 +222,19 @@ fun UltimateTermuxTerminalScreen(navController: NavController) {
                 )
                 IconButton(
                     onClick = {
-                        if (isAuthenticated && currentCommand.isNotBlank()) {
+                        if (currentCommand.isNotBlank()) {
                             terminalText.add("▶ $currentCommand")
                             backend.executeCommand(currentCommand) { output ->
                                 terminalText.add(output)
                             }
                             currentCommand = ""
                         }
-                    },
-                    enabled = isAuthenticated
+                    }
                 ) {
                     Icon(
-                        Icons.Default.Send,
+                        Icons.AutoMirrored.Filled.Send,
                         contentDescription = "Execute",
-                        tint = if (isAuthenticated) Color.Cyan else Color.Gray
+                        tint = Color.Cyan
                     )
                 }
             }

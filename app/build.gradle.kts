@@ -111,6 +111,7 @@ dependencies {
     implementation(libs.bundles.compose.tooling)
     implementation(libs.bundles.androidx.core)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.biometric.ktx)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
