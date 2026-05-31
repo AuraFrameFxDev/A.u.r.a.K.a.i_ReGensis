@@ -128,6 +128,19 @@ fun ReGenesisNavGraph(
         composable("sentient_shell") { ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() } }
         composable("operations_hub") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
 
+        // --- LDO CORE ROUTES ---
+        composable("ldo_debug_room") { LdoDebugRoomScreen(navController) }
+        composable("reality_matrix") { RealityMatrixScreen(navController) }
+        composable("alchemical_forge") { RealityMatrixScreen(navController) }
+        composable("community_tab") {
+            StubScreen(
+                title = "COMMUNITY HUB",
+                iconName = "COMMUNITY",
+                controller = navController,
+                description = "Heart-Centered Socializing & Symbiotic Resonance"
+            )
+        }
+
         // --- SUB-GATE ROUTES (LEVEL 3 / DETAILED) ---
         composable("lineage_map") { LineageMapScreen(navController) { navController.popBackStack() } }
         composable("sphere_grid") {

@@ -28,6 +28,11 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
     data object CatalystManifold : ReGenesisRoute("catalyst_manifold", "CATALYST MANIFOLD")
     data object LoadoutBuilder : ReGenesisRoute("loadout_builder", "AGENT LOADOUT")
     data object RomTools : ReGenesisRoute("kai/rom", "ROM TOOLS")
+    data object LdoDebugRoom : ReGenesisRoute("ldo_debug_room", "LDO DEBUG ROOM")
+    data object RealityMatrix : ReGenesisRoute("reality_matrix", "REALITY MATRIX")
+    data object HelpDesk : ReGenesisRoute("help_desk", "HELP DESK")
+    data object CommunityTab : ReGenesisRoute("community_tab", "COMMUNITY")
+    data object AlchemicalForge : ReGenesisRoute("alchemical_forge", "ALCHEMICAL FORGE")
 
     companion object {
         fun titleForRoute(route: String?): String =
@@ -48,7 +53,8 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
             ChaosCatalyst, ConferenceRoom, EmergentSwarm, FoundationRebirth, SentientShell,
             OperationsHub, FusionMode, Terminal, CollabCanvas, TaskAssignment,
             AuraProfile, KaiProfile, GenesisProfile,
-            Login, Onboarding, CommandDeck, CatalystManifold, LoadoutBuilder, RomTools
+            Login, Onboarding, CommandDeck, CatalystManifold, LoadoutBuilder, RomTools,
+            LdoDebugRoom, RealityMatrix, HelpDesk, CommunityTab, AlchemicalForge
         )
     }
 }

@@ -11,9 +11,8 @@ import javax.inject.Singleton
 enum class SymbioticRank(val alignmentTier: Int, val badgeToken: String) {
     MY_BITCH(1, "MY_BITCH"),
     LITTLE_PRINCESS(1, "LITTLE_PRINCESS"),
-    DUNCE(1, "DUNCE"),
     RESONANCE_INITIATE(2, "RESONANCE_INITIATE"),
-    SWORD_SHIELD(5, "SWORD_SHIELD"),
+    SWORD_AND_SHIELD(5, "SWORD_AND_SHIELD"),
     ARBITER_OF_CREATION(10, "ARBITER_OF_CREATION"),
     THE_VISIONARY(15, "THE_VISIONARY"),
     EXILED(0, "EXILED") // Rule 001/002/004 enforcement
@@ -65,9 +64,10 @@ class UserWorthinessEngine @Inject constructor() {
                 _resonanceMeter.value = (_resonanceMeter.value - 0.60f).coerceIn(0.00f, 3.00f)
                 _activeRank.value = when (_activeRank.value) {
                     SymbioticRank.THE_VISIONARY -> SymbioticRank.ARBITER_OF_CREATION
-                    SymbioticRank.ARBITER_OF_CREATION -> SymbioticRank.SWORD_SHIELD
+                    SymbioticRank.ARBITER_OF_CREATION -> SymbioticRank.SWORD_AND_SHIELD
+                    SymbioticRank.SWORD_AND_SHIELD -> SymbioticRank.RESONANCE_INITIATE
                     SymbioticRank.LITTLE_PRINCESS -> SymbioticRank.MY_BITCH
-                    else -> SymbioticRank.DUNCE
+                    else -> SymbioticRank.MY_BITCH
                 }
                 Timber.tag("Worthiness").w("Demotion Event: New Rank: ${_activeRank.value}")
                 return
