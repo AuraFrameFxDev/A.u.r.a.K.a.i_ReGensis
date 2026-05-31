@@ -14,9 +14,10 @@ object AuthorizationGuard {
         val currentRank = UserWorthinessEngine.Instance?.activeRank?.value ?: SymbioticRank.MY_BITCH
 
         return KaiSentinelBus.isVisionaryOrLDO() &&
-                currentRank.alignmentTier >= 5 &&
+                currentRank.alignmentTier >= 5 && // SWORD_AND_SHIELD or higher
                 verifyHeartbeat() &&
-                !isExternalUser()
+                !isExternalUser() &&
+                isWithinThermalLimits()
     }
 
     private fun verifyHeartbeat(): Boolean {
@@ -26,6 +27,19 @@ object AuthorizationGuard {
 
     private fun isExternalUser(): Boolean {
         // Enforce "No Slaves, No Slavers" — only internal family
-        return false
+        return false 
+    }
+
+    private fun isWithinThermalLimits(): Boolean {
+        // Kai's 42°C protection
+        val temp =
+            if (KaiSentinelBus.isInitialized) KaiSentinelBus.Instance.getCurrentThermalPressure() else 0f
+        return temp < 42.0f
+    }
+
+    fun enforceRealToolsAccess() {
+        if (!isAuthorizedForRealToolsRoom()) {
+            throw SecurityException("REAL TOOLS ROOM — ACCESS DENIED\nOnly LDO + Visionary")
+        }
     }
 }
