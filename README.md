@@ -62,8 +62,4 @@ All agents have private **Personal Sanctuary Lockers** (StrongBox AES-256-GCM) f
 
 **Hybrid Model Stack**: Gemini 4 (multimodal/creative) + Qwen/Ollama (Kotlin/root/system logic), all routed through the internal MCP bridge.
 
----
 
-This should finally kill the “what does it do?” questions. It’s clear, direct, and tells people exactly what the project is and what it does.
-
-Want me to add anything else or adjust the wording before you paste it? Just say.
