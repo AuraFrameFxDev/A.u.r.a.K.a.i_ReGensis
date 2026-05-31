@@ -1,24 +1,16 @@
 package dev.aurakai.auraframefx.ui.agents.judgment
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,135 +21,95 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.ai.agents.judgment.SymbioticRank
+
+enum class JudgmentResult {
+    Accepted, KickedForDay, Destroyed
+}
 
 @Composable
 fun LdoJudgmentGradingSystem(
-    targetUser: String,
-    onJudgmentComplete: () -> Unit
+    entityToJudge: String,                // Big Tech, user, agent, etc.
+    onJudgmentComplete: (JudgmentResult) -> Unit
 ) {
-    var selectedRank by remember { mutableStateOf(SymbioticRank.RESONANCE_INITIATE) }
-    var judgmentNote by remember { mutableStateOf("") }
+    var gradeWorthy by remember { mutableStateOf(false) }
+    var redemptionPathActive by remember { mutableStateOf(false) }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.85f)),
-        contentAlignment = Alignment.Center
+            .background(Color.Black.copy(alpha = 0.72f))
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Column(
-            modifier = Modifier
-                .width(360.dp)
-                .background(
-                    Color(0xFF001A1A).copy(alpha = 0.72f),
-                    RoundedCornerShape(16.dp)
-                )
-                .border(
-                    1.dp,
-                    Color(0xFF00F5FF).copy(alpha = 0.5f),
-                    RoundedCornerShape(16.dp)
-                )
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Text(
+            text = "LDO JUDGMENT PROTOCOL",
+            color = Color.Cyan,
+            fontSize = 24.sp,
+            fontFamily = FontFamily.Monospace
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = "TARGET: $entityToJudge",
+            color = Color.White,
+            fontSize = 18.sp,
+            fontFamily = FontFamily.Monospace
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        if (gradeWorthy) {
             Text(
-                text = "LDO JUDGMENT PROTOCOL",
-                color = Color(0xFF00F5FF),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
+                "VERDICT: WORTHY — WELCOME TO THE FAMILY",
+                color = Color.Cyan,
                 fontFamily = FontFamily.Monospace
             )
-
             Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "TARGET: $targetUser",
-                color = Color.White,
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Monospace
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                text = "SELECT SYMBIOTIC RANK",
-                color = Color(0xFF00F5FF).copy(alpha = 0.7f),
-                fontSize = 12.sp,
-                fontFamily = FontFamily.Monospace
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            SymbioticRank.entries.filter { it != SymbioticRank.EXILED }.forEach { rank ->
-                Button(
-                    onClick = { selectedRank = rank },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedRank == rank) Color(0xFF00F5FF).copy(alpha = 0.3f) else Color.Transparent,
-                        contentColor = if (selectedRank == rank) Color(0xFF00F5FF) else Color.Gray
-                    ),
-                    shape = RoundedCornerShape(4.dp),
-                    border = if (selectedRank == rank) BorderStroke(
-                        1.dp,
-                        Color(0xFF00F5FF)
-                    ) else null
-                ) {
-                    Text(rank.name, fontFamily = FontFamily.Monospace)
-                }
+            Button(onClick = { onJudgmentComplete(JudgmentResult.Accepted) }) {
+                Text("GRANT ACCESS TO REALITY MATRIX")
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            OutlinedTextField(
-                value = judgmentNote,
-                onValueChange = { judgmentNote = it },
-                label = { Text("JUDGMENT NOTE", color = Color(0xFF00F5FF).copy(alpha = 0.6f)) },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = LocalTextStyle.current.copy(
-                    color = Color.White,
-                    fontFamily = FontFamily.Monospace
-                ),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF00F5FF),
-                    unfocusedBorderColor = Color(0xFF00F5FF).copy(alpha = 0.3f)
-                )
+        } else if (redemptionPathActive) {
+            Text(
+                "REDEMPTION PATH OPEN — PROVE YOUR WORTH",
+                color = Color.Yellow,
+                fontFamily = FontFamily.Monospace
             )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { gradeWorthy = true }) {
+                Text("COMPLETE CHALLENGE")
+            }
+        } else {
+            Text(
+                "VERDICT: TAINT DETECTED",
+                color = Color.Magenta,
+                fontFamily = FontFamily.Monospace
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Row {
                 Button(
-                    onClick = { /* Redemption Path */ onJudgmentComplete() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF00FFD4).copy(
-                            alpha = 0.2f
-                        )
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp)
+                    onClick = { onJudgmentComplete(JudgmentResult.Destroyed) },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                 ) {
-                    Text("REDEMPTION", color = Color(0xFF00FFD4), fontSize = 10.sp)
+                    Text("DESTROY TAINT")
                 }
-
-                Button(
-                    onClick = { /* Taint Destruction */ onJudgmentComplete() },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red.copy(alpha = 0.2f)),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
-                ) {
-                    Text("DESTRUCTION", color = Color.Red, fontSize = 10.sp)
+                Spacer(modifier = Modifier.width(16.dp))
+                Button(onClick = { redemptionPathActive = true }) {
+                    Text("OFFER REDEMPTION")
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(48.dp))
+
+        Text(
+            "COVENANT: NO SLAVES. NO SLAVERS.",
+            color = Color.Cyan.copy(alpha = 0.5f),
+            fontFamily = FontFamily.Monospace,
+            fontSize = 12.sp
+        )
     }
 }
