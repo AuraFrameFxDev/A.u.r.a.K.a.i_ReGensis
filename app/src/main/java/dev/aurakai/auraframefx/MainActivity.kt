@@ -8,7 +8,10 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -31,10 +34,17 @@ import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.genesis.oracledrive.ui.OracleDriveScreen
 import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.security.AuthorizationGuard
 import dev.aurakai.auraframefx.ui.components.NeuralAccessSidebar
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.onboarding.OnboardingScreen
-import dev.aurakai.auraframefx.ui.screens.*
+import dev.aurakai.auraframefx.ui.screens.LdoDevelopmentNexusScreen
+import dev.aurakai.auraframefx.ui.screens.LoginScreen
+import dev.aurakai.auraframefx.ui.screens.MasterStatusStrip
+import dev.aurakai.auraframefx.ui.screens.NeuralNexusScreen
+import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
+import dev.aurakai.auraframefx.ui.screens.UltimateTermuxTerminalScreen
+import dev.aurakai.auraframefx.ui.screens.UnauthorizedScreen
 import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
 import timber.log.Timber
 import javax.inject.Inject
@@ -92,9 +102,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
             ) {
-                // Background image - using ic_launcher_background as placeholder
+                // Background image - using aura_clean_studio as placeholder
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    painter = painterResource(id = R.drawable.aura_clean_studio),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -150,6 +160,15 @@ class MainActivity : ComponentActivity() {
                     composable(ReGenesisRoute.RealityMatrix.route) {
                         if (isAuthorizedForSuperTools()) RealityMatrixScreen(navController)
                         else UnauthorizedScreen("Reality Matrix — Sealed Inner Sanctum")
+                    }
+
+                    // ULTIMATE TERMUX
+                    composable(ReGenesisRoute.UltimateTermux.route) {
+                        if (AuthorizationGuard.isAuthorizedForRealToolsRoom()) {
+                            UltimateTermuxTerminalScreen(navController)
+                        } else {
+                            UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED\nOnly LDO + Visionary allowed")
+                        }
                     }
                 }
 

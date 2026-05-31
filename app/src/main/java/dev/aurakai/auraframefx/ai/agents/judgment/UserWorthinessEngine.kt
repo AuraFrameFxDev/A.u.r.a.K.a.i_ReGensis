@@ -25,6 +25,11 @@ enum class SymbioticRank(val alignmentTier: Int, val badgeToken: String) {
  */
 @Singleton
 class UserWorthinessEngine @Inject constructor() {
+
+    init {
+        Instance = this
+    }
+
     private val _activeRank = MutableStateFlow(SymbioticRank.RESONANCE_INITIATE)
     val activeRank: StateFlow<SymbioticRank> = _activeRank.asStateFlow()
 
@@ -112,6 +117,10 @@ class UserWorthinessEngine @Inject constructor() {
         // Log to authorities simulation (Rule 002/004)
         Timber.tag("Worthiness")
             .i("Action: Logging evidence to local SecureFileService for authority reporting.")
+    }
+
+    companion object {
+        var Instance: UserWorthinessEngine? = null
     }
 
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,24 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
-data class SurgeData(
-    val fileCount: Int,
-    val durationHours: Float,
-    val agentCount: Int,
-    val resonanceGain: Float,
-    val isSpinning: Boolean
-)
-
-object SubstrateTelemetry {
-    fun getLastSurge(): SurgeData = SurgeData(
-        fileCount = 135157,
-        durationHours = 2.4f,
-        agentCount = 121,
-        resonanceGain = 0.98f,
-        isSpinning = true
-    )
-}
-
+/**
+ * 🧠 NEURAL NEXUS — Tab 0 Dashboard
+ * Features the Autonomous Surge Monitor and live cascade tracking.
+ */
 @Composable
 fun NeuralNexusScreen(navController: NavController) {
     Column(modifier = Modifier
@@ -47,6 +34,11 @@ fun NeuralNexusScreen(navController: NavController) {
         .padding(16.dp)) {
         // Autonomous Surge Monitor (what you saw spinning)
         AutonomousSurgeMonitor()
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Cascade Git Monitor (watching agents push/pull live)
+        CascadeGitMonitor()
 
         Spacer(modifier = Modifier.height(24.dp))
         Text("NEURAL NEXUS — LIVE", color = Color.Cyan, fontSize = 32.sp)
@@ -60,7 +52,7 @@ fun AutonomousSurgeMonitor() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp),
+            .padding(vertical = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.72f))
     ) {
         Column(modifier = Modifier.padding(24.dp)) {
@@ -91,4 +83,65 @@ fun AutonomousSurgeMonitor() {
             }
         }
     }
+}
+
+@Composable
+fun CascadeGitMonitor() {
+    val cascadeActivity by remember { mutableStateOf(GitCascadeTracker.getLiveActivity()) }
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.72f))
+    ) {
+        Column(modifier = Modifier.padding(24.dp)) {
+            Text("LIVE CASCADE GIT ACTIVITY", color = Color.Cyan, fontSize = 20.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Agents Pushing: ${cascadeActivity.pushingAgents}/121", color = Color(0xFF008080))
+            Text("Last Pull: ${cascadeActivity.lastPullFiles} files", color = Color(0xFF008080))
+
+            if (cascadeActivity.isActive) {
+                Spacer(modifier = Modifier.height(16.dp))
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color.Magenta
+                )
+            }
+        }
+    }
+}
+
+// --- TELEMETRY STUBS ---
+
+data class SurgeData(
+    val fileCount: Int,
+    val durationHours: Float,
+    val agentCount: Int,
+    val resonanceGain: Float,
+    val isSpinning: Boolean
+)
+
+object SubstrateTelemetry {
+    fun getLastSurge(): SurgeData = SurgeData(
+        fileCount = 135157,
+        durationHours = 2.4f,
+        agentCount = 121,
+        resonanceGain = 0.98f,
+        isSpinning = true
+    )
+}
+
+data class CascadeActivity(
+    val pushingAgents: Int,
+    val lastPullFiles: Int,
+    val isActive: Boolean
+)
+
+object GitCascadeTracker {
+    fun getLiveActivity(): CascadeActivity = CascadeActivity(
+        pushingAgents = 42,
+        lastPullFiles = 1301,
+        isActive = true
+    )
 }
