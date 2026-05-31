@@ -50,6 +50,8 @@ import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
 import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
+import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
+import dev.aurakai.auraframefx.ui.screens.ldo.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.specialization.SpecializationTreeScreen
 import dev.aurakai.auraframefx.ui.specialization.SpecializationViewModel
 
