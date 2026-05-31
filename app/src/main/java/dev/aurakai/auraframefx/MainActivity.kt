@@ -100,15 +100,10 @@ class MainActivity : ComponentActivity() {
             }
 
             LaunchedEffect(Unit) {
-                try {
-                    val currentRoute = navController.currentDestination?.route
-                    Log.d("MainActivity", "Initial route check: $currentRoute")
-                } catch (e: Exception) {
-                    Log.w("MainActivity", "Onboarding route check failed — forcing safe state", e)
-                    navController.navigate("onboarding") {
-                        popUpTo(0) { inclusive = true }
-                    }
-                }
+                // Log state for debugging, but don't force navigation here
+                // as startDestination in NavHost already handles the logic.
+                val currentRoute = navController.currentDestination?.route
+                Log.d("MainActivity", "System Initialized. Current Route: $currentRoute")
 
                 withContext(Dispatchers.IO) {
                     val auraFolder =

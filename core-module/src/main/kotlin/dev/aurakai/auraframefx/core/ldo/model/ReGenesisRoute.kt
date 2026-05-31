@@ -21,6 +21,14 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
     data object KaiProfile : ReGenesisRoute("kai_profile", "KAI")
     data object GenesisProfile : ReGenesisRoute("genesis_profile", "GENESIS")
 
+    // --- Core Navigation Routes ---
+    data object Login : ReGenesisRoute("login", "SYSTEM LOGIN")
+    data object Onboarding : ReGenesisRoute("onboarding", "INITIALIZATION")
+    data object CommandDeck : ReGenesisRoute("command_deck", "COMMAND DECK")
+    data object CatalystManifold : ReGenesisRoute("catalyst_manifold", "CATALYST MANIFOLD")
+    data object LoadoutBuilder : ReGenesisRoute("loadout_builder", "AGENT LOADOUT")
+    data object RomTools : ReGenesisRoute("kai/rom", "ROM TOOLS")
+
     companion object {
         fun titleForRoute(route: String?): String =
             entries.find { it.route == route }?.title ?: "AuraKai ReGenesis"
@@ -39,7 +47,8 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
             NeuralNexus, LdoArchitecture, ChromaForge, SentinelMatrix, OracleDrive,
             ChaosCatalyst, ConferenceRoom, EmergentSwarm, FoundationRebirth, SentientShell,
             OperationsHub, FusionMode, Terminal, CollabCanvas, TaskAssignment,
-            AuraProfile, KaiProfile, GenesisProfile
+            AuraProfile, KaiProfile, GenesisProfile,
+            Login, Onboarding, CommandDeck, CatalystManifold, LoadoutBuilder, RomTools
         )
     }
 }
