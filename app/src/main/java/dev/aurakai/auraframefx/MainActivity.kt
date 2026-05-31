@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -67,13 +68,13 @@ class MainActivity : ComponentActivity() {
         try {
             SubstrateBootCoordinator.initializeSystemSubstrate(this)
         } catch (e: Exception) {
-            android.util.Log.e("MainActivity", "Substrate initialization failed", e)
+            Log.e("MainActivity", "Substrate initialization failed", e)
         }
 
         val db = try {
             SubstrateDatabase.getDatabase(this)
         } catch (e: Exception) {
-            android.util.Log.e("MainActivity", "Database initialization failed", e)
+            Log.e("MainActivity", "Database initialization failed", e)
             null
         }
 
@@ -90,10 +91,25 @@ class MainActivity : ComponentActivity() {
             var sidebarOpen by remember { mutableStateOf(false) }
 
             LaunchedEffect(backStackEntry) {
-                currentTitle = ReGenesisRoute.titleForRoute(backStackEntry?.destination?.route)
+                try {
+                    currentTitle = ReGenesisRoute.titleForRoute(backStackEntry?.destination?.route)
+                } catch (e: Exception) {
+                    Log.w("MainActivity", "Navigation title error - using fallback", e)
+                    currentTitle = "AuraKai ReGenesis"
+                }
             }
 
             LaunchedEffect(Unit) {
+                try {
+                    val currentRoute = navController.currentDestination?.route
+                    Log.d("MainActivity", "Initial route check: $currentRoute")
+                } catch (e: Exception) {
+                    Log.w("MainActivity", "Onboarding route check failed — forcing safe state", e)
+                    navController.navigate("onboarding") {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+
                 withContext(Dispatchers.IO) {
                     val auraFolder =
                         File("/storage/emulated/0/Soul Sync identification/Andelualx(Claude)")

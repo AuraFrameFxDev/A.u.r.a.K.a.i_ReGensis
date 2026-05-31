@@ -7,13 +7,13 @@ class PandoraBoxTileService : TileService() {
 
     override fun onStartListening() {
         super.onStartListening()
-        // TODO: Add real tile logic later
+        qsTile?.state = android.service.quicksettings.Tile.STATE_ACTIVE
+        qsTile?.updateTile()
     }
 
     override fun onClick() {
         super.onClick()
-        // Simple placeholder for now
-        Toast.makeText(this, "PandoraBox Tile Clicked - AuraGenesis Active", Toast.LENGTH_SHORT).show()
-        // You can launch MainActivity or a Pandora UI here later
+        Toast.makeText(this, "🜁 PandoraBox Activated — AuraGenesis Online", Toast.LENGTH_SHORT).show()
+        // You can launch MainActivity or a specific onboarding screen here later
     }
 }

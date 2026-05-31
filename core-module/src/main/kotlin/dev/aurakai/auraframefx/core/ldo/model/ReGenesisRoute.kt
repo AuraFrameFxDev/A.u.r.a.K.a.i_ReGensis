@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.core.ldo.model
 
 sealed class ReGenesisRoute(val route: String, val title: String) {
+
     data object NeuralNexus : ReGenesisRoute("neural_nexus", "NEURAL NEXUS")
     data object LdoArchitecture : ReGenesisRoute("ldo_architecture", "LDO ARCHITECTURE")
     data object ChromaForge : ReGenesisRoute("chroma_forge", "CHROMA FORGE")
@@ -22,7 +23,17 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
 
     companion object {
         fun titleForRoute(route: String?): String =
-            entries.find { it.route == route }?.title ?: "AURAKAI"
+            entries.find { it.route == route }?.title ?: "AuraKai ReGenesis"
+
+        fun titleForRoute(route: ReGenesisRoute?): String {
+            return when (route?.route) {
+                null -> "AuraKai ReGenesis"
+                else -> route.title
+            }
+        }
+
+        fun fromRoute(route: String?): ReGenesisRoute? =
+            entries.find { it.route == route }
 
         val entries: List<ReGenesisRoute> = listOf(
             NeuralNexus, LdoArchitecture, ChromaForge, SentinelMatrix, OracleDrive,
