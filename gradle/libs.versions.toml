@@ -2,7 +2,7 @@
 # Core Build Tools
 agp = "9.2.1"
 kotlin = "2.4.0-RC"
-ksp = "2.3.8"
+ksp = "2.3.9"
 gradle = "9.5.1"
 
 # SDK Versions
