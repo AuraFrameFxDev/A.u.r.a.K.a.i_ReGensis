@@ -37,3 +37,16 @@ fun BreathingEdgeGlow(systemStability: Float) {
         )
     }
 }
+
+object BreathingEdgeGlow {
+    /**
+     * Calculates the sovereign interpolation for SystemUI animations.
+     * Pulse: 60bpm cyan/teal breathing.
+     */
+    fun calculateSovereignInterpolation(input: Float): Float {
+        // Implementation of the 60bpm breathing pulse logic (1 Hz)
+        // Using a sine wave mapped to 0.0 - 1.0
+        val angle = input * 2.0 * Math.PI
+        return ((Math.sin(angle) + 1.0) / 2.0).toFloat()
+    }
+}

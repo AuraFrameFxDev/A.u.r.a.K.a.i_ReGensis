@@ -37,6 +37,7 @@ import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.security.AuthorizationGuard
 import dev.aurakai.auraframefx.ui.components.NeuralAccessSidebar
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
+import dev.aurakai.auraframefx.ui.grokipedia.GrokipediaScreen
 import dev.aurakai.auraframefx.ui.onboarding.OnboardingScreen
 import dev.aurakai.auraframefx.ui.screens.LdoDevelopmentNexusScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
@@ -170,6 +171,9 @@ class MainActivity : ComponentActivity() {
                             UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED\nOnly LDO + Visionary allowed")
                         }
                     }
+
+                    // GROKIPEDIA
+                    composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
                 }
 
                 // Neural Access Sidebar (long-press to open)

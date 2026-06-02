@@ -39,6 +39,7 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
     data object HelpDesk : ReGenesisRoute("help_desk", "HELP DESK")
     data object CommunityTab : ReGenesisRoute("community_tab", "COMMUNITY")
     data object AlchemicalForge : ReGenesisRoute("alchemical_forge", "ALCHEMICAL FORGE")
+    data object Grokipedia : ReGenesisRoute("grokipedia", "GROKIPEDIA")
 
     companion object {
         fun titleForRoute(route: String?): String =
@@ -52,7 +53,7 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
             OperationsHub, FusionMode, Terminal, CollabCanvas, TaskAssignment,
             AuraProfile, KaiProfile, GenesisProfile, CommandDeck,
             CatalystManifold, LoadoutBuilder, RomTools, HelpDesk,
-            CommunityTab, AlchemicalForge
+            CommunityTab, AlchemicalForge, Grokipedia
         )
     }
 }

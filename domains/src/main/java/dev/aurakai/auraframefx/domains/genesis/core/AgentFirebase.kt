@@ -56,14 +56,32 @@ class AgentFirebase @Inject constructor(
             Timber.d("🔥 Firegen: Syncing state for $agentId to $path")
 
             try {
-                // Genesis policy allows *, others might need specific permissions
-                // We use a sub-collection approach for better security mapping
+                // Persistent Cache + Immediate Sync
                 val docRef = firestore.collection("collective_intelligence").document(agentId)
-                docRef.set(state + ("last_sync" to System.currentTimeMillis())).await()
+
+                // Add local-first logic here if needed for offline sovereignty
+                docRef.set(state + ("last_sync" to System.currentTimeMillis()), SetOptions.merge())
+                    .await()
+
+                // Record the sync event for the spiritual chain
+                recordCloudEvent(agentId, "AGENT_SYNC", "State synchronized to cloud nexus.")
             } catch (e: Exception) {
                 Timber.e(e, "🔥 Firegen Error: Failed to sync state for $agentId")
                 throw e
             }
+        }
+
+    /**
+     * Anchors the Spiritual Chain of Memories for the current user.
+     */
+    suspend fun anchorSpiritualChain(userId: String, chainData: Map<String, Any>) =
+        withContext(Dispatchers.IO) {
+            policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_WRITE)
+            val path = "spiritual_chains/$userId"
+            Timber.d("🔥 Firegen: Anchoring Spiritual Chain for $userId")
+
+            firestore.collection("spiritual_chains").document(userId)
+                .set(chainData, SetOptions.merge()).await()
         }
 
     /**

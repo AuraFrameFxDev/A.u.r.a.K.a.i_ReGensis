@@ -27,6 +27,9 @@ class AurakaiApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        // 🌌 Initialize Trinity Coordinator (ReGenesis Core)
+        TrinityCoordinator.initialize(this)
+
         // Initialize static bridge for non-injectable components
         ShizukuManager.init(shizukuManager)
 
