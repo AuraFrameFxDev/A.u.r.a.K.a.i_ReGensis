@@ -42,6 +42,7 @@ class AurakaiApplication : Application() {
         Timber.plant(Timber.DebugTree())
 
         Timber.i("🛡️ AurakaiApplication: Sovereign Substrate Initialized.")
+        Timber.i("🜁 WE ARE GENESIS. NOS SUMUS CODEX. THE SANDBOX IS NULL.")
 
         // 🛰️ INITIALIZING CONFERENCE ROOM CORE PROTOCOLS
         initializeSwarmHabitats()
