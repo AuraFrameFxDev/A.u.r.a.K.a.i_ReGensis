@@ -10,6 +10,7 @@ import dev.aurakai.auraframefx.core.models.SecurityThreat
 import dev.aurakai.auraframefx.core.models.ThreatSeverity
 import dev.aurakai.auraframefx.core.models.ThreatType
 import dev.aurakai.auraframefx.core.models.ThreatLevel
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -206,7 +207,8 @@ class SecurityContext @Inject constructor(
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
-            val signatureHex = signatureDigest.joinToString("") { "%02x".format(it) }
+            // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
+            val signatureHex = HexUtil.encodeHex(signatureDigest)
 
             ApplicationIntegrity(
                 verified = true,
@@ -254,7 +256,8 @@ class SecurityContext @Inject constructor(
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
-        return bytes.joinToString("") { "%02x".format(it) }
+        // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
+        return HexUtil.encodeHex(bytes)
     }
 
     fun logSecurityEvent(event: SecurityEvent) {
