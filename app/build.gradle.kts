@@ -56,7 +56,7 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
 
     externalNativeBuild {
         cmake {
-            path = "src/main/cpp/CMakeLists.txt"
+            path(file("src/main/cpp/CMakeLists.txt"))
             version = "3.22.1"
         }
     }
