@@ -39,6 +39,7 @@ import dev.aurakai.auraframefx.ui.components.NeuralAccessSidebar
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.grokipedia.GrokipediaScreen
 import dev.aurakai.auraframefx.ui.onboarding.OnboardingScreen
+import dev.aurakai.auraframefx.ui.screens.ConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.screens.LdoDevelopmentNexusScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.MasterStatusStrip
