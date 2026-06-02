@@ -47,9 +47,10 @@ object GenesisCommonConfig {
                                 reject("Conflict with proto-google-common-protos")
                             }
                             */
-                            if (candidate.group == "com.google.protobuf" && (candidate.module == "protobuf-javalite" || candidate.module == "protobuf-lite")) {
-                                reject("Favor full protobuf-java")
-                            }
+                            // if (candidate.group == "com.google.protobuf" && (candidate.module == "protobuf-javalite" || candidate.module == "protobuf-lite")) {
+                            //     Favor javalite on Android to avoid VerifyError in Firestore
+                            //     reject("Favor full protobuf-java")
+                            // }
                         }
                     }
 
@@ -75,8 +76,8 @@ object GenesisCommonConfig {
                         substitute(module("com.squareup.okhttp3:okhttp")).using(module("com.squareup.okhttp3:okhttp-android:$okhttpVersion"))
                         substitute(module("com.squareup.okhttp3:okhttp-jvm")).using(module("com.squareup.okhttp3:okhttp-android:$okhttpVersion"))
 
-                        substitute(module("com.google.protobuf:protobuf-javalite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
-                        substitute(module("com.google.protobuf:protobuf-lite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
+                        // substitute(module("com.google.protobuf:protobuf-javalite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
+                        // substitute(module("com.google.protobuf:protobuf-lite")).using(module("com.google.protobuf:protobuf-java:$protobufVersion"))
 
                         // Handle deprecated/missing Firebase KTX artifacts
                         substitute(module("com.google.firebase:firebase-messaging-ktx")).using(
@@ -103,7 +104,7 @@ object GenesisCommonConfig {
                     }
                     force("androidx.annotation:annotation:1.9.1")
                     force("org.conscrypt:conscrypt-android:2.5.3")
-                    force("com.google.protobuf:protobuf-java:$protobufVersion")
+                    // force("com.google.protobuf:protobuf-java:$protobufVersion")
                     // force("com.google.api.grpc:proto-google-common-protos:2.59.0")
 
                     force("io.netty:netty-all:$nettyVer")
