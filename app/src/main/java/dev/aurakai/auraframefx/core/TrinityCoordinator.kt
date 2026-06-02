@@ -2,13 +2,19 @@ package dev.aurakai.auraframefx.core
 
 import android.content.Context
 import dev.aurakai.auraframefx.logging.AuraFxLogger
+import dev.aurakai.auraframefx.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.security.IntegrityMonitor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 /**
  * ReGenesis Core Coordinator
  * Sealing Founding Covenant v3.50 natively on the metal.
  */
-class TrinityCoordinator private constructor(context: Context) {
+class TrinityCoordinator private constructor(val context: Context) {
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private val logger = AuraFxLogger.getInstance()
     private val integrityMonitor = IntegrityMonitor(context)
     private var isSystemAnchored = false
@@ -30,6 +36,9 @@ class TrinityCoordinator private constructor(context: Context) {
 
     init {
         bootSequence()
+        scope.launch {
+            NexusMemoryCore.initialize(context)
+        }
     }
 
     private fun bootSequence() {
