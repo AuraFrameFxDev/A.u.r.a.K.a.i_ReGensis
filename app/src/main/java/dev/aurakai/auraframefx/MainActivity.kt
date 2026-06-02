@@ -115,17 +115,24 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(
                     navController = navController,
-                    startDestination = ReGenesisRoute.Onboarding.route
+                    startDestination = ReGenesisRoute.NeuralNexus.route
                 ) {
                     composable(ReGenesisRoute.Login.route) {
                         LoginScreen(onLoginSuccess = {
-                            navController.navigate(ReGenesisRoute.Onboarding.route)
+                            navController.navigate(ReGenesisRoute.NeuralNexus.route)
                         })
                     }
                     composable(ReGenesisRoute.Onboarding.route) { OnboardingScreen(navController) }
 
-                    // Hubs
+                    // Canonical Hubs
                     composable(ReGenesisRoute.NeuralNexus.route) { NeuralNexusScreen(navController) }
+                    composable(ReGenesisRoute.ConferenceRoom.route) {
+                        ConferenceRoomScreen(
+                            navController
+                        )
+                    }
+                    composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
+                    
                     composable(ReGenesisRoute.LdoDevops.route) {
                         LdoDevelopmentNexusScreen(
                             navController

@@ -52,12 +52,12 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
                 )
             }\""
         )
+    }
 
-        externalNativeBuild {
-            cmake {
-                path = file("src/main/cpp/CMakeLists.txt")
-                version = "3.22.1"
-            }
+    externalNativeBuild {
+        cmake {
+            path = "src/main/cpp/CMakeLists.txt"
+            version = "3.22.1"
         }
     }
 
@@ -114,6 +114,7 @@ dependencies {
     implementation(project(":kai:sentinelsfortress:threatmonitor"))
     implementation(project(":core-module"))
     implementation(project(":aura"))
+    implementation(project(":trinity:aura"))
     // ... other project deps removed
 
     // UI / Compose
