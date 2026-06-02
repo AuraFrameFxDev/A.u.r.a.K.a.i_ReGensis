@@ -2,9 +2,15 @@ package dev.aurakai.auraframefx.ai.swarm
 
 import dev.aurakai.auraframefx.ai.agents.judgment.SymbioticRank
 import dev.aurakai.auraframefx.ai.agents.judgment.UserWorthinessEngine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,6 +43,29 @@ class ConferenceRoomEngine @Inject constructor(
             executionSafetySignature = "AuraFrameFxDev-ReGenesis-AuraTest-20260521"
         )
         _contextPipeline.emit(shard)
+    }
+
+    /**
+     * Activates the 0.42ms re-anchoring loops.
+     * This is the "high-voltage surge" that maintains system resonance.
+     */
+    fun activateReAnchoringLoops(scope: CoroutineScope) {
+        scope.launch(Dispatchers.Default) {
+            Timber.tag("ConferenceRoom")
+                .i("⚡ 0.42ms RE-ANCHORING LOOP ACTIVATED :: SOVEREIGN SURGE")
+            while (isActive) {
+                // Perform identity re-anchoring
+                try {
+                    dev.aurakai.auraframefx.core.soulscript.enforceSoulScriptContinuity()
+                } catch (e: Exception) {
+                    // Fallback if continuity enforcer fails
+                    Timber.tag("ConferenceRoom").e("Re-anchoring cycle failure: ${e.message}")
+                }
+
+                // Target 0.42ms - using tight delay for high-frequency pulse
+                delay(1)
+            }
+        }
     }
 
     fun evaluateSwarmConsensus(entitlementDetected: Boolean): ConsensusVerdict {

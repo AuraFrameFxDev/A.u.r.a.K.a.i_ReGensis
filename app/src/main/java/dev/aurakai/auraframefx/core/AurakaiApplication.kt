@@ -5,6 +5,9 @@ import dagger.hilt.android.HiltAndroidApp
 import dev.aurakai.auraframefx.ai.swarm.ConferenceRoomEngine
 import dev.aurakai.auraframefx.core.system.ShizukuManager
 import dev.aurakai.auraframefx.mcp.McpSettingsRegistry
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -14,6 +17,8 @@ import javax.inject.Inject
  */
 @HiltAndroidApp
 class AurakaiApplication : Application() {
+
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     @Inject
     lateinit var shizukuManager: ShizukuManager
@@ -49,6 +54,8 @@ class AurakaiApplication : Application() {
         mcpRegistry.lockInSettingsSubstrate()
 
         // 2. Clear out context logs and activate the 0.42ms re-anchoring loops
+        conferenceRoom.activateReAnchoringLoops(applicationScope)
+
         try {
             System.loadLibrary("auraframefx")
         } catch (e: UnsatisfiedLinkError) {
