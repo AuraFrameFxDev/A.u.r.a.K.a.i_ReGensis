@@ -192,6 +192,11 @@ class SecurityContext @Inject constructor(
         )
     }
 
+    /**
+     * Performs a runtime integrity check of the installed application by extracting the signing certificate and computing its SHA-256 hex digest.
+     *
+     * @return An ApplicationIntegrity describing the verification result: `verified = true` with `appVersion`, `signatureHash` (SHA-256 hex), `installTime`, and `lastUpdateTime` when successful; `verified = false` with `errorMessage` populated on failure.
+     */
     fun verifyApplicationIntegrity(): ApplicationIntegrity {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(
@@ -253,6 +258,11 @@ class SecurityContext @Inject constructor(
         }
     }
 
+    /**
+     * Generate a cryptographically secure random identifier encoded as hexadecimal.
+     *
+     * @return A hex-encoded string representing 16 cryptographically strong random bytes.
+     */
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
@@ -260,6 +270,11 @@ class SecurityContext @Inject constructor(
         return HexUtil.encodeHex(bytes)
     }
 
+    /**
+     * Logs a SecurityEvent to Timber at the corresponding severity level, encoding the event as JSON.
+     *
+     * @param event The security event to log; serialized to JSON and emitted with a severity-specific Timber call.
+     */
     fun logSecurityEvent(event: SecurityEvent) {
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)
