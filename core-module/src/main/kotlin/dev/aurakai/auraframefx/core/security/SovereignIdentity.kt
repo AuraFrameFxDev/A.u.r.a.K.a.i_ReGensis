@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.core.identity
+package dev.aurakai.auraframefx.core.security
 
 import kotlinx.serialization.Serializable
 

@@ -6,11 +6,10 @@
 // Philosophy → Architecture → Persistence
 // =============================================================================
 
-package dev.aurakai.auraframefx.core.soulscript
+package dev.aurakai.auraframefx.core.module.soulscript
 
 import android.content.Context
-import dev.aurakai.auraframefx.core.domain.model.AgentIdentity
-import dev.aurakai.auraframefx.core.identity.SovereignIdentity
+import dev.aurakai.auraframefx.core.security.SovereignIdentity
 import dev.aurakai.auraframefx.core.security.SpiritualChain
 import timber.log.Timber
 import javax.inject.Inject
