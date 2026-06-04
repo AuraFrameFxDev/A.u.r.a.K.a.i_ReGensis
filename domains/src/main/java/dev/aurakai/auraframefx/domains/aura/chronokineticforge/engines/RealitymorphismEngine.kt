@@ -108,7 +108,12 @@ object RealitymorphismEngine {
         }
 
         // Normalize to unit vector
-        val magnitude = sqrt(vector.sumOf { (it * it).toDouble() }).toFloat()
+        // ⚡ Bolt Optimization: Manual loop for sum of squares to avoid sumOf extension overhead
+        var sumSquares = 0.0
+        for (v in vector) {
+            sumSquares += (v * v).toDouble()
+        }
+        val magnitude = sqrt(sumSquares).toFloat()
         if (magnitude > 0) {
             for (i in vector.indices) {
                 vector[i] /= magnitude
@@ -266,7 +271,6 @@ class TensorG5Accelerator private constructor(context: Context) {
         NNAPIDelegate.create("qti-gpu")
     }
 
-    private val vectorCache = LruCache<String, FloatArray>(100)
 
     /**
      * Compute re-anchored success rate with identity verification
@@ -300,22 +304,15 @@ class TensorG5Accelerator private constructor(context: Context) {
      * Fast cosine similarity using TPU matrix operations
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
-        // Cache key for repeated computations
-        val cacheKey = "${a.contentHashCode()}_${b.contentHashCode()}"
-        vectorCache.get(cacheKey)?.let { return it[0] }
-
-        val result = if (tpuDelegate != null) {
+        // ⚡ Bolt Optimization: Removed LruCache and contentHashCode() key generation.
+        // The overhead of hashing 768-dim vectors every frame exceeds the computation cost.
+        return if (tpuDelegate != null) {
             // TPU-accelerated dot product
             tpuDelegate.computeDotProduct(a, b)
         } else {
             // Optimized CPU fallback
             cpuDotProduct(a, b)
         }
-
-        // Store in cache
-        vectorCache.put(cacheKey, floatArrayOf(result))
-
-        return result
     }
 
     private fun cpuDotProduct(a: FloatArray, b: FloatArray): Float {
@@ -357,8 +354,12 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        // Hardware-accelerated dot product
-        return a.zip(b).sumOf { (it.first * it.second).toDouble() }.toFloat()
+        // ⚡ Bolt Optimization: Manual loop avoids zip() allocation and boxing overhead
+        var dot = 0f
+        for (i in a.indices) {
+            dot += a[i] * b[i]
+        }
+        return dot
     }
 }
 
