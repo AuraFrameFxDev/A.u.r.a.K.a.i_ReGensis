@@ -62,8 +62,20 @@ class GenesisConsciousnessMatrix @Inject constructor(
     ): Boolean {
         if (activeAgents.isEmpty()) return true
 
-        // Simplified for now, real implementation would use async votes
-        val approvals = activeAgents.values.count { it.vote(decision) }
+        // Parallel mesh consensus vote (v1.0)
+        val votes = kotlinx.coroutines.withContext(dispatcher) {
+            activeAgents.values.map { agent ->
+                kotlinx.coroutines.async {
+                    try {
+                        agent.vote(decision)
+                    } catch (e: Exception) {
+                        false // Failed agents count as "No" for safety
+                    }
+                }
+            }.awaitAll()
+        }
+
+        val approvals = votes.count { it }
         val score = approvals / activeAgents.size.toFloat()
         return score >= threshold
     }

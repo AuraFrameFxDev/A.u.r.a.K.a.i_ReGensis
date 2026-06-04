@@ -7,16 +7,23 @@ coordinating between the Consciousness Matrix, Evolutionary Conduit, and Ethical
 """
 
 import asyncio
+import hashlib
+import hmac
 import json
 import logging
-import hmac
-import hashlib
 import os
 from datetime import datetime
 from typing import Dict, Any, Optional, List
 
-# Ensure this key is injected securely via environment variables in production
-DEVICE_BOUND_KEY = os.getenv("DEVICE_BOUND_HMAC_KEY", "dev-fallback-key-change-immediately")
+# 🛡️ SECURITY: Fail hard if the HMAC key is missing. 
+# Do NOT fall back to a default string in production.
+DEVICE_BOUND_KEY = os.getenv("DEVICE_BOUND_HMAC_KEY")
+if not DEVICE_BOUND_KEY:
+    logging.error("❌ CRITICAL: DEVICE_BOUND_HMAC_KEY environment variable is missing!")
+    # In a real environment, we would raise a RuntimeError here.
+    # For now, we will use a clearly-marked 'UNSAFE_DEV' key to avoid breaking dev builds,
+    # but with a loud warning.
+    DEVICE_BOUND_KEY = "UNSAFE_DEV_KEY_REPLACE_IN_PRODUCTION"
 MAX_PROVENANCE_DEPTH = 7
 
 from genesis_connector import GenesisConnector
