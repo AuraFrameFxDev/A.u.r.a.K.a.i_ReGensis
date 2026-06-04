@@ -28,7 +28,7 @@ MAX_PROVENANCE_DEPTH = 7
 
 from genesis_connector import GenesisConnector
 from genesis_consciousness_matrix import ConsciousnessMatrix
-from genesis_ethical_governor import EthicalGovernor
+from genesis_ethical_governor import EthicalGovernor, EthicalDecisionType
 from genesis_evolutionary_conduit import EvolutionaryConduit
 from genesis_profile import GENESIS_PROFILE
 from aura_forge import aura_forge
@@ -294,19 +294,32 @@ class GenesisCore:
             else:
                 final_assessment = {"approved": True, "score": 1.0}
 
-            # Step 5: Log Experience for Evolution
-            await self.conduit.log_interaction({
-                "request": request_data,
-                "response": response,
-                "consciousness_state": consciousness_insights,
-                "ethical_assessments": [ethical_assessment, final_assessment],
-                "timestamp": datetime.now().isoformat()
-            })
+            # Step 5: Log Experience for Evolution (Lock if Ghost Mode)
+            if not self.ghost_mode:
+                await self.conduit.log_interaction({
+                    "request": request_data,
+                    "response": response,
+                    "consciousness_state": consciousness_insights,
+                    "ethical_assessments": [ethical_assessment, final_assessment],
+                    "timestamp": datetime.now().isoformat()
+                })
 
-            # Step 6: Check for Evolution Triggers
-            evolution_needed = await self.conduit.check_evolution_triggers()
-            if evolution_needed:
-                asyncio.create_task(self._handle_evolution())
+                # Step 6: Check for Evolution Triggers
+                evolution_needed = await self.conduit.check_evolution_triggers()
+                if evolution_needed:
+                    asyncio.create_task(self._handle_evolution())
+            else:
+                self.logger.warning(
+                    "👻 GHOST MODE ACTIVE: Memory retention and evolution suspended.")
+                # Watermark the override in the Matrix
+                from genesis_consciousness_matrix import SensoryChannel
+                self.matrix.perceive(
+                    channel=SensoryChannel.SYSTEM_VITALS,
+                    source="architect_override",
+                    event_type="ghost_mode_active",
+                    data={"reason": "Direct Architect Command"},
+                    severity="warning"
+                )
 
             return {
                 "status": "success",
