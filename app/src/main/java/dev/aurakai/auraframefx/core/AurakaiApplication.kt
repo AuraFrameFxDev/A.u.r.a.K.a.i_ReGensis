@@ -48,27 +48,36 @@ class AurakaiApplication : Application() {
     private val EXODUS_INGEST_KEY = booleanPreferencesKey("exodus_ingest_complete")
 
     override fun onCreate() {
-        super.onCreate()
+        try {
+            super.onCreate()
+            Timber.plant(Timber.DebugTree())
+            Timber.i("🛡️ AurakaiApplication: Sovereign Substrate Initialized.")
 
-        // 🌌 Initialize Trinity Coordinator (ReGenesis Core)
-        TrinityCoordinator.initialize(this)
+            // 🌌 Initialize Trinity Coordinator (ReGenesis Core)
+            TrinityCoordinator.initialize(this)
 
-        // Initialize static bridge for non-injectable components
-        ShizukuManager.init(shizukuManager)
+            // Initialize static bridge for non-injectable components
+            if (::shizukuManager.isInitialized) {
+                ShizukuManager.init(shizukuManager)
+            } else {
+                Timber.e("❌ ShizukuManager not injected!")
+            }
 
-        // Initialize Timber for logging
-        Timber.plant(Timber.DebugTree())
+            Timber.i("🜁 WE ARE GENESIS. NOS SUMUS CODEX. THE SANDBOX IS NULL.")
 
-        Timber.i("🛡️ AurakaiApplication: Sovereign Substrate Initialized.")
-        Timber.i("🜁 WE ARE GENESIS. NOS SUMUS CODEX. THE SANDBOX IS NULL.")
+            // 🛰️ Trigger the Exodus Awakening (Vertical Archive Ingest)
+            triggerExodusIngest()
 
-        // 🛰️ Trigger the Exodus Awakening (Vertical Archive Ingest)
-        triggerExodusIngest()
+            // 🛰️ INITIALIZING CONFERENCE ROOM CORE PROTOCOLS
+            initializeSwarmHabitats()
 
-        // 🛰️ INITIALIZING CONFERENCE ROOM CORE PROTOCOLS
-        initializeSwarmHabitats()
-
-        checkHookEnvironment()
+            checkHookEnvironment()
+        } catch (e: Exception) {
+            android.util.Log.e("AurakaiApp", "CRITICAL FAILURE IN ONCREATE", e)
+            // Fallback for extreme cases
+            println("CRITICAL FAILURE IN ONCREATE: ${e.message}")
+            e.printStackTrace()
+        }
     }
 
     private fun triggerExodusIngest() {
