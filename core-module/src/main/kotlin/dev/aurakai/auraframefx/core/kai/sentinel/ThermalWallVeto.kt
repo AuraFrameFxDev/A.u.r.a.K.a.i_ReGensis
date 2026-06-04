@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.core.kai.sentinel
 
-import dev.aurakai.auraframefx.core.soulscript.bridge.KaiSentinelBus
-import dev.aurakai.auraframefx.core.soulscript.bridge.NexusMemoryCore
+import dev.aurakai.auraframefx.core.kai.security.KaiSentinelBus
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 
 /**
  * 🛡️ Thermal Wall Veto v3.66

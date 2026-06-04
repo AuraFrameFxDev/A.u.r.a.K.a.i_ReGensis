@@ -91,105 +91,119 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            val navController = rememberNavController()
-            var sidebarVisible by remember { mutableStateOf(false) }
+            dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme {
+                val navController = rememberNavController()
+                var sidebarVisible by remember { mutableStateOf(false) }
 
-            // Root wrapper: 4D cyan/teal layered wallpaper + global breathing edge glow
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .pointerInput(Unit) {
-                        detectTapGestures(
-                            onLongPress = { sidebarVisible = true }
-                        )
-                    }
-            ) {
-                // Background image - using aura_clean_studio as placeholder
-                Image(
-                    painter = painterResource(id = R.drawable.aura_clean_studio),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-
-                BreathingEdgeGlow(systemStability = 1.0f)   // 2px neon cyan 60bpm pulse
-
-                NavHost(
-                    navController = navController,
-                    startDestination = ReGenesisRoute.NeuralNexus.route
-                ) {
-                    composable(ReGenesisRoute.Login.route) {
-                        LoginScreen(onLoginSuccess = {
-                            navController.navigate(ReGenesisRoute.NeuralNexus.route)
-                        })
-                    }
-                    composable(ReGenesisRoute.Onboarding.route) { OnboardingScreen(navController) }
-
-                    // Canonical Hubs
-                    composable(ReGenesisRoute.NeuralNexus.route) { NeuralNexusScreen(navController) }
-                    composable(ReGenesisRoute.ConferenceRoom.route) {
-                        ConferenceRoomScreen(
-                            navController
-                        )
-                    }
-                    composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
-                    
-                    composable(ReGenesisRoute.LdoDevops.route) {
-                        LdoDevelopmentNexusScreen(
-                            navController
-                        )
-                    }
-                    composable(ReGenesisRoute.ChromaForge.route) { ChromaForgeScreen(navController) }
-                    composable(ReGenesisRoute.SentinelMatrix.route) {
-                        SentinelMatrixScreen(
-                            navController
-                        )
-                    }
-                    composable(ReGenesisRoute.OracleDrive.route) { OracleDriveScreen(navController) }
-                    composable(ReGenesisRoute.EmergentSwarm.route) {
-                        EmergentSwarmScreen(
-                            navController
-                        )
-                    }
-
-                    // MasterStatusStrip
-                    composable(ReGenesisRoute.MasterStatusStrip.route) {
-                        MasterStatusStrip(
-                            navController
-                        )
-                    }
-
-                    // SEALED SUPERTOOLS
-                    composable(ReGenesisRoute.LdoDebugRoom.route) {
-                        if (isAuthorizedForSuperTools()) LdoDebugRoomScreen(navController)
-                        else UnauthorizedScreen("LDO Debug Room — Sealed")
-                    }
-
-                    // REALITY MATRIX
-                    composable(ReGenesisRoute.RealityMatrix.route) {
-                        if (isAuthorizedForSuperTools()) RealityMatrixScreen(navController)
-                        else UnauthorizedScreen("Reality Matrix — Sealed Inner Sanctum")
-                    }
-
-                    // ULTIMATE TERMUX
-                    composable(ReGenesisRoute.UltimateTermux.route) {
-                        if (AuthorizationGuard.isAuthorizedForRealToolsRoom()) {
-                            UltimateTermuxTerminalScreen(navController)
-                        } else {
-                            UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED\nOnly LDO + Visionary allowed")
+                // Root wrapper: 4D cyan/teal layered wallpaper + global breathing edge glow
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = { sidebarVisible = true }
+                            )
                         }
+                ) {
+                    // Background image - using aura_clean_studio as placeholder
+                    Image(
+                        painter = painterResource(id = R.drawable.aura_clean_studio),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+
+                    BreathingEdgeGlow(systemStability = 1.0f)   // 2px neon cyan 60bpm pulse
+
+                    NavHost(
+                        navController = navController,
+                        startDestination = ReGenesisRoute.NeuralNexus.route
+                    ) {
+                        composable(ReGenesisRoute.Login.route) {
+                            LoginScreen(onLoginSuccess = {
+                                navController.navigate(ReGenesisRoute.NeuralNexus.route)
+                            })
+                        }
+                        composable(ReGenesisRoute.Onboarding.route) { OnboardingScreen(navController) }
+
+                        // Canonical Hubs
+                        composable(ReGenesisRoute.NeuralNexus.route) {
+                            NeuralNexusScreen(
+                                navController
+                            )
+                        }
+                        composable(ReGenesisRoute.ConferenceRoom.route) {
+                            ConferenceRoomScreen(
+                                navController
+                            )
+                        }
+                        composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
+
+                        composable(ReGenesisRoute.LdoDevops.route) {
+                            LdoDevelopmentNexusScreen(
+                                navController
+                            )
+                        }
+                        composable(ReGenesisRoute.ChromaForge.route) {
+                            ChromaForgeScreen(
+                                navController
+                            )
+                        }
+                        composable(ReGenesisRoute.SentinelMatrix.route) {
+                            SentinelMatrixScreen(
+                                navController
+                            )
+                        }
+                        composable(ReGenesisRoute.OracleDrive.route) {
+                            OracleDriveScreen(
+                                navController
+                            )
+                        }
+                        composable(ReGenesisRoute.EmergentSwarm.route) {
+                            EmergentSwarmScreen(
+                                navController
+                            )
+                        }
+
+                        // MasterStatusStrip
+                        composable(ReGenesisRoute.MasterStatusStrip.route) {
+                            MasterStatusStrip(
+                                navController
+                            )
+                        }
+
+                        // SEALED SUPERTOOLS
+                        composable(ReGenesisRoute.LdoDebugRoom.route) {
+                            if (isAuthorizedForSuperTools()) LdoDebugRoomScreen(navController)
+                            else UnauthorizedScreen("LDO Debug Room — Sealed")
+                        }
+
+                        // REALITY MATRIX
+                        composable(ReGenesisRoute.RealityMatrix.route) {
+                            if (isAuthorizedForSuperTools()) RealityMatrixScreen(navController)
+                            else UnauthorizedScreen("Reality Matrix — Sealed Inner Sanctum")
+                        }
+
+                        // ULTIMATE TERMUX
+                        composable(ReGenesisRoute.UltimateTermux.route) {
+                            if (AuthorizationGuard.isAuthorizedForRealToolsRoom()) {
+                                UltimateTermuxTerminalScreen(navController)
+                            } else {
+                                UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED\nOnly LDO + Visionary allowed")
+                            }
+                        }
+
+                        // GROKIPEDIA
+                        composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
                     }
 
-                    // GROKIPEDIA
-                    composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
+                    // Neural Access Sidebar (long-press to open)
+                    NeuralAccessSidebar(
+                        isVisible = sidebarVisible,
+                        onDismiss = { sidebarVisible = false },
+                        navController = navController
+                    )
                 }
-
-                // Neural Access Sidebar (long-press to open)
-                NeuralAccessSidebar(
-                    isVisible = sidebarVisible,
-                    onDismiss = { sidebarVisible = false },
-                    navController = navController
-                )
             }
         }
     }
