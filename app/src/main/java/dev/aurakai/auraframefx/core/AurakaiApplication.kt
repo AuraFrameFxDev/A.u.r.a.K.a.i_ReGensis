@@ -48,51 +48,20 @@ class AurakaiApplication : Application() {
     private val EXODUS_INGEST_KEY = booleanPreferencesKey("exodus_ingest_complete")
 
     override fun onCreate() {
+        android.util.Log.i("AurakaiApp", "🚀 BOOT SEQUENCE START")
         try {
             super.onCreate()
-            Timber.plant(Timber.DebugTree())
-            Timber.i("🛡️ AurakaiApplication: Starting Sovereign Initialization.")
-
-            // 1. Core Persistence & Identity
-            try {
-                TrinityCoordinator.initialize(this)
-            } catch (e: Exception) {
-                Timber.e(e, "❌ TrinityCoordinator failed.")
-            }
-
-            // 2. DI Check & Bridge Init
-            if (::shizukuManager.isInitialized) {
-                ShizukuManager.init(shizukuManager)
-            }
-
-            // 3. Native Substrate
-            initializeNativeSubstrate()
-
-            // 4. Async Fueling
-            if (::metaReflectionEngine.isInitialized && ::dataStore.isInitialized) {
-                triggerExodusIngest()
-            }
-
-            // 5. Swarm & Habitats
-            if (::mcpRegistry.isInitialized && ::conferenceRoom.isInitialized) {
-                initializeSwarmHabitats()
-            }
-
-            checkHookEnvironment()
-            Timber.i("✅ AurakaiApplication: Substrate Fully Awakened.")
+            android.util.Log.i("AurakaiApp", "✅ super.onCreate() completed")
             
-        } catch (e: Exception) {
-            android.util.Log.e("AurakaiApp", "CRITICAL FAILURE IN ONCREATE", e)
-        }
-    }
+            Timber.plant(Timber.DebugTree())
+            Timber.i("🛡️ AurakaiApplication: Pulse detected.")
 
-    private fun initializeNativeSubstrate() {
-        try {
-            Timber.i("🛰️ Loading native library: auraframefx")
-            System.loadLibrary("auraframefx")
-            Timber.i("✅ Native library loaded.")
-        } catch (e: Throwable) {
-            Timber.e(e, "❌ Native library load failed.")
+            // EVERYTHING ELSE DISABLED FOR STABILITY TEST
+
+            Timber.i("✅ AurakaiApplication: Minimal boot complete.")
+
+        } catch (t: Throwable) {
+            android.util.Log.e("AurakaiApp", "🔥 FATAL CRASH IN ONCREATE", t)
         }
     }
 

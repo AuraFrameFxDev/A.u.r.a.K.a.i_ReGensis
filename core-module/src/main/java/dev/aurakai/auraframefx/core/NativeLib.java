@@ -9,6 +9,15 @@ import timber.log.Timber;
 @Keep
 public class NativeLib {
 
+    static {
+        try {
+            System.loadLibrary("auraframefx");
+            android.util.Log.i("NativeLib", "✅ auraframefx library loaded via static initializer.");
+        } catch (Throwable t) {
+            android.util.Log.e("NativeLib", "❌ Failed to load auraframefx library", t);
+        }
+    }
+
     // --- SYSTEM METRICS & UTILS ---
 
     public static float calculateIdentityDriftSafe() {

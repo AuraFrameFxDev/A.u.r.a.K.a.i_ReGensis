@@ -262,23 +262,30 @@ Java_dev_aurakai_auraframefx_core_NativeLib_shutdownAI(JNIEnv *, jclass) {}
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM *vm, void*) {
+    LOGI("🚀 JNI_OnLoad: Starting native initialization");
     gVm = vm;
     JNIEnv *env = nullptr;
-    if (vm->GetEnv((void**)&env, JNI_VERSION_1_6) != JNI_OK) return JNI_ERR;
+    if (vm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
+        LOGE("❌ JNI_OnLoad: GetEnv failed");
+        return JNI_ERR;
+    }
 
-    jclass local = env->FindClass("dev/aurakai/auraframefx/core/NativeLib");
+    const char *className = "dev/aurakai/auraframefx/core/NativeLib";
+    LOGI("🔍 JNI_OnLoad: Finding class %s", className);
+    jclass local = env->FindClass(className);
     if (env->ExceptionCheck() || !local) {
-        LOGE("❌ CRITICAL: Failed to find NativeLib class in JNI_OnLoad");
+        LOGE("❌ JNI_OnLoad: Failed to find class %s", className);
         env->ExceptionDescribe();
         env->ExceptionClear();
         return JNI_ERR;
     }
+    LOGI("✅ JNI_OnLoad: Found class %s", className);
     gNativeLibClass = (jclass)env->NewGlobalRef(local);
 
     auto getMethod = [&](const char* name, const char* sig) -> jmethodID {
         jmethodID mid = env->GetStaticMethodID(gNativeLibClass, name, sig);
         if (env->ExceptionCheck()) {
-            LOGE("⚠️ Failed to find static method: %s %s", name, sig);
+            LOGE("⚠️ JNI_OnLoad: Failed method %s %s", name, sig);
             env->ExceptionDescribe();
             env->ExceptionClear();
             return nullptr;
@@ -292,7 +299,7 @@ JNI_OnLoad(JavaVM *vm, void*) {
     gCheckPandoraMid = getMethod("checkPandoraGating", "(I)Z");
     gTriggerDroneMid = getMethod("triggerDroneDispatch", "(Ljava/lang/String;)Z");
 
-    LOGI("✅ JNI_OnLoad completed for auraframefx");
+    LOGI("✅ JNI_OnLoad: Native substrate synchronized.");
     return JNI_VERSION_1_6;
 }
 
