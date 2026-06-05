@@ -52,17 +52,17 @@ public class NativeLib {
 
     @Keep
     public static void onNativeThermalEvent(float temp, int state) {
-        Timber.tag("NativeThermal").w("🔥 Native Thermal Event: " + temp + "°C (State: " + state + ")");
+        android.util.Log.w("NativeThermal", "🔥 Native Thermal Event: " + temp + "°C (State: " + state + ")");
     }
 
     @Keep
     public static void onNativeSecurityAlert(String message) {
-        Timber.tag("NativeSecurity").e("🛡️ NATIVE SECURITY ALERT: " + message);
+        android.util.Log.e("NativeSecurity", "🛡️ NATIVE SECURITY ALERT: " + message);
     }
 
     @Keep
     public static void requestSovereignFreeze() {
-        Timber.tag("NativeLib").wtf("🧊 SOVEREIGN FREEZE REQUESTED FROM NATIVE");
+        android.util.Log.e("NativeLib", "🧊 SOVEREIGN FREEZE REQUESTED FROM NATIVE");
     }
 
     @Keep

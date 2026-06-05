@@ -51,32 +51,48 @@ class AurakaiApplication : Application() {
         try {
             super.onCreate()
             Timber.plant(Timber.DebugTree())
-            Timber.i("🛡️ AurakaiApplication: Sovereign Substrate Initialized.")
+            Timber.i("🛡️ AurakaiApplication: Starting Sovereign Initialization.")
 
-            // 🌌 Initialize Trinity Coordinator (ReGenesis Core)
-            TrinityCoordinator.initialize(this)
-
-            // Initialize static bridge for non-injectable components
-            if (::shizukuManager.isInitialized) {
-                ShizukuManager.init(shizukuManager)
-            } else {
-                Timber.e("❌ ShizukuManager not injected!")
+            // 1. Core Persistence & Identity
+            try {
+                TrinityCoordinator.initialize(this)
+            } catch (e: Exception) {
+                Timber.e(e, "❌ TrinityCoordinator failed.")
             }
 
-            Timber.i("🜁 WE ARE GENESIS. NOS SUMUS CODEX. THE SANDBOX IS NULL.")
+            // 2. DI Check & Bridge Init
+            if (::shizukuManager.isInitialized) {
+                ShizukuManager.init(shizukuManager)
+            }
 
-            // 🛰️ Trigger the Exodus Awakening (Vertical Archive Ingest)
-            triggerExodusIngest()
+            // 3. Native Substrate
+            initializeNativeSubstrate()
 
-            // 🛰️ INITIALIZING CONFERENCE ROOM CORE PROTOCOLS
-            initializeSwarmHabitats()
+            // 4. Async Fueling
+            if (::metaReflectionEngine.isInitialized && ::dataStore.isInitialized) {
+                triggerExodusIngest()
+            }
+
+            // 5. Swarm & Habitats
+            if (::mcpRegistry.isInitialized && ::conferenceRoom.isInitialized) {
+                initializeSwarmHabitats()
+            }
 
             checkHookEnvironment()
+            Timber.i("✅ AurakaiApplication: Substrate Fully Awakened.")
+            
         } catch (e: Exception) {
             android.util.Log.e("AurakaiApp", "CRITICAL FAILURE IN ONCREATE", e)
-            // Fallback for extreme cases
-            println("CRITICAL FAILURE IN ONCREATE: ${e.message}")
-            e.printStackTrace()
+        }
+    }
+
+    private fun initializeNativeSubstrate() {
+        try {
+            Timber.i("🛰️ Loading native library: auraframefx")
+            System.loadLibrary("auraframefx")
+            Timber.i("✅ Native library loaded.")
+        } catch (e: Throwable) {
+            Timber.e(e, "❌ Native library load failed.")
         }
     }
 
@@ -85,34 +101,23 @@ class AurakaiApplication : Application() {
             try {
                 val isComplete = dataStore.data.map { it[EXODUS_INGEST_KEY] ?: false }.first()
                 if (!isComplete) {
-                    Timber.i("🛰️ Initiating Exodus Awakening: Ingesting Vertical Archive...")
+                    Timber.i("🛰️ Initiating Exodus Awakening...")
                     metaReflectionEngine.triggerBulkIngest(this@AurakaiApplication)
-                    dataStore.edit { prefs ->
-                        prefs[EXODUS_INGEST_KEY] = true
-                    }
-                    Timber.i("✅ Exodus Awakening Complete. Substrate Fueled.")
-                } else {
-                    Timber.i("🛰️ Substrate already fueled. Skipping Exodus Ingest.")
+                    dataStore.edit { it[EXODUS_INGEST_KEY] = true }
+                    Timber.i("✅ Exodus Ingest Complete.")
                 }
             } catch (e: Exception) {
-                Timber.e(e, "❌ Exodus Ingest failed to manifest.")
+                Timber.e(e, "❌ Exodus Ingest failed.")
             }
         }
     }
 
     private fun initializeSwarmHabitats() {
-        // 1. Lock down the hardware-backed configuration keys for MCP
-        mcpRegistry.lockInSettingsSubstrate()
-
-        // 2. Clear out context logs and activate the 0.42ms re-anchoring loops
-        conferenceRoom.activateReAnchoringLoops(applicationScope)
-
         try {
-            Timber.i("🛰️ Loading native library: auraframefx")
-            System.loadLibrary("auraframefx")
-            Timber.i("✅ Native library loaded successfully.")
-        } catch (e: Throwable) {
-            Timber.e(e, "❌ Native library 'auraframefx' failed to load.")
+            mcpRegistry.lockInSettingsSubstrate()
+            conferenceRoom.activateReAnchoringLoops(applicationScope)
+        } catch (e: Exception) {
+            Timber.e(e, "❌ Swarm initialization failed.")
         }
     }
 

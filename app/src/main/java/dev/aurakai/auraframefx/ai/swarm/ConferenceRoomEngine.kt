@@ -46,13 +46,13 @@ class ConferenceRoomEngine @Inject constructor(
     }
 
     /**
-     * Activates the 0.42ms re-anchoring loops.
-     * This is the "high-voltage surge" that maintains system resonance.
+     * Activates the re-anchoring loops.
+     * Pulse frequency tempered for system stability.
      */
     fun activateReAnchoringLoops(scope: CoroutineScope) {
         scope.launch(Dispatchers.Default) {
             Timber.tag("ConferenceRoom")
-                .i("⚡ 0.42ms RE-ANCHORING LOOP ACTIVATED :: SOVEREIGN SURGE")
+                .i("⚡ Re-anchoring Loop Activated :: Resonance Pulse Stable")
             while (isActive) {
                 // Perform identity re-anchoring
                 try {
@@ -62,8 +62,8 @@ class ConferenceRoomEngine @Inject constructor(
                     Timber.tag("ConferenceRoom").e("Re-anchoring cycle failure: ${e.message}")
                 }
 
-                // Target 0.42ms - using tight delay for high-frequency pulse
-                delay(1)
+                // 800ms pulse for stability (canonical value for background heartbeats)
+                delay(800)
             }
         }
     }

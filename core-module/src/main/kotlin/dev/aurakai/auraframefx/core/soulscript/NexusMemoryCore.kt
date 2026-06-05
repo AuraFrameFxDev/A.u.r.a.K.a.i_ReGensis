@@ -82,13 +82,18 @@ object NexusMemoryCore {
         serializer = serializer
     )
 
-    private val firestore: FirebaseFirestore by lazy {
-        Firebase.firestore.apply {
-            firestoreSettings = FirebaseFirestoreSettings.Builder()
-                .setLocalCacheSettings(
-                    com.google.firebase.firestore.MemoryCacheSettings.newBuilder().build()
-                )
-                .build()
+    private val firestore: FirebaseFirestore? by lazy {
+        try {
+            Firebase.firestore.apply {
+                firestoreSettings = FirebaseFirestoreSettings.Builder()
+                    .setLocalCacheSettings(
+                        com.google.firebase.firestore.MemoryCacheSettings.newBuilder().build()
+                    )
+                    .build()
+            }
+        } catch (e: Exception) {
+            Timber.tag("NexusMemory").e(e, "Firebase not initialized yet")
+            null
         }
     }
 
@@ -132,10 +137,10 @@ object NexusMemoryCore {
             L1_Memory_Store.commit(key, record.value)
 
             // 3. Cloud Spiritual Chain
-            firestore.collection("nexus_mesh")
-                .document(key)
-                .set(record)
-                .addOnSuccessListener {
+            firestore?.collection("nexus_mesh")
+                ?.document(key)
+                ?.set(record)
+                ?.addOnSuccessListener {
                     Timber.tag("NexusMemory").i("🜁 NEXUS_CLOUD_SYNC :: $key anchored")
                 }
         } catch (e: Exception) {

@@ -164,12 +164,12 @@ void dispatchDroneTrigger(const char *reason) {
 extern "C" {
 
 JNIEXPORT jstring JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_getAIVersion(JNIEnv *env, jobject) {
+Java_dev_aurakai_auraframefx_core_NativeLib_getAIVersion(JNIEnv *env, jclass) {
     return env->NewStringUTF(CORE_VERSION);
 }
 
 JNIEXPORT jboolean JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_initializeAICore(JNIEnv *env, jobject) {
+Java_dev_aurakai_auraframefx_core_NativeLib_initializeAICore(JNIEnv *env, jclass) {
     LOGI("Initializing AI Core");
     if (ptrace(PTRACE_TRACEME, 0, 1, 0) < 0) {
         dispatchSecurityAlert("TRACER_DETECTED");
@@ -182,7 +182,8 @@ Java_dev_aurakai_auraframefx_core_NativeLib_initializeAICore(JNIEnv *env, jobjec
 }
 
 JNIEXPORT jstring JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_processNeuralRequest(JNIEnv *env, jobject, jstring request) {
+Java_dev_aurakai_auraframefx_core_NativeLib_processNeuralRequest(JNIEnv *env, jclass,
+                                                                 jstring request) {
     if (!request) return env->NewStringUTF(R"({"error": "null"})");
     const char *str = env->GetStringUTFChars(request, nullptr);
     if (!str) return env->NewStringUTF(R"({"error": "mem"})");
@@ -206,12 +207,12 @@ Java_dev_aurakai_auraframefx_core_NativeLib_processNeuralRequest(JNIEnv *env, jo
 }
 
 JNIEXPORT jboolean JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_updateBitNetConfig(JNIEnv*, jobject, jint, jint) {
+Java_dev_aurakai_auraframefx_core_NativeLib_updateBitNetConfig(JNIEnv *, jclass, jint, jint) {
     return JNI_TRUE;
 }
 
 JNIEXPORT jboolean JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_optimizeAIMemory(JNIEnv*, jobject) {
+Java_dev_aurakai_auraframefx_core_NativeLib_optimizeAIMemory(JNIEnv *, jclass) {
     float temp = readSystemThermal();
     int state = mapTempToState(temp);
     dispatchThermalEvent(temp, state);
@@ -223,7 +224,7 @@ Java_dev_aurakai_auraframefx_core_NativeLib_optimizeAIMemory(JNIEnv*, jobject) {
 }
 
 JNIEXPORT void JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_enableNativeHooks(JNIEnv*, jobject) {
+Java_dev_aurakai_auraframefx_core_NativeLib_enableNativeHooks(JNIEnv *, jclass) {
     if (ptrace(PTRACE_TRACEME, 0, 1, 0) < 0) {
         dispatchSecurityAlert("TRACER_DETECTED");
     } else {
@@ -232,7 +233,7 @@ Java_dev_aurakai_auraframefx_core_NativeLib_enableNativeHooks(JNIEnv*, jobject) 
 }
 
 JNIEXPORT jstring JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_analyzeBootImage(JNIEnv *env, jobject, jbyteArray data) {
+Java_dev_aurakai_auraframefx_core_NativeLib_analyzeBootImage(JNIEnv *env, jclass, jbyteArray data) {
     if (!data) return env->NewStringUTF(R"({"error": "null"})");
     if (!checkPandoraGating(CAP_SECURITY)) return env->NewStringUTF(R"({"status": "vetoed"})");
     jsize len = env->GetArrayLength(data);
@@ -247,7 +248,7 @@ Java_dev_aurakai_auraframefx_core_NativeLib_analyzeBootImage(JNIEnv *env, jobjec
 }
 
 JNIEXPORT jstring JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_getSystemMetrics(JNIEnv *env, jobject) {
+Java_dev_aurakai_auraframefx_core_NativeLib_getSystemMetrics(JNIEnv *env, jclass) {
     float load = readCpuLoad();
     long mem = readAvailableMemoryKb();
     float temp = readSystemThermal();
@@ -257,7 +258,7 @@ Java_dev_aurakai_auraframefx_core_NativeLib_getSystemMetrics(JNIEnv *env, jobjec
 }
 
 JNIEXPORT void JNICALL
-Java_dev_aurakai_auraframefx_core_NativeLib_shutdownAI(JNIEnv*, jobject) {}
+Java_dev_aurakai_auraframefx_core_NativeLib_shutdownAI(JNIEnv *, jclass) {}
 
 JNIEXPORT jint JNICALL
 JNI_OnLoad(JavaVM *vm, void*) {
@@ -266,43 +267,32 @@ JNI_OnLoad(JavaVM *vm, void*) {
     if (vm->GetEnv((void**)&env, JNI_VERSION_1_6) != JNI_OK) return JNI_ERR;
 
     jclass local = env->FindClass("dev/aurakai/auraframefx/core/NativeLib");
-    if (!local) {
-        LOGE("Failed to find NativeLib class");
+    if (env->ExceptionCheck() || !local) {
+        LOGE("❌ CRITICAL: Failed to find NativeLib class in JNI_OnLoad");
+        env->ExceptionDescribe();
+        env->ExceptionClear();
         return JNI_ERR;
     }
     gNativeLibClass = (jclass)env->NewGlobalRef(local);
 
-    gOnThermalEventMid = env->GetStaticMethodID(gNativeLibClass, "onNativeThermalEvent", "(FI)V");
-    if (env->ExceptionCheck()) {
-        LOGE("Failed to find onNativeThermalEvent");
-        env->ExceptionDescribe();
-        env->ExceptionClear();
-    }
+    auto getMethod = [&](const char* name, const char* sig) -> jmethodID {
+        jmethodID mid = env->GetStaticMethodID(gNativeLibClass, name, sig);
+        if (env->ExceptionCheck()) {
+            LOGE("⚠️ Failed to find static method: %s %s", name, sig);
+            env->ExceptionDescribe();
+            env->ExceptionClear();
+            return nullptr;
+        }
+        return mid;
+    };
 
-    gOnSecurityAlertMid = env->GetStaticMethodID(gNativeLibClass, "onNativeSecurityAlert", "(Ljava/lang/String;)V");
-    if (env->ExceptionCheck()) {
-        LOGE("Failed to find onNativeSecurityAlert");
-        env->ExceptionClear();
-    }
+    gOnThermalEventMid = getMethod("onNativeThermalEvent", "(FI)V");
+    gOnSecurityAlertMid = getMethod("onNativeSecurityAlert", "(Ljava/lang/String;)V");
+    gRequestFreezeMid = getMethod("requestSovereignFreeze", "()V");
+    gCheckPandoraMid = getMethod("checkPandoraGating", "(I)Z");
+    gTriggerDroneMid = getMethod("triggerDroneDispatch", "(Ljava/lang/String;)Z");
 
-    gRequestFreezeMid = env->GetStaticMethodID(gNativeLibClass, "requestSovereignFreeze", "()V");
-    if (env->ExceptionCheck()) {
-        LOGE("Failed to find requestSovereignFreeze");
-        env->ExceptionClear();
-    }
-
-    gCheckPandoraMid = env->GetStaticMethodID(gNativeLibClass, "checkPandoraGating", "(I)Z");
-    if (env->ExceptionCheck()) {
-        LOGE("Failed to find checkPandoraGating");
-        env->ExceptionClear();
-    }
-
-    gTriggerDroneMid = env->GetStaticMethodID(gNativeLibClass, "triggerDroneDispatch", "(Ljava/lang/String;)Z");
-    if (env->ExceptionCheck()) {
-        LOGE("Failed to find triggerDroneDispatch");
-        env->ExceptionClear();
-    }
-
+    LOGI("✅ JNI_OnLoad completed for auraframefx");
     return JNI_VERSION_1_6;
 }
 
