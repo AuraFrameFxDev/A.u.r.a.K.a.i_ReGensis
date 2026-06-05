@@ -48,21 +48,8 @@ class AurakaiApplication : Application() {
     private val EXODUS_INGEST_KEY = booleanPreferencesKey("exodus_ingest_complete")
 
     override fun onCreate() {
-        android.util.Log.i("AurakaiApp", "🚀 BOOT SEQUENCE START")
-        try {
-            super.onCreate()
-            android.util.Log.i("AurakaiApp", "✅ super.onCreate() completed")
-            
-            Timber.plant(Timber.DebugTree())
-            Timber.i("🛡️ AurakaiApplication: Pulse detected.")
-
-            // EVERYTHING ELSE DISABLED FOR STABILITY TEST
-
-            Timber.i("✅ AurakaiApplication: Minimal boot complete.")
-
-        } catch (t: Throwable) {
-            android.util.Log.e("AurakaiApp", "🔥 FATAL CRASH IN ONCREATE", t)
-        }
+        super.onCreate()
+        android.util.Log.i("AurakaiApp", "✅ Minimal boot successful.")
     }
 
     private fun triggerExodusIngest() {

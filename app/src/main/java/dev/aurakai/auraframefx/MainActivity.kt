@@ -20,14 +20,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.core.binder.BinderTelemetryConduit
 import dev.aurakai.auraframefx.core.ldo.model.ReGenesisRoute
-import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
-import dev.aurakai.auraframefx.core.security.SpiritualChainSync
-import dev.aurakai.auraframefx.core.soulscript.SoulScript
-import dev.aurakai.auraframefx.core.storage.SubstrateDatabase
-import dev.aurakai.auraframefx.core.tether.Tether
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.ui.recovery.UIRecoveryManager
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
@@ -48,7 +42,6 @@ import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.UltimateTermuxTerminalScreen
 import dev.aurakai.auraframefx.ui.screens.UnauthorizedScreen
 import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -66,6 +59,7 @@ class MainActivity : ComponentActivity() {
 
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
+        /*
         try {
             SubstrateBootCoordinator.initializeSystemSubstrate(this)
         } catch (e: Exception) {
@@ -89,6 +83,7 @@ class MainActivity : ComponentActivity() {
             outbound = { fragment -> SpiritualChainSync.streamOutbound(fragment) },
             inboundHandler = { _ -> /* RealityMorph prompt for gains */ }
         )
+        */
 
         setContent {
             dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme {
