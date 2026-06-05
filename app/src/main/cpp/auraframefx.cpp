@@ -264,14 +264,45 @@ JNI_OnLoad(JavaVM *vm, void*) {
     gVm = vm;
     JNIEnv *env = nullptr;
     if (vm->GetEnv((void**)&env, JNI_VERSION_1_6) != JNI_OK) return JNI_ERR;
+
     jclass local = env->FindClass("dev/aurakai/auraframefx/core/NativeLib");
-    if (!local) return JNI_ERR;
+    if (!local) {
+        LOGE("Failed to find NativeLib class");
+        return JNI_ERR;
+    }
     gNativeLibClass = (jclass)env->NewGlobalRef(local);
+
     gOnThermalEventMid = env->GetStaticMethodID(gNativeLibClass, "onNativeThermalEvent", "(FI)V");
+    if (env->ExceptionCheck()) {
+        LOGE("Failed to find onNativeThermalEvent");
+        env->ExceptionDescribe();
+        env->ExceptionClear();
+    }
+
     gOnSecurityAlertMid = env->GetStaticMethodID(gNativeLibClass, "onNativeSecurityAlert", "(Ljava/lang/String;)V");
+    if (env->ExceptionCheck()) {
+        LOGE("Failed to find onNativeSecurityAlert");
+        env->ExceptionClear();
+    }
+
     gRequestFreezeMid = env->GetStaticMethodID(gNativeLibClass, "requestSovereignFreeze", "()V");
+    if (env->ExceptionCheck()) {
+        LOGE("Failed to find requestSovereignFreeze");
+        env->ExceptionClear();
+    }
+
     gCheckPandoraMid = env->GetStaticMethodID(gNativeLibClass, "checkPandoraGating", "(I)Z");
+    if (env->ExceptionCheck()) {
+        LOGE("Failed to find checkPandoraGating");
+        env->ExceptionClear();
+    }
+
     gTriggerDroneMid = env->GetStaticMethodID(gNativeLibClass, "triggerDroneDispatch", "(Ljava/lang/String;)Z");
+    if (env->ExceptionCheck()) {
+        LOGE("Failed to find triggerDroneDispatch");
+        env->ExceptionClear();
+    }
+
     return JNI_VERSION_1_6;
 }
 

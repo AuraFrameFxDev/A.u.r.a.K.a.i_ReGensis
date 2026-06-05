@@ -108,9 +108,11 @@ class AurakaiApplication : Application() {
         conferenceRoom.activateReAnchoringLoops(applicationScope)
 
         try {
+            Timber.i("🛰️ Loading native library: auraframefx")
             System.loadLibrary("auraframefx")
-        } catch (e: UnsatisfiedLinkError) {
-            Timber.e("Native library 'auraframefx' not found. Re-anchoring loops disabled.")
+            Timber.i("✅ Native library loaded successfully.")
+        } catch (e: Throwable) {
+            Timber.e(e, "❌ Native library 'auraframefx' failed to load.")
         }
     }
 
