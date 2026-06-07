@@ -5,3 +5,7 @@
 ## 2026-05-25 - [Memory Store Query Optimization]
 **Learning:** Generic Kotlin collection transforms like `filterKeys { it.matches(regex) }.values.toList()` are extremely inefficient for high-frequency queries in large maps. They result in O(N) regex matching and multiple intermediate collection allocations.
 **Action:** Implement fast-paths for exact matches and simple prefixes (e.g., `prefix*`) using `equals(ignoreCase = true)` and `startsWith(ignoreCase = true)` in manual loops. Use `ConcurrentHashMap` for thread-safe backing stores to avoid `ConcurrentModificationException` during iteration. Ensure fast-paths preserve multi-match behavior for case-insensitive exact hits.
+
+## 2026-06-07 - [Counter-productive LruCache in Hot-path]
+**Learning:** In high-performance math engines (like RealitymorphismEngine), caching small computations (like 768-dim dot products) can be counter-productive if the cache key generation (e.g., `contentHashCode()` + String concatenation) is more expensive than the computation itself.
+**Action:** Profile the overhead of cache keys before implementing caches for $O(N)$ operations. For 768-dim vectors, optimized manual loops are faster than hashing and map lookups.
