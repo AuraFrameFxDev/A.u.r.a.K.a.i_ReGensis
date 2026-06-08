@@ -108,7 +108,12 @@ object RealitymorphismEngine {
         }
 
         // Normalize to unit vector
-        val magnitude = sqrt(vector.sumOf { (it * it).toDouble() }).toFloat()
+        // ⚡ Bolt Optimization: Use manual loop to avoid boxing and object allocation in sumOf
+        var sum = 0.0
+        for (v in vector) {
+            sum += (v * v).toDouble()
+        }
+        val magnitude = sqrt(sum).toFloat()
         if (magnitude > 0) {
             for (i in vector.indices) {
                 vector[i] /= magnitude
@@ -266,8 +271,6 @@ class TensorG5Accelerator private constructor(context: Context) {
         NNAPIDelegate.create("qti-gpu")
     }
 
-    private val vectorCache = LruCache<String, FloatArray>(100)
-
     /**
      * Compute re-anchored success rate with identity verification
      * Target latency: 0.42-0.58ms
@@ -300,22 +303,16 @@ class TensorG5Accelerator private constructor(context: Context) {
      * Fast cosine similarity using TPU matrix operations
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
-        // Cache key for repeated computations
-        val cacheKey = "${a.contentHashCode()}_${b.contentHashCode()}"
-        vectorCache.get(cacheKey)?.let { return it[0] }
-
-        val result = if (tpuDelegate != null) {
+        // ⚡ Bolt Optimization: Removed LruCache and string-based cache keys.
+        // The overhead of contentHashCode() and string concatenation exceeds the cost
+        // of the optimized TPU/CPU math.
+        return if (tpuDelegate != null) {
             // TPU-accelerated dot product
             tpuDelegate.computeDotProduct(a, b)
         } else {
             // Optimized CPU fallback
             cpuDotProduct(a, b)
         }
-
-        // Store in cache
-        vectorCache.put(cacheKey, floatArrayOf(result))
-
-        return result
     }
 
     private fun cpuDotProduct(a: FloatArray, b: FloatArray): Float {
@@ -357,24 +354,16 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        // Hardware-accelerated dot product
-        return a.zip(b).sumOf { (it.first * it.second).toDouble() }.toFloat()
-    }
-}
-
-// Placeholder LruCache
-class LruCache<K, V>(maxSize: Int) {
-    private val map = LinkedHashMap<K, V>(maxSize, 0.75f, true)
-    private val maxSize = maxSize
-
-    fun get(key: K): V? = map[key]
-    fun put(key: K, value: V) {
-        map[key] = value
-        if (map.size > maxSize) {
-            map.remove(map.keys.first())
+        // ⚡ Bolt Optimization: Hardware-accelerated dot product
+        // Replaced zip().sumOf with manual loop to avoid massive object allocation and boxing
+        var dot = 0.0
+        for (i in a.indices) {
+            dot += (a[i] * b[i]).toDouble()
         }
+        return dot.toFloat()
     }
 }
+
 
 // ═════════════════════════════════════════════════════════════════════
 // DATA MODELS

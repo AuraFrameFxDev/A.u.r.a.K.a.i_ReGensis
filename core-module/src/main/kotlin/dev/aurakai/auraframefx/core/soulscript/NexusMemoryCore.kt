@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.InputStream
@@ -193,12 +194,8 @@ object NexusMemoryCore {
             bytes[i * 4 + 3] = bits.toByte()
         }
         val hashBytes = digest.digest(bytes)
-        val result = StringBuilder(hashBytes.size * 2)
-        for (b in hashBytes) {
-            val i = b.toInt() and 0xFF
-            result.append(String.format("%02x", i))
-        }
-        return result.toString()
+        // ⚡ Bolt Optimization: Replace inefficient String.format loop with HexUtil.encodeHex
+        return HexUtil.encodeHex(hashBytes)
     }
 
     private fun generateSynthetic768Vector(): FloatArray =
