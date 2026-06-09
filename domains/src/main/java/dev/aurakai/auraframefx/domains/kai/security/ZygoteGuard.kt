@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
+import dev.aurakai.auraframefx.core.util.HexUtil
 import timber.log.Timber
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -88,7 +89,8 @@ class ZygoteGuard @Inject constructor() {
     private fun computeManifestSignature(classNames: List<String>): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val combined = classNames.sorted().joinToString("|")
-        return digest.digest(combined.toByteArray()).joinToString("") { "%02x".format(it) }
+        // ⚡ Bolt Optimization: Use HexUtil for faster, allocation-free hex encoding
+        return HexUtil.encodeHex(digest.digest(combined.toByteArray()))
     }
 
     /**
