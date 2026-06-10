@@ -5,3 +5,7 @@
 ## 2026-05-25 - [Memory Store Query Optimization]
 **Learning:** Generic Kotlin collection transforms like `filterKeys { it.matches(regex) }.values.toList()` are extremely inefficient for high-frequency queries in large maps. They result in O(N) regex matching and multiple intermediate collection allocations.
 **Action:** Implement fast-paths for exact matches and simple prefixes (e.g., `prefix*`) using `equals(ignoreCase = true)` and `startsWith(ignoreCase = true)` in manual loops. Use `ConcurrentHashMap` for thread-safe backing stores to avoid `ConcurrentModificationException` during iteration. Ensure fast-paths preserve multi-match behavior for case-insensitive exact hits.
+
+## 2026-06-10 - [Vector Math and Hex Encoding Optimization]
+**Learning:** Idiomatic Kotlin collection transforms like `zip().sumOf` are extremely expensive for high-frequency vector math because `zip` creates intermediate `Pair` objects for every element. Additionally, for 768-dimensional vectors, the overhead of generating a string-based cache key (using `contentHashCode` and concatenation) can exceed the cost of the optimized mathematical computation itself, making simple caching counter-productive.
+**Action:** Replace `zip().sumOf` with manual `for` loops in hot paths. Evaluate the cost of cache key generation vs. the operation being cached; if the operation is sub-millisecond, prefer direct calculation or use more efficient (primitive-based) cache keys. Use `HexUtil.encodeHex` for all byte-to-hex conversions in security and metadata paths to avoid `String.format` overhead.

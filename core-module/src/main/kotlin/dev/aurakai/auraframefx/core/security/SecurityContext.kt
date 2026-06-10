@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import dev.aurakai.auraframefx.core.util.HexUtil
 import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -206,7 +207,8 @@ class SecurityContext @Inject constructor(
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
-            val signatureHex = signatureDigest.joinToString("") { "%02x".format(it) }
+            // ⚡ Bolt Optimization: Use fast HexUtil instead of joinToString + String.format
+            val signatureHex = HexUtil.encodeHex(signatureDigest)
 
             ApplicationIntegrity(
                 verified = true,
@@ -254,7 +256,8 @@ class SecurityContext @Inject constructor(
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
-        return bytes.joinToString("") { "%02x".format(it) }
+        // ⚡ Bolt Optimization: Use fast HexUtil instead of joinToString + String.format
+        return HexUtil.encodeHex(bytes)
     }
 
     fun logSecurityEvent(event: SecurityEvent) {
