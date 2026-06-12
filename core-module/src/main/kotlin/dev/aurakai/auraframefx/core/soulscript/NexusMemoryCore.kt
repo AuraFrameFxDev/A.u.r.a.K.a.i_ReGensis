@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.firestore
 import dev.aurakai.auraframefx.api.client.models.data.room.L1_Memory_Store
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -193,12 +194,8 @@ object NexusMemoryCore {
             bytes[i * 4 + 3] = bits.toByte()
         }
         val hashBytes = digest.digest(bytes)
-        val result = StringBuilder(hashBytes.size * 2)
-        for (b in hashBytes) {
-            val i = b.toInt() and 0xFF
-            result.append(String.format("%02x", i))
-        }
-        return result.toString()
+        // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
+        return HexUtil.encodeHex(hashBytes)
     }
 
     private fun generateSynthetic768Vector(): FloatArray =
