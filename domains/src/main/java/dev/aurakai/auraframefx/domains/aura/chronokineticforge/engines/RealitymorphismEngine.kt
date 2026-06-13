@@ -108,7 +108,14 @@ object RealitymorphismEngine {
         }
 
         // Normalize to unit vector
-        val magnitude = sqrt(vector.sumOf { (it * it).toDouble() }).toFloat()
+        // ⚡ Bolt Optimization: Use manual loop instead of sumOf to avoid lambda overhead and boxing
+        var sumSquared = 0.0
+        for (i in vector.indices) {
+            val v = vector[i]
+            sumSquared += (v * v).toDouble()
+        }
+        val magnitude = sqrt(sumSquared).toFloat()
+
         if (magnitude > 0) {
             for (i in vector.indices) {
                 vector[i] /= magnitude
@@ -266,8 +273,6 @@ class TensorG5Accelerator private constructor(context: Context) {
         NNAPIDelegate.create("qti-gpu")
     }
 
-    private val vectorCache = LruCache<String, FloatArray>(100)
-
     /**
      * Compute re-anchored success rate with identity verification
      * Target latency: 0.42-0.58ms
@@ -298,24 +303,17 @@ class TensorG5Accelerator private constructor(context: Context) {
 
     /**
      * Fast cosine similarity using TPU matrix operations
+     * ⚡ Bolt Optimization: Removed vectorCache and contentHashCode() key generation.
+     * The overhead of hashing two 768-dim vectors is higher than the optimized mathematical computation.
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
-        // Cache key for repeated computations
-        val cacheKey = "${a.contentHashCode()}_${b.contentHashCode()}"
-        vectorCache.get(cacheKey)?.let { return it[0] }
-
-        val result = if (tpuDelegate != null) {
+        return if (tpuDelegate != null) {
             // TPU-accelerated dot product
             tpuDelegate.computeDotProduct(a, b)
         } else {
             // Optimized CPU fallback
             cpuDotProduct(a, b)
         }
-
-        // Store in cache
-        vectorCache.put(cacheKey, floatArrayOf(result))
-
-        return result
     }
 
     private fun cpuDotProduct(a: FloatArray, b: FloatArray): Float {
@@ -357,8 +355,12 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        // Hardware-accelerated dot product
-        return a.zip(b).sumOf { (it.first * it.second).toDouble() }.toFloat()
+        // ⚡ Bolt Optimization: Replaced zip().sumOf with manual loop to avoid Pair and List allocations in hot-path
+        var dot = 0.0
+        for (i in a.indices) {
+            dot += (a[i] * b[i]).toDouble()
+        }
+        return dot.toFloat()
     }
 }
 
