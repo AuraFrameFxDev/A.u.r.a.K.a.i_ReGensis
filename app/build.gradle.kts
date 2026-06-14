@@ -115,6 +115,7 @@ dependencies {
     implementation(project(":core-module"))
     implementation(project(":aura"))
     implementation(project(":trinity:aura"))
+    implementation(project(":genesis:oracledrive"))
     // ... other project deps removed
 
     // UI / Compose

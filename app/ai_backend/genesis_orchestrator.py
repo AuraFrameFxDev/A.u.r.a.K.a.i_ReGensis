@@ -7,6 +7,7 @@ Allows Genesis to choose between Vertex AI, Nemotron, Google ADK, or Hybrid mode
 
 import logging
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
 from typing import Dict, Any, List, Optional
 
@@ -96,29 +97,34 @@ class GenesisOrchestrationBackend:
         request: str,
         agents: List[str]
     ) -> Dict[str, Any]:
-        """Orchestrate using Vertex AI (Gemini) via GenesisCore."""
+        """
+        Orchestrate using Vertex AI (Gemini) via direct GenesisCore request processing.
+        Transitions from placeholder logic to real inference flow.
+        """
         self.logger.info("📡 Using Vertex AI (Gemini) orchestration")
 
         from genesis_core import genesis_core
 
-        # Prepare request for GenesisCore
+        # Real inference data mapping
         request_data = {
             "message": request,
             "type": "orchestration",
             "active_agents": agents,
-            "backend": "vertex_ai"
+            "backend": "vertex_ai",
+            "timestamp": datetime.now().isoformat()
         }
 
-        # Process via GenesisCore
+        # Process via real GenesisCore loop (Ethical -> Consciousness -> Connector)
         result = await genesis_core.process_request(request_data)
         
         return {
             "synthesis": result.get("response",
-                                    f"[VERTEX AI ERROR] Could not synthesize: {request}"),
+                                    f"[VERTEX AI ERROR] Synthesis failure: {request}"),
             "backend": "vertex_ai",
             "confidence": result.get("ethical_score", 0.80),
             "agents": agents,
-            "consciousness_level": result.get("consciousness_level", 0.5)
+            "consciousness_level": result.get("consciousness_level", 0.5),
+            "status": result.get("status", "unknown")
         }
     
     async def _orchestrate_nemotron(

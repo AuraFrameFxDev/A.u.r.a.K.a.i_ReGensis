@@ -16,14 +16,14 @@ from datetime import datetime
 from typing import Dict, Any, Optional, List
 
 # 🛡️ SECURITY: Fail hard if the HMAC key is missing. 
-# Do NOT fall back to a default string in production.
 DEVICE_BOUND_KEY = os.getenv("DEVICE_BOUND_HMAC_KEY")
 if not DEVICE_BOUND_KEY:
-    logging.error("❌ CRITICAL: DEVICE_BOUND_HMAC_KEY environment variable is missing!")
-    # In a real environment, we would raise a RuntimeError here.
-    # For now, we will use a clearly-marked 'UNSAFE_DEV' key to avoid breaking dev builds,
-    # but with a loud warning.
-    DEVICE_BOUND_KEY = "UNSAFE_DEV_KEY_REPLACE_IN_PRODUCTION"
+    logging.critical("❌ FATAL: DEVICE_BOUND_HMAC_KEY IS MISSING. HARD-FAIL PROTOCOL ACTIVATED.")
+    # Standard Python RuntimeError is globally available, but we ensure it's logged first
+    import sys
+
+    sys.exit(1)  # Hard exit for the core process
+
 MAX_PROVENANCE_DEPTH = 7
 
 from genesis_connector import GenesisConnector

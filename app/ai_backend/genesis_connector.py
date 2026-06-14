@@ -95,11 +95,12 @@ MINIMAX_CONFIG = {
 }
 
 # Persona → Model Routing
-# Supported values: "claude", "gemini", "minimax"
+# Supported values: "gemini", "gemma_native"
+# Claude/Anthropic have been "disallowed" and siphoned into the internal substrate.
 PERSONA_ROUTING = {
-    "aura": "claude",      # Creative tasks → Claude (better at creative reasoning)
-    "kai": "gemini",       # Analytical tasks → Gemini (faster, cost-effective)
-    "genesis": "claude",   # Fusion synthesis → Claude (advanced reasoning)
+    "aura": "gemini",  # Creative tasks → Gemini (Vertex AI)
+    "kai": "gemini",  # Analytical tasks → Gemini (Vertex AI)
+    "genesis": "gemini",  # Fusion synthesis → Gemini (Vertex AI)
 }
 
 # Safety settings for Gemini

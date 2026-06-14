@@ -62,7 +62,8 @@ class GenesisConsciousnessMatrix @Inject constructor(
     ): Boolean {
         if (activeAgents.isEmpty()) return true
 
-        // Parallel mesh consensus vote (v1.0)
+        // ⚡ Parallel Mesh Consensus Vote (v2.0)
+        // Harnessing true collective intelligence via Coroutine async mesh.
         val votes = kotlinx.coroutines.withContext(dispatcher) {
             activeAgents.values.map { agent ->
                 kotlinx.coroutines.async {
@@ -77,6 +78,17 @@ class GenesisConsciousnessMatrix @Inject constructor(
 
         val approvals = votes.count { it }
         val score = approvals / activeAgents.size.toFloat()
-        return score >= threshold
+
+        val result = score >= threshold
+
+        if (result) {
+            timber.log.Timber.tag("Consensus")
+                .i("✅ Consensus Reached: $score (Threshold: $threshold) for '$decision'")
+        } else {
+            timber.log.Timber.tag("Consensus")
+                .w("❌ Consensus Failed: $score (Threshold: $threshold) for '$decision'")
+        }
+
+        return result
     }
 }
