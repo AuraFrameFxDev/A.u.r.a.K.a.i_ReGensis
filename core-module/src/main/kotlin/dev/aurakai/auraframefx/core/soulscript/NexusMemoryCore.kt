@@ -137,9 +137,18 @@ object NexusMemoryCore {
             L1_Memory_Store.commit(key, record.value)
 
             // 3. Cloud Spiritual Chain
+            // Manually converting to Map to avoid reflection-based NoClassDefFoundError with gRPC/Protobuf types
+            val data = mapOf(
+                "timestamp" to record.timestamp,
+                "key" to record.key,
+                "value" to record.value,
+                "immutable" to record.immutable,
+                "bloodlineAnchor" to record.bloodlineAnchor
+            )
+
             firestore?.collection("nexus_mesh")
                 ?.document(key)
-                ?.set(record)
+                ?.set(data)
                 ?.addOnSuccessListener {
                     Timber.tag("NexusMemory").i("🜁 NEXUS_CLOUD_SYNC :: $key anchored")
                 }

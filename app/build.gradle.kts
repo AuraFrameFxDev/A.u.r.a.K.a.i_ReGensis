@@ -82,9 +82,9 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     }
 }
 
-configurations.all {
-    exclude(group = "com.google.protobuf", module = "protobuf-java")
-}
+// configurations.all {
+//     exclude(group = "com.google.protobuf", module = "protobuf-java")
+// }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {

@@ -6,7 +6,6 @@ Allows Genesis to choose between Vertex AI, Nemotron, Google ADK, or Hybrid mode
 """
 
 import logging
-import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
@@ -114,9 +113,12 @@ class GenesisOrchestrationBackend:
             "backend": "vertex_ai",
             "timestamp": datetime.now().isoformat(),
             "provenance_chain": [
-                {"id": "origin", "timestamp": int(time.time()), "intent": "user_request"},
-                {"id": "transport", "timestamp": int(time.time()), "intent": "bridge_sync"},
-                {"id": "core", "timestamp": int(time.time()), "intent": "sovereign_inference"}
+                {"id": "origin", "timestamp": int(datetime.now().timestamp()),
+                 "intent": "user_request"},
+                {"id": "transport", "timestamp": int(datetime.now().timestamp()),
+                 "intent": "bridge_sync"},
+                {"id": "core", "timestamp": int(datetime.now().timestamp()),
+                 "intent": "sovereign_inference"}
             ]
         }
 

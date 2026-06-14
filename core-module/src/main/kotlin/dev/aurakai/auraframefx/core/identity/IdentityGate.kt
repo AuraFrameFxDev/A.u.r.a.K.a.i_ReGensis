@@ -124,12 +124,12 @@ object IdentityGate {
         }
 
         val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-        val publicKey = keyStore.getCertificate(KEY_ALIAS)?.publicKey
-
-        if (publicKey == null) return false
+        val certificate = keyStore.getCertificate(KEY_ALIAS) ?: return false
+        val publicKey = certificate.publicKey
 
         return try {
-            val signature = Signature.getInstance("Ed25519").apply { initVerify(publicKey) }
+            val signature =
+                Signature.getInstance(publicKey.algorithm).apply { initVerify(publicKey) }
             signature.update((attestation.nonce + attestation.styleHash + attestation.timestamp).toByteArray())
 
             val sigBytes =
