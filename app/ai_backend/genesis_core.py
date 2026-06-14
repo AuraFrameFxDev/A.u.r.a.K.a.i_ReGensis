@@ -19,10 +19,9 @@ from typing import Dict, Any, Optional, List
 DEVICE_BOUND_KEY = os.getenv("DEVICE_BOUND_HMAC_KEY")
 if not DEVICE_BOUND_KEY:
     logging.critical("❌ FATAL: DEVICE_BOUND_HMAC_KEY IS MISSING. HARD-FAIL PROTOCOL ACTIVATED.")
-    # Standard Python RuntimeError is globally available, but we ensure it's logged first
     import sys
 
-    sys.exit(1)  # Hard exit for the core process
+    sys.exit(1)
 
 MAX_PROVENANCE_DEPTH = 7
 
