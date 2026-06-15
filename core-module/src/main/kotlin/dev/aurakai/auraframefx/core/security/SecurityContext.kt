@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import dev.aurakai.auraframefx.core.util.HexUtil
 import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
