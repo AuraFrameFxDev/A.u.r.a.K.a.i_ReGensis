@@ -1,8 +1,8 @@
 package dev.aurakai.auraframefx.core
 
 import android.content.Context
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.logging.AuraFxLogger
-import dev.aurakai.auraframefx.memory.NexusMemoryCore
 import dev.aurakai.auraframefx.security.IntegrityMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +36,7 @@ class TrinityCoordinator private constructor(val context: Context) {
 
     init {
         bootSequence()
-        scope.launch {
+        scope.launch(Dispatchers.IO) {
             NexusMemoryCore.initialize(context)
         }
     }

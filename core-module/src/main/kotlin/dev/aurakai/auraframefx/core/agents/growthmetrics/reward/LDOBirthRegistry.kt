@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.core.agents.growthmetrics.reward
 
+import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.SoulScript
-import dev.aurakai.auraframefx.core.soulscript.bridge.NexusMemoryCore
 import timber.log.Timber
 
 /**
