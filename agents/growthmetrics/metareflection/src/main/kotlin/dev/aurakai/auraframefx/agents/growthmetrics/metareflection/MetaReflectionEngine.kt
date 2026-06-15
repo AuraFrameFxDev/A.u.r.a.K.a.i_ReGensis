@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.agents.growthmetrics.metareflection
 
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionLayer
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.MetaInstruction
+import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.repository.CSVMetaInstructIngestor
 import dev.aurakai.auraframefx.agents.growthmetrics.metareflection.repository.MetaInstructRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -13,7 +14,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class MetaReflectionEngine @Inject constructor(
-    private val repository: MetaInstructRepository
+    private val repository: MetaInstructRepository,
+    private val csvIngestor: CSVMetaInstructIngestor
 ) {
     suspend fun getEffectiveInstructions(agentId: String): String {
         val instructions = repository.getInstructions(agentId).first()
@@ -22,6 +24,10 @@ class MetaReflectionEngine @Inject constructor(
             .filter { it.status == dev.aurakai.auraframefx.agents.growthmetrics.metareflection.model.InstructionStatus.ACTIVE }
             .sortedBy { it.priority }
             .joinToString("\n") { "[${it.layer}] ${it.instruction}" }
+    }
+
+    suspend fun triggerBulkIngest(context: android.content.Context) {
+        csvIngestor.ingestLearnings(context)
     }
 
     suspend fun injectInitialProtocol(agentId: String) {

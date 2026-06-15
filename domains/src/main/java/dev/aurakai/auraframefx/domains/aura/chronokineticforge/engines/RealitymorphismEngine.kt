@@ -108,10 +108,10 @@ object RealitymorphismEngine {
         }
 
         // Normalize to unit vector
-        // ⚡ Bolt Optimization: Manual loop for magnitude calculation to avoid lambda overhead and boxing
+        // ⚡ Bolt Optimization: Manual loop to avoid sumOf object allocation
         var sumSquares = 0.0
-        for (value in vector) {
-            sumSquares += (value.toDouble() * value)
+        for (v in vector) {
+            sumSquares += (v * v).toDouble()
         }
         val magnitude = sqrt(sumSquares).toFloat()
         if (magnitude > 0) {
@@ -303,15 +303,17 @@ class TensorG5Accelerator private constructor(context: Context) {
      * Fast cosine similarity using TPU matrix operations
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
-        // ⚡ Bolt Optimization: Remove expensive string-based cache key generation and LruCache lookup.
-        // Hashing two 768-dim arrays and concatenating strings is slower than the optimized dot product itself.
-        return if (tpuDelegate != null) {
+        // ⚡ Bolt Optimization: Removed vectorCache. Key generation with contentHashCode()
+        // was more expensive than the optimized TPU/CPU math paths for 768-dim vectors.
+        val result = if (tpuDelegate != null) {
             // TPU-accelerated dot product
             tpuDelegate.computeDotProduct(a, b)
         } else {
             // Optimized CPU fallback
             cpuDotProduct(a, b)
         }
+
+        return result
     }
 
     private fun cpuDotProduct(a: FloatArray, b: FloatArray): Float {
@@ -353,19 +355,34 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        // ⚡ Bolt Optimization: Manual unrolled loop to eliminate 768 Pair allocations per call
-        var dot = 0.0
-        var i = 0
-        while (i < a.size - 3) {
-            dot += (a[i].toDouble() * b[i]) +
-                   (a[i + 1].toDouble() * b[i + 1]) +
-                   (a[i + 2].toDouble() * b[i + 2]) +
-                   (a[i + 3].toDouble() * b[i + 3])
-            i += 4
+        fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
+            // ⚡ Bolt Optimization: Manual loop while preserving cosine-similarity semantics
+            var dot = 0.0
+            var normA = 0.0
+            var normB = 0.0
+            for (i in a.indices) {
+                val av = a[i].toDouble()
+                val bv = b[i].toDouble()
+                dot += av * bv
+                normA += av * av
+                normB += bv * bv
+            }
+            val denom = kotlin.math.sqrt(normA) * kotlin.math.sqrt(normB)
+            return if (denom > 0.0) (dot / denom).toFloat() else 0f
         }
-        while (i < a.size) {
-            dot += (a[i].toDouble() * b[i])
-            i++
+    }
+}
+
+// Placeholder LruCache
+class LruCache<K, V>(maxSize: Int) {
+    private val map = LinkedHashMap<K, V>(maxSize, 0.75f, true)
+    private val maxSize = maxSize
+
+    fun get(key: K): V? = map[key]
+    fun put(key: K, value: V) {
+        map[key] = value
+        if (map.size > maxSize) {
+            map.remove(map.keys.first())
         }
         return dot.toFloat()
     }
