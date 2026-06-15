@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.rootstorage
 
 import dev.aurakai.auraframefx.core.util.HexUtil
+
 import dev.aurakai.auraframefx.ui.liveui.EditTarget
 import dev.aurakai.auraframefx.ui.liveui.HapticProfile
 import kotlinx.serialization.Serializable
