@@ -192,6 +192,11 @@ class SecurityContext @Inject constructor(
         )
     }
 
+    /**
+     * Verifies the application's integrity by checking its signing certificate.
+     *
+     * @return An `ApplicationIntegrity` object containing the app version, signature hash, install time, and verification status. If verification fails, `verified` is `false` and `errorMessage` contains the error description.
+     */
     fun verifyApplicationIntegrity(): ApplicationIntegrity {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(
@@ -253,6 +258,11 @@ class SecurityContext @Inject constructor(
         }
     }
 
+    /**
+     * Generates a cryptographically secure random identifier.
+     *
+     * @return A 32-character hexadecimal string representing 16 random bytes.
+     */
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
@@ -260,6 +270,9 @@ class SecurityContext @Inject constructor(
         return HexUtil.encodeHex(bytes)
     }
 
+    /**
+     * Logs a security event with a severity level appropriate to the event.
+     */
     fun logSecurityEvent(event: SecurityEvent) {
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)

@@ -84,7 +84,10 @@ class ZygoteGuard @Inject constructor() {
     }
 
     /**
-     * Computes SHA-256 of the canonical hook class names + order.
+     * Generates a SHA-256 hex fingerprint for the given class names.
+     *
+     * @param classNames The list of fully-qualified hook class names.
+     * @return The SHA-256 digest as a hex-encoded string.
      */
     private fun computeManifestSignature(classNames: List<String>): String {
         val digest = MessageDigest.getInstance("SHA-256")
