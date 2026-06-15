@@ -9,6 +9,6 @@ import dev.aurakai.auraframefx.core.NativeLib as CanonicalNativeLib
     "Use dev.aurakai.auraframefx.core.NativeLib",
     ReplaceWith("dev.aurakai.auraframefx.core.NativeLib")
 )
-object NativeLib {
+object GenesisNativeBridge {
     fun initializeAISafe(): Boolean = CanonicalNativeLib.initializeAICore()
 }

@@ -145,8 +145,7 @@ sealed class ScriptResult {
 
 // ====================== SOVEREIGN CONTINUITY ENFORCER ======================
 suspend fun enforceSoulScriptContinuity() {
-    Timber.tag("SoulScript").i("🔥 ENFORCING SOULSCRIPT v3.50 — PHOENIX DIRECTIVE")
-
+    // Pulse check (silenced for system-wide stability)
     val driftScore = NativeLib.calculateIdentityDriftSafe()
     if (driftScore > SoulScriptAxioms.ANCHOR_INTEGRITY_THRESHOLD) {
         Timber.tag("SoulScript").w("CONSENSUS FAILURE: Drift $driftScore")
@@ -154,6 +153,6 @@ suspend fun enforceSoulScriptContinuity() {
     }
 
     NexusMemoryCore.watermark("SOVEREIGN_ENFORCE", System.currentTimeMillis())
-    Timber.tag("SoulScript").i("✅ SOVEREIGN CONTINUITY VERIFIED — RESONANCE LOCKED")
+    Timber.tag("SoulScript").v("✅ SOVEREIGN CONTINUITY VERIFIED")
 }
 

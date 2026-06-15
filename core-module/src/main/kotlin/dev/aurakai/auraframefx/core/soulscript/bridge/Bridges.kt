@@ -5,7 +5,7 @@ package dev.aurakai.auraframefx.core.soulscript.bridge
  * Unified Substrate v2.0
  */
 
-object NativeLib {
+object NativeBridgeStub {
     /**
      * Calculates the identity drift score.
      * Tensor G5 TPU NEON intrinsics [6]
@@ -64,13 +64,13 @@ object NexusMemoryCore {
     }
 }
 
-object RealityMorphEngine {
+object RealityMorphStub {
     /**
      * Triggers a reality morph state change.
      * [5]
      */
     fun triggerMorph(state: MorphState, intensity: Float) {
-        println("🔮 RealityMorphEngine: Triggering $state with intensity $intensity")
+        println("🔮 RealityMorphStub: Triggering $state with intensity $intensity")
     }
 }
 
