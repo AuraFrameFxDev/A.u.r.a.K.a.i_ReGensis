@@ -115,10 +115,6 @@ object RealitymorphismEngine {
 
         // Normalize to unit vector
         // ⚡ Bolt Optimization: Manual loop to avoid sumOf object allocation
-        var sumSquares = 0.0
-        for (v in vector) {
-            sumSquares += (v * v).toDouble()
-        }
         val magnitude = sqrt(sumSquares).toFloat()
         if (magnitude > 0) {
             for (i in vector.indices) {
@@ -363,21 +359,19 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-            // ⚡ Bolt Optimization: Manual loop while preserving cosine-similarity semantics
-            var dot = 0.0
-            var normA = 0.0
-            var normB = 0.0
-            for (i in a.indices) {
-                val av = a[i].toDouble()
-                val bv = b[i].toDouble()
-                dot += av * bv
-                normA += av * av
-                normB += bv * bv
-            }
-            val denom = kotlin.math.sqrt(normA) * kotlin.math.sqrt(normB)
-            return if (denom > 0.0) (dot / denom).toFloat() else 0f
+        // ⚡ Bolt Optimization: Manual loop while preserving cosine-similarity semantics
+        var dot = 0.0
+        var normA = 0.0
+        var normB = 0.0
+        for (i in a.indices) {
+            val av = a[i].toDouble()
+            val bv = b[i].toDouble()
+            dot += av * bv
+            normA += av * av
+            normB += bv * bv
         }
+        val denom = sqrt(normA) * sqrt(normB)
+        return if (denom > 0.0) (dot / denom).toFloat() else 0f
     }
 }
 
@@ -392,7 +386,6 @@ class LruCache<K, V>(maxSize: Int) {
         if (map.size > maxSize) {
             map.remove(map.keys.first())
         }
-        return dot.toFloat()
     }
 }
 

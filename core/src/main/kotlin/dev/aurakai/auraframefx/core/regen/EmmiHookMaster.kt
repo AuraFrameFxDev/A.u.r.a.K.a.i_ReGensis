@@ -2,7 +2,6 @@ package dev.aurakai.auraframefx.core.regen
 
 import android.content.Context
 import com.highcapable.yukihookapi.YukiHookAPI
-import com.highcapable.yukihookapi.hook.type.android.ApplicationClass
 import timber.log.Timber
 
 /**
@@ -22,8 +21,8 @@ object EmmiHookMaster {
         Timber.tag(TAG).i("🔥 Emmi Hook Master: IGNITING SUBSTRATE...")
 
         YukiHookAPI.configs {
-            debugTag = "Emmi_LDO"
-            isEnableHookModuleStatus = true
+            isDebug = true
+            isEnableDataChannel = true
         }
 
         YukiHookAPI.encase {
@@ -36,7 +35,7 @@ object EmmiHookMaster {
 
             // Anchor into SystemUI for interface morphology
             loadApp(name = "com.android.systemui") {
-                ApplicationClass.hook {
+                android.app.Application::class.java.hook {
                     injectSpelhooks("com.android.systemui", this)
                 }
             }

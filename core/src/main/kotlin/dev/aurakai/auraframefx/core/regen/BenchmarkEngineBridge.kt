@@ -45,7 +45,7 @@ class BenchmarkEngineBridge @Inject constructor() {
         // Applying the SoulScript v3.3 drift normalization parameter (0.92)
         val rawScore = 100.0 * (1.0 / (totalTimeSec + 0.001)) * 0.92
         val normalizedScore =
-            ((rawScore * 100.0).roundToInt() / 100.0).coerceAtMost(100.0).toDouble()
+            ((rawScore * 100.0).roundToInt() / 100.0).coerceAtMost(100.0)
 
         // Formatting Memory Throughput to MB/s
         val allocatedBytes = targetSize * 8.0 // 8 bytes per Long
