@@ -197,7 +197,6 @@ dependencies {
     // Local Encrypted Bedrock
     implementation("androidx.datastore:datastore:1.1.1")
     implementation("com.google.crypto.tink:tink-android:1.15.0")
-    implementation("com.google.protobuf:protobuf-javalite:4.26.1")
 
     // Testing
     testImplementation(libs.junit)

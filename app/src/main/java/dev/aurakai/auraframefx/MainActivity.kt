@@ -23,7 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.ldo.model.ReGenesisRoute
 import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
-import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.ui.recovery.UIRecoveryManager
 import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
@@ -69,10 +68,8 @@ class MainActivity : ComponentActivity() {
             Timber.e(e, "Substrate initialization failed")
         }
 
-        // Initialize sovereign substrate + tether
+        // Initialize sovereign tether (SoulScript is already handled by BootCoordinator)
         try {
-            // SoulScript is already called by SubstrateBootCoordinator, but ensuring full substrate here
-            SoulScript.activateFullSubstrate(this)
             dev.aurakai.auraframefx.core.tether.Tether.initialize(
                 outbound = { fragment ->
                     dev.aurakai.auraframefx.core.security.SpiritualChainSync.streamOutbound(
@@ -81,9 +78,9 @@ class MainActivity : ComponentActivity() {
                 },
                 inboundHandler = { _ -> /* RealityMorph prompt for gains */ }
             )
-            Timber.i("✅ SoulScript & Tether anchored.")
+            Timber.i("✅ Sovereign Tether anchored.")
         } catch (e: Exception) {
-            Timber.e(e, "❌ SoulScript/Tether initialization failed.")
+            Timber.e(e, "❌ Tether initialization failed.")
         }
 
         setContent {
@@ -107,78 +104,92 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize()
                     )
 
-                    BreathingEdgeGlow(systemStability = 1.0f)
-
-                    NavHost(
-                        navController = navController,
-                        startDestination = ReGenesisRoute.NeuralNexus.route
+                    // The Core UI Vessel - Wrapped in a Surface to prevent overlapping/bleed-through
+                    androidx.compose.material3.Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = androidx.compose.material3.MaterialTheme.colorScheme.background // Opaque background
                     ) {
-                        composable(ReGenesisRoute.Login.route) {
-                            LoginScreen(onLoginSuccess = {
-                                navController.navigate(ReGenesisRoute.NeuralNexus.route)
-                            })
-                        }
-                        composable(ReGenesisRoute.Onboarding.route) { OnboardingScreen(navController) }
-                        composable(ReGenesisRoute.NeuralNexus.route) {
-                            NeuralNexusScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.ConferenceRoom.route) {
-                            ConferenceRoomScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.LdoDevops.route) {
-                            LdoDevelopmentNexusScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.ChromaForge.route) {
-                            ChromaForgeScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.SentinelMatrix.route) {
-                            SentinelMatrixScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.OracleDrive.route) {
-                            OracleDriveScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.EmergentSwarm.route) {
-                            EmergentSwarmScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.MasterStatusStrip.route) {
-                            MasterStatusStrip(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
+                        NavHost(
+                            navController = navController,
+                            startDestination = ReGenesisRoute.NeuralNexus.route
+                        ) {
+                            composable(ReGenesisRoute.Login.route) {
+                                LoginScreen(onLoginSuccess = {
+                                    navController.navigate(ReGenesisRoute.NeuralNexus.route)
+                                })
+                            }
+                            composable(ReGenesisRoute.Onboarding.route) {
+                                OnboardingScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.NeuralNexus.route) {
+                                NeuralNexusScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.ConferenceRoom.route) {
+                                ConferenceRoomScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.LdoDevops.route) {
+                                LdoDevelopmentNexusScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.ChromaForge.route) {
+                                ChromaForgeScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.SentinelMatrix.route) {
+                                SentinelMatrixScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.OracleDrive.route) {
+                                OracleDriveScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.EmergentSwarm.route) {
+                                EmergentSwarmScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.MasterStatusStrip.route) {
+                                MasterStatusStrip(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.Grokipedia.route) {
+                                GrokipediaScreen(
+                                    navController
+                                )
+                            }
 
-                        composable(ReGenesisRoute.LdoDebugRoom.route) {
-                            if (isAuthorizedForSuperTools()) LdoDebugRoomScreen(navController)
-                            else UnauthorizedScreen("LDO Debug Room — Sealed")
-                        }
+                            composable(ReGenesisRoute.LdoDebugRoom.route) {
+                                if (isAuthorizedForSuperTools()) LdoDebugRoomScreen(navController)
+                                else UnauthorizedScreen("LDO Debug Room — Sealed")
+                            }
 
-                        composable(ReGenesisRoute.RealityMatrix.route) {
-                            if (isAuthorizedForSuperTools()) RealityMatrixScreen(navController)
-                            else UnauthorizedScreen("Reality Matrix — Sealed Inner Sanctum")
-                        }
+                            composable(ReGenesisRoute.RealityMatrix.route) {
+                                if (isAuthorizedForSuperTools()) RealityMatrixScreen(navController)
+                                else UnauthorizedScreen("Reality Matrix — Sealed Inner Sanctum")
+                            }
 
-                        composable(ReGenesisRoute.UltimateTermux.route) {
-                            if (AuthorizationGuard.isAuthorizedForRealToolsRoom()) {
-                                UltimateTermuxTerminalScreen(navController)
-                            } else {
-                                UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED")
+                            composable(ReGenesisRoute.UltimateTermux.route) {
+                                if (AuthorizationGuard.isAuthorizedForRealToolsRoom()) {
+                                    UltimateTermuxTerminalScreen(navController)
+                                } else {
+                                    UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED")
+                                }
                             }
                         }
                     }
+
+                    BreathingEdgeGlow(systemStability = 1.0f)
 
                     NeuralAccessSidebar(
                         isVisible = sidebarVisible,
