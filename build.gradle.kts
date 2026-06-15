@@ -26,9 +26,6 @@ plugins {
 // Specific module configurations are handled by convention plugins in build-logic
 subprojects {
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // CRITICAL: Global YukiHook KSP Exclusion (only for non-KSP configurations)
-    // ═══════════════════════════════════════════════════════════════════════════
     configurations.all {
         // Only exclude from runtime configurations, never from KSP/annotation processing
         val isRuntimeConfig = name.lowercase().let {
@@ -40,6 +37,12 @@ subprojects {
 
         if (isRuntimeConfig && !isKspConfig && !isLintConfig) {
             exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
+            // 🛡️ Global Protection against Protobuf Conflicts
+            exclude(group = "com.google.protobuf", module = "protobuf-java")
+        }
+
+        resolutionStrategy {
+            force("com.google.protobuf:protobuf-javalite:4.26.1")
         }
     }
 

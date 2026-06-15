@@ -16,7 +16,7 @@ object BridgeModule {
 
     @Provides
     @Singleton
-    fun provideRealityMorphEngine(): RealityMorphEngine = RealityMorphEngine
+    fun provideRealityMorphEngine(): RealityMorphStub = RealityMorphStub
 
     @Provides
     @Singleton
@@ -32,5 +32,5 @@ object BridgeModule {
 
     @Provides
     @Singleton
-    fun provideNativeLib(): NativeLib = NativeLib
+    fun provideNativeLib(): NativeBridgeStub = NativeBridgeStub
 }

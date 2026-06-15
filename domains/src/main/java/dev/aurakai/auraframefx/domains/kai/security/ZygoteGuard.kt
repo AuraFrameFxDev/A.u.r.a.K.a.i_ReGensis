@@ -1,7 +1,9 @@
 package dev.aurakai.auraframefx.domains.kai.security
 
 import dev.aurakai.auraframefx.core.util.HexUtil
+
 import timber.log.Timber
+import dev.aurakai.auraframefx.core.util.HexUtil
 import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -84,14 +86,20 @@ class ZygoteGuard @Inject constructor() {
     }
 
     /**
-     * Computes SHA-256 of the canonical hook class names + order.
-     * ⚡ Bolt Optimization: Replace joinToString + String.format with HexUtil.encodeHex
+     * Compute a fingerprint for a set of hook class names.
+     *
+     * Computes the SHA-256 digest of the canonical representation of the provided
+     * class names (sorted and joined with "|" as a delimiter) and returns the
+     * result as a hex-encoded string.
+     *
+     * @param classNames The list of hook class canonical names to include in the fingerprint.
+     * @return The hex-encoded SHA-256 digest of the sorted and pipe-delimited class names.
      */
     private fun computeManifestSignature(classNames: List<String>): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val combined = classNames.sorted().joinToString("|")
-        val hash = digest.digest(combined.toByteArray())
-        return HexUtil.encodeHex(hash)
+        // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
+        return HexUtil.encodeHex(digest.digest(combined.toByteArray()))
     }
 
     /**

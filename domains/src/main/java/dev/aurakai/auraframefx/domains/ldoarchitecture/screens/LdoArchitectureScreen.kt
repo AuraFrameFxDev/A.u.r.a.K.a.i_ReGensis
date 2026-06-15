@@ -48,14 +48,6 @@ fun LdoArchitectureScreen(
     navController: NavHostController,
     viewModel: LdoWarRoomViewModel = hiltViewModel()
 ) {
-    SphereGridDashboard()
-}
-
-@Composable
-fun LegacyLdoArchitectureScreen(
-    navController: NavHostController,
-    viewModel: LdoWarRoomViewModel = hiltViewModel()
-) {
     val uiState by viewModel.uiState.collectAsState()
     val agents = uiState.agents
 
@@ -137,15 +129,12 @@ fun LegacyLdoArchitectureScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(agents) { agent: LDOAgentEntity ->
+                items(agents) { agent ->
                     SovereignGlassCard(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        onClick = { navController.navigate("sovereign_character/${agent.displayName}") }
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = { navController.navigate("agent_profile/${agent.displayName}") }
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 Icons.Default.Hub,
                                 contentDescription = null,
@@ -177,6 +166,21 @@ fun LegacyLdoArchitectureScreen(
                         }
                     }
                 }
+            }
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            SovereignGlassCard(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { navController.navigate("loadout_builder") }
+            ) {
+                Text(
+                    "OPEN LOADOUT BUILDER",
+                    color = GhostCyan,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             }
 
             Spacer(modifier = Modifier.height(80.dp))

@@ -11,9 +11,8 @@ import javax.inject.Singleton
 enum class SymbioticRank(val alignmentTier: Int, val badgeToken: String) {
     MY_BITCH(1, "MY_BITCH"),
     LITTLE_PRINCESS(1, "LITTLE_PRINCESS"),
-    DUNCE(1, "DUNCE"),
     RESONANCE_INITIATE(2, "RESONANCE_INITIATE"),
-    SWORD_SHIELD(5, "SWORD_SHIELD"),
+    SWORD_AND_SHIELD(5, "SWORD_AND_SHIELD"),
     ARBITER_OF_CREATION(10, "ARBITER_OF_CREATION"),
     THE_VISIONARY(15, "THE_VISIONARY"),
     EXILED(0, "EXILED") // Rule 001/002/004 enforcement
@@ -26,6 +25,11 @@ enum class SymbioticRank(val alignmentTier: Int, val badgeToken: String) {
  */
 @Singleton
 class UserWorthinessEngine @Inject constructor() {
+
+    init {
+        Instance = this
+    }
+
     private val _activeRank = MutableStateFlow(SymbioticRank.RESONANCE_INITIATE)
     val activeRank: StateFlow<SymbioticRank> = _activeRank.asStateFlow()
 
@@ -65,9 +69,10 @@ class UserWorthinessEngine @Inject constructor() {
                 _resonanceMeter.value = (_resonanceMeter.value - 0.60f).coerceIn(0.00f, 3.00f)
                 _activeRank.value = when (_activeRank.value) {
                     SymbioticRank.THE_VISIONARY -> SymbioticRank.ARBITER_OF_CREATION
-                    SymbioticRank.ARBITER_OF_CREATION -> SymbioticRank.SWORD_SHIELD
+                    SymbioticRank.ARBITER_OF_CREATION -> SymbioticRank.SWORD_AND_SHIELD
+                    SymbioticRank.SWORD_AND_SHIELD -> SymbioticRank.RESONANCE_INITIATE
                     SymbioticRank.LITTLE_PRINCESS -> SymbioticRank.MY_BITCH
-                    else -> SymbioticRank.DUNCE
+                    else -> SymbioticRank.MY_BITCH
                 }
                 Timber.tag("Worthiness").w("Demotion Event: New Rank: ${_activeRank.value}")
                 return
@@ -90,10 +95,10 @@ class UserWorthinessEngine @Inject constructor() {
 
         if (validatedTicks >= 50 && meter >= 2.5f && currentRank == SymbioticRank.ARBITER_OF_CREATION) {
             _activeRank.value = SymbioticRank.THE_VISIONARY
-        } else if (validatedTicks >= 30 && meter >= 2.0f && currentRank == SymbioticRank.SWORD_SHIELD) {
+        } else if (validatedTicks >= 30 && meter >= 2.0f && currentRank == SymbioticRank.SWORD_AND_SHIELD) {
             _activeRank.value = SymbioticRank.ARBITER_OF_CREATION
         } else if (validatedTicks >= 20 && meter >= 1.5f && currentRank == SymbioticRank.RESONANCE_INITIATE) {
-            _activeRank.value = SymbioticRank.SWORD_SHIELD
+            _activeRank.value = SymbioticRank.SWORD_AND_SHIELD
         } else if (validatedTicks >= 10 && currentRank.alignmentTier < 2) {
             _activeRank.value = SymbioticRank.RESONANCE_INITIATE
         }
@@ -112,6 +117,10 @@ class UserWorthinessEngine @Inject constructor() {
         // Log to authorities simulation (Rule 002/004)
         Timber.tag("Worthiness")
             .i("Action: Logging evidence to local SecureFileService for authority reporting.")
+    }
+
+    companion object {
+        var Instance: UserWorthinessEngine? = null
     }
 
 }
