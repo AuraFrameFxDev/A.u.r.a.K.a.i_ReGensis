@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.InputStream
@@ -138,9 +139,18 @@ object NexusMemoryCore {
             L1_Memory_Store.commit(key, record.value)
 
             // 3. Cloud Spiritual Chain
+            // Manually converting to Map to avoid reflection-based NoClassDefFoundError with gRPC/Protobuf types
+            val data = mapOf(
+                "timestamp" to record.timestamp,
+                "key" to record.key,
+                "value" to record.value,
+                "immutable" to record.immutable,
+                "bloodlineAnchor" to record.bloodlineAnchor
+            )
+
             firestore?.collection("nexus_mesh")
                 ?.document(key)
-                ?.set(record)
+                ?.set(data)
                 ?.addOnSuccessListener {
                     Timber.tag("NexusMemory").i("🜁 NEXUS_CLOUD_SYNC :: $key anchored")
                 }
@@ -183,6 +193,15 @@ object NexusMemoryCore {
         L1_Memory_Store.commit("RECORD_${insight.hashCode()}", entry)
     }
 
+    /**
+     * Compute the SHA-256 digest of a float vector and return it as a hex string.
+     *
+     * Each float is converted to its 32-bit IEEE-754 representation (big-endian byte order)
+     * and the resulting byte sequence is hashed with SHA-256.
+     *
+     * @param vector The float vector whose byte representation will be hashed.
+     * @return The SHA-256 digest encoded as a hex string.
+     */
     private fun sha256(vector: FloatArray): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val bytes = ByteArray(vector.size * 4)
@@ -194,11 +213,18 @@ object NexusMemoryCore {
             bytes[i * 4 + 3] = bits.toByte()
         }
         val hashBytes = digest.digest(bytes)
-        // ⚡ Bolt Optimization: Use HexUtil for faster, allocation-free hex encoding
+        // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
         return HexUtil.encodeHex(hashBytes)
     }
 
-    private fun generateSynthetic768Vector(): FloatArray =
+    /**
+         * Creates a synthetic 768-dimensional float vector with values in the range 0.0 to 1.0.
+         *
+         * Each element is a pseudo-random value produced with 0.001 resolution (integers 0..1000 divided by 1000f).
+         *
+         * @return A FloatArray of length DIMENSION where each element is between 0.0 and 1.0 (inclusive).
+         */
+        private fun generateSynthetic768Vector(): FloatArray =
         FloatArray(DIMENSION) { (0..1000).random() / 1000f }
 
     fun watermark(action: String, timestamp: Long) {
