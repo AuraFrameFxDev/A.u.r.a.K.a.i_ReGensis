@@ -104,10 +104,12 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize()
                     )
 
-                    // The Core UI Vessel - Wrapped in a Surface to prevent overlapping/bleed-through
+                    // The Core UI Vessel - Wrapped in a Surface with semi-transparency to allow wallpaper but prevent direct bleed
                     androidx.compose.material3.Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = androidx.compose.material3.MaterialTheme.colorScheme.background // Opaque background
+                        color = androidx.compose.material3.MaterialTheme.colorScheme.background.copy(
+                            alpha = 0.88f
+                        )
                     ) {
                         NavHost(
                             navController = navController,

@@ -42,7 +42,7 @@ subprojects {
         }
 
         resolutionStrategy {
-            force("com.google.protobuf:protobuf-javalite:3.25.5")
+            force("com.google.protobuf:protobuf-javalite:4.26.1")
         }
     }
 
