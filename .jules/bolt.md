@@ -6,10 +6,6 @@
 **Learning:** Generic Kotlin collection transforms like `filterKeys { it.matches(regex) }.values.toList()` are extremely inefficient for high-frequency queries in large maps. They result in O(N) regex matching and multiple intermediate collection allocations.
 **Action:** Implement fast-paths for exact matches and simple prefixes (e.g., `prefix*`) using `equals(ignoreCase = true)` and `startsWith(ignoreCase = true)` in manual loops. Use `ConcurrentHashMap` for thread-safe backing stores to avoid `ConcurrentModificationException` during iteration. Ensure fast-paths preserve multi-match behavior for case-insensitive exact hits.
 
-## 2026-06-06 - [Standardized Hex Encoding Optimization]
-**Learning:**  and  in loops are significant performance anti-patterns in Android hot-paths due to format string parsing and object allocation overhead. Centralizing this in a bit-shifting  significantly reduces latency. Python simulations show ~40-50% speedup for large buffers.
-**Action:** Replace all cryptographic and ID-generation hex encoding with . Always verify logic parity with a standalone Java script if the Gradle environment has pre-existing KSP failures.
-
-## 2026-06-06 - [Standardized Hex Encoding Optimization]
-**Learning:** `joinToString("") { "%02x".format(it) }` and `String.format` in loops are significant performance anti-patterns in Android hot-paths due to format string parsing and object allocation overhead. Centralizing this in a bit-shifting `HexUtil` significantly reduces latency. Python simulations show ~40-50% speedup for large buffers.
-**Action:** Replace all cryptographic and ID-generation hex encoding with `HexUtil.encodeHex`. Always verify logic parity with a standalone Java script if the Gradle environment has pre-existing KSP failures.
+## 2026-06-15 - [RealitymorphismEngine Vector Path Optimization]
+**Learning:** For 768-dimensional vectors, generic caching using `contentHashCode()` as a `String` key can be more computationally expensive than the actual mathematical operations (dot product/cosine similarity), especially when TPU acceleration or optimized CPU loops are available. Kotlin's `zip().sumOf` on primitive arrays also introduces significant boxing and object allocation overhead (768 `Pair` objects per call).
+**Action:** Remove array-hashing caches for large vectors in high-frequency paths. Replace idiomatic collection transforms with manual `for` loops for primitive array operations to eliminate boxing and iterator allocations.

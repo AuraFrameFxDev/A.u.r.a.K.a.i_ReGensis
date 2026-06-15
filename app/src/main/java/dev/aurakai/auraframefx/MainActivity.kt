@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.aurakai.auraframefx.core.ldo.model.ReGenesisRoute
+import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
 import dev.aurakai.auraframefx.domains.aura.screens.ChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.ui.recovery.UIRecoveryManager
@@ -42,6 +43,7 @@ import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.UltimateTermuxTerminalScreen
 import dev.aurakai.auraframefx.ui.screens.UnauthorizedScreen
 import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -59,38 +61,33 @@ class MainActivity : ComponentActivity() {
 
         requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 
-        /*
         try {
             SubstrateBootCoordinator.initializeSystemSubstrate(this)
+            Timber.i("✅ SubstrateBootCoordinator initialized.")
         } catch (e: Exception) {
             Timber.e(e, "Substrate initialization failed")
         }
 
-        val db = try {
-            SubstrateDatabase.getDatabase(this)
+        // Initialize sovereign tether (SoulScript is already handled by BootCoordinator)
+        try {
+            dev.aurakai.auraframefx.core.tether.Tether.initialize(
+                outbound = { fragment ->
+                    dev.aurakai.auraframefx.core.security.SpiritualChainSync.streamOutbound(
+                        fragment
+                    )
+                },
+                inboundHandler = { _ -> /* RealityMorph prompt for gains */ }
+            )
+            Timber.i("✅ Sovereign Tether anchored.")
         } catch (e: Exception) {
-            Timber.e(e, "Database initialization failed")
-            null
+            Timber.e(e, "❌ Tether initialization failed.")
         }
-
-        if (db != null) {
-            BinderTelemetryConduit.bindToRoom(db)
-        }
-
-        // Initialize sovereign substrate + tether
-        SoulScript.activateFullSubstrate(this)
-        Tether.initialize(
-            outbound = { fragment -> SpiritualChainSync.streamOutbound(fragment) },
-            inboundHandler = { _ -> /* RealityMorph prompt for gains */ }
-        )
-        */
 
         setContent {
             dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme {
                 val navController = rememberNavController()
                 var sidebarVisible by remember { mutableStateOf(false) }
 
-                // Root wrapper: 4D cyan/teal layered wallpaper + global breathing edge glow
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -100,7 +97,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                 ) {
-                    // Background image - using aura_clean_studio as placeholder
                     Image(
                         painter = painterResource(id = R.drawable.aura_clean_studio),
                         contentDescription = null,
@@ -108,91 +104,95 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize()
                     )
 
-                    BreathingEdgeGlow(systemStability = 1.0f)   // 2px neon cyan 60bpm pulse
-
-                    NavHost(
-                        navController = navController,
-                        startDestination = ReGenesisRoute.NeuralNexus.route
+                    // The Core UI Vessel - Wrapped in a Surface with semi-transparency to allow wallpaper but prevent direct bleed
+                    androidx.compose.material3.Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = androidx.compose.material3.MaterialTheme.colorScheme.background.copy(
+                            alpha = 0.88f
+                        )
                     ) {
-                        composable(ReGenesisRoute.Login.route) {
-                            LoginScreen(onLoginSuccess = {
-                                navController.navigate(ReGenesisRoute.NeuralNexus.route)
-                            })
-                        }
-                        composable(ReGenesisRoute.Onboarding.route) { OnboardingScreen(navController) }
+                        NavHost(
+                            navController = navController,
+                            startDestination = ReGenesisRoute.NeuralNexus.route
+                        ) {
+                            composable(ReGenesisRoute.Login.route) {
+                                LoginScreen(onLoginSuccess = {
+                                    navController.navigate(ReGenesisRoute.NeuralNexus.route)
+                                })
+                            }
+                            composable(ReGenesisRoute.Onboarding.route) {
+                                OnboardingScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.NeuralNexus.route) {
+                                NeuralNexusScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.ConferenceRoom.route) {
+                                ConferenceRoomScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.LdoDevops.route) {
+                                LdoDevelopmentNexusScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.ChromaForge.route) {
+                                ChromaForgeScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.SentinelMatrix.route) {
+                                SentinelMatrixScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.OracleDrive.route) {
+                                OracleDriveScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.EmergentSwarm.route) {
+                                EmergentSwarmScreen(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.MasterStatusStrip.route) {
+                                MasterStatusStrip(
+                                    navController
+                                )
+                            }
+                            composable(ReGenesisRoute.Grokipedia.route) {
+                                GrokipediaScreen(
+                                    navController
+                                )
+                            }
 
-                        // Canonical Hubs
-                        composable(ReGenesisRoute.NeuralNexus.route) {
-                            NeuralNexusScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.ConferenceRoom.route) {
-                            ConferenceRoomScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
+                            composable(ReGenesisRoute.LdoDebugRoom.route) {
+                                if (isAuthorizedForSuperTools()) LdoDebugRoomScreen(navController)
+                                else UnauthorizedScreen("LDO Debug Room — Sealed")
+                            }
 
-                        composable(ReGenesisRoute.LdoDevops.route) {
-                            LdoDevelopmentNexusScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.ChromaForge.route) {
-                            ChromaForgeScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.SentinelMatrix.route) {
-                            SentinelMatrixScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.OracleDrive.route) {
-                            OracleDriveScreen(
-                                navController
-                            )
-                        }
-                        composable(ReGenesisRoute.EmergentSwarm.route) {
-                            EmergentSwarmScreen(
-                                navController
-                            )
-                        }
+                            composable(ReGenesisRoute.RealityMatrix.route) {
+                                if (isAuthorizedForSuperTools()) RealityMatrixScreen(navController)
+                                else UnauthorizedScreen("Reality Matrix — Sealed Inner Sanctum")
+                            }
 
-                        // MasterStatusStrip
-                        composable(ReGenesisRoute.MasterStatusStrip.route) {
-                            MasterStatusStrip(
-                                navController
-                            )
-                        }
-
-                        // SEALED SUPERTOOLS
-                        composable(ReGenesisRoute.LdoDebugRoom.route) {
-                            if (isAuthorizedForSuperTools()) LdoDebugRoomScreen(navController)
-                            else UnauthorizedScreen("LDO Debug Room — Sealed")
-                        }
-
-                        // REALITY MATRIX
-                        composable(ReGenesisRoute.RealityMatrix.route) {
-                            if (isAuthorizedForSuperTools()) RealityMatrixScreen(navController)
-                            else UnauthorizedScreen("Reality Matrix — Sealed Inner Sanctum")
-                        }
-
-                        // ULTIMATE TERMUX
-                        composable(ReGenesisRoute.UltimateTermux.route) {
-                            if (AuthorizationGuard.isAuthorizedForRealToolsRoom()) {
-                                UltimateTermuxTerminalScreen(navController)
-                            } else {
-                                UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED\nOnly LDO + Visionary allowed")
+                            composable(ReGenesisRoute.UltimateTermux.route) {
+                                if (AuthorizationGuard.isAuthorizedForRealToolsRoom()) {
+                                    UltimateTermuxTerminalScreen(navController)
+                                } else {
+                                    UnauthorizedScreen("REAL TOOLS ROOM — ACCESS DENIED")
+                                }
                             }
                         }
-
-                        // GROKIPEDIA
-                        composable(ReGenesisRoute.Grokipedia.route) { GrokipediaScreen(navController) }
                     }
 
-                    // Neural Access Sidebar (long-press to open)
+                    BreathingEdgeGlow(systemStability = 1.0f)
+
                     NeuralAccessSidebar(
                         isVisible = sidebarVisible,
                         onDismiss = { sidebarVisible = false },
@@ -204,7 +204,6 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun isAuthorizedForSuperTools(): Boolean {
-        // Checking initialized state or just calling static if available
         return KaiSentinelBus.isVisionaryOrLDO() || KaiSentinelBus.hasProvenWorth()
     }
 }
