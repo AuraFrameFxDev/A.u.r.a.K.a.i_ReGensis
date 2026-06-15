@@ -82,7 +82,9 @@ object RealitymorphismEngine {
     }
 
     /**
-     * Build 768-dimensional identity vector from current LDO state
+     * Creates a normalized 768-dimensional vector representing the current identity state.
+     *
+     * @return A normalized 768-element float array.
      */
     private fun buildIdentityVector(): FloatArray {
         val vector = FloatArray(768)
@@ -300,7 +302,11 @@ class TensorG5Accelerator private constructor(context: Context) {
     }
 
     /**
-     * Fast cosine similarity using TPU matrix operations
+     * Computes the cosine similarity between two vectors.
+     *
+     * @param a The first vector.
+     * @param b The second vector.
+     * @return The cosine similarity value.
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
         // ⚡ Bolt Optimization: Removed vectorCache. Key generation with contentHashCode()
@@ -354,6 +360,13 @@ class NNAPIDelegate(val device: String) {
         }
     }
 
+    /**
+     * Computes the cosine similarity between two vectors.
+     *
+     * @param a The first vector.
+     * @param b The second vector.
+     * @return The cosine similarity value; returns 0 if either vector has zero magnitude.
+     */
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
         fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
             // ⚡ Bolt Optimization: Manual loop while preserving cosine-similarity semantics
