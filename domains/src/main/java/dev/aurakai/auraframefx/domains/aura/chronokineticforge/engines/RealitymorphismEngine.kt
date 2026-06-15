@@ -108,14 +108,12 @@ object RealitymorphismEngine {
         }
 
         // Normalize to unit vector
-        // ⚡ Bolt Optimization: Use manual loop instead of sumOf to avoid lambda overhead and boxing
-        var sumSquared = 0.0
-        for (i in vector.indices) {
-            val v = vector[i]
-            sumSquared += (v * v).toDouble()
+        // ⚡ Bolt Optimization: Manual loop to avoid sumOf object allocation
+        var sumSquares = 0.0
+        for (v in vector) {
+            sumSquares += (v * v).toDouble()
         }
-        val magnitude = sqrt(sumSquared).toFloat()
-
+        val magnitude = sqrt(sumSquares).toFloat()
         if (magnitude > 0) {
             for (i in vector.indices) {
                 vector[i] /= magnitude
@@ -307,13 +305,17 @@ class TensorG5Accelerator private constructor(context: Context) {
      * The overhead of hashing two 768-dim vectors is higher than the optimized mathematical computation.
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
-        return if (tpuDelegate != null) {
+        // ⚡ Bolt Optimization: Removed vectorCache. Key generation with contentHashCode()
+        // was more expensive than the optimized TPU/CPU math paths for 768-dim vectors.
+        val result = if (tpuDelegate != null) {
             // TPU-accelerated dot product
             tpuDelegate.computeDotProduct(a, b)
         } else {
             // Optimized CPU fallback
             cpuDotProduct(a, b)
         }
+
+        return result
     }
 
     private fun cpuDotProduct(a: FloatArray, b: FloatArray): Float {
@@ -355,12 +357,21 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        // ⚡ Bolt Optimization: Replaced zip().sumOf with manual loop to avoid Pair and List allocations in hot-path
-        var dot = 0.0
-        for (i in a.indices) {
-            dot += (a[i] * b[i]).toDouble()
+        fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
+            // ⚡ Bolt Optimization: Manual loop while preserving cosine-similarity semantics
+            var dot = 0.0
+            var normA = 0.0
+            var normB = 0.0
+            for (i in a.indices) {
+                val av = a[i].toDouble()
+                val bv = b[i].toDouble()
+                dot += av * bv
+                normA += av * av
+                normB += bv * bv
+            }
+            val denom = kotlin.math.sqrt(normA) * kotlin.math.sqrt(normB)
+            return if (denom > 0.0) (dot / denom).toFloat() else 0f
         }
-        return dot.toFloat()
     }
 }
 
@@ -375,6 +386,7 @@ class LruCache<K, V>(maxSize: Int) {
         if (map.size > maxSize) {
             map.remove(map.keys.first())
         }
+        return dot.toFloat()
     }
 }
 

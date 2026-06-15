@@ -51,6 +51,8 @@ dependencies {
     api(platform(libs.firebase.bom))
     api(libs.firebase.firestore)
     api(libs.firebase.vertexai)
+    implementation("com.google.firebase:protolite-well-known-types")
+    implementation("com.google.api.grpc:proto-google-common-protos:2.51.0")
 
     // Networking (for GrokApiClient and MCPServerAdapter)
     implementation(libs.bundles.networking.ktor)
