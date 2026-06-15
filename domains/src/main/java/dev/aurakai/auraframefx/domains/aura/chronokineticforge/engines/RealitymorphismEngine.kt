@@ -384,6 +384,7 @@ class LruCache<K, V>(maxSize: Int) {
         if (map.size > maxSize) {
             map.remove(map.keys.first())
         }
+        return dot.toFloat()
     }
 }
 
