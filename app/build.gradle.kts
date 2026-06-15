@@ -195,7 +195,7 @@ dependencies {
     implementation(libs.litert.lm)
 
     // Local Encrypted Bedrock
-    implementation("androidx.datastore:datastore:1.1.1")
+    implementation("androidx.datastore:datastore:1.2.1")
     implementation("com.google.crypto.tink:tink-android:1.15.0")
 
     // Testing
