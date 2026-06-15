@@ -36,7 +36,7 @@ class TrinityCoordinator private constructor(val context: Context) {
 
     init {
         bootSequence()
-        scope.launch {
+        scope.launch(Dispatchers.IO) {
             NexusMemoryCore.initialize(context)
         }
     }
