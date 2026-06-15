@@ -1,10 +1,11 @@
 package dev.aurakai.auraframefx.domains.aura.config
 
-import dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonGreen
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.core.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.domains.aura.ui.components.SubGateCard
+import timber.log.Timber
 
 /**
  * 🚀 GATE ASSET LOADOUT — Primary data provider for Hub Carousels
@@ -107,88 +108,99 @@ object GateAssetLoadout {
         )
     )
 
-    fun getKaiLoadout(): List<SubGateCard> = listOf(
-        SubGateCard(
-            id = "kai_security",
-            title = "Security",
-            subtitle = "Threat Monitor & Audit",
-            styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.SECURITY.fallback,
-            route = "kai/security",
-            accentColor = GhostCyan
-        ),
-        SubGateCard(
-            id = "kai_root",
-            title = "Root Tools",
-            subtitle = "Root & Bootloader Access",
-            styleADrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.fallback,
-            route = "kai/root",
-            accentColor = GhostCyan
-        ),
-        SubGateCard(
-            id = "kai_recovery",
-            title = "Recovery",
-            subtitle = "TWRP & System Rescue",
-            styleADrawable = GateAssetConfig.KaiSubGates.RECOVERY.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.RECOVERY.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.RECOVERY.fallback,
-            route = "kai/recovery",
-            accentColor = GhostCyan
-        ),
-        SubGateCard(
-            id = "kai_rom",
-            title = "ROM Flasher",
-            subtitle = "ROM & Firmware Manager",
-            styleADrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.fallback,
-            route = "kai/rom",
-            accentColor = GhostCyan
-        ),
-        SubGateCard(
-            id = "kai_modules",
-            title = "Modules",
-            subtitle = "LSPosed & Xposed Modules",
-            styleADrawable = GateAssetConfig.KaiSubGates.MODULE_MANAGER.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.MODULE_MANAGER.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.MODULE_MANAGER.fallback,
-            route = "kai/modules",
-            accentColor = GhostCyan
-        ),
-        SubGateCard(
-            id = "kai_vpn",
-            title = "VPN",
-            subtitle = "VPN & Ad Blocker",
-            styleADrawable = GateAssetConfig.KaiSubGates.VPN.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.VPN.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.VPN.fallback,
-            route = "kai/vpn",
-            accentColor = GhostCyan
-        ),
-        SubGateCard(
-            id = "kai_bootloader",
-            title = "Bootloader",
-            subtitle = "Bootloader Control Panel",
-            styleADrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.fallback,
-            route = "kai/bootloader",
-            accentColor = GhostCyan
-        ),
-        SubGateCard(
-            id = "kai_lsposed",
-            title = "LSPosed",
-            subtitle = "Framework & Hooks",
-            styleADrawable = GateAssetConfig.KaiSubGates.LSPOSED.styleA,
-            styleBDrawable = GateAssetConfig.KaiSubGates.LSPOSED.styleB,
-            fallbackDrawable = GateAssetConfig.KaiSubGates.LSPOSED.fallback,
-            route = "kai/lsposed",
-            accentColor = GhostCyan
+    fun getKaiLoadout(): List<SubGateCard> {
+        val loadout = listOf(
+            SubGateCard(
+                id = "kai_security",
+                title = "Security",
+                subtitle = "Threat Monitor & Audit",
+                styleADrawable = GateAssetConfig.KaiSubGates.SECURITY.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.SECURITY.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.SECURITY.fallback,
+                route = "kai/security",
+                accentColor = GhostCyan
+            ),
+            SubGateCard(
+                id = "kai_root",
+                title = "Root Tools",
+                subtitle = "Root & Bootloader Access",
+                styleADrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.ROOT_TOOLS.fallback,
+                route = "kai/root",
+                accentColor = GhostCyan
+            ),
+            SubGateCard(
+                id = "kai_recovery",
+                title = "Recovery",
+                subtitle = "TWRP & System Rescue",
+                styleADrawable = GateAssetConfig.KaiSubGates.RECOVERY.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.RECOVERY.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.RECOVERY.fallback,
+                route = "kai/recovery",
+                accentColor = GhostCyan
+            ),
+            SubGateCard(
+                id = "kai_rom",
+                title = "ROM Flasher",
+                subtitle = "ROM & Firmware Manager",
+                styleADrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.ROM_FLASHER.fallback,
+                route = "kai/rom",
+                accentColor = GhostCyan
+            ),
+            SubGateCard(
+                id = "kai_modules",
+                title = "Modules",
+                subtitle = "LSPosed & Xposed Modules",
+                styleADrawable = GateAssetConfig.KaiSubGates.MODULE_MANAGER.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.MODULE_MANAGER.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.MODULE_MANAGER.fallback,
+                route = "kai/modules",
+                accentColor = GhostCyan
+            ),
+            SubGateCard(
+                id = "kai_vpn",
+                title = "VPN",
+                subtitle = "VPN & Ad Blocker",
+                styleADrawable = GateAssetConfig.KaiSubGates.VPN.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.VPN.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.VPN.fallback,
+                route = "kai/vpn",
+                accentColor = GhostCyan
+            ),
+            SubGateCard(
+                id = "kai_bootloader",
+                title = "Bootloader",
+                subtitle = "Bootloader Control Panel",
+                styleADrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.BOOTLOADER.fallback,
+                route = "kai/bootloader",
+                accentColor = GhostCyan
+            ),
+            SubGateCard(
+                id = "kai_lsposed",
+                title = "LSPosed",
+                subtitle = "Framework & Hooks",
+                styleADrawable = GateAssetConfig.KaiSubGates.LSPOSED.styleA,
+                styleBDrawable = GateAssetConfig.KaiSubGates.LSPOSED.styleB,
+                fallbackDrawable = GateAssetConfig.KaiSubGates.LSPOSED.fallback,
+                route = "kai/lsposed",
+                accentColor = GhostCyan
+            )
         )
-    )
+
+        if (loadout.isEmpty()) {
+            Timber.tag("GateAsset").e("❌ CRITICAL: getKaiLoadout() is returning an empty list!")
+        } else {
+            Timber.tag("GateAsset")
+                .i("🛡️ getKaiLoadout() initialized with ${loadout.size} sub-gates.")
+        }
+
+        return loadout
+    }
 
     fun getGenesisLoadout(): List<SubGateCard> = listOf(
         SubGateCard(
