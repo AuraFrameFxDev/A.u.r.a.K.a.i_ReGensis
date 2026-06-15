@@ -301,6 +301,8 @@ class TensorG5Accelerator private constructor(context: Context) {
 
     /**
      * Fast cosine similarity using TPU matrix operations
+     * ⚡ Bolt Optimization: Removed vectorCache and contentHashCode() key generation.
+     * The overhead of hashing two 768-dim vectors is higher than the optimized mathematical computation.
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
         // ⚡ Bolt Optimization: Removed vectorCache. Key generation with contentHashCode()
