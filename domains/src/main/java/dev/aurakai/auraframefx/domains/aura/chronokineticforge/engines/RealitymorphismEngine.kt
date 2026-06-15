@@ -107,6 +107,12 @@ object RealitymorphismEngine {
             vector[i] = (vector[i % 5] * (i + 1) * 0.01f) % 1.0f
         }
 
+        // ⚡ Bolt Optimization: Replace sumOf with manual loop to avoid boxing and object allocation
+        var sumSquares = 0.0
+        for (v in vector) {
+            sumSquares += (v * v).toDouble()
+        }
+
         // Normalize to unit vector
         // ⚡ Bolt Optimization: Manual loop to avoid sumOf object allocation
         var sumSquares = 0.0
