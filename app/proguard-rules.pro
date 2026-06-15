@@ -126,6 +126,13 @@
 # Keep generated entry classes (e.g., GenesisXposedEntry)
 -keep class dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisXposedEntry { *; }
 
+# Canonical NativeLib for JNI
+-keep class dev.aurakai.auraframefx.core.NativeLib { *; }
+-keepclasseswithmembers class dev.aurakai.auraframefx.core.NativeLib {
+    @androidx.annotation.Keep <methods>;
+    native <methods>;
+}
+
 # Keep KavaRef if used for reflection
 -keep class com.highcapable.kavaref.** { *; }
 -dontwarn com.highcapable.kavaref.**
