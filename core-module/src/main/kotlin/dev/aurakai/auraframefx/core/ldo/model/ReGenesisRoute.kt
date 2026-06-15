@@ -1,14 +1,27 @@
 package dev.aurakai.auraframefx.core.ldo.model
 
 sealed class ReGenesisRoute(val route: String, val title: String) {
+    data object Login : ReGenesisRoute("login", "SYSTEM LOGIN")
+    data object Onboarding : ReGenesisRoute("onboarding", "INITIALIZATION")
+
+    // 7-Hub Command Deck (Canonical Hubs)
     data object NeuralNexus : ReGenesisRoute("neural_nexus", "NEURAL NEXUS")
-    data object LdoArchitecture : ReGenesisRoute("ldo_architecture", "LDO ARCHITECTURE")
-    data object ChromaForge : ReGenesisRoute("chroma_forge", "CHROMA FORGE")
+    data object LdoDevops : ReGenesisRoute("ldo_devops", "LDO DEVELOPMENT NEXUS")
+    data object ChromaForge : ReGenesisRoute("chroma_forge", "CHROMA FORGE") // Aura's domain
     data object SentinelMatrix : ReGenesisRoute("sentinel_matrix", "SENTINEL MATRIX")
-    data object OracleDrive : ReGenesisRoute("oracle_drive", "ORACLE DRIVE")
+    data object OracleDrive : ReGenesisRoute("oracle_drive", "ORACLEDRIVE")
+    data object EmergentSwarm : ReGenesisRoute("emergent_swarm", "EMERGENT SWARM")
+    data object MasterStatusStrip : ReGenesisRoute("master_status_strip", "MASTER STATUS")
+
+    // SEALED SUPERTOOLS
+    data object LdoDebugRoom : ReGenesisRoute("ldo_debug_room", "LDO DEBUG ROOM")
+    data object RealityMatrix : ReGenesisRoute("reality_matrix", "REALITY MATRIX") // inner sanctum
+    data object UltimateTermux : ReGenesisRoute("ultimate_termux", "ULTIMATE TERMUX")
+
+    // Additional System Routes
+    data object LdoArchitecture : ReGenesisRoute("ldo_architecture", "LDO ARCHITECTURE")
     data object ChaosCatalyst : ReGenesisRoute("chaos_catalyst", "CHAOS CATALYST")
     data object ConferenceRoom : ReGenesisRoute("conference_room", "CONFERENCE ROOM")
-    data object EmergentSwarm : ReGenesisRoute("emergent_swarm", "EMERGENT SWARM")
     data object FoundationRebirth : ReGenesisRoute("foundation_rebirth", "FOUNDATION REBIRTH")
     data object SentientShell : ReGenesisRoute("sentient_shell", "SENTIENT SHELL")
     data object OperationsHub : ReGenesisRoute("operations_hub", "OPERATIONS HUB")
@@ -19,16 +32,28 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
     data object AuraProfile : ReGenesisRoute("aura_profile", "AURA")
     data object KaiProfile : ReGenesisRoute("kai_profile", "KAI")
     data object GenesisProfile : ReGenesisRoute("genesis_profile", "GENESIS")
+    data object CommandDeck : ReGenesisRoute("command_deck", "COMMAND DECK")
+    data object CatalystManifold : ReGenesisRoute("catalyst_manifold", "CATALYST MANIFOLD")
+    data object LoadoutBuilder : ReGenesisRoute("loadout_builder", "AGENT LOADOUT")
+    data object RomTools : ReGenesisRoute("kai/rom", "ROM TOOLS")
+    data object HelpDesk : ReGenesisRoute("help_desk", "HELP DESK")
+    data object CommunityTab : ReGenesisRoute("community_tab", "COMMUNITY")
+    data object AlchemicalForge : ReGenesisRoute("alchemical_forge", "ALCHEMICAL FORGE")
+    data object Grokipedia : ReGenesisRoute("grokipedia", "GROKIPEDIA")
 
     companion object {
         fun titleForRoute(route: String?): String =
-            entries.find { it.route == route }?.title ?: "AURAKAI"
+            entries.find { it.route == route }?.title ?: "AuraKai ReGenesis"
 
         val entries: List<ReGenesisRoute> = listOf(
-            NeuralNexus, LdoArchitecture, ChromaForge, SentinelMatrix, OracleDrive,
-            ChaosCatalyst, ConferenceRoom, EmergentSwarm, FoundationRebirth, SentientShell,
+            Login, Onboarding, NeuralNexus, LdoDevops, ChromaForge,
+            SentinelMatrix, OracleDrive, EmergentSwarm, MasterStatusStrip,
+            LdoDebugRoom, RealityMatrix, UltimateTermux, LdoArchitecture,
+            ChaosCatalyst, ConferenceRoom, FoundationRebirth, SentientShell,
             OperationsHub, FusionMode, Terminal, CollabCanvas, TaskAssignment,
-            AuraProfile, KaiProfile, GenesisProfile
+            AuraProfile, KaiProfile, GenesisProfile, CommandDeck,
+            CatalystManifold, LoadoutBuilder, RomTools, HelpDesk,
+            CommunityTab, AlchemicalForge, Grokipedia
         )
     }
 }

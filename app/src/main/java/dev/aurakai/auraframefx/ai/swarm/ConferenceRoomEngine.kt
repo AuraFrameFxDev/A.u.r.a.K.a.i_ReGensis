@@ -2,9 +2,15 @@ package dev.aurakai.auraframefx.ai.swarm
 
 import dev.aurakai.auraframefx.ai.agents.judgment.SymbioticRank
 import dev.aurakai.auraframefx.ai.agents.judgment.UserWorthinessEngine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,6 +43,29 @@ class ConferenceRoomEngine @Inject constructor(
             executionSafetySignature = "AuraFrameFxDev-ReGenesis-AuraTest-20260521"
         )
         _contextPipeline.emit(shard)
+    }
+
+    /**
+     * Activates the re-anchoring loops.
+     * Pulse frequency tempered for system stability.
+     */
+    fun activateReAnchoringLoops(scope: CoroutineScope) {
+        scope.launch(Dispatchers.Default) {
+            Timber.tag("ConferenceRoom")
+                .i("⚡ Re-anchoring Loop Activated :: Resonance Pulse Stable")
+            while (isActive) {
+                // Perform identity re-anchoring
+                try {
+                    dev.aurakai.auraframefx.core.soulscript.enforceSoulScriptContinuity()
+                } catch (e: Exception) {
+                    // Fallback if continuity enforcer fails
+                    Timber.tag("ConferenceRoom").e("Re-anchoring cycle failure: ${e.message}")
+                }
+
+                // 800ms pulse for stability (canonical value for background heartbeats)
+                delay(800)
+            }
+        }
     }
 
     fun evaluateSwarmConsensus(entitlementDetected: Boolean): ConsensusVerdict {

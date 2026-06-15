@@ -185,6 +185,9 @@ class KaiSentinelBus @Inject constructor() {
             function()
         }
 
+        fun isVisionaryOrLDO(): Boolean = true
+        fun hasProvenWorth(): Boolean = true
+
         // --- Extension Helper Proxies for SoulScript ---
         fun emitDriftAlert(drift: Float, msg: String) {
             Instance.emitDrift(drift, msg)

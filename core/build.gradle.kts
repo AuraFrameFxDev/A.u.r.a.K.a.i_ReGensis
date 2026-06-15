@@ -34,6 +34,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Room (Required for SubstrateDatabase generation in this module)
+    ksp(libs.androidx.room.compiler)
+
     // Logging
     implementation(libs.timber)
 

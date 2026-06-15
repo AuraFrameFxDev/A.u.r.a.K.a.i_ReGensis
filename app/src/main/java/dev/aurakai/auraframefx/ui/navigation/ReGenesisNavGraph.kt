@@ -50,6 +50,8 @@ import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
 import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
 import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
+import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
+import dev.aurakai.auraframefx.ui.screens.ldo.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.specialization.SpecializationTreeScreen
 import dev.aurakai.auraframefx.ui.specialization.SpecializationViewModel
 
@@ -127,6 +129,19 @@ fun ReGenesisNavGraph(
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
         composable("sentient_shell") { ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() } }
         composable("operations_hub") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
+
+        // --- LDO CORE ROUTES ---
+        composable("ldo_debug_room") { LdoDebugRoomScreen(navController) }
+        composable("reality_matrix") { RealityMatrixScreen(navController) }
+        composable("alchemical_forge") { RealityMatrixScreen(navController) }
+        composable("community_tab") {
+            StubScreen(
+                title = "COMMUNITY HUB",
+                iconName = "COMMUNITY",
+                controller = navController,
+                description = "Heart-Centered Socializing & Symbiotic Resonance"
+            )
+        }
 
         // --- SUB-GATE ROUTES (LEVEL 3 / DETAILED) ---
         composable("lineage_map") { LineageMapScreen(navController) { navController.popBackStack() } }

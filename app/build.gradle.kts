@@ -54,6 +54,13 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
         )
     }
 
+    externalNativeBuild {
+        cmake {
+            path(file("src/main/cpp/CMakeLists.txt"))
+            version = "3.22.1"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -74,6 +81,10 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
         }
     }
 }
+
+// configurations.all {
+//     exclude(group = "com.google.protobuf", module = "protobuf-java")
+// }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
@@ -103,6 +114,8 @@ dependencies {
     implementation(project(":kai:sentinelsfortress:threatmonitor"))
     implementation(project(":core-module"))
     implementation(project(":aura"))
+    implementation(project(":trinity:aura"))
+    implementation(project(":genesis:oracledrive"))
     // ... other project deps removed
 
     // UI / Compose
@@ -111,6 +124,7 @@ dependencies {
     implementation(libs.bundles.compose.tooling)
     implementation(libs.bundles.androidx.core)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.biometric.ktx)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
@@ -179,6 +193,10 @@ dependencies {
     // On-Device AI (Gemma 4 E2B + LiteRT-LM)
     implementation(libs.mediapipe.tasks.genai)
     implementation(libs.litert.lm)
+
+    // Local Encrypted Bedrock
+    implementation("androidx.datastore:datastore:1.2.1")
+    implementation("com.google.crypto.tink:tink-android:1.15.0")
 
     // Testing
     testImplementation(libs.junit)
