@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.pow
 import kotlin.math.roundToInt
 
 @Serializable
@@ -37,7 +38,7 @@ class BenchmarkEngineBridge @Inject constructor() {
         // 2. Compute Stress Cycle (Floating-point calculation loops)
         var stressAccumulator = 0.0
         for (x in 0 until 50000) {
-            stressAccumulator += Math.pow(x.toDouble(), 2.0)
+            stressAccumulator += x.toDouble().pow(2.0)
         }
 
         val totalTimeSec = (SystemClock.elapsedRealtimeNanos() - startTime) / 1_000_000_000.0
