@@ -82,9 +82,9 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
     }
 }
 
-configurations.all {
-    exclude(group = "com.google.protobuf", module = "protobuf-java")
-}
+// configurations.all {
+//     exclude(group = "com.google.protobuf", module = "protobuf-java")
+// }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     compilerOptions {
@@ -115,6 +115,7 @@ dependencies {
     implementation(project(":core-module"))
     implementation(project(":aura"))
     implementation(project(":trinity:aura"))
+    implementation(project(":genesis:oracledrive"))
     // ... other project deps removed
 
     // UI / Compose
@@ -196,7 +197,6 @@ dependencies {
     // Local Encrypted Bedrock
     implementation("androidx.datastore:datastore:1.1.1")
     implementation("com.google.crypto.tink:tink-android:1.15.0")
-    implementation("com.google.protobuf:protobuf-javalite:4.26.1")
 
     // Testing
     testImplementation(libs.junit)

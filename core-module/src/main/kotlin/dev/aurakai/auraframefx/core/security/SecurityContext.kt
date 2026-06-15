@@ -11,6 +11,7 @@ import dev.aurakai.auraframefx.core.models.SecurityThreat
 import dev.aurakai.auraframefx.core.models.ThreatSeverity
 import dev.aurakai.auraframefx.core.models.ThreatType
 import dev.aurakai.auraframefx.core.models.ThreatLevel
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import dev.aurakai.auraframefx.core.util.HexUtil
 import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -192,6 +194,11 @@ class SecurityContext @Inject constructor(
         )
     }
 
+    /**
+     * Performs a runtime integrity check of the installed application by extracting the signing certificate and computing its SHA-256 hex digest.
+     *
+     * @return An ApplicationIntegrity describing the verification result: `verified = true` with `appVersion`, `signatureHash` (SHA-256 hex), `installTime`, and `lastUpdateTime` when successful; `verified = false` with `errorMessage` populated on failure.
+     */
     fun verifyApplicationIntegrity(): ApplicationIntegrity {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(
@@ -207,7 +214,7 @@ class SecurityContext @Inject constructor(
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
-            // ⚡ Bolt Optimization: Replace joinToString overhead with HexUtil.encodeHex
+            // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
             val signatureHex = HexUtil.encodeHex(signatureDigest)
 
             ApplicationIntegrity(
@@ -253,13 +260,23 @@ class SecurityContext @Inject constructor(
         }
     }
 
+    /**
+     * Generate a cryptographically secure random identifier encoded as hexadecimal.
+     *
+     * @return A hex-encoded string representing 16 cryptographically strong random bytes.
+     */
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
-        // ⚡ Bolt Optimization: Replace joinToString overhead with HexUtil.encodeHex
+        // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
         return HexUtil.encodeHex(bytes)
     }
 
+    /**
+     * Logs a SecurityEvent to Timber at the corresponding severity level, encoding the event as JSON.
+     *
+     * @param event The security event to log; serialized to JSON and emitted with a severity-specific Timber call.
+     */
     fun logSecurityEvent(event: SecurityEvent) {
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)

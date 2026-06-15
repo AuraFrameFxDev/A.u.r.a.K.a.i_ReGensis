@@ -6,6 +6,6 @@
 **Learning:** Generic Kotlin collection transforms like `filterKeys { it.matches(regex) }.values.toList()` are extremely inefficient for high-frequency queries in large maps. They result in O(N) regex matching and multiple intermediate collection allocations.
 **Action:** Implement fast-paths for exact matches and simple prefixes (e.g., `prefix*`) using `equals(ignoreCase = true)` and `startsWith(ignoreCase = true)` in manual loops. Use `ConcurrentHashMap` for thread-safe backing stores to avoid `ConcurrentModificationException` during iteration. Ensure fast-paths preserve multi-match behavior for case-insensitive exact hits.
 
-## 2026-06-08 - [High-Frequency Vector Optimization]
-**Learning:** String-based LruCache keys (using contentHashCode) for 768-dimensional vector operations are a performance anti-pattern. The overhead of hashing and string concatenation significantly exceeds the cost of optimized TPU or CPU dot product math.
-**Action:** Remove caching for mathematical operations on medium-sized vectors (<= 768 dims) unless the computation itself is extremely expensive (O(N^2) or higher). Always prefer manual loops over Kotlin idiomatic transforms in frame-rate-critical paths.
+## 2026-06-15 - [RealitymorphismEngine Vector Path Optimization]
+**Learning:** For 768-dimensional vectors, generic caching using `contentHashCode()` as a `String` key can be more computationally expensive than the actual mathematical operations (dot product/cosine similarity), especially when TPU acceleration or optimized CPU loops are available. Kotlin's `zip().sumOf` on primitive arrays also introduces significant boxing and object allocation overhead (768 `Pair` objects per call).
+**Action:** Remove array-hashing caches for large vectors in high-frequency paths. Replace idiomatic collection transforms with manual `for` loops for primitive array operations to eliminate boxing and iterator allocations.

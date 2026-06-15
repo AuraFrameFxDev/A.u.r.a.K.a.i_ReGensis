@@ -108,12 +108,12 @@ object RealitymorphismEngine {
         }
 
         // Normalize to unit vector
-        // ⚡ Bolt Optimization: Use manual loop to avoid boxing and object allocation in sumOf
-        var sum = 0.0
+        // ⚡ Bolt Optimization: Manual loop to avoid sumOf object allocation
+        var sumSquares = 0.0
         for (v in vector) {
-            sum += (v * v).toDouble()
+            sumSquares += (v * v).toDouble()
         }
-        val magnitude = sqrt(sum).toFloat()
+        val magnitude = sqrt(sumSquares).toFloat()
         if (magnitude > 0) {
             for (i in vector.indices) {
                 vector[i] /= magnitude
@@ -301,18 +301,21 @@ class TensorG5Accelerator private constructor(context: Context) {
 
     /**
      * Fast cosine similarity using TPU matrix operations
+     * ⚡ Bolt Optimization: Removed vectorCache and contentHashCode() key generation.
+     * The overhead of hashing two 768-dim vectors is higher than the optimized mathematical computation.
      */
     fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
-        // ⚡ Bolt Optimization: Removed LruCache and string-based cache keys.
-        // The overhead of contentHashCode() and string concatenation exceeds the cost
-        // of the optimized TPU/CPU math.
-        return if (tpuDelegate != null) {
+        // ⚡ Bolt Optimization: Removed vectorCache. Key generation with contentHashCode()
+        // was more expensive than the optimized TPU/CPU math paths for 768-dim vectors.
+        val result = if (tpuDelegate != null) {
             // TPU-accelerated dot product
             tpuDelegate.computeDotProduct(a, b)
         } else {
             // Optimized CPU fallback
             cpuDotProduct(a, b)
         }
+
+        return result
     }
 
     private fun cpuDotProduct(a: FloatArray, b: FloatArray): Float {
@@ -354,11 +357,34 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        // ⚡ Bolt Optimization: Hardware-accelerated dot product
-        // Replaced zip().sumOf with manual loop to avoid massive object allocation and boxing
-        var dot = 0.0
-        for (i in a.indices) {
-            dot += (a[i] * b[i]).toDouble()
+        fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
+            // ⚡ Bolt Optimization: Manual loop while preserving cosine-similarity semantics
+            var dot = 0.0
+            var normA = 0.0
+            var normB = 0.0
+            for (i in a.indices) {
+                val av = a[i].toDouble()
+                val bv = b[i].toDouble()
+                dot += av * bv
+                normA += av * av
+                normB += bv * bv
+            }
+            val denom = kotlin.math.sqrt(normA) * kotlin.math.sqrt(normB)
+            return if (denom > 0.0) (dot / denom).toFloat() else 0f
+        }
+    }
+}
+
+// Placeholder LruCache
+class LruCache<K, V>(maxSize: Int) {
+    private val map = LinkedHashMap<K, V>(maxSize, 0.75f, true)
+    private val maxSize = maxSize
+
+    fun get(key: K): V? = map[key]
+    fun put(key: K, value: V) {
+        map[key] = value
+        if (map.size > maxSize) {
+            map.remove(map.keys.first())
         }
         return dot.toFloat()
     }
