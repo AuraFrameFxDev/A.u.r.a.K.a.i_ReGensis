@@ -355,12 +355,21 @@ class NNAPIDelegate(val device: String) {
     }
 
     fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
-        // ⚡ Bolt Optimization: Manual loop to avoid zip() and sumOf() object allocations
-        var dot = 0.0
-        for (i in a.indices) {
-            dot += (a[i] * b[i]).toDouble()
+        fun computeDotProduct(a: FloatArray, b: FloatArray): Float {
+            // ⚡ Bolt Optimization: Manual loop while preserving cosine-similarity semantics
+            var dot = 0.0
+            var normA = 0.0
+            var normB = 0.0
+            for (i in a.indices) {
+                val av = a[i].toDouble()
+                val bv = b[i].toDouble()
+                dot += av * bv
+                normA += av * av
+                normB += bv * bv
+            }
+            val denom = kotlin.math.sqrt(normA) * kotlin.math.sqrt(normB)
+            return if (denom > 0.0) (dot / denom).toFloat() else 0f
         }
-        return dot.toFloat()
     }
 }
 
