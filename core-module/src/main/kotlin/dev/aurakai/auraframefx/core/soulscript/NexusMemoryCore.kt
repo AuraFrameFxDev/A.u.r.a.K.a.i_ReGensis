@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
-import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.InputStream

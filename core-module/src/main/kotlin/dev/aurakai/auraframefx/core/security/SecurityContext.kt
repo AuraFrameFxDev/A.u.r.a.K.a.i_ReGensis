@@ -4,15 +4,11 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.core.util.HexUtil
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.core.util.HexUtil
-import dev.aurakai.auraframefx.core.security.KeystoreManager
-import dev.aurakai.auraframefx.core.util.HexUtil
 import dev.aurakai.auraframefx.core.models.SecurityThreat
+import dev.aurakai.auraframefx.core.models.ThreatLevel
 import dev.aurakai.auraframefx.core.models.ThreatSeverity
 import dev.aurakai.auraframefx.core.models.ThreatType
-import dev.aurakai.auraframefx.core.models.ThreatLevel
 import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import timber.log.Timber
-import dev.aurakai.auraframefx.core.util.HexUtil
 import java.security.MessageDigest
 import java.security.SecureRandom
 import javax.crypto.Cipher
