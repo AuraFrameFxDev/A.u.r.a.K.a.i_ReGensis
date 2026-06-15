@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.domains.rootstorage
 
 import dev.aurakai.auraframefx.core.util.HexUtil
+
 import dev.aurakai.auraframefx.ui.liveui.EditTarget
 import dev.aurakai.auraframefx.ui.liveui.HapticProfile
 import kotlinx.serialization.Serializable
@@ -45,7 +46,7 @@ data class GyroSnapshot(val xDeg: Float, val yDeg: Float, val zOrderLayers: Int)
  * @return Lowercase hexadecimal representation of the SHA-256 digest of `input`.
  */
 fun sha256(input: String): String {
-    // ⚡ Bolt Optimization: Use Charsets.UTF_8 and HexUtil for performance
-    val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray(Charsets.UTF_8))
+    val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+    // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
     return HexUtil.encodeHex(bytes)
 }

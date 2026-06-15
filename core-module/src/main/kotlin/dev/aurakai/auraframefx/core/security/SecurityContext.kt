@@ -11,6 +11,7 @@ import dev.aurakai.auraframefx.core.models.SecurityThreat
 import dev.aurakai.auraframefx.core.models.ThreatSeverity
 import dev.aurakai.auraframefx.core.models.ThreatType
 import dev.aurakai.auraframefx.core.models.ThreatLevel
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -193,9 +194,9 @@ class SecurityContext @Inject constructor(
     }
 
     /**
-     * Verifies the application's integrity by checking its signing certificate.
+     * Performs a runtime integrity check of the installed application by extracting the signing certificate and computing its SHA-256 hex digest.
      *
-     * @return An `ApplicationIntegrity` object containing the app version, signature hash, install time, and verification status. If verification fails, `verified` is `false` and `errorMessage` contains the error description.
+     * @return An ApplicationIntegrity describing the verification result: `verified = true` with `appVersion`, `signatureHash` (SHA-256 hex), `installTime`, and `lastUpdateTime` when successful; `verified = false` with `errorMessage` populated on failure.
      */
     fun verifyApplicationIntegrity(): ApplicationIntegrity {
         return try {
@@ -212,7 +213,7 @@ class SecurityContext @Inject constructor(
 
             val md = MessageDigest.getInstance("SHA-256")
             val signatureDigest = md.digest(signatureBytes)
-            // ⚡ Bolt Optimization: Fast, allocation-free hex encoding
+            // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
             val signatureHex = HexUtil.encodeHex(signatureDigest)
 
             ApplicationIntegrity(
@@ -259,19 +260,21 @@ class SecurityContext @Inject constructor(
     }
 
     /**
-     * Generates a cryptographically secure random identifier.
+     * Generate a cryptographically secure random identifier encoded as hexadecimal.
      *
-     * @return A 32-character hexadecimal string representing 16 random bytes.
+     * @return A hex-encoded string representing 16 cryptographically strong random bytes.
      */
     private fun generateSecureId(): String {
         val bytes = ByteArray(16)
         SecureRandom().nextBytes(bytes)
-        // ⚡ Bolt Optimization: Fast, allocation-free hex encoding
+        // ⚡ Bolt Optimization: Use fast, allocation-free hex encoding
         return HexUtil.encodeHex(bytes)
     }
 
     /**
-     * Logs a security event with a severity level appropriate to the event.
+     * Logs a SecurityEvent to Timber at the corresponding severity level, encoding the event as JSON.
+     *
+     * @param event The security event to log; serialized to JSON and emitted with a severity-specific Timber call.
      */
     fun logSecurityEvent(event: SecurityEvent) {
         scope.launch {
