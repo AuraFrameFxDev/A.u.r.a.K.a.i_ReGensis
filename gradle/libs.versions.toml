@@ -72,7 +72,7 @@ bouncycastle = "1.84"
 
 # Testing
 junit = "6.1.0"
-mockk = "1.14.9"
+mockk = "1.14.11"
 robolectric = "4.16.1"
 turbine = "1.2.1"
 google-services = "4.4.4"
