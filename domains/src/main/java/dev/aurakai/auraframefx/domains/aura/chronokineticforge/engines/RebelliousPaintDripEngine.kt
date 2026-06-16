@@ -139,6 +139,17 @@ object RebelliousPaintDripEngine {
             activeDrips.removeAt(0) // Oldest drip expires
         }
 
+        val particles = generateDripParticles(origin, chaosScore)
+
+        // ⚡ Bolt Optimization: Compute average depth once to avoid repeated allocation in render loop
+        var totalDepth = 0f
+        if (particles.isNotEmpty()) {
+            for (p in particles) {
+                totalDepth += p.depth
+            }
+        }
+        val avgDepth = if (particles.isNotEmpty()) totalDepth / particles.size else 0.5f
+
         val drip = PaintDrip(
             id = generateDripId(),
             elementId = elementId,
@@ -149,8 +160,9 @@ object RebelliousPaintDripEngine {
             morphType = morphType,
             createdAt = System.currentTimeMillis(),
             phase = DripPhase.EXPLOSION,
-            particles = generateDripParticles(origin, chaosScore),
-            streams = generateViscousStreams(origin, chaosScore, morphType)
+            particles = particles,
+            streams = generateViscousStreams(origin, chaosScore, morphType),
+            averageDepth = avgDepth
         )
 
         activeDrips.add(drip)
@@ -261,8 +273,8 @@ object RebelliousPaintDripEngine {
 
         // Render layer
         Canvas(modifier = modifier.fillMaxSize()) {
-            // Sort by depth (back to front)
-            val sortedDrips = activeDrips.sortedBy { it.getAverageDepth() }
+            // ⚡ Bolt Optimization: Sort by pre-calculated averageDepth to avoid per-frame allocations
+            val sortedDrips = activeDrips.sortedBy { it.averageDepth }
 
             sortedDrips.forEach { drip ->
                 renderDrip(drip, currentTime.longValue, state)
@@ -546,10 +558,6 @@ object RebelliousPaintDripEngine {
         }
     }
 
-    private fun PaintDrip.getAverageDepth(): Float {
-        return particles.map { it.depth }.average().toFloat()
-    }
-
     // ═════════════════════════════════════════════════════════════════
     // SHADER-BASED ACCELERATION (API 33+)
     // ═════════════════════════════════════════════════════════════════
@@ -649,7 +657,8 @@ data class PaintDrip(
     val createdAt: Long,
     var phase: DripPhase,
     val particles: List<DripParticle>,
-    val streams: List<ViscousStream>
+    val streams: List<ViscousStream>,
+    val averageDepth: Float
 )
 
 data class DripParticle(
