@@ -40,7 +40,12 @@ data class HapticFeedbackConfig(
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun getScaledVibrationAmplitude(): IntArray {
-        return amplitude.map { (it * intensity).toInt() }.toIntArray()
+        // ⚡ Bolt Optimization: Manual loop to avoid boxing and intermediate list allocation
+        val result = IntArray(amplitude.size)
+        for (i in amplitude.indices) {
+            result[i] = (amplitude[i] * intensity).toInt()
+        }
+        return result
     }
 
     override fun equals(other: Any?): Boolean {
