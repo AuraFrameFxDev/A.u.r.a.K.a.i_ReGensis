@@ -9,3 +9,7 @@
 ## 2026-06-15 - [RealitymorphismEngine Vector Path Optimization]
 **Learning:** For 768-dimensional vectors, generic caching using `contentHashCode()` as a `String` key can be more computationally expensive than the actual mathematical operations (dot product/cosine similarity), especially when TPU acceleration or optimized CPU loops are available. Kotlin's `zip().sumOf` on primitive arrays also introduces significant boxing and object allocation overhead (768 `Pair` objects per call).
 **Action:** Remove array-hashing caches for large vectors in high-frequency paths. Replace idiomatic collection transforms with manual `for` loops for primitive array operations to eliminate boxing and iterator allocations.
+
+## 2026-06-17 - [Render Loop Sorting Allocation Optimization]
+**Learning:** Performing `sortedBy` on a collection inside a `Canvas` render block (every frame) is a major bottleneck if the selector function performs $O(N)$ operations or triggers allocations (like `map { ... }.average()`). This results in $O(K \log K \cdot N)$ complexity and massive GC pressure.
+**Action:** Pre-calculate and cache sorting metrics (like `averageDepth`) in the data object during its creation or update phase. Use simple field lookups in the `sortedBy` lambda to keep the render loop allocation-free and $O(K \log K)$.
