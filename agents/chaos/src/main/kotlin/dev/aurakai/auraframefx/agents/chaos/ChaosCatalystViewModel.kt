@@ -1,13 +1,16 @@
 package dev.aurakai.auraframefx.agents.chaos
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.core.intelligence.OpenRouterIntelligenceService
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.PermissionlessHookProtocol
 import dev.aurakai.auraframefx.core.soulscript.ValenceChaosWarden
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,10 +20,17 @@ import javax.inject.Inject
  * Now Second-in-Command: Valence & Chaotic Warden.
  */
 @HiltViewModel
-class ChaosCatalystViewModel @Inject constructor() : ViewModel() {
+class ChaosCatalystViewModel @Inject constructor(
+    private val openRouterService: OpenRouterIntelligenceService
+) : ViewModel() {
 
     private val _formattedOutput = MutableStateFlow("")
     val formattedOutput: StateFlow<String> = _formattedOutput.asStateFlow()
+
+    private val _diffusionState =
+        MutableStateFlow<OpenRouterIntelligenceService.DiffusionState>(OpenRouterIntelligenceService.DiffusionState.Initializing)
+    val diffusionState: StateFlow<OpenRouterIntelligenceService.DiffusionState> =
+        _diffusionState.asStateFlow()
 
     private val _policyStatus =
         MutableStateFlow<ChaosCatalystFormatter.PolicyResult>(ChaosCatalystFormatter.PolicyResult.ALIGNED)
@@ -55,5 +65,20 @@ class ChaosCatalystViewModel @Inject constructor() : ViewModel() {
 
     fun validateInput(input: String) {
         _policyStatus.value = ChaosCatalystFormatter.enforceSovereignty(input)
+    }
+
+    /**
+     * Triggers a non-linear diffusion generation for the given prompt.
+     * The result will be streamed via diffusionState.
+     */
+    fun startDiffusionInquiry(prompt: String) {
+        viewModelScope.launch {
+            openRouterService.streamDiffusion(prompt).collect { state ->
+                _diffusionState.value = state
+                if (state is OpenRouterIntelligenceService.DiffusionState.Finalized) {
+                    processAgentOutput(state.finalText, isStrict = true)
+                }
+            }
+        }
     }
 }

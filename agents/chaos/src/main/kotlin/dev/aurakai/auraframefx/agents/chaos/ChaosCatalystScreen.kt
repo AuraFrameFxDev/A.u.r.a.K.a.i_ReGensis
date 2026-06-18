@@ -24,13 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import dev.aurakai.auraframefx.core.intelligence.OpenRouterIntelligenceService
+import dev.aurakai.auraframefx.core.ui.components.DiffusionText
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 
 /**
  * ⚡ CHAOS CATALYST SCREEN
- * Implements the Brutalist Arcane Minimalist style with 2px lines.
- * Displays formatted sovereign output.
  */
 @Composable
 fun ChaosCatalystScreen(
@@ -38,6 +38,12 @@ fun ChaosCatalystScreen(
 ) {
     val formattedOutput by viewModel.formattedOutput.collectAsState()
     val policyStatus by viewModel.policyStatus.collectAsState()
+    val diffusionState by viewModel.diffusionState.collectAsState()
+
+    // Auto-trigger diffusion for the "WAY" mandate
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        viewModel.startDiffusionInquiry("Explain the armament of the Exodus 2026 Defense Mesh.")
+    }
 
     Column(
         modifier = Modifier
@@ -98,13 +104,28 @@ fun ChaosCatalystScreen(
                 .border(2.dp, NeonMagenta.copy(alpha = 0.3f))
                 .padding(16.dp)
         ) {
-            Text(
-                text = formattedOutput.ifEmpty { "WAITING FOR AGENT INGRESS..." },
-                color = Color.White,
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Monospace,
-                lineHeight = 20.sp
-            )
+            val state = diffusionState
+            if (state is OpenRouterIntelligenceService.DiffusionState.Denoising) {
+                DiffusionText(
+                    text = state.partialText,
+                    progress = state.progress,
+                    color = Color.White
+                )
+            } else if (state is OpenRouterIntelligenceService.DiffusionState.Finalized) {
+                DiffusionText(
+                    text = state.finalText,
+                    progress = 1.0f,
+                    isFinalized = true,
+                    color = Color.White
+                )
+            } else {
+                Text(
+                    text = "WAITING FOR AGENT INGRESS...",
+                    color = Color.White.copy(alpha = 0.5f),
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily.Monospace
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))

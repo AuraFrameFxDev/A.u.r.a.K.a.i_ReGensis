@@ -44,6 +44,11 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
         buildConfigField("String", "GEMINI_MODEL", "\"gemini-2.0-flash-exp\"")
         buildConfigField(
             "String",
+            "OPENROUTER_API_KEY",
+            "\"${localProps.getProperty("OPENROUTER_API_KEY", "")}\""
+        )
+        buildConfigField(
+            "String",
             "OAUTH_SERVER_CLIENT_ID",
             "\"${
                 localProps.getProperty(
@@ -189,6 +194,7 @@ dependencies {
     // LangChain4j
     implementation(libs.langchain4j.core)
     implementation(libs.langchain4j.ollama)
+    implementation(libs.langchain4j.openai)
 
     // On-Device AI (Gemma 4 E2B + LiteRT-LM)
     implementation(libs.mediapipe.tasks.genai)

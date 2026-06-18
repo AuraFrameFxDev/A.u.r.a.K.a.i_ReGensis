@@ -2,6 +2,7 @@
 // Core Module - Central core module
 // ═══════════════════════════════════════════════════════════════════════════
 import com.android.build.api.dsl.LibraryExtension
+import java.util.Properties
 
 plugins {
     id("genesis.android.library")
@@ -12,6 +13,19 @@ plugins {
 
 extensions.configure<LibraryExtension> {
     namespace = "dev.aurakai.auraframefx.core.module"
+
+    defaultConfig {
+        val localProps = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { localProps.load(it) }
+        }
+        buildConfigField(
+            "String",
+            "OPENROUTER_API_KEY",
+            "\"${localProps.getProperty("OPENROUTER_API_KEY", "")}\""
+        )
+    }
 
     buildFeatures {
         buildConfig = true
@@ -60,5 +74,9 @@ dependencies {
 
     // Bouncy Castle for CryptoManager
     implementation("org.bouncycastle:bcprov-jdk18on:1.84")
+
+    // LangChain4j
+    api(libs.langchain4j.core)
+    api(libs.langchain4j.openai)
 }
 
