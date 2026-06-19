@@ -13,3 +13,7 @@
 ## 2026-06-17 - [Render Loop Sorting Allocation Optimization]
 **Learning:** Performing `sortedBy` on a collection inside a `Canvas` render block (every frame) is a major bottleneck if the selector function performs $O(N)$ operations or triggers allocations (like `map { ... }.average()`). This results in $O(K \log K \cdot N)$ complexity and massive GC pressure.
 **Action:** Pre-calculate and cache sorting metrics (like `averageDepth`) in the data object during its creation or update phase. Use simple field lookups in the `sortedBy` lambda to keep the render loop allocation-free and $O(K \log K)$.
+
+## 2026-06-19 - [Jetpack Compose Render Loop Allocation Optimization]
+**Learning:** High-frequency render loops in Jetpack Compose `Canvas` blocks are extremely sensitive to object allocations and trigonometric calculations. `AndroidPaint` and `android.graphics.Path` allocations inside the `drawIntoCanvas` block, and O(N) collection transforms like `drop().forEach`, trigger massive GC pressure and frame drops.
+**Action:** Move all `Paint` and `Path` allocations into `remember` blocks. Pre-calculate static offsets (e.g. `sin`/`cos` results) in `remember` blocks. Replace idiomatic collection transforms with manual indexed `for` loops to eliminate per-frame list allocations. Always reuse pre-allocated `Path` objects via `path.reset()` instead of allocating new ones in loops.

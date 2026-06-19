@@ -207,6 +207,13 @@ object BackgroundForgeEngine {
             }
         }
 
+        // ⚡ Bolt Optimization: Pre-allocate Paint to avoid per-frame allocations
+        val paint = remember {
+            AndroidPaint().apply {
+                isAntiAlias = true
+            }
+        }
+
         val time by infiniteTransition.animateFloat(
             initialValue = 0f,
             targetValue = 1f,
@@ -216,10 +223,6 @@ object BackgroundForgeEngine {
 
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawIntoCanvas { canvas ->
-                val paint = AndroidPaint().apply {
-                    isAntiAlias = true
-                }
-
                 stars.forEach { star ->
                     val twinkle = sin((time + star.offset) * 2 * Math.PI).toFloat() * 0.5f + 0.5f
                     val radius = star.size * (0.5f + twinkle * 0.5f)
@@ -351,13 +354,27 @@ object BackgroundForgeEngine {
 
     @Composable
     private fun HexagonGridBackground(opacity: Float) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val hexSize = 40f
-            val paint = AndroidPaint().apply {
-                color = Color(0xFF00E5FF).copy(alpha = opacity * 0.3f).toArgb()
+        // ⚡ Bolt Optimization: Pre-allocate Paint and Path to avoid per-frame allocations
+        val paint = remember {
+            AndroidPaint().apply {
                 style = AndroidPaint.Style.STROKE
                 strokeWidth = 1f
+                isAntiAlias = true
             }
+        }
+        val path = remember { android.graphics.Path() }
+
+        // ⚡ Bolt Optimization: Pre-calculate hexagon vertex offsets
+        val hexSize = 40f
+        val vertexOffsets = remember(hexSize) {
+            Array(6) { i ->
+                val angle = Math.PI / 3 * i
+                Offset(hexSize * cos(angle).toFloat(), hexSize * sin(angle).toFloat())
+            }
+        }
+
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            paint.color = Color(0xFF00E5FF).copy(alpha = opacity * 0.3f).toArgb()
 
             drawIntoCanvas { canvas ->
                 for (row in 0 until (size.height / hexSize).toInt() + 2) {
@@ -366,11 +383,11 @@ object BackgroundForgeEngine {
                         val y = row * hexSize * 0.866f
 
                         // Draw hexagon
-                        val path = android.graphics.Path()
+                        path.reset()
                         for (i in 0 until 6) {
-                            val angle = Math.PI / 3 * i
-                            val px = x + hexSize * cos(angle).toFloat()
-                            val py = y + hexSize * sin(angle).toFloat()
+                            val offset = vertexOffsets[i]
+                            val px = x + offset.x
+                            val py = y + offset.y
                             if (i == 0) path.moveTo(px, py) else path.lineTo(px, py)
                         }
                         path.close()
@@ -389,9 +406,11 @@ object BackgroundForgeEngine {
             val nodeColor = Color(0xFFBB86FC).copy(alpha = opacity)
             val lineColor = Color(0xFFBB86FC).copy(alpha = opacity * 0.3f)
 
-            // Draw connections
-            nodes.forEachIndexed { i, node1 ->
-                nodes.drop(i + 1).forEach { node2 ->
+            // ⚡ Bolt Optimization: Replace drop() and forEach with manual loops to avoid list allocations per frame
+            for (i in nodes.indices) {
+                val node1 = nodes[i]
+                for (j in i + 1 until nodes.size) {
+                    val node2 = nodes[j]
                     val dx = (node1.x - node2.x) * size.width
                     val dy = (node1.y - node2.y) * size.height
                     val distance = kotlin.math.hypot(dx, dy)
