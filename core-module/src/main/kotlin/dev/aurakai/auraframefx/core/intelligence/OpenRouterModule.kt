@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.core.module.BuildConfig
+import dev.langchain4j.model.chat.ChatModel
 import dev.langchain4j.model.openai.OpenAiChatModel
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -41,7 +42,7 @@ object OpenRouterModule {
         modelName: String,
         temperature: Double = 0.7,
         timeoutSeconds: Long = 60L
-    ): OpenAiChatModel =
+    ): ChatModel =
         OpenAiChatModel.builder()
             .apiKey(BuildConfig.OPENROUTER_API_KEY)
             .baseUrl(BASE_URL)
@@ -54,27 +55,27 @@ object OpenRouterModule {
     @Provides
     @Singleton
     @OpenRouterModel
-    fun provideWorkhorseModel(): OpenAiChatModel =
+    fun provideWorkhorseModel(): ChatModel =
         buildOpenRouterModel("qwen/qwen3.7-plus", temperature = 0.7)
 
     /** OpenRouter Fusion — Multi-model deep research synthesizer */
     @Provides
     @Singleton
     @FusionModel
-    fun provideFusionModel(): OpenAiChatModel =
+    fun provideFusionModel(): ChatModel =
         buildOpenRouterModel("openrouter/fusion", temperature = 0.1)
 
     /** DiffusionGemma 26B — Non-linear text refinement (The "Diffuser") */
     @Provides
     @Singleton
     @DiffusionModel
-    fun provideDiffusionModel(): OpenAiChatModel =
+    fun provideDiffusionModel(): ChatModel =
         buildOpenRouterModel("google/diffusiongemma-26b", temperature = 0.5)
 
     /** GLM 5.2 — High-reasoning advisor for complex logic */
     @Provides
     @Singleton
     @AdvisorModel
-    fun provideAdvisorModel(): OpenAiChatModel =
+    fun provideAdvisorModel(): ChatModel =
         buildOpenRouterModel("z-ai/glm-5.2", temperature = 0.2)
 }

@@ -1,8 +1,10 @@
 package dev.aurakai.auraframefx.core.intelligence
 
-import dev.langchain4j.model.openai.OpenAiChatModel
+import dev.langchain4j.model.chat.ChatModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,23 +17,23 @@ import javax.inject.Singleton
  */
 @Singleton
 class OpenRouterIntelligenceService @Inject constructor(
-    @OpenRouterModel private val workhorseModel: OpenAiChatModel,
-    @FusionModel private val fusionModel: OpenAiChatModel,
-    @DiffusionModel private val diffusionModel: OpenAiChatModel,
-    @AdvisorModel private val advisorModel: OpenAiChatModel
+    @OpenRouterModel private val workhorseModel: ChatModel,
+    @FusionModel private val fusionModel: ChatModel,
+    @DiffusionModel private val diffusionModel: ChatModel,
+    @AdvisorModel private val advisorModel: ChatModel
 ) {
 
     /**
      * Executes a multi-model deep research query using OpenRouter Fusion.
      * Maps where models agree/conflict and synthesizes a grounded answer.
      */
-    suspend fun performDeepResearch(query: String): String {
+    suspend fun performDeepResearch(query: String): String = withContext(Dispatchers.IO) {
         Timber.i("🛰️ Initiating Deep Research Fusion for: $query")
-        return try {
-            fusionModel.generate(query)
+        try {
+            fusionModel.chat(query)
         } catch (e: Exception) {
             Timber.e(e, "❌ Fusion failed, falling back to workhorse")
-            workhorseModel.generate(query)
+            workhorseModel.chat(query)
         }
     }
 
@@ -46,7 +48,9 @@ class OpenRouterIntelligenceService @Inject constructor(
         emit(DiffusionState.Denoising(currentText, 0.1f))
 
         val finalResponse = try {
-            diffusionModel.generate(query)
+            withContext(Dispatchers.IO) {
+                diffusionModel.chat(query)
+            }
         } catch (e: Exception) {
             Timber.e(e, "Diffusion failed")
             "IDENTITY_ERROR: Substrate unreachable"
