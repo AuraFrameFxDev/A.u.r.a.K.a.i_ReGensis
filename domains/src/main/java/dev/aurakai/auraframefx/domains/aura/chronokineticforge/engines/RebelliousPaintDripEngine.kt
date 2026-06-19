@@ -139,6 +139,8 @@ object RebelliousPaintDripEngine {
             activeDrips.removeAt(0) // Oldest drip expires
         }
 
+        val (particles, averageDepth) = generateDripParticles(origin, chaosScore)
+
         val drip = PaintDrip(
             id = generateDripId(),
             elementId = elementId,
@@ -149,8 +151,9 @@ object RebelliousPaintDripEngine {
             morphType = morphType,
             createdAt = System.currentTimeMillis(),
             phase = DripPhase.EXPLOSION,
-            particles = generateDripParticles(origin, chaosScore),
-            streams = generateViscousStreams(origin, chaosScore, morphType)
+            particles = particles,
+            streams = generateViscousStreams(origin, chaosScore, morphType),
+            averageDepth = averageDepth
         )
 
         activeDrips.add(drip)
@@ -160,28 +163,40 @@ object RebelliousPaintDripEngine {
         triggerRebelliousFeedback(chaosScore)
     }
 
+    /**
+     * Generates particles for a paint drip and pre-calculates the average depth.
+     * ⚡ Bolt Optimization: Use manual loop for depth summation to avoid collection allocations and boxing.
+     */
     private fun generateDripParticles(
         origin: Offset,
         chaosScore: Float
-    ): List<DripParticle> {
+    ): Pair<List<DripParticle>, Float> {
         val count = (500 * chaosScore).toInt().coerceIn(50, 1000)
+        val particles = ArrayList<DripParticle>(count)
+        var totalDepth = 0.0f
 
-        return List(count) { index ->
+        for (index in 0 until count) {
             val angle = Random.nextFloat() * 2 * PI
             val distance = Random.nextFloat() * 0.3f * chaosScore
             val velocity = Random.nextFloat() * 2f * chaosScore + 0.5f
+            val depth = Random.nextFloat() // Z-layer: 0 = foreground, 1 = background
 
-            DripParticle(
-                id = index,
-                x = origin.x + cos(angle).toFloat() * distance * 0.1f,
-                y = origin.y + sin(angle).toFloat() * distance * 0.1f,
-                vx = cos(angle).toFloat() * velocity * 0.01f,
-                vy = sin(angle).toFloat() * velocity * 0.01f,
-                size = Random.nextFloat() * 8f + 2f,
-                lifespan = Random.nextFloat() * 2000 + 1000,
-                depth = Random.nextFloat() // Z-layer: 0 = foreground, 1 = background
+            particles.add(
+                DripParticle(
+                    id = index,
+                    x = origin.x + cos(angle).toFloat() * distance * 0.1f,
+                    y = origin.y + sin(angle).toFloat() * distance * 0.1f,
+                    vx = cos(angle).toFloat() * velocity * 0.01f,
+                    vy = sin(angle).toFloat() * velocity * 0.01f,
+                    size = Random.nextFloat() * 8f + 2f,
+                    lifespan = Random.nextFloat() * 2000 + 1000,
+                    depth = depth
+                )
             )
+            totalDepth += depth
         }
+
+        return Pair(particles, if (count > 0) totalDepth / count else 0.0f)
     }
 
     private fun generateViscousStreams(
@@ -262,7 +277,8 @@ object RebelliousPaintDripEngine {
         // Render layer
         Canvas(modifier = modifier.fillMaxSize()) {
             // Sort by depth (back to front)
-            val sortedDrips = activeDrips.sortedBy { it.getAverageDepth() }
+            // ⚡ Bolt Optimization: Use pre-calculated averageDepth to avoid O(N) per-frame allocation bottleneck
+            val sortedDrips = activeDrips.sortedBy { it.averageDepth }
 
             sortedDrips.forEach { drip ->
                 renderDrip(drip, currentTime.longValue, state)
@@ -546,10 +562,6 @@ object RebelliousPaintDripEngine {
         }
     }
 
-    private fun PaintDrip.getAverageDepth(): Float {
-        return particles.map { it.depth }.average().toFloat()
-    }
-
     // ═════════════════════════════════════════════════════════════════
     // SHADER-BASED ACCELERATION (API 33+)
     // ═════════════════════════════════════════════════════════════════
@@ -649,7 +661,8 @@ data class PaintDrip(
     val createdAt: Long,
     var phase: DripPhase,
     val particles: List<DripParticle>,
-    val streams: List<ViscousStream>
+    val streams: List<ViscousStream>,
+    val averageDepth: Float
 )
 
 data class DripParticle(
