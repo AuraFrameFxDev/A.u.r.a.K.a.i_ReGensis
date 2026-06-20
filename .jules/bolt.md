@@ -17,3 +17,7 @@
 ## 2026-06-19 - [Jetpack Compose Render Loop Allocation Optimization]
 **Learning:** High-frequency render loops in Jetpack Compose `Canvas` blocks are extremely sensitive to object allocations and trigonometric calculations. `AndroidPaint` and `android.graphics.Path` allocations inside the `drawIntoCanvas` block, and O(N) collection transforms like `drop().forEach`, trigger massive GC pressure and frame drops.
 **Action:** Move all `Paint` and `Path` allocations into `remember` blocks. Pre-calculate static offsets (e.g. `sin`/`cos` results) in `remember` blocks. Replace idiomatic collection transforms with manual indexed `for` loops to eliminate per-frame list allocations. Always reuse pre-allocated `Path` objects via `path.reset()` instead of allocating new ones in loops.
+
+## 2026-06-20 - [Vector Search Complexity and Allocation Optimization]
+**Learning:** Standard Kotlin collection transforms like `shards.values.map { ... }.sortedByDescending { ... }.take(limit)` are extremely inefficient for large-scale vector similarity searches. They trigger O(N) object allocations (Pairs/Entries) and O(N log N) sorting complexity. Additionally, re-calculating vector norms in the inner loop of a search is a major redundant O(N * D) bottleneck.
+**Action:** Always pre-calculate and store L2 norms during data ingestion. Use a `PriorityQueue` (min-heap) to maintain top-K results to achieve O(N log K) complexity. Implement manual, unrolled loops for dot product calculations to minimize JIT overhead and eliminate intermediate object allocations.
