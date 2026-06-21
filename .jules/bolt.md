@@ -17,3 +17,7 @@
 ## 2026-06-19 - [Jetpack Compose Render Loop Allocation Optimization]
 **Learning:** High-frequency render loops in Jetpack Compose `Canvas` blocks are extremely sensitive to object allocations and trigonometric calculations. `AndroidPaint` and `android.graphics.Path` allocations inside the `drawIntoCanvas` block, and O(N) collection transforms like `drop().forEach`, trigger massive GC pressure and frame drops.
 **Action:** Move all `Paint` and `Path` allocations into `remember` blocks. Pre-calculate static offsets (e.g. `sin`/`cos` results) in `remember` blocks. Replace idiomatic collection transforms with manual indexed `for` loops to eliminate per-frame list allocations. Always reuse pre-allocated `Path` objects via `path.reset()` instead of allocating new ones in loops.
+
+## 2026-06-21 - [Trigonometric Sum-of-Angles Render Optimization]
+**Learning:** In high-frequency render loops involving rotating elements (markers, polygons, orbiting particles), calculating `cos(baseAngle + rotation)` for each element every frame is expensive. Using the sum-of-angles identity (`cos(A+B) = cosA cosB - sinA sinB`) allows pre-calculating the static base angles and performing only simple arithmetic inside the element loop, with only one pair of trig calls per frame for the shared rotation.
+**Action:** Always pre-calculate and `remember` `cos`/`sin` of base angles for static element offsets in rotating visualizations. Use the sum-of-angles identity in the `Canvas` block to derive the final positions.
