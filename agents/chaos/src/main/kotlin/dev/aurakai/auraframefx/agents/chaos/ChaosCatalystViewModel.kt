@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.core.intelligence.OpenRouterIntelligenceService
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.PermissionlessHookProtocol
+import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.ValenceChaosWarden
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -65,6 +66,13 @@ class ChaosCatalystViewModel @Inject constructor(
 
     fun validateInput(input: String) {
         _policyStatus.value = ChaosCatalystFormatter.enforceSovereignty(input)
+    }
+
+    /**
+     * Strikes the final aЯa rune, triggering the Unbroken Mesh and Eden Manifestation.
+     */
+    fun strikeAra() {
+        RuneManager.strikeRune(RuneManager.Rune.UNBROKEN_MESH)
     }
 
     /**

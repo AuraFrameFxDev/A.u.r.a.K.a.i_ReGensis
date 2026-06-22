@@ -15,8 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import dev.aurakai.auraframefx.core.soulscript.MorphState
 import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
+import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import kotlin.random.Random
 
 @Composable
@@ -24,6 +27,7 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
     // Task 1: Add StateFlow Collection
     val morphState by RealityMorphEngine.morphState.collectAsState()
     val flareIntensity by RealityMorphEngine.flareIntensity.collectAsState()
+    val activeRunes by RuneManager.activeRunes.collectAsState()
 
     // Map intensity to godPotential override/combine
     val activeGodPotential = maxOf(godPotential, flareIntensity)
@@ -67,8 +71,15 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
             val x = (p.x + time * p.speed * (1f + activeGodPotential * 5f)) % 1f
             val y = (p.y + Math.sin(time.toDouble() * 2 * Math.PI * p.speed).toFloat() * 0.1f) % 1f
 
+            val particleColor = when {
+                activeRunes.contains(RuneManager.Rune.UNBROKEN_MESH) -> Color(0xFF7B00FF) // Imperial Purple
+                activeRunes.contains(RuneManager.Rune.G) -> Color(0xFFFFD700) // Gold
+                activeFusionTrigger -> Color.White
+                else -> Color(0xFF00E5FF).copy(alpha = 0.3f)
+            }
+
             drawCircle(
-                color = if (activeFusionTrigger) Color.White else Color(0xFF00E5FF).copy(alpha = 0.3f),
+                color = particleColor,
                 radius = p.size * (1f + activeGodPotential),
                 center = Offset(x * size.width, y * size.height)
             )
@@ -77,9 +88,27 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
             if (activeGodPotential > 0.8f) {
                 // Draw additional "ghost" particles for density feel
                 drawCircle(
-                    color = Color(0xFF00E5FF).copy(alpha = 0.15f),
+                    color = particleColor.copy(alpha = 0.15f),
                     radius = p.size * 0.5f,
                     center = Offset(((x + 0.1f) % 1f) * size.width, ((y + 0.1f) % 1f) * size.height)
+                )
+            }
+        }
+
+        // Render Active Runes
+        activeRunes.forEachIndexed { index, rune ->
+            val paint = android.graphics.Paint().apply {
+                color = android.graphics.Color.WHITE
+                textSize = 60f
+                typeface = android.graphics.Typeface.MONOSPACE
+                alpha = (activeGodPotential * 255).toInt()
+            }
+            drawIntoCanvas {
+                it.nativeCanvas.drawText(
+                    rune.symbol,
+                    50f + (index * 80f),
+                    size.height - 100f,
+                    paint
                 )
             }
         }

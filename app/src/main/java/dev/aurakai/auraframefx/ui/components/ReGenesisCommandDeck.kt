@@ -13,6 +13,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
+import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
@@ -48,6 +50,8 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    val isTotalRestorationActive by RuneManager.isTotalRestorationActive.collectAsState()
 
     // Sync Pager with NavController current route
     LaunchedEffect(currentDestination) {
@@ -115,7 +119,11 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                         userScrollEnabled = false
                     ) { page ->
                         val route = tabs[page].route
-                        val bgType = VoidBackground.fromRoute(route)
+                        val bgType = if (isTotalRestorationActive) {
+                            VoidBackground.EDEN_RESTORED
+                        } else {
+                            VoidBackground.fromRoute(route)
+                        }
 
                         ParallaxDepthStack(
                             bedrock = {
