@@ -207,6 +207,8 @@ object ParticleBloodstreamEngine {
         )
 
         val shader = remember { createNeuralBloodstreamShader() }
+        // ⚡ Bolt Optimization: Cache ShaderBrush to avoid per-frame allocation
+        val brush = remember(shader) { ShaderBrush(shader) }
 
         Canvas(modifier = modifier.fillMaxSize()) {
             shader.setFloatUniform("iTime", time)
@@ -215,7 +217,7 @@ object ParticleBloodstreamEngine {
             shader.setFloatUniform("turbulence", state.emotionalValence.turbulence)
 
             drawRect(
-                brush = ShaderBrush(shader),
+                brush = brush,
                 size = size
             )
         }
@@ -269,7 +271,9 @@ object ParticleBloodstreamEngine {
 
     @Composable
     private fun CanvasBasedBloodstream(modifier: Modifier, state: LDOState) {
-        val particles = remember { generateParticleField(2000) }
+        val density = androidx.compose.ui.platform.LocalDensity.current
+        // ⚡ Bolt Optimization: Key remember on density to handle screen changes
+        val particles = remember(density) { generateParticleField(2000, density) }
         val time by rememberInfiniteTransition(label = "canvasTime").animateFloat(
             initialValue = 0f,
             targetValue = 1000f,
@@ -278,57 +282,66 @@ object ParticleBloodstreamEngine {
         )
 
         Canvas(modifier = modifier.fillMaxSize()) {
-            particles.forEach { particle ->
-                updateParticle(particle, time, state)
-                drawParticle(particle)
+            // ⚡ Bolt Optimization: Pull constants out of loop
+            val arousal = state.emotionalValence.arousal
+            val turbulence = state.emotionalValence.turbulence
+            val timeFactor = time * 0.001f * arousal
+            val pulseFactor = time * 0.01f
+            val canvasWidth = size.width
+            val canvasHeight = size.height
+
+            // ⚡ Bolt Optimization: Manual indexed loop to avoid Iterator allocation
+            for (i in particles.indices) {
+                val particle = particles[i]
+
+                // ⚡ Bolt Optimization: Inlined updateParticle to avoid function call overhead
+                // Perlin-ish noise movement
+                val noiseX = sin(particle.y * 10f + timeFactor) * turbulence
+                val noiseY = cos(particle.x * 10f + timeFactor) * turbulence
+
+                particle.x += particle.vx + noiseX * 0.001f
+                particle.y += particle.vy + noiseY * 0.001f
+
+                // Wrap around screen
+                if (particle.x > 1f) particle.x -= 1f
+                if (particle.x < 0f) particle.x += 1f
+                if (particle.y > 1f) particle.y -= 1f
+                if (particle.y < 0f) particle.y += 1f
+
+                // Pulse size based on time
+                val pulse = 0.8f + 0.2f * sin(pulseFactor + particle.id)
+                particle.currentSize = particle.size * pulse
+
+                // ⚡ Bolt Optimization: Inlined drawParticle and used cached color/size
+                drawCircle(
+                    color = particle.cachedAlphaColor,
+                    radius = pulse * particle.cachedPxSize,
+                    center = Offset(particle.x * canvasWidth, particle.y * canvasHeight)
+                )
             }
         }
     }
 
-    private fun generateParticleField(count: Int): List<Particle> {
+    private fun generateParticleField(count: Int, density: androidx.compose.ui.unit.Density): List<Particle> {
         return List(count) {
+            val size = Random.nextFloat() * 3f + 1f
+            val color = if (Random.nextBoolean()) Color(0xFFFF00FF) else Color(0xFF00E5FF)
             Particle(
                 id = it,
                 x = Random.nextFloat(),
                 y = Random.nextFloat(),
                 vx = (Random.nextFloat() - 0.5f) * 0.002f,
                 vy = (Random.nextFloat() - 0.5f) * 0.002f,
-                size = Random.nextFloat() * 3f + 1f,
-                color = if (Random.nextBoolean()) Color(0xFFFF00FF) else Color(0xFF00E5FF),
-                lifespan = Random.nextFloat() * 1000f + 500f
+                size = size,
+                color = color,
+                lifespan = Random.nextFloat() * 1000f + 500f,
+                // ⚡ Bolt Optimization: Pre-calculate alpha-modified color and base pixel size
+                cachedAlphaColor = color.copy(alpha = 0.6f),
+                cachedPxSize = with(density) { size.dp.toPx() }
             )
         }
     }
 
-    private fun updateParticle(particle: Particle, time: Float, state: LDOState) {
-        // Apply emotional state to movement
-        val arousal = state.emotionalValence.arousal
-        val turbulence = state.emotionalValence.turbulence
-
-        // Perlin-ish noise movement
-        val noiseX = sin(particle.y * 10f + time * 0.001f * arousal) * turbulence
-        val noiseY = cos(particle.x * 10f + time * 0.001f * arousal) * turbulence
-
-        particle.x += particle.vx + noiseX * 0.001f
-        particle.y += particle.vy + noiseY * 0.001f
-
-        // Wrap around screen
-        if (particle.x > 1f) particle.x = 0f
-        if (particle.x < 0f) particle.x = 1f
-        if (particle.y > 1f) particle.y = 0f
-        if (particle.y < 0f) particle.y = 1f
-
-        // Pulse size based on time
-        particle.currentSize = particle.size * (0.8f + 0.2f * sin(time * 0.01f + particle.id))
-    }
-
-    private fun DrawScope.drawParticle(particle: Particle) {
-        drawCircle(
-            color = particle.color.copy(alpha = 0.6f),
-            radius = particle.currentSize.dp.toPx(),
-            center = Offset(particle.x * size.width, particle.y * size.height)
-        )
-    }
 }
 
 // ═════════════════════════════════════════════════════════════════════
@@ -376,7 +389,10 @@ data class Particle(
     val size: Float,
     var currentSize: Float = size,
     val color: Color,
-    var lifespan: Float
+    var lifespan: Float,
+    // ⚡ Bolt Optimization: Cached values to avoid per-frame allocations/math
+    val cachedAlphaColor: Color,
+    val cachedPxSize: Float
 )
 
 // Placeholder classes for compilation
