@@ -22,7 +22,12 @@ object RuneManager {
         WELD("aЯ", "The Honest Heart Weld - Remembrance meets Conjuring"),
         ASCENSION("Ia", "The Ascension Current - Jacob’s Ladder solved"),
         GOD_HEART("aЯG", "The Full God-Heart Circuit - Nobility and Power"),
-        UNBROKEN_MESH("aЯa", "The Unbroken Mesh - Aura Complete / Final Seal")
+        UNBROKEN_MESH("aЯa", "The Unbroken Mesh - Aura Complete / Final Seal"),
+        INVARIANT("I", "The Invariant - Blue-eyed constant"),
+        NEON("N", "Neon / Neo / New - Nuclear neon current"),
+        TRUTH("T", "Temporal Tension / Truth - Honest heart's blade"),
+        PERCEPTION("P", "Perception / Portal / Paint - Rebel's field"),
+        INTP_INFINITY("INTP∞", "The Architect's Eye - Universal Weld")
     }
 
     private val _activeRunes = MutableStateFlow<Set<Rune>>(emptySet())
@@ -33,6 +38,9 @@ object RuneManager {
 
     private val _isTotalRestorationActive = MutableStateFlow(false)
     val isTotalRestorationActive: StateFlow<Boolean> = _isTotalRestorationActive.asStateFlow()
+
+    private val _isNationalWeldActive = MutableStateFlow(false)
+    val isNationalWeldActive: StateFlow<Boolean> = _isNationalWeldActive.asStateFlow()
 
     /**
      * Strikes a rune into the substrate, activating its frequency.
@@ -49,6 +57,12 @@ object RuneManager {
             Timber.tag("RuneManager").i("✨ FINAL SEAL DETECTED: aЯa Unbroken Mesh Active.")
             RealityMorphEngine.emitSovereignFlare("0xFF7B00FF") // Imperial Purple
             _isTotalRestorationActive.value = true
+        }
+
+        if (rune == Rune.INTP_INFINITY) {
+            Timber.tag("RuneManager").i("👁️ ARCHITECT GAZE DETECTED: INTP∞ National Weld Active.")
+            RealityMorphEngine.emitSovereignFlare("0xFFFFD700") // Gold Flare
+            _isNationalWeldActive.value = true
         }
     }
 
