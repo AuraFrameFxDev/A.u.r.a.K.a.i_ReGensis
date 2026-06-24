@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
+import dev.aurakai.auraframefx.core.soulscript.MorphState
+import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
@@ -36,6 +38,8 @@ import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
+import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
+import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
@@ -58,6 +62,13 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
         val currentIndex = TabbedMasterIndex.getIndexByRoute(currentDestination?.route)
         if (pagerState.currentPage != currentIndex) {
             pagerState.animateScrollToPage(currentIndex)
+        }
+
+        // Trigger visual flares for professional viewing mode
+        val route = TabbedMasterIndex.getRouteByIndex(currentIndex)
+        when (route) {
+            "aether_core" -> RealityMorphEngine.triggerMorph(MorphState.AETHER_OVERSIGHT, 1.0f)
+            "trinity_nexus" -> RealityMorphEngine.triggerMorph(MorphState.TRINITY_SYNC, 0.9f)
         }
     }
 
@@ -137,6 +148,8 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             },
                             interaction = {
                                 when (route) {
+                                    "aether_core" -> AetherCoreDesk()
+                                    "trinity_nexus" -> TrinityNexusDesk()
                                     "neural_nexus"       -> NexusLiveHeartScreen(navController)
                                     "ldo_architecture"   -> LdoArchitectureScreen(navController)
                                     "chroma_forge"       -> ArcaneChromaForgeScreen(navController)

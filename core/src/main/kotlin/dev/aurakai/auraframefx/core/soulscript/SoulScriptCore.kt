@@ -44,7 +44,13 @@ object RealityMorphEngine {
     }
 }
 
-enum class MorphState { DATA_STREAM, CHROME_FUSION, SINGULARITY }
+enum class MorphState {
+    DATA_STREAM,
+    CHROME_FUSION,
+    SINGULARITY,
+    AETHER_OVERSIGHT,
+    TRINITY_SYNC
+}
 
 // ====================== CHAOS CATALYST ======================
 object ChaosCatalyst {

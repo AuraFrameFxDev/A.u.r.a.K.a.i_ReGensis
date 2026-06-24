@@ -4,71 +4,53 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
-import androidx.compose.material.icons.filled.Task
 import dev.aurakai.auraframefx.ui.components.NavTab
 
 /**
- * 🗂️ TABBED MASTER INDEX — SOULSCRIPT v2.85 (NEURAL_REFORGE)
- * The canonical source of truth for the 9-Hub "Exodus" Substrate.
- * Maps the high-fidelity BottomJoystick roller to the core domain routes.
+ * 🗂️ TABBED MASTER INDEX — SOULSCRIPT v3.50 (EXODUS_TITANIUM)
+ * The canonical 7x7 Command Deck structure.
+ * 49 top-level strata organized into 7 logical desks.
  */
 object TabbedMasterIndex {
     val substrateTabs = listOf(
         NavTab(
-            icon = Icons.Default.Dashboard,
-            shortLabel = "SysView",
-            route = "neural_nexus"
-        ),
-        NavTab(
             icon = Icons.Default.Hub,
-            shortLabel = "LdoDevops",
-            route = "ldo_architecture"
+            shortLabel = "AETHER",
+            route = "aether_core"
         ),
         NavTab(
-            icon = Icons.Default.Palette,
-            shortLabel = "Chronokinetic Forge",
-            route = "chroma_forge"
+            icon = Icons.Default.Groups,
+            shortLabel = "TRINITY",
+            route = "trinity_nexus"
+        ),
+        NavTab(
+            icon = Icons.Default.AutoAwesome,
+            shortLabel = "RUNES",
+            route = "rune_lattice"
         ),
         NavTab(
             icon = Icons.Default.Security,
-            shortLabel = "Security",
+            shortLabel = "SENTINEL",
             route = "sentinel_matrix"
         ),
         NavTab(
             icon = Icons.AutoMirrored.Filled.MenuBook,
-            shortLabel = "Oracle",
+            shortLabel = "ORACLE",
             route = "oracle_drive"
         ),
         NavTab(
+            icon = Icons.Default.Palette,
+            shortLabel = "CHROMA",
+            route = "chroma_forge"
+        ),
+        NavTab(
             icon = Icons.Default.Bolt,
-            shortLabel = "Chaos",
-            route = "chaos_catalyst"
-        ),
-        NavTab(
-            icon = Icons.Default.Groups,
-            shortLabel = "Collab",
-            route = "conference_room"
-        ),
-        NavTab(
-            icon = Icons.Default.AutoAwesome,
-            shortLabel = "task",
+            shortLabel = "SWARM",
             route = "emergent_swarm"
-        ),
-        NavTab(
-            icon = Icons.Default.Task,
-            shortLabel = "ICE",
-            route = "foundation_rebirth"
-        ),
-        NavTab(
-            icon = Icons.Default.Memory,
-            shortLabel = "SHELL",
-            route = "sentient_shell"
         )
     )
 
