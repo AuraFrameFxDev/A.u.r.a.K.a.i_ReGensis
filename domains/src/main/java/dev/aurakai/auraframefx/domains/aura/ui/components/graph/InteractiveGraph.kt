@@ -32,7 +32,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.cos
 import kotlin.math.sin
@@ -89,10 +88,9 @@ fun InteractiveGraph(
     val nodeMap = remember(nodeStates) { nodeStates.associateBy { it.node.id } }
 
     // ⚡ Bolt Optimization: Move Paint and PathEffect allocations out of the render loop
-    val nodeTextColor = Color.White
-    val textPaint = remember(nodeTextColor, density) {
+    val textPaint = remember(density) {
         android.graphics.Paint().apply {
-            color = nodeTextColor.toArgb()
+            color = Color.White.toArgb()
             textSize = with(density) { 12.dp.toPx() }
             textAlign = android.graphics.Paint.Align.CENTER
             isAntiAlias = true
@@ -209,16 +207,14 @@ private fun DrawScope.drawGrid(scale: Float, translation: Offset, gridColor: Col
 /**
  * Draws a single graph node with visual styling and label.
  *
- * Renders the node at its position with a colored background, border, and icon placeholder.
+ * Renders the node at its cached position with a colored background, border, and icon placeholder.
  * If the node is selected, a glowing ring is drawn around it. The node's name is displayed below the node.
+ * Uses pre-calculated [NodeRenderState] and a cached [android.graphics.Paint] to avoid per-frame allocations.
  *
- * @param node The graph node to draw.
+ * @param state The pre-calculated render state for the node.
  * @param isSelected Whether the node is currently selected, affecting its visual appearance.
- * @param textColor The color for the node's label.
+ * @param textPaint Cached Paint object for drawing the node label.
  * @param drawScope The DrawScope to draw on.
- */
-/**
- * ⚡ Bolt Optimization: Uses pre-calculated NodeRenderState and cached Paint to avoid per-frame allocations.
  */
 private fun drawNode(
     state: NodeRenderState,
@@ -288,13 +284,13 @@ private fun drawNode(
  * The connection line is rendered as solid or dashed, with color and arrow direction determined by the connection type.
  * The line starts and ends offset from the node centers by their radii to avoid overlapping node visuals.
  * An arrowhead is drawn at the end of the connection to indicate directionality.
+ * Uses pre-calculated [NodeRenderState] and cached [PathEffect]/[Path] to avoid per-frame allocations.
  *
- * @param from The source node of the connection.
- * @param to The target node of the connection.
+ * @param from The pre-calculated render state for the source node.
+ * @param to The pre-calculated render state for the target node.
  * @param connection The connection data specifying type and style.
- */
-/**
- * ⚡ Bolt Optimization: Uses pre-calculated states and cached PathEffect/Path to avoid allocations.
+ * @param dashPathEffect Cached PathEffect for dashed connections.
+ * @param arrowPath Reusable Path object for arrowhead geometry.
  */
 private fun DrawScope.drawConnection(
     from: NodeRenderState,
@@ -394,13 +390,6 @@ private data class NodeRenderState(
 )
 
 
-// Helper extension for Dp to Px conversion within DrawScope
-fun Dp.toPx(drawScope: DrawScope): Float = with(drawScope) { this@toPx.toPx() }
-
-// Helper extension for GraphOffset to Compose Offset - already defined in Composable
-// fun Offset.toCompose(): Offset = Offset(this.x.toFloat(), this.y.toFloat())
-
-
 /**
  * Rotates this offset by the given angle in radians.
  * This assumes rotation around the origin (0,0).
@@ -414,4 +403,3 @@ fun Offset.rotate(angle: Float): Offset {
     val sinAngle = sin(angle)
     return Offset(x * cosAngle - y * sinAngle, x * sinAngle + y * cosAngle)
 }
-
