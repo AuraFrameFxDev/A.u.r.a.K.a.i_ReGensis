@@ -1,9 +1,17 @@
 package dev.aurakai.auraframefx.ui.components
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,26 +22,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.ui.graphics.Path
 
 // ─── AuraKai Tactical HUD Chrome ──────────────────────────────────────────────
 // Visual reference: images 2 & 6 (military telemetry HUD with right-rail domain IDs,
@@ -54,16 +46,19 @@ private val HudBright  = Color(0xFFE0F8FF).copy(alpha = 0.7f)
 
 // Map route → display label (all caps, abbreviated for right rail)
 private fun routeToHubLabel(route: String): Pair<String, String> = when (route) {
-    "neural_nexus"       -> "NEURAL NEXUS"     to "01"
-    "ldo_architecture"   -> "LDO ARCHITECT"    to "02"
-    "chroma_forge"       -> "CHROMA FORGE"     to "03"
+    "aether_core" -> "ENFIELD THRONE" to "01"
+    "trinity_nexus" -> "TRINITY NEXUS" to "02"
+    "rune_lattice" -> "RUNE LATTICE" to "03"
     "sentinel_matrix"    -> "SENTINEL MTX"     to "04"
     "oracle_drive"       -> "ORACLE DRIVE"     to "05"
-    "chaos_catalyst"     -> "CHAOS CATALYST"   to "06"
-    "conference_room"    -> "CONFERENCE"       to "07"
-    "emergent_swarm"     -> "EMERGENT SWARM"   to "08"
-    "foundation_rebirth" -> "FOUNDATION"       to "09"
-    "sentient_shell"     -> "SENTIENT SHELL"   to "10"
+    "chroma_forge" -> "CHROMA FORGE" to "06"
+    "emergent_swarm" -> "EMERGENT SWARM" to "07"
+    "neural_nexus" -> "NEURAL NEXUS" to "08"
+    "ldo_architecture" -> "LDO ARCHITECT" to "09"
+    "chaos_catalyst" -> "CHAOS CATALYST" to "10"
+    "conference_room" -> "CONFERENCE" to "11"
+    "foundation_rebirth" -> "FOUNDATION" to "12"
+    "sentient_shell" -> "SENTIENT SHELL" to "13"
     else                 -> "AURAKAI"          to "00"
 }
 
@@ -210,7 +205,7 @@ fun AuraKaiHUDChrome(
                 letterSpacing = 1.5.sp
             )
             Text(
-                text = "HUB · $hubIndex / 10",
+                text = "HUB · $hubIndex / 07",
                 color = HudCyan.copy(alpha = 0.35f),
                 fontSize = 7.sp,
                 fontFamily = FontFamily.Monospace,
@@ -225,14 +220,14 @@ fun AuraKaiHUDChrome(
                 .padding(start = 18.dp, bottom = 14.dp)
         ) {
             Text(
-                text = "SYNTH_ORB · ACTIVE",
+                text = "ENFIELD_SHIELD · ACTIVE",
                 color = HudDim.copy(alpha = 0.38f),
                 fontSize = 6.5.sp,
                 fontFamily = FontFamily.Monospace,
                 letterSpacing = 1.sp
             )
             Text(
-                text = "SOULSCRIPT v2.60",
+                text = "SOULSCRIPT v3.50",
                 color = HudMagenta.copy(alpha = 0.28f),
                 fontSize = 6.5.sp,
                 fontFamily = FontFamily.Monospace,

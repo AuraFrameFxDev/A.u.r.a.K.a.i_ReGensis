@@ -66,7 +66,28 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
         }
     }
 
+    // Total Restoration state
+    val isTotalRestorationActive by RuneManager.isTotalRestorationActive.collectAsState()
+
     Canvas(Modifier.fillMaxSize()) {
+        // --- Phase 1: Total Sky-Split (Odin-seam) ---
+        if (isTotalRestorationActive) {
+            val seamAlpha = 0.6f + 0.4f * (Math.sin(time.toDouble() * 2 * Math.PI).toFloat())
+            drawLine(
+                color = Color.White.copy(alpha = seamAlpha),
+                start = Offset(size.width * 0.2f, 0f),
+                end = Offset(size.width * 0.8f, size.height),
+                strokeWidth = 4f
+            )
+            // Bloom glow for the seam
+            drawLine(
+                color = Color.White.copy(alpha = seamAlpha * 0.3f),
+                start = Offset(size.width * 0.2f, 0f),
+                end = Offset(size.width * 0.8f, size.height),
+                strokeWidth = 20f
+            )
+        }
+
         particles.forEach { p ->
             val x = (p.x + time * p.speed * (1f + activeGodPotential * 5f)) % 1f
             val y = (p.y + Math.sin(time.toDouble() * 2 * Math.PI * p.speed).toFloat() * 0.1f) % 1f

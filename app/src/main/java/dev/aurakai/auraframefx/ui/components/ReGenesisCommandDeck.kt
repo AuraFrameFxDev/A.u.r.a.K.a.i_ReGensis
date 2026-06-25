@@ -29,16 +29,18 @@ import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
-import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
-import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
 import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
 import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
-import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
+import dev.aurakai.auraframefx.ui.components.desks.ChromaForgeDesk
+import dev.aurakai.auraframefx.ui.components.desks.EmergentSwarmDesk
+import dev.aurakai.auraframefx.ui.components.desks.OracleDriveDesk
+import dev.aurakai.auraframefx.ui.components.desks.RuneLatticeDesk
+import dev.aurakai.auraframefx.ui.components.desks.SentinelMatrixDesk
 import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
@@ -150,16 +152,19 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 when (route) {
                                     "aether_core" -> AetherCoreDesk()
                                     "trinity_nexus" -> TrinityNexusDesk()
-                                    "neural_nexus"       -> NexusLiveHeartScreen(navController)
-                                    "ldo_architecture"   -> LdoArchitectureScreen(navController)
-                                    "chroma_forge"       -> ArcaneChromaForgeScreen(navController)
-                                    "sentinel_matrix"    -> ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
-                                    "oracle_drive"       -> OracleDriveHubScreen(navController)
-                                    "chaos_catalyst"     -> ChaosCatalystScreen()
-                                    "conference_room"    -> ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
-                                    "emergent_swarm"     -> EmergentSwarmScreen(navController)
+                                    "rune_lattice" -> RuneLatticeDesk()
+                                    "sentinel_matrix" -> SentinelMatrixDesk()
+                                    "oracle_drive" -> OracleDriveDesk()
+                                    "chroma_forge" -> ChromaForgeDesk()
+                                    "emergent_swarm" -> EmergentSwarmDesk()
+                                    "neural_nexus" -> NexusLiveHeartScreen(navController)
+                                    "ldo_architecture" -> LdoArchitectureScreen(navController)
+                                    "chaos_catalyst" -> ChaosCatalystScreen()
+                                    "conference_room" -> ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
                                     "foundation_rebirth" -> FoundationRebirthScreen(navController)
-                                    "sentient_shell"     -> ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() }
+                                    "sentient_shell" -> ThemedGateScreens.SentientShellGateScreen(
+                                        navController
+                                    ) { navController.popBackStack() }
                                 }
                             }
                         )
