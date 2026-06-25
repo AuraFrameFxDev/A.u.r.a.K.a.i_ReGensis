@@ -190,10 +190,12 @@ class NeuralWhisper @Inject constructor(
                 _conversationStateFlow.value = ConversationState.Speaking
             }
 
+            @Suppress("OVERRIDE_DEPRECATION")
             override fun onDone(utteranceId: String?) {
                 _conversationStateFlow.value = ConversationState.Idle
             }
 
+            @Suppress("OVERRIDE_DEPRECATION")
             override fun onError(utteranceId: String?) {
                 _conversationStateFlow.value = ConversationState.Idle
             }
