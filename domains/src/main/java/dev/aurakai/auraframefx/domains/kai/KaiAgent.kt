@@ -282,7 +282,7 @@ class KaiAgent @Inject constructor(
     }
 
     private suspend fun handleSecurityAnalysis(request: AgentRequest): Map<String, Any> {
-        val target = request.context?.get("target")
+        val target = request.context.get("target")
             ?: throw IllegalArgumentException("Analysis target required")
         logger.info("KaiAgent", "Performing security analysis on: $target")
         val vulnerabilities = scanForVulnerabilities(target)
@@ -299,7 +299,7 @@ class KaiAgent @Inject constructor(
     }
 
     private suspend fun handleThreatAssessment(request: AgentRequest): Map<String, Any> {
-        val threatData = request.context?.get("threat_data")
+        val threatData = request.context.get("threat_data")
             ?: throw IllegalArgumentException("Threat data required")
         logger.info("KaiAgent", "Assessing threat characteristics")
         val analysis = analyzeSecurityThreat(threatData)
@@ -314,7 +314,7 @@ class KaiAgent @Inject constructor(
     }
 
     private suspend fun handlePerformanceAnalysis(request: AgentRequest): Map<String, Any> {
-        val component = request.context?.get("component") ?: "system"
+        val component = request.context.get("component") ?: "system"
         logger.info("KaiAgent", "Analyzing performance of: $component")
         val metrics = systemMonitor.getPerformanceMetrics(component)
         val bottlenecks = identifyBottlenecks(metrics)
@@ -330,7 +330,7 @@ class KaiAgent @Inject constructor(
 
     private suspend fun handleCodeReview(request: AgentRequest): Map<String, Any> {
         val code =
-            request.context?.get("code") ?: throw IllegalArgumentException("Code content required")
+            request.context.get("code") ?: throw IllegalArgumentException("Code content required")
         logger.info("KaiAgent", "Conducting secure code review")
         val codeAnalysis = vertexAIClient.generateText(
             prompt = buildCodeReviewPrompt(code),
