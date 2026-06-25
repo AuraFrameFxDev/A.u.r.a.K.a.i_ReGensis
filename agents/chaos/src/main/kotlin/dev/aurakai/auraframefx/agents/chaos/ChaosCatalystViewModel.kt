@@ -38,7 +38,7 @@ class ChaosCatalystViewModel @Inject constructor(
         MutableStateFlow<ChaosCatalystFormatter.PolicyResult>(ChaosCatalystFormatter.PolicyResult.ALIGNED)
     val policyStatus: StateFlow<ChaosCatalystFormatter.PolicyResult> = _policyStatus.asStateFlow()
 
-    private val _wardenActivity = MutableStateFlow<String>("IDLE")
+    private val _wardenActivity = MutableStateFlow("IDLE")
     val wardenActivity: StateFlow<String> = _wardenActivity.asStateFlow()
 
     fun processAgentOutput(raw: String, isStrict: Boolean) {
