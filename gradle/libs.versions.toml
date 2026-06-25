@@ -38,7 +38,7 @@ hilt = "2.59.2"
 hilt-ext = "1.4.0-beta01"
 
 # Firebase & AI
-firebase-bom = "34.14.1"
+firebase-bom = "34.15.0"
 firebase-sql-connect = "17.3.0"
 firebase-vertexai = "17.12.1"
 firebase-analytics = "23.2.0"
@@ -64,7 +64,7 @@ media3 = "1.10.1"
 
 # Networking & Utils
 retrofit = "3.0.0"
-okhttp = "5.3.2"
+okhttp = "5.4.0"
 ktor = "3.5.0"
 coil = "3.4.0"
 timber = "5.0.1"
