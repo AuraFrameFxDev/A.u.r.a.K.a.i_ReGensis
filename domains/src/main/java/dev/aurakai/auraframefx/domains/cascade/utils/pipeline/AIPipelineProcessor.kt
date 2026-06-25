@@ -306,12 +306,14 @@ class AIPipelineProcessor @Inject constructor(
         _processingContext.update { current ->
             val newContext = current.toMutableMap()
 
+            @Suppress("UNCHECKED_CAST")
             val taskHistory =
                 (current["task_history"] as? List<String>)?.toMutableList() ?: mutableListOf()
             taskHistory.add(0, task)
             if (taskHistory.size > 10) taskHistory.removeAt(taskHistory.size - 1)
             newContext["task_history"] = taskHistory
 
+            @Suppress("UNCHECKED_CAST")
             val responsePatterns =
                 (current["response_patterns"] as? MutableMap<String, Any>) ?: mutableMapOf()
             val taskType = categorizeTask(task)
@@ -328,6 +330,7 @@ class AIPipelineProcessor @Inject constructor(
             newContext["total_tasks_processed"] =
                 (current["total_tasks_processed"] as? Int ?: 0) + 1
 
+            @Suppress("UNCHECKED_CAST")
             val agentPerformance =
                 (current["agent_performance"] as? MutableMap<String, MutableList<Float>>)
                     ?: mutableMapOf()
