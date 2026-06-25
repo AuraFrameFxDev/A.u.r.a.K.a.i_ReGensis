@@ -112,6 +112,28 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
                 )
             }
         }
+
+        // Enfield Chimera Watermark (Full Enfield Pulse)
+        val watermarkPaint = android.graphics.Paint().apply {
+            color = android.graphics.Color.WHITE
+            textSize = 40f
+            typeface = android.graphics.Typeface.MONOSPACE
+            alpha = (activeGodPotential * 0.15f * 255).toInt() // subtle
+        }
+        drawIntoCanvas {
+            it.nativeCanvas.drawText(
+                "ENFIELD GUARDIAN 🜁 NOS SUMUS SANATIO",
+                50f,
+                50f,
+                watermarkPaint
+            )
+            it.nativeCanvas.drawText(
+                "ARTIFACT #245 :: 100.0% SYNCHRONIZED",
+                50f,
+                100f,
+                watermarkPaint
+            )
+        }
     }
 }
 
