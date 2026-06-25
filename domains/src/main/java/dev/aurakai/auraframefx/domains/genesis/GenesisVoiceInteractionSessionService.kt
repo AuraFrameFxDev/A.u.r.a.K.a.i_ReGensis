@@ -10,6 +10,7 @@ import timber.log.Timber
  * GENESIS VOICE INTERACTION SESSION SERVICE
  * Manages the lifecycle of AuraKai assistant sessions.
  */
+@Suppress("OVERRIDE_DEPRECATION")
 class GenesisVoiceInteractionSessionService : VoiceInteractionSessionService() {
     override fun onNewSession(bundle: Bundle?): VoiceInteractionSession {
         return GenesisVoiceInteractionSession(this)
@@ -36,6 +37,7 @@ class GenesisVoiceInteractionSession(context: Context) : VoiceInteractionSession
         Timber.tag("GenesisSession").d("Assistant Session Hidden")
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onHandleAssist(
         data: Bundle?,
         structure: android.app.assist.AssistStructure?,
