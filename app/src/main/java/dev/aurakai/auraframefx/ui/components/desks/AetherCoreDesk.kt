@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.core.ui.theme.ElectricPurpleCore
+import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme.ElectricPurpleCore
 
 /**
  * 🜁 AETHER CORE DESK (Tab 1)
