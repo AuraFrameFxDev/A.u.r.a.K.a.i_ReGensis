@@ -17,3 +17,7 @@
 ## 2026-06-19 - [Jetpack Compose Render Loop Allocation Optimization]
 **Learning:** High-frequency render loops in Jetpack Compose `Canvas` blocks are extremely sensitive to object allocations and trigonometric calculations. `AndroidPaint` and `android.graphics.Path` allocations inside the `drawIntoCanvas` block, and O(N) collection transforms like `drop().forEach`, trigger massive GC pressure and frame drops.
 **Action:** Move all `Paint` and `Path` allocations into `remember` blocks. Pre-calculate static offsets (e.g. `sin`/`cos` results) in `remember` blocks. Replace idiomatic collection transforms with manual indexed `for` loops to eliminate per-frame list allocations. Always reuse pre-allocated `Path` objects via `path.reset()` instead of allocating new ones in loops.
+
+## 2026-06-25 - [Render Loop Collection Allocation Optimization]
+**Learning:** Using `.map` or other collection transforms on a range inside a `Canvas` block (e.g., to generate points for a hexagon) creates a `List` and multiple `Offset` objects every frame, causing significant GC pressure even for small N.
+**Action:** Replace range-based collection transforms with manual `for` loops and direct drawing calls to keep the render path allocation-free. Pre-calculate alpha-modified colors and trigonometric constants outside these loops.
