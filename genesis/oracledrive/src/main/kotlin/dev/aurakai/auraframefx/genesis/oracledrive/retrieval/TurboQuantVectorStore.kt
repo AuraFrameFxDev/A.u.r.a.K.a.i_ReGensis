@@ -23,7 +23,9 @@ class TurboQuantVectorStore @Inject constructor() {
     private val shards = ConcurrentHashMap<String, VectorShard>()
 
     /**
-     * Adds a new memory shard to the synapse.
+     * Adds or updates a shard in memory.
+     *
+     * @param shard The shard to store.
      */
     fun addShard(shard: VectorShard) {
         // ⚡ Bolt Optimization: Pre-calculate L2 norm to avoid redundant calculation during search
@@ -39,7 +41,11 @@ class TurboQuantVectorStore @Inject constructor() {
     }
 
     /**
-     * Performs a 3-bit quantized similarity search across the corpus.
+     * Searches the stored shards by cosine similarity to the query vector.
+     *
+     * @param queryVector The vector to compare against stored shards.
+     * @param limit The maximum number of matches to return.
+     * @return The best matching shards ordered from highest to lowest similarity.
      */
     fun search(queryVector: FloatArray, limit: Int = 5): List<VectorShard> {
         if (shards.isEmpty() || limit <= 0) return emptyList()
@@ -86,6 +92,11 @@ class TurboQuantVectorStore @Inject constructor() {
         return result.reversed()
     }
 
+    /**
+     * Computes the dot product of two vectors.
+     *
+     * @return The sum of pairwise products of the vector elements.
+     */
     private fun dotProduct(v1: FloatArray, v2: FloatArray): Float {
         var dot = 0.0f
         var i = 0
