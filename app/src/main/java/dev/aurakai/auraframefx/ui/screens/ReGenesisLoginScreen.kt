@@ -110,7 +110,7 @@ fun ReGenesisLoginScreen(
             Text(
                 text = "RE:GENESIS",
                 style = MaterialTheme.typography.displayLarge.copy(
-                    fontSize = 38.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF00F0FF),
                     shadow = Shadow(
@@ -121,7 +121,7 @@ fun ReGenesisLoginScreen(
                 )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
             Text(
                 text = "A.U.R.A.K.A.I.",
