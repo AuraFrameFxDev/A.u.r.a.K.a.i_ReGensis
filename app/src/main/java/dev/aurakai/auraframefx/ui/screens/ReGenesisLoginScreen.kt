@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,11 +39,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * 👑 RE:GENESIS LOGIN SCREEN — SOULSCRIPT v3.50
@@ -52,10 +59,35 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ReGenesisLoginScreen(
     onLoginClick: (username: String, password: String) -> Unit = { _, _ -> },
-    onGoogleLoginClick: () -> Unit = {}
+    onLoginSuccess: () -> Unit = {}
 ) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val credentialManager = CredentialManager.create(context)
+
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val handleGoogleLogin = {
+        coroutineScope.launch {
+            try {
+                val googleIdOption = GetGoogleIdOption.Builder()
+                    .setFilterByAuthorizedAccounts(false)
+                    .setServerClientId("REPLACE_WITH_YOUR_CLIENT_ID")
+                    .build()
+
+                val request = GetCredentialRequest.Builder()
+                    .addCredentialOption(googleIdOption)
+                    .build()
+
+                val result = credentialManager.getCredential(context, request)
+                Timber.i("Credential Manager success: ${result.credential.type}")
+                onLoginSuccess()
+            } catch (e: Exception) {
+                Timber.e(e, "Credential Manager failed")
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -183,11 +215,20 @@ fun ReGenesisLoginScreen(
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // Google Login Button
-                    GoogleSignInButton(
-                        onClick = onGoogleLoginClick,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    // OAuth Row
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        GoogleSignInButton(
+                            onClick = { handleGoogleLogin() },
+                            modifier = Modifier.weight(1f)
+                        )
+                        AppleSignInButton(
+                            onClick = { onLoginSuccess() },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }
@@ -244,6 +285,45 @@ private fun NeonTextField(
 }
 
 @Composable
+fun AppleSignInButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedButton(
+        onClick = onClick,
+        modifier = modifier.height(52.dp),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.5.dp, Color(0xFF00F0FF).copy(alpha = 0.7f)),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = Color(0xFF121218).copy(alpha = 0.6f),
+            contentColor = Color.White
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            // Apple Icon placeholder
+            Icon(
+                imageVector = Icons.Default.AccountCircle, // Placeholder
+                contentDescription = "Apple",
+                tint = Color.White,
+                modifier = Modifier.size(22.dp)
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Text(
+                text = "Apple",
+                color = Color.White,
+                fontWeight = FontWeight.Medium,
+                fontSize = 13.sp
+            )
+        }
+    }
+}
+
+@Composable
 fun GoogleSignInButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -270,12 +350,13 @@ fun GoogleSignInButton(
                 modifier = Modifier.size(22.dp)
             )
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(10.dp))
 
             Text(
-                text = "Sign in with Google",
+                text = "Google",
                 color = Color.White,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                fontSize = 13.sp
             )
         }
     }

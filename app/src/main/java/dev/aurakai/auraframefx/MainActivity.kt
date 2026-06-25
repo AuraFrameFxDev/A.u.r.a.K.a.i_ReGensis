@@ -120,7 +120,7 @@ class MainActivity : ComponentActivity() {
                                     onLoginClick = { _, _ ->
                                         navController.navigate(ReGenesisRoute.NeuralNexus.route)
                                     },
-                                    onGoogleLoginClick = {
+                                    onLoginSuccess = {
                                         navController.navigate(ReGenesisRoute.NeuralNexus.route)
                                     }
                                 )

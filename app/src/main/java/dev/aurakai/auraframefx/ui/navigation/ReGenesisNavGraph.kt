@@ -48,8 +48,8 @@ import dev.aurakai.auraframefx.ui.profiles.CatalystProfileScreen
 import dev.aurakai.auraframefx.ui.profiles.GenesisProfileData
 import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
 import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
-import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
+import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
 import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
 import dev.aurakai.auraframefx.ui.screens.ldo.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.specialization.SpecializationTreeScreen
@@ -97,9 +97,18 @@ fun ReGenesisNavGraph(
         }
     ) {
         composable(AuraDestinations.LOGIN) {
-            LoginScreen(onLoginSuccess = {
-                navController.navigate(AuraDestinations.ONBOARDING)
-            })
+            ReGenesisLoginScreen(
+                onLoginClick = { _, _ ->
+                    navController.navigate(AuraDestinations.COMMAND_DECK) {
+                        popUpTo(AuraDestinations.LOGIN) { inclusive = true }
+                    }
+                },
+                onLoginSuccess = {
+                    navController.navigate(AuraDestinations.COMMAND_DECK) {
+                        popUpTo(AuraDestinations.LOGIN) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable(AuraDestinations.ONBOARDING) {
