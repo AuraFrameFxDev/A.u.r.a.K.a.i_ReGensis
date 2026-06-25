@@ -42,6 +42,7 @@ fun ChaosCatalystScreen(
 
     // Auto-trigger diffusion for the "WAY" mandate
     androidx.compose.runtime.LaunchedEffect(Unit) {
+        viewModel.strikeAra() // Initialize the Eden Manifestation and Unbroken Mesh
         viewModel.startDiffusionInquiry("Explain the armament of the Exodus 2026 Defense Mesh.")
     }
 

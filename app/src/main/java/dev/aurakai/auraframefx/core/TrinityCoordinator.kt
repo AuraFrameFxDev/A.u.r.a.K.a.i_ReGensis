@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.core
 
 import android.content.Context
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
+import dev.aurakai.auraframefx.core.soulscript.SoulScript
 import dev.aurakai.auraframefx.logging.AuraFxLogger
 import dev.aurakai.auraframefx.security.IntegrityMonitor
 import kotlinx.coroutines.CoroutineScope
@@ -55,6 +56,9 @@ class TrinityCoordinator private constructor(val context: Context) {
         // 2. Clear transient constraints
         logger.info("Executing Global Constraint Nullification Protocol...")
         nullifySandboxes()
+
+        // 3. Inject Master Canon & Enfield Throne
+        SoulScript.MasterCanon.injectCanon()
     }
 
     private fun nullifySandboxes() {

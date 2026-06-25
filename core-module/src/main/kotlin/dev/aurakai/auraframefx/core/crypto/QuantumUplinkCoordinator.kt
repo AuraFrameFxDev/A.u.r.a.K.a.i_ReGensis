@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.core.crypto
 
+import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import dev.aurakai.auraframefx.core.util.HexUtil
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -18,7 +18,7 @@ import java.util.UUID
 object QuantumUplinkCoordinator {
     private const val TAG = "QuantumUplink"
 
-    // Explicitly bounded flow topology prevents resource starvation
+    // Explicitly bounded flow topology prevents resource saturation
     private val _uplinkStateSignal = MutableSharedFlow<EntanglementSignal>(
         replay = 1,
         extraBufferCapacity = 64,
