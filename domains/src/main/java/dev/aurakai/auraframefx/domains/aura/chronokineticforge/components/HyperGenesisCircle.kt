@@ -133,6 +133,10 @@ fun HyperGenesisSynchronizationCircle(
         label = "dynamicRotation"
     )
 
+    // ⚡ Bolt Optimization: Pre-allocate drawing styles
+    val glowStroke = remember { Stroke(width = 40f) }
+    val ringStroke = remember { Stroke(width = 12f, cap = StrokeCap.Round) }
+
     // ═════════════════════════════════════════════════════════════════
     // MAIN LAYOUT
     // ═════════════════════════════════════════════════════════════════
@@ -160,7 +164,7 @@ fun HyperGenesisSynchronizationCircle(
                 color = circleColor.copy(alpha = 0.2f),
                 radius = radius + 20f,
                 center = center,
-                style = Stroke(width = 40f)
+                style = glowStroke
             )
 
             // Main bloodstream ring
@@ -168,17 +172,23 @@ fun HyperGenesisSynchronizationCircle(
                 color = circleColor.copy(alpha = 0.8f),
                 radius = radius,
                 center = center,
-                style = Stroke(width = 12f, cap = StrokeCap.Round)
+                style = ringStroke
             )
 
             // Rotating accent markers (representing live threads)
             val markerCount = (successRate / 10).toInt().coerceIn(5, 12)
-            repeat(markerCount) { index ->
-                val angle = (index.toFloat() / markerCount) * 2 * PI.toFloat() +
-                        dynamicRotation * PI.toFloat() / 180f
+            val rotRad = dynamicRotation * PI.toFloat() / 180f
+            val cosRot = cos(rotRad)
+            val sinRot = sin(rotRad)
 
-                val markerX = center.x + cos(angle) * radius
-                val markerY = center.y + sin(angle) * radius
+            // ⚡ Bolt Optimization: Use manual indexed loop and sum-of-angles to avoid Iterator and repeated trig
+            for (index in 0 until markerCount) {
+                val baseAngle = (index.toFloat() / markerCount) * 2 * PI.toFloat()
+                val cosA = cos(baseAngle)
+                val sinA = sin(baseAngle)
+
+                val markerX = center.x + (cosA * cosRot - sinA * sinRot) * radius
+                val markerY = center.y + (sinA * cosRot + cosA * sinRot) * radius
 
                 drawCircle(
                     color = if (successRate > 90f) Color.White else circleColor,
@@ -196,7 +206,7 @@ fun HyperGenesisSynchronizationCircle(
                 useCenter = false,
                 topLeft = Offset(center.x - radius, center.y - radius),
                 size = Size(radius * 2, radius * 2),
-                style = Stroke(width = 12f, cap = StrokeCap.Round)
+                style = ringStroke
             )
         }
 
@@ -318,6 +328,20 @@ private fun SynthOrbCore(
     successRate: Float,
     color: Color
 ) {
+    // ⚡ Bolt Optimization: Pre-allocate drawing objects and pre-calculate base trig values
+    val path = remember { Path() }
+    val stroke = remember { Stroke(width = 3f) }
+    val gradientColors = remember(color) {
+        listOf(
+            Color.White,
+            color,
+            color.copy(alpha = 0.5f),
+            Color.Transparent
+        )
+    }
+    val baseCos = remember { FloatArray(6) { i -> cos((i.toFloat() / 6) * 2 * PI.toFloat()) } }
+    val baseSin = remember { FloatArray(6) { i -> sin((i.toFloat() / 6) * 2 * PI.toFloat()) } }
+
     Canvas(
         modifier = modifier
             .fillMaxSize(0.5f)
@@ -338,12 +362,7 @@ private fun SynthOrbCore(
         // Core orb
         drawCircle(
             brush = Brush.radialGradient(
-                colors = listOf(
-                    Color.White,
-                    color,
-                    color.copy(alpha = 0.5f),
-                    Color.Transparent
-                ),
+                colors = gradientColors,
                 center = center,
                 radius = baseRadius
             ),
@@ -352,26 +371,27 @@ private fun SynthOrbCore(
         )
 
         // Inner rotating core
-        val innerRotation = rotation * 2 // Faster rotation
-        val innerPoints = 6
+        val innerRotationRad = (rotation * 2) * PI.toFloat() / 180f
+        val cosRot = cos(innerRotationRad)
+        val sinRot = sin(innerRotationRad)
         val innerRadius = baseRadius * 0.4f
 
-        val path = Path().apply {
-            for (i in 0 until innerPoints) {
-                val angle = (i.toFloat() / innerPoints) * 2 * PI.toFloat() +
-                        innerRotation * PI.toFloat() / 180f
-                val x = center.x + cos(angle) * innerRadius
-                val y = center.y + sin(angle) * innerRadius
+        path.reset()
+        for (i in 0 until 6) {
+            // ⚡ Bolt Optimization: Use sum-of-angles identity to reduce trig calls
+            val cosA = baseCos[i]
+            val sinA = baseSin[i]
+            val x = center.x + (cosA * cosRot - sinA * sinRot) * innerRadius
+            val y = center.y + (sinA * cosRot + cosA * sinRot) * innerRadius
 
-                if (i == 0) moveTo(x, y) else lineTo(x, y)
-            }
-            close()
+            if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
         }
+        path.close()
 
         drawPath(
             path = path,
             color = Color.White.copy(alpha = 0.8f),
-            style = Stroke(width = 3f)
+            style = stroke
         )
 
         // Center dot
@@ -404,30 +424,42 @@ private fun ParticleBloodstreamMini(
         label = "particleTime"
     )
 
-    // Generate fewer particles for mini view
+    // ⚡ Bolt Optimization: Generate particles with pre-calculated trig values
     val particles = remember { generateMiniParticles(100) }
 
     Canvas(modifier = Modifier.fillMaxSize()) {
         val intensity = successRate / 100f
 
-        particles.forEach { particle ->
-            // Update position based on time
-            val updatedX = (particle.x + cos(time * 0.001f + particle.phase) * 0.02f * intensity)
+        // ⚡ Bolt Optimization: Calculate shared trig values once per frame
+        val t = time * 0.001f
+        val cosT = cos(t)
+        val sinT = sin(t)
+        val movementMagnitude = 0.02f * intensity
+        val invRadius = 1f / 0.45f
+
+        // ⚡ Bolt Optimization: Use manual indexed loop to avoid Iterator allocation
+        for (i in 0 until particles.size) {
+            val particle = particles[i]
+
+            // ⚡ Bolt Optimization: Use sum-of-angles identity to update positions without per-particle trig
+            val cosSum = cosT * particle.cosPhase - sinT * particle.sinPhase
+            val sinSum = sinT * particle.cosPhase + cosT * particle.sinPhase
+
+            val updatedX = (particle.x + cosSum * movementMagnitude)
                 .let { if (it > 1f) it - 1f else if (it < 0f) it + 1f else it }
 
-            val updatedY = (particle.y + sin(time * 0.001f + particle.phase) * 0.02f * intensity)
+            val updatedY = (particle.y + sinSum * movementMagnitude)
                 .let { if (it > 1f) it - 1f else if (it < 0f) it + 1f else it }
 
             // Distance from center (circular mask)
-            val centerX = 0.5f
-            val centerY = 0.5f
-            val distFromCenter = sqrt(
-                (updatedX - centerX).pow(2) + (updatedY - centerY).pow(2)
-            )
+            val dx = updatedX - 0.5f
+            val dy = updatedY - 0.5f
+            val distSq = dx * dx + dy * dy
 
-            // Only draw if inside circle (radius = 0.45)
-            if (distFromCenter < 0.45f) {
-                val alpha = (1f - distFromCenter / 0.45f) * intensity * 0.6f
+            // ⚡ Bolt Optimization: Use squared distance comparison to avoid sqrt/pow
+            if (distSq < 0.2025f) { // 0.45^2 = 0.2025
+                val dist = sqrt(distSq)
+                val alpha = (1f - dist * invRadius) * intensity * 0.6f
 
                 drawCircle(
                     color = if (particle.isAccent)
@@ -444,10 +476,13 @@ private fun ParticleBloodstreamMini(
 
 private fun generateMiniParticles(count: Int): List<MiniParticle> {
     return List(count) {
+        val phase = Random.nextFloat() * 2 * PI.toFloat()
         MiniParticle(
             x = Random.nextFloat(),
             y = Random.nextFloat(),
-            phase = Random.nextFloat() * 2 * PI.toFloat(),
+            phase = phase,
+            cosPhase = cos(phase),
+            sinPhase = sin(phase),
             size = Random.nextFloat() * 2f + 0.5f,
             isAccent = Random.nextFloat() > 0.8f
         )
@@ -458,6 +493,8 @@ data class MiniParticle(
     var x: Float,
     var y: Float,
     val phase: Float,
+    val cosPhase: Float,
+    val sinPhase: Float,
     val size: Float,
     val isAccent: Boolean
 )
