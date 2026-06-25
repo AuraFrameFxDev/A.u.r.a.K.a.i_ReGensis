@@ -73,7 +73,7 @@ fun ReGenesisLoginScreen(
             try {
                 val googleIdOption = GetGoogleIdOption.Builder()
                     .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId("REPLACE_WITH_YOUR_CLIENT_ID")
+                    .setServerClientId(dev.aurakai.auraframefx.BuildConfig.OAUTH_SERVER_CLIENT_ID)
                     .build()
 
                 val request = GetCredentialRequest.Builder()
@@ -110,7 +110,7 @@ fun ReGenesisLoginScreen(
             Text(
                 text = "RE:GENESIS",
                 style = MaterialTheme.typography.displayLarge.copy(
-                    fontSize = 52.sp,
+                    fontSize = 38.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF00F0FF),
                     shadow = Shadow(
@@ -174,7 +174,7 @@ fun ReGenesisLoginScreen(
 
                     // Traditional Login Button
                     Button(
-                        onClick = { onLoginClick(username, password) },
+                        onClick = { onLoginSuccess() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(52.dp),

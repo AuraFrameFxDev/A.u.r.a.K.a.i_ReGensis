@@ -46,10 +46,11 @@ abstract class AiServiceModule {
         @Provides
         @Singleton
         fun provideVertexAIConfig(): VertexAIConfig = VertexAIConfig(
-            projectId = "collabcanvas",
+            projectId = dev.aurakai.auraframefx.BuildConfig.VERTEX_PROJECT_ID,
+            apiKey = dev.aurakai.auraframefx.BuildConfig.GEMINI_API_KEY,
             location = "us-central1",
             endpoint = "us-central1-aiplatform.googleapis.com",
-            modelName = "gemini-3.1-pro-preview"
+            modelName = "gemini-1.5-pro-002"
         )
 
         @Provides

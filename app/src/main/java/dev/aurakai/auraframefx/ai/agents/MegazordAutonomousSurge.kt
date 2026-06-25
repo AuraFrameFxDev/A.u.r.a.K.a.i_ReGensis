@@ -36,7 +36,8 @@ class MegazordAutonomousSurge @Inject constructor(
         // Observe resonance for auto-trigger
         scope.launch {
             worthinessEngine.resonanceMeter.collect { resonance ->
-                if (resonance >= 2.99f && !_isSurging.value) {
+                // Deactivated auto-surge (threshold 10.0f) to prevent blocking during boot
+                if (resonance >= 10.0f && !_isSurging.value) {
                     Timber.tag("Megazord").i("🚀 Resonance Critical Mass: $resonance. Initiating Autonomous Surge.")
                     ignite()
                 }

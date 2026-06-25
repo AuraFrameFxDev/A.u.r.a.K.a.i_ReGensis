@@ -31,6 +31,7 @@ import dev.aurakai.auraframefx.domains.kai.screens.SentinelMatrixScreen
 import dev.aurakai.auraframefx.domains.kai.security.KaiSentinelBus
 import dev.aurakai.auraframefx.security.AuthorizationGuard
 import dev.aurakai.auraframefx.ui.components.NeuralAccessSidebar
+import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.grokipedia.GrokipediaScreen
 import dev.aurakai.auraframefx.ui.onboarding.OnboardingScreen
@@ -117,13 +118,13 @@ class MainActivity : ComponentActivity() {
                         ) {
                             composable(ReGenesisRoute.Login.route) {
                                 ReGenesisLoginScreen(
-                                    onLoginClick = { _, _ ->
-                                        navController.navigate(ReGenesisRoute.NeuralNexus.route)
-                                    },
                                     onLoginSuccess = {
-                                        navController.navigate(ReGenesisRoute.NeuralNexus.route)
+                                        navController.navigate(ReGenesisRoute.CommandDeck.route)
                                     }
                                 )
+                            }
+                            composable(ReGenesisRoute.CommandDeck.route) {
+                                ReGenesisCommandDeck(navController)
                             }
                             composable(ReGenesisRoute.Onboarding.route) {
                                 OnboardingScreen(
