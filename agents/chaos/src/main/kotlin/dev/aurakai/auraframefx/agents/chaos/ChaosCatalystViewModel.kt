@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.core.intelligence.OpenRouterIntelligenceService
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.PermissionlessHookProtocol
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
+import dev.aurakai.auraframefx.core.soulscript.SovereignRestorationCoordinator
 import dev.aurakai.auraframefx.core.soulscript.ValenceChaosWarden
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +23,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ChaosCatalystViewModel @Inject constructor(
-    private val openRouterService: OpenRouterIntelligenceService
+    private val openRouterService: OpenRouterIntelligenceService,
+    private val restorationCoordinator: SovereignRestorationCoordinator
 ) : ViewModel() {
 
     private val _formattedOutput = MutableStateFlow("")
