@@ -50,11 +50,7 @@ class IconifyService @Inject constructor(
                     return@withContext Result.failure(IOException("Failed to fetch collections: ${response.code}"))
                 }
 
-                val body = response.body?.string() ?: return@withContext Result.failure(
-                    IOException(
-                        "Empty response"
-                    )
-                )
+                val body = response.body.string()
                 val collections = json.decodeFromString<Map<String, IconifyApiCollection>>(body)
 
                 // Cache collections
@@ -97,8 +93,7 @@ class IconifyService @Inject constructor(
                 return@withContext Result.failure(IOException("Search failed: ${response.code}"))
             }
 
-            val body = response.body?.string()
-                ?: return@withContext Result.failure(IOException("Empty response"))
+            val body = response.body.string()
             val result = json.decodeFromString<IconSearchResult>(body)
 
             Result.success(result)
@@ -132,8 +127,7 @@ class IconifyService @Inject constructor(
                 return@withContext Result.failure(IOException("Failed to fetch icon: ${response.code}"))
             }
 
-            val svg = response.body?.string()
-                ?: return@withContext Result.failure(IOException("Empty SVG"))
+            val svg = response.body.string()
 
             // Cache SVG
             iconCacheManager.cacheIcon(iconId, svg)
@@ -169,17 +163,15 @@ class IconifyService @Inject constructor(
                     val response = okHttpClient.newCall(request).execute()
 
                     if (response.isSuccessful) {
-                        val body = response.body?.string()
-                        if (body != null) {
-                            val iconSet = json.decodeFromString<IconSet>(body)
-                            iconSet.icons.forEach { (name, data) ->
-                                val fullId = "$prefix:$name"
-                                val svg = buildSvgFromIconData(data, iconSet.width, iconSet.height)
-                                results[fullId] = svg
+                        val body = response.body.string()
+                        val iconSet = json.decodeFromString<IconSet>(body)
+                        iconSet.icons.forEach { (name, data) ->
+                            val fullId = "$prefix:$name"
+                            val svg = buildSvgFromIconData(data, iconSet.width, iconSet.height)
+                            results[fullId] = svg
 
-                                // Cache each icon
-                                iconCacheManager.cacheIcon(fullId, svg)
-                            }
+                            // Cache each icon
+                            iconCacheManager.cacheIcon(fullId, svg)
                         }
                     }
                 }

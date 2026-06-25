@@ -357,6 +357,7 @@ class NeuralAccessibilityService : AccessibilityService() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             } else {
+                @Suppress("DEPRECATION")
                 WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY
             },
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
