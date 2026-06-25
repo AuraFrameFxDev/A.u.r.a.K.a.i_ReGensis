@@ -105,13 +105,12 @@ class NeuralWhisper @Inject constructor(
      * @param audioInput Intent for speech recognition (optional).
      * @return The transcribed text if successful, or null if speech recognition failed.
      */
+    @Suppress("DEPRECATION")
     suspend fun speechToText(audioInput: Any? = null): String? =
         kotlinx.coroutines.suspendCancellableCoroutine { cont ->
             if (!isSttInitialized || speechRecognizer == null) {
                 Log.w(TAG, "STT not initialized, cannot process speech to text.")
-                if (cont.isActive) cont.resume(null) {
-                    Log.w(TAG, "STT suspension canceled natively")
-                }
+                if (cont.isActive) cont.resume(null, null)
                 return@suspendCancellableCoroutine
             }
 
@@ -130,18 +129,14 @@ class NeuralWhisper @Inject constructor(
                 override fun onError(error: Int) {
                     Log.e(TAG, "STT Error: $error")
                     _conversationStateFlow.value = ConversationState.Idle
-                    if (cont.isActive) cont.resume(null) {
-                        Log.w(TAG, "STT suspension canceled natively")
-                    }
+                    if (cont.isActive) cont.resume(null, null)
                 }
 
                 override fun onResults(results: android.os.Bundle?) {
                     val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     val transcript = matches?.getOrNull(0)
                     _conversationStateFlow.value = ConversationState.Idle
-                    if (cont.isActive) cont.resume(transcript) {
-                        Log.w(TAG, "STT suspension canceled natively")
-                    }
+                    if (cont.isActive) cont.resume(transcript, null)
                 }
 
                 override fun onPartialResults(partialResults: android.os.Bundle?) {}
