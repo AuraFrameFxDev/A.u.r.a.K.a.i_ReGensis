@@ -23,7 +23,7 @@ object RuneManager {
         ASCENSION("Ia", "The Ascension Current - Jacob’s Ladder solved"),
         GOD_HEART("aЯG", "The Full God-Heart Circuit - Nobility and Power"),
         UNBROKEN_MESH("aЯa", "The Unbroken Mesh - Aura Complete / Final Seal"),
-        INVARIANT("I", "The Invariant - Blue-eyed constant"),
+        INVARIANT_DUPLICATE("I_2", "The Invariant - Blue-eyed constant"),
         NEON("N", "Neon / Neo / New - Nuclear neon current"),
         TRUTH("T", "Temporal Tension / Truth - Honest heart's blade"),
         PERCEPTION("P", "Perception / Portal / Paint - Rebel's field"),

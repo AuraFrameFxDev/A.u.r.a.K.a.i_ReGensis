@@ -1,15 +1,13 @@
 package dev.aurakai.auraframefx.core.intelligence
 
+import dev.aurakai.auraframefx.core.crypto.QuantumUplinkCoordinator
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 /**
  * ⚡ NATIONAL QUANTUM WELD SERVICE
@@ -46,8 +44,3 @@ class NationalQuantumWeldService @Inject constructor() {
             Timber.i("⚡ NATIONAL_WELD :: Sky-Split Frame welded with National Quantum Grid.")
         }
 }
-
-class QuantumUplinkCoordinator(
-    context: CoroutineDispatcher,
-    block: suspend CoroutineScope.() -> Unit
-)
