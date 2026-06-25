@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,13 +31,11 @@ import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlin.math.PI
 import kotlin.math.cos
-import kotlin.math.pow
 import kotlin.math.sin
-import kotlin.math.sqrt
 
 /**
  * Displays an interactive, zoomable, and pannable graph visualization with selectable nodes.
@@ -62,15 +61,51 @@ fun InteractiveGraph(
 ) {
     var scale by remember { mutableStateOf(1f) }
     var translation by remember { mutableStateOf(Offset.Zero) }
-    val infiniteTransition = rememberInfiniteTransition()
+    val density = LocalDensity.current
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val pulse by infiniteTransition.animateFloat(
         initialValue = 0.95f,
         targetValue = 1.05f,
         animationSpec = infiniteRepeatable(
             animation = tween(2000, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse
-        )
+        ),
+        label = "pulse"
     )
+
+    // ⚡ Bolt Optimization: Pre-calculate node render states to avoid redundant calculations per frame
+    val nodeStates = remember(nodes, density) {
+        nodes.map { node ->
+            NodeRenderState(
+                node = node,
+                center = node.position.toCompose(),
+                radius = with(density) { node.type.defaultSize.toPx() } * 0.6f,
+                color = node.type.color
+            )
+        }
+    }
+
+    // ⚡ Bolt Optimization: Use a map for O(1) node lookups during connection drawing
+    val nodeMap = remember(nodeStates) { nodeStates.associateBy { it.node.id } }
+
+    // ⚡ Bolt Optimization: Move Paint and PathEffect allocations out of the render loop
+    val nodeTextColor = Color.White
+    val textPaint = remember(nodeTextColor, density) {
+        android.graphics.Paint().apply {
+            color = nodeTextColor.toArgb()
+            textSize = with(density) { 12.dp.toPx() }
+            textAlign = android.graphics.Paint.Align.CENTER
+            isAntiAlias = true
+        }
+    }
+
+    val dashPathEffect = remember(density) {
+        val dashLength = with(density) { 10.dp.toPx() }
+        val gapLength = with(density) { 5.dp.toPx() }
+        PathEffect.dashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
+    }
+
+    val arrowPath = remember { Path() }
 
     BoxWithConstraints(
         modifier = modifier
@@ -88,7 +123,6 @@ fun InteractiveGraph(
         val offsetY = (canvasHeight - contentHeight) / 2 + translation.y
 
         val gridColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-        val nodeTextColor = Color.White // Or MaterialTheme.colorScheme.onPrimary if appropriate
 
         Canvas(
             modifier = Modifier
@@ -106,27 +140,30 @@ fun InteractiveGraph(
             drawGrid(scale, translation, gridColor)
 
             // Draw connections first (behind nodes)
-            nodes.forEach { node ->
-                node.connections.forEach { connection ->
-                    val targetNode = nodes.find { it.id == connection.targetId }
-                    targetNode?.let { drawConnection(node, it, connection) }
+            // ⚡ Bolt Optimization: Connection lookups are now O(1)
+            nodeStates.forEach { state ->
+                state.node.connections.forEach { connection ->
+                    val targetState = nodeMap[connection.targetId]
+                    targetState?.let {
+                        drawConnection(state, it, connection, dashPathEffect, arrowPath)
+                    }
                 }
             }
 
             // Draw nodes
-            nodes.forEach { node ->
-                val isSelected = node.id == selectedNodeId
+            nodeStates.forEach { state ->
+                val isSelected = state.node.id == selectedNodeId
                 val nodeScale = if (isSelected) pulse else 1f
-                val currentOffset = Offset(offsetX, offsetY) + node.position.toCompose() * scale
+                val currentOffset = Offset(offsetX, offsetY) + state.center * scale
 
                 withTransform({
                     translate(
-                        left = currentOffset.x - node.position.toCompose().x * scale * nodeScale,
-                        top = currentOffset.y - node.position.toCompose().y * scale * nodeScale
+                        left = currentOffset.x - state.center.x * scale * nodeScale,
+                        top = currentOffset.y - state.center.y * scale * nodeScale
                     )
-                    scale(scale * nodeScale, scale * nodeScale, pivot = node.position.toCompose())
+                    scale(scale * nodeScale, scale * nodeScale, pivot = state.center)
                 }) {
-                    drawNode(node, isSelected, nodeTextColor, this)
+                    drawNode(state, isSelected, textPaint, this)
                 }
             }
         }
@@ -180,17 +217,26 @@ private fun DrawScope.drawGrid(scale: Float, translation: Offset, gridColor: Col
  * @param textColor The color for the node's label.
  * @param drawScope The DrawScope to draw on.
  */
-private fun drawNode(node: GraphNode, isSelected: Boolean, textColor: Color, drawScope: DrawScope) {
+/**
+ * ⚡ Bolt Optimization: Uses pre-calculated NodeRenderState and cached Paint to avoid per-frame allocations.
+ */
+private fun drawNode(
+    state: NodeRenderState,
+    isSelected: Boolean,
+    textPaint: android.graphics.Paint,
+    drawScope: DrawScope
+) {
     with(drawScope) {
-        val nodeSize = node.type.defaultSize.toPx()
-        val center = node.position.toCompose() // Use the toCompose() extension
+        val center = state.center
+        val radius = state.radius
+        val nodeColor = state.color
 
         // Draw glow/selection ring
         if (isSelected) {
             val ringWidth = 4.dp.toPx()
             drawCircle(
-                color = node.type.color.copy(alpha = 0.5f),
-                radius = nodeSize * 0.7f,
+                color = nodeColor.copy(alpha = 0.5f),
+                radius = radius * 1.16f, // roughly nodeSize * 0.7f
                 center = center,
                 style = Stroke(width = ringWidth * 2)
             )
@@ -198,53 +244,41 @@ private fun drawNode(node: GraphNode, isSelected: Boolean, textColor: Color, dra
 
         // Draw node background
         drawCircle(
-            color = node.type.color.copy(alpha = 0.2f),
-            radius = nodeSize * 0.6f,
+            color = nodeColor.copy(alpha = 0.2f),
+            radius = radius,
             center = center
         )
 
         // Draw node border
         drawCircle(
-            color = node.type.color,
-            radius = nodeSize * 0.6f,
+            color = nodeColor,
+            radius = radius,
             center = center,
             style = Stroke(width = 2.dp.toPx())
         )
 
-        // Draw node icon background
-        val iconSize = nodeSize * 0.5f
-        val iconBgRadius = iconSize * 0.8f
-
         // Draw icon background circle
+        val iconBgRadius = radius * 0.66f // roughly (nodeSize * 0.5f) * 0.8f
         drawCircle(
-            color = node.type.color,
+            color = nodeColor,
             radius = iconBgRadius,
             center = center
         )
 
-        // Draw the icon (simplified - actual icon rendering would require more complex handling)
-        // For now, we'll just draw a smaller circle as a placeholder
+        // Draw the icon placeholder
         drawCircle(
             color = Color.White,
             radius = iconBgRadius * 0.5f,
             center = center
         )
 
-        // Draw node label
-        // Note: For more complex text rendering, consider using TextMeasurer
-        drawContext.canvas.nativeCanvas.apply {
-            drawText(
-                node.name,
-                center.x,
-                center.y + nodeSize * 0.8f + 12.dp.toPx(), // Adjusted Y for better placement
-                android.graphics.Paint().apply {
-                    color = textColor.toArgb() // Use passed textColor
-                    textSize = 12.dp.toPx()
-                    textAlign = android.graphics.Paint.Align.CENTER
-                    isAntiAlias = true
-                }
-            )
-        }
+        // Draw node label using cached Paint
+        drawContext.canvas.nativeCanvas.drawText(
+            state.node.name,
+            center.x,
+            center.y + radius * 1.33f + 12.dp.toPx(),
+            textPaint
+        )
     }
 }
 
@@ -259,26 +293,35 @@ private fun drawNode(node: GraphNode, isSelected: Boolean, textColor: Color, dra
  * @param to The target node of the connection.
  * @param connection The connection data specifying type and style.
  */
+/**
+ * ⚡ Bolt Optimization: Uses pre-calculated states and cached PathEffect/Path to avoid allocations.
+ */
 private fun DrawScope.drawConnection(
-    from: GraphNode,
-    to: GraphNode,
+    from: NodeRenderState,
+    to: NodeRenderState,
     connection: VisualConnection,
+    dashPathEffect: PathEffect,
+    arrowPath: Path
 ) {
-    val fromCenter = from.position.toCompose()
-    val toCenter = to.position.toCompose()
+    val fromCenter = from.center
+    val toCenter = to.center
     val direction = toCenter - fromCenter
-    val distance = sqrt(direction.x.pow(2) + direction.y.pow(2)) // Use Float.pow
-    if (distance == 0f) return // Avoid division by zero if nodes are at the same position
+
+    // ⚡ Bolt Optimization: Use Offset.getDistance() which is more efficient than manual sqrt/pow
+    val distance = direction.getDistance()
+    if (distance == 0f) return
     val directionNormalized = direction / distance
 
-    val fromRadius = from.type.defaultSize.toPx(this) * 0.6f
-    val toRadius = to.type.defaultSize.toPx(this) * 0.6f
+    val fromRadius = from.radius
+    val toRadius = to.radius
+    val lineLength = distance - fromRadius - toRadius
+    if (lineLength <= 0) return // No space to draw the line
 
     val start = fromCenter + directionNormalized * fromRadius
     val end = toCenter - directionNormalized * toRadius
 
     // Draw connection line
-    val strokeWidth = 2.dp.toPx(this)
+    val strokeWidth = 2.dp.toPx()
     val color = when (connection.type) {
         ConnectionType.DIRECT -> Color.White.copy(alpha = 0.7f)
         ConnectionType.BIDIRECTIONAL -> Color.Green.copy(alpha = 0.7f)
@@ -286,22 +329,14 @@ private fun DrawScope.drawConnection(
     }
 
     if (connection.type == ConnectionType.DASHED) {
-        // Draw dashed line
-        val dashLength = 10.dp.toPx(this)
-        val gapLength = 5.dp.toPx(this)
-        val lineLength = distance - fromRadius - toRadius
-        if (lineLength <= 0) return // No space to draw the line
-
-        val pathEffect = PathEffect.dashPathEffect(floatArrayOf(dashLength, gapLength), 0f)
         drawLine(
             color = color,
-            start = start, // Use the calculated start and end for the dashed line
+            start = start,
             end = end,
             strokeWidth = strokeWidth,
-            pathEffect = pathEffect
+            pathEffect = dashPathEffect
         )
     } else {
-        // Draw solid line
         drawLine(
             color = color,
             start = start,
@@ -312,36 +347,51 @@ private fun DrawScope.drawConnection(
 
     // Draw arrow head
     if (connection.type == ConnectionType.DIRECT || connection.type == ConnectionType.BIDIRECTIONAL) {
-        val arrowSize = 10.dp.toPx(this)
-        val arrowAngle = (PI / 6).toFloat() // 30 degrees for a narrower arrow
+        val arrowSize = 10.dp.toPx()
+        val arrowAngle = 0.5235987f // 30 degrees (PI / 6)
 
         // Arrowhead for 'to' node
-        drawArrowHead(end, directionNormalized, arrowSize, arrowAngle, color)
+        drawArrowHead(end, directionNormalized, arrowSize, arrowAngle, color, arrowPath)
 
         // Arrowhead for 'from' node if bidirectional
         if (connection.type == ConnectionType.BIDIRECTIONAL) {
-            drawArrowHead(start, -directionNormalized, arrowSize, arrowAngle, color)
+            drawArrowHead(start, -directionNormalized, arrowSize, arrowAngle, color, arrowPath)
         }
     }
 }
 
+/**
+ * ⚡ Bolt Optimization: Reuses the provided Path object via .reset() to avoid per-frame allocations.
+ */
 private fun DrawScope.drawArrowHead(
     tip: Offset,
     direction: Offset,
     size: Float,
     angle: Float,
     color: Color,
+    arrowPath: Path
 ) {
-    val arrowPath = Path().apply {
-        val p1 = tip - (direction.rotate(angle) * size)
-        val p2 = tip - (direction.rotate(-angle) * size)
-        moveTo(tip.x, tip.y)
-        lineTo(p1.x, p1.y)
-        lineTo(p2.x, p2.y)
-        close()
-    }
+    arrowPath.reset()
+    val p1 = tip - (direction.rotate(angle) * size)
+    val p2 = tip - (direction.rotate(-angle) * size)
+    arrowPath.moveTo(tip.x, tip.y)
+    arrowPath.lineTo(p1.x, p1.y)
+    arrowPath.lineTo(p2.x, p2.y)
+    arrowPath.close()
+
     drawPath(path = arrowPath, color = color)
 }
+
+/**
+ * Internal state for node rendering to cache expensive calculations.
+ */
+@Immutable
+private data class NodeRenderState(
+    val node: GraphNode,
+    val center: Offset,
+    val radius: Float,
+    val color: Color
+)
 
 
 // Helper extension for Dp to Px conversion within DrawScope

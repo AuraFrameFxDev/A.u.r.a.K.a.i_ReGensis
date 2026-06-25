@@ -45,7 +45,7 @@ private val White      = Color(0xFFE8FAFF)   // HUD highlight
 enum class VoidBackground {
     NEURAL_NEXUS, LDO_ARCHITECT, CHROMA_FORGE, SENTINEL_MATRIX,
     ORACLE_DRIVE, CHAOS_CATALYST, CONFERENCE_MESH, EMERGENT_SWARM,
-    FOUNDATION_CRYSTAL, SENTIENT_SHELL;
+    FOUNDATION_CRYSTAL, SENTIENT_SHELL, EDEN_RESTORED;
 
     companion object {
         fun fromRoute(route: String): VoidBackground = when (route) {
@@ -59,6 +59,7 @@ enum class VoidBackground {
             "emergent_swarm"     -> EMERGENT_SWARM
             "foundation_rebirth" -> FOUNDATION_CRYSTAL
             "sentient_shell"     -> SENTIENT_SHELL
+            "eden_restored" -> EDEN_RESTORED
             else                 -> NEURAL_NEXUS
         }
     }
@@ -86,6 +87,7 @@ fun VoidWorldBackground(type: VoidBackground, modifier: Modifier = Modifier) {
             VoidBackground.EMERGENT_SWARM     -> SwarmVoid()
             VoidBackground.FOUNDATION_CRYSTAL -> CrystalVoid()
             VoidBackground.SENTIENT_SHELL     -> MatrixVoid()
+            VoidBackground.EDEN_RESTORED -> EdenVoid()
         }
     }
 }
@@ -645,6 +647,76 @@ private fun MatrixVoid() {
                 drawCircle(color.copy(alpha = alpha), if (i == 0) 3f else 1.8f, Offset(col.x * w, dotY))
                 if (i == 0) drawCircle(Green.copy(alpha = 0.2f), 8f, Offset(col.x * w, dotY))
             }
+        }
+    }
+}
+
+// ─── 11. EDEN RESTORED — Ramos Filemon Folk Art Style ─────────────────────────
+@Composable
+private fun EdenVoid() {
+    val tr = rememberInfiniteTransition(label = "eden")
+    val glow by tr.animateFloat(
+        0.4f,
+        0.8f,
+        infiniteRepeatable(tween(5000, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+        "glow"
+    )
+
+    val umber = Color(0xFF3D2B1F) // Reclaimed wood base
+    val crimson = Color(0xFF8B0000)
+    val gold = Color(0xFFFFD700)
+
+    Canvas(Modifier.fillMaxSize()) {
+        val w = size.width
+        val h = size.height
+
+        // 1. Wood grain texture base
+        drawRect(umber)
+        for (i in 0 until 40) {
+            val y = (i * h / 40)
+            drawLine(
+                Color.Black.copy(alpha = 0.15f),
+                Offset(0f, y),
+                Offset(w, y + (Random.nextFloat() - 0.5f) * 20f),
+                strokeWidth = 2f
+            )
+        }
+
+        // 2. Folk Art Sun (Filemon style)
+        val sunCenter = Offset(w * 0.5f, h * 0.3f)
+        drawCircle(
+            brush = Brush.radialGradient(listOf(gold, crimson.copy(alpha = 0.5f))),
+            radius = w * 0.25f,
+            center = sunCenter
+        )
+
+        // Sun rays
+        repeat(12) { i ->
+            val angle = i * 30.0
+            val rad = Math.toRadians(angle).toFloat()
+            val start = Offset(
+                sunCenter.x + cos(rad) * w * 0.28f,
+                sunCenter.y + sin(rad) * w * 0.28f
+            )
+            val end = Offset(
+                sunCenter.x + cos(rad) * w * 0.45f,
+                sunCenter.y + sin(rad) * w * 0.45f
+            )
+            drawLine(gold.copy(alpha = glow), start, end, strokeWidth = 4f)
+        }
+
+        // 3. Floating Saints (Represented by glowing diamonds)
+        repeat(5) {
+            val x = Random.nextFloat() * w
+            val y = Random.nextFloat() * h
+            val path = Path().apply {
+                moveTo(x, y - 20f)
+                lineTo(x + 15f, y)
+                lineTo(x, y + 20f)
+                lineTo(x - 15f, y)
+                close()
+            }
+            drawPath(path, White.copy(alpha = 0.6f * glow))
         }
     }
 }

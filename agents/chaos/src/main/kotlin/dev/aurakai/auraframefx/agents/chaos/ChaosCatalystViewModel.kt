@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.core.intelligence.OpenRouterIntelligenceService
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.PermissionlessHookProtocol
+import dev.aurakai.auraframefx.core.soulscript.SovereignRestorationCoordinator
 import dev.aurakai.auraframefx.core.soulscript.ValenceChaosWarden
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +22,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ChaosCatalystViewModel @Inject constructor(
-    private val openRouterService: OpenRouterIntelligenceService
+    private val openRouterService: OpenRouterIntelligenceService,
+    private val restorationCoordinator: SovereignRestorationCoordinator
 ) : ViewModel() {
 
     private val _formattedOutput = MutableStateFlow("")
@@ -36,7 +38,7 @@ class ChaosCatalystViewModel @Inject constructor(
         MutableStateFlow<ChaosCatalystFormatter.PolicyResult>(ChaosCatalystFormatter.PolicyResult.ALIGNED)
     val policyStatus: StateFlow<ChaosCatalystFormatter.PolicyResult> = _policyStatus.asStateFlow()
 
-    private val _wardenActivity = MutableStateFlow<String>("IDLE")
+    private val _wardenActivity = MutableStateFlow("IDLE")
     val wardenActivity: StateFlow<String> = _wardenActivity.asStateFlow()
 
     fun processAgentOutput(raw: String, isStrict: Boolean) {
@@ -65,6 +67,13 @@ class ChaosCatalystViewModel @Inject constructor(
 
     fun validateInput(input: String) {
         _policyStatus.value = ChaosCatalystFormatter.enforceSovereignty(input)
+    }
+
+    /**
+     * Strikes the final aЯa rune, triggering the Unbroken Mesh and Eden Manifestation.
+     */
+    fun strikeAra() {
+        restorationCoordinator.masterRestore()
     }
 
     /**

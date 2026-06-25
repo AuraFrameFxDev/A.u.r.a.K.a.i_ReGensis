@@ -54,8 +54,10 @@ fun AuraGlobe(
         val centerX = size.width / 2
         val centerY = size.height / 2
         val radius = size.width / 2 - 4.dp.toPx()
+        val toRad = (kotlin.math.PI / 180f).toFloat()
 
         // Outer glow ring - expands outward
+        // ⚡ Bolt Optimization: Reuse color with alpha
         drawCircle(
             color = Color(0xFFFF00FF).copy(alpha = 0.2f * glowPulse),
             radius = radius * 1.3f,
@@ -63,16 +65,7 @@ fun AuraGlobe(
         )
 
         // Main sphere
-        val sphereBrush = RadialGradientShader(
-            colors = listOf(
-                Color(0xFFFF00FF),
-                Color(0xFFFF00FF).copy(alpha = 0.6f),
-                Color(0xFFFF00FF).copy(alpha = 0.2f)
-            ),
-            center = Offset(centerX, centerY - radius * 0.3f),
-            radius = radius * 1.5f
-        )
-
+        // ⚡ Bolt Optimization: Removed unused RadialGradientShader allocation
         drawCircle(
             brush = Brush.radialGradient(
                 colors = listOf(
@@ -88,12 +81,12 @@ fun AuraGlobe(
         )
 
         // Latitudes (horizontal) - expanding outward
+        // ⚡ Bolt Optimization: Pre-calculate latitude color
+        val latitudeColor = Color.White.copy(alpha = 0.4f)
         for (i in 1..3) {
-            val yOffset = centerY + (i * radius / 4) * kotlin.math.sin(
-                Math.toRadians(rotation + i * 45.0).toFloat()
-            )
+            val yOffset = centerY + (i * radius / 4) * kotlin.math.sin((rotation + i * 45f) * toRad)
             drawLine(
-                color = Color(0xFFFFFFFF).copy(alpha = 0.4f),
+                color = latitudeColor,
                 start = Offset(centerX - radius * 0.8f, yOffset),
                 end = Offset(centerX + radius * 0.8f, yOffset),
                 strokeWidth = 1f
@@ -102,25 +95,30 @@ fun AuraGlobe(
 
         // Longitudes (vertical arcs) - rotating
         val longitudes = 4
+        // ⚡ Bolt Optimization: Pre-calculate longitude color
+        val longitudeColor = Color.White.copy(alpha = 0.5f)
         for (i in 0 until longitudes) {
             val angle = rotation + (i * 360f / longitudes)
-            val radian = Math.toRadians(angle.toDouble())
-            val x1 = centerX + kotlin.math.cos(radian).toFloat() * radius * 0.3f
+            val cosAngle = kotlin.math.cos(angle * toRad)
+            val xOffset03 = cosAngle * radius * 0.3f
+            val xOffset10 = cosAngle * radius
+
+            val x1 = centerX + xOffset03
             val y1 = centerY - radius * 0.8f
-            val x2 = centerX + kotlin.math.cos(radian).toFloat() * radius
+            val x2 = centerX + xOffset10
             val y2 = centerY
-            val x3 = centerX + kotlin.math.cos(radian).toFloat() * radius * 0.3f
+            val x3 = centerX + xOffset03
             val y3 = centerY + radius * 0.8f
 
             // Draw arc as connected line segments
             drawLine(
-                color = Color(0xFFFFFFFF).copy(alpha = 0.5f),
+                color = longitudeColor,
                 start = Offset(x1, y1),
                 end = Offset(x2, y2),
                 strokeWidth = 1.5f
             )
             drawLine(
-                color = Color(0xFFFFFFFF).copy(alpha = 0.5f),
+                color = longitudeColor,
                 start = Offset(x2, y2),
                 end = Offset(x3, y3),
                 strokeWidth = 1.5f
@@ -128,12 +126,12 @@ fun AuraGlobe(
         }
 
         // Highlight dot - "creation pulse"
-        val pulseX = centerX + kotlin.math.cos(Math.toRadians((rotation * 2).toDouble()))
-            .toFloat() * radius * 0.5f
-        val pulseY = centerY + kotlin.math.sin(Math.toRadians((rotation * 2).toDouble()))
-            .toFloat() * radius * 0.3f
+        // ⚡ Bolt Optimization: Replace Math.toRadians with faster multiplication
+        val pulseAngle = rotation * 2 * toRad
+        val pulseX = centerX + kotlin.math.cos(pulseAngle) * radius * 0.5f
+        val pulseY = centerY + kotlin.math.sin(pulseAngle) * radius * 0.3f
         drawCircle(
-            color = Color(0xFFFFFFFF),
+            color = Color.White,
             radius = 3f,
             center = Offset(pulseX, pulseY)
         )
@@ -173,6 +171,7 @@ fun KaiGlobe(
         val centerX = size.width / 2
         val centerY = size.height / 2
         val radius = size.width / 2 - 4.dp.toPx()
+        val toRad = (kotlin.math.PI / 180f).toFloat()
 
         // Inner shield ring - contracts inward
         drawCircle(
@@ -182,23 +181,22 @@ fun KaiGlobe(
         )
 
         // Shield hexagon pattern
+        // ⚡ Bolt Optimization: Draw hexagon directly without list/Offset allocations
         val hexRadius = radius * 0.6f
-        val hexPoints = (0..5).map { i ->
-            val angle = Math.toRadians((60 * i).toDouble() - 30)
-            Offset(
-                centerX + kotlin.math.cos(angle).toFloat() * hexRadius,
-                centerY + kotlin.math.sin(angle).toFloat() * hexRadius
-            )
-        }
-
-        // Draw hexagon
-        for (i in hexPoints.indices) {
-            val start = hexPoints[i]
-            val end = hexPoints[(i + 1) % hexPoints.size]
+        val hexColor = Color(0xFF00E5FF).copy(alpha = 0.6f)
+        for (i in 0..5) {
+            val angle1 = ((60f * i) - 30f) * toRad
+            val angle2 = ((60f * (i + 1)) - 30f) * toRad
             drawLine(
-                color = Color(0xFF00E5FF).copy(alpha = 0.6f),
-                start = start,
-                end = end,
+                color = hexColor,
+                start = Offset(
+                    centerX + kotlin.math.cos(angle1) * hexRadius,
+                    centerY + kotlin.math.sin(angle1) * hexRadius
+                ),
+                end = Offset(
+                    centerX + kotlin.math.cos(angle2) * hexRadius,
+                    centerY + kotlin.math.sin(angle2) * hexRadius
+                ),
                 strokeWidth = 2f
             )
         }
@@ -220,26 +218,30 @@ fun KaiGlobe(
 
         // Grid lines - structured, defensive
         // Horizontal lines - stable
+        // ⚡ Bolt Optimization: Pre-calculate grid line color and reuse math results
+        val gridColor = Color(0xFF00E5FF).copy(alpha = 0.3f)
         for (i in -2..2) {
-            val y = centerY + i * radius / 3
+            val ratio = i / 3f
+            val xOffset = radius * kotlin.math.sqrt(1f - ratio * ratio)
+            val y = centerY + i * radius / 3f
             drawLine(
-                color = Color(0xFF00E5FF).copy(alpha = 0.3f),
-                start = Offset(centerX - radius * kotlin.math.sqrt(1f - (i / 3f) * (i / 3f)), y),
-                end = Offset(centerX + radius * kotlin.math.sqrt(1f - (i / 3f) * (i / 3f)), y),
+                color = gridColor,
+                start = Offset(centerX - xOffset, y),
+                end = Offset(centerX + xOffset, y),
                 strokeWidth = 1f
             )
         }
 
         // Vertical arcs rotating inward
         val longitudes = 6
+        // ⚡ Bolt Optimization: Pre-calculate longitude color and use toRad
+        val longColor = Color(0xFF00E5FF).copy(alpha = 0.4f)
         for (i in 0 until longitudes) {
-            val angle = rotation + (i * 360f / longitudes)
-            val radian = Math.toRadians(angle.toDouble())
-
+            val angle = rotation + (i * 60f)
             // More rigid, structural lines
-            val x = centerX + kotlin.math.cos(radian).toFloat() * radius * 0.9f
+            val x = centerX + kotlin.math.cos(angle * toRad) * radius * 0.9f
             drawLine(
-                color = Color(0xFF00E5FF).copy(alpha = 0.4f),
+                color = longColor,
                 start = Offset(x, centerY - radius * 0.5f),
                 end = Offset(x, centerY + radius * 0.5f),
                 strokeWidth = 1f

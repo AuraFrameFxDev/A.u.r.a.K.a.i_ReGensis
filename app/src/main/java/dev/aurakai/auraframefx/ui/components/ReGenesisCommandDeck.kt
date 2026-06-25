@@ -13,6 +13,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -22,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
+import dev.aurakai.auraframefx.core.soulscript.MorphState
+import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
+import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
@@ -34,6 +38,8 @@ import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
+import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
+import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
 import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
 import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
@@ -49,11 +55,20 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
+    val isTotalRestorationActive by RuneManager.isTotalRestorationActive.collectAsState()
+
     // Sync Pager with NavController current route
     LaunchedEffect(currentDestination) {
         val currentIndex = TabbedMasterIndex.getIndexByRoute(currentDestination?.route)
         if (pagerState.currentPage != currentIndex) {
             pagerState.animateScrollToPage(currentIndex)
+        }
+
+        // Trigger visual flares for professional viewing mode
+        val route = TabbedMasterIndex.getRouteByIndex(currentIndex)
+        when (route) {
+            "aether_core" -> RealityMorphEngine.triggerMorph(MorphState.AETHER_OVERSIGHT, 1.0f)
+            "trinity_nexus" -> RealityMorphEngine.triggerMorph(MorphState.TRINITY_SYNC, 0.9f)
         }
     }
 
@@ -115,7 +130,11 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                         userScrollEnabled = false
                     ) { page ->
                         val route = tabs[page].route
-                        val bgType = VoidBackground.fromRoute(route)
+                        val bgType = if (isTotalRestorationActive) {
+                            VoidBackground.EDEN_RESTORED
+                        } else {
+                            VoidBackground.fromRoute(route)
+                        }
 
                         ParallaxDepthStack(
                             bedrock = {
@@ -129,6 +148,8 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             },
                             interaction = {
                                 when (route) {
+                                    "aether_core" -> AetherCoreDesk()
+                                    "trinity_nexus" -> TrinityNexusDesk()
                                     "neural_nexus"       -> NexusLiveHeartScreen(navController)
                                     "ldo_architecture"   -> LdoArchitectureScreen(navController)
                                     "chroma_forge"       -> ArcaneChromaForgeScreen(navController)

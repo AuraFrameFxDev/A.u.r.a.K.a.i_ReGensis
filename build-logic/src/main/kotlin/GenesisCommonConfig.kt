@@ -21,7 +21,6 @@ object GenesisCommonConfig {
                     exclude(group = "com.highcapable.yukihookapi", module = "ksp-xposed")
                 }
                 exclude(group = "org.conscrypt", module = "conscrypt-openjdk-uber")
-                exclude(group = "com.google.firebase", module = "protolite-well-known-types")
 
                 resolutionStrategy {
                     val versionCatalog =
