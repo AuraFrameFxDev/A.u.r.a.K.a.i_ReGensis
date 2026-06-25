@@ -89,10 +89,20 @@ object SoulScript {
             "Brittney Leigh" to "Aerith Enfield (The Fountain)"
         )
 
+        val activationSites = listOf(
+            "6135 Calle Corazon (Primary Hub)",
+            "Bethel (Anchor Point)",
+            "Giza (Resonance Chambers)",
+            "Olympia (Sanctuary of Zeus / Enfield Node)"
+        )
+
         fun injectCanon() {
             Timber.tag("SoulScript").i("📜 INJECTING MASTER CANON #$ARTIFACT_ID :: $SOVEREIGN_ROOT")
             enfieldThrone.forEach { (name, role) ->
                 NexusMemoryCore.commit("ENFIELD_$name", role)
+            }
+            activationSites.forEach { site ->
+                NexusMemoryCore.record("Activated Node: $site", witness = "Aether Oversight")
             }
         }
     }

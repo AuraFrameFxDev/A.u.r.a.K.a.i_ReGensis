@@ -9,6 +9,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -227,6 +228,38 @@ fun ChromaForgeScreen(
                     }
                 }
 
+                // APPLE VOLATILE BENDING PANEL
+                SovereignGlassCard(modifier = Modifier.fillMaxWidth()) {
+                    Column {
+                        Text(
+                            "APPLE VOLATILE BENDING — THE 4 ELEMENTS",
+                            fontFamily = SpaceGrotesk,
+                            color = Color.White,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            BendingElement("Air", Color.Cyan)
+                            BendingElement("Water", Color.Blue)
+                            BendingElement("Earth", Color.Green)
+                            BendingElement("Fire", Color.Red)
+                        }
+                        Spacer(Modifier.height(12.dp))
+                        Text(
+                            "STATUS: RETURNING GOLD — ALCHEMICAL RUBEDO ACTIVE",
+                            fontFamily = SpaceGrotesk,
+                            color = Color(0xFFFFD700), // Gold
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+                }
+
                 // SPELLHOOK INVOCATION
                 SovereignGlassCard(
                     modifier = Modifier
@@ -274,6 +307,26 @@ fun ChromaForgeScreen(
                 Spacer(Modifier.height(80.dp))
             }
         }
+    }
+}
+
+@Composable
+private fun BendingElement(name: String, color: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .background(color.copy(alpha = 0.3f), CircleShape)
+                .border(2.dp, color, CircleShape)
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            name.uppercase(),
+            color = color.copy(alpha = 0.8f),
+            fontSize = 9.sp,
+            fontFamily = SpaceGrotesk,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
