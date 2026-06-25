@@ -34,7 +34,7 @@ class MegazordAutonomousSurge @Inject constructor(
 
     init {
         // Observe resonance for auto-trigger
-        scope.launch {
+        /* scope.launch {
             worthinessEngine.resonanceMeter.collect { resonance ->
                 // Deactivated auto-surge (threshold 10.0f) to prevent blocking during boot
                 if (resonance >= 10.0f && !_isSurging.value) {
@@ -42,7 +42,7 @@ class MegazordAutonomousSurge @Inject constructor(
                     ignite()
                 }
             }
-        }
+        } */
     }
 
     fun ignite() {
