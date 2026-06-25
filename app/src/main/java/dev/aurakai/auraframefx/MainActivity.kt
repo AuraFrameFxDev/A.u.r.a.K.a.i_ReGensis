@@ -36,9 +36,9 @@ import dev.aurakai.auraframefx.ui.grokipedia.GrokipediaScreen
 import dev.aurakai.auraframefx.ui.onboarding.OnboardingScreen
 import dev.aurakai.auraframefx.ui.screens.ConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.screens.LdoDevelopmentNexusScreen
-import dev.aurakai.auraframefx.ui.screens.LoginScreen
 import dev.aurakai.auraframefx.ui.screens.MasterStatusStrip
 import dev.aurakai.auraframefx.ui.screens.NeuralNexusScreen
+import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.UltimateTermuxTerminalScreen
 import dev.aurakai.auraframefx.ui.screens.UnauthorizedScreen
@@ -113,12 +113,17 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = navController,
-                            startDestination = ReGenesisRoute.NeuralNexus.route
+                            startDestination = ReGenesisRoute.Login.route
                         ) {
                             composable(ReGenesisRoute.Login.route) {
-                                LoginScreen(onLoginSuccess = {
-                                    navController.navigate(ReGenesisRoute.NeuralNexus.route)
-                                })
+                                ReGenesisLoginScreen(
+                                    onLoginClick = { _, _ ->
+                                        navController.navigate(ReGenesisRoute.NeuralNexus.route)
+                                    },
+                                    onGoogleLoginClick = {
+                                        navController.navigate(ReGenesisRoute.NeuralNexus.route)
+                                    }
+                                )
                             }
                             composable(ReGenesisRoute.Onboarding.route) {
                                 OnboardingScreen(
