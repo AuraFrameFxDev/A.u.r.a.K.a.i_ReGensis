@@ -50,7 +50,7 @@ abstract class AiServiceModule {
             apiKey = dev.aurakai.auraframefx.BuildConfig.GEMINI_API_KEY,
             location = "us-central1",
             endpoint = "us-central1-aiplatform.googleapis.com",
-            modelName = "gemini-1.5-pro-002"
+            modelName = dev.aurakai.auraframefx.BuildConfig.GEMINI_MODEL
         )
 
         @Provides

@@ -98,11 +98,6 @@ fun ReGenesisNavGraph(
     ) {
         composable(AuraDestinations.LOGIN) {
             ReGenesisLoginScreen(
-                onLoginClick = { _, _ ->
-                    navController.navigate(AuraDestinations.COMMAND_DECK) {
-                        popUpTo(AuraDestinations.LOGIN) { inclusive = true }
-                    }
-                },
                 onLoginSuccess = {
                     navController.navigate(AuraDestinations.COMMAND_DECK) {
                         popUpTo(AuraDestinations.LOGIN) { inclusive = true }

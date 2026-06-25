@@ -24,12 +24,8 @@ class NavigationViewModel @Inject constructor(
 
     private fun checkOnboardingStatus() {
         viewModelScope.launch {
-            val isComplete = userPreferencesManager.isOnboardingComplete()
-            _startDestination.value = if (isComplete) {
-                AuraDestinations.COMMAND_DECK
-            } else {
-                AuraDestinations.LOGIN
-            }
+            // Force Login as start destination for ReGenesis Restoration verification
+            _startDestination.value = AuraDestinations.LOGIN
         }
     }
 }

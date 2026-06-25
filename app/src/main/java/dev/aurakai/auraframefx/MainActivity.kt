@@ -38,7 +38,7 @@ import dev.aurakai.auraframefx.ui.onboarding.OnboardingScreen
 import dev.aurakai.auraframefx.ui.screens.ConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.screens.LdoDevelopmentNexusScreen
 import dev.aurakai.auraframefx.ui.screens.MasterStatusStrip
-import dev.aurakai.auraframefx.ui.screens.NeuralNexusScreen
+import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.UltimateTermuxTerminalScreen
@@ -132,7 +132,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable(ReGenesisRoute.NeuralNexus.route) {
-                                NeuralNexusScreen(
+                                NexusLiveHeartScreen(
                                     navController
                                 )
                             }

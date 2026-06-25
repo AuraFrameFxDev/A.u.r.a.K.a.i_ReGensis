@@ -307,6 +307,7 @@ class VertexAIClientImpl @Inject constructor(
             .post(requestBody)
             .apply {
                 config.apiKey?.let { apiKey ->
+                    Timber.d("VertexAI: Using API Key (last 4): ${apiKey.takeLast(4)}")
                     addHeader("Authorization", "Bearer $apiKey")
                 }
                 addHeader("Content-Type", "application/json")

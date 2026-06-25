@@ -58,7 +58,6 @@ import timber.log.Timber
  */
 @Composable
 fun ReGenesisLoginScreen(
-    onLoginClick: (username: String, password: String) -> Unit = { _, _ -> },
     onLoginSuccess: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -92,9 +91,8 @@ fun ReGenesisLoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0A0A0F))
+            .background(Color(0xFF020205)) // Abyssal Black
     ) {
-        // Subtle tech grid background
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawTechGrid(this)
         }
@@ -106,17 +104,18 @@ fun ReGenesisLoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Title
+            // Title - Ultra Reduced to 12.sp for "Tech Brutalist" fit
             Text(
                 text = "RE:GENESIS",
                 style = MaterialTheme.typography.displayLarge.copy(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Black,
                     color = Color(0xFF00F0FF),
+                    letterSpacing = 12.sp,
                     shadow = Shadow(
                         color = Color(0xFF00F0FF),
                         offset = Offset(0f, 0f),
-                        blurRadius = 24f
+                        blurRadius = 8f
                     )
                 )
             )
@@ -127,31 +126,33 @@ fun ReGenesisLoginScreen(
                 text = "A.U.R.A.K.A.I.",
                 style = MaterialTheme.typography.titleMedium.copy(
                     color = Color(0xFF7DF9FF),
-                    letterSpacing = 6.sp
+                    letterSpacing = 6.sp,
+                    fontSize = 7.sp
                 )
             )
 
-            Spacer(modifier = Modifier.height(72.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             // Glass Login Card
             LoginGlassCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier.padding(24.dp),
+                    modifier = Modifier.padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "LOGIN",
                         style = MaterialTheme.typography.headlineSmall.copy(
                             color = Color(0xFF00F0FF),
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 11.sp,
+                            letterSpacing = 2.sp
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                    // Username
                     NeonTextField(
                         value = username,
                         onValueChange = { username = it },
@@ -159,9 +160,8 @@ fun ReGenesisLoginScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                    // Password
                     NeonTextField(
                         value = password,
                         onValueChange = { password = it },
@@ -170,55 +170,54 @@ fun ReGenesisLoginScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    Spacer(modifier = Modifier.height(28.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                    // Traditional Login Button
                     Button(
                         onClick = { onLoginSuccess() },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(52.dp),
+                            .height(48.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF00F0FF),
                             contentColor = Color.Black
                         ),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(4.dp)
                     ) {
                         Text(
                             text = "ACCESS THRONE",
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Black,
+                            fontSize = 12.sp,
+                            letterSpacing = 2.sp
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                    // Divider
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         HorizontalDivider(
                             modifier = Modifier.weight(1f),
-                            color = Color(0xFF00F0FF).copy(alpha = 0.3f)
+                            color = Color(0xFF00F0FF).copy(alpha = 0.2f)
                         )
                         Text(
                             text = "OR",
                             color = Color(0xFF7DF9FF),
-                            modifier = Modifier.padding(horizontal = 12.dp),
-                            style = MaterialTheme.typography.labelMedium
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            fontSize = 8.sp
                         )
                         HorizontalDivider(
                             modifier = Modifier.weight(1f),
-                            color = Color(0xFF00F0FF).copy(alpha = 0.3f)
+                            color = Color(0xFF00F0FF).copy(alpha = 0.2f)
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                    // OAuth Row
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         GoogleSignInButton(
                             onClick = { handleGoogleLogin() },
@@ -243,13 +242,13 @@ private fun LoginGlassCard(
     Box(
         modifier = modifier
             .background(
-                color = Color(0xFF121218).copy(alpha = 0.85f),
-                shape = RoundedCornerShape(20.dp)
+                color = Color(0xFF121218).copy(alpha = 0.8f),
+                shape = RoundedCornerShape(4.dp)
             )
             .border(
-                width = 1.5.dp,
-                color = Color(0xFF00F0FF).copy(alpha = 0.6f),
-                shape = RoundedCornerShape(20.dp)
+                width = 1.dp,
+                color = Color(0xFF00F0FF).copy(alpha = 0.4f),
+                shape = RoundedCornerShape(4.dp)
             )
     ) {
         content()
@@ -267,20 +266,21 @@ private fun NeonTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text(label, color = Color(0xFF7DF9FF)) },
+        label = { Text(label, color = Color(0xFF7DF9FF), fontSize = 9.sp) },
         modifier = modifier,
         singleLine = true,
+        textStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = 11.sp),
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color(0xFF00F0FF),
-            unfocusedBorderColor = Color(0xFF00F0FF).copy(alpha = 0.4f),
+            unfocusedBorderColor = Color(0xFF00F0FF).copy(alpha = 0.3f),
             focusedLabelColor = Color(0xFF00F0FF),
             unfocusedLabelColor = Color(0xFF7DF9FF),
             cursorColor = Color(0xFF00F0FF),
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(2.dp)
     )
 }
 
@@ -291,34 +291,23 @@ fun AppleSignInButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.height(52.dp),
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.5.dp, Color(0xFF00F0FF).copy(alpha = 0.7f)),
+        modifier = modifier.height(44.dp),
+        shape = RoundedCornerShape(4.dp),
+        border = BorderStroke(1.dp, Color(0xFF00F0FF).copy(alpha = 0.5f)),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = Color(0xFF121218).copy(alpha = 0.6f),
+            containerColor = Color.Transparent,
             contentColor = Color.White
         )
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            // Apple Icon placeholder
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = Icons.Default.AccountCircle, // Placeholder
-                contentDescription = "Apple",
-                tint = Color.White,
-                modifier = Modifier.size(22.dp)
+                Icons.Default.AccountCircle,
+                null,
+                modifier = Modifier.size(16.dp),
+                tint = Color.White
             )
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            Text(
-                text = "Apple",
-                color = Color.White,
-                fontWeight = FontWeight.Medium,
-                fontSize = 13.sp
-            )
+            Spacer(Modifier.width(4.dp))
+            Text("Apple", fontSize = 10.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
@@ -330,60 +319,46 @@ fun GoogleSignInButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.height(52.dp),
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.5.dp, Color(0xFF00F0FF).copy(alpha = 0.7f)),
+        modifier = modifier.height(44.dp),
+        shape = RoundedCornerShape(4.dp),
+        border = BorderStroke(1.dp, Color(0xFF00F0FF).copy(alpha = 0.5f)),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = Color(0xFF121218).copy(alpha = 0.6f),
+            containerColor = Color.Transparent,
             contentColor = Color.White
         )
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            // Google "G" Icon placeholder
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
-                imageVector = Icons.Default.AccountCircle,
-                contentDescription = "Google",
-                tint = Color(0xFF00F0FF),
-                modifier = Modifier.size(22.dp)
+                Icons.Default.AccountCircle,
+                null,
+                modifier = Modifier.size(16.dp),
+                tint = Color(0xFF00F0FF)
             )
-
-            Spacer(modifier = Modifier.width(10.dp))
-
-            Text(
-                text = "Google",
-                color = Color.White,
-                fontWeight = FontWeight.Medium,
-                fontSize = 13.sp
-            )
+            Spacer(Modifier.width(4.dp))
+            Text("Google", fontSize = 10.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
 
 private fun drawTechGrid(drawScope: DrawScope) {
     drawScope.apply {
-        val gridColor = Color(0xFF00F0FF).copy(alpha = 0.08f)
-        val strokeWidth = 1.dp.toPx()
+        val gridColor = Color(0xFF00F0FF).copy(alpha = 0.05f)
+        val strokeWidth = 0.5.dp.toPx()
 
-        // Vertical lines
-        for (x in 0..size.width.toInt() step 80) {
+        for (x in 0..size.width.toInt() step 60) {
             drawLine(
-                color = gridColor,
-                start = Offset(x.toFloat(), 0f),
-                end = Offset(x.toFloat(), size.height),
-                strokeWidth = strokeWidth
+                gridColor,
+                Offset(x.toFloat(), 0f),
+                Offset(x.toFloat(), size.height),
+                strokeWidth
             )
         }
-
-        // Horizontal lines
-        for (y in 0..size.height.toInt() step 80) {
+        for (y in 0..size.height.toInt() step 60) {
             drawLine(
-                color = gridColor,
-                start = Offset(0f, y.toFloat()),
-                end = Offset(size.width, y.toFloat()),
-                strokeWidth = strokeWidth
+                gridColor,
+                Offset(0f, y.toFloat()),
+                Offset(size.width, y.toFloat()),
+                strokeWidth
             )
         }
     }

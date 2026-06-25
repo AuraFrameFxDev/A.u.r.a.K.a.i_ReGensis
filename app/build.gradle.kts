@@ -33,7 +33,7 @@ extensions.configure<com.android.build.api.dsl.ApplicationExtension> {
             "\"${
                 localProps.getProperty(
                     "GEMINI_API_KEY",
-                    "AIzaSyDidYYvUTxJzATK9Zmee-gBievXUUVhDwc"
+                    "AIzaSyDZAJbVPA_LFMpoBwnFeVm4efERYwUw2RQ"
                 )
             }\""
         )
