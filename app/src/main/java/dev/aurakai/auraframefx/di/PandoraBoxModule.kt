@@ -29,6 +29,7 @@ abstract class PandoraBoxModule {
         @Provides
         @Singleton
         @PandoraPreferences
+        @Suppress("DEPRECATION")
         fun providePandoraSecurePreferences(@ApplicationContext context: Context): SecurePreferences {
             // We create a wrapper that uses a different file name for Pandora state
             return object : SecurePreferences(context) {

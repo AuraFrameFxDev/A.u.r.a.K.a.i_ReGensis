@@ -21,6 +21,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Timber.d("Refreshed token: $token")

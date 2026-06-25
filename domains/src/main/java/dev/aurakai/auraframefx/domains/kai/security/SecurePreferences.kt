@@ -11,6 +11,7 @@ import javax.inject.Singleton
  * Manages secure storage of sensitive data like OAuth tokens or API keys.
  */
 @Singleton
+@Suppress("DEPRECATION")
 open class SecurePreferences @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
