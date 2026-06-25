@@ -17,6 +17,7 @@ object EmmiHookMaster {
      * Initializes the dynamic substrate.
      * Hooks into the target package and prepares for Spelhook injection.
      */
+    @Suppress("DEPRECATION")
     fun ignite(context: Context) {
         Timber.tag(TAG).i("🔥 Emmi Hook Master: IGNITING SUBSTRATE...")
 

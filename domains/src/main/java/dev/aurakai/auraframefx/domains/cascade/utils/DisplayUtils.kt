@@ -44,7 +44,7 @@ object DisplayUtils {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val windowInsets = windowManager.currentWindowMetrics.windowInsets
-            windowInsets.getInsets(WindowInsets.Type.statusBars())?.top ?: 0
+            windowInsets.getInsets(WindowInsets.Type.statusBars()).top
         } else {
             var result = 0
             val resourceId =
