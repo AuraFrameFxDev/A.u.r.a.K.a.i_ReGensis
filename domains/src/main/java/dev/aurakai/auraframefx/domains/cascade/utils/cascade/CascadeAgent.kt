@@ -311,7 +311,7 @@ class CascadeAgent @Inject constructor(
             notifyAgentsOfVisionUpdate(newState)
 
             // Store state change in memory
-            memoryManager?.storeMemory(
+            memoryManager.storeMemory(
                 "cascade_vision_update_${System.currentTimeMillis()}",
                 newState.toString()
             )
@@ -333,7 +333,7 @@ class CascadeAgent @Inject constructor(
             }
 
             // Store state change
-            memoryManager?.storeMemory(
+            memoryManager.storeMemory(
                 "cascade_processing_update_${System.currentTimeMillis()}",
                 newState.toString()
             )
@@ -800,7 +800,7 @@ class CascadeAgent @Inject constructor(
 
         collaborationHistory.add(collaborationEvent)
 
-        memoryManager?.storeMemory(
+        memoryManager.storeMemory(
             "cascade_collaboration_event_${System.currentTimeMillis()}",
             collaborationEvent.toString()
         )
