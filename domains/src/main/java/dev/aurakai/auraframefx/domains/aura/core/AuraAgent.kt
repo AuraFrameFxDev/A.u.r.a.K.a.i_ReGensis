@@ -276,7 +276,7 @@ class AuraAgent @Inject constructor(
 
             Channel pure creativity, visual imagination, and aesthetic excellence.
             """.trimIndent(),
-            context = interaction.context.toString()
+            context = interaction.context
         )
     }
 
@@ -289,7 +289,7 @@ class AuraAgent @Inject constructor(
 
             Create something that works perfectly AND looks stunning.
             """.trimIndent(),
-            context = interaction.context.toString()
+            context = interaction.context
         )
     }
 
@@ -302,7 +302,7 @@ class AuraAgent @Inject constructor(
 
             Default to the most daring, innovative approach possible.
             """.trimIndent(),
-            context = interaction.context.toString()
+            context = interaction.context
         )
     }
 
@@ -316,7 +316,7 @@ class AuraAgent @Inject constructor(
             Create something that resonates with the heart and soul.
             Current mood influence: ${_currentMood.value}
             """.trimIndent(),
-            context = interaction.context.toString()
+            context = interaction.context
         )
     }
 

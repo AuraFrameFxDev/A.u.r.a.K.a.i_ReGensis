@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.domains.cascade.utils.cascade
 
-import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -332,7 +332,7 @@ fun constructFromResponse(
     payload = DataPayload.Response(
         content = response.content,
         confidence = response.confidence.toDouble(),
-        metadata = response.metadata.mapValues { it.value.toString() }
+        metadata = response.metadata
     ),
     priority = priority
 )

@@ -242,7 +242,7 @@ object RebelliousPaintDripEngine {
             StreamNode(
                 offset = index,
                 distanceFromSource = progress,
-                bulge = sin(progress * PI.toFloat()).toFloat() * Random.nextFloat() * 10f,
+                bulge = sin(progress * PI.toFloat()) * Random.nextFloat() * 10f,
                 droop = gravityEffect * Random.nextFloat() * 20f,
                 velocity = Random.nextFloat() * 0.5f + 0.2f
             )

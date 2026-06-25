@@ -109,9 +109,9 @@ fun HexagonGridBackground(
                 // Determine color based on position and animation
                 val distanceToCenter = sqrt(
                     ((offsetX - width / 2) * (offsetX - width / 2) +
-                            (offsetY - height / 2) * (offsetY - height / 2)).toFloat()
+                            (offsetY - height / 2) * (offsetY - height / 2))
                 )
-                val maxDistance = sqrt((width * width + height * height).toFloat()) / 2
+                val maxDistance = sqrt(width * width + height * height) / 2
                 val colorRatio = (distanceToCenter / maxDistance + digitalEffect) % 1f
 
                 // Create a variable pulse based on position
