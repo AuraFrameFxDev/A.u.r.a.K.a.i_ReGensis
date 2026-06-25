@@ -181,11 +181,22 @@ fun HyperGenesisSynchronizationCircle(
             val cosRot = cos(rotRad)
             val sinRot = sin(rotRad)
 
+            // ⚡ Bolt Optimization: Precompute marker base angles trig values to avoid recalculation per frame
+            val markerCosA = remember(markerCount) {
+                FloatArray(markerCount) { index ->
+                    cos((index.toFloat() / markerCount) * 2 * PI.toFloat())
+                }
+            }
+            val markerSinA = remember(markerCount) {
+                FloatArray(markerCount) { index ->
+                    sin((index.toFloat() / markerCount) * 2 * PI.toFloat())
+                }
+            }
+
             // ⚡ Bolt Optimization: Use manual indexed loop and sum-of-angles to avoid Iterator and repeated trig
             for (index in 0 until markerCount) {
-                val baseAngle = (index.toFloat() / markerCount) * 2 * PI.toFloat()
-                val cosA = cos(baseAngle)
-                val sinA = sin(baseAngle)
+                val cosA = markerCosA[index]
+                val sinA = markerSinA[index]
 
                 val markerX = center.x + (cosA * cosRot - sinA * sinRot) * radius
                 val markerY = center.y + (sinA * cosRot + cosA * sinRot) * radius
