@@ -21,11 +21,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.core.ldo.model.LDOState
 import dev.aurakai.auraframefx.core.aura.models.EmotionalValence
+import dev.aurakai.auraframefx.core.ldo.model.LDOState
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -310,7 +309,6 @@ object ParticleBloodstreamEngine {
 
                 // Pulse size based on time
                 val pulse = 0.8f + 0.2f * sin(pulseFactor + particle.id)
-                particle.currentSize = particle.size * pulse
 
                 // ⚡ Bolt Optimization: Inlined drawParticle and used cached color/size
                 drawCircle(
@@ -387,7 +385,6 @@ data class Particle(
     var vx: Float,
     var vy: Float,
     val size: Float,
-    var currentSize: Float = size,
     val color: Color,
     var lifespan: Float,
     // ⚡ Bolt Optimization: Cached values to avoid per-frame allocations/math
