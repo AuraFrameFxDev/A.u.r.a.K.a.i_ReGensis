@@ -120,6 +120,7 @@ open class TrinityViewModel @Inject constructor(
             // Create AgentRequest from map
             // Assuming AgentRequest has a constructor that takes query and context
             // If not, we might need to adjust.
+            @Suppress("UNCHECKED_CAST")
             val request = AgentRequest(
                 query = requestMap["query"] as? String ?: "",
                 context = requestMap["context"] as? Map<String, String> ?: emptyMap()
