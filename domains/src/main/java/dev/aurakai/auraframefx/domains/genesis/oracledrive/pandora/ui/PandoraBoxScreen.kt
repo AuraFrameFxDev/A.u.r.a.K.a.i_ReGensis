@@ -45,9 +45,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.core.module.R
 import dev.aurakai.auraframefx.core.ai.PandoraAuditEvent
 import dev.aurakai.auraframefx.core.ai.UnlockTier
+import dev.aurakai.auraframefx.core.module.R
 import dev.aurakai.auraframefx.domains.aura.ui.components.hologram.AnimeHUDContainer
 import dev.aurakai.auraframefx.domains.aura.ui.theme.LEDFontFamily
 import java.text.SimpleDateFormat
@@ -69,7 +69,6 @@ fun PandoraBoxScreen(
         UnlockTier.Creative -> Color(0xFF00E5FF)
         UnlockTier.System -> Color(0xFFFFD700)
         UnlockTier.Sovereign -> Color(0xFFFF4444)
-        else -> Color.White.copy(alpha = 0.2f)
     }
 
     AnimeHUDContainer(
@@ -207,7 +206,7 @@ fun PandoraBoxScreen(
                 UnlockTier.Creative -> "Experimental UI generation requires unlocking the Creative Tier. This allows Aura to generate UI components that haven't been safety-checked."
                 UnlockTier.System -> "System access grants Root privileges. This allows RomTools to perform high-level system operations including flashing partitions."
                 UnlockTier.Sovereign -> "Sovereign tier unlocks Bootloader controls and system-wide optimizations. This is the highest level of access and disables standard safety nets."
-                else -> ""
+                UnlockTier.Sealed -> ""
             }
 
             PandoraConsentDialog(
@@ -239,7 +238,7 @@ private fun TierUnlockCard(
         UnlockTier.Creative -> Color(0xFF00E5FF)
         UnlockTier.System -> Color(0xFFFFD700)
         UnlockTier.Sovereign -> Color(0xFFFF4444)
-        else -> Color.Gray
+        UnlockTier.Sealed -> Color.Gray
     }
 
     Card(

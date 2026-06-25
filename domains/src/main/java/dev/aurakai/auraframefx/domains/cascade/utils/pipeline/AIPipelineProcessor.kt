@@ -294,7 +294,15 @@ class AIPipelineProcessor @Inject constructor(
             }
 
             val avgConfidence = responses.map { it.confidence }.average()
-            append("--- Response Confidence: ${String.format("%.1f%%", avgConfidence * 100)} ---")
+            append(
+                "--- Response Confidence: ${
+                    java.lang.String.format(
+                        java.util.Locale.US,
+                        "%.1f%%",
+                        avgConfidence * 100
+                    )
+                } ---"
+            )
         }
     }
 

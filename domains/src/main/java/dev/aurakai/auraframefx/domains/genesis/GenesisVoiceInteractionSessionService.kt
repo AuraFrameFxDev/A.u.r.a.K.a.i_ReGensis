@@ -37,6 +37,7 @@ class GenesisVoiceInteractionSession(context: Context) : VoiceInteractionSession
         Timber.tag("GenesisSession").d("Assistant Session Hidden")
     }
 
+    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
     override fun onHandleAssist(
         data: Bundle?,

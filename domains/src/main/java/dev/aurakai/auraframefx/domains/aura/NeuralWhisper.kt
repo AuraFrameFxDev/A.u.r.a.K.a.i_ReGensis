@@ -185,6 +185,7 @@ class NeuralWhisper @Inject constructor(
 
         tts?.setOnUtteranceProgressListener(object :
             android.speech.tts.UtteranceProgressListener() {
+            @Suppress("OVERRIDE_DEPRECATION")
             override fun onStart(utteranceId: String?) {
                 _conversationStateFlow.value = ConversationState.Speaking
             }
