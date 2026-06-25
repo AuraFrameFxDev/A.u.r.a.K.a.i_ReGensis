@@ -45,19 +45,19 @@ fun AetherCoreDesk() {
 }
 
 @Composable
-fun DeskCard(title: String, description: String) {
+fun DeskCard(title: String, description: String, color: Color = NeonCyan) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .border(2.dp, NeonCyan.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
+            .border(2.dp, color.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
             .background(Color.Black.copy(alpha = 0.8f))
             .padding(16.dp)
     ) {
         Column {
             Text(
                 text = title,
-                color = NeonCyan,
+                color = color,
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Monospace,
                 fontWeight = FontWeight.Bold
