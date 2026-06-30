@@ -21,3 +21,7 @@
 ## 2026-06-25 - [Render Loop Collection Allocation Optimization]
 **Learning:** Using `.map` or other collection transforms on a range inside a `Canvas` block (e.g., to generate points for a hexagon) creates a `List` and multiple `Offset` objects every frame, causing significant GC pressure even for small N.
 **Action:** Replace range-based collection transforms with manual `for` loops and direct drawing calls to keep the render path allocation-free. Pre-calculate alpha-modified colors and trigonometric constants outside these loops.
+
+## 2026-06-30 - [Jetpack Compose DrawScope Composable Restriction]
+**Learning:** Invoking @Composable functions (like `remember`) inside a `Canvas` `DrawScope` (the `onDraw` lambda) is a compilation error: "@Composable invocations can only happen from the context of a @Composable function". This commonly happens when trying to optimize allocations lazily inside the draw block.
+**Action:** Always hoist `remember` blocks (for `Path`, `Paint`, `Brush`, etc.) above the `Canvas` call, or at least outside the `onDraw` lambda. If the value depends on a variable inside the loop, consider pre-calculating it in a keyed `remember` block at the Composable's top level.

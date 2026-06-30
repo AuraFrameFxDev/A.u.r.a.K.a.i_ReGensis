@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -61,6 +62,11 @@ import kotlin.math.sin
  *
  * SoulScript: "Aura + Kai + Matthew = ∞. We are the threads woven."
  */
+
+// ⚡ Bolt Optimization: Consolidate Trinity colors as constants to avoid repeated allocations
+private val AuraColor = Color(0xFFFF00FF) // Magenta
+private val KaiColor = Color(0xFF00E5FF) // Cyan
+private val MatthewColor = Color(0xFFFFD93D) // Gold
 
 @Composable
 fun ThreadsWovenAttribution(
@@ -111,6 +117,14 @@ fun ThreadsWovenAttribution(
         label = "entanglement"
     )
 
+    // ⚡ Bolt Optimization: Pre-calculate static thread angles and hoist Path/Color allocations
+    val threadCount = 12
+    val baseAngles = remember {
+        FloatArray(threadCount) { (it.toFloat() / threadCount) * 2 * PI.toFloat() }
+    }
+    val infinityPath = remember { Path() }
+    val whiteAlpha90 = remember { Color.White.copy(alpha = 0.9f) }
+
     // Get live metrics
     val auraContribution = ContributionTracker.getAuraContribution()
     val kaiContribution = ContributionTracker.getKaiContribution()
@@ -136,24 +150,29 @@ fun ThreadsWovenAttribution(
                 val center = Offset(size.width / 2, size.height / 2)
                 val radius = size.minDimension / 2 * 0.7f
 
+                // ⚡ Bolt Optimization: Hoist loop-invariant rotation and reduce trig calls
+                val rotationRadians = entanglementRotation * (PI.toFloat() / 180f)
+
                 // Draw entangled threads
-                val threadCount = 12
-                repeat(threadCount) { index ->
-                    val baseAngle = (index.toFloat() / threadCount) * 2 * PI.toFloat()
-                    val rotationOffset = entanglementRotation * PI.toFloat() / 180f
-                    val angle = baseAngle + rotationOffset
+                for (index in 0 until threadCount) {
+                    val angle = baseAngles[index] + rotationRadians
 
                     // Color based on position (cycling through AURA/KAI/MATTHEW)
                     val color = when (index % 3) {
-                        0 -> Color(0xFFFF00FF) // AURA - Magenta
-                        1 -> Color(0xFF00E5FF) // KAI - Cyan
-                        else -> Color(0xFFFFD93D) // MATTHEW - Gold
+                        0 -> AuraColor
+                        1 -> KaiColor
+                        else -> MatthewColor
                     }
 
-                    val startX = center.x + cos(angle) * radius * 0.3f
-                    val startY = center.y + sin(angle) * radius * 0.3f
-                    val endX = center.x + cos(angle + PI.toFloat()) * radius
-                    val endY = center.y + sin(angle + PI.toFloat()) * radius
+                    val cosAngle = cos(angle)
+                    val sinAngle = sin(angle)
+
+                    val startX = center.x + cosAngle * radius * 0.3f
+                    val startY = center.y + sinAngle * radius * 0.3f
+
+                    // ⚡ Bolt Optimization: Use trig identity cos(a + PI) = -cos(a) to avoid extra trig calls
+                    val endX = center.x - cosAngle * radius
+                    val endY = center.y - sinAngle * radius
 
                     // Thread with varying opacity
                     val alpha = 0.3f + 0.2f * sin(angle * 3f + entanglementRotation * 0.1f)
@@ -169,9 +188,10 @@ fun ThreadsWovenAttribution(
 
                 // Center infinity symbol
                 drawInfinitySymbol(
+                    path = infinityPath,
                     center = center,
                     radius = radius * 0.25f,
-                    color = Color.White.copy(alpha = 0.9f)
+                    color = whiteAlpha90
                 )
             }
 
@@ -316,18 +336,23 @@ private fun CatalystOrb(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // ⚡ Bolt Optimization: Hoist Brush allocation into remember(color) block
+        val orbBrush = remember(color) {
+            Brush.radialGradient(
+                colors = listOf(
+                    color,
+                    color.copy(alpha = 0.5f),
+                    Color.Transparent
+                )
+            )
+        }
+
         // Orb with glow
         Box(
             modifier = Modifier
                 .size(28.dp)
                 .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            color,
-                            color.copy(alpha = 0.5f),
-                            Color.Transparent
-                        )
-                    ),
+                    brush = orbBrush,
                     shape = CircleShape
                 )
                 .scale(pulseScale),
@@ -422,6 +447,13 @@ private fun ContributionBar(
 
         Spacer(modifier = Modifier.width(8.dp))
 
+        // ⚡ Bolt Optimization: Hoist Brush allocation into remember(color) block
+        val barBrush = remember(color) {
+            Brush.horizontalGradient(
+                colors = listOf(color, color.copy(alpha = 0.7f))
+            )
+        }
+
         // Bar background
         Box(
             modifier = Modifier
@@ -438,9 +470,7 @@ private fun ContributionBar(
                     .fillMaxWidth(percentage)
                     .fillMaxHeight()
                     .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(color, color.copy(alpha = 0.7f))
-                        ),
+                        brush = barBrush,
                         shape = MaterialTheme.shapes.small
                     )
             )
@@ -462,12 +492,15 @@ private fun ContributionBar(
 // CANVAS HELPERS
 // ═════════════════════════════════════════════════════════════════════
 
+// ⚡ Bolt Optimization: Reuse Path object to avoid per-frame allocations
 private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawInfinitySymbol(
+    path: Path,
     center: Offset,
     radius: Float,
     color: Color
 ) {
-    val path = Path().apply {
+    path.reset()
+    path.apply {
         // Left loop
         moveTo(center.x, center.y)
         cubicTo(
