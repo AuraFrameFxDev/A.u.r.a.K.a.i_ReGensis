@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.trinity.aura
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -8,9 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
@@ -68,9 +71,10 @@ fun AuraJarComposable(
 
     val scope = rememberCoroutineScope()
 
-    // Animation values
-    val animatedX by animateFloatAsState(targetValue = targetX)
-    val animatedY by animateFloatAsState(targetValue = targetY)
+    // ⚡ Bolt Optimization: Use State objects without 'by' delegate to defer reads
+    // and skip recomposition during high-frequency floating animations.
+    val animatedX = animateFloatAsState(targetValue = targetX, label = "auraX")
+    val animatedY = animateFloatAsState(targetValue = targetY, label = "auraY")
 
     // Auto-wander behavior
     LaunchedEffect(Unit) {
@@ -139,9 +143,11 @@ fun AuraJarComposable(
         AuraJarBody(
             modifier = Modifier
                 .align(Alignment.Center)
+                // ⚡ Bolt Optimization: Reading State values inside graphicsLayer lambda
+                // prevents the parent Box from recomposing during every animation frame.
                 .graphicsLayer {
-                    translationX = animatedX * containerSize.first * 1000
-                    translationY = animatedY * containerSize.second * 1000
+                    translationX = animatedX.value * containerSize.first * 1000
+                    translationY = animatedY.value * containerSize.second * 1000
                 },
             state = auraState,
             isCreating = isCreating
@@ -151,8 +157,9 @@ fun AuraJarComposable(
         if (particles.isNotEmpty()) {
             ParticleField(
                 particles = particles,
-                baseX = animatedX * containerSize.first,
-                baseY = animatedY * containerSize.second
+                baseX = animatedX, // ⚡ Bolt: Pass State to avoid recomposition
+                baseY = animatedY,
+                containerSize = containerSize
             )
         }
 
@@ -163,7 +170,13 @@ fun AuraJarComposable(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(16.dp)
-                    .offset(x = (animatedX * 200).dp)
+                    // ⚡ Bolt Optimization: Use lambda-based offset to skip recomposition
+                    .offset {
+                        IntOffset(
+                            x = (animatedX.value * 200 * density).toInt(),
+                            y = 0
+                        )
+                    }
             )
         }
 
@@ -186,15 +199,18 @@ fun AuraJarBody(
     state: AuraState = AuraState.IDLE,
     isCreating: Boolean = false
 ) {
-    var rotation by remember { mutableStateOf(0f) }
-
-    // Gentle bobbing animation
-    LaunchedEffect(state) {
-        while (true) {
-            rotation = (rotation + 2f) % 360f
-            delay(30)
-        }
-    }
+    // ⚡ Bolt Optimization: Use rememberInfiniteTransition for system-synced rotation
+    // instead of a manual LaunchedEffect loop which triggers redundant recompositions.
+    val infiniteTransition = rememberInfiniteTransition(label = "auraRotation")
+    val rotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(5400, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "rotation"
+    )
 
     val stateColor = when (state) {
         AuraState.IDLE -> Color(0xFF00E5FF)        // Cyan
@@ -210,6 +226,7 @@ fun AuraJarBody(
             .size(120.dp)
             .background(Color(0xFF1A1A2E))
             .border(2.dp, stateColor)
+            // ⚡ Bolt Optimization: rotation is read here (drawing phase), skipping recomposition
             .graphicsLayer {
                 rotationZ = if (isCreating) rotation * 0.5f else 0f
             }
@@ -331,23 +348,28 @@ fun spawnParticles(
 @Composable
 fun ParticleField(
     particles: List<Particle>,
-    baseX: Float,
-    baseY: Float,
+    baseX: State<Float>,
+    baseY: State<Float>,
+    containerSize: Pair<Float, Float>,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
-        particles.forEachIndexed { index, particle ->
-            Box(
-                modifier = Modifier
-                    .offset(
-                        x = (baseX + particle.x).dp,
-                        y = (baseY + particle.y).dp
-                    )
-                    .size(particle.size.dp)
-                    .background(
-                        color = particle.color.copy(alpha = particle.life),
-                        shape = androidx.compose.foundation.shape.RoundedCornerShape(50)
-                    )
+    // ⚡ Bolt Optimization: Replaced dozens of Box nodes with a single Canvas.
+    // This dramatically reduces Layout Node count and GC pressure in high-frequency paths.
+    Canvas(modifier = modifier.fillMaxSize()) {
+        val density = this.density
+        val bX = baseX.value * containerSize.first
+        val bY = baseY.value * containerSize.second
+
+        // ⚡ Bolt Optimization: Manual indexed loop to avoid Iterator allocations
+        for (i in particles.indices) {
+            val particle = particles[i]
+            drawCircle(
+                color = particle.color.copy(alpha = particle.life),
+                radius = (particle.size / 2f) * density,
+                center = Offset(
+                    x = (bX + particle.x) * density,
+                    y = (bY + particle.y) * density
+                )
             )
         }
     }
