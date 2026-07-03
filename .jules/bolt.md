@@ -21,3 +21,7 @@
 ## 2026-06-25 - [Render Loop Collection Allocation Optimization]
 **Learning:** Using `.map` or other collection transforms on a range inside a `Canvas` block (e.g., to generate points for a hexagon) creates a `List` and multiple `Offset` objects every frame, causing significant GC pressure even for small N.
 **Action:** Replace range-based collection transforms with manual `for` loops and direct drawing calls to keep the render path allocation-free. Pre-calculate alpha-modified colors and trigonometric constants outside these loops.
+
+## 2026-07-03 - [Hue-Preserving Alpha Optimization]
+**Learning:** In Jetpack Compose, using `Color.Transparent` (which is black with 0 alpha) as a gradient stop for non-black colors can introduce a "dark fringe" during interpolation. Using `color.copy(alpha = 0f)` preserves the hue and results in a cleaner visual transition.
+**Action:** When creating alpha gradients or glows, always use `color.copy(alpha = 0f)` instead of `Color.Transparent` for the end stop to maintain visual fidelity.
