@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.cos
@@ -70,9 +71,44 @@ fun DataVisualizationBackground(
     val strokeWidth = with(density) { 1.5.dp.toPx() }
     val nodeRadius = with(density) { 2.dp.toPx() }
 
+    // ⚡ Bolt Optimization: Hoist grid color to avoid per-frame allocation
+    val gridColor = remember(primaryColor) { primaryColor.copy(alpha = 0.1f) }
+
+    // ⚡ Bolt Optimization: Pre-calculate node and line factors to avoid redundant math in render loop
+    val nodeProgress = remember(nodeCount) { FloatArray(nodeCount) { it.toFloat() / (nodeCount - 1) } }
+    val nodeAlphas = remember(nodeCount) { FloatArray(nodeCount) { 0.5f + 0.5f * (it.toFloat() / (nodeCount - 1)) } }
+    val nodeRadiusFactors = remember(nodeCount) { FloatArray(nodeCount) { 0.5f + 1.5f * (it.toFloat() / (nodeCount - 1)) } }
+    val lineAlphaFactors = remember(nodeCount) { FloatArray(nodeCount - 1) { 0.3f + 0.7f * (it.toFloat() / (nodeCount - 1)) } }
+    val lineStrokeWidthFactors = remember(nodeCount) { FloatArray(nodeCount - 1) { 0.5f + 0.5f * (it.toFloat() / (nodeCount - 1)) } }
+
+    // ⚡ Bolt Optimization: Pre-calculate color variations to avoid Color.copy() in render loop
+    val primaryAlphas = remember(primaryColor, nodeCount) {
+        List(nodeCount) { i -> primaryColor.copy(alpha = nodeAlphas[i]) }
+    }
+    val primaryGlowColors = remember(primaryColor, nodeCount) {
+        List(nodeCount) { i -> listOf(primaryColor.copy(alpha = nodeAlphas[i] * 0.3f), primaryColor.copy(alpha = 0f)) }
+    }
+    val secondaryAlphas = remember(secondaryColor, nodeCount) {
+        List(nodeCount) { i -> secondaryColor.copy(alpha = nodeAlphas[i]) }
+    }
+    val secondaryGlowColors = remember(secondaryColor, nodeCount) {
+        List(nodeCount) { i -> listOf(secondaryColor.copy(alpha = nodeAlphas[i] * 0.3f), secondaryColor.copy(alpha = 0f)) }
+    }
+
+    val primaryLineColors = remember(primaryColor, nodeCount) {
+        List(nodeCount - 1) { i -> primaryColor.copy(alpha = lineAlphaFactors[i]) }
+    }
+    val secondaryLineColors = remember(secondaryColor, nodeCount) {
+        List(nodeCount - 1) { i -> secondaryColor.copy(alpha = lineAlphaFactors[i]) }
+    }
+
+    // ⚡ Bolt Optimization: Use pre-allocated FloatArrays to avoid List<Offset> boxing
+    val xCoords = remember(nodeCount) { FloatArray(nodeCount) }
+    val yCoords = remember(nodeCount) { FloatArray(nodeCount) }
+
     // Animation values
     val infiniteTransition = rememberInfiniteTransition(label = "dataVizBackground")
-    val phase = infiniteTransition.animateFloat(
+    val phaseState = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 2 * PI.toFloat(),
         animationSpec = infiniteRepeatable(
@@ -92,11 +128,11 @@ fun DataVisualizationBackground(
 
         val center = Offset(size.width / 2, size.height / 2)
         val maxRadius = minOf(size.width, size.height) * 0.8f / 2
+        val phase = phaseState.value
 
         // Draw grid lines
-        val gridColor = primaryColor.copy(alpha = 0.1f)
         val gridSteps = 5
-        repeat(gridSteps) { i ->
+        for (i in 0 until gridSteps) {
             val radius = maxRadius * (i + 1) / gridSteps
             drawCircle(
                 color = gridColor,
@@ -107,46 +143,46 @@ fun DataVisualizationBackground(
         }
 
         // Draw data lines and nodes
-        repeat(lineCount) { lineIndex ->
+        // ⚡ Bolt Optimization: Use manual indexed loops to eliminate Iterator allocations
+        for (lineIndex in 0 until lineCount) {
             val angle = 2f * PI.toFloat() * lineIndex / lineCount
             val isPrimary = lineIndex % 2 == 0
-            val lineColor = if (isPrimary) primaryColor else secondaryColor
+            val alphas = if (isPrimary) primaryAlphas else secondaryAlphas
+            val glowColors = if (isPrimary) primaryGlowColors else secondaryGlowColors
 
             // Calculate points along the line with some noise
-            val points = List(nodeCount) { nodeIndex ->
-                val progress = nodeIndex.toFloat() / (nodeCount - 1)
-                val noise = sin(phase.value * 2 + lineIndex * 0.5f + nodeIndex * 0.3f) * 0.1f
+            for (nodeIndex in 0 until nodeCount) {
+                val progress = nodeProgress[nodeIndex]
+                val noise = sin(phase * 2 + lineIndex * 0.5f + nodeIndex * 0.3f) * 0.1f
                 val radius = (0.3f + 0.7f * progress) * maxRadius * (1 + noise * 0.2f)
 
-                Offset(
-                    x = center.x + radius * cos(angle + noise * 0.2f),
-                    y = center.y + radius * sin(angle + noise * 0.2f)
-                )
+                xCoords[nodeIndex] = center.x + radius * cos(angle + noise * 0.2f)
+                yCoords[nodeIndex] = center.y + radius * sin(angle + noise * 0.2f)
             }
 
             // Draw connecting lines
-            for (i in 0 until points.size - 1) {
-                val alpha = 0.3f + 0.7f * (i.toFloat() / (points.size - 1))
+            val lineColors = if (isPrimary) primaryLineColors else secondaryLineColors
+            for (i in 0 until nodeCount - 1) {
+                val lineColor = lineColors[i]
+
                 drawLine(
-                    color = lineColor.copy(alpha = alpha),
-                    start = points[i],
-                    end = points[i + 1],
-                    strokeWidth = strokeWidth * (0.5f + 0.5f * (i.toFloat() / (points.size - 1)))
+                    color = lineColor,
+                    start = Offset(xCoords[i], yCoords[i]),
+                    end = Offset(xCoords[i + 1], yCoords[i + 1]),
+                    strokeWidth = strokeWidth * lineStrokeWidthFactors[i]
                 )
             }
 
             // Draw nodes
-            points.forEachIndexed { index, point ->
-                val alpha = 0.5f + 0.5f * (index.toFloat() / (points.size - 1))
-                val radius = nodeRadius * (0.5f + 1.5f * (index.toFloat() / (points.size - 1)))
+            for (index in 0 until nodeCount) {
+                val point = Offset(xCoords[index], yCoords[index])
+                val nodeRadiusFactor = nodeRadiusFactors[index]
+                val radius = nodeRadius * nodeRadiusFactor
 
                 // Outer glow
                 drawCircle(
                     brush = Brush.radialGradient(
-                        colors = listOf(
-                            lineColor.copy(alpha = alpha * 0.3f),
-                            lineColor.copy(alpha = 0f)
-                        ),
+                        colors = glowColors[index],
                         radius = radius * 3f,
                         center = point
                     ),
@@ -156,7 +192,7 @@ fun DataVisualizationBackground(
 
                 // Node
                 drawCircle(
-                    color = lineColor.copy(alpha = alpha),
+                    color = alphas[index],
                     radius = radius,
                     center = point
                 )
