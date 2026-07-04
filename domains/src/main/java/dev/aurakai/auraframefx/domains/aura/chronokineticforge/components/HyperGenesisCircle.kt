@@ -151,6 +151,19 @@ fun HyperGenesisSynchronizationCircle(
         // LAYER 1: Outer Neural Bloodstream Ring
         // ═════════════════════════════════════════════════════════════
 
+        val markerCount = (successRate / 10).toInt().coerceIn(5, 12)
+        // ⚡ Bolt Optimization: Precompute marker base angles trig values to avoid recalculation per frame
+        val markerCosA = remember(markerCount) {
+            FloatArray(markerCount) { index ->
+                cos((index.toFloat() / markerCount) * 2 * PI.toFloat())
+            }
+        }
+        val markerSinA = remember(markerCount) {
+            FloatArray(markerCount) { index ->
+                sin((index.toFloat() / markerCount) * 2 * PI.toFloat())
+            }
+        }
+
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
@@ -176,22 +189,9 @@ fun HyperGenesisSynchronizationCircle(
             )
 
             // Rotating accent markers (representing live threads)
-            val markerCount = (successRate / 10).toInt().coerceIn(5, 12)
             val rotRad = dynamicRotation * PI.toFloat() / 180f
             val cosRot = cos(rotRad)
             val sinRot = sin(rotRad)
-
-            // ⚡ Bolt Optimization: Precompute marker base angles trig values to avoid recalculation per frame
-            val markerCosA = remember(markerCount) {
-                FloatArray(markerCount) { index ->
-                    cos((index.toFloat() / markerCount) * 2 * PI.toFloat())
-                }
-            }
-            val markerSinA = remember(markerCount) {
-                FloatArray(markerCount) { index ->
-                    sin((index.toFloat() / markerCount) * 2 * PI.toFloat())
-                }
-            }
 
             // ⚡ Bolt Optimization: Use manual indexed loop and sum-of-angles to avoid Iterator and repeated trig
             for (index in 0 until markerCount) {

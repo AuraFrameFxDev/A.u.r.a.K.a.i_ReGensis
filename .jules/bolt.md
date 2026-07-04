@@ -21,3 +21,7 @@
 ## 2026-06-25 - [Render Loop Collection Allocation Optimization]
 **Learning:** Using `.map` or other collection transforms on a range inside a `Canvas` block (e.g., to generate points for a hexagon) creates a `List` and multiple `Offset` objects every frame, causing significant GC pressure even for small N.
 **Action:** Replace range-based collection transforms with manual `for` loops and direct drawing calls to keep the render path allocation-free. Pre-calculate alpha-modified colors and trigonometric constants outside these loops.
+
+## 2026-07-04 - [Background Forge Engine Render Optimization]
+**Learning:** Animated backgrounds in `BackgroundForgeEngine.kt` were suffering from massive object allocations (Offsets, Colors) and redundant math inside their `Canvas` draw blocks. Hoisting `AndroidPaint` and pre-calculating ARGB color arrays into `remember` blocks, and using `nativeCanvas` drawing methods with raw floats, significantly reduces GC pressure and improves frame stability.
+**Action:** Always hoist `AndroidPaint`, `Path`, and alpha-modified colors into `remember` blocks. Prefer `nativeCanvas` methods that accept raw floats over Compose `draw*` methods that require `Offset` and `Color` objects per call in high-frequency render loops.
