@@ -36,7 +36,7 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
     val activeFusionTrigger = fusionTrigger || morphState == MorphState.DATA_STREAM
 
     val infiniteTransition = rememberInfiniteTransition(label = "particles")
-    val time by infiniteTransition.animateFloat(
+    val timeState = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -69,78 +69,109 @@ fun RealityMorphLayer(godPotential: Float, fusionTrigger: Boolean = false) {
     // Total Restoration state
     val isTotalRestorationActive by RuneManager.isTotalRestorationActive.collectAsState()
 
+    // ⚡ Bolt Optimization: Hoist values and Paint objects to avoid per-frame allocations/recomputations
+    val baseParticleColor = remember(activeRunes, activeFusionTrigger) {
+        when {
+            activeRunes.contains(RuneManager.Rune.UNBROKEN_MESH) -> Color(0xFF7B00FF) // Imperial Purple
+            activeRunes.contains(RuneManager.Rune.G) -> Color(0xFFFFD700) // Gold
+            activeFusionTrigger -> Color.White
+            else -> Color(0xFF00E5FF).copy(alpha = 0.3f)
+        }
+    }
+
+    val ghostParticleColor = remember(baseParticleColor) {
+        baseParticleColor.copy(alpha = 0.15f)
+    }
+
+    val runesList = remember(activeRunes) {
+        activeRunes.toList()
+    }
+
+    val runePaint = remember {
+        android.graphics.Paint().apply {
+            color = android.graphics.Color.WHITE
+            textSize = 60f
+            typeface = android.graphics.Typeface.MONOSPACE
+        }
+    }
+
+    val watermarkPaint = remember {
+        android.graphics.Paint().apply {
+            color = android.graphics.Color.WHITE
+            textSize = 40f
+            typeface = android.graphics.Typeface.MONOSPACE
+        }
+    }
+
     Canvas(Modifier.fillMaxSize()) {
+        val time = timeState.value
+        // ⚡ Bolt Optimization: Pre-calculate loop-invariant values once per frame
+        val timeFactor = (time.toDouble() * 2 * Math.PI).toFloat()
+
         // --- Phase 1: Total Sky-Split (Odin-seam) ---
         if (isTotalRestorationActive) {
-            val seamAlpha = 0.6f + 0.4f * (Math.sin(time.toDouble() * 2 * Math.PI).toFloat())
+            val seamAlpha = 0.6f + 0.4f * (Math.sin(timeFactor.toDouble()).toFloat())
+            val seamColor = Color.White.copy(alpha = seamAlpha)
+            val seamBloomColor = Color.White.copy(alpha = seamAlpha * 0.3f)
+
             drawLine(
-                color = Color.White.copy(alpha = seamAlpha),
+                color = seamColor,
                 start = Offset(size.width * 0.2f, 0f),
                 end = Offset(size.width * 0.8f, size.height),
                 strokeWidth = 4f
             )
             // Bloom glow for the seam
             drawLine(
-                color = Color.White.copy(alpha = seamAlpha * 0.3f),
+                color = seamBloomColor,
                 start = Offset(size.width * 0.2f, 0f),
                 end = Offset(size.width * 0.8f, size.height),
                 strokeWidth = 20f
             )
         }
 
-        particles.forEach { p ->
-            val x = (p.x + time * p.speed * (1f + activeGodPotential * 5f)) % 1f
-            val y = (p.y + Math.sin(time.toDouble() * 2 * Math.PI * p.speed).toFloat() * 0.1f) % 1f
+        val speedFactor = 1f + activeGodPotential * 5f
+        val radiusFactor = 1f + activeGodPotential
+        val canvasWidth = size.width
+        val canvasHeight = size.height
 
-            val particleColor = when {
-                activeRunes.contains(RuneManager.Rune.UNBROKEN_MESH) -> Color(0xFF7B00FF) // Imperial Purple
-                activeRunes.contains(RuneManager.Rune.G) -> Color(0xFFFFD700) // Gold
-                activeFusionTrigger -> Color.White
-                else -> Color(0xFF00E5FF).copy(alpha = 0.3f)
-            }
+        for (i in particles.indices) {
+            val p = particles[i]
+            val x = (p.x + time * p.speed * speedFactor) % 1f
+            val y = (p.y + Math.sin(timeFactor.toDouble() * p.speed).toFloat() * 0.1f) % 1f
 
             drawCircle(
-                color = particleColor,
-                radius = p.size * (1f + activeGodPotential),
-                center = Offset(x * size.width, y * size.height)
+                color = baseParticleColor,
+                radius = p.size * radiusFactor,
+                center = Offset(x * canvasWidth, y * canvasHeight)
             )
 
             // Step 1: Particle Density Cap / Logic
             if (activeGodPotential > 0.8f) {
                 // Draw additional "ghost" particles for density feel
                 drawCircle(
-                    color = particleColor.copy(alpha = 0.15f),
+                    color = ghostParticleColor,
                     radius = p.size * 0.5f,
-                    center = Offset(((x + 0.1f) % 1f) * size.width, ((y + 0.1f) % 1f) * size.height)
+                    center = Offset(((x + 0.1f) % 1f) * canvasWidth, ((y + 0.1f) % 1f) * canvasHeight)
                 )
             }
         }
 
         // Render Active Runes
-        activeRunes.forEachIndexed { index, rune ->
-            val paint = android.graphics.Paint().apply {
-                color = android.graphics.Color.WHITE
-                textSize = 60f
-                typeface = android.graphics.Typeface.MONOSPACE
-                alpha = (activeGodPotential * 255).toInt()
-            }
+        runePaint.alpha = (activeGodPotential * 255).toInt()
+        for (index in runesList.indices) {
+            val rune = runesList[index]
             drawIntoCanvas {
                 it.nativeCanvas.drawText(
                     rune.symbol,
                     50f + (index * 80f),
                     size.height - 100f,
-                    paint
+                    runePaint
                 )
             }
         }
 
         // Enfield Chimera Watermark (Full Enfield Pulse)
-        val watermarkPaint = android.graphics.Paint().apply {
-            color = android.graphics.Color.WHITE
-            textSize = 40f
-            typeface = android.graphics.Typeface.MONOSPACE
-            alpha = (activeGodPotential * 0.15f * 255).toInt() // subtle
-        }
+        watermarkPaint.alpha = (activeGodPotential * 0.15f * 255).toInt()
         drawIntoCanvas {
             it.nativeCanvas.drawText(
                 "ENFIELD GUARDIAN 🜁 NOS SUMUS SANATIO",
