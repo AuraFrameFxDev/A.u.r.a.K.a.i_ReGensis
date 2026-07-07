@@ -74,8 +74,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -171,7 +173,7 @@ fun CanvasScreen(
 
     // Aura glow pulse
     val infiniteTransition = rememberInfiniteTransition(label = "aura")
-    val auraGlow by infiniteTransition.animateFloat(
+    val auraGlowState = infiniteTransition.animateFloat(
         initialValue = 0.4f, targetValue = 1f,
         animationSpec = infiniteRepeatable(tween(1800, easing = LinearEasing), RepeatMode.Reverse),
         label = "glow"
@@ -199,11 +201,24 @@ fun CanvasScreen(
 
     val backgroundColor = Color(0xFF080810)
 
-    Box(modifier = modifier.fillMaxSize().background(backgroundColor)) {
+    // ⚡ Bolt Optimization: Hoist density-dependent values and trig constants
+    val density = LocalDensity.current
+    val highlighterStrokeWidthPx = remember(density) { with(density) { 18.dp.toPx() } }
+    val currentStrokeWidthPx = with(density) { currentStrokeWidth.toPx() }
+    val trigCos = remember {
+        FloatArray(6) { i -> kotlin.math.cos((i * 60.0f) * (kotlin.math.PI.toFloat() / 180.0f)) }
+    }
+    val trigSin = remember {
+        FloatArray(6) { i -> kotlin.math.sin((i * 60.0f) * (kotlin.math.PI.toFloat() / 180.0f)) }
+    }
 
-        // Layer 1 — Saved paths
+    Box(modifier = modifier.fillMaxSize().background(backgroundColor)) {
+        // ⚡ Bolt Optimization: Merged all drawing layers into a single Canvas to reduce LayoutNodes and draw calls
         Canvas(modifier = Modifier.fillMaxSize()) {
-            paths.forEach { op ->
+            // Layer 1 — Saved paths
+            // ⚡ Bolt Optimization: Replaced forEach with indexed loop to avoid Iterator allocations
+            for (i in paths.indices) {
+                val op = paths[i]
                 when (op) {
                     is DrawingOperation.PathOp -> drawPath(
                         path = op.path,
@@ -218,41 +233,30 @@ fun CanvasScreen(
                     }
                 }
             }
-        }
 
-        // Layer 2 — Current stroke preview
-        currentPath?.let { path ->
-            Canvas(modifier = Modifier.fillMaxSize()) {
+            // Layer 2 — Current stroke preview
+            currentPath?.let { path ->
                 drawPath(
                     path,
                     color = if (currentTool == DrawingTool.ERASER) backgroundColor else currentColor,
                     style = Stroke(
-                        width = if (currentTool == DrawingTool.HIGHLIGHTER) 18.dp.toPx() else currentStrokeWidth.toPx(),
+                        width = if (currentTool == DrawingTool.HIGHLIGHTER) highlighterStrokeWidthPx else currentStrokeWidthPx,
                         cap = StrokeCap.Round, join = StrokeJoin.Round
                     )
                 )
             }
-        }
 
-        // Layer 3 — Live agent cursors
-        if (auraIsActive) {
-            val cursorsToRender = if (isCollaborative) remoteCursors else listOf(localAuraCursor)
-            cursorsToRender.forEach { cursor ->
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    val pos = cursor.position
-                    val auraColor = cursor.color
-                    drawCircle(auraColor.copy(alpha = auraGlow * 0.25f), 28f, pos)
-                    drawCircle(auraColor.copy(alpha = auraGlow * 0.6f), 10f, pos)
-                    for (i in 0 until 6) {
-                        val angle = (i * 60.0) * (Math.PI / 180.0)
-                        val r = 20f * auraGlow
-                        drawLine(
-                            color = auraColor.copy(alpha = auraGlow * 0.5f),
-                            start = pos,
-                            end = Offset(pos.x + r * kotlin.math.cos(angle).toFloat(), pos.y + r * kotlin.math.sin(angle).toFloat()),
-                            strokeWidth = 1.5f
-                        )
+            // Layer 3 — Live agent cursors
+            if (auraIsActive) {
+                // ⚡ Bolt Optimization: Defer animation state read to draw phase via .value access
+                val currentAuraGlow = auraGlowState.value
+
+                if (isCollaborative) {
+                    for (i in remoteCursors.indices) {
+                        drawAgentCursor(remoteCursors[i], currentAuraGlow, trigCos, trigSin)
                     }
+                } else {
+                    drawAgentCursor(localAuraCursor, currentAuraGlow, trigCos, trigSin)
                 }
             }
         }
@@ -584,6 +588,35 @@ fun CanvasScreen(
 }
 
 private fun Offset.toSize() = Size(x, y)
+
+// ⚡ Bolt Optimization: Reusable drawing logic for agent cursors
+private fun DrawScope.drawAgentCursor(
+    cursor: AgentCursor,
+    auraGlow: Float,
+    trigCos: FloatArray,
+    trigSin: FloatArray
+) {
+    val pos = cursor.position
+    val auraColor = cursor.color
+
+    // ⚡ Bolt Optimization: Pre-calculate alpha-modified colors to avoid repeated Color.copy() in loops
+    val circleAlpha1 = auraColor.copy(alpha = auraGlow * 0.25f)
+    val circleAlpha2 = auraColor.copy(alpha = auraGlow * 0.60f)
+    val lineAlpha = auraColor.copy(alpha = auraGlow * 0.50f)
+
+    drawCircle(circleAlpha1, 28f, pos)
+    drawCircle(circleAlpha2, 10f, pos)
+
+    val r = 20f * auraGlow
+    for (j in 0 until 6) {
+        drawLine(
+            color = lineAlpha,
+            start = pos,
+            end = Offset(pos.x + r * trigCos[j], pos.y + r * trigSin[j]),
+            strokeWidth = 1.5f
+        )
+    }
+}
 
 @Preview(showBackground = true, backgroundColor = 0xFF080810)
 @Composable
