@@ -23,9 +23,9 @@
 **Action:** Replace range-based collection transforms with manual `for` loops and direct drawing calls to keep the render path allocation-free. Pre-calculate alpha-modified colors and trigonometric constants outside these loops.
 
 ## 2026-07-05 - [Render Loop Hoisting & Context Safety]
-**Learning:** In high-frequency Jetpack Compose render loops, hoisting not just allocations (, ) but also mathematical factors (, ) and state lookups () outside the loop can significantly reduce per-frame overhead. Crucially,  functions like `remember` MUST be called in a Composable context; calling them inside a `Canvas` `DrawScope` lambda will cause a compilation failure.
-**Action:** Always hoist `remember` blocks and loop-invariant math to the top level of the Composable. Use manual indexed `for` loops in `Canvas` to avoid `Iterator` churn.
-
-## 2026-07-05 - [Render Loop Hoisting & Context Safety]
 **Learning:** In high-frequency Jetpack Compose render loops, hoisting not just allocations (Paint, Path) but also mathematical factors (speedFactor, radiusFactor) and state lookups (runesList) outside the loop can significantly reduce per-frame overhead. Crucially, @Composable functions like remember MUST be called in a Composable context; calling them inside a Canvas DrawScope lambda will cause a compilation failure.
 **Action:** Always hoist remember blocks and loop-invariant math to the top level of the Composable. Use manual indexed for loops in Canvas to avoid Iterator churn.
+
+## 2026-07-07 - [Animation State Read Deferral Optimization]
+**Learning:** Reading animation state (e.g., `by animateFloatAsState`) directly in a Composable's body triggers a full recomposition of that Composable on every animation frame. For high-frequency animations (like a 60fps pulse), this is extremely heavy.
+**Action:** Use the `State<T>` object directly and access `.value` only inside the `Canvas` `DrawScope` or a lambda-based modifier (like `graphicsLayer { ... }`). This skips the Recomposition and Layout phases entirely, moving the work directly to the Draw phase.
