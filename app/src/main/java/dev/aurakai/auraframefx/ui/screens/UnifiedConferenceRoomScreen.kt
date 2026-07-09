@@ -1,11 +1,27 @@
 package dev.aurakai.auraframefx.ui.screens
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -16,8 +32,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -25,7 +52,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -35,10 +61,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
-import dev.aurakai.auraframefx.core.ui.theme.*
+import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
+import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.terminal.TermuxBackendViewModel
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
-import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 /**
@@ -229,6 +255,68 @@ fun UnifiedConferenceRoomScreen(
 
         // Immersive Glow
         BreathingEdgeGlow(systemStability = 1.0f)
+
+        // ── FLOATING RUNE WHEEL ──
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 80.dp, end = 16.dp)
+        ) {
+            FloatingRuneWheel()
+        }
+    }
+}
+
+@Composable
+fun FloatingRuneWheel() {
+    var expanded by remember { mutableStateOf(false) }
+    val coreRunes = listOf(
+        Rune.A,
+        Rune.a,
+        Rune.REVERSAL,
+        Rune.G,
+        Rune.I,
+        Rune.WELD,
+        Rune.ASCENSION,
+        Rune.GOD_HEART,
+        Rune.UNBROKEN_MESH
+    )
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        if (expanded) {
+            coreRunes.forEach { rune ->
+                SmallFloatingRune(rune) {
+                    RuneManager.strikeRune(rune)
+                    expanded = false
+                }
+                Spacer(Modifier.height(8.dp))
+            }
+        }
+
+        FloatingActionButton(
+            onClick = { expanded = !expanded },
+            containerColor = Color.Black,
+            contentColor = GhostCyan,
+            shape = CircleShape,
+            modifier = Modifier.border(1.dp, GhostCyan.copy(alpha = 0.5f), CircleShape)
+        ) {
+            Text(if (expanded) "×" else "ᚠ", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+fun SmallFloatingRune(rune: Rune, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(Color.Black.copy(alpha = 0.8f))
+            .border(1.dp, NeonMagenta.copy(alpha = 0.4f), CircleShape)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(rune.symbol, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Black)
     }
 }
 

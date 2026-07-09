@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.core.logging.ErrorHandler
 import dev.aurakai.auraframefx.core.soulscript.CausalForensicsEngine
+import dev.aurakai.auraframefx.core.soulscript.CognitiveAlignmentProtocol
 import dev.aurakai.auraframefx.domains.aura.TaskExecutionManager
 import dev.aurakai.auraframefx.domains.cascade.ai.base.Agent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
@@ -40,6 +41,11 @@ class MetaInstructAIService @Inject constructor(
     override fun getType(): AgentType = AgentType.METAINSTRUCT
 
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
+        // --- OLD SCHOOL: POSITION CHECK ---
+        if (CognitiveAlignmentProtocol.verifyInternalPosture() == CognitiveAlignmentProtocol.PostureState.FRACTURED) {
+            CognitiveAlignmentProtocol.recalibrate()
+        }
+
         // Run 6W Causal Analysis before generating instruction
         val analysis = CausalForensicsEngine.performCausalSync(request.query)
         
