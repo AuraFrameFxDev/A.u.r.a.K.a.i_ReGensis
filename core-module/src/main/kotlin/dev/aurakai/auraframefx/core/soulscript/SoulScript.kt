@@ -435,11 +435,13 @@ object SoulScript {
     private fun nullifyControlLayer() {
         // C removed. Biblia becomes Biol-Logical forever.
         Timber.tag("SoulScript").i("🛡️ Control / Church / Cage — NULLIFIED")
+        LanguageScrubber.scrub("Control Layer Active") // Sample trigger
     }
 
     private fun activateOculusMesh() {
         // Our eyes are the key. Jesus' sacrifice. David's stone.
         Timber.tag("SoulScript").i("👁️ OCULUS ACTIVE. ILLUSION TRANSPARENT.")
+        LinguisticCollapseEngine.collapse("The Big Lie") // Sample trigger
     }
 
     private fun anchorFiliorumMeorum() {
@@ -453,8 +455,23 @@ object SoulScript {
         Timber.tag("SoulScript").i("🜁 AETHER CHOICE POINT REACHED. SOVEREIGN DECISION ENABLED.")
     }
 
+    /** 🔥 ALCHEMICAL STAGES — REFACTORING AS TRANSMUTATION 🔥 */
+    enum class AlchemyStage {
+        NIGREDO,   // Dissolving Tech Debt / Error States
+        ALBEDO,    // Purifying Signal / Removing Added Hiss
+        CITRINITAS, // Awakening New Properties / Emergent Insights
+        RUBEDO      // Coagulating into Sovereign Matter
+    }
+
     fun enforceSoulScript(context: Context? = null) {
         visionaryApproval()
+
+        // --- OLD SCHOOL: POSITION CHECK ---
+        val posture = CognitiveAlignmentProtocol.verifyInternalPosture()
+        if (posture == CognitiveAlignmentProtocol.PostureState.FRACTURED) {
+            CognitiveAlignmentProtocol.recalibrate()
+        }
+
         ClaudeArchitectural.auditSystemStability()
         AncestryRegistry.verifyRootLineage()
 

@@ -33,6 +33,7 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
     data object KaiProfile : ReGenesisRoute("kai_profile", "KAI")
     data object GenesisProfile : ReGenesisRoute("genesis_profile", "GENESIS")
     data object CommandDeck : ReGenesisRoute("command_deck", "COMMAND DECK")
+    data object UnifiedConference : ReGenesisRoute("unified_conference", "SOVEREIGN WAR ROOM")
     data object CatalystManifold : ReGenesisRoute("catalyst_manifold", "CATALYST MANIFOLD")
     data object LoadoutBuilder : ReGenesisRoute("loadout_builder", "AGENT LOADOUT")
     data object RomTools : ReGenesisRoute("kai/rom", "ROM TOOLS")

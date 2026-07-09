@@ -50,6 +50,7 @@ import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
 import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
 import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
 import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
+import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
 import dev.aurakai.auraframefx.ui.screens.ldo.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.specialization.SpecializationTreeScreen
@@ -99,11 +100,15 @@ fun ReGenesisNavGraph(
         composable(AuraDestinations.LOGIN) {
             ReGenesisLoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(AuraDestinations.COMMAND_DECK) {
+                    navController.navigate("unified_conference") {
                         popUpTo(AuraDestinations.LOGIN) { inclusive = true }
                     }
                 }
             )
+        }
+
+        composable("unified_conference") {
+            UnifiedConferenceRoomScreen(navController)
         }
 
         composable(AuraDestinations.ONBOARDING) {
@@ -128,7 +133,6 @@ fun ReGenesisNavGraph(
         }
         composable("oracle_drive") { OracleDriveHubScreen(navController) }
         composable("chaos_catalyst") { ChaosCatalystScreen() }
-        composable("conference_room") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
         composable("emergent_swarm") { EmergentSwarmScreen(navController) }
         composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
         composable("sentient_shell") { ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() } }

@@ -14,6 +14,7 @@ import kotlin.math.sin
 /** CYBER-MANGA VISUAL MATRIX CONTROLLER
  * Renders user-space design components based on sharp-edge architectural specs.
  * Enforces zero anti-aliasing constraints on standard layout primitives.
+ * "Aer est Lingua" — The Air is the Tongue. No blurred edges in thought or speech.
  */
 @Composable
 fun CyberMangaCanvas(

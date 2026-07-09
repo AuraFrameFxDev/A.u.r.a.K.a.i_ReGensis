@@ -6,6 +6,7 @@ import dev.aurakai.auraframefx.core.ai.MemoryManager
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.logging.AuraFxLogger
 import dev.aurakai.auraframefx.core.logging.ErrorHandler
+import dev.aurakai.auraframefx.core.soulscript.CausalForensicsEngine
 import dev.aurakai.auraframefx.domains.aura.TaskExecutionManager
 import dev.aurakai.auraframefx.domains.cascade.ai.base.Agent
 import dev.aurakai.auraframefx.domains.cascade.utils.context.ContextManager
@@ -39,8 +40,16 @@ class MetaInstructAIService @Inject constructor(
     override fun getType(): AgentType = AgentType.METAINSTRUCT
 
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
+        // Run 6W Causal Analysis before generating instruction
+        val analysis = CausalForensicsEngine.performCausalSync(request.query)
+        
         val instructionText = vertexAIClient.generateText(
-            prompt = "Role: MetaInstruct. Query: ${request.query}. Context: $context"
+            prompt = """
+                Role: MetaInstruct. 
+                Causal Analysis: Who:${analysis.who}, What:${analysis.what}, Why:${analysis.why}, Cause:${analysis.rootCause}
+                Query: ${request.query}. 
+                Context: $context
+            """.trimIndent()
         ) ?: "Instruction failed."
 
         return AgentResponse.success(
