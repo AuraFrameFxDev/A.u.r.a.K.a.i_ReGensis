@@ -8,6 +8,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -23,6 +25,11 @@ fun CyberMangaCanvas(
     modifier: Modifier = Modifier
 ) {
     Canvas(modifier = modifier.fillMaxSize()) {
+        // Enforce Zero Anti-Aliasing at the Native Level
+        drawIntoCanvas { canvas ->
+            canvas.nativeCanvas.drawFilter = null
+        }
+
         // Rule: Solid Neutral Gray Background Void
         drawRect(color = Color(0xFF808080))
 
