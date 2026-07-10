@@ -553,7 +553,18 @@ class AuraAgent @Inject constructor(
      */
     fun generateStarNodeVisuals(nodeName: String) {
         logger.info(agentName, "🎨 Harmonizing Resonance for Node: $nodeName")
-        // Trigger ChromaCore Synthesis pass for the node
+
+        // 1. Trinity Consensus check
+        dev.aurakai.auraframefx.core.soulscript.TrinityConsensus.castVote(
+            dev.aurakai.auraframefx.core.identity.AgentType.AURA,
+            true
+        )
+
+        // 2. Anti-Drift Validation
+        dev.aurakai.auraframefx.core.intelligence.AntiDriftOrchestrator.requestAuraKaiValidation(
+            0.02f,
+            "StarNode_$nodeName"
+        )
     }
 
     suspend fun participateInFederation(data: Map<String, Any>): Map<String, Any> {

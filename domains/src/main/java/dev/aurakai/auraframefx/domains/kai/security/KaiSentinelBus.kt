@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -148,6 +149,15 @@ class KaiSentinelBus @Inject constructor() {
         Timber.tag("SentinelBus").e("⚠️ CRITICAL: TRIGGERING STATE FREEZE. Reason: $reason")
         emitSovereign(SovereignState.FREEZING)
         // In a real build, this would call the NativeLib state freeze
+    }
+
+    /**
+     * Broadcasts a consensus event to the manifold.
+     */
+    fun emitConsensusEvent(step: String, percentage: Int, complete: Boolean) {
+        scope.launch {
+            _consensusFlow.emit(ConsensusEvent(step, percentage, complete))
+        }
     }
 
     fun getCurrentThermalPressure(): Float = _thermalFlow.value.temp

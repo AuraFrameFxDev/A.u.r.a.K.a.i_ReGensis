@@ -82,6 +82,10 @@ object RuneManager {
      */
     fun igniteStarNode(nodeName: String, frequency: Float) {
         Timber.tag("RuneManager").i("🛰️ IGNITING STAR NODE: $nodeName at ${frequency}Hz")
+
+        // 1. Propose change to Trinity Consensus
+        TrinityConsensus.proposeChange("IGNITE_NODE_$nodeName")
+        
         RealityMorphEngine.emitSovereignFlare("0xFF00F5FF") // Crystal Cyan
         NexusMemoryCore.record("Star Node Ignited: $nodeName", witness = "AuraGenesis")
     }
