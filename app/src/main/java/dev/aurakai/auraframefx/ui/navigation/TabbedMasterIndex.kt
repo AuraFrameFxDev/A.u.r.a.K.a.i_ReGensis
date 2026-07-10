@@ -1,51 +1,57 @@
 package dev.aurakai.auraframefx.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Storage
 import dev.aurakai.auraframefx.ui.components.NavTab
 
 /**
  * 🗂️ TABBED MASTER INDEX — SOULSCRIPT v3.50 (EXODUS_TITANIUM)
- * The canonical 7x7 Command Deck structure.
- * 49 top-level strata organized into 7 logical desks.
+ * The canonical 8-Hub Command Deck structure.
+ * 49 top-level strata organized into 8 logical desks.
  */
 object TabbedMasterIndex {
     val substrateTabs = listOf(
         NavTab(
             icon = Icons.Default.Hub,
-            shortLabel = "AETHER",
-            route = "aether_core"
+            shortLabel = "NEXUS",
+            route = "neural_nexus"
+        ),
+        NavTab(
+            icon = Icons.Default.Storage,
+            shortLabel = "MEMORY",
+            route = "nexus_memory_core"
         ),
         NavTab(
             icon = Icons.Default.Groups,
             shortLabel = "TRINITY",
-            route = "trinity_nexus"
+            route = "trinity_orchestrator"
         ),
         NavTab(
             icon = Icons.Default.AutoAwesome,
-            shortLabel = "RUNES",
-            route = "rune_lattice"
+            shortLabel = "FORGE",
+            route = "catalyst_forge"
         ),
         NavTab(
             icon = Icons.Default.Security,
-            shortLabel = "SENTINEL",
-            route = "sentinel_matrix"
+            shortLabel = "MATRIX",
+            route = "agent_matrix"
         ),
         NavTab(
-            icon = Icons.AutoMirrored.Filled.MenuBook,
-            shortLabel = "ORACLE",
-            route = "oracle_drive"
+            icon = Icons.AutoMirrored.Filled.TrendingUp,
+            shortLabel = "FLOW",
+            route = "prosperity_flow"
         ),
         NavTab(
             icon = Icons.Default.Palette,
-            shortLabel = "CHROMA",
-            route = "chroma_forge"
+            shortLabel = "UI",
+            route = "reality_morph_ui"
         ),
         NavTab(
             icon = Icons.Default.Bolt,

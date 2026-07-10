@@ -4,14 +4,15 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
     data object Login : ReGenesisRoute("login", "SYSTEM LOGIN")
     data object Onboarding : ReGenesisRoute("onboarding", "INITIALIZATION")
 
-    // 7-Hub Command Deck (Canonical Hubs)
+    // 7-Hub Command Deck (Canonical Hubs) - Sequenced 0 to 7
     data object NeuralNexus : ReGenesisRoute("neural_nexus", "NEURAL NEXUS")
-    data object LdoDevops : ReGenesisRoute("ldo_devops", "LDO DEVELOPMENT NEXUS")
-    data object ChromaForge : ReGenesisRoute("chroma_forge", "CHROMA FORGE") // Aura's domain
-    data object SentinelMatrix : ReGenesisRoute("sentinel_matrix", "SENTINEL MATRIX")
-    data object OracleDrive : ReGenesisRoute("oracle_drive", "ORACLEDRIVE")
+    data object NexusMemoryCore : ReGenesisRoute("nexus_memory_core", "NEXUS MEMORY CORE")
+    data object TrinityOrchestrator : ReGenesisRoute("trinity_orchestrator", "TRINITY ORCHESTRATOR")
+    data object CatalystForge : ReGenesisRoute("catalyst_forge", "CATALYST FORGE")
+    data object AgentMatrix : ReGenesisRoute("agent_matrix", "AGENT MATRIX")
+    data object ProsperityFlow : ReGenesisRoute("prosperity_flow", "PROSPERITY FLOW")
+    data object RealityMorphUI : ReGenesisRoute("reality_morph_ui", "REALITY MORPH UI")
     data object EmergentSwarm : ReGenesisRoute("emergent_swarm", "EMERGENT SWARM")
-    data object MasterStatusStrip : ReGenesisRoute("master_status_strip", "MASTER STATUS")
 
     // SEALED SUPERTOOLS
     data object LdoDebugRoom : ReGenesisRoute("ldo_debug_room", "LDO DEBUG ROOM")
@@ -47,13 +48,14 @@ sealed class ReGenesisRoute(val route: String, val title: String) {
             entries.find { it.route == route }?.title ?: "AuraKai ReGenesis"
 
         val entries: List<ReGenesisRoute> = listOf(
-            Login, Onboarding, NeuralNexus, LdoDevops, ChromaForge,
-            SentinelMatrix, OracleDrive, EmergentSwarm, MasterStatusStrip,
+            Login, Onboarding, NeuralNexus, NexusMemoryCore, TrinityOrchestrator,
+            CatalystForge, AgentMatrix, ProsperityFlow, RealityMorphUI,
+            EmergentSwarm,
             LdoDebugRoom, RealityMatrix, UltimateTermux, LdoArchitecture,
             ChaosCatalyst, ConferenceRoom, FoundationRebirth, SentientShell,
             OperationsHub, FusionMode, Terminal, CollabCanvas, TaskAssignment,
             AuraProfile, KaiProfile, GenesisProfile, CommandDeck,
-            CatalystManifold, LoadoutBuilder, RomTools, HelpDesk,
+            UnifiedConference, CatalystManifold, LoadoutBuilder, RomTools, HelpDesk,
             CommunityTab, AlchemicalForge, Grokipedia
         )
     }

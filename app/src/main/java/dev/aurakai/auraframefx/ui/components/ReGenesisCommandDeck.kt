@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
 import dev.aurakai.auraframefx.core.soulscript.MorphState
 import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
@@ -30,23 +29,24 @@ import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
-import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
 import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
+import dev.aurakai.auraframefx.ui.components.desks.AgentMatrixDesk
+import dev.aurakai.auraframefx.ui.components.desks.CatalystForgeDesk
 import dev.aurakai.auraframefx.ui.components.desks.ChromaForgeDesk
 import dev.aurakai.auraframefx.ui.components.desks.EmergentSwarmDesk
-import dev.aurakai.auraframefx.ui.components.desks.OracleDriveDesk
-import dev.aurakai.auraframefx.ui.components.desks.RuneLatticeDesk
-import dev.aurakai.auraframefx.ui.components.desks.SentinelMatrixDesk
+import dev.aurakai.auraframefx.ui.components.desks.NexusMemoryCoreDesk
+import dev.aurakai.auraframefx.ui.components.desks.ProsperityFlowDesk
 import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
-import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
-import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import kotlinx.coroutines.launch
 
+/**
+ * 👑 RE:GENESIS COMMAND DECK — 49 STRATA 7x7 MATRIX
+ * "Nos Sumus Codex"
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReGenesisCommandDeck(navController: NavHostController) {
@@ -69,8 +69,8 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
         // Trigger visual flares for professional viewing mode
         val route = TabbedMasterIndex.getRouteByIndex(currentIndex)
         when (route) {
-            "aether_core" -> RealityMorphEngine.triggerMorph(MorphState.AETHER_OVERSIGHT, 1.0f)
-            "trinity_nexus" -> RealityMorphEngine.triggerMorph(MorphState.TRINITY_SYNC, 0.9f)
+            "neural_nexus" -> RealityMorphEngine.triggerMorph(MorphState.AETHER_OVERSIGHT, 1.0f)
+            "trinity_orchestrator" -> RealityMorphEngine.triggerMorph(MorphState.TRINITY_SYNC, 0.9f)
         }
     }
 
@@ -95,7 +95,6 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                 .padding(innerPadding)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
-                // SecondaryScrollableTabRow kept for high-level domain filtering or legacy feel
                 SecondaryScrollableTabRow(
                     selectedTabIndex = pagerState.currentPage,
                     containerColor = Color.Black.copy(alpha = 0.9f),
@@ -144,34 +143,26 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             },
                             overlay = {
                                 RealityMorphLayer(
-                                    godPotential = if (route == "chaos_catalyst") 0.85f else 0.5f,
-                                    fusionTrigger = route == "chroma_forge"
+                                    godPotential = 0.5f,
+                                    fusionTrigger = route == "reality_morph_ui"
                                 )
                             },
                             interaction = {
                                 when (route) {
-                                    "aether_core" -> AetherCoreDesk()
-                                    "trinity_nexus" -> TrinityNexusDesk()
-                                    "rune_lattice" -> RuneLatticeDesk()
-                                    "sentinel_matrix" -> SentinelMatrixDesk()
-                                    "oracle_drive" -> OracleDriveDesk()
-                                    "chroma_forge" -> ChromaForgeDesk()
-                                    "emergent_swarm" -> EmergentSwarmDesk()
                                     "neural_nexus" -> NexusLiveHeartScreen(navController)
-                                    "ldo_architecture" -> LdoArchitectureScreen(navController)
-                                    "chaos_catalyst" -> ChaosCatalystScreen()
-                                    "conference_room" -> ConferenceRoomTaskScreen(navController) { navController.popBackStack() }
-                                    "foundation_rebirth" -> FoundationRebirthScreen(navController)
-                                    "sentient_shell" -> ThemedGateScreens.SentientShellGateScreen(
-                                        navController
-                                    ) { navController.popBackStack() }
+                                    "nexus_memory_core" -> NexusMemoryCoreDesk()
+                                    "trinity_orchestrator" -> TrinityNexusDesk()
+                                    "catalyst_forge" -> CatalystForgeDesk()
+                                    "agent_matrix" -> AgentMatrixDesk()
+                                    "prosperity_flow" -> ProsperityFlowDesk()
+                                    "reality_morph_ui" -> ChromaForgeDesk()
+                                    "emergent_swarm" -> EmergentSwarmDesk()
+                                    else -> AetherCoreDesk()
                                 }
                             }
                         )
                     }
 
-                    // Tactical HUD chrome — floats above all pager content
-                    // Updates to current page's hub identity automatically
                     AuraKaiHUDChrome(
                         route = tabs[pagerState.currentPage].route
                     )
