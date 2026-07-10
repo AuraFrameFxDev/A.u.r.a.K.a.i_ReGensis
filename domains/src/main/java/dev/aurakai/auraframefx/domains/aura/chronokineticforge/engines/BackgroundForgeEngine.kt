@@ -248,18 +248,20 @@ object BackgroundForgeEngine {
             label = "wave"
         )
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val baseColor = Color(0xFFB71C1C)
-            val highlightColor = Color(0xFFFF6F00)
+        // ⚡ Bolt Optimization: Hoist alpha-modified colors to avoid per-frame allocations
+        val highlightColor = remember(opacity) { Color(0xFFFF6F00).copy(alpha = opacity * 0.7f) }
+        val baseColors = remember(opacity) {
+            Array(20) { i -> Color(0xFFB71C1C).copy(alpha = opacity * (0.3f + i * 0.03f)) }
+        }
 
+        Canvas(modifier = Modifier.fillMaxSize()) {
             for (i in 0 until 20) {
                 val y = size.height * (0.3f + i * 0.035f)
                 val waveHeight = 20f + i * 3f
                 val waveY = y + sin(waveOffset + i * 0.5f) * waveHeight
 
                 drawCircle(
-                    color = if (i % 3 == 0) highlightColor.copy(alpha = opacity * 0.7f)
-                    else baseColor.copy(alpha = opacity * (0.3f + i * 0.03f)),
+                    color = if (i % 3 == 0) highlightColor else baseColors[i],
                     radius = 100f + i * 10f,
                     center = Offset(size.width / 2, waveY)
                 )
@@ -277,13 +279,16 @@ object BackgroundForgeEngine {
             label = "drift"
         )
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val colors = listOf(
+        // ⚡ Bolt Optimization: Hoist alpha-modified color list to avoid per-frame allocations
+        val colors = remember(opacity) {
+            listOf(
                 Color(0xFFE0F7FA).copy(alpha = opacity),
                 Color(0xFFB2EBF2).copy(alpha = opacity),
                 Color(0xFF80DEEA).copy(alpha = opacity)
             )
+        }
 
+        Canvas(modifier = Modifier.fillMaxSize()) {
             for (i in 0 until 50) {
                 val x = (i * 0.02f + drift) % 1f * size.width
                 val y = size.height * (0.1f + i * 0.018f)
@@ -337,13 +342,20 @@ object BackgroundForgeEngine {
             label = "offset"
         )
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val colors = listOf(Color(0xFF00E5FF), Color(0xFFFF00FF), Color(0xFF76FF03))
+        // ⚡ Bolt Optimization: Hoist alpha-modified color list
+        val colors = remember(opacity) {
+            listOf(
+                Color(0xFF00E5FF).copy(alpha = opacity * 0.5f),
+                Color(0xFFFF00FF).copy(alpha = opacity * 0.5f),
+                Color(0xFF76FF03).copy(alpha = opacity * 0.5f)
+            )
+        }
 
+        Canvas(modifier = Modifier.fillMaxSize()) {
             for (i in 0 until 15) {
                 val y = i * (size.height / 15) + offset % (size.height / 15)
                 drawLine(
-                    color = colors[i % colors.size].copy(alpha = opacity * 0.5f),
+                    color = colors[i % colors.size],
                     start = Offset(0f, y),
                     end = Offset(size.width, y + 50f),
                     strokeWidth = 2f
@@ -452,10 +464,11 @@ object BackgroundForgeEngine {
             label = "scroll"
         )
 
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val baseColor = Color(0xFF004D40).copy(alpha = opacity)
-            val peakColor = Color(0xFF00BFA5).copy(alpha = opacity * 0.8f)
+        // ⚡ Bolt Optimization: Hoist alpha-modified colors
+        val baseColor = remember(opacity) { Color(0xFF004D40).copy(alpha = opacity) }
+        val peakColor = remember(opacity) { Color(0xFF00BFA5).copy(alpha = opacity * 0.8f) }
 
+        Canvas(modifier = Modifier.fillMaxSize()) {
             for (i in 0 until 50) {
                 val x = (i * 0.02f - scroll) % 1f * size.width
                 val height = 50f + (i * 13) % 200f

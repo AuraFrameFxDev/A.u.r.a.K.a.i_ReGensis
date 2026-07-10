@@ -56,14 +56,32 @@ fun NeuralLinkBackground(
     // Generate static random lines that we will animate along Z-axis
     val lines = remember {
         List(40) {
+            val angle = Random.nextFloat() * 2 * PI.toFloat()
             NeuralLine(
-                angle = Random.nextFloat() * 2 * PI.toFloat(),
+                angle = angle,
+                cosAngle = cos(angle),
+                sinAngle = sin(angle),
                 radiusOffset = Random.nextFloat() * 200f,
                 length = Random.nextFloat() * 300f + 100f,
                 speedMultiplier = Random.nextFloat() * 0.5f + 0.5f
             )
         }
     }
+
+    // ⚡ Bolt Optimization: Hoist static allocations and pre-calculate trig values
+    val backgroundBrush = remember {
+        Brush.radialGradient(
+            colors = listOf(
+                Color(0xFF001020), // Dark Blue center
+                Color.Black // Black edges
+            ),
+            radius = 1500f
+        )
+    }
+
+    val gridCos = remember { FloatArray(12) { i -> cos((i * 30f) * (PI.toFloat() / 180f)) } }
+    val gridSin = remember { FloatArray(12) { i -> sin((i * 30f) * (PI.toFloat() / 180f)) } }
+    val gridColor = remember(secondaryColor) { secondaryColor.copy(alpha = 0.1f) }
 
     Box(
         modifier = modifier
@@ -74,15 +92,7 @@ fun NeuralLinkBackground(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    Brush.radialGradient(
-                        colors = listOf(
-                            Color(0xFF001020), // Dark Blue center
-                            Color.Black // Black edges
-                        ),
-                        radius = 1500f
-                    )
-                )
+                .background(backgroundBrush)
         )
 
         Canvas(modifier = Modifier.fillMaxSize()) {
@@ -92,15 +102,15 @@ fun NeuralLinkBackground(
 
             // Draw "Grid" floor/ceiling effect
             // We simulate this by drawing radial lines from center
+            // ⚡ Bolt Optimization: Use pre-calculated trig values
             for (i in 0 until 12) {
-                val angle = (i * 30f) * (PI.toFloat() / 180f)
                 val startX = centerX
                 val startY = centerY
-                val endX = centerX + cos(angle) * maxRadius
-                val endY = centerY + sin(angle) * maxRadius
+                val endX = centerX + gridCos[i] * maxRadius
+                val endY = centerY + gridSin[i] * maxRadius
 
                 drawLine(
-                    color = secondaryColor.copy(alpha = 0.1f),
+                    color = gridColor,
                     start = Offset(startX, startY),
                     end = Offset(endX, endY),
                     strokeWidth = 1f
@@ -108,7 +118,9 @@ fun NeuralLinkBackground(
             }
 
             // Draw moving "Neural Links" (Data packets)
-            lines.forEach { line ->
+            // ⚡ Bolt Optimization: Use indexed for loop and pre-calculated trig to avoid Iterator and per-frame trig
+            for (i in 0 until lines.size) {
+                val line = lines[i]
                 // Calculate current Z position (0 is far, 1 is near)
                 // We wrap the value using modulo to create infinite loop
                 val currentZ =
@@ -121,13 +133,13 @@ fun NeuralLinkBackground(
                 val perspective = currentZ * currentZ * currentZ // Non-linear for speed effect
                 val radius = perspective * maxRadius * 0.8f
 
-                val x = centerX + cos(line.angle) * radius
-                val y = centerY + sin(line.angle) * radius
+                val x = centerX + line.cosAngle * radius
+                val y = centerY + line.sinAngle * radius
 
                 // Tail effect (line segment pointing towards center)
                 val tailLength = line.length * perspective * 0.5f
-                val tailX = centerX + cos(line.angle) * (radius - tailLength)
-                val tailY = centerY + sin(line.angle) * (radius - tailLength)
+                val tailX = centerX + line.cosAngle * (radius - tailLength)
+                val tailY = centerY + line.sinAngle * (radius - tailLength)
 
                 val alpha = when {
                     currentZ < 0.1f -> currentZ * 10f // Fade in
@@ -157,6 +169,8 @@ fun NeuralLinkBackground(
 
 private data class NeuralLine(
     val angle: Float,
+    val cosAngle: Float,
+    val sinAngle: Float,
     val radiusOffset: Float,
     val length: Float,
     val speedMultiplier: Float

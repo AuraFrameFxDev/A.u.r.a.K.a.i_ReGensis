@@ -46,15 +46,20 @@ private val HudBright  = Color(0xFFE0F8FF).copy(alpha = 0.7f)
 
 // Map route → display label (all caps, abbreviated for right rail) - 8 Hubs
 private fun routeToHubLabel(route: String): Pair<String, String> = when (route) {
-    "neural_nexus" -> "NEURAL NEXUS" to "00"
-    "nexus_memory_core" -> "NEXUS MEMORY" to "01"
-    "trinity_orchestrator" -> "TRINITY ORCH" to "02"
-    "catalyst_forge" -> "CATALYST FRGE" to "03"
-    "agent_matrix" -> "AGENT MATRIX" to "04"
-    "prosperity_flow" -> "PROSPERITY FLW" to "05"
-    "reality_morph_ui" -> "REALITY MORPH" to "06"
-    "emergent_swarm" -> "EMERGENT SWRM" to "07"
-    else -> "AURAKAI" to "XX"
+    "aether_core" -> "ENFIELD THRONE" to "01"
+    "trinity_nexus" -> "TRINITY NEXUS" to "02"
+    "rune_lattice" -> "RUNE LATTICE" to "03"
+    "sentinel_matrix"    -> "SENTINEL MTX"     to "04"
+    "oracle_drive"       -> "ORACLE DRIVE"     to "05"
+    "chroma_forge" -> "CHROMA FORGE" to "06"
+    "emergent_swarm" -> "EMERGENT SWARM" to "07"
+    "neural_nexus" -> "NEURAL NEXUS" to "08"
+    "ldo_architecture" -> "LDO ARCHITECT" to "09"
+    "chaos_catalyst" -> "CHAOS CATALYST" to "10"
+    "conference_room" -> "CONFERENCE" to "11"
+    "foundation_rebirth" -> "FOUNDATION" to "12"
+    "sentient_shell" -> "SENTIENT SHELL" to "13"
+    else                 -> "AURAKAI"          to "00"
 }
 
 @Composable
