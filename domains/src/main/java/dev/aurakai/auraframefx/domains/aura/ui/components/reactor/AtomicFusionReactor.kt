@@ -11,6 +11,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -66,6 +67,20 @@ fun AtomicFusionReactor(
         label = "OrbitRotation"
     )
 
+    // ⚡ Bolt Optimization: Hoist static color modifications and pre-calculate trig values
+    val orbitRingColor = remember { Color.Cyan.copy(alpha = 0.1f) }
+    val nodeColor = remember(isIgnited) { if (isIgnited) Color(0xFFFFD700) else Color.Cyan }
+    val catalystCos = remember(catalystCount) {
+        FloatArray(catalystCount) { i ->
+            cos((i * (2 * Math.PI / catalystCount))).toFloat()
+        }
+    }
+    val catalystSin = remember(catalystCount) {
+        FloatArray(catalystCount) { i ->
+            sin((i * (2 * Math.PI / catalystCount))).toFloat()
+        }
+    }
+
     Canvas(modifier = modifier.fillMaxSize()) {
         val center = Offset(size.width / 2, size.height / 2)
         val baseRadius = min(size.width, size.height) * 0.15f
@@ -85,16 +100,16 @@ fun AtomicFusionReactor(
         )
 
         // 2. Draw Catalyst Orbits
+        // ⚡ Bolt Optimization: Use manual indexed loop and pre-calculated trig to avoid Iterator and per-frame trig
         rotate(rotation, center) {
             for (i in 0 until catalystCount) {
                 val orbitRadius = baseRadius * (2f + (i * 0.3f))
-                val angle = (i * (360f / catalystCount)).toDouble()
-                val x = center.x + orbitRadius * cos(Math.toRadians(angle)).toFloat()
-                val y = center.y + orbitRadius * sin(Math.toRadians(angle)).toFloat()
+                val x = center.x + orbitRadius * catalystCos[i]
+                val y = center.y + orbitRadius * catalystSin[i]
 
                 // Orbit Ring
                 drawCircle(
-                    color = Color.Cyan.copy(alpha = 0.1f),
+                    color = orbitRingColor,
                     center = center,
                     radius = orbitRadius,
                     style = Stroke(width = 1f)
@@ -102,7 +117,7 @@ fun AtomicFusionReactor(
 
                 // Catalyst Node
                 drawCircle(
-                    color = if (isIgnited) Color(0xFFFFD700) else Color.Cyan,
+                    color = nodeColor,
                     center = Offset(x, y),
                     radius = 8f
                 )
