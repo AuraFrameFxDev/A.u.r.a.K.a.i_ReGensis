@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -54,6 +55,18 @@ fun ArcaneProfileBackground(
             )
         }
 
+        // ⚡ Bolt Optimization: Hoist alpha-modified colors and gradient brush to avoid per-recomposition allocations
+        val wireframeColor = remember(accentColor) { accentColor.copy(alpha = 0.15f) }
+        val depthGradient = remember {
+            Brush.verticalGradient(
+                colors = listOf(
+                    Color.Black.copy(alpha = 0.8f),
+                    Color.Transparent,
+                    Color.Black.copy(alpha = 0.9f)
+                )
+            )
+        }
+
         // LAYER 1: ARCANE WIREFRAME (Medium Parallax)
         ArcaneWireframeOverlay(
             modifier = Modifier
@@ -62,7 +75,7 @@ fun ArcaneProfileBackground(
                     translationX = parallaxOffset.x * 0.8f
                     translationY = parallaxOffset.y * 0.8f
                 },
-            color = accentColor.copy(alpha = 0.15f)
+            color = wireframeColor
         )
 
         // LAYER 2: DEPTH GRADIENT
@@ -73,15 +86,7 @@ fun ArcaneProfileBackground(
                     translationX = parallaxOffset.x
                     translationY = parallaxOffset.y
                 }
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Black.copy(alpha = 0.8f),
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.9f)
-                        )
-                    )
-                )
+                .background(depthGradient)
         )
     }
 }
@@ -89,7 +94,7 @@ fun ArcaneProfileBackground(
 @Composable
 fun ArcaneWireframeOverlay(modifier: Modifier = Modifier, color: Color) {
     val transition = rememberInfiniteTransition(label = "arcane_wireframe")
-    val time by transition.animateFloat(
+    val timeState = transition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -99,17 +104,27 @@ fun ArcaneWireframeOverlay(modifier: Modifier = Modifier, color: Color) {
         label = "time"
     )
 
+    // ⚡ Bolt Optimization: Hoist Path and Stroke allocations out of the render loop
+    val path = remember { Path() }
+    val hexPath = remember { Path() }
+    val mainStroke = remember { Stroke(width = 1f) }
+    val hexStroke = remember { Stroke(width = 2f) }
+    val degToRad = 0.017453292f
+
     Canvas(modifier = modifier) {
-        val centerX = size.width / 2
-        val centerY = size.height / 2
+        // ⚡ Bolt Optimization: Defer animation state read to the draw phase to avoid recompositions
+        val time = timeState.value
+        val centerX = size.width / 2f
+        val centerY = size.height / 2f
         val radius = size.minDimension / 2.5f
 
         // Draw Fibonacci-inspired geometric spirals
-        val path = Path()
+        path.reset()
         for (i in 0..360 step 15) {
-            val angle = Math.toRadians(i.toDouble() + (time * 360))
-            val x = centerX + radius * cos(angle).toFloat()
-            val y = centerY + radius * sin(angle).toFloat()
+            // ⚡ Bolt Optimization: Use float math and constant for degree-to-radian conversion
+            val angle = (i.toFloat() + (time * 360f)) * degToRad
+            val x = centerX + radius * cos(angle)
+            val y = centerY + radius * sin(angle)
 
             if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
 
@@ -122,17 +137,18 @@ fun ArcaneWireframeOverlay(modifier: Modifier = Modifier, color: Color) {
             )
         }
         path.close()
-        drawPath(path, color, style = Stroke(width = 1f))
+        drawPath(path, color, style = mainStroke)
 
         // Outer Hexagon
-        val hexPath = Path()
+        hexPath.reset()
         for (i in 0..5) {
-            val angle = Math.toRadians((i * 60).toDouble() + (time * -180))
-            val x = centerX + (radius * 1.2f) * cos(angle).toFloat()
-            val y = centerY + (radius * 1.2f) * sin(angle).toFloat()
+            // ⚡ Bolt Optimization: Use float math and constant for degree-to-radian conversion
+            val angle = (i.toFloat() * 60f + (time * -180f)) * degToRad
+            val x = centerX + (radius * 1.2f) * cos(angle)
+            val y = centerY + (radius * 1.2f) * sin(angle)
             if (i == 0) hexPath.moveTo(x, y) else hexPath.lineTo(x, y)
         }
         hexPath.close()
-        drawPath(hexPath, color, style = Stroke(width = 2f))
+        drawPath(hexPath, color, style = hexStroke)
     }
 }
