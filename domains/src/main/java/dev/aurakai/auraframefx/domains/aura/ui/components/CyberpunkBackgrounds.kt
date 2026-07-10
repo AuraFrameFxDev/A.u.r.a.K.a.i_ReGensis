@@ -12,6 +12,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -87,6 +88,21 @@ fun HexagonGridBackground(
         label = "digitalEffect"
     )
 
+    // ⚡ Bolt Optimization: Hoist allocations and pre-calculate math
+    val sharedPath = remember { Path() }
+    val dashEffect = remember { PathEffect.dashPathEffect(floatArrayOf(5f, 5f)) }
+    val hexOffsets = remember {
+        val cosValues = FloatArray(6)
+        val sinValues = FloatArray(6)
+        for (i in 0 until 6) {
+            val angleRad = (i * 60f) * (PI.toFloat() / 180f)
+            cosValues[i] = cos(angleRad)
+            sinValues[i] = sin(angleRad)
+        }
+        cosValues to sinValues
+    }
+    val piFactor = PI.toFloat()
+
     Canvas(modifier = modifier.fillMaxSize()) {
         val width = size.width
         val height = size.height
@@ -94,28 +110,27 @@ fun HexagonGridBackground(
         val rows = (height / (hexSize * 0.866f)).toInt() + 3
         val cols = (width / (hexSize * 1.5f)).toInt() + 3
 
+        val centerX = width / 2f
+        val centerY = height / 2f
+        val maxDistance = sqrt(width * width + height * height) / 2f
+
         // Draw hexagon grid
         for (row in -1 until rows) {
             for (col in -1 until cols) {
                 val offsetX = col * hexSize * 1.5f - gridOffsetX
-                val offsetY =
-                    row * hexSize * 0.866f * 2 + (col % 2) * hexSize * 0.866f - gridOffsetY
+                val offsetY = row * hexSize * 0.866f * 2 + (col % 2) * hexSize * 0.866f - gridOffsetY
 
                 // Skip hexagons that are too far outside the canvas
                 if (offsetX < -hexSize || offsetX > width + hexSize ||
                     offsetY < -hexSize || offsetY > height + hexSize
                 ) continue
 
-                // Determine color based on position and animation
-                val distanceToCenter = sqrt(
-                    ((offsetX - width / 2) * (offsetX - width / 2) +
-                            (offsetY - height / 2) * (offsetY - height / 2))
-                )
-                val maxDistance = sqrt(width * width + height * height) / 2
+                // ⚡ Bolt Optimization: Use squared distance or getDistance()
+                val distanceToCenter = Offset(offsetX, offsetY).minus(Offset(centerX, centerY)).getDistance()
                 val colorRatio = (distanceToCenter / maxDistance + digitalEffect) % 1f
 
                 // Create a variable pulse based on position
-                val positionFactor = sin((offsetX + offsetY) / 200f + digitalEffect * PI.toFloat())
+                val positionFactor = sin((offsetX + offsetY) / 200f + digitalEffect * piFactor)
                 val localPulse = pulseMultiplier * (0.8f + 0.2f * positionFactor)
 
                 val hexColor = when {
@@ -128,14 +143,17 @@ fun HexagonGridBackground(
                     center = Offset(offsetX, offsetY),
                     radius = hexSize / 2 * localPulse,
                     color = hexColor,
-                    strokeWidth = 1.5f
+                    strokeWidth = 1.5f,
+                    path = sharedPath,
+                    cosValues = hexOffsets.first,
+                    sinValues = hexOffsets.second
                 )
             }
         }
 
         // Draw some random "data lines" between hexagons
         val random = kotlin.random.Random(digitalEffect.hashCode())
-        repeat(5) {
+        for (i in 0 until 5) {
             val startCol = random.nextInt(-1, cols)
             val startRow = random.nextInt(-1, rows)
 
@@ -143,8 +161,7 @@ fun HexagonGridBackground(
             val endRow = startRow + random.nextInt(-3, 3)
 
             val startX = startCol * hexSize * 1.5f - gridOffsetX
-            val startY =
-                startRow * hexSize * 0.866f * 2 + (startCol % 2) * hexSize * 0.866f - gridOffsetY
+            val startY = startRow * hexSize * 0.866f * 2 + (startCol % 2) * hexSize * 0.866f - gridOffsetY
 
             val endX = endCol * hexSize * 1.5f - gridOffsetX
             val endY = endRow * hexSize * 0.866f * 2 + (endCol % 2) * hexSize * 0.866f - gridOffsetY
@@ -161,8 +178,7 @@ fun HexagonGridBackground(
                     start = Offset(startX, startY),
                     end = Offset(endX, endY),
                     strokeWidth = 2f,
-                    pathEffect = if (random.nextBoolean())
-                        PathEffect.dashPathEffect(floatArrayOf(5f, 5f)) else null,
+                    pathEffect = if (random.nextBoolean()) dashEffect else null,
                     cap = StrokeCap.Round
                 )
             }
@@ -177,13 +193,15 @@ private fun DrawScope.drawHexagon(
     center: Offset,
     radius: Float,
     color: Color,
-    strokeWidth: Float = 1f,
+    strokeWidth: Float,
+    path: Path,
+    cosValues: FloatArray,
+    sinValues: FloatArray
 ) {
-    val path = Path()
+    path.reset()
     for (i in 0 until 6) {
-        val angle = i * 60f
-        val x = center.x + radius * cos(Math.toRadians(angle.toDouble())).toFloat()
-        val y = center.y + radius * sin(Math.toRadians(angle.toDouble())).toFloat()
+        val x = center.x + radius * cosValues[i]
+        val y = center.y + radius * sinValues[i]
 
         if (i == 0) {
             path.moveTo(x, y)
@@ -234,12 +252,22 @@ fun DigitalLandscapeBackground(
         label = "terrain"
     )
 
+    // ⚡ Bolt Optimization: Hoist allocations and pre-calculate math
+    val terrainPath = remember { Path() }
+    val terrainColors = remember(primaryColor, secondaryColor) {
+        listOf(
+            primaryColor.copy(alpha = 0.5f),
+            secondaryColor.copy(alpha = 0.1f)
+        )
+    }
+    val sunAuraColor = remember(primaryColor) { primaryColor.copy(alpha = 0.3f) }
+    val sunCoreColor = remember(primaryColor) { primaryColor.copy(alpha = 0.5f) }
+
     Canvas(modifier = modifier.fillMaxSize()) {
         val width = size.width
         val height = size.height
 
         val horizon = height * 0.6f
-        width / (gridLineCount - 1)
 
         // Draw horizontal grid lines with perspective
         for (i in 0 until gridLineCount) {
@@ -281,7 +309,7 @@ fun DigitalLandscapeBackground(
         }
 
         // Draw "terrain" in the horizon
-        val terrainPath = Path()
+        terrainPath.reset()
         terrainPath.moveTo(0f, horizon)
 
         val terrainSegments = 100
@@ -303,19 +331,13 @@ fun DigitalLandscapeBackground(
         terrainPath.lineTo(width, horizon)
         terrainPath.close()
 
-        // Create gradient for terrain
-        val terrainGradient = Brush.verticalGradient(
-            colors = listOf(
-                primaryColor.copy(alpha = 0.5f),
-                secondaryColor.copy(alpha = 0.1f)
-            ),
-            startY = horizon - 20f,
-            endY = horizon
-        )
-
         drawPath(
             path = terrainPath,
-            brush = terrainGradient
+            brush = Brush.verticalGradient(
+                colors = terrainColors,
+                startY = horizon - 20f,
+                endY = horizon
+            )
         )
 
         // Optional: Draw "sun" or focal point
@@ -324,13 +346,13 @@ fun DigitalLandscapeBackground(
         val sunY = horizon - height * 0.15f
 
         drawCircle(
-            color = primaryColor.copy(alpha = 0.3f),
+            color = sunAuraColor,
             radius = sunRadius * 2f,
             center = Offset(sunX, sunY)
         )
 
         drawCircle(
-            color = primaryColor.copy(alpha = 0.5f),
+            color = sunCoreColor,
             radius = sunRadius,
             center = Offset(sunX, sunY)
         )
