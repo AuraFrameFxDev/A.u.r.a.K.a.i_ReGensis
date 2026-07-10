@@ -11,7 +11,7 @@ target-sdk = "37"
 min-sdk = "34"
 
 # AndroidX Core & Lifecycle
-androidx-core = "1.18.0"
+androidx-core = "1.19.0"
 androidx-appcompat = "1.7.1"
 androidx-lifecycle = "2.10.0"
 androidx-activity = "1.13.0"
@@ -78,7 +78,7 @@ turbine = "1.2.1"
 google-services = "4.4.4"
 firebase-crashlytics = "3.0.7"
 desugar-jdk-libs = "2.1.5"
-remote-creation-compose = "1.0.0-alpha11"
+remote-creation-compose = "1.0.0-alpha14"
 
 [libraries]
 # Build Logic Dependencies
@@ -176,7 +176,7 @@ androidx-security-crypto = { module = "androidx.security:security-crypto", versi
 androidx-credentials = { module = "androidx.credentials:credentials", version = "1.6.0" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version = "1.6.0" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version = "1.2.0" }
-billing-ktx = { module = "com.android.billingclient:billing-ktx", version = "9.0.0" }
+billing-ktx = { module = "com.android.billingclient:billing-ktx", version = "9.1.0" }
 langchain4j-ollama = { module = "dev.langchain4j:langchain4j-ollama", version.ref = "langchain4j" }
 langchain4j-openai = { module = "dev.langchain4j:langchain4j-open-ai", version.ref = "langchain4j" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }

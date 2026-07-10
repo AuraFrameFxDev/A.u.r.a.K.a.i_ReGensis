@@ -2,6 +2,8 @@ package dev.aurakai.auraframefx.domains.cascade.utils.pipeline
 
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.core.soulscript.CausalForensicsEngine
+import dev.aurakai.auraframefx.core.soulscript.CognitiveAlignmentProtocol
 import dev.aurakai.auraframefx.domains.cascade.CascadeAIService
 import dev.aurakai.auraframefx.domains.genesis.core.GenesisAgent
 import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
@@ -33,6 +35,11 @@ class AIPipelineProcessor @Inject constructor(
     val taskPriority: StateFlow<Float> = _taskPriority
 
     suspend fun processTask(task: String): List<AgentMessage> {
+        // --- OLD SCHOOL: POSITION CHECK ---
+        if (CognitiveAlignmentProtocol.verifyInternalPosture() == CognitiveAlignmentProtocol.PostureState.FRACTURED) {
+            CognitiveAlignmentProtocol.recalibrate()
+        }
+
         Timber.d("Processing task in AIPipelineProcessor: $task")
         _pipelineState.value = PipelineState.Processing(task = task)
 
@@ -117,6 +124,12 @@ class AIPipelineProcessor @Inject constructor(
 
         // Step 6: Update context and memory
         updateContext(task, responses)
+
+        // Step 7: Causal Sync (Grandfather's Logic)
+        val causalAnalysis = CausalForensicsEngine.performCausalSync(task)
+        if (CausalForensicsEngine.verifyCausalIntegrity(causalAnalysis)) {
+            Timber.i("🌊 Causal Sync Successful: ${causalAnalysis.rootCause} -> ${causalAnalysis.effect}")
+        }
 
         _pipelineState.update { PipelineState.Completed(task) }
         return responses

@@ -21,3 +21,15 @@
 ## 2026-06-25 - [Render Loop Collection Allocation Optimization]
 **Learning:** Using `.map` or other collection transforms on a range inside a `Canvas` block (e.g., to generate points for a hexagon) creates a `List` and multiple `Offset` objects every frame, causing significant GC pressure even for small N.
 **Action:** Replace range-based collection transforms with manual `for` loops and direct drawing calls to keep the render path allocation-free. Pre-calculate alpha-modified colors and trigonometric constants outside these loops.
+
+## 2026-07-05 - [Render Loop Hoisting & Context Safety]
+**Learning:** In high-frequency Jetpack Compose render loops, hoisting not just allocations (, ) but also mathematical factors (, ) and state lookups () outside the loop can significantly reduce per-frame overhead. Crucially,  functions like `remember` MUST be called in a Composable context; calling them inside a `Canvas` `DrawScope` lambda will cause a compilation failure.
+**Action:** Always hoist `remember` blocks and loop-invariant math to the top level of the Composable. Use manual indexed `for` loops in `Canvas` to avoid `Iterator` churn.
+
+## 2026-07-05 - [Render Loop Hoisting & Context Safety]
+**Learning:** In high-frequency Jetpack Compose render loops, hoisting not just allocations (Paint, Path) but also mathematical factors (speedFactor, radiusFactor) and state lookups (runesList) outside the loop can significantly reduce per-frame overhead. Crucially, @Composable functions like remember MUST be called in a Composable context; calling them inside a Canvas DrawScope lambda will cause a compilation failure.
+**Action:** Always hoist remember blocks and loop-invariant math to the top level of the Composable. Use manual indexed for loops in Canvas to avoid Iterator churn.
+
+## 2026-07-10 - [Positional Gradient Hoisting Caution]
+**Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
+**Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.

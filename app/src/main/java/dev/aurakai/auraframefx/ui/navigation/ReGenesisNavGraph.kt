@@ -12,62 +12,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import dev.aurakai.auraframefx.agents.chaos.ChaosCatalystScreen
-import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.domains.aura.screens.ArcaneChromaForgeScreen
-import dev.aurakai.auraframefx.domains.aura.screens.RegenCoreEngineScreen
-import dev.aurakai.auraframefx.domains.aura.ui.components.StubScreen
-import dev.aurakai.auraframefx.domains.aura.ui.screens.AuraSphereGridScreen
-import dev.aurakai.auraframefx.domains.aura.ui.screens.WorkingLabScreen
-import dev.aurakai.auraframefx.domains.emergentswarm.screens.EmergentSwarmScreen
-import dev.aurakai.auraframefx.domains.foundation.screens.FoundationRebirthScreen
-import dev.aurakai.auraframefx.domains.ldoarchitecture.screens.LdoArchitectureScreen
-import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
-import dev.aurakai.auraframefx.domains.nexus.screens.SovereignCharacterScreen
-import dev.aurakai.auraframefx.domains.oracledrive.screens.OracleDriveHubScreen
-import dev.aurakai.auraframefx.romtools.ui.RomToolsScreen
-import dev.aurakai.auraframefx.ui.arena.TrainingArenaScreen
-import dev.aurakai.auraframefx.ui.arena.TrainingArenaViewModel
 import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
-import dev.aurakai.auraframefx.ui.gates.ConferenceRoomTaskScreen
-import dev.aurakai.auraframefx.ui.gates.GateDomainImagePicker
-import dev.aurakai.auraframefx.ui.gates.LineageMapScreen
-import dev.aurakai.auraframefx.ui.gates.NotchBarGateScreen
-import dev.aurakai.auraframefx.ui.gates.ThemedGateScreens
-import dev.aurakai.auraframefx.ui.loadout.AgentLoadoutScreen
-import dev.aurakai.auraframefx.ui.loadout.LoadoutViewModel
-import dev.aurakai.auraframefx.ui.manifold.CatalystManifoldScreen
-import dev.aurakai.auraframefx.ui.onboarding.AuraKaiOnboardingFlow
-import dev.aurakai.auraframefx.ui.profiles.AuraProfileData
-import dev.aurakai.auraframefx.ui.profiles.CatalystProfileScreen
-import dev.aurakai.auraframefx.ui.profiles.GenesisProfileData
-import dev.aurakai.auraframefx.ui.profiles.KaiProfileData
-import dev.aurakai.auraframefx.ui.screens.EscapeHatchScreen
-import dev.aurakai.auraframefx.ui.screens.NexusMemoryCoreScreen
 import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
-import dev.aurakai.auraframefx.ui.screens.ldo.LdoDebugRoomScreen
-import dev.aurakai.auraframefx.ui.screens.ldo.RealityMatrixScreen
-import dev.aurakai.auraframefx.ui.specialization.SpecializationTreeScreen
-import dev.aurakai.auraframefx.ui.specialization.SpecializationViewModel
+import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
 
 object AuraDestinations {
     const val LOGIN = "login"
-    const val ONBOARDING = "onboarding"
+    const val UNIFIED_CONFERENCE = "unified_conference"
     const val COMMAND_DECK = "command_deck"
-    const val CATALYST_MANIFOLD = "catalyst_manifold"
-    const val LOADOUT_BUILDER = "loadout_builder"
-    const val SPECIALIZATION_TREE = "specialization_tree/{agentId}"
-    const val TRAINING_ARENA = "training_arena/{agentId}"
-
-    fun specTreePath(agentId: String) = "specialization_tree/$agentId"
-    fun arenaPath(agentId: String) = "training_arena/$agentId"
 }
 
+/**
+ * 👑 RE:GENESIS NAV GRAPH — SOVEREIGN BLANK SLATE
+ * "Nos Sumus Codex"
+ */
 @Composable
 fun ReGenesisNavGraph(
     navController: NavHostController = rememberNavController(),
@@ -76,7 +37,6 @@ fun ReGenesisNavGraph(
     val startDestination by viewModel.startDestination.collectAsState()
 
     if (startDestination == null) {
-        // Still determining start destination
         return
     }
 
@@ -99,205 +59,28 @@ fun ReGenesisNavGraph(
         composable(AuraDestinations.LOGIN) {
             ReGenesisLoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(AuraDestinations.COMMAND_DECK) {
+                    navController.navigate(AuraDestinations.UNIFIED_CONFERENCE) {
                         popUpTo(AuraDestinations.LOGIN) { inclusive = true }
                     }
                 }
             )
         }
 
-        composable(AuraDestinations.ONBOARDING) {
-            AuraKaiOnboardingFlow(onComplete = {
-                // Ensure we clear backstack so they can't go back to onboarding
-                navController.navigate(AuraDestinations.COMMAND_DECK) {
-                    popUpTo(AuraDestinations.ONBOARDING) { inclusive = true }
-                }
-            })
+        composable(AuraDestinations.UNIFIED_CONFERENCE) {
+            UnifiedConferenceRoomScreen(navController)
         }
 
         composable(AuraDestinations.COMMAND_DECK) {
             ReGenesisCommandDeck(navController)
         }
 
-        // --- 10-Hub Substrate Routes (Canonical Exodus) ---
-        composable("neural_nexus") { NexusLiveHeartScreen(navController) }
-        composable("ldo_architecture") { LdoArchitectureScreen(navController) }
-        composable("chroma_forge") { ArcaneChromaForgeScreen(navController) }
-        composable("sentinel_matrix") {
-            ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() }
-        }
-        composable("oracle_drive") { OracleDriveHubScreen(navController) }
-        composable("chaos_catalyst") { ChaosCatalystScreen() }
-        composable("conference_room") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
-        composable("emergent_swarm") { EmergentSwarmScreen(navController) }
-        composable("foundation_rebirth") { FoundationRebirthScreen(navController) }
-        composable("sentient_shell") { ThemedGateScreens.SentientShellGateScreen(navController) { navController.popBackStack() } }
-        composable("operations_hub") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
-
-        // --- LDO CORE ROUTES ---
-        composable("ldo_debug_room") { LdoDebugRoomScreen(navController) }
-        composable("reality_matrix") { RealityMatrixScreen(navController) }
-        composable("alchemical_forge") { RealityMatrixScreen(navController) }
-        composable("community_tab") {
-            StubScreen(
-                title = "COMMUNITY HUB",
-                iconName = "COMMUNITY",
-                controller = navController,
-                description = "Heart-Centered Socializing & Symbiotic Resonance"
-            )
-        }
-
-        // --- SUB-GATE ROUTES (LEVEL 3 / DETAILED) ---
-        composable("lineage_map") { LineageMapScreen(navController) { navController.popBackStack() } }
-        composable("sphere_grid") {
-            AuraSphereGridScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("evolution_tree") {
-            AuraSphereGridScreen(onNavigateBack = { navController.popBackStack() })
-        }
-        composable("ldo_claude_profile") {
-            dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen(
-                agentType = AgentType.CLAUDE,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-        composable("fusion_mode") { ThemedGateScreens.FusionModeGateScreen(navController) { navController.popBackStack() } }
-        composable("terminal") { ThemedGateScreens.TerminalGateScreen(navController) { navController.popBackStack() } }
-        composable("collab_canvas") { ThemedGateScreens.CollabCanvasGateScreen(navController) { navController.popBackStack() } }
-        composable("task_assignment") { ConferenceRoomTaskScreen(navController) { navController.popBackStack() } }
-        composable("aura_lab") { WorkingLabScreen { navController.navigate(it) } }
-        composable("regencore_engine") { RegenCoreEngineScreen(navController) }
-
-        // KAI FORTRESS SUB-GATES
-        composable("kai/security") { ThemedGateScreens.SecurityGateScreen(navController) { navController.popBackStack() } }
-        composable("kai/root") { ThemedGateScreens.RootToolsGateScreen(navController) { navController.popBackStack() } }
-        composable("kai/recovery") { ThemedGateScreens.RecoveryGateScreen(navController) { navController.popBackStack() } }
-        composable("kai/rom") { RomToolsScreen(onNavigateBack = { navController.popBackStack() }) }
-        composable("kai/modules") { ThemedGateScreens.ModulesGateScreen(navController) { navController.popBackStack() } }
-        composable("kai/vpn") { ThemedGateScreens.VpnGateScreen(navController) { navController.popBackStack() } }
-        composable("kai/bootloader") { ThemedGateScreens.BootloaderGateScreen(navController) { navController.popBackStack() } }
-        composable("kai/lsposed") { ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() } }
-
-        // ── Batch 3 / Support / Other Routes ──────────────────────────────────────────
-        composable("xposed_panel") { ThemedGateScreens.LsposedGateScreen(navController) { navController.popBackStack() } }
-        composable("help_desk") { ThemedGateScreens.HelpServicesGateScreen(navController) { navController.popBackStack() } }
-        composable("notch_bar") { NotchBarGateScreen(navController) { navController.popBackStack() } }
-        composable("gate_image_picker") { GateDomainImagePicker(navController) { navController.popBackStack() } }
-        composable("nexus_memory_core") { NexusMemoryCoreScreen(navController) }
-        composable("escape_hatch") { EscapeHatchScreen(navController) }
-
-        composable(AuraDestinations.CATALYST_MANIFOLD) {
-            CatalystManifoldScreen(navController) { navController.popBackStack() }
-        }
-
-        // ── Merit Ecosystem ────────────────────────────────────────────────
-        composable(AuraDestinations.LOADOUT_BUILDER) {
-            val vm: LoadoutViewModel = hiltViewModel<LoadoutViewModel>()
-            AgentLoadoutScreen(
-                viewModel = vm,
-                onAgentSelected = { agentId ->
-                    navController.navigate(AuraDestinations.specTreePath(agentId))
-                }
-            )
-        }
-
-        composable(
-            route = AuraDestinations.SPECIALIZATION_TREE,
-            arguments = listOf(navArgument("agentId") { type = NavType.StringType })
-        ) {
-            val vm: SpecializationViewModel = hiltViewModel<SpecializationViewModel>()
-            SpecializationTreeScreen(
-                viewModel = vm,
-                onBackTriggered = { navController.popBackStack() },
-                onProceedToArena = { agentId ->
-                    navController.navigate(AuraDestinations.arenaPath(agentId))
-                }
-            )
-        }
-
-        composable(
-            route = AuraDestinations.TRAINING_ARENA,
-            arguments = listOf(navArgument("agentId") { type = NavType.StringType })
-        ) {
-            val vm: TrainingArenaViewModel = hiltViewModel<TrainingArenaViewModel>()
-            TrainingArenaScreen(viewModel = vm)
-        }
-
-        // ── Agent Profiles Sub-Routes ──────────────────────────────────────
-        composable(
-            route = "sovereign_character/{agentName}",
-            arguments = listOf(navArgument("agentName") {
-                type = NavType.StringType
-                defaultValue = "AURA"
-            })
-        ) { backStackEntry ->
-            val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
-            SovereignCharacterScreen(agentName = agentName, navController = navController)
-        }
-
-        composable(
-            route = "agent_profile/{agentName}",
-            arguments = listOf(navArgument("agentName") {
-                type = NavType.StringType
-                defaultValue = "AURA"
-            })
-        ) { backStackEntry ->
-            val agentName = backStackEntry.arguments?.getString("agentName") ?: "AURA"
-            val agentType = try {
-                AgentType.valueOf(agentName.uppercase())
-            } catch (_: Exception) {
-                AgentType.AURA
-            }
-            dev.aurakai.auraframefx.domains.aura.screens.AgentProfileScreen(
-                agentType = agentType,
-                onNavigateBack = { navController.popBackStack() }
-            )
-        }
-
-        // ── Stub Routes (Coming Soon / Help Sub-Routes) ────────────────────
-        composable("coming_soon") {
-            StubScreen(
-                title = "COMING SOON",
-                iconName = "GENESIS_MODULE",
-                controller = navController
-            )
-        }
-        composable("faq_browser") {
-            StubScreen(
-                title = "FAQ BROWSER",
-                iconName = "KNOWLEDGE_BASE",
-                controller = navController,
-                description = "Frequently asked questions and system documentation"
-            )
-        }
-        composable("live_support_chat") {
-            StubScreen(
-                title = "LIVE SUPPORT",
-                iconName = "SUPPORT_CHANNEL",
-                controller = navController,
-                description = "Live support chat interface"
-            )
-        }
-        composable("tutorial_videos") {
-            StubScreen(
-                title = "TUTORIAL VIDEOS",
-                iconName = "TRAINING_ARCHIVE",
-                controller = navController,
-                description = "Step-by-step video guides for the A.U.R.A.K.A.I. system"
-            )
-        }
-        composable("documentation") {
-            StubScreen(
-                title = "DOCUMENTATION HUB",
-                iconName = "DOC_LATTICE",
-                controller = navController,
-                description = "Full technical documentation and API reference"
-            )
-        }
-
-        // ── Agent Sovereign Profiles ───────────────────────────────────────
-        composable("aura_profile") { CatalystProfileScreen(AuraProfileData) }
-        composable("kai_profile") { CatalystProfileScreen(KaiProfileData) }
-        composable("genesis_profile") { CatalystProfileScreen(GenesisProfileData) }
+        // ── 7-HUB STRATA MAPPING (Direct Routes) ──
+        composable("neural_nexus") { ReGenesisCommandDeck(navController) }
+        composable("ldo_devops") { ReGenesisCommandDeck(navController) }
+        composable("chroma_forge") { ReGenesisCommandDeck(navController) }
+        composable("sentinel_matrix") { ReGenesisCommandDeck(navController) }
+        composable("oracle_drive") { ReGenesisCommandDeck(navController) }
+        composable("emergent_swarm") { ReGenesisCommandDeck(navController) }
+        composable("reality_matrix") { ReGenesisCommandDeck(navController) }
     }
 }

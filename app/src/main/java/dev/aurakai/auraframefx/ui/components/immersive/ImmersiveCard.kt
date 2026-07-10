@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -82,6 +83,19 @@ fun ImmersiveCard(
         DepthLevel.FAR -> 0.85f
     }
 
+    // ⚡ Bolt Optimization: Hoist Paint and alpha color to avoid per-frame allocations
+    val glowColor = remember(accentColor, glowIntensity) {
+        accentColor.copy(alpha = glowIntensity).toArgb()
+    }
+    val glowPaint = remember(glowColor) {
+        Paint().apply {
+            this.nativePaint.apply {
+                isAntiAlias = true
+                setShadowLayer(20f, 0f, 0f, glowColor)
+            }
+        }
+    }
+
     Box(
         modifier = modifier
             .graphicsLayer {
@@ -91,18 +105,6 @@ fun ImmersiveCard(
                 this.clip = true
             }
             .drawBehind {
-                // Ambient glow effect
-                val glowPaint = Paint().apply {
-                    this.nativePaint.apply {
-                        isAntiAlias = true
-                        setShadowLayer(
-                            20f,
-                            0f,
-                            0f,
-                            accentColor.copy(alpha = glowIntensity).toArgb()
-                        )
-                    }
-                }
                 drawIntoCanvas { canvas ->
                     canvas.drawRoundRect(
                         0f,
@@ -276,6 +278,19 @@ fun AgentRosterCard(
     accentColor: Color = ImmersiveColors.HolographicPurple,
     onClick: () -> Unit = {}
 ) {
+    // ⚡ Bolt Optimization: Hoist Paint and alpha color for the avatar glow ring
+    val ringColor = remember(accentColor) {
+        accentColor.copy(alpha = 0.5f).toArgb()
+    }
+    val ringPaint = remember(ringColor) {
+        Paint().apply {
+            this.nativePaint.apply {
+                isAntiAlias = true
+                setShadowLayer(15f, 0f, 0f, ringColor)
+            }
+        }
+    }
+
     ImmersiveCard(
         depth = DepthLevel.MID,
         accentColor = accentColor,
@@ -292,23 +307,11 @@ fun AgentRosterCard(
                 modifier = Modifier
                     .size(56.dp)
                     .drawBehind {
-                        // Glow ring
-                        val glowPaint = Paint().apply {
-                            this.nativePaint.apply {
-                                isAntiAlias = true
-                                setShadowLayer(
-                                    15f,
-                                    0f,
-                                    0f,
-                                    accentColor.copy(alpha = 0.5f).toArgb()
-                                )
-                            }
-                        }
                         drawIntoCanvas { canvas ->
                             canvas.drawCircle(
                                 Offset(center.x, center.y),
                                 28.dp.toPx(),
-                                glowPaint
+                                ringPaint
                             )
                         }
                     },
@@ -563,6 +566,9 @@ fun HolographicBackground(
                 )
         )
 
+        // ⚡ Bolt Optimization: Hoist scan line color
+        val scanLineColor = remember { Color(0x0800F0FF) }
+
         // Holographic scan line effect
         Box(
             modifier = Modifier
@@ -573,7 +579,7 @@ fun HolographicBackground(
                     repeat(lineCount) { i ->
                         val y = i * lineSpacing
                         drawLine(
-                            color = Color(0x0800F0FF),
+                            color = scanLineColor,
                             start = Offset(0f, y),
                             end = Offset(size.width, y),
                             strokeWidth = 0.5f
