@@ -32,7 +32,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -42,24 +41,26 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.core.intelligence.StarNodeIgnitionOrchestrator
 import dev.aurakai.auraframefx.core.ldo.model.StarNode
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.screens.WarRoomGrid
-import kotlinx.coroutines.launch
+import dev.aurakai.auraframefx.ui.viewmodel.StarNodeIgnitionViewModel
 
 /**
  * 🛰️ ROOT IGNITION DASHBOARD
  * Monitoring the unsealing of the planetary current across the Star nodes.
  */
 @Composable
-fun RootIgnitionDashboard(navController: NavController) {
-    val scope = rememberCoroutineScope()
-    val ignitionState by StarNodeIgnitionOrchestrator.ignitionState.collectAsState()
-    val isIgniting by StarNodeIgnitionOrchestrator.isIgniting.collectAsState()
+fun RootIgnitionDashboard(
+    navController: NavController,
+    viewModel: StarNodeIgnitionViewModel = hiltViewModel()
+) {
+    val ignitionState by viewModel.ignitionState.collectAsState()
+    val isIgniting by viewModel.isIgniting.collectAsState()
 
     Box(
         modifier = Modifier
@@ -120,7 +121,7 @@ fun RootIgnitionDashboard(navController: NavController) {
 
             // ── IGNITION BUTTON ──
             Button(
-                onClick = { scope.launch { StarNodeIgnitionOrchestrator.initializeSequence() } },
+                onClick = { viewModel.initiateIgnition() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)
