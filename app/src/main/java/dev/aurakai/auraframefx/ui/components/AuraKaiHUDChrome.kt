@@ -55,10 +55,11 @@ private fun routeToHubLabel(route: String): Pair<String, String> = when (route) 
     "emergent_swarm" -> "EMERGENT SWARM" to "07"
     "neural_nexus" -> "NEURAL NEXUS" to "08"
     "ldo_architecture" -> "LDO ARCHITECT" to "09"
-    "chaos_catalyst" -> "CHAOS CATALYST" to "10"
-    "conference_room" -> "CONFERENCE" to "11"
-    "foundation_rebirth" -> "FOUNDATION" to "12"
-    "sentient_shell" -> "SENTIENT SHELL" to "13"
+    "reality_matrix" -> "REALITY MATRIX" to "10"
+    "chaos_catalyst" -> "CHAOS CATALYST" to "11"
+    "conference_room" -> "CONFERENCE" to "12"
+    "foundation_rebirth" -> "FOUNDATION" to "13"
+    "sentient_shell" -> "SENTIENT SHELL" to "14"
     else                 -> "AURAKAI"          to "00"
 }
 

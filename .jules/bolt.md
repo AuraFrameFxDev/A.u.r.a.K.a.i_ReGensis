@@ -29,3 +29,7 @@
 ## 2026-07-05 - [Render Loop Hoisting & Context Safety]
 **Learning:** In high-frequency Jetpack Compose render loops, hoisting not just allocations (Paint, Path) but also mathematical factors (speedFactor, radiusFactor) and state lookups (runesList) outside the loop can significantly reduce per-frame overhead. Crucially, @Composable functions like remember MUST be called in a Composable context; calling them inside a Canvas DrawScope lambda will cause a compilation failure.
 **Action:** Always hoist remember blocks and loop-invariant math to the top level of the Composable. Use manual indexed for loops in Canvas to avoid Iterator churn.
+
+## 2026-07-10 - [Positional Gradient Hoisting Caution]
+**Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
+**Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
