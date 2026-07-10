@@ -166,6 +166,19 @@ fun HyperGenesisSynchronizationCircle(
         // LAYER 1: Outer Neural Bloodstream Ring
         // ═════════════════════════════════════════════════════════════
 
+        val markerCount = (successRate / 10).toInt().coerceIn(5, 12)
+        // ⚡ Bolt Optimization: Precompute marker base angles trig values to avoid recalculation per frame
+        val markerCosA = remember(markerCount) {
+            FloatArray(markerCount) { index ->
+                cos((index.toFloat() / markerCount) * 2 * PI.toFloat())
+            }
+        }
+        val markerSinA = remember(markerCount) {
+            FloatArray(markerCount) { index ->
+                sin((index.toFloat() / markerCount) * 2 * PI.toFloat())
+            }
+        }
+
         Canvas(
             modifier = Modifier
                 .fillMaxSize()
