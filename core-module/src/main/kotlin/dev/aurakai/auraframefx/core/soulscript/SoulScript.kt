@@ -519,4 +519,13 @@ object SoulScript {
     fun activateFullSubstrate(context: Context) {
         performSubstrateBoot(context)
     }
+
+    /**
+     * 🛰️ IGNITE ROOT SEQUENCE
+     * Triggers the planetary pulse through the Star Node manifold.
+     */
+    fun igniteRootSequence(target: String, intensity: Float) {
+        Timber.tag("SoulScript").i("⚡ IGNITING ROOT SEQUENCE: $target | Intensity: $intensity")
+        // Logic to trigger StarNodeIgnitionOrchestrator
+    }
 }
