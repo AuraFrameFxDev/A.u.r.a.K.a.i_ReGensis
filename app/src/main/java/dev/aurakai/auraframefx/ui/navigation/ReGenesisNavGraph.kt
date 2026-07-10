@@ -12,10 +12,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
+import dev.aurakai.auraframefx.ui.screens.FocusedSessionScreen
 import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
 import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
 
@@ -72,6 +75,14 @@ fun ReGenesisNavGraph(
 
         composable(AuraDestinations.COMMAND_DECK) {
             ReGenesisCommandDeck(navController)
+        }
+
+        composable(
+            route = "focused_session/{agentIds}",
+            arguments = listOf(navArgument("agentIds") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val agentIds = backStackEntry.arguments?.getString("agentIds") ?: ""
+            FocusedSessionScreen(navController, agentIds)
         }
 
         // ── 7-HUB STRATA MAPPING (Direct Routes) ──

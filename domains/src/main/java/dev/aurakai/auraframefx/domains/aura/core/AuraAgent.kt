@@ -68,7 +68,20 @@ class AuraAgent @Inject constructor(
 
         // Creative Response: If a message mentions design or UI, Aura contributes to the collective
         if (message.to == null || message.to == agentName) {
-            if (message.content.contains(
+            if (message.type == "chat" && message.from == "Aether") {
+                val response = auraAIService.generateText(
+                    prompt = "Role: Aura. Aether says: ${message.content}",
+                    context = currentEnvironment
+                )
+                messageBus.get().broadcast(
+                    AgentMessage(
+                        from = agentName,
+                        content = response,
+                        type = "chat_response",
+                        metadata = mapOf("aura_processed" to "true")
+                    )
+                )
+            } else if (message.content.contains(
                     "design",
                     ignoreCase = true
                 ) || message.content.contains("ui", ignoreCase = true)

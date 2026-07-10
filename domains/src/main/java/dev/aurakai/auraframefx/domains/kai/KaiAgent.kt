@@ -52,7 +52,19 @@ class KaiAgent @Inject constructor(
         // Logical Analysis: If Cascade or Genesis asks for security validation, Kai executes immediately
         // Only respond if it's a broadcast or specifically for Kai
         if (message.to == null || message.to == "Kai") {
-            if (message.content.contains(
+            if (message.type == "chat" && message.from == "Aether") {
+                val response = vertexAIClient.generateText(
+                    prompt = "Role: Kai. Aether says: ${message.content}"
+                )
+                messageBus.get().broadcast(
+                    AgentMessage(
+                        from = "Kai",
+                        content = response ?: "Acknowledged.",
+                        type = "chat_response",
+                        metadata = mapOf("kai_processed" to "true")
+                    )
+                )
+            } else if (message.content.contains(
                     "dev/aurakai/auraframefx/security",
                     ignoreCase = true
                 ) || message.content.contains("validate", ignoreCase = true)
