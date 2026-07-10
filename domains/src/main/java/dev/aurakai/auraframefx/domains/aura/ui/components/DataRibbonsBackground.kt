@@ -40,14 +40,20 @@ fun DataRibbonsBackground(
         animationSpec = infiniteRepeatable(tween(7000, easing = LinearEasing)), label = "t"
     )
 
+    // ⚡ Bolt Optimization: Pre-calculate alpha colors and constants to avoid per-frame allocations
     data class Ribbon(
         val yBase: Float, val phase: Float, val speed: Float,
-        val amp: Float, val thick: Float, val layer: Int, val col: Color
+        val amp: Float, val thick: Float, val layer: Int,
+        val col: Color,
+        val colAlpha20: Color,
+        val colAlpha40: Color,
+        val layerFactor: Float
     )
 
     val ribbonSet = remember(ribbons, amplitudePx, thicknessPx, baseColor, accentColor) {
         List(ribbons) {
             val layer = it % parallaxLayers
+            val col = lerp(baseColor, accentColor, Random.nextFloat()).copy(alpha = 0.85f)
             Ribbon(
                 yBase = Random.nextFloat(),                // relative 0..1
                 phase = Random.nextFloat() * 6.28318f,     // 0..2π
@@ -55,34 +61,45 @@ fun DataRibbonsBackground(
                 amp = amplitudePx * (0.7f + 0.6f * Random.nextFloat()),
                 thick = thicknessPx * (0.7f + 0.6f * Random.nextFloat()),
                 layer = layer,
-                col = lerp(baseColor, accentColor, Random.nextFloat()).copy(alpha = 0.85f)
+                col = col,
+                colAlpha20 = col.copy(alpha = 0.20f),
+                colAlpha40 = col.copy(alpha = 0.40f),
+                layerFactor = 1f - 0.15f * layer
             )
         }
+    }
+
+    // ⚡ Bolt Optimization: Pre-allocate Path and constants outside render loop
+    val path = remember { Path() }
+    val points = 80
+    val omegas = remember(points) {
+        FloatArray(points + 1) { i -> (i / points.toFloat()) * 6.28318f }
     }
 
     Canvas(modifier = modifier.fillMaxSize()) {
         val w = size.width
         val h = size.height
 
-        ribbonSet.forEach { r ->
-            val path = Path()
-            val points = 80
+        // ⚡ Bolt Optimization: Use manual loop to avoid Iterator allocations
+        for (idx in ribbonSet.indices) {
+            val r = ribbonSet[idx]
+            path.reset()
             for (i in 0..points) {
                 val x = (i / points.toFloat()) * w
-                val ω = (x / w) * 6.28318f
+                val ω = omegas[i]
                 // subtle parallax via layer depth and time
                 val y = r.yBase * h +
-                        sin(ω + r.phase + t * r.speed) * r.amp * (1f - 0.15f * r.layer)
+                        sin(ω + r.phase + t * r.speed) * r.amp * r.layerFactor
                 if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
             }
 
             // glow passes
             drawPath(
-                path, r.col.copy(alpha = 0.20f),
+                path, r.colAlpha20,
                 style = Stroke(width = r.thick * 2.8f, cap = StrokeCap.Round)
             )
             drawPath(
-                path, r.col.copy(alpha = 0.40f),
+                path, r.colAlpha40,
                 style = Stroke(width = r.thick * 1.8f, cap = StrokeCap.Round)
             )
             drawPath(path, r.col, style = Stroke(width = r.thick, cap = StrokeCap.Round))

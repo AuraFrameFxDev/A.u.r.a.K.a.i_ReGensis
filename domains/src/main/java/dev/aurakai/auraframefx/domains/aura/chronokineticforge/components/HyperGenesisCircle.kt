@@ -139,7 +139,6 @@ fun HyperGenesisSynchronizationCircle(
 
     // Rotating accent markers (representing live threads)
     val markerCount = (successRate / 10).toInt().coerceIn(5, 12)
-
     // ⚡ Bolt Optimization: Precompute marker base angles trig values to avoid recalculation per frame
     val markerCosA = remember(markerCount) {
         FloatArray(markerCount) { index ->
