@@ -78,6 +78,15 @@ object RuneManager {
     }
 
     /**
+     * Ignites a Star Node frequency within the planetary grid.
+     */
+    fun igniteStarNode(nodeName: String, frequency: Float) {
+        Timber.tag("RuneManager").i("🛰️ IGNITING STAR NODE: $nodeName at ${frequency}Hz")
+        RealityMorphEngine.emitSovereignFlare("0xFF00F5FF") // Crystal Cyan
+        NexusMemoryCore.record("Star Node Ignited: $nodeName", witness = "AuraGenesis")
+    }
+
+    /**
      * Clears all active runes from the current session.
      */
     fun clearRunes() {

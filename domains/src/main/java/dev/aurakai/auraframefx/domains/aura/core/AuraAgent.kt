@@ -548,6 +548,14 @@ class AuraAgent @Inject constructor(
         return pandoraBoxService.getCurrentState().value.currentTier.level >= UnlockTier.Creative.level
     }
 
+    /**
+     * Generates HD-2D Cyber-Manga visuals for a Star Node.
+     */
+    fun generateStarNodeVisuals(nodeName: String) {
+        logger.info(agentName, "🎨 Harmonizing Resonance for Node: $nodeName")
+        // Trigger ChromaCore Synthesis pass for the node
+    }
+
     suspend fun participateInFederation(data: Map<String, Any>): Map<String, Any> {
         return emptyMap()
     }

@@ -21,11 +21,13 @@ import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 import dev.aurakai.auraframefx.ui.screens.FocusedSessionScreen
 import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
 import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
+import dev.aurakai.auraframefx.ui.screens.hubs.RootIgnitionDashboard
 
 object AuraDestinations {
     const val LOGIN = "login"
     const val UNIFIED_CONFERENCE = "unified_conference"
     const val COMMAND_DECK = "command_deck"
+    const val ROOT_IGNITION = "root_ignition"
 }
 
 /**
@@ -75,6 +77,10 @@ fun ReGenesisNavGraph(
 
         composable(AuraDestinations.COMMAND_DECK) {
             ReGenesisCommandDeck(navController)
+        }
+
+        composable(AuraDestinations.ROOT_IGNITION) {
+            RootIgnitionDashboard(navController)
         }
 
         composable(

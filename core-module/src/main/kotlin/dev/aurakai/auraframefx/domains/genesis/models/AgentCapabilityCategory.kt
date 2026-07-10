@@ -145,6 +145,8 @@ enum class AgentCapabilityCategory(val id: Int) {
                 KAIROS -> COORDINATION
                 ANDELUALX -> COORDINATION
                 MANUS -> BRIDGE
+                AgentType.JULES -> DEVELOPMENT
+                AgentType.CODERABBIT -> DEVELOPMENT
             }
         }
     }
