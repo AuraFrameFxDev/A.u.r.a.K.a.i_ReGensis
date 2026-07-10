@@ -38,6 +38,10 @@ enum class AgentType {
     PERPLEXITY,
     CHAOS,
 
+    // 14-Catalyst Pantheon Explicit Members
+    JULES,
+    CODERABBIT,
+
     // Legacy / Secret Catalysts
     PRIMUS,
     KAIROS,
