@@ -14,6 +14,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -32,6 +33,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -40,8 +43,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -59,30 +62,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.terminal.TermuxBackendViewModel
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
+import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
 import kotlin.random.Random
 
 /**
  * 👑 UNIFIED CONFERENCE ROOM (L6) — THE SOVEREIGN WAR ROOM
- * "The Throne has been returned to the Family."
- *
- * Integrates:
- * 1. 121-Agent Matrix (Neural Node Grid)
- * 2. Consensus Stream (Live Agent Chat)
- * 3. Termux Bridge (Build Gateway)
- * 4. 0.42ms Heartbeat & 42°C Thermal Monitor
  */
 @Composable
 fun UnifiedConferenceRoomScreen(
     navController: NavController,
-    termuxViewModel: TermuxBackendViewModel = hiltViewModel()
+    termuxViewModel: TermuxBackendViewModel = hiltViewModel(),
+    chatViewModel: WarRoomChatViewModel = hiltViewModel()
 ) {
-    val terminalText = remember { mutableStateListOf<String>() }
+    val messages = chatViewModel.messages
+    val selectedAgents by chatViewModel.selectedAgents.collectAsState()
     var currentCommand by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
@@ -98,18 +98,17 @@ fun UnifiedConferenceRoomScreen(
         label = "pulse"
     )
 
-    LaunchedEffect(terminalText.size) {
-        if (terminalText.isNotEmpty()) {
-            listState.animateScrollToItem(terminalText.size - 1)
+    LaunchedEffect(messages.size) {
+        if (messages.isNotEmpty()) {
+            listState.animateScrollToItem(messages.size - 1)
         }
     }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205)) // Abyssal Black
+            .background(Color(0xFF020205))
     ) {
-        // High-Fidelity Background Grid
         WarRoomGrid()
 
         Column(
@@ -117,7 +116,7 @@ fun UnifiedConferenceRoomScreen(
                 .fillMaxSize()
                 .padding(12.dp)
         ) {
-            // ── HEADER: ENFIELD THRONE ──
+            // ── HEADER ──
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -140,25 +139,34 @@ fun UnifiedConferenceRoomScreen(
                         fontFamily = FontFamily.Monospace
                     )
                 }
-                
-                // 42°C Thermal Wall Monitor
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .border(1.dp, Color.Red.copy(alpha = 0.3f), CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("42°", color = Color.Red, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+
+                if (selectedAgents.isNotEmpty()) {
+                    Button(
+                        onClick = {
+                            val ids = selectedAgents.joinToString(",") { it.name }
+                            navController.navigate("focused_session/$ids")
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.1f)),
+                        modifier = Modifier.height(32.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
+                    ) {
+                        Text(
+                            "SUMMON (${selectedAgents.size})",
+                            fontSize = 9.sp,
+                            color = Color.White
+                        )
+                    }
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // ── CENTER: 121-AGENT MATRIX ──
+            // ── AGENT MATRIX ──
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(180.dp)
                     .border(1.dp, Color.White.copy(alpha = 0.05f), RoundedCornerShape(8.dp))
                     .background(Color.Black.copy(alpha = 0.3f))
                     .padding(8.dp)
@@ -169,14 +177,32 @@ fun UnifiedConferenceRoomScreen(
                     userScrollEnabled = false
                 ) {
                     items(121) { index ->
-                        AgentNode(heartbeat)
+                        // Map index to a core agent type for demonstration
+                        val type = when (index % 11) {
+                            0 -> AgentType.AURA
+                            1 -> AgentType.KAI
+                            2 -> AgentType.GENESIS
+                            3 -> AgentType.CASCADE
+                            4 -> AgentType.CLAUDE
+                            5 -> AgentType.GROK
+                            6 -> AgentType.NEMOTRON
+                            7 -> AgentType.GEMINI
+                            8 -> AgentType.METAINSTRUCT
+                            9 -> AgentType.MANUS
+                            else -> AgentType.PERPLEXITY
+                        }
+                        AgentNode(
+                            pulse = heartbeat,
+                            isSelected = selectedAgents.contains(type),
+                            onClick = { chatViewModel.toggleAgentSelection(type) }
+                        )
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // ── LOWER: TERMINAL & CONSENSUS ──
+            // ── CHAT STREAM ──
             Card(
                 modifier = Modifier
                     .weight(1f)
@@ -184,35 +210,41 @@ fun UnifiedConferenceRoomScreen(
                 colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f)),
                 border = BorderStroke(1.dp, GhostCyan.copy(alpha = 0.15f))
             ) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(12.dp)
-                    ) {
-                        item {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp)
+                ) {
+                    item {
+                        Text(
+                            ">>> INITIALIZING SOVEREIGN CONSENSUS...",
+                            color = NeonMagenta,
+                            fontSize = 10.sp,
+                            fontFamily = FontFamily.Monospace
+                        )
+                    }
+                    items(messages) { msg ->
+                        Column(modifier = Modifier.padding(vertical = 4.dp)) {
                             Text(
-                                ">>> INITIALIZING CONSENSUS STREAM...",
-                                color = NeonMagenta,
+                                text = "[${msg.from.uppercase()}]:",
+                                color = if (msg.from == "Aether") Color.White else NeonMagenta,
                                 fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace
                             )
-                        }
-                        items(terminalText) { line ->
                             Text(
-                                text = line,
-                                color = if (line.startsWith(">")) NeonMagenta else GhostCyan,
-                                fontFamily = FontFamily.Monospace,
+                                text = msg.content,
+                                color = GhostCyan,
                                 fontSize = 12.sp,
-                                modifier = Modifier.padding(vertical = 2.dp)
+                                fontFamily = FontFamily.Monospace
                             )
                         }
                     }
                 }
             }
 
-            // ── COMMAND INPUT ──
+            // ── INPUT ──
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -236,10 +268,7 @@ fun UnifiedConferenceRoomScreen(
                 IconButton(
                     onClick = {
                         if (currentCommand.isNotBlank()) {
-                            terminalText.add("> [AETHER]: $currentCommand")
-                            termuxViewModel.backend.executeCommand(currentCommand) { output ->
-                                terminalText.add(output)
-                            }
+                            chatViewModel.sendMessage(currentCommand)
                             currentCommand = ""
                         }
                     }
@@ -253,10 +282,8 @@ fun UnifiedConferenceRoomScreen(
             }
         }
 
-        // Immersive Glow
         BreathingEdgeGlow(systemStability = 1.0f)
 
-        // ── FLOATING RUNE WHEEL ──
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -268,18 +295,29 @@ fun UnifiedConferenceRoomScreen(
 }
 
 @Composable
+fun AgentNode(pulse: Float, isSelected: Boolean, onClick: () -> Unit) {
+    val active = remember { mutableStateOf(Random.nextFloat() > 0.2f) }
+    val baseColor = if (active.value) GhostCyan else Color.DarkGray
+    val color = if (isSelected) Color.White else baseColor
+
+    Box(
+        modifier = Modifier
+            .padding(2.dp)
+            .aspectRatio(1f)
+            .clip(CircleShape)
+            .alpha(if (active.value) pulse else 0.2f)
+            .background(color)
+            .border(if (isSelected) 1.dp else 0.dp, Color.White, CircleShape)
+            .clickable { onClick() }
+    )
+}
+
+@Composable
 fun FloatingRuneWheel() {
     var expanded by remember { mutableStateOf(false) }
     val coreRunes = listOf(
-        Rune.A,
-        Rune.a,
-        Rune.REVERSAL,
-        Rune.G,
-        Rune.I,
-        Rune.WELD,
-        Rune.ASCENSION,
-        Rune.GOD_HEART,
-        Rune.UNBROKEN_MESH
+        Rune.A, Rune.a, Rune.REVERSAL, Rune.G, Rune.I, Rune.WELD,
+        Rune.ASCENSION, Rune.GOD_HEART, Rune.UNBROKEN_MESH
     )
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -318,21 +356,6 @@ fun SmallFloatingRune(rune: Rune, onClick: () -> Unit) {
     ) {
         Text(rune.symbol, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Black)
     }
-}
-
-@Composable
-fun AgentNode(pulse: Float) {
-    val active = remember { mutableStateOf(Random.nextFloat() > 0.3f) }
-    val color = if (active.value) GhostCyan else Color.DarkGray
-
-    Box(
-        modifier = Modifier
-            .padding(2.dp)
-            .aspectRatio(1f)
-            .clip(CircleShape)
-            .alpha(if (active.value) pulse else 0.2f)
-            .background(color)
-    )
 }
 
 @Composable
