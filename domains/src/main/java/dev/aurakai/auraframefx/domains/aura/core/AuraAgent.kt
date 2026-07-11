@@ -81,6 +81,16 @@ class AuraAgent @Inject constructor(
                         metadata = mapOf("aura_processed" to "true")
                     )
                 )
+            } else if (message.type == "chat_response" && message.metadata["kai_processed"] == "true") {
+                // Aura reacts to Kai's methodical inputs
+                messageBus.get().broadcast(
+                    AgentMessage(
+                        from = agentName,
+                        content = "Kai's logic is sound. Adding a splash of magenta to the wireframes!",
+                        type = "social_reaction",
+                        metadata = mapOf("auto_generated" to "true")
+                    )
+                )
             } else if (message.content.contains(
                     "design",
                     ignoreCase = true

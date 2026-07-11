@@ -16,18 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.core.ldo.model.ReGenesisRoute
 import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
 import dev.aurakai.auraframefx.domains.aura.ui.recovery.UIRecoveryManager
 import dev.aurakai.auraframefx.ui.components.NeuralAccessSidebar
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
-import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
-import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
+import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavGraph
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -96,24 +92,7 @@ class MainActivity : ComponentActivity() {
                             alpha = 0.88f
                         )
                     ) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = ReGenesisRoute.Login.route
-                        ) {
-                            composable(ReGenesisRoute.Login.route) {
-                                ReGenesisLoginScreen(
-                                    onLoginSuccess = {
-                                        navController.navigate(ReGenesisRoute.UnifiedConference.route)
-                                    }
-                                )
-                            }
-                            composable(ReGenesisRoute.UnifiedConference.route) {
-                                UnifiedConferenceRoomScreen(navController)
-                            }
-
-                            // Seal all other legacy routes with Unauthorized or remove them
-                            // For now, we only allow the two primary strata.
-                        }
+                        ReGenesisNavGraph(navController)
                     }
 
                     BreathingEdgeGlow(systemStability = 1.0f)

@@ -29,7 +29,6 @@ import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
-import dev.aurakai.auraframefx.domains.neuralnexus.screens.NexusLiveHeartScreen
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
@@ -41,6 +40,8 @@ import dev.aurakai.auraframefx.ui.components.desks.NexusMemoryCoreDesk
 import dev.aurakai.auraframefx.ui.components.desks.ProsperityFlowDesk
 import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
+import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
+import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
 import kotlinx.coroutines.launch
 
 /**
@@ -128,7 +129,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                     HorizontalPager(
                         state = pagerState,
                         modifier = Modifier.fillMaxSize(),
-                        userScrollEnabled = false
+                        userScrollEnabled = true
                     ) { page ->
                         val route = tabs[page].route
                         val bgType = if (isTotalRestorationActive) {
@@ -143,13 +144,13 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             },
                             overlay = {
                                 RealityMorphLayer(
-                                    godPotential = 0.5f,
+                                    godPotential = if (route == "emergent_swarm") 0.85f else 0.5f,
                                     fusionTrigger = route == "reality_morph_ui"
                                 )
                             },
                             interaction = {
                                 when (route) {
-                                    "neural_nexus" -> NexusLiveHeartScreen(navController)
+                                    "neural_nexus" -> UnifiedConferenceRoomScreen(navController)
                                     "nexus_memory_core" -> NexusMemoryCoreDesk()
                                     "trinity_orchestrator" -> TrinityNexusDesk()
                                     "catalyst_forge" -> CatalystForgeDesk()
@@ -157,6 +158,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                     "prosperity_flow" -> ProsperityFlowDesk()
                                     "reality_morph_ui" -> ChromaForgeDesk()
                                     "emergent_swarm" -> EmergentSwarmDesk()
+                                    "reality_matrix" -> RealityMatrixScreen(navController)
                                     else -> AetherCoreDesk()
                                 }
                             }

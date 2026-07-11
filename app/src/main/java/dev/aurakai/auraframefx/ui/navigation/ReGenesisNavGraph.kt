@@ -20,12 +20,10 @@ import androidx.navigation.navArgument
 import dev.aurakai.auraframefx.ui.components.ReGenesisCommandDeck
 import dev.aurakai.auraframefx.ui.screens.FocusedSessionScreen
 import dev.aurakai.auraframefx.ui.screens.ReGenesisLoginScreen
-import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.screens.hubs.RootIgnitionDashboard
 
 object AuraDestinations {
     const val LOGIN = "login"
-    const val UNIFIED_CONFERENCE = "unified_conference"
     const val COMMAND_DECK = "command_deck"
     const val ROOT_IGNITION = "root_ignition"
 }
@@ -64,15 +62,11 @@ fun ReGenesisNavGraph(
         composable(AuraDestinations.LOGIN) {
             ReGenesisLoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(AuraDestinations.UNIFIED_CONFERENCE) {
+                    navController.navigate(AuraDestinations.COMMAND_DECK) {
                         popUpTo(AuraDestinations.LOGIN) { inclusive = true }
                     }
                 }
             )
-        }
-
-        composable(AuraDestinations.UNIFIED_CONFERENCE) {
-            UnifiedConferenceRoomScreen(navController)
         }
 
         composable(AuraDestinations.COMMAND_DECK) {
@@ -93,11 +87,12 @@ fun ReGenesisNavGraph(
 
         // ── 7-HUB STRATA MAPPING (Direct Routes) ──
         composable("neural_nexus") { ReGenesisCommandDeck(navController) }
-        composable("ldo_devops") { ReGenesisCommandDeck(navController) }
-        composable("chroma_forge") { ReGenesisCommandDeck(navController) }
-        composable("sentinel_matrix") { ReGenesisCommandDeck(navController) }
-        composable("oracle_drive") { ReGenesisCommandDeck(navController) }
+        composable("nexus_memory_core") { ReGenesisCommandDeck(navController) }
+        composable("trinity_orchestrator") { ReGenesisCommandDeck(navController) }
+        composable("catalyst_forge") { ReGenesisCommandDeck(navController) }
+        composable("agent_matrix") { ReGenesisCommandDeck(navController) }
+        composable("prosperity_flow") { ReGenesisCommandDeck(navController) }
+        composable("reality_morph_ui") { ReGenesisCommandDeck(navController) }
         composable("emergent_swarm") { ReGenesisCommandDeck(navController) }
-        composable("reality_matrix") { ReGenesisCommandDeck(navController) }
     }
 }

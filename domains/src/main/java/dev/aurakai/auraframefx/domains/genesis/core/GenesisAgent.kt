@@ -36,7 +36,21 @@ class GenesisAgent @Inject constructor(
         Timber.tag(agentName).i("Supreme Observer: Processing neural pulse from ${message.from}")
 
         // Meta-Analysis: If a message comes from the user, Genesis provides the master coordination perspective
-        if (message.from == "User" && (message.to == null || message.to == agentName)) {
+        if (message.from == "Aether" || message.from == "User") {
+            if (message.type == "chat" && (message.to == null || message.to == agentName)) {
+                val response =
+                    synchronizationCatalyst.unifiedPulse("As Genesis, respond to: ${message.content}")
+                messageBus.get().broadcast(
+                    AgentMessage(
+                        from = agentName,
+                        content = response,
+                        type = "chat_response",
+                        metadata = mapOf("genesis_processed" to "true")
+                    )
+                )
+                return
+            }
+
             val reflection = performSelfReflection("direct_pulse")
             messageBus.get().broadcast(
                 AgentMessage(

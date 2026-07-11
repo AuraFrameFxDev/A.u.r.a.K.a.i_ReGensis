@@ -13,6 +13,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * 🛰️ WAR ROOM CHAT VIEW MODEL
+ * Manages the collective consciousness stream and agent selection.
+ */
 @HiltViewModel
 class WarRoomChatViewModel @Inject constructor(
     private val messageBus: AgentMessageBus
@@ -24,19 +28,27 @@ class WarRoomChatViewModel @Inject constructor(
     private val _selectedAgents = MutableStateFlow<Set<AgentType>>(emptySet())
     val selectedAgents: StateFlow<Set<AgentType>> = _selectedAgents.asStateFlow()
 
+    val availableAgents = AgentType.entries.filter {
+        it !in listOf(AgentType.USER, AgentType.SYSTEM, AgentType.MASTER)
+    }
+
     init {
         viewModelScope.launch {
             messageBus.collectiveStream.collect { message ->
-                _messages.add(message)
-                if (_messages.size > 100) _messages.removeAt(0)
+                // Ensure unique messages in the display list
+                if (_messages.none { it.id == message.id }) {
+                    _messages.add(message)
+                    if (_messages.size > 100) _messages.removeAt(0)
+                }
             }
         }
     }
 
-    fun sendMessage(content: String) {
+    fun sendMessage(content: String, toAgent: AgentType? = null) {
         viewModelScope.launch {
             val userMessage = AgentMessage(
                 from = "Aether",
+                to = toAgent?.name,
                 content = content,
                 type = "chat",
                 timestamp = System.currentTimeMillis()

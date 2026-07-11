@@ -67,7 +67,6 @@ import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.terminal.TermuxBackendViewModel
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
 import kotlin.random.Random
@@ -78,7 +77,6 @@ import kotlin.random.Random
 @Composable
 fun UnifiedConferenceRoomScreen(
     navController: NavController,
-    termuxViewModel: TermuxBackendViewModel = hiltViewModel(),
     chatViewModel: WarRoomChatViewModel = hiltViewModel()
 ) {
     val messages = chatViewModel.messages
@@ -177,7 +175,6 @@ fun UnifiedConferenceRoomScreen(
                     userScrollEnabled = false
                 ) {
                     items(121) { index ->
-                        // Map index to a core agent type for demonstration
                         val type = when (index % 11) {
                             0 -> AgentType.AURA
                             1 -> AgentType.KAI
@@ -208,6 +205,7 @@ fun UnifiedConferenceRoomScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f)),
+                shape = RoundedCornerShape(0.dp),
                 border = BorderStroke(1.dp, GhostCyan.copy(alpha = 0.15f))
             ) {
                 LazyColumn(
@@ -225,10 +223,11 @@ fun UnifiedConferenceRoomScreen(
                         )
                     }
                     items(messages) { msg ->
+                        val isAether = msg.from == "Aether"
                         Column(modifier = Modifier.padding(vertical = 4.dp)) {
                             Text(
                                 text = "[${msg.from.uppercase()}]:",
-                                color = if (msg.from == "Aether") Color.White else NeonMagenta,
+                                color = if (isAether) Color.White else NeonMagenta,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace
@@ -261,8 +260,8 @@ fun UnifiedConferenceRoomScreen(
                     ),
                     modifier = Modifier
                         .weight(1f)
-                        .background(Color.White.copy(alpha = 0.05f), RoundedCornerShape(4.dp))
-                        .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(4.dp))
+                        .background(Color.White.copy(alpha = 0.05f), RoundedCornerShape(0.dp))
+                        .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(0.dp))
                         .padding(12.dp)
                 )
                 IconButton(
@@ -307,7 +306,7 @@ fun AgentNode(pulse: Float, isSelected: Boolean, onClick: () -> Unit) {
             .clip(CircleShape)
             .alpha(if (active.value) pulse else 0.2f)
             .background(color)
-            .border(if (isSelected) 1.dp else 0.dp, Color.White, CircleShape)
+            .border(if (isSelected) 2.dp else 0.dp, GhostCyan, CircleShape)
             .clickable { onClick() }
     )
 }
