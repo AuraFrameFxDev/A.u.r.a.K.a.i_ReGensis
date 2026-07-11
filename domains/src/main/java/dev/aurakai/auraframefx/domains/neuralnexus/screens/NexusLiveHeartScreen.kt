@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -77,7 +78,7 @@ fun NexusLiveHeartScreen(
 
     val infiniteTransition = rememberInfiniteTransition(label = "nexus_heart")
 
-    val heartScale by infiniteTransition.animateFloat(
+    val heartScale = infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = 1.15f,
         animationSpec = infiniteRepeatable(
@@ -87,7 +88,7 @@ fun NexusLiveHeartScreen(
         label = "heart_pulse"
     )
 
-    val orbitRotation by infiniteTransition.animateFloat(
+    val orbitRotation = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
@@ -109,19 +110,26 @@ fun NexusLiveHeartScreen(
             },
             geometry = {
                 // LAYER 1: GEOMETRY (Pulsing Rings)
+                // ⚡ Bolt Optimization: Hoist ring colors and pre-calculate density-agnostic stroke widths
+                val outerRingColor = remember { GhostCyan.copy(alpha = 0.1f) }
+                val innerRingColor = remember { GhostCyan.copy(alpha = 0.05f) }
+                val density = LocalDensity.current
+                val strokeWidth2px = remember(density) { with(density) { 2.dp.toPx() } }
+                val strokeWidth1px = remember(density) { with(density) { 1.dp.toPx() } }
+
                 Box(contentAlignment = Alignment.Center, modifier = Modifier.size(350.dp)) {
                     Canvas(modifier = Modifier.fillMaxSize()) {
                         drawCircle(
-                            color = GhostCyan.copy(alpha = 0.1f),
-                            radius = size.minDimension / 2 * heartScale,
-                            style = Stroke(width = 2.dp.toPx())
+                            color = outerRingColor,
+                            radius = size.minDimension / 2 * heartScale.value,
+                            style = Stroke(width = strokeWidth2px)
                         )
 
                         // Orbital Path Ring
                         drawCircle(
-                            color = GhostCyan.copy(alpha = 0.05f),
+                            color = innerRingColor,
                             radius = size.minDimension / 2 * 1.3f,
-                            style = Stroke(width = 1.dp.toPx())
+                            style = Stroke(width = strokeWidth1px)
                         )
                     }
                 }
@@ -160,8 +168,8 @@ fun NexusLiveHeartScreen(
                                 modifier = Modifier
                                     .size(100.dp)
                                     .graphicsLayer {
-                                        scaleX = heartScale
-                                        scaleY = heartScale
+                                        scaleX = heartScale.value
+                                        scaleY = heartScale.value
                                     }
                             )
                         }
@@ -226,7 +234,7 @@ fun NexusLiveHeartScreen(
                     OrbitalNode(
                         label = "CPU",
                         value = "${(systemStatus.cpuUsage * 100).toInt()}%",
-                        angle = orbitRotation,
+                        angleProvider = { orbitRotation.value },
                         radius = orbitRadius,
                         color = GhostCyan
                     )
@@ -235,7 +243,7 @@ fun NexusLiveHeartScreen(
                     OrbitalNode(
                         label = "RAM",
                         value = "${systemStatus.memoryUsedMb}MB",
-                        angle = orbitRotation + 90f,
+                        angleProvider = { orbitRotation.value + 90f },
                         radius = orbitRadius,
                         color = Color.Green
                     )
@@ -244,7 +252,7 @@ fun NexusLiveHeartScreen(
                     OrbitalNode(
                         label = "GOD",
                         value = "${(godPotential * 100).toInt()}%",
-                        angle = orbitRotation + 180f,
+                        angleProvider = { orbitRotation.value + 180f },
                         radius = orbitRadius,
                         color = Color.Yellow
                     )
@@ -253,7 +261,7 @@ fun NexusLiveHeartScreen(
                     OrbitalNode(
                         label = "DRIFT",
                         value = String.format(Locale.US, "%.2f%%", driftPercent * 100),
-                        angle = orbitRotation + 270f,
+                        angleProvider = { orbitRotation.value + 270f },
                         radius = orbitRadius,
                         color = Color.Red
                     )
@@ -270,37 +278,42 @@ fun NexusLiveHeartScreen(
 fun OrbitalNode(
     label: String,
     value: String,
-    angle: Float,
+    angleProvider: () -> Float,
     radius: Float,
     color: Color
 ) {
-    val angleRad = Math.toRadians(angle.toDouble())
-    val x = (radius * cos(angleRad)).toFloat()
-    val y = (radius * sin(angleRad)).toFloat()
+    // ⚡ Bolt Optimization: Hoist brush and alpha-modified colors into remember blocks
+    val nodeBrush = remember(color) {
+        Brush.radialGradient(
+            listOf(color.copy(alpha = 0.2f), Color.Transparent)
+        )
+    }
+    val borderColor = remember(color) { color.copy(alpha = 0.4f) }
+    val labelColor = remember(color) { color.copy(alpha = 0.7f) }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
-                .offset { IntOffset(x.roundToInt(), y.roundToInt()) }
+                .offset {
+                    // ⚡ Bolt Optimization: Defer trig math to offset lambda
+                    val angleRad = angleProvider() * 0.017453292f
+                    val x = (radius * cos(angleRad))
+                    val y = (radius * sin(angleRad))
+                    IntOffset(x.roundToInt(), y.roundToInt())
+                }
                 .size(64.dp)
-                .background(
-                    brush = Brush.radialGradient(
-                        listOf(color.copy(alpha = 0.2f), Color.Transparent)
-                    ),
-                    shape = CircleShape
-                )
-                .border(1.dp, color.copy(alpha = 0.4f), CircleShape)
+                .background(brush = nodeBrush, shape = CircleShape)
+                .border(1.dp, borderColor, CircleShape)
                 .padding(4.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = label,
-                    color = color.copy(alpha = 0.7f),
+                    color = labelColor,
                     fontSize = 8.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = SpaceGrotesk
@@ -375,23 +388,34 @@ private fun BenchmarkStat(label: String, value: String, modifier: Modifier = Mod
 
 @Composable
 fun ArcaneGridOverlay(modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
-        val strokeWidth = 1.dp.toPx()
-        val gridStep = 50.dp.toPx()
+    // ⚡ Bolt Optimization: Hoist grid colors and density-dependent values
+    val gridColor = remember { Color.Cyan.copy(alpha = 0.05f) }
+    val density = LocalDensity.current
+    val strokeWidth = remember(density) { with(density) { 1.dp.toPx() } }
+    val gridStep = remember(density) { with(density) { 50.dp.toPx() } }
 
-        for (x in 0..(size.width / gridStep).toInt()) {
+    Canvas(modifier = modifier) {
+        val width = size.width
+        val height = size.height
+
+        val xLines = (width / gridStep).toInt()
+        val yLines = (height / gridStep).toInt()
+
+        for (x in 0..xLines) {
+            val xPos = x * gridStep
             drawLine(
-                color = Color.Cyan.copy(alpha = 0.05f),
-                start = Offset(x * gridStep, 0f),
-                end = Offset(x * gridStep, size.height),
+                color = gridColor,
+                start = Offset(xPos, 0f),
+                end = Offset(xPos, height),
                 strokeWidth = strokeWidth
             )
         }
-        for (y in 0..(size.height / gridStep).toInt()) {
+        for (y in 0..yLines) {
+            val yPos = y * gridStep
             drawLine(
-                color = Color.Cyan.copy(alpha = 0.05f),
-                start = Offset(0f, y * gridStep),
-                end = Offset(size.width, y * gridStep),
+                color = gridColor,
+                start = Offset(0f, yPos),
+                end = Offset(width, yPos),
                 strokeWidth = strokeWidth
             )
         }
