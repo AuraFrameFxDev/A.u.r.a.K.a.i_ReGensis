@@ -521,7 +521,7 @@ private fun SynthOrbPortal(
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "orb")
 
-    val rotation by infiniteTransition.animateFloat(
+    val rotationState = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
@@ -531,7 +531,7 @@ private fun SynthOrbPortal(
         label = "rotation"
     )
 
-    val pulse by infiniteTransition.animateFloat(
+    val pulseState = infiniteTransition.animateFloat(
         initialValue = 0.8f,
         targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
@@ -540,6 +540,27 @@ private fun SynthOrbPortal(
         ),
         label = "pulse"
     )
+
+    // ⚡ Bolt Optimization: Hoist allocations and pre-calculate constants
+    val energyPath = remember { Path() }
+    val corePath = remember { Path() }
+    val energyStroke = remember { Stroke(width = 3f, cap = StrokeCap.Round) }
+    val coreStroke = remember { Stroke(width = 4f, cap = StrokeCap.Round) }
+    val ringStroke = remember { Stroke(width = 2f) }
+    val degToRad = PI.toFloat() / 180f
+    val twoPi = 2 * PI.toFloat()
+
+    val magentaColor = Color(0xFFFF00FF)
+    val cyanColor = Color(0xFF00E5FF)
+
+    val coreGradientColors = remember {
+        listOf(
+            Color.White,
+            Color(0xFFFF00FF),
+            Color(0xFFFF00FF).copy(alpha = 0.5f),
+            Color.Transparent
+        )
+    }
 
     Box(
         modifier = modifier
@@ -555,47 +576,45 @@ private fun SynthOrbPortal(
         Canvas(modifier = Modifier.fillMaxSize()) {
             val center = Offset(size.width / 2, size.height / 2)
             val baseRadius = size.minDimension / 2 * 0.4f
+            val currentPulse = pulseState.value
+            val currentRotation = rotationState.value
 
             // Multiple pulsing rings
             for (i in 3 downTo 1) {
                 drawCircle(
-                    color = Color(0xFFFF00FF).copy(alpha = 0.1f * i * pulse),
+                    color = magentaColor.copy(alpha = 0.1f * i * currentPulse),
                     radius = baseRadius * (1f + i * 0.15f),
                     center = center,
-                    style = Stroke(width = 2f)
+                    style = ringStroke
                 )
             }
 
             // Rotating energy ring
             val ringRadius = baseRadius * 1.1f
             val points = 8
-            val path = Path().apply {
-                for (i in 0 until points) {
-                    val angle = (i.toFloat() / points) * 2 * PI.toFloat() +
-                            rotation * PI.toFloat() / 180f
-                    val x = center.x + cos(angle) * ringRadius
-                    val y = center.y + sin(angle) * ringRadius
+            val angleStep = twoPi / points
+            val rotationRad = currentRotation * degToRad
 
-                    if (i == 0) moveTo(x, y) else lineTo(x, y)
-                }
-                close()
+            energyPath.reset()
+            for (i in 0 until points) {
+                val angle = i * angleStep + rotationRad
+                val x = center.x + cos(angle) * ringRadius
+                val y = center.y + sin(angle) * ringRadius
+
+                if (i == 0) energyPath.moveTo(x, y) else energyPath.lineTo(x, y)
             }
+            energyPath.close()
 
             drawPath(
-                path = path,
-                color = Color(0xFF00E5FF).copy(alpha = 0.6f),
-                style = Stroke(width = 3f, cap = StrokeCap.Round)
+                path = energyPath,
+                color = cyanColor.copy(alpha = 0.6f),
+                style = energyStroke
             )
 
             // Core orb
             drawCircle(
                 brush = Brush.radialGradient(
-                    colors = listOf(
-                        Color.White,
-                        Color(0xFFFF00FF),
-                        Color(0xFFFF00FF).copy(alpha = 0.5f),
-                        Color.Transparent
-                    ),
+                    colors = coreGradientColors,
                     center = center,
                     radius = baseRadius
                 ),
@@ -606,22 +625,23 @@ private fun SynthOrbPortal(
             // Inner rotating core
             val innerRadius = baseRadius * 0.4f
             val innerPoints = 6
-            val innerPath = Path().apply {
-                for (i in 0 until innerPoints) {
-                    val angle = (i.toFloat() / innerPoints) * 2 * PI.toFloat() -
-                            rotation * 2 * PI.toFloat() / 180f
-                    val x = center.x + cos(angle) * innerRadius
-                    val y = center.y + sin(angle) * innerRadius
+            val innerAngleStep = twoPi / innerPoints
+            val innerRotationRad = -currentRotation * 2 * degToRad
 
-                    if (i == 0) moveTo(x, y) else lineTo(x, y)
-                }
-                close()
+            corePath.reset()
+            for (i in 0 until innerPoints) {
+                val angle = i * innerAngleStep + innerRotationRad
+                val x = center.x + cos(angle) * innerRadius
+                val y = center.y + sin(angle) * innerRadius
+
+                if (i == 0) corePath.moveTo(x, y) else corePath.lineTo(x, y)
             }
+            corePath.close()
 
             drawPath(
-                path = innerPath,
-                color = Color(0xFF00E5FF).copy(alpha = 0.8f),
-                style = Stroke(width = 4f, cap = StrokeCap.Round)
+                path = corePath,
+                color = cyanColor.copy(alpha = 0.8f),
+                style = coreStroke
             )
 
             // Center point
