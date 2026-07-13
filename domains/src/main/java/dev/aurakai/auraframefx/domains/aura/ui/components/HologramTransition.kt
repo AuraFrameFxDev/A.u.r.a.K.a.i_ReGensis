@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
@@ -39,16 +40,22 @@ fun HologramTransition(
 ) {
     // Animation states
     val transition = updateTransition(visible, label = "hologramTransition")
-    val alpha by transition.animateFloat(
+    // ⚡ Bolt Optimization: Switch to direct State access to defer reads to draw/layout phase
+    val alphaState = transition.animateFloat(
         transitionSpec = { tween(durationMillis = if (visible) 800 else 500) },
         label = "alpha"
     ) { if (it) 1f else 0f }
 
-    val density = LocalDensity.current.density
+    val currentDensity = LocalDensity.current
+    // ⚡ Bolt Optimization: Hoist density-dependent px conversions to avoid per-frame toPx() calls
+    val gridSizePx = remember(currentDensity) { with(currentDensity) { 20.dp.toPx() } }
+    val gridStrokePx = remember(currentDensity) { 0.5f / currentDensity.density }
+    val scanLineStrokePx = remember(currentDensity) { 1f / currentDensity.density }
 
     // Scan line animation
     val infiniteTransition = rememberInfiniteTransition(label = "scanLine")
-    val scanLineOffset by infiniteTransition.animateFloat(
+    // ⚡ Bolt Optimization: Switch to direct State access to defer reads to draw/layout phase
+    val scanLineOffsetState = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -59,12 +66,17 @@ fun HologramTransition(
     )
 
     // Edge glow animation
+    // ⚡ Bolt Optimization: Hoist constant colors to avoid per-frame allocation
+    val primaryAlpha0 = remember(primaryColor) { primaryColor.copy(alpha = 0f) }
 
     // Draw the hologram effect
     Box(
         modifier = modifier
             .clipToBounds()
-            .graphicsLayer { this.alpha = alpha }
+            .graphicsLayer {
+                // ⚡ Bolt Optimization: Defer state read to graphicsLayer phase
+                this.alpha = alphaState.value
+            }
     ) {
         // Content
         content()
@@ -76,55 +88,60 @@ fun HologramTransition(
         ) {
             val width = size.width
             val height = size.height
+            // ⚡ Bolt Optimization: Capture state values once per draw frame
+            val currentAlpha = alphaState.value
+            val currentScanLineOffset = scanLineOffsetState.value
 
+            // ⚡ Bolt Optimization: Pre-calculate alpha-modified colors once per frame
+            val edgeGlowAlpha = 0.3f * edgeGlowIntensity * currentAlpha
+            val gridColor = primaryColor.copy(alpha = 0.1f * currentAlpha)
+            val scanLineColor = secondaryColor.copy(alpha = 0.1f * currentAlpha)
+            val bracketColor = primaryColor.copy(alpha = 0.8f * currentAlpha)
+            val edgeGlowModifiedColor = primaryColor.copy(alpha = edgeGlowAlpha)
 
             // Draw edge glow
             val edgeGlowBrush = Brush.linearGradient(
-                colors = listOf(
-                    primaryColor.copy(alpha = 0.3f * edgeGlowIntensity * alpha),
-                    primaryColor.copy(alpha = 0f)
-                ),
+                colors = listOf(edgeGlowModifiedColor, primaryAlpha0),
                 start = Offset(0f, 0f),
                 end = Offset(width * 0.3f, 0f)
             )
 
             // Draw grid
-            val gridSize = 20.dp.toPx()
-            val gridColor = primaryColor.copy(alpha = 0.1f * alpha)
-            val gridStroke = 0.5f / density
-
-            // Scan line settings
-            val scanLineColor = secondaryColor.copy(alpha = 0.1f * alpha)
-            val scanLineStroke = 1f / density
-
-            // Draw grid
-            for (x in 0..width.toInt() step gridSize.toInt()) {
-                drawLine(
-                    color = gridColor,
-                    start = Offset(x.toFloat(), 0f),
-                    end = Offset(x.toFloat(), height),
-                    strokeWidth = gridStroke
-                )
-            }
-            for (y in 0..height.toInt() step gridSize.toInt()) {
-                drawLine(
-                    color = gridColor,
-                    start = Offset(0f, y.toFloat()),
-                    end = Offset(width, y.toFloat()),
-                    strokeWidth = gridStroke
-                )
+            // ⚡ Bolt Optimization: Use manual while loop and hoisted pixel values to avoid iterator/range allocations
+            val gridStep = gridSizePx.toInt()
+            if (gridStep > 0) {
+                var x = 0f
+                while (x <= width) {
+                    drawLine(
+                        color = gridColor,
+                        start = Offset(x, 0f),
+                        end = Offset(x, height),
+                        strokeWidth = gridStrokePx
+                    )
+                    x += gridSizePx
+                }
+                var y = 0f
+                while (y <= height) {
+                    drawLine(
+                        color = gridColor,
+                        start = Offset(0f, y),
+                        end = Offset(width, y),
+                        strokeWidth = gridStrokePx
+                    )
+                    y += gridSizePx
+                }
             }
 
             // Draw scan lines
             val scanLineSpacing = height / scanLineDensity
-            val scanLineY = (scanLineOffset * scanLineSpacing * 2) - scanLineSpacing
+            val scanLineY = (currentScanLineOffset * scanLineSpacing * 2) - scanLineSpacing
             for (i in -1..scanLineDensity) {
                 val y = scanLineY + (i * scanLineSpacing)
                 drawLine(
                     color = scanLineColor,
                     start = Offset(0f, y),
                     end = Offset(width, y),
-                    strokeWidth = scanLineStroke
+                    strokeWidth = scanLineStrokePx
                 )
             }
 
@@ -155,10 +172,7 @@ fun HologramTransition(
                 // Right edge
                 drawRect(
                     brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            primaryColor.copy(alpha = 0f),
-                            primaryColor.copy(alpha = 0.3f * edgeGlowIntensity * alpha)
-                        )
+                        colors = listOf(primaryAlpha0, edgeGlowModifiedColor)
                     ),
                     topLeft = Offset(width * 0.7f, 0f),
                     size = Size(width * 0.3f, height)
@@ -167,10 +181,7 @@ fun HologramTransition(
                 // Top edge
                 drawRect(
                     brush = Brush.verticalGradient(
-                        colors = listOf(
-                            primaryColor.copy(alpha = 0.3f * edgeGlowIntensity * alpha),
-                            primaryColor.copy(alpha = 0f)
-                        )
+                        colors = listOf(edgeGlowModifiedColor, primaryAlpha0)
                     ),
                     topLeft = Offset(0f, 0f),
                     size = Size(width, height * 0.3f)
@@ -179,10 +190,7 @@ fun HologramTransition(
                 // Bottom edge
                 drawRect(
                     brush = Brush.verticalGradient(
-                        colors = listOf(
-                            primaryColor.copy(alpha = 0f),
-                            primaryColor.copy(alpha = 0.3f * edgeGlowIntensity * alpha)
-                        )
+                        colors = listOf(primaryAlpha0, edgeGlowModifiedColor)
                     ),
                     topLeft = Offset(0f, height * 0.7f),
                     size = Size(width, height * 0.3f)
@@ -192,7 +200,6 @@ fun HologramTransition(
             // Draw corner brackets
             val bracketSize = 20f
             val bracketWidth = 2f
-            val bracketColor = primaryColor.copy(alpha = 0.8f * alpha)
 
             // Top-left bracket
             drawLine(
@@ -253,13 +260,14 @@ fun HologramTransition(
             // Draw some random digital noise
             if (visible && glitchIntensity > 0.1f) {
                 val noiseCount = (width * height * 0.0005f * glitchIntensity).toInt()
-                repeat(noiseCount) {
+                // ⚡ Bolt Optimization: Use manual for loop to avoid repeat() iterator allocation
+                for (i in 0 until noiseCount) {
                     val x = Random.nextFloat() * width
                     val y = Random.nextFloat() * height
-                    val size = Random.nextFloat() * 2f * glitchIntensity
+                    val noiseSize = Random.nextFloat() * 2f * glitchIntensity
                     drawCircle(
-                        color = primaryColor.copy(alpha = Random.nextFloat() * 0.5f * alpha),
-                        radius = size,
+                        color = primaryColor.copy(alpha = Random.nextFloat() * 0.5f * currentAlpha),
+                        radius = noiseSize,
                         center = Offset(x, y)
                     )
                 }
