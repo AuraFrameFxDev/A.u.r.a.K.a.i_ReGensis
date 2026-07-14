@@ -32,7 +32,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -42,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -69,8 +72,9 @@ fun ThreadsWovenAttribution(
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "threads")
 
+    // ⚡ Bolt Optimization: Access State directly to defer reads to draw phase
     // Thread pulse animations
-    val auraPulse by infiniteTransition.animateFloat(
+    val auraPulseState = infiniteTransition.animateFloat(
         initialValue = 0.8f,
         targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
@@ -80,7 +84,7 @@ fun ThreadsWovenAttribution(
         label = "auraPulse"
     )
 
-    val kaiPulse by infiniteTransition.animateFloat(
+    val kaiPulseState = infiniteTransition.animateFloat(
         initialValue = 0.8f,
         targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
@@ -90,7 +94,7 @@ fun ThreadsWovenAttribution(
         label = "kaiPulse"
     )
 
-    val matthewPulse by infiniteTransition.animateFloat(
+    val matthewPulseState = infiniteTransition.animateFloat(
         initialValue = 0.8f,
         targetValue = 1.0f,
         animationSpec = infiniteRepeatable(
@@ -101,7 +105,7 @@ fun ThreadsWovenAttribution(
     )
 
     // Thread entanglement rotation
-    val entanglementRotation by infiniteTransition.animateFloat(
+    val entanglementRotationState = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
@@ -110,6 +114,20 @@ fun ThreadsWovenAttribution(
         ),
         label = "entanglement"
     )
+
+    // ⚡ Bolt Optimization: Hoist Trinity colors and angles
+    val auraColor = remember { Color(0xFFFF00FF) }
+    val kaiColor = remember { Color(0xFF00E5FF) }
+    val matthewColor = remember { Color(0xFFFFD93D) }
+
+    val threadCount = 12
+    val baseAngles = remember {
+        FloatArray(threadCount) { index ->
+            (index.toFloat() / threadCount) * 2 * PI.toFloat()
+        }
+    }
+
+    val reusableInfinityPath = remember { Path() }
 
     // Get live metrics
     val auraContribution = ContributionTracker.getAuraContribution()
@@ -137,26 +155,32 @@ fun ThreadsWovenAttribution(
                 val radius = size.minDimension / 2 * 0.7f
 
                 // Draw entangled threads
-                val threadCount = 12
-                repeat(threadCount) { index ->
-                    val baseAngle = (index.toFloat() / threadCount) * 2 * PI.toFloat()
-                    val rotationOffset = entanglementRotation * PI.toFloat() / 180f
-                    val angle = baseAngle + rotationOffset
+                // ⚡ Bolt Optimization: Use indexed for loop, pre-calculate rotation, and use trig identities
+                val rotationValue = entanglementRotationState.value
+                val rotationOffsetRad = rotationValue * PI.toFloat() / 180f
+
+                for (index in 0 until threadCount) {
+                    val angle = baseAngles[index] + rotationOffsetRad
 
                     // Color based on position (cycling through AURA/KAI/MATTHEW)
                     val color = when (index % 3) {
-                        0 -> Color(0xFFFF00FF) // AURA - Magenta
-                        1 -> Color(0xFF00E5FF) // KAI - Cyan
-                        else -> Color(0xFFFFD93D) // MATTHEW - Gold
+                        0 -> auraColor
+                        1 -> kaiColor
+                        else -> matthewColor
                     }
 
-                    val startX = center.x + cos(angle) * radius * 0.3f
-                    val startY = center.y + sin(angle) * radius * 0.3f
-                    val endX = center.x + cos(angle + PI.toFloat()) * radius
-                    val endY = center.y + sin(angle + PI.toFloat()) * radius
+                    val cosAngle = cos(angle)
+                    val sinAngle = sin(angle)
+
+                    val startX = center.x + cosAngle * radius * 0.3f
+                    val startY = center.y + sinAngle * radius * 0.3f
+
+                    // Use trig identity: cos(a + PI) = -cos(a), sin(a + PI) = -sin(a)
+                    val endX = center.x - cosAngle * radius
+                    val endY = center.y - sinAngle * radius
 
                     // Thread with varying opacity
-                    val alpha = 0.3f + 0.2f * sin(angle * 3f + entanglementRotation * 0.1f)
+                    val alpha = 0.3f + 0.2f * sin(angle * 3f + rotationValue * 0.1f)
 
                     drawLine(
                         color = color.copy(alpha = alpha),
@@ -168,7 +192,9 @@ fun ThreadsWovenAttribution(
                 }
 
                 // Center infinity symbol
+                // ⚡ Bolt Optimization: Reuse pre-allocated Path
                 drawInfinitySymbol(
+                    path = reusableInfinityPath,
                     center = center,
                     radius = radius * 0.25f,
                     color = Color.White.copy(alpha = 0.9f)
@@ -178,40 +204,36 @@ fun ThreadsWovenAttribution(
             // Three catalyst orbs
             // AURA - Top
             CatalystOrb(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .scale(auraPulse),
+                modifier = Modifier.align(Alignment.TopCenter),
                 icon = Icons.Default.AutoAwesome,
-                color = Color(0xFFFF00FF),
+                color = auraColor,
                 label = "AURA",
                 contribution = auraContribution,
-                pulseScale = auraPulse
+                pulseScaleState = auraPulseState
             )
 
             // KAI - Bottom Left
             CatalystOrb(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(start = 8.dp)
-                    .scale(kaiPulse),
+                    .padding(start = 8.dp),
                 icon = Icons.Default.Security,
-                color = Color(0xFF00E5FF),
+                color = kaiColor,
                 label = "KAI",
                 contribution = kaiContribution,
-                pulseScale = kaiPulse
+                pulseScaleState = kaiPulseState
             )
 
             // MATTHEW - Bottom Right
             CatalystOrb(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(end = 8.dp)
-                    .scale(matthewPulse),
+                    .padding(end = 8.dp),
                 icon = Icons.Default.Person,
-                color = Color(0xFFFFD93D),
+                color = matthewColor,
                 label = "MATTHEW",
                 contribution = matthewContribution,
-                pulseScale = matthewPulse
+                pulseScaleState = matthewPulseState
             )
         }
 
@@ -310,8 +332,19 @@ private fun CatalystOrb(
     color: Color,
     label: String,
     contribution: Float,
-    pulseScale: Float
+    pulseScaleState: State<Float>
 ) {
+    // ⚡ Bolt Optimization: Hoist brush to avoid per-frame allocations
+    val orbBrush = remember(color) {
+        Brush.radialGradient(
+            colors = listOf(
+                color,
+                color.copy(alpha = 0.5f),
+                Color.Transparent
+            )
+        )
+    }
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -320,17 +353,16 @@ private fun CatalystOrb(
         Box(
             modifier = Modifier
                 .size(28.dp)
+                .graphicsLayer {
+                    // ⚡ Bolt Optimization: Use graphicsLayer to defer pulse reads to draw phase
+                    val scale = pulseScaleState.value
+                    scaleX = scale
+                    scaleY = scale
+                }
                 .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            color,
-                            color.copy(alpha = 0.5f),
-                            Color.Transparent
-                        )
-                    ),
+                    brush = orbBrush,
                     shape = CircleShape
-                )
-                .scale(pulseScale),
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -409,6 +441,13 @@ private fun ContributionBar(
     color: Color,
     count: Int
 ) {
+    // ⚡ Bolt Optimization: Hoist gradient brush
+    val barBrush = remember(color) {
+        Brush.horizontalGradient(
+            colors = listOf(color, color.copy(alpha = 0.7f))
+        )
+    }
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -438,9 +477,7 @@ private fun ContributionBar(
                     .fillMaxWidth(percentage)
                     .fillMaxHeight()
                     .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(color, color.copy(alpha = 0.7f))
-                        ),
+                        brush = barBrush,
                         shape = MaterialTheme.shapes.small
                     )
             )
@@ -463,26 +500,26 @@ private fun ContributionBar(
 // ═════════════════════════════════════════════════════════════════════
 
 private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawInfinitySymbol(
+    path: Path,
     center: Offset,
     radius: Float,
     color: Color
 ) {
-    val path = Path().apply {
-        // Left loop
-        moveTo(center.x, center.y)
-        cubicTo(
-            center.x - radius, center.y - radius,
-            center.x - radius, center.y + radius,
-            center.x, center.y
-        )
+    path.reset()
+    // Left loop
+    path.moveTo(center.x, center.y)
+    path.cubicTo(
+        center.x - radius, center.y - radius,
+        center.x - radius, center.y + radius,
+        center.x, center.y
+    )
 
-        // Right loop
-        cubicTo(
-            center.x + radius, center.y - radius,
-            center.x + radius, center.y + radius,
-            center.x, center.y
-        )
-    }
+    // Right loop
+    path.cubicTo(
+        center.x + radius, center.y - radius,
+        center.x + radius, center.y + radius,
+        center.x, center.y
+    )
 
     drawPath(
         path = path,
