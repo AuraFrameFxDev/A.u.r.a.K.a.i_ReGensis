@@ -33,3 +33,7 @@
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-15 - [Jetpack Compose Layer Consolidation]
+**Learning:** In highly animated Jetpack Compose components, nesting multiple 'Canvas' and 'Box' layers for independent animations (rotation, scale) creates significant Layout Node overhead. While 'graphicsLayer' is efficient, 'withTransform' inside a single 'Canvas' is often faster for consolidated drawing of multiple animated parts, as it avoids the overhead of additional Layout Nodes and recomposition scopes.
+**Action:** Consolidate multiple overlapping 'Canvas' components into a single 'Canvas' using 'withTransform' for independent coordinate transformations (scale, rotate, translate). Always use direct 'State.value' access within these blocks to defer state reads.
