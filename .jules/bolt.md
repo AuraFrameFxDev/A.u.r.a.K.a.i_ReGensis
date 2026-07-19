@@ -33,3 +33,7 @@
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-19 - [SQLite Storage Threading & Query Optimization]
+**Learning:** Spawning a new OS thread for every single database write introduces substantial CPU/memory overhead and causes concurrency contentions or lock issues under high frequency. Additionally, copying and filtering python `deque` collections (e.g. converting to a list and filtering) introduces major garbage collection pressure when only a small slice is needed.
+**Action:** Enqueue SQLite write requests to a thread-safe `queue.Queue` and process them sequentially via a dedicated background daemon worker thread to eliminate thread-spawning overhead. Optimize deque querying by performing in-place, memory-efficient backward-traversal with `reversed(deque)` and short-circuiting once limits are reached.
