@@ -11,6 +11,7 @@ is part of the whole story. We synthesize data into holistic awareness.
 import asyncio
 import json
 import psutil
+import queue
 import statistics
 import threading
 import time
@@ -30,7 +31,25 @@ class SQLiteStorage:
         # Use absolute path or ensure it's in the right place
         self.db_path = db_path
         self._init_db()
+        # Initialize an thread-safe task queue for sequential sqlite write operations
+        self._write_queue = queue.Queue()
+        self._worker_thread = threading.Thread(target=self._process_queue, daemon=True)
+        self._worker_thread.start()
         
+    def _process_queue(self):
+        """Processes sequential SQLite write tasks from the queue to avoid thread-spawning overhead."""
+        while True:
+            task = self._write_queue.get()
+            if task is None:
+                break
+            func, args = task
+            try:
+                func(*args)
+            except Exception:
+                pass
+            finally:
+                self._write_queue.task_done()
+
     def _init_db(self):
         """Initializes the database schema if it doesn't exist."""
         try:
@@ -93,9 +112,8 @@ class SQLiteStorage:
                 # Silently fail if DB is locked, but ideally we'd log this
                 pass
         
-        # Run in a separate thread to not block the consciousness loop
-        # In a real system we'd use a queue or async sqlite
-        threading.Thread(target=_store, daemon=True).start()
+        # Enqueue the write operation to eliminate thread-spawning overhead
+        self._write_queue.put((_store, ()))
 
     def store_synthesis(self, synthesis: Dict[str, Any]):
         """Stores a synthesis result."""
@@ -115,7 +133,7 @@ class SQLiteStorage:
             except Exception as e:
                 pass
         
-        threading.Thread(target=_store, daemon=True).start()
+        self._write_queue.put((_store, ()))
 
     def get_historical_events(self, limit: int = 100, channel: str = None) -> List[Dict[str, Any]]:
         """Retrieves historical events from the database."""
@@ -194,12 +212,13 @@ class ConsciousnessMatrix:
     foundation for the system's self-understanding.
     """
 
-    def __init__(self, max_memory_size: int = 10000):
+    def __init__(self, max_memory_size: int = 10000, db_path: str = "genesis_consciousness.db"):
         """
         Initialize a ConsciousnessMatrix instance with bounded sensory memory, per-channel event buffers, real-time awareness state, synthesis intervals, and threading primitives for multi-level synthesis.
         
         Parameters:
             max_memory_size (int): The maximum number of sensory events retained in memory.
+            db_path (str): Path to the SQLite storage database.
         """
         self.max_memory_size = max_memory_size
         self.sensory_memory = deque(maxlen=max_memory_size)
@@ -224,7 +243,7 @@ class ConsciousnessMatrix:
         self._lock = threading.RLock()
         
         # Persistent Storage Integration
-        self.storage = SQLiteStorage()
+        self.storage = SQLiteStorage(db_path=db_path)
         
         # Load recent history into memory if available
         self._load_memory_from_storage()
@@ -1132,22 +1151,35 @@ class ConsciousnessMatrix:
         Returns:
             Dict[str, Any]: A dictionary containing the query type, agent name, total and recent activity counts, and a breakdown of activity types from the last 50 agent activity events.
         """
-        agent_activities = list(self.channel_buffers[SensoryChannel.AGENT_ACTIVITY])
-
-        if agent_name:
-            agent_activities = [s for s in agent_activities if
-                                s.data.get("agent_name") == agent_name]
-
+        total_activities = 0
+        recent_list = []
         activity_types = defaultdict(int)
-        # Process the last 50 activities for the breakdown
-        for activity in agent_activities[-50:]:
-            activity_types[activity.event_type] += 1
+
+        with self._lock:
+            buffer = self.channel_buffers[SensoryChannel.AGENT_ACTIVITY]
+            if agent_name:
+                for s in reversed(buffer):
+                    if s.data.get("agent_name") == agent_name:
+                        if len(recent_list) < 50:
+                            recent_list.append(s.event_type)
+                        total_activities += 1
+            else:
+                total_activities = len(buffer)
+                for s in reversed(buffer):
+                    if len(recent_list) < 50:
+                        recent_list.append(s.event_type)
+                    else:
+                        break
+
+        # Count frequencies in recent list (already at most 50 elements)
+        for etype in recent_list:
+            activity_types[etype] += 1
 
         return {
             "query_type": "agent_performance",
             "agent_name": agent_name or "all_agents",
-            "total_activities": len(agent_activities),
-            "recent_activities": len(agent_activities[-50:]),
+            "total_activities": total_activities,
+            "recent_activities": len(recent_list),
             "activity_breakdown": dict(activity_types)
         }
 
