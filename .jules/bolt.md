@@ -33,3 +33,7 @@
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-20 - [Deque Slicing and SQLite Connection Leaks]
+**Learning:** Indexing into a `collections.deque` is an $O(N)$ operation. Fetching the last $K$ elements of a deque using an indexed list-comprehension loop is an $O(K \cdot N)$ operation, which is highly inefficient for large deques. Additionally, Python's `with sqlite3.connect(...) as conn:` only controls transactions and does NOT close connections, causing massive connection leaks under load.
+**Action:** Always walk deques backwards using `reversed(deque)` to yield elements directly in $O(1)$ time. Implement a thread-safe background task queue (`queue.Queue`) and a dedicated background daemon worker thread to handle SQLite writes sequentially, ensuring the single worker thread closes the connection properly on exit.
