@@ -33,3 +33,7 @@
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-21 - [SQLite Storage Queue Thread Optimization]
+**Learning:** In high-frequency backend monitoring modules (such as the `ConsciousnessMatrix`), spawning standard OS threads on every write operation creates a massive thread-spawning bottleneck and leads to database connection leakage / locking contention. During high-throughput testing, this can trigger file descriptor exhaustion errors (`OSError: [Errno 24] Too many open files`).
+**Action:** Always prefer a single thread-safe queue (`queue.Queue`) and a dedicated background daemon worker thread to handle database transaction serialization sequentially. This eliminates thread-spawning overhead, protects database locking models, and bounds file descriptor consumption.
