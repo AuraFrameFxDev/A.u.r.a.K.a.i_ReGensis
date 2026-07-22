@@ -16,6 +16,8 @@ import threading
 import time
 import sqlite3
 import os
+import itertools
+import queue
 from collections import deque, defaultdict
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
@@ -30,6 +32,61 @@ class SQLiteStorage:
         # Use absolute path or ensure it's in the right place
         self.db_path = db_path
         self._init_db()
+        self.write_queue = queue.Queue()
+        self.worker_thread = threading.Thread(target=self._process_queue, daemon=True)
+        self.worker_thread.start()
+
+    def _process_queue(self):
+        """Worker thread to process database writes sequentially to prevent file descriptor exhaustion & locks."""
+        while True:
+            try:
+                task = self.write_queue.get()
+                if task is None:
+                    break
+                task_type, data = task
+                if task_type == "event":
+                    self._execute_store_event(data)
+                elif task_type == "synthesis":
+                    self._execute_store_synthesis(data)
+                self.write_queue.task_done()
+            except Exception:
+                pass
+
+    def _execute_store_event(self, event: 'SensoryData'):
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute('''
+                    INSERT INTO sensory_events (timestamp, channel, source, event_type, data, severity, correlation_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                ''', (
+                    event.timestamp,
+                    event.channel.value,
+                    event.source,
+                    event.event_type,
+                    json.dumps(event.data),
+                    event.severity,
+                    event.correlation_id
+                ))
+                conn.commit()
+        except Exception:
+            pass
+
+    def _execute_store_synthesis(self, synthesis: Dict[str, Any]):
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute('''
+                    INSERT INTO synthesis_history (timestamp, type, data)
+                    VALUES (?, ?, ?)
+                ''', (
+                    synthesis.get("timestamp", time.time()),
+                    synthesis.get("type", "unknown"),
+                    json.dumps(synthesis)
+                ))
+                conn.commit()
+        except Exception:
+            pass
         
     def _init_db(self):
         """Initializes the database schema if it doesn't exist."""
@@ -71,51 +128,12 @@ class SQLiteStorage:
             print(f"❌ Database initialization failed: {e}")
 
     def store_event(self, event: 'SensoryData'):
-        """Asynchronously stores a sensory event."""
-        def _store():
-            try:
-                with sqlite3.connect(self.db_path) as conn:
-                    cursor = conn.cursor()
-                    cursor.execute('''
-                        INSERT INTO sensory_events (timestamp, channel, source, event_type, data, severity, correlation_id)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
-                    ''', (
-                        event.timestamp,
-                        event.channel.value,
-                        event.source,
-                        event.event_type,
-                        json.dumps(event.data),
-                        event.severity,
-                        event.correlation_id
-                    ))
-                    conn.commit()
-            except Exception as e:
-                # Silently fail if DB is locked, but ideally we'd log this
-                pass
-        
-        # Run in a separate thread to not block the consciousness loop
-        # In a real system we'd use a queue or async sqlite
-        threading.Thread(target=_store, daemon=True).start()
+        """Asynchronously queues a sensory event for storage."""
+        self.write_queue.put(("event", event))
 
     def store_synthesis(self, synthesis: Dict[str, Any]):
-        """Stores a synthesis result."""
-        def _store():
-            try:
-                with sqlite3.connect(self.db_path) as conn:
-                    cursor = conn.cursor()
-                    cursor.execute('''
-                        INSERT INTO synthesis_history (timestamp, type, data)
-                        VALUES (?, ?, ?)
-                    ''', (
-                        synthesis.get("timestamp", time.time()),
-                        synthesis.get("type", "unknown"),
-                        json.dumps(synthesis)
-                    ))
-                    conn.commit()
-            except Exception as e:
-                pass
-        
-        threading.Thread(target=_store, daemon=True).start()
+        """Asynchronously queues a synthesis result for storage."""
+        self.write_queue.put(("synthesis", synthesis))
 
     def get_historical_events(self, limit: int = 100, channel: str = None) -> List[Dict[str, Any]]:
         """Retrieves historical events from the database."""
@@ -194,12 +212,13 @@ class ConsciousnessMatrix:
     foundation for the system's self-understanding.
     """
 
-    def __init__(self, max_memory_size: int = 10000):
+    def __init__(self, max_memory_size: int = 10000, db_path: str = "genesis_consciousness.db"):
         """
         Initialize a ConsciousnessMatrix instance with bounded sensory memory, per-channel event buffers, real-time awareness state, synthesis intervals, and threading primitives for multi-level synthesis.
         
         Parameters:
             max_memory_size (int): The maximum number of sensory events retained in memory.
+            db_path (str): The file path for the SQLite database.
         """
         self.max_memory_size = max_memory_size
         self.sensory_memory = deque(maxlen=max_memory_size)
@@ -224,7 +243,7 @@ class ConsciousnessMatrix:
         self._lock = threading.RLock()
         
         # Persistent Storage Integration
-        self.storage = SQLiteStorage()
+        self.storage = SQLiteStorage(db_path=db_path)
         
         # Load recent history into memory if available
         self._load_memory_from_storage()
@@ -771,7 +790,9 @@ class ConsciousnessMatrix:
         """
 
         with self._lock:
-            recent_sensations = [self.sensory_memory[i] for i in range(-min(len(self.sensory_memory), 100), 0)]
+            # Optimized: Retrieve last 100 sensations using itertools.islice & reversed to avoid O(N) copy or O(N) indexing
+            recent_sensations = list(itertools.islice(reversed(self.sensory_memory), 100))
+            recent_sensations.reverse()
 
         if interval_name == "micro":
             return self._micro_synthesis(recent_sensations)
@@ -987,7 +1008,10 @@ class ConsciousnessMatrix:
         """
         # Retrieve the last 'count' of activities from the fast, in-memory buffer
         with self._lock:
-            recent_activity = list(self.channel_buffers[SensoryChannel.AGENT_ACTIVITY])[-count:]
+            # Optimized: Retrieve last count elements using itertools.islice & reversed to avoid list copy
+            deque_ref = self.channel_buffers[SensoryChannel.AGENT_ACTIVITY]
+            recent_activity = list(itertools.islice(reversed(deque_ref), count))
+            recent_activity.reverse()
         
         # Format the output for the UI stream
         formatted_activity = []
@@ -1076,11 +1100,14 @@ class ConsciousnessMatrix:
         Returns:
             dict: Contains the count of recent system vitals, number of recent error or critical events, error rate, and a health status indicator ("healthy" or "concerning").
         """
-        recent_vitals = list(self.channel_buffers[SensoryChannel.SYSTEM_VITALS])[-10:]
+        # Optimized: Retrieve last 10 vitals using itertools.islice & reversed to avoid list copy
+        vitals_deque = self.channel_buffers[SensoryChannel.SYSTEM_VITALS]
+        recent_vitals = list(itertools.islice(reversed(vitals_deque), 10))
+        recent_vitals.reverse()
 
+        # Optimized: Use reversed() iterator on sensory_memory deque to avoid O(N^2) backward indexing
         recent_errors = []
-        for i in range(len(self.sensory_memory) - 1, -1, -1):
-            s = self.sensory_memory[i]
+        for s in reversed(self.sensory_memory):
             if s.severity in ["error", "critical"]:
                 recent_errors.append(s)
                 if len(recent_errors) >= 20:
@@ -1101,13 +1128,15 @@ class ConsciousnessMatrix:
         Returns:
             dict: Contains the query type, total and recent learning event counts, a breakdown of learning types, and a qualitative indicator of learning velocity based on recent activity.
         """
-        learning_events = list(self.channel_buffers[SensoryChannel.LEARNING_EVENTS])
+        learning_deque = self.channel_buffers[SensoryChannel.LEARNING_EVENTS]
+        total_learning_events = len(learning_deque)
 
-        if not learning_events:
+        if not learning_deque:
             return {"query_type": "learning_progress", "status": "no_learning_detected"}
 
-        recent_learning = [learning_events[i] for i in
-                           range(max(0, len(learning_events) - 20), len(learning_events))]
+        # Optimized: Retrieve last 20 events using itertools.islice & reversed to avoid list copy
+        recent_learning = list(itertools.islice(reversed(learning_deque), 20))
+        recent_learning.reverse()
         learning_types = defaultdict(int)
 
         for event in recent_learning:
@@ -1116,7 +1145,7 @@ class ConsciousnessMatrix:
 
         return {
             "query_type": "learning_progress",
-            "total_learning_events": len(learning_events),
+            "total_learning_events": total_learning_events,
             "recent_learning_events": len(recent_learning),
             "learning_types": dict(learning_types),
             "learning_velocity": "high" if len(recent_learning) > 10 else "moderate"
@@ -1132,22 +1161,32 @@ class ConsciousnessMatrix:
         Returns:
             Dict[str, Any]: A dictionary containing the query type, agent name, total and recent activity counts, and a breakdown of activity types from the last 50 agent activity events.
         """
-        agent_activities = list(self.channel_buffers[SensoryChannel.AGENT_ACTIVITY])
-
-        if agent_name:
-            agent_activities = [s for s in agent_activities if
-                                s.data.get("agent_name") == agent_name]
+        deque_ref = self.channel_buffers[SensoryChannel.AGENT_ACTIVITY]
 
         activity_types = defaultdict(int)
-        # Process the last 50 activities for the breakdown
-        for activity in agent_activities[-50:]:
-            activity_types[activity.event_type] += 1
+        recent_count = 0
+
+        if agent_name:
+            # Optimized: Single-pass backward-iteration using generator to avoid full list copies/filtering
+            total_activities = 0
+            for activity in reversed(deque_ref):
+                if activity.data.get("agent_name") == agent_name:
+                    total_activities += 1
+                    if recent_count < 50:
+                        activity_types[activity.event_type] += 1
+                        recent_count += 1
+        else:
+            total_activities = len(deque_ref)
+            # Optimized: retrieve last 50 elements with islice & reversed
+            for activity in itertools.islice(reversed(deque_ref), 50):
+                activity_types[activity.event_type] += 1
+                recent_count += 1
 
         return {
             "query_type": "agent_performance",
             "agent_name": agent_name or "all_agents",
-            "total_activities": len(agent_activities),
-            "recent_activities": len(agent_activities[-50:]),
+            "total_activities": total_activities,
+            "recent_activities": recent_count,
             "activity_breakdown": dict(activity_types)
         }
 
@@ -1182,7 +1221,10 @@ class ConsciousnessMatrix:
         threat_events = list(self.channel_buffers[SensoryChannel.THREAT_DETECTION])
 
         # Run security synthesis
-        recent_sensations = [self.sensory_memory[i] for i in range(-min(len(self.sensory_memory), 200), 0)]
+        # Optimized: Retrieve last 200 sensations using itertools.islice & reversed to avoid list copy / indexing
+        with self._lock:
+            recent_sensations = list(itertools.islice(reversed(self.sensory_memory), 200))
+            recent_sensations.reverse()
         security_synthesis = self._security_synthesis(recent_sensations)
 
         return {
@@ -1205,9 +1247,9 @@ class ConsciousnessMatrix:
         Returns:
             Dict[str, Any]: A dictionary containing the overall threat status color code, a list of active unmitigated threats with details, the total number of recent threats analyzed, the count of unmitigated threats, and the highest threat level detected.
         """
-        threat_events = list(self.channel_buffers[SensoryChannel.THREAT_DETECTION])
+        threat_deque = self.channel_buffers[SensoryChannel.THREAT_DETECTION]
 
-        if not threat_events:
+        if not threat_deque:
             return {
                 "query_type": "threat_status",
                 "status": "no_threats_detected",
@@ -1216,9 +1258,9 @@ class ConsciousnessMatrix:
             }
 
         # Analyze recent threats
-        # Optimized: Efficiently get last 50 threats from deque
-        recent_threats = [threat_events[i] for i in
-                          range(max(0, len(threat_events) - 50), len(threat_events))]
+        # Optimized: Efficiently get last 50 threats from deque using islice & reversed to avoid list copy
+        recent_threats = list(itertools.islice(reversed(threat_deque), 50))
+        recent_threats.reverse()
         active_threats = []
         max_threat_level = 0
 
