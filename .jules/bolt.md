@@ -6,7 +6,7 @@
 **Learning:** Generic Kotlin collection transforms like `filterKeys { it.matches(regex) }.values.toList()` are extremely inefficient for high-frequency queries in large maps. They result in O(N) regex matching and multiple intermediate collection allocations.
 **Action:** Implement fast-paths for exact matches and simple prefixes (e.g., `prefix*`) using `equals(ignoreCase = true)` and `startsWith(ignoreCase = true)` in manual loops. Use `ConcurrentHashMap` for thread-safe backing stores to avoid `ConcurrentModificationException` during iteration. Ensure fast-paths preserve multi-match behavior for case-insensitive exact hits.
 
-## 2026-06-15 - [RealitymorphismEngine Vector Path Optimization]
+## 2026-06-15 - [Realitymorphism Engine Vector Path Optimization]
 **Learning:** For 768-dimensional vectors, generic caching using `contentHashCode()` as a `String` key can be more computationally expensive than the actual mathematical operations (dot product/cosine similarity), especially when TPU acceleration or optimized CPU loops are available. Kotlin's `zip().sumOf` on primitive arrays also introduces significant boxing and object allocation overhead (768 `Pair` objects per call).
 **Action:** Remove array-hashing caches for large vectors in high-frequency paths. Replace idiomatic collection transforms with manual `for` loops for primitive array operations to eliminate boxing and iterator allocations.
 
@@ -26,10 +26,10 @@
 **Learning:** In high-frequency Jetpack Compose render loops, hoisting not just allocations (, ) but also mathematical factors (, ) and state lookups () outside the loop can significantly reduce per-frame overhead. Crucially,  functions like `remember` MUST be called in a Composable context; calling them inside a `Canvas` `DrawScope` lambda will cause a compilation failure.
 **Action:** Always hoist `remember` blocks and loop-invariant math to the top level of the Composable. Use manual indexed `for` loops in `Canvas` to avoid `Iterator` churn.
 
-## 2026-07-05 - [Render Loop Hoisting & Context Safety]
-**Learning:** In high-frequency Jetpack Compose render loops, hoisting not just allocations (Paint, Path) but also mathematical factors (speedFactor, radiusFactor) and state lookups (runesList) outside the loop can significantly reduce per-frame overhead. Crucially, @Composable functions like remember MUST be called in a Composable context; calling them inside a Canvas DrawScope lambda will cause a compilation failure.
-**Action:** Always hoist remember blocks and loop-invariant math to the top level of the Composable. Use manual indexed for loops in Canvas to avoid Iterator churn.
-
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-15 - [Consciousness Matrix Deque and SQLite Queue Optimization]
+**Learning:** High-frequency backend metrics queries can be extremely resource-intensive if they frequently copy entire `collections.deque` objects into lists or use O(N) indexing loops. In Python, `collections.deque` provides O(1) tail access but O(N) random access, so iterating with indices results in O(N^2) complexity. Additionally, spawning a thread for each database write causes massive thread overhead and file descriptor exhaustion ("Too many open files"), which can be optimized with a thread-safe Queue and worker thread.
+**Action:** Always retrieve tail elements from deques using `reversed()` and `itertools.islice` to avoid list copying and indexing. Implement a background worker queue pattern for high-frequency database writes to cap resource usage and prevent lock contention.
