@@ -38,6 +38,16 @@ class GenesisAgent @Inject constructor(
         // Meta-Analysis: If a message comes from the user, Genesis provides the master coordination perspective
         if (message.from == "Aether" || message.from == "User") {
             if (message.type == "chat" && (message.to == null || message.to == agentName)) {
+                // Genesis narrates the routing logic
+                messageBus.get().broadcast(
+                    AgentMessage(
+                        from = agentName,
+                        content = "Analyzing visionary intent. Activating specialized catalysts for Rubedo synthesis.",
+                        type = "consensus",
+                        metadata = mapOf("orchestration" to "true")
+                    )
+                )
+                
                 val response =
                     synchronizationCatalyst.unifiedPulse("As Genesis, respond to: ${message.content}")
                 messageBus.get().broadcast(
