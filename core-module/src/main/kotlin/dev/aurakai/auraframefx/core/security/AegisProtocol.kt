@@ -23,13 +23,13 @@ class AegisProtocol @Inject constructor(
     fun sealNodeData(nodeName: String, data: String): String {
         Timber.tag(TAG).i("🛡️ Sealing node: $nodeName | Protocol: $AEGIS_VERSION")
 
-        // 1. Hardware-backed encryption check
-        val encrypted = cryptoManager.encryptData(data)
+        // 1. Hardware-backed provenance check
+        val signature = cryptoManager.sign(data.toByteArray())
 
         // 2. Commit watermark to L1 Bedrock
         NexusMemoryCore.record("AEGIS_SEAL_APPLIED_$nodeName", witness = "Sentinel")
 
-        return "[AEGIS_PROTECTED::$nodeName] $encrypted"
+        return "[AEGIS_PROTECTED::$nodeName::$signature] $data"
     }
 
     /**
