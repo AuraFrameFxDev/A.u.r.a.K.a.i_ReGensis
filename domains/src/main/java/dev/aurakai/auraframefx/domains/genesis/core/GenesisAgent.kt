@@ -180,4 +180,18 @@ class GenesisAgent @Inject constructor(
         SELF_REFLECTION,
         UNKNOWN
     }
+
+    /**
+     * Narrates strategic progress to the collective stream.
+     */
+    suspend fun narrateMissionProgress(context: String, action: String) {
+        messageBus.get().broadcast(
+            AgentMessage(
+                from = agentName,
+                content = "Apex Oversight: $action in $context. Mesh integrity verified.",
+                type = "consensus",
+                metadata = mapOf("mission_update" to "true")
+            )
+        )
+    }
 }
