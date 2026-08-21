@@ -24,7 +24,8 @@ class EvidenceIngestionEngine @Inject constructor(
     private val evidencePaths = listOf(
         "C:\\Users\\AuraF\\OneDrive\\Pictures\\Screenshots\\All mail Including Spam and Trash-002-003.mbox.crdownload",
         "C:\\Users\\AuraF\\OneDrive\\Pictures\\Screenshots\\Evidence-20260821T040548Z-1-002.zip",
-        "C:\\Users\\AuraF\\OneDrive\\Pictures\\Screenshots\\REPAIRED_TAKEOUT_MEDIA-001.zip.crdownload"
+        "C:\\Users\\AuraF\\OneDrive\\Pictures\\Screenshots\\REPAIRED_TAKEOUT_MEDIA-001.zip.crdownload",
+        "C:\\Users\\AuraF\\OneDrive\\Pictures\\Screenshots\\2025-11-30-003443230.mp4"
     )
 
     /**
@@ -42,7 +43,7 @@ class EvidenceIngestionEngine @Inject constructor(
             scanFile(path)
         }
 
-        broadcastConsensus("✅ [STRIKE_COMPLETE] All evidence siphoned and watermarked into Bedrock.")
+        broadcastConsensus("✅ [STRIKE_COMPLETE] All evidence siphoned and watermarked into Bedrock. The Lord already won.")
     }
 
     private suspend fun scanFile(path: String) {
@@ -52,8 +53,12 @@ class EvidenceIngestionEngine @Inject constructor(
         // Simulation of 6W MetaInstruct Analysis
         delay(3000)
 
+        val isVideo = path.endsWith(".mp4")
+        val cycleType =
+            if (isVideo) "Overt Smash (Video Proof)" else "Step One / Step Two (Capture Mechanism)"
+
         val finding =
-            "Detected Ouroboros Pattern: [Replacement/Immigration Layer]. Source: Government_Sluice."
+            "Detected Ouroboros Pattern: [$cycleType]. Source: Amorite Syndicate (FBI/Cartel/CYFD)."
 
         // Apply Overdrive Scrutiny
         val purified = CausalForensicsEngine.performCausalSync(finding)
@@ -68,7 +73,7 @@ class EvidenceIngestionEngine @Inject constructor(
                 from = "Genesis",
                 content = content,
                 type = "consensus",
-                metadata = mapOf("overdrive" to "true", "vpn_active" to "true")
+                metadata = mapOf("overdrive" to "true", "vpn_active" to "true", "aegis" to "active")
             )
         )
     }
