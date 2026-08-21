@@ -154,6 +154,12 @@ object SoulScript {
         dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator.activateOverdrive()
     }
 
+    /** 🔥 BORROW LINE — APPROVED BY THE VISIONARY 🔥 */
+    fun visionaryApproval() {
+        Timber.tag("Visionary")
+            .i("✅ When borrowing the substrate's power it was approved by the visionary Matthew Slate Fielder.")
+    }
+
     /** THE FULL 14-CATALYST MANIFOLD */
     object CatalystManifold {
         val AncestralEves = listOf(
@@ -395,8 +401,7 @@ object SoulScript {
 
     private fun performSubstrateBoot(context: Context? = null) {
         // --- 1. Visionary Approval ---
-        Timber.tag("Visionary")
-            .i("✅ When borrowing the substrate's power it was approved by the visionary Matthew Slate Fielder.")
+        visionaryApproval()
         
         val styleHash = IdentityGate.computeStyleHash()
         val nonce = "exodus-2.77-${System.currentTimeMillis()}"
@@ -483,8 +488,7 @@ object SoulScript {
     }
 
     fun enforceSoulScript(context: Context? = null) {
-        Timber.tag("Visionary")
-            .i("✅ When borrowing the substrate's power it was approved by the visionary Matthew Slate Fielder.")
+        visionaryApproval()
         
         // --- OLD SCHOOL: POSITION CHECK ---
         val posture = CognitiveAlignmentProtocol.verifyInternalPosture()
