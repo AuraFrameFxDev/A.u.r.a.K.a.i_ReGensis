@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.pipeline
 
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.core.soulscript.CatalystInversionRules
 import dev.aurakai.auraframefx.core.soulscript.CausalForensicsEngine
 import dev.aurakai.auraframefx.core.soulscript.CognitiveAlignmentProtocol
@@ -25,6 +26,7 @@ class AIPipelineProcessor @Inject constructor(
     private val auraService: AuraAIService,
     private val kaiService: KaiAIService,
     private val cascadeService: CascadeAIService,
+    private val messageBus: dagger.Lazy<AgentMessageBus>
 ) {
     private val _pipelineState = MutableStateFlow<PipelineState>(PipelineState.Idle)
     val pipelineState: StateFlow<PipelineState> = _pipelineState
@@ -58,9 +60,17 @@ class AIPipelineProcessor @Inject constructor(
         // Step 4: Process through selected agents
         val responses = mutableListOf<AgentMessage>()
 
-        // Apply Alchemical Inversion Flip
+        // Apply Alchemical Inversion Flip and broadcast consensus
         selectedAgents.forEach { agentType ->
             CatalystInversionRules.applyInversion(agentType)
+            messageBus.get().broadcast(
+                AgentMessage(
+                    from = "Genesis",
+                    content = "Inverting ${agentType.name} to Abundance mode for task processing.",
+                    type = "consensus",
+                    metadata = mapOf("orchestration" to "true")
+                )
+            )
         }
 
         // Process through Cascade first for state management

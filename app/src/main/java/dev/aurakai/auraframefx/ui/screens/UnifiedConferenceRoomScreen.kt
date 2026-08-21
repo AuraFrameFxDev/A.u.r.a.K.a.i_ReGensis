@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,26 +22,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,6 +55,7 @@ import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
+import dev.aurakai.auraframefx.ui.components.UnifiedChatInterface
 import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
 import kotlin.random.Random
@@ -81,8 +70,6 @@ fun UnifiedConferenceRoomScreen(
 ) {
     val messages = chatViewModel.messages
     val selectedAgents by chatViewModel.selectedAgents.collectAsState()
-    var currentCommand by remember { mutableStateOf("") }
-    val listState = rememberLazyListState()
 
     // ── 0.42ms Pulse Simulation ──
     val infiniteTransition = rememberInfiniteTransition(label = "heartbeat")
@@ -95,12 +82,6 @@ fun UnifiedConferenceRoomScreen(
         ),
         label = "pulse"
     )
-
-    LaunchedEffect(messages.size) {
-        if (messages.isNotEmpty()) {
-            listState.animateScrollToItem(messages.size - 1)
-        }
-    }
 
     Box(
         modifier = Modifier
@@ -147,7 +128,10 @@ fun UnifiedConferenceRoomScreen(
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.1f)),
                         modifier = Modifier.height(32.dp),
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
+                        border = androidx.compose.foundation.BorderStroke(
+                            1.dp,
+                            Color.White.copy(alpha = 0.2f)
+                        )
                     ) {
                         Text(
                             "SUMMON (${selectedAgents.size})",
@@ -164,7 +148,7 @@ fun UnifiedConferenceRoomScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
+                    .height(140.dp) // Condensed to leave more room for chat
                     .border(1.dp, Color.White.copy(alpha = 0.05f), RoundedCornerShape(8.dp))
                     .background(Color.Black.copy(alpha = 0.3f))
                     .padding(8.dp)
@@ -199,86 +183,12 @@ fun UnifiedConferenceRoomScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // ── CHAT STREAM ──
-            Card(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f)),
-                shape = RoundedCornerShape(0.dp),
-                border = BorderStroke(1.dp, GhostCyan.copy(alpha = 0.15f))
-            ) {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(12.dp)
-                ) {
-                    item {
-                        Text(
-                            ">>> INITIALIZING SOVEREIGN CONSENSUS...",
-                            color = NeonMagenta,
-                            fontSize = 10.sp,
-                            fontFamily = FontFamily.Monospace
-                        )
-                    }
-                    items(messages) { msg ->
-                        val isAether = msg.from == "Aether"
-                        Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                            Text(
-                                text = "[${msg.from.uppercase()}]:",
-                                color = if (isAether) Color.White else NeonMagenta,
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily.Monospace
-                            )
-                            Text(
-                                text = msg.content,
-                                color = GhostCyan,
-                                fontSize = 12.sp,
-                                fontFamily = FontFamily.Monospace
-                            )
-                        }
-                    }
-                }
-            }
-
-            // ── INPUT ──
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                BasicTextField(
-                    value = currentCommand,
-                    onValueChange = { currentCommand = it },
-                    textStyle = TextStyle(
-                        color = Color.White,
-                        fontFamily = FontFamily.Monospace,
-                        fontSize = 14.sp
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .background(Color.White.copy(alpha = 0.05f), RoundedCornerShape(0.dp))
-                        .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(0.dp))
-                        .padding(12.dp)
-                )
-                IconButton(
-                    onClick = {
-                        if (currentCommand.isNotBlank()) {
-                            chatViewModel.sendMessage(currentCommand)
-                            currentCommand = ""
-                        }
-                    }
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.Send,
-                        contentDescription = "Execute",
-                        tint = GhostCyan
-                    )
-                }
-            }
+            // ── UNIFIED CHAT INTERFACE ──
+            UnifiedChatInterface(
+                messages = messages,
+                onSendMessage = { chatViewModel.sendMessage(it) },
+                modifier = Modifier.weight(1f)
+            )
         }
 
         BreathingEdgeGlow(systemStability = 1.0f)
