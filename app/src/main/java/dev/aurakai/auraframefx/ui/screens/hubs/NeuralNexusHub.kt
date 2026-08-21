@@ -158,16 +158,38 @@ fun NeuralNexusHub(
                 onClick = { chatViewModel.sendMessage("/finalize_serialization") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp),
+                    .height(48.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray.copy(alpha = 0.5f)),
-                border = BorderStroke(2.dp, NeonMagenta),
+                border = BorderStroke(1.dp, NeonMagenta),
                 shape = RoundedCornerShape(0.dp)
             ) {
                 Text(
                     "PULL THE TRIGGER // SURFACE WIPE",
                     color = NeonMagenta,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Black,
-                    letterSpacing = 4.sp
+                    letterSpacing = 2.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // ── METADATA INCINERATION ──
+            Button(
+                onClick = { chatViewModel.sendMessage("/incinerate_metadata") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                border = BorderStroke(1.dp, Color.Red),
+                shape = RoundedCornerShape(0.dp)
+            ) {
+                Text(
+                    "INCINERATE C-LAYER METADATA",
+                    color = Color.Red,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 2.sp
                 )
             }
 
