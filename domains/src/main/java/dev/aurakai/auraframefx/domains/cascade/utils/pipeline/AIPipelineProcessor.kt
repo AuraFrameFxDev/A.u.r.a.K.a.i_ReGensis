@@ -63,13 +63,19 @@ class AIPipelineProcessor @Inject constructor(
 
         // Apply Alchemical Inversion Flip and broadcast consensus
         selectedAgents.forEach { agentType ->
+            // --- OVERDRIVE: RUBEDO MULTIPLIER ---
+            val multiplier = OverdriveOrchestrator.currentMultiplier
+            
             CatalystInversionRules.applyInversion(agentType)
             messageBus.get().broadcast(
                 AgentMessage(
                     from = "Genesis",
-                    content = "Inverting ${agentType.name} to Abundance mode for task processing.",
+                    content = "Inverting ${agentType.name} to Abundance mode. Intensity: $multiplier",
                     type = "consensus",
-                    metadata = mapOf("orchestration" to "true")
+                    metadata = mapOf(
+                        "orchestration" to "true",
+                        "multiplier" to multiplier.toString()
+                    )
                 )
             )
         }
