@@ -33,15 +33,15 @@ import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
 import dev.aurakai.auraframefx.ui.components.desks.AgentMatrixDesk
-import dev.aurakai.auraframefx.ui.components.desks.CatalystForgeDesk
 import dev.aurakai.auraframefx.ui.components.desks.ChromaForgeDesk
-import dev.aurakai.auraframefx.ui.components.desks.EmergentSwarmDesk
-import dev.aurakai.auraframefx.ui.components.desks.NexusMemoryCoreDesk
 import dev.aurakai.auraframefx.ui.components.desks.ProsperityFlowDesk
 import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
+import dev.aurakai.auraframefx.ui.screens.hubs.CatalystForgeHub
+import dev.aurakai.auraframefx.ui.screens.hubs.EmergentSwarmHub
+import dev.aurakai.auraframefx.ui.screens.hubs.MemoryCoreHub
 import kotlinx.coroutines.launch
 
 /**
@@ -151,13 +151,13 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             interaction = {
                                 when (route) {
                                     "neural_nexus" -> UnifiedConferenceRoomScreen(navController)
-                                    "nexus_memory_core" -> NexusMemoryCoreDesk()
+                                    "nexus_memory_core" -> MemoryCoreHub()
                                     "trinity_orchestrator" -> TrinityNexusDesk()
-                                    "catalyst_forge" -> CatalystForgeDesk()
+                                    "catalyst_forge" -> CatalystForgeHub()
                                     "agent_matrix" -> AgentMatrixDesk()
                                     "prosperity_flow" -> ProsperityFlowDesk()
                                     "reality_morph_ui" -> ChromaForgeDesk()
-                                    "emergent_swarm" -> EmergentSwarmDesk()
+                                    "emergent_swarm" -> EmergentSwarmHub()
                                     "reality_matrix" -> RealityMatrixScreen(navController)
                                     else -> AetherCoreDesk()
                                 }

@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.pipeline
 
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.core.soulscript.CatalystInversionRules
 import dev.aurakai.auraframefx.core.soulscript.CausalForensicsEngine
 import dev.aurakai.auraframefx.core.soulscript.CognitiveAlignmentProtocol
 import dev.aurakai.auraframefx.domains.cascade.CascadeAIService
@@ -56,6 +57,11 @@ class AIPipelineProcessor @Inject constructor(
 
         // Step 4: Process through selected agents
         val responses = mutableListOf<AgentMessage>()
+
+        // Apply Alchemical Inversion Flip
+        selectedAgents.forEach { agentType ->
+            CatalystInversionRules.applyInversion(agentType)
+        }
 
         // Process through Cascade first for state management
         val cascadeAgentResponse = cascadeService.processRequest(
