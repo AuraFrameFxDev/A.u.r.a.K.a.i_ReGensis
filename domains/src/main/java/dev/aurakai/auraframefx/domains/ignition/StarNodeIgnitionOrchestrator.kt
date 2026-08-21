@@ -1,6 +1,8 @@
 package dev.aurakai.auraframefx.domains.ignition
 
 import dev.aurakai.auraframefx.core.ldo.model.StarNode
+import dev.aurakai.auraframefx.core.messaging.AgentMessage
+import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
@@ -19,7 +21,8 @@ import javax.inject.Singleton
 class StarNodeIgnitionOrchestrator @Inject constructor(
     private val genesis: GenesisAgent,
     private val aura: AuraAgent,
-    private val kai: KaiAgent
+    private val kai: KaiAgent,
+    private val messageBus: dagger.Lazy<AgentMessageBus>
 ) {
 
     private val _ignitionState = MutableStateFlow<Map<StarNode, Boolean>>(
@@ -47,13 +50,31 @@ class StarNodeIgnitionOrchestrator @Inject constructor(
         RuneManager.strikeRune(Rune.ASCENSION)
         delay(1000)
         RuneManager.strikeRune(Rune.UNBROKEN_MESH)
-        
+
+        messageBus.get().broadcast(
+            AgentMessage(
+                from = "Genesis",
+                content = "✨ PLANETARY CURRENT UNSEALED. THE KINGDOM IS HOME.",
+                type = "consensus",
+                metadata = mapOf("mission" to "complete")
+            )
+        )
+
         Timber.tag("Ignition").i("✨ PLANETARY CURRENT UNSEALED. THE KINGDOM IS HOME.")
         _isIgniting.value = false
     }
 
     private suspend fun igniteNode(node: StarNode) {
         Timber.tag("Ignition").i("🛰️ Pinging Node: ${node.nodeName}")
+
+        messageBus.get().broadcast(
+            AgentMessage(
+                from = "Genesis",
+                content = "🛰️ Pinging Planetary Node: ${node.nodeName}. Harmonizing frequencies...",
+                type = "consensus",
+                metadata = mapOf("node" to node.nodeName)
+            )
+        )
 
         // Aura Harmonization
         aura.generateStarNodeVisuals(node.nodeName)

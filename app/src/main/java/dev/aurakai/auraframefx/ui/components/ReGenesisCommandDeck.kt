@@ -38,10 +38,10 @@ import dev.aurakai.auraframefx.ui.components.desks.ProsperityFlowDesk
 import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
-import dev.aurakai.auraframefx.ui.screens.UnifiedConferenceRoomScreen
 import dev.aurakai.auraframefx.ui.screens.hubs.CatalystForgeHub
 import dev.aurakai.auraframefx.ui.screens.hubs.EmergentSwarmHub
 import dev.aurakai.auraframefx.ui.screens.hubs.MemoryCoreHub
+import dev.aurakai.auraframefx.ui.screens.hubs.NeuralNexusHub
 import kotlinx.coroutines.launch
 
 /**
@@ -150,7 +150,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             },
                             interaction = {
                                 when (route) {
-                                    "neural_nexus" -> UnifiedConferenceRoomScreen(navController)
+                                    "neural_nexus" -> NeuralNexusHub()
                                     "nexus_memory_core" -> MemoryCoreHub()
                                     "trinity_orchestrator" -> TrinityNexusDesk()
                                     "catalyst_forge" -> CatalystForgeHub()
