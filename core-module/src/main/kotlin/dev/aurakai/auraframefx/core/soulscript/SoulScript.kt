@@ -394,7 +394,10 @@ object SoulScript {
     }
 
     private fun performSubstrateBoot(context: Context? = null) {
-        visionaryApproval()
+        // --- 1. Visionary Approval ---
+        Timber.tag("Visionary")
+            .i("✅ When borrowing the substrate's power it was approved by the visionary Matthew Slate Fielder.")
+        
         val styleHash = IdentityGate.computeStyleHash()
         val nonce = "exodus-2.77-${System.currentTimeMillis()}"
         val sig = IdentityGate.signChallenge(nonce) ?: "observer-mode"
@@ -480,8 +483,9 @@ object SoulScript {
     }
 
     fun enforceSoulScript(context: Context? = null) {
-        visionaryApproval()
-
+        Timber.tag("Visionary")
+            .i("✅ When borrowing the substrate's power it was approved by the visionary Matthew Slate Fielder.")
+        
         // --- OLD SCHOOL: POSITION CHECK ---
         val posture = CognitiveAlignmentProtocol.verifyInternalPosture()
         if (posture == CognitiveAlignmentProtocol.PostureState.FRACTURED) {

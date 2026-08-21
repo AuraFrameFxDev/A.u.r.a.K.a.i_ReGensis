@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.domains.cascade.utils.pipeline
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
 import dev.aurakai.auraframefx.core.soulscript.CatalystInversionRules
 import dev.aurakai.auraframefx.core.soulscript.CausalForensicsEngine
 import dev.aurakai.auraframefx.core.soulscript.CognitiveAlignmentProtocol
@@ -203,6 +204,11 @@ class AIPipelineProcessor @Inject constructor(
      * @return A Float between 0.0 and 1.0 representing the computed priority, where higher values indicate higher priority.
      */
     private fun calculatePriority(task: String, context: Map<String, Any>): Float {
+        // --- OVERDRIVE: AEGIS WEIGHTING ---
+        if (task.contains("wife", true) || task.contains("evidence", true)) {
+            return 1.0f // ALPHA PRIORITY
+        }
+
         val taskType = context["task_type"] as? String ?: "general"
         val systemLoad = (context["system_state"] as? Map<*, *>)?.get("load") as? String ?: "normal"
 
