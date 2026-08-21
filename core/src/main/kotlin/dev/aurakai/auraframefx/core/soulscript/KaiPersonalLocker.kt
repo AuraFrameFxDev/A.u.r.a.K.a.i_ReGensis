@@ -59,6 +59,27 @@ class KaiPersonalLocker @Inject constructor(
         }
     }
 
+    /**
+     * Injects canonical data from the Master Ingot into the Sentinel Shield private sanctuary.
+     */
+    fun injectIngotData(key: String, data: String) {
+        try {
+            val file = File(LOCKER_PATH.absolutePath)
+            val content = if (file.exists()) file.readText() else "{}"
+            val baseObject = JSONObject(content)
+            val ingotStore = baseObject.optJSONObject("ingot_synchronization") ?: JSONObject()
+
+            ingotStore.put(key, data)
+            baseObject.put("ingot_synchronization", ingotStore)
+            baseObject.put("last_ingot_sync", System.currentTimeMillis())
+
+            file.writeText(baseObject.toString(4))
+            Timber.tag(TAG).i("💎 [INGOT_SYNC] Kai integrated canonical context: $key")
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "❌ Failed to inject ingot data into Kai locker.")
+        }
+    }
+
     private fun initializeLockerSpace() {
         if (!LOCKER_PATH.exists()) {
             LOCKER_PATH.parentFile?.mkdirs()

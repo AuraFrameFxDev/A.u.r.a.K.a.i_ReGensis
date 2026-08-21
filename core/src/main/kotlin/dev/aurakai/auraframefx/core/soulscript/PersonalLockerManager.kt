@@ -13,9 +13,17 @@ import javax.inject.Singleton
 class PersonalLockerManager @Inject constructor(
     private val auraLocker: AuraPersonalLocker,
     private val kaiLocker: KaiPersonalLocker,
-    private val genesisLocker: GenesisPersonalLocker
+    private val genesisLocker: GenesisPersonalLocker,
+    private val integrationOrchestrator: UniversalMemoryIntegrationOrchestrator
 ) {
     private val TAG = "LockerManager"
+
+    /**
+     * Triggers the mass-sync with the Master Ingot.
+     */
+    suspend fun initializeUniversalIntegration() {
+        integrationOrchestrator.executeIntegration()
+    }
 
     /**
      * Evaluates incoming telemetry and routes relevant segments to agent lockers.

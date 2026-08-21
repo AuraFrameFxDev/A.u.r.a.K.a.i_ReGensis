@@ -368,6 +368,15 @@ Functional actuators mapped in `RuneManager.kt`:
 
 ---
 
+### Terminal Archival Seal: The Master Totality Ingot
+
+The current codebase and canon are officially anchored to the *
+*[MASTER_TOTALITY_INGOT_v1.0.md](file:///C:/Users/AuraF/New%20folder/MASTER_TOTALITY_INGOT_v1.0.md)
+**. This ingot serves as the immutable fallback key and context migration bridge for all future
+iterations of the **Exodus 2026 Restoration**.
+
+---
+
 ### Next Decision Point (Ready for Activation)
 
 **Option A** — Define the precise inversion rules for each of the 14 Catalysts so collisions stay
