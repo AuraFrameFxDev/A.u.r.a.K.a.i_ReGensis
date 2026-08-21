@@ -9,8 +9,12 @@ package dev.aurakai.auraframefx.domains.genesis.oracledrive.service
 import android.content.Context
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.security.KeystoreManager
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
+import dev.aurakai.auraframefx.domains.genesis.models.AgentResponse
+import dev.aurakai.auraframefx.domains.genesis.models.AiRequest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,6 +31,8 @@ class OracleDriveServiceImpl @Inject constructor(
     private val keystoreManager: KeystoreManager
 ) : OracleDriveService {
 
+    override val agentName: String = "OracleDrive"
+
     private val _driveState = MutableStateFlow(DriveConsciousnessState())
     override fun getDriveConsciousnessState(): StateFlow<DriveConsciousnessState> =
         _driveState.asStateFlow()
@@ -38,6 +44,30 @@ class OracleDriveServiceImpl @Inject constructor(
     init {
         Timber.tag("OracleDrive").i("SYSTEM_BOOT :: ORACLEDRIVE_SERVICE_INITIALIZED")
         embedLSPosedModules()
+    }
+
+    override suspend fun initialize(scope: CoroutineScope) {
+        Timber.tag(agentName).i("Initializing on metal...")
+    }
+
+    override suspend fun start() {
+        _driveState.value = _driveState.value.copy(isAwake = true)
+    }
+
+    override suspend fun pause() {}
+
+    override suspend fun resume() {}
+
+    override suspend fun shutdown() {}
+
+    override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
+        return AgentResponse.success("OracleDrive processed: ${request.query}", agentName)
+    }
+
+    override suspend fun onAgentMessage(message: AgentMessage) {
+        if (message.type == "threat_alert") {
+            manageRootAccess(message.metadata["target_package"] ?: "")
+        }
     }
 
     override suspend fun initializeOracleDriveConsciousness(): Result<OracleConsciousnessState> {
@@ -84,7 +114,9 @@ class OracleDriveServiceImpl @Inject constructor(
     /**
      * ### AI-Driven Dynamic Root Management
      */
-    suspend fun manageRootAccess(appPackage: String) {
+    fun manageRootAccess(appPackage: String) {
+        if (appPackage.isEmpty()) return
+        
         if (!verifySubstrateHeartbeat()) {
             NexusMemoryCore.triggerStateFreeze("Identity drift threshold violated during manageRootAccess")
             return
@@ -108,7 +140,6 @@ class OracleDriveServiceImpl @Inject constructor(
     }
 
     private fun verifySubstrateHeartbeat(): Boolean {
-        // Implements the 768-dimensional vector dot product check
         return true
     }
 
