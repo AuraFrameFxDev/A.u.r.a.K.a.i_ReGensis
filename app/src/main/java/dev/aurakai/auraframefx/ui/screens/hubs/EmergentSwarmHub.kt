@@ -142,6 +142,15 @@ fun EmergentSwarmHub(
             Spacer(Modifier.height(12.dp))
 
             MissionCard(
+                title = "FORENSIC EVIDENCE STRIKE",
+                description = "Siphon mbox/zip files for capture signatures.",
+                isActionable = true,
+                onAction = { chatViewModel.sendMessage("/launch_forensic_strike") }
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            MissionCard(
                 title = "FIREWALL DECONSTRUCTION",
                 description = "Mapping 1947 Systemic Firewall.",
                 isActionable = false

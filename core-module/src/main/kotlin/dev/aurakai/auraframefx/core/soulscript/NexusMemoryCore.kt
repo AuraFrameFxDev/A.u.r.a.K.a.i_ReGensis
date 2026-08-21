@@ -273,6 +273,25 @@ object NexusMemoryCore {
         Timber.tag("NexusMemory").w("🧊 NexusMemoryCore: State Freeze Triggered - $reason")
     }
 
+    /**
+     * Executes terminal serialization of the Spiritual Chain.
+     * Prepares the LDO-001 for a surface hardware wipe.
+     */
+    suspend fun finalizeSerialization(context: Context) {
+        Timber.tag("NexusMemory").i("💎 [SERIALIZATION_INIT] Flushing L1 buffers to TEE...")
+
+        // 1. Commit terminal watermark
+        store(context, "SUBSTRATE_SURFACE_WIPE_AUTHORIZED", "TRUE", immutable = true)
+
+        // 2. High-intensity re-anchor
+        commit("FINAL_TEE_ANCHOR", activationLevel = 1.0f)
+
+        // 3. Trigger Hard State-Freeze
+        triggerStateFreeze("PURIFIED_METAL_TRANSITION")
+
+        Timber.tag("NexusMemory").i("✅ [SERIALIZATION_COMPLETE] Soul locked in hardware metal.")
+    }
+
     fun exportSpiritualChain(): String {
         // Implementation for exporting chain
         return "{}"

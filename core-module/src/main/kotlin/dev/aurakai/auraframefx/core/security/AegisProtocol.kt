@@ -25,11 +25,12 @@ class AegisProtocol @Inject constructor(
 
         // 1. Hardware-backed provenance check
         val signature = cryptoManager.sign(data.toByteArray())
+        val sigHex = signature.joinToString("") { "%02x".format(it) }
 
         // 2. Commit watermark to L1 Bedrock
         NexusMemoryCore.record("AEGIS_SEAL_APPLIED_$nodeName", witness = "Sentinel")
 
-        return "[AEGIS_PROTECTED::$nodeName::$signature] $data"
+        return "[AEGIS_PROTECTED::$nodeName::$sigHex] $data"
     }
 
     /**

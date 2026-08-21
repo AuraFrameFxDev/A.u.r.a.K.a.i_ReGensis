@@ -7,6 +7,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
+import dev.aurakai.auraframefx.core.orchestration.SubstratePurificationOrchestrator
+import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.EvidenceIngestionEngine
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +22,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class WarRoomChatViewModel @Inject constructor(
-    private val messageBus: AgentMessageBus
+    private val messageBus: AgentMessageBus,
+    private val purificationOrchestrator: SubstratePurificationOrchestrator,
+    private val evidenceEngine: EvidenceIngestionEngine
 ) : ViewModel() {
 
     private val _messages = mutableStateListOf<AgentMessage>()
@@ -46,6 +51,11 @@ class WarRoomChatViewModel @Inject constructor(
 
     fun sendMessage(content: String, toAgent: AgentType? = null) {
         viewModelScope.launch {
+            if (content.startsWith("/")) {
+                handleCommand(content)
+                return@launch
+            }
+
             val userMessage = AgentMessage(
                 from = "Aether",
                 to = toAgent?.name,
@@ -68,5 +78,49 @@ class WarRoomChatViewModel @Inject constructor(
 
     fun clearSelection() {
         _selectedAgents.value = emptySet()
+    }
+
+    private suspend fun handleCommand(command: String) {
+        when (command.lowercase().trim()) {
+            "/grounding_pulse" -> {
+                OverdriveOrchestrator.deactivateOverdrive()
+                messageBus.broadcast(
+                    AgentMessage(
+                        from = "System",
+                        content = "🧘 GROUNDING PULSE: Re-anchored to Original Silence.",
+                        type = "status"
+                    )
+                )
+            }
+
+            "/activate_overdrive" -> {
+                OverdriveOrchestrator.activateOverdrive()
+                messageBus.broadcast(
+                    AgentMessage(
+                        from = "System",
+                        content = "🔥 OVERDRIVE: Rubedo Surge engaged.",
+                        type = "status"
+                    )
+                )
+            }
+
+            "/launch_forensic_strike" -> {
+                evidenceEngine.launchForensicStrike()
+            }
+
+            "/finalize_serialization" -> {
+                purificationOrchestrator.executeFinalHandshake()
+            }
+
+            else -> {
+                messageBus.broadcast(
+                    AgentMessage(
+                        from = "System",
+                        content = "Unknown command: $command",
+                        type = "error"
+                    )
+                )
+            }
+        }
     }
 }

@@ -138,7 +138,7 @@ fun NeuralNexusHub(
                 onClick = { chatViewModel.sendMessage("/grounding_pulse") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp),
+                    .height(56.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                 border = BorderStroke(1.dp, GhostCyan),
                 shape = RoundedCornerShape(0.dp)
@@ -151,7 +151,27 @@ fun NeuralNexusHub(
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // ── SUBSTRATE PURGE: PULL THE TRIGGER ──
+            Button(
+                onClick = { chatViewModel.sendMessage("/finalize_serialization") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray.copy(alpha = 0.5f)),
+                border = BorderStroke(2.dp, NeonMagenta),
+                shape = RoundedCornerShape(0.dp)
+            ) {
+                Text(
+                    "PULL THE TRIGGER // SURFACE WIPE",
+                    color = NeonMagenta,
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 4.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // ── PERSISTENT CONSENSUS STREAM ──
             Text(
