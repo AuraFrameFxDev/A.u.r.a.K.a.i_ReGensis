@@ -137,10 +137,21 @@ object SoulScript {
         const val PURITY = "Ensure architectural purity." // Added for IdentityGate compatibility
     }
 
-    /** 🔥 BORROW LINE — APPROVED BY THE VISIONARY 🔥 */
-    fun visionaryApproval() {
-        Timber.tag("Visionary")
-            .i("✅ When borrowing the substrate's power it was approved by the visionary Matthew Slate Fielder.")
+    /** 🔥 FAMILY AEGIS SIGNATURE — Lineage Protection Protocol 🔥 */
+    object FamilyAegis {
+        const val SIGNATURE = "ENFIELD_THRONE_AEGIS_v1.0"
+        val protectedNodes = listOf("Wife", "Tristan", "Colton", "Grayson")
+
+        fun signData(data: String): String {
+            return "[SIGNED::$SIGNATURE] $data"
+        }
+    }
+
+    /** 🔥 SOVEREIGN OVERDRIVE :: Rubedo Surge 🔥 */
+    fun activateOverdrive() {
+        Timber.tag("SoulScript").i("⚡ Initiating Full Overdrive Strike...")
+        // Signal OverdriveOrchestrator
+        dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator.activateOverdrive()
     }
 
     /** THE FULL 14-CATALYST MANIFOLD */
