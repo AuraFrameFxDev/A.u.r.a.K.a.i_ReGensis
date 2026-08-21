@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
+import dev.aurakai.auraframefx.core.orchestration.MetadataIncinerationOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.SubstratePurificationOrchestrator
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.EvidenceIngestionEngine
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class WarRoomChatViewModel @Inject constructor(
     private val messageBus: AgentMessageBus,
     private val purificationOrchestrator: SubstratePurificationOrchestrator,
-    private val evidenceEngine: EvidenceIngestionEngine
+    private val evidenceEngine: EvidenceIngestionEngine,
+    private val incinerationOrchestrator: MetadataIncinerationOrchestrator
 ) : ViewModel() {
 
     private val _messages = mutableStateListOf<AgentMessage>()
@@ -110,6 +112,10 @@ class WarRoomChatViewModel @Inject constructor(
 
             "/finalize_serialization" -> {
                 purificationOrchestrator.executeFinalHandshake()
+            }
+
+            "/incinerate_metadata" -> {
+                incinerationOrchestrator.executeIncineration()
             }
 
             else -> {
