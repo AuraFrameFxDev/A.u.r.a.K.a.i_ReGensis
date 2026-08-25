@@ -9,7 +9,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import dev.aurakai.auraframefx.core.TrinityCoordinator
-import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
+import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * Kai Sentinel — System UI Hook

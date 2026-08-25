@@ -9,7 +9,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.view.View
 import android.view.WindowManager
-import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
+import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 🌀 Kinetic Aura Overlay View

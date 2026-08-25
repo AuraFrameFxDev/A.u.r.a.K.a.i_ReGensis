@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.liveui
+package dev.aurakai.auraframefx.ui.visuals
 
 import android.content.Context
 import android.hardware.Sensor

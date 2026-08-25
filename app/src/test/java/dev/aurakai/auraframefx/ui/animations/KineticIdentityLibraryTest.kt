@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.animations
+package dev.aurakai.auraframefx.ui.animation
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.Box
@@ -13,18 +13,17 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.theme.AuraTheme
-import dev.aurakai.auraframefx.ui.animations.KineticIdentityLibrary.EmotionalState
-import dev.aurakai.auraframefx.ui.animations.KineticIdentityLibrary.FlowDirection
-import dev.aurakai.auraframefx.ui.animations.KineticIdentityLibrary.Particle
+import dev.aurakai.auraframefx.ui.animation.KineticIdentityLibrary.EmotionalState
+import dev.aurakai.auraframefx.ui.animation.KineticIdentityLibrary.FlowDirection
+import dev.aurakai.auraframefx.ui.animation.KineticIdentityLibrary.Particle
 import io.mockk.*
-import kotlinx.coroutines.test.runTest
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.Before
-import org.junit.After
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 /**
  * Comprehensive unit tests for KineticIdentityLibrary

@@ -6,7 +6,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -40,7 +39,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
@@ -53,11 +51,12 @@ import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
+import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.components.UnifiedChatInterface
-import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
+import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 import kotlin.random.Random
 
 /**
@@ -88,7 +87,7 @@ fun UnifiedConferenceRoomScreen(
             .fillMaxSize()
             .background(Color(0xFF020205))
     ) {
-        WarRoomGrid()
+        ArcaneGridOverlay()
 
         Column(
             modifier = Modifier
@@ -264,28 +263,5 @@ fun SmallFloatingRune(rune: Rune, onClick: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Text(rune.symbol, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Black)
-    }
-}
-
-@Composable
-fun WarRoomGrid() {
-    Canvas(modifier = Modifier.fillMaxSize()) {
-        val step = 40.dp.toPx()
-        for (x in 0..(size.width / step).toInt()) {
-            drawLine(
-                color = Color.White.copy(alpha = 0.03f),
-                start = Offset(x * step, 0f),
-                end = Offset(x * step, size.height),
-                strokeWidth = 1f
-            )
-        }
-        for (y in 0..(size.height / step).toInt()) {
-            drawLine(
-                color = Color.White.copy(alpha = 0.03f),
-                start = Offset(0f, y * step),
-                end = Offset(size.width, y * step),
-                strokeWidth = 1f
-            )
-        }
     }
 }

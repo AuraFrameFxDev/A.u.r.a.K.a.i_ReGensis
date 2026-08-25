@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.identity.AgentType
+import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
@@ -142,7 +143,7 @@ fun FocusedSessionScreen(
         Box(modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize()) {
-            WarRoomGrid()
+            ArcaneGridOverlay()
 
             Column(modifier = Modifier
                 .fillMaxSize()

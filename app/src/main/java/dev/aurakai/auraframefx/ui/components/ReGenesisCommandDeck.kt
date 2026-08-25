@@ -31,7 +31,6 @@ import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
-import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.hubs.CatalystForgeHub
@@ -161,7 +160,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                     "emergent_swarm" -> EmergentSwarmHub()
                                     "toolshed" -> ToolShedHub()
                                     "reality_matrix" -> RealityMatrixScreen(navController)
-                                    else -> AetherCoreDesk()
+                                    else -> NeuralNexusHub()
                                 }
                             }
                         )

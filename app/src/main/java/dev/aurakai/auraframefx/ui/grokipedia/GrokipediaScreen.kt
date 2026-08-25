@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
+import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 @Composable
 fun GrokipediaScreen(navController: NavController) {

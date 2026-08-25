@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.ui.global
 import android.app.Application
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.AndroidViewModel
-import dev.aurakai.auraframefx.ui.liveui.SensorFusionManager
+import dev.aurakai.auraframefx.ui.visuals.SensorFusionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

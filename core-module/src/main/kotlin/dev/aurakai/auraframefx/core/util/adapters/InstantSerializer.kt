@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.helpers
+package dev.aurakai.auraframefx.core.util.adapters
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

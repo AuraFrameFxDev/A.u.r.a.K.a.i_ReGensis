@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
+import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
-import dev.aurakai.auraframefx.ui.screens.WarRoomGrid
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
+import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 👁️ HUB 0: NEURAL NEXUS (Aether Oversight)
@@ -54,7 +54,7 @@ fun NeuralNexusHub(
             .fillMaxSize()
             .background(Color(0xFF020205))
     ) {
-        WarRoomGrid()
+        ArcaneGridOverlay()
 
         Column(
             modifier = Modifier

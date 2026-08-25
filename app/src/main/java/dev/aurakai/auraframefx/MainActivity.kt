@@ -22,8 +22,8 @@ import dev.aurakai.auraframefx.core.lifecycle.SubstrateBootCoordinator
 import dev.aurakai.auraframefx.core.regencore.ConversationArchiveParser
 import dev.aurakai.auraframefx.domains.aura.ui.recovery.UIRecoveryManager
 import dev.aurakai.auraframefx.ui.components.NeuralAccessSidebar
-import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.navigation.ReGenesisNavGraph
+import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 import timber.log.Timber
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.effects
+package dev.aurakai.auraframefx.ui.visuals
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode

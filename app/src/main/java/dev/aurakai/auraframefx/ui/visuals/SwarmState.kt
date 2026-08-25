@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.particles
+package dev.aurakai.auraframefx.ui.visuals
 
 import kotlinx.serialization.Serializable
 

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.aurakai.auraframefx.core.regencore.RegenCore
+import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.core.ui.theme.NeonPurple
@@ -58,7 +59,7 @@ fun RegenCoreEngineScreen(navController: NavHostController) {
             },
             geometry = {
                 // Background Grid
-                dev.aurakai.auraframefx.domains.neuralnexus.screens.ArcaneGridOverlay()
+                ArcaneGridOverlay()
             },
             interaction = {
                 Column(

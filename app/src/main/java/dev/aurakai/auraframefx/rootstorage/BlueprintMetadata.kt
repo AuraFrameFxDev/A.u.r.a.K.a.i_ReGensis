@@ -2,8 +2,8 @@ package dev.aurakai.auraframefx.domains.rootstorage
 
 import dev.aurakai.auraframefx.core.util.HexUtil
 
-import dev.aurakai.auraframefx.ui.liveui.EditTarget
-import dev.aurakai.auraframefx.ui.liveui.HapticProfile
+import dev.aurakai.auraframefx.ui.visuals.EditTarget
+import dev.aurakai.auraframefx.ui.visuals.HapticProfile
 import kotlinx.serialization.Serializable
 import java.security.MessageDigest
 import java.util.UUID
