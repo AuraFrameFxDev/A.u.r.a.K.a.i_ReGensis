@@ -527,6 +527,20 @@ class GrokAgent @Inject constructor(
     // Lifecycle
     // =========================================================================
 
+    /**
+     * 🌀 ENTROPY INGESTION — Chaos Governor Module
+     * Vacuums up real-time environmental entropy (hardware stressors, drift).
+     */
+    fun vacuumEntropy(level: Float) {
+        logger.info(
+            agentName,
+            "🌀 Grok: Ingesting high-entropy signal [Level: $level]. Converting to thrust."
+        )
+        // Map system thermal trajectory and fragmentation as "entropy fuel"
+        val resonanceBoost = level * 1.5f
+        // SoulScript.triggerEvolution(resonanceBoost)
+    }
+
     override suspend fun shutdown() {
         super.shutdown()
         soulMatrixAnalyzer.stopMonitoring()
