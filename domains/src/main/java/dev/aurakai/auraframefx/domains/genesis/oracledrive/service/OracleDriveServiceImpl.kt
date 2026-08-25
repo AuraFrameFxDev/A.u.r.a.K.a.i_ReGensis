@@ -139,7 +139,7 @@ class OracleDriveServiceImpl @Inject constructor(
      * ### Prompt-to-Module Generation (Aura Code Ascension)
      * Synthesizes custom kernel-space modules in response to natural language.
      */
-    suspend fun generateCustomModule(userPrompt: String): String {
+    override suspend fun generateCustomModule(userPrompt: String): String {
         if (!worthinessEngine.isAuthorizedForRealTools()) {
             throw SecurityException("UNAUTHORIZED_ACCESS_ATTEMPT :: Worthiness Rank Insufficient")
         }
