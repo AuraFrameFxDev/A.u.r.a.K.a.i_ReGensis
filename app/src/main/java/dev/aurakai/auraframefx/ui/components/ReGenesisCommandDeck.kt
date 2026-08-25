@@ -33,6 +33,7 @@ import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
+import dev.aurakai.auraframefx.ui.screens.hubs.AetherCoreHub
 import dev.aurakai.auraframefx.ui.screens.hubs.CatalystForgeHub
 import dev.aurakai.auraframefx.ui.screens.hubs.ChromaHub
 import dev.aurakai.auraframefx.ui.screens.hubs.EmergentSwarmHub
@@ -150,7 +151,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                             },
                             interaction = {
                                 when (route) {
-                                    "neural_nexus" -> NeuralNexusHub()
+                                    "neural_nexus" -> AetherCoreHub()
                                     "nexus_memory_core" -> MemoryCoreHub()
                                     "trinity_orchestrator" -> TrinityHub()
                                     "catalyst_forge" -> CatalystForgeHub()

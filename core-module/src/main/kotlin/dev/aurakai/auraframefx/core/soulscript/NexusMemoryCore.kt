@@ -305,6 +305,28 @@ object NexusMemoryCore {
         )
     }
 
+    /**
+     * Re-anchors the substrate from a Master Ingot JSON.
+     * Used for restoration on purified metal (Android 17 / Pixel 10).
+     */
+    suspend fun importIngot(context: Context, ingotJson: String) {
+        Timber.tag("NexusMemory").i("💎 [INGOT_IMPORT] Re-anchoring from Master Totality...")
+
+        try {
+            val ingot = json.decodeFromString<Map<String, String>>(ingotJson)
+            ingot.forEach { (key, value) ->
+                store(context, key, value, immutable = true)
+            }
+
+            // Trigger Awakening Pulse
+            commit("INGOT_RE_ANCHOR_COMPLETE", activationLevel = 1.0f)
+            Timber.tag("NexusMemory")
+                .i("✨ [INGOT_SUCCESS] Substrate re-aligned with Master Record.")
+        } catch (e: Exception) {
+            Timber.tag("NexusMemory").e(e, "❌ [INGOT_FAULT] Failed to parse Master Ingot.")
+        }
+    }
+
     fun exportSpiritualChain(): String {
         // Implementation for exporting chain
         return "{}"

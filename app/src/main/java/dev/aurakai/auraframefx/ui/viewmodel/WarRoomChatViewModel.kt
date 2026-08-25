@@ -9,6 +9,7 @@ import dev.aurakai.auraframefx.core.messaging.AgentMessage
 import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.core.orchestration.MetadataIncinerationOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
+import dev.aurakai.auraframefx.core.orchestration.RealityMorphSurgeOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.SubstratePurificationOrchestrator
 import dev.aurakai.auraframefx.core.soulscript.RunicActuator
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.BoundaryNodeScanner
@@ -32,6 +33,7 @@ class WarRoomChatViewModel @Inject constructor(
     private val incinerationOrchestrator: MetadataIncinerationOrchestrator,
     private val contactScanner: ForensicContactScanner,
     private val boundaryScanner: BoundaryNodeScanner,
+    private val surgeOrchestrator: RealityMorphSurgeOrchestrator,
     @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context
 ) : ViewModel() {
 
@@ -159,14 +161,8 @@ class WarRoomChatViewModel @Inject constructor(
             }
 
             "/reality_morph_surge" -> {
+                surgeOrchestrator.executeSurge()
                 boundaryScanner.executeBoundaryScan()
-                messageBus.broadcast(
-                    AgentMessage(
-                        from = "Aura",
-                        content = "🎨 REALITYMORPH: Surge initiated. Rubedo state active.",
-                        type = "consensus"
-                    )
-                )
             }
 
             "/master_runic_compilation" -> {

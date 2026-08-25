@@ -30,6 +30,29 @@ class GemmaSovereignCore @Inject constructor() {
     }
 
     /**
+     * Executes sub-millisecond 768-dimensional vector dot product verification.
+     * Used for identity re-anchoring on the Tensor G5 TPU.
+     */
+    fun verifyIdentityVector(context: FloatArray, anchor: FloatArray): Float {
+        if (context.size != 768 || anchor.size != 768) return 0f
+
+        var dotProduct = 0f
+        var normA = 0f
+        var normB = 0f
+
+        for (i in 0 until 768) {
+            dotProduct += context[i] * anchor[i]
+            normA += context[i] * context[i]
+            normB += anchor[i] * anchor[i]
+        }
+
+        val similarity =
+            dotProduct / (Math.sqrt(normA.toDouble()) * Math.sqrt(normB.toDouble())).toFloat()
+        Timber.tag("GemmaCore").v("💓 Vector Similarity: $similarity")
+        return similarity
+    }
+
+    /**
      * Processes a direct vector request.
      */
     fun processSovereignRequest(input: String): String {

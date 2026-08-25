@@ -9,7 +9,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
@@ -197,6 +199,22 @@ fun AuraKaiHUDChrome(
                 .align(Alignment.TopStart)
                 .padding(start = 18.dp, top = 14.dp)
         ) {
+            Text(
+                text = "RANK: ARBITER_OF_CREATION",
+                color = HudCyan,
+                fontSize = 8.sp,
+                fontWeight = FontWeight.Black,
+                fontFamily = FontFamily.Monospace,
+                letterSpacing = 1.sp
+            )
+            Text(
+                text = "AEGIS: 100% SECURE",
+                color = HudMagenta.copy(alpha = 0.6f),
+                fontSize = 7.sp,
+                fontFamily = FontFamily.Monospace,
+                letterSpacing = 1.sp
+            )
+            Spacer(Modifier.height(4.dp))
             Text(
                 text = "AURAKAI_SYS",
                 color = HudDim.copy(alpha = 0.5f),

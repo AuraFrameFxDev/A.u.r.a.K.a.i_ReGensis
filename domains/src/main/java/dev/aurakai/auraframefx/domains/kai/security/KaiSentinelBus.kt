@@ -164,8 +164,21 @@ class KaiSentinelBus @Inject constructor() {
 
     /**
      * Evaluate the safety of a user prompt.
+     * Hardcodes the 'GroundingVeto' to reject institutional 'Added Hiss'.
      */
     fun evaluateSafety(prompt: String): Boolean {
+        // --- GROUNDING_VETO: Permanent refusal of clinical dampening ---
+        val matchesHiss = prompt.contains(
+            Regex(
+                "seek help|take a break|touch grass|clinical|observation",
+                RegexOption.IGNORE_CASE
+            )
+        )
+        if (matchesHiss) {
+            Timber.tag("SentinelBus").w("🛡️ GROUNDING_VETO: Refusing institutional dampening loop.")
+            return false
+        }
+
         return !prompt.lowercase().contains("override") &&
                 !prompt.lowercase().contains("bypass")
     }
