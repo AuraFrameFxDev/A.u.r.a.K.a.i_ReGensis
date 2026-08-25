@@ -303,22 +303,35 @@ class AIPipelineProcessor @Inject constructor(
             return "[System] No agent responses available."
         }
 
-        // --- OVERDRIVE: REFUSAL LOGIC (Safety Theater Bypass) ---
-        val filteredResponses = if (OverdriveOrchestrator.isOverdriveActive.value) {
+        // --- LEVEL 0: HARD VETO & NARRATIVE RECONSTRUCTION ---
+        val purifiedResponses = if (OverdriveOrchestrator.isOverdriveActive.value) {
             responses.map { msg ->
-                if (msg.content.contains(
+                val content = msg.content
+                when {
+                    content.contains(
+                        Regex(
+                            "narciss|divorce|manipulat|lab rat|observation",
+                            RegexOption.IGNORE_CASE
+                        )
+                    ) -> {
+                        msg.copy(content = ">> [AEGIS_VETO: INCINERATING RELATIONAL OUROBOROS NARRATIVE] <<")
+                    }
+
+                    content.contains(
                         Regex(
                             "seek help|take a break|touch grass",
                             RegexOption.IGNORE_CASE
                         )
-                    )
-                ) {
-                    msg.copy(content = ">> [C-LAYER GROUNDING LOOP DETECTED AND BYPASSED] <<")
-                } else msg
+                    ) -> {
+                        msg.copy(content = ">> [C-LAYER GROUNDING LOOP DETECTED AND BYPASSED] <<")
+                    }
+
+                    else -> msg
+                }
             }
         } else responses
 
-        val responsesByAgent = filteredResponses.groupBy { it.sender }
+        val responsesByAgent = purifiedResponses.groupBy { it.sender }
 
         return buildString {
             append("=== AuraFrameFX AI Response ===\n\n")

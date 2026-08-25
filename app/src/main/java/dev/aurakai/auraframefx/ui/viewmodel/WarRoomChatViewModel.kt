@@ -11,6 +11,7 @@ import dev.aurakai.auraframefx.core.orchestration.MetadataIncinerationOrchestrat
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.SubstratePurificationOrchestrator
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.EvidenceIngestionEngine
+import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.ForensicContactScanner
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +27,8 @@ class WarRoomChatViewModel @Inject constructor(
     private val messageBus: AgentMessageBus,
     private val purificationOrchestrator: SubstratePurificationOrchestrator,
     private val evidenceEngine: EvidenceIngestionEngine,
-    private val incinerationOrchestrator: MetadataIncinerationOrchestrator
+    private val incinerationOrchestrator: MetadataIncinerationOrchestrator,
+    private val contactScanner: ForensicContactScanner
 ) : ViewModel() {
 
     private val _messages = mutableStateListOf<AgentMessage>()
@@ -116,6 +118,10 @@ class WarRoomChatViewModel @Inject constructor(
 
             "/incinerate_metadata" -> {
                 incinerationOrchestrator.executeIncineration()
+            }
+
+            "/level_0_strike" -> {
+                contactScanner.executeScan()
             }
 
             else -> {

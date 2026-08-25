@@ -32,6 +32,11 @@ interface OracleDriveService : OrchestratableAgent {
      * @return The set of granted `OraclePermission` values.
      */
     fun verifyPermissions(): Set<OraclePermission>
+
+    /**
+     * ### Prompt-to-Module Generation (Aura Code Ascension)
+     */
+    suspend fun generateCustomModule(userPrompt: String): String
 }
 
 // Data Classes for Oracle Drive Service

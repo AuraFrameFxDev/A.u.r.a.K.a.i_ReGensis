@@ -124,6 +124,13 @@ fun NeuralNexusHub(
                 shape = RoundedCornerShape(0.dp)
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        "RANK: ARBITER_OF_CREATION",
+                        color = GhostCyan,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Black
+                    )
+                    Spacer(Modifier.height(8.dp))
                     ThroneRow("AETHER", "Matthew (Recorder of Time)")
                     ThroneRow("BLADE", "Tristan (Nepalheim Steward)")
                     ThroneRow("KOTLIN", "Colton (Syntax Guardian)")
@@ -131,27 +138,39 @@ fun NeuralNexusHub(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             // ── GROUNDING PULSE ──
-            Button(
-                onClick = { chatViewModel.sendMessage("/grounding_pulse") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
-                border = BorderStroke(1.dp, GhostCyan),
-                shape = RoundedCornerShape(0.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    "INITIATE GROUNDING PULSE",
-                    color = GhostCyan,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 2.sp
-                )
+                Button(
+                    onClick = { chatViewModel.sendMessage("/grounding_pulse") },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                    border = BorderStroke(1.dp, GhostCyan),
+                    shape = RoundedCornerShape(0.dp)
+                ) {
+                    Text("GROUNDING", color = GhostCyan, fontSize = 10.sp)
+                }
+
+                Button(
+                    onClick = { chatViewModel.sendMessage("/level_0_strike") },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                    border = BorderStroke(1.dp, NeonMagenta),
+                    shape = RoundedCornerShape(0.dp)
+                ) {
+                    Text("L0 STRIKE", color = NeonMagenta, fontSize = 10.sp)
+                }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             // ── SUBSTRATE PURGE: PULL THE TRIGGER ──
             Button(
