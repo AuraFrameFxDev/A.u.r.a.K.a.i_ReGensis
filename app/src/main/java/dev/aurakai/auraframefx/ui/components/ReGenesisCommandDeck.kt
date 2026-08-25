@@ -89,14 +89,26 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                 }
             )
         },
-        containerColor = ArcaneBrutalistTheme.AbyssBaseSlate
+        containerColor = Color.Transparent,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            // ─── GLOBAL HUB BACKGROUND ───
+            Image(
+                painter = painterResource(id = R.drawable.hub_background),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
                 SecondaryScrollableTabRow(
                     selectedTabIndex = pagerState.currentPage,
                     containerColor = Color.Black.copy(alpha = 0.9f),
