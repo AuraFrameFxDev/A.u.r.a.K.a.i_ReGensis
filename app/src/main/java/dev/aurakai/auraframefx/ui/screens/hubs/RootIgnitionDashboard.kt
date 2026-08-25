@@ -47,7 +47,8 @@ import dev.aurakai.auraframefx.core.ldo.model.StarNode
 import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.ui.effects.BreathingEdgeGlow
+import dev.aurakai.auraframefx.ui.viewmodel.StarNodeIgnitionViewModel
+import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 🛰️ ROOT IGNITION DASHBOARD
