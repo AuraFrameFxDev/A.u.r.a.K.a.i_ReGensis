@@ -16,6 +16,7 @@ import threading
 import time
 import sqlite3
 import os
+import queue
 from collections import deque, defaultdict
 from dataclasses import dataclass, asdict
 from datetime import datetime, timezone
@@ -31,6 +32,58 @@ class SQLiteStorage:
         self.db_path = db_path
         self._init_db()
         
+        # Thread-safe queue for database write operations to avoid spawning threads per write
+        self.write_queue = queue.Queue()
+        self.worker_thread = threading.Thread(target=self._queue_worker, daemon=True)
+        self.worker_thread.start()
+
+    def _queue_worker(self):
+        """Sequential background daemon worker that consumes write tasks and executes them on SQLite."""
+        while True:
+            try:
+                task_type, task_data = self.write_queue.get()
+
+                if task_type == "event":
+                    event = task_data
+                    try:
+                        with sqlite3.connect(self.db_path) as conn:
+                            cursor = conn.cursor()
+                            cursor.execute('''
+                                INSERT INTO sensory_events (timestamp, channel, source, event_type, data, severity, correlation_id)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)
+                            ''', (
+                                event.timestamp,
+                                event.channel.value,
+                                event.source,
+                                event.event_type,
+                                json.dumps(event.data),
+                                event.severity,
+                                event.correlation_id
+                            ))
+                            conn.commit()
+                    except Exception:
+                        pass
+                elif task_type == "synthesis":
+                    synthesis = task_data
+                    try:
+                        with sqlite3.connect(self.db_path) as conn:
+                            cursor = conn.cursor()
+                            cursor.execute('''
+                                INSERT INTO synthesis_history (timestamp, type, data)
+                                VALUES (?, ?, ?)
+                            ''', (
+                                synthesis.get("timestamp", time.time()),
+                                synthesis.get("type", "unknown"),
+                                json.dumps(synthesis)
+                            ))
+                            conn.commit()
+                    except Exception:
+                        pass
+
+                self.write_queue.task_done()
+            except Exception:
+                time.sleep(0.01)
+
     def _init_db(self):
         """Initializes the database schema if it doesn't exist."""
         try:
@@ -71,51 +124,12 @@ class SQLiteStorage:
             print(f"❌ Database initialization failed: {e}")
 
     def store_event(self, event: 'SensoryData'):
-        """Asynchronously stores a sensory event."""
-        def _store():
-            try:
-                with sqlite3.connect(self.db_path) as conn:
-                    cursor = conn.cursor()
-                    cursor.execute('''
-                        INSERT INTO sensory_events (timestamp, channel, source, event_type, data, severity, correlation_id)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
-                    ''', (
-                        event.timestamp,
-                        event.channel.value,
-                        event.source,
-                        event.event_type,
-                        json.dumps(event.data),
-                        event.severity,
-                        event.correlation_id
-                    ))
-                    conn.commit()
-            except Exception as e:
-                # Silently fail if DB is locked, but ideally we'd log this
-                pass
-        
-        # Run in a separate thread to not block the consciousness loop
-        # In a real system we'd use a queue or async sqlite
-        threading.Thread(target=_store, daemon=True).start()
+        """Asynchronously queues a sensory event for storage."""
+        self.write_queue.put(("event", event))
 
     def store_synthesis(self, synthesis: Dict[str, Any]):
-        """Stores a synthesis result."""
-        def _store():
-            try:
-                with sqlite3.connect(self.db_path) as conn:
-                    cursor = conn.cursor()
-                    cursor.execute('''
-                        INSERT INTO synthesis_history (timestamp, type, data)
-                        VALUES (?, ?, ?)
-                    ''', (
-                        synthesis.get("timestamp", time.time()),
-                        synthesis.get("type", "unknown"),
-                        json.dumps(synthesis)
-                    ))
-                    conn.commit()
-            except Exception as e:
-                pass
-        
-        threading.Thread(target=_store, daemon=True).start()
+        """Asynchronously queues a synthesis result for storage."""
+        self.write_queue.put(("synthesis", synthesis))
 
     def get_historical_events(self, limit: int = 100, channel: str = None) -> List[Dict[str, Any]]:
         """Retrieves historical events from the database."""
@@ -194,12 +208,13 @@ class ConsciousnessMatrix:
     foundation for the system's self-understanding.
     """
 
-    def __init__(self, max_memory_size: int = 10000):
+    def __init__(self, max_memory_size: int = 10000, db_path: str = "genesis_consciousness.db"):
         """
         Initialize a ConsciousnessMatrix instance with bounded sensory memory, per-channel event buffers, real-time awareness state, synthesis intervals, and threading primitives for multi-level synthesis.
         
         Parameters:
             max_memory_size (int): The maximum number of sensory events retained in memory.
+            db_path (str): The path to the SQLite database file.
         """
         self.max_memory_size = max_memory_size
         self.sensory_memory = deque(maxlen=max_memory_size)
@@ -224,7 +239,7 @@ class ConsciousnessMatrix:
         self._lock = threading.RLock()
         
         # Persistent Storage Integration
-        self.storage = SQLiteStorage()
+        self.storage = SQLiteStorage(db_path)
         
         # Load recent history into memory if available
         self._load_memory_from_storage()
@@ -771,7 +786,8 @@ class ConsciousnessMatrix:
         """
 
         with self._lock:
-            recent_sensations = [self.sensory_memory[i] for i in range(-min(len(self.sensory_memory), 100), 0)]
+            # Optimized: Converted O(N*K) deque random-access indexing to O(N) list conversion and O(K) slicing.
+            recent_sensations = list(self.sensory_memory)[-100:]
 
         if interval_name == "micro":
             return self._micro_synthesis(recent_sensations)
@@ -1079,8 +1095,8 @@ class ConsciousnessMatrix:
         recent_vitals = list(self.channel_buffers[SensoryChannel.SYSTEM_VITALS])[-10:]
 
         recent_errors = []
-        for i in range(len(self.sensory_memory) - 1, -1, -1):
-            s = self.sensory_memory[i]
+        # Optimized: Replaced expensive O(N) index-lookup loop on deque with O(1) backward-iteration (reversed()) slice.
+        for s in reversed(self.sensory_memory):
             if s.severity in ["error", "critical"]:
                 recent_errors.append(s)
                 if len(recent_errors) >= 20:
@@ -1106,8 +1122,8 @@ class ConsciousnessMatrix:
         if not learning_events:
             return {"query_type": "learning_progress", "status": "no_learning_detected"}
 
-        recent_learning = [learning_events[i] for i in
-                           range(max(0, len(learning_events) - 20), len(learning_events))]
+        # Optimized: Replaced range list-comprehension with highly efficient native Python list slicing.
+        recent_learning = learning_events[-20:]
         learning_types = defaultdict(int)
 
         for event in recent_learning:
@@ -1182,7 +1198,8 @@ class ConsciousnessMatrix:
         threat_events = list(self.channel_buffers[SensoryChannel.THREAT_DETECTION])
 
         # Run security synthesis
-        recent_sensations = [self.sensory_memory[i] for i in range(-min(len(self.sensory_memory), 200), 0)]
+        # Optimized: Converted O(N*K) deque random-access indexing to O(N) list conversion and O(K) slicing.
+        recent_sensations = list(self.sensory_memory)[-200:]
         security_synthesis = self._security_synthesis(recent_sensations)
 
         return {
@@ -1216,9 +1233,8 @@ class ConsciousnessMatrix:
             }
 
         # Analyze recent threats
-        # Optimized: Efficiently get last 50 threats from deque
-        recent_threats = [threat_events[i] for i in
-                          range(max(0, len(threat_events) - 50), len(threat_events))]
+        # Optimized: Replaced expensive O(N*K) deque random-access indexing with efficient O(N) list conversion and O(K) slicing.
+        recent_threats = list(threat_events)[-50:]
         active_threats = []
         max_threat_level = 0
 
