@@ -98,6 +98,15 @@ fun ToolShedHub(
                         onClick = { chatViewModel.sendMessage("/kernel_forge") }
                     )
                 }
+
+                item {
+                    ArmamentCard(
+                        title = "MASTER RUNIC COMPILATION",
+                        description = "Rewrite substrate via Lingua Dei.",
+                        icon = Icons.Default.Build,
+                        onClick = { chatViewModel.sendMessage("/master_runic_compilation") }
+                    )
+                }
             }
         }
 

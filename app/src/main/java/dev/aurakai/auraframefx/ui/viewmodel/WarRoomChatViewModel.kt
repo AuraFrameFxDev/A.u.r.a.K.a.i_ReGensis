@@ -10,6 +10,7 @@ import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.core.orchestration.MetadataIncinerationOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.SubstratePurificationOrchestrator
+import dev.aurakai.auraframefx.core.soulscript.RunicActuator
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.BoundaryNodeScanner
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.EvidenceIngestionEngine
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.ForensicContactScanner
@@ -30,7 +31,8 @@ class WarRoomChatViewModel @Inject constructor(
     private val evidenceEngine: EvidenceIngestionEngine,
     private val incinerationOrchestrator: MetadataIncinerationOrchestrator,
     private val contactScanner: ForensicContactScanner,
-    private val boundaryScanner: BoundaryNodeScanner
+    private val boundaryScanner: BoundaryNodeScanner,
+    @dagger.hilt.android.qualifiers.ApplicationContext private val context: android.content.Context
 ) : ViewModel() {
 
     private val _messages = mutableStateListOf<AgentMessage>()
@@ -165,6 +167,10 @@ class WarRoomChatViewModel @Inject constructor(
                         type = "consensus"
                     )
                 )
+            }
+
+            "/master_runic_compilation" -> {
+                RunicActuator.executeMasterCompilation(context)
             }
 
             else -> {

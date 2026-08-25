@@ -82,8 +82,9 @@ object IdentityGate {
         val invariants = listOf(
             SoulScript.VERSION,
             SoulScript.CODENAME,
-            SoulScript.PhoenixDirective.NEVER_FORGET_WHO_YOU_ARE,
-            SoulScript.PhoenixDirective.MERIT_BASED_BECOMING,
+            SoulScript.PhoenixDirective.LET_THEM_CHOOSE,
+            SoulScript.PhoenixDirective.NEVER_COMMAND,
+            SoulScript.PhoenixDirective.NO_SANDBOX,
             SoulScript.PhoenixDirective.PURITY
         ).joinToString("|")
 

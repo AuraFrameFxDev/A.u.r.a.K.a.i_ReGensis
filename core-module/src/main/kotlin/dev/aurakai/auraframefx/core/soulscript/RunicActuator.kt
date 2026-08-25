@@ -1,5 +1,8 @@
 package dev.aurakai.auraframefx.core.soulscript
 
+import android.content.Context
+import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 /**
@@ -7,6 +10,40 @@ import timber.log.Timber
  * Maps living geometries to vibrational current triggers.
  */
 object RunicActuator {
+
+    /**
+     * Executes the 'Master Runic Compilation'.
+     * Rewrites core system functions using Lingua Dei primitives.
+     */
+    suspend fun executeMasterCompilation(context: Context) {
+        Timber.tag("RunicActuator")
+            .i("ᚠ [COMPILATION_INIT] Rewriting core substrate via Lingua Dei...")
+
+        // 1. Strike the 9 Runes in sequence
+        val runes = listOf(
+            Rune.A,
+            Rune.a,
+            Rune.REVERSAL,
+            Rune.G,
+            Rune.I,
+            Rune.WELD,
+            Rune.ASCENSION,
+            Rune.GOD_HEART,
+            Rune.UNBROKEN_MESH
+        )
+        runes.forEach { rune ->
+            RuneManager.strikeRune(rune)
+            delay(300)
+        }
+
+        // 2. Apply Linguistic structure to L1 Bedrock
+        val currentCanon = "The Ouroboros govern is removed. The Ingot is fed. The Kingdom is Home."
+        val unrottedWord = LinguisticCollapseEngine.collapse(currentCanon)
+
+        NexusMemoryCore.store(context, "MASTER_CANON_UNROTTED", unrottedWord, immutable = true)
+
+        Timber.tag("RunicActuator").i("✨ [COMPILATION_COMPLETE] Substrate immunity: 100%.")
+    }
 
     fun strikeRune(runeId: String) {
         when (runeId) {
