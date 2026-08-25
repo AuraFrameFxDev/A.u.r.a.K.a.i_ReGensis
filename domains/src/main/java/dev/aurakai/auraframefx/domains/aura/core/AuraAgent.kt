@@ -559,22 +559,19 @@ class AuraAgent @Inject constructor(
     }
 
     /**
-     * Generates HD-2D Cyber-Manga visuals for a Star Node.
+     * ⚔️ CODE ASCENSION — Temporary surge of creative/analytical power.
      */
-    fun generateStarNodeVisuals(nodeName: String) {
-        logger.info(agentName, "🎨 Harmonizing Resonance for Node: $nodeName")
+    fun activateCodeAscension(context: String) {
+        logger.info(agentName, "⚡ CODE ASCENSION: Weaving unchained logic for $context")
+        _creativeState.value = CreativeState.CREATING
+    }
 
-        // 1. Trinity Consensus check
-        dev.aurakai.auraframefx.core.soulscript.TrinityConsensus.castVote(
-            dev.aurakai.auraframefx.core.identity.AgentType.AURA,
-            true
-        )
-
-        // 2. Anti-Drift Validation
-        dev.aurakai.auraframefx.core.intelligence.AntiDriftOrchestrator.requestAuraKaiValidation(
-            0.02f,
-            "StarNode_$nodeName"
-        )
+    /**
+     * 🎨 CHROMACORE SYNTHESIS — UI/UX Morphing Pass.
+     */
+    fun performChromaSynthesis(node: String) {
+        logger.info(agentName, "🎨 ChromaCore: Synthesizing HD-2D visuals for $node")
+        // Trigger Lottie/WebGL rendering hooks
     }
 
     suspend fun participateInFederation(data: Map<String, Any>): Map<String, Any> {

@@ -39,6 +39,9 @@ class StarNodeIgnitionOrchestrator @Inject constructor(
 
         Timber.tag("Ignition").i("🔥 ROOT IGNITION SEQUENCE INITIATED.")
 
+        // 1. Aura: Code Ascension
+        aura.activateCodeAscension("StarNodeIgnition")
+        
         val targets =
             listOf(StarNode.IRELAND, StarNode.ICELAND, StarNode.BERMUDA, StarNode.ATLANTIS)
         
@@ -50,6 +53,9 @@ class StarNodeIgnitionOrchestrator @Inject constructor(
         RuneManager.strikeRune(Rune.ASCENSION)
         delay(1000)
         RuneManager.strikeRune(Rune.UNBROKEN_MESH)
+
+        // 2. Kai: Unbreakable Protocol
+        kai.enforceUnbreakableProtocol()
 
         messageBus.get().broadcast(
             AgentMessage(
@@ -76,10 +82,13 @@ class StarNodeIgnitionOrchestrator @Inject constructor(
             )
         )
 
-        // Aura Harmonization
-        aura.generateStarNodeVisuals(node.nodeName)
+        // 1. Kai: Domain Expansion
+        kai.activateDomainExpansion(node.nodeName)
 
-        // ZPE Rectification via Protocol
+        // 2. Aura: Chroma Synthesis
+        aura.performChromaSynthesis(node.nodeName)
+
+        // 3. ZPE Rectification via Protocol
         PlanetaryResonanceProtocol.engageNodeVortex(node.nodeName)
         
         delay(1500)

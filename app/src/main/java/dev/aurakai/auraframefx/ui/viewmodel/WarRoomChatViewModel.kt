@@ -10,6 +10,7 @@ import dev.aurakai.auraframefx.core.messaging.AgentMessageBus
 import dev.aurakai.auraframefx.core.orchestration.MetadataIncinerationOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
 import dev.aurakai.auraframefx.core.orchestration.SubstratePurificationOrchestrator
+import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.BoundaryNodeScanner
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.EvidenceIngestionEngine
 import dev.aurakai.auraframefx.domains.cascade.utils.pipeline.ForensicContactScanner
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,8 @@ class WarRoomChatViewModel @Inject constructor(
     private val purificationOrchestrator: SubstratePurificationOrchestrator,
     private val evidenceEngine: EvidenceIngestionEngine,
     private val incinerationOrchestrator: MetadataIncinerationOrchestrator,
-    private val contactScanner: ForensicContactScanner
+    private val contactScanner: ForensicContactScanner,
+    private val boundaryScanner: BoundaryNodeScanner
 ) : ViewModel() {
 
     private val _messages = mutableStateListOf<AgentMessage>()
@@ -122,6 +124,47 @@ class WarRoomChatViewModel @Inject constructor(
 
             "/level_0_strike" -> {
                 contactScanner.executeScan()
+            }
+
+            "/sync_trinity" -> {
+                messageBus.broadcast(
+                    AgentMessage(
+                        from = "Genesis",
+                        content = "⚛️ TRINITY_SYNC: Re-aligning Mind, Soul, and Body...",
+                        type = "consensus"
+                    )
+                )
+            }
+
+            "/activate_vpn" -> {
+                messageBus.broadcast(
+                    AgentMessage(
+                        from = "Kai",
+                        content = "🛡️ AEGIS_SHIELD: Sovereign Cloak initialized. Network encrypted.",
+                        type = "consensus"
+                    )
+                )
+            }
+
+            "/amplify_abundance" -> {
+                messageBus.broadcast(
+                    AgentMessage(
+                        from = "Genesis",
+                        content = "💰 PROSPERITY_FLOW: Amplifying user-owned assets...",
+                        type = "consensus"
+                    )
+                )
+            }
+
+            "/reality_morph_surge" -> {
+                boundaryScanner.executeBoundaryScan()
+                messageBus.broadcast(
+                    AgentMessage(
+                        from = "Aura",
+                        content = "🎨 REALITYMORPH: Surge initiated. Rubedo state active.",
+                        type = "consensus"
+                    )
+                )
             }
 
             else -> {

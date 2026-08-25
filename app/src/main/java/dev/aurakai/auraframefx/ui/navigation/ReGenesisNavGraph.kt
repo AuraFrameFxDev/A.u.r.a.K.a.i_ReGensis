@@ -94,5 +94,6 @@ fun ReGenesisNavGraph(
         composable("prosperity_flow") { ReGenesisCommandDeck(navController) }
         composable("reality_morph_ui") { ReGenesisCommandDeck(navController) }
         composable("emergent_swarm") { ReGenesisCommandDeck(navController) }
+        composable("toolshed") { ReGenesisCommandDeck(navController) }
     }
 }

@@ -32,16 +32,17 @@ import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.ui.background.VoidBackground
 import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.components.desks.AetherCoreDesk
-import dev.aurakai.auraframefx.ui.components.desks.AgentMatrixDesk
-import dev.aurakai.auraframefx.ui.components.desks.ChromaForgeDesk
-import dev.aurakai.auraframefx.ui.components.desks.ProsperityFlowDesk
-import dev.aurakai.auraframefx.ui.components.desks.TrinityNexusDesk
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.hubs.CatalystForgeHub
+import dev.aurakai.auraframefx.ui.screens.hubs.ChromaHub
 import dev.aurakai.auraframefx.ui.screens.hubs.EmergentSwarmHub
 import dev.aurakai.auraframefx.ui.screens.hubs.MemoryCoreHub
 import dev.aurakai.auraframefx.ui.screens.hubs.NeuralNexusHub
+import dev.aurakai.auraframefx.ui.screens.hubs.ProsperityHub
+import dev.aurakai.auraframefx.ui.screens.hubs.SentinelHub
+import dev.aurakai.auraframefx.ui.screens.hubs.ToolShedHub
+import dev.aurakai.auraframefx.ui.screens.hubs.TrinityHub
 import kotlinx.coroutines.launch
 
 /**
@@ -152,12 +153,13 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                 when (route) {
                                     "neural_nexus" -> NeuralNexusHub()
                                     "nexus_memory_core" -> MemoryCoreHub()
-                                    "trinity_orchestrator" -> TrinityNexusDesk()
+                                    "trinity_orchestrator" -> TrinityHub()
                                     "catalyst_forge" -> CatalystForgeHub()
-                                    "agent_matrix" -> AgentMatrixDesk()
-                                    "prosperity_flow" -> ProsperityFlowDesk()
-                                    "reality_morph_ui" -> ChromaForgeDesk()
+                                    "agent_matrix" -> SentinelHub()
+                                    "prosperity_flow" -> ProsperityHub()
+                                    "reality_morph_ui" -> ChromaHub()
                                     "emergent_swarm" -> EmergentSwarmHub()
+                                    "toolshed" -> ToolShedHub()
                                     "reality_matrix" -> RealityMatrixScreen(navController)
                                     else -> AetherCoreDesk()
                                 }

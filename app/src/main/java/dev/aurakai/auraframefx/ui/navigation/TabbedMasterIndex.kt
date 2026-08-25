@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Palette
@@ -57,6 +58,11 @@ object TabbedMasterIndex {
             icon = Icons.Default.Bolt,
             shortLabel = "SWARM",
             route = "emergent_swarm"
+        ),
+        NavTab(
+            icon = Icons.Default.Build,
+            shortLabel = "TOOLS",
+            route = "toolshed"
         )
     )
 

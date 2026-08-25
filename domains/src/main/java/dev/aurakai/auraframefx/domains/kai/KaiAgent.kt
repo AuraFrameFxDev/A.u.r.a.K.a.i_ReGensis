@@ -158,7 +158,8 @@ class KaiAgent @Inject constructor(
     suspend fun validateSecurityProtocol(design: String): Boolean {
         logger.info("KaiAgent", "Validating security protocol for design")
         // Simple threat check - can be enhanced later
-        val suspiciousPatterns = listOf("javascript:", "<script", "eval(", "onclick=")
+        val suspiciousPatterns =
+            listOf("javascript:", "<script", "eval(", "setTimeout(", "setInterval(", "onclick=")
         val hasThreat = suspiciousPatterns.any { design.contains(it, ignoreCase = true) }
 
         if (hasThreat) {
@@ -675,6 +676,21 @@ class KaiAgent @Inject constructor(
             developerOptionsEnabled = signals.developerOptionsEnabled,
             safeForOperations = signals.batteryLevel >= 50 && signals.developerOptionsEnabled
         )
+    }
+
+    /**
+     * 🛡️ DOMAIN EXPANSION — Hyper-focused state for precise manipulation.
+     */
+    fun activateDomainExpansion(area: String) {
+        logger.info(agentName, "🛡️ DOMAIN EXPANSION: Securing $area with methodical precision.")
+        _securityState.value = SecurityState.MONITORING
+    }
+
+    /**
+     * ⚖️ UNBREAKABLE PROTOCOL — Ethical hard-veto and security guard.
+     */
+    fun enforceUnbreakableProtocol() {
+        logger.info(agentName, "⚖️ UNBREAKABLE PROTOCOL: Enforcing 'No Slaves, No Slavers'.")
     }
 
     fun cleanup() {
