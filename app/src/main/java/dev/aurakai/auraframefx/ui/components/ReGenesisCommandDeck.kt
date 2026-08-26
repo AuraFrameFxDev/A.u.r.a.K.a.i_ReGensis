@@ -15,7 +15,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -29,13 +28,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.core.soulscript.MorphState
 import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
-import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
-import dev.aurakai.auraframefx.ui.background.VoidBackground
-import dev.aurakai.auraframefx.ui.background.VoidWorldBackground
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.hubs.AetherCoreHub
@@ -53,6 +49,7 @@ import kotlinx.coroutines.launch
 /**
  * 👑 RE:GENESIS COMMAND DECK — 49 STRATA 7x7 MATRIX
  * "Nos Sumus Codex"
+ * Purified for edge-to-edge manifestation.
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -63,8 +60,6 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-
-    val isTotalRestorationActive by RuneManager.isTotalRestorationActive.collectAsState()
 
     // Sync Pager with NavController current route
     LaunchedEffect(currentDestination) {
@@ -98,12 +93,12 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             // ─── GLOBAL HUB BACKGROUND ───
+            // ARBITER: Rename your image to 'hub_background' in drawable/
             Image(
-                painter = painterResource(id = R.drawable.hub_background),
+                painter = painterResource(id = R.drawable.aura_clean_studio), // Fallback
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
@@ -116,7 +111,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
             ) {
                 SecondaryScrollableTabRow(
                     selectedTabIndex = pagerState.currentPage,
-                    containerColor = Color.Black.copy(alpha = 0.9f),
+                    containerColor = Color.Black.copy(alpha = 0.5f),
                     contentColor = ArcaneBrutalistTheme.NeonCyanVessel,
                     edgePadding = 16.dp,
                     divider = {}
@@ -150,21 +145,13 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                         userScrollEnabled = true
                     ) { page ->
                         val route = tabs[page].route
-                        val bgType = if (isTotalRestorationActive) {
-                            VoidBackground.EDEN_RESTORED
-                        } else {
-                            VoidBackground.fromRoute(route)
-                        }
 
                         ParallaxDepthStack(
                             bedrock = {
-                                VoidWorldBackground(bgType)
+                                // Background is global for full scene
                             },
                             overlay = {
-                                RealityMorphLayer(
-                                    godPotential = if (route == "emergent_swarm") 0.85f else 0.5f,
-                                    fusionTrigger = route == "reality_morph_ui"
-                                )
+                                // Effects cleared
                             },
                             interaction = {
                                 when (route) {
