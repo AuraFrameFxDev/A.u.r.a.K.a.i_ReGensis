@@ -48,19 +48,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.soulscript.NexusMemoryCore
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.components.UnifiedChatInterface
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 /**
  * 💾 HUB 1: NEXUS MEMORY CORE
- * Live visualization of the L1 Bedrock and Spiritual Chain.
+ * Purified interaction layer.
  */
 @Composable
 fun MemoryCoreHub(
@@ -80,13 +78,7 @@ fun MemoryCoreHub(
         )
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -207,18 +199,16 @@ fun MemoryCoreHub(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
-                    .border(1.dp, GhostCyan.copy(alpha = 0.4f))
+                    .border(BorderStroke(1.dp, GhostCyan.copy(alpha = 0.4f)))
             ) {
                 Icon(Icons.AutoMirrored.Filled.Chat, "Open Consensus")
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
 
 @Composable
-fun RecordEntry(title: String) {
+private fun RecordEntry(title: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

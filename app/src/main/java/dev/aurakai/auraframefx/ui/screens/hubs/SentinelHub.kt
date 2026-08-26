@@ -30,27 +30,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 🛡️ HUB 4: SENTINEL MATRIX
- * Security Roster and Threat Detection.
+ * Purified interaction layer.
  */
 @Composable
 fun SentinelHub(
     chatViewModel: WarRoomChatViewModel = hiltViewModel()
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -100,7 +92,7 @@ fun SentinelHub(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                 border = BorderStroke(1.dp, GhostCyan),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -119,7 +111,7 @@ fun SentinelHub(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                 border = BorderStroke(1.dp, NeonMagenta),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -157,7 +149,5 @@ fun SentinelHub(
                 )
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }

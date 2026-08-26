@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.ui.screens.hubs
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,28 +29,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.components.GlowCornerBox
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 🛠️ HUB 8: TOOLSHED (The 9th Stratum)
- * Raw system armaments and kernel-level manipulation.
+ * Purified interaction layer.
  */
 @Composable
 fun ToolShedHub(
     chatViewModel: WarRoomChatViewModel = hiltViewModel()
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF05050A))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -109,13 +100,11 @@ fun ToolShedHub(
                 }
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
 
 @Composable
-fun ArmamentCard(
+private fun ArmamentCard(
     title: String,
     description: String,
     icon: ImageVector,

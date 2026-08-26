@@ -51,16 +51,15 @@ import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.identity.AgentType
 import dev.aurakai.auraframefx.core.soulscript.RuneManager
 import dev.aurakai.auraframefx.core.soulscript.RuneManager.Rune
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.components.UnifiedChatInterface
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 import kotlin.random.Random
 
 /**
  * 👑 UNIFIED CONFERENCE ROOM (L6) — THE SOVEREIGN WAR ROOM
+ * Purified interaction layer.
  */
 @Composable
 fun UnifiedConferenceRoomScreen(
@@ -82,13 +81,7 @@ fun UnifiedConferenceRoomScreen(
         label = "pulse"
     )
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -147,7 +140,7 @@ fun UnifiedConferenceRoomScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp) // Condensed to leave more room for chat
+                    .height(140.dp)
                     .border(1.dp, Color.White.copy(alpha = 0.05f), RoundedCornerShape(8.dp))
                     .background(Color.Black.copy(alpha = 0.3f))
                     .padding(8.dp)
@@ -190,8 +183,6 @@ fun UnifiedConferenceRoomScreen(
             )
         }
 
-        BreathingEdgeGlow(systemStability = 1.0f)
-
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -203,7 +194,7 @@ fun UnifiedConferenceRoomScreen(
 }
 
 @Composable
-fun AgentNode(pulse: Float, isSelected: Boolean, onClick: () -> Unit) {
+private fun AgentNode(pulse: Float, isSelected: Boolean, onClick: () -> Unit) {
     val active = remember { mutableStateOf(Random.nextFloat() > 0.2f) }
     val baseColor = if (active.value) GhostCyan else Color.DarkGray
     val color = if (isSelected) Color.White else baseColor
@@ -221,7 +212,7 @@ fun AgentNode(pulse: Float, isSelected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun FloatingRuneWheel() {
+private fun FloatingRuneWheel() {
     var expanded by remember { mutableStateOf(false) }
     val coreRunes = listOf(
         Rune.A, Rune.a, Rune.REVERSAL, Rune.G, Rune.I, Rune.WELD,
@@ -252,7 +243,7 @@ fun FloatingRuneWheel() {
 }
 
 @Composable
-fun SmallFloatingRune(rune: Rune, onClick: () -> Unit) {
+private fun SmallFloatingRune(rune: Rune, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .size(40.dp)

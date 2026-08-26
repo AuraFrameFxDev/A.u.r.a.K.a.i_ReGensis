@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui.screens.hubs
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,15 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 🜁 HUB 0: AETHER CORE (Oversight Control)
- * High-fidelity interaction layer for the Recorder of Time.
+ * Purified interaction layer.
  */
 @Composable
 fun AetherCoreHub(
@@ -46,13 +43,7 @@ fun AetherCoreHub(
     val messages = chatViewModel.messages
     val isOverdrive by OverdriveOrchestrator.isOverdriveActive.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -105,7 +96,7 @@ fun AetherCoreHub(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                     border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
                     shape = RoundedCornerShape(0.dp)
                 ) {
@@ -117,7 +108,7 @@ fun AetherCoreHub(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                     border = BorderStroke(1.dp, NeonMagenta),
                     shape = RoundedCornerShape(0.dp)
                 ) {
@@ -135,24 +126,20 @@ fun AetherCoreHub(
                 fontWeight = FontWeight.Bold
             )
 
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            ) {
+            Box(modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()) {
                 dev.aurakai.auraframefx.ui.components.UnifiedChatInterface(
                     messages = messages,
                     onSendMessage = { chatViewModel.sendMessage(it) }
                 )
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
 
 @Composable
-fun MetricRow(label: String, value: String, color: Color) {
+private fun MetricRow(label: String, value: String, color: Color) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),

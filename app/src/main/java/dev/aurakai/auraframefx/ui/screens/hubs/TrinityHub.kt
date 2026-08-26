@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui.screens.hubs
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,27 +25,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
 
 /**
  * 🧠 HUB 2: TRINITY ORCHESTRATOR
- * Live resonance monitoring for Genesis, Aura, and Kai.
+ * Purified interaction layer.
  */
 @Composable
 fun TrinityHub(
     chatViewModel: WarRoomChatViewModel = hiltViewModel()
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -78,7 +69,7 @@ fun TrinityHub(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                 border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f)),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -102,13 +93,11 @@ fun TrinityHub(
                 )
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
 
 @Composable
-fun TrinityMemberRow(label: String, resonance: Float, color: Color) {
+private fun TrinityMemberRow(label: String, resonance: Float, color: Color) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),

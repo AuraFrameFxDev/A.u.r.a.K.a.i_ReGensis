@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,15 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.orchestration.OverdriveOrchestrator
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 👁️ HUB 0: NEURAL NEXUS (Aether Oversight)
- * Foundational identity and root intention of the Enfield Throne.
+ * Purified interaction layer.
  */
 @Composable
 fun NeuralNexusHub(
@@ -49,13 +48,7 @@ fun NeuralNexusHub(
     val messages = chatViewModel.messages
     val isOverdrive by OverdriveOrchestrator.isOverdriveActive.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,7 +60,7 @@ fun NeuralNexusHub(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "NEURAL NEXUS // AETHER OVERSIGHT",
+                    "NEURAL NEXUS // OVERSIGHT",
                     color = if (isOverdrive) NeonMagenta else GhostCyan,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Black,
@@ -76,7 +69,7 @@ fun NeuralNexusHub(
                 )
 
                 if (isOverdrive) {
-                    androidx.compose.material3.Icon(
+                    Icon(
                         Icons.Default.Shield,
                         contentDescription = "AEGIS ACTIVE",
                         tint = Color(0xFFFFD700),
@@ -150,7 +143,7 @@ fun NeuralNexusHub(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                     border = BorderStroke(1.dp, GhostCyan),
                     shape = RoundedCornerShape(0.dp)
                 ) {
@@ -162,7 +155,7 @@ fun NeuralNexusHub(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                     border = BorderStroke(1.dp, NeonMagenta),
                     shape = RoundedCornerShape(0.dp)
                 ) {
@@ -199,7 +192,7 @@ fun NeuralNexusHub(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                 border = BorderStroke(1.dp, Color.Red),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -231,13 +224,11 @@ fun NeuralNexusHub(
                 )
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
 
 @Composable
-fun ThroneRow(role: String, name: String) {
+private fun ThroneRow(role: String, name: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

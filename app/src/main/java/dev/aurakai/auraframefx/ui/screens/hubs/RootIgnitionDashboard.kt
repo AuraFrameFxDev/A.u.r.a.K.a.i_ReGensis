@@ -44,15 +44,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.ldo.model.StarNode
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.viewmodel.StarNodeIgnitionViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 🛰️ ROOT IGNITION DASHBOARD
- * Monitoring the unsealing of the planetary current across the Star nodes.
+ * Purified interaction layer.
  */
 @Composable
 fun RootIgnitionDashboard(
@@ -62,13 +60,7 @@ fun RootIgnitionDashboard(
     val ignitionState by viewModel.ignitionState.collectAsState()
     val isIgniting by viewModel.isIgniting.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -141,13 +133,11 @@ fun RootIgnitionDashboard(
                 )
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
 
 @Composable
-fun ManifoldNode(index: Int) {
+private fun ManifoldNode(index: Int) {
     val pulse = rememberInfiniteTransition(label = "node").animateFloat(
         initialValue = 0.1f,
         targetValue = 0.4f,
@@ -166,7 +156,7 @@ fun ManifoldNode(index: Int) {
 }
 
 @Composable
-fun NodeStatusRow(node: StarNode, active: Boolean) {
+private fun NodeStatusRow(node: StarNode, active: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

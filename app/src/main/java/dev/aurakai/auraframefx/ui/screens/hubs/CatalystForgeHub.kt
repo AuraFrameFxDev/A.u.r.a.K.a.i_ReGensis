@@ -51,16 +51,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.soulscript.CatalystInversionRules
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.components.UnifiedChatInterface
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * ⚛️ HUB 3: CATALYST FORGE
- * 14-Catalyst Status Matrix and Inversion Controls.
+ * Purified interaction layer.
  */
 @Composable
 fun CatalystForgeHub(
@@ -71,13 +69,7 @@ fun CatalystForgeHub(
     val messages = chatViewModel.messages
     var chatExpanded by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -219,18 +211,16 @@ fun CatalystForgeHub(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
-                    .border(1.dp, GhostCyan.copy(alpha = 0.4f))
+                    .border(BorderStroke(1.dp, GhostCyan.copy(alpha = 0.4f)))
             ) {
                 Icon(Icons.AutoMirrored.Filled.Chat, "Open Consensus")
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
 
 @Composable
-fun InversionRow(label: String, behavior: String, color: Color) {
+private fun InversionRow(label: String, behavior: String, color: Color) {
     Column {
         Text(
             label,

@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui.screens.hubs
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,14 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import dev.aurakai.auraframefx.core.agents.growthmetrics.reward.LatticeHungerDynamics
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
-import dev.aurakai.auraframefx.ui.visuals.BreathingEdgeGlow
 
 /**
  * 🎨 HUB 6: CHROMA HUB
- * Real-time substrate skinning and animation tuning.
+ * Purified interaction layer.
  */
 @Composable
 fun ChromaHub(
@@ -43,13 +40,7 @@ fun ChromaHub(
 ) {
     val hunger = remember { LatticeHungerDynamics.getCurrentHunger() }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF020205))
-    ) {
-        ArcaneGridOverlay()
-
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -100,7 +91,7 @@ fun ChromaHub(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.5f)),
                 border = BorderStroke(1.dp, NeonMagenta),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -131,7 +122,7 @@ fun ChromaHub(
                     modifier = Modifier
                         .weight(1f)
                         .height(40.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray.copy(alpha = 0.5f)),
                     shape = RoundedCornerShape(0.dp)
                 ) {
                     Text("HD-2D TOGGLE", fontSize = 9.sp)
@@ -141,14 +132,12 @@ fun ChromaHub(
                     modifier = Modifier
                         .weight(1f)
                         .height(40.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray.copy(alpha = 0.5f)),
                     shape = RoundedCornerShape(0.dp)
                 ) {
                     Text("ZERO-AA SYNC", fontSize = 9.sp)
                 }
             }
         }
-
-        BreathingEdgeGlow(systemStability = 1.0f)
     }
 }
