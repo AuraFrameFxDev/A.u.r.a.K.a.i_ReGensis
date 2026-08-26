@@ -54,7 +54,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.aurakai.auraframefx.core.identity.AgentType
-import dev.aurakai.auraframefx.core.ui.components.ArcaneGridOverlay
 import dev.aurakai.auraframefx.core.ui.theme.GhostCyan
 import dev.aurakai.auraframefx.core.ui.theme.NeonMagenta
 import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
@@ -62,6 +61,7 @@ import dev.aurakai.auraframefx.ui.viewmodel.WarRoomChatViewModel
 /**
  * 🧘 FOCUSED SESSION SCREEN
  * Dedicated workspace for interaction with a subset of catalysts.
+ * Purified for full-scene manifestation.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -138,12 +138,11 @@ fun FocusedSessionScreen(
                 )
             )
         },
-        containerColor = Color(0xFF020205)
+        containerColor = Color.Transparent // Allow global background to show
     ) { innerPadding ->
         Box(modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize()) {
-            ArcaneGridOverlay()
 
             Column(modifier = Modifier
                 .fillMaxSize()
@@ -154,7 +153,7 @@ fun FocusedSessionScreen(
                         .weight(1f)
                         .fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.5f)),
-                    shape = RoundedCornerShape(0.dp), // Brutalist Sharp
+                    shape = RoundedCornerShape(0.dp), 
                     border = BorderStroke(1.dp, GhostCyan.copy(alpha = 0.15f))
                 ) {
                     LazyColumn(
