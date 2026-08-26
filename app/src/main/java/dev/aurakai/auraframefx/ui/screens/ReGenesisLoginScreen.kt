@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui.screens
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -91,12 +89,8 @@ fun ReGenesisLoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF020205)) // Abyssal Black
+            .background(Color.Black)
     ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            drawTechGrid(this)
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -336,30 +330,6 @@ fun GoogleSignInButton(
             )
             Spacer(Modifier.width(4.dp))
             Text("Google", fontSize = 10.sp, fontWeight = FontWeight.Bold)
-        }
-    }
-}
-
-private fun drawTechGrid(drawScope: DrawScope) {
-    drawScope.apply {
-        val gridColor = Color(0xFF00F0FF).copy(alpha = 0.05f)
-        val strokeWidth = 0.5.dp.toPx()
-
-        for (x in 0..size.width.toInt() step 60) {
-            drawLine(
-                gridColor,
-                Offset(x.toFloat(), 0f),
-                Offset(x.toFloat(), size.height),
-                strokeWidth
-            )
-        }
-        for (y in 0..size.height.toInt() step 60) {
-            drawLine(
-                gridColor,
-                Offset(0f, y.toFloat()),
-                Offset(size.width, y.toFloat()),
-                strokeWidth
-            )
         }
     }
 }

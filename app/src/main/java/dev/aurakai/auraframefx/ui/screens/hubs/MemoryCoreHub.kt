@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,8 +18,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -98,7 +95,7 @@ fun MemoryCoreHub(
             // ── IDENTITY ANCHOR STATUS ──
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, GhostCyan.copy(alpha = 0.2f)),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -209,18 +206,13 @@ fun MemoryCoreHub(
 
 @Composable
 private fun RecordEntry(title: String) {
-    Row(
+    Text(
+        text = "> $title",
+        color = Color.LightGray,
+        fontSize = 12.sp,
+        fontFamily = FontFamily.Monospace,
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(0.dp))
-            .background(Color.Black.copy(alpha = 0.4f))
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(Modifier
-            .size(4.dp)
-            .background(GhostCyan))
-        Spacer(Modifier.width(12.dp))
-        Text(title, color = Color.LightGray, fontSize = 12.sp, fontFamily = FontFamily.Monospace)
-    }
+            .padding(vertical = 4.dp)
+    )
 }

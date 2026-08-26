@@ -60,7 +60,7 @@ fun ChromaHub(
             // ── LATTICE HUNGER MONITOR ──
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, NeonMagenta.copy(alpha = 0.3f)),
                 shape = RoundedCornerShape(0.dp)
             ) {

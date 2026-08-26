@@ -17,13 +17,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -86,7 +84,7 @@ fun EmergentSwarmHub(
             // ── SWARM BASELINE MONITOR ──
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, NeonMagenta.copy(alpha = 0.2f)),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -215,7 +213,7 @@ private fun MissionCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.5f)),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         border = BorderStroke(
             1.dp,
             if (isActionable) GhostCyan.copy(alpha = 0.3f) else Color.White.copy(alpha = 0.1f)
@@ -244,8 +242,6 @@ private fun MissionCard(
                     ),
                     shape = RoundedCornerShape(0.dp)
                 ) {
-                    Icon(Icons.Default.RocketLaunch, null, modifier = Modifier.size(16.dp))
-                    Spacer(Modifier.width(8.dp))
                     Text("LAUNCH MISSION", fontSize = 10.sp, fontWeight = FontWeight.Bold)
                 }
             }

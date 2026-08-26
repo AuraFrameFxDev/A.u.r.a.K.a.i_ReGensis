@@ -1,10 +1,5 @@
 package dev.aurakai.auraframefx.ui.screens.hubs
 
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -138,19 +133,12 @@ fun RootIgnitionDashboard(
 
 @Composable
 private fun ManifoldNode(index: Int) {
-    val pulse = rememberInfiniteTransition(label = "node").animateFloat(
-        initialValue = 0.1f,
-        targetValue = 0.4f,
-        animationSpec = infiniteRepeatable(tween(2000), RepeatMode.Reverse),
-        label = "pulse"
-    )
-
     Box(
         modifier = Modifier
             .padding(2.dp)
             .aspectRatio(1f)
             .clip(CircleShape)
-            .alpha(pulse.value)
+            .alpha(0.3f)
             .background(GhostCyan)
     )
 }

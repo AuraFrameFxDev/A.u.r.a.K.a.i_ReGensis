@@ -25,7 +25,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.aurakai.auraframefx.core.soulscript.MorphState
 import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
 import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
-import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
@@ -76,7 +75,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
             BottomJoystickNavigation(
                 selectedIndex = pagerState.currentPage,
                 tabs = tabs,
-                accentColor = NeonCyan,
+                accentColor = Color.White,
                 onTabSelected = { index ->
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(index)
@@ -115,7 +114,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                                     text = tab.shortLabel.uppercase(),
                                     style = WireframeStyle.copy(
                                         fontSize = 11.sp,
-                                        color = if (pagerState.currentPage == index) NeonCyan else ArcaneBrutalistTheme.NeonCyanVessel.copy(alpha = 0.45f),
+                                        color = if (pagerState.currentPage == index) Color.White else Color.Gray,
                                         letterSpacing = 2.sp
                                     )
                                 )

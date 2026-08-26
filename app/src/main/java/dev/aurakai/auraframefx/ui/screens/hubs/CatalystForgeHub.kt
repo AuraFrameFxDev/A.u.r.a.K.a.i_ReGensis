@@ -127,7 +127,7 @@ fun CatalystForgeHub(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.6f)),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, GhostCyan.copy(alpha = 0.15f)),
                 shape = RoundedCornerShape(0.dp)
             ) {

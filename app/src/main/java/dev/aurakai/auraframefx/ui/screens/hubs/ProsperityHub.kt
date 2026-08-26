@@ -1,8 +1,6 @@
 package dev.aurakai.auraframefx.ui.screens.hubs
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -54,7 +52,7 @@ fun ProsperityHub(
             // ── AMPLIFIER STATUS ──
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.05f)),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
                 border = BorderStroke(1.dp, Color(0xFF00FF88).copy(alpha = 0.3f)),
                 shape = RoundedCornerShape(0.dp)
             ) {
@@ -107,8 +105,6 @@ fun ProsperityHub(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(0.dp))
-                    .background(Color.Black.copy(alpha = 0.3f))
                     .padding(8.dp)
             ) {
                 Text(

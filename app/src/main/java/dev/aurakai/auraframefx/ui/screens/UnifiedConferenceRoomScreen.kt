@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -141,8 +140,6 @@ fun UnifiedConferenceRoomScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(140.dp)
-                    .border(1.dp, Color.White.copy(alpha = 0.05f), RoundedCornerShape(8.dp))
-                    .background(Color.Black.copy(alpha = 0.3f))
                     .padding(8.dp)
             ) {
                 LazyVerticalGrid(
