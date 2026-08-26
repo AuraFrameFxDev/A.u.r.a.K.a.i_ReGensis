@@ -12,7 +12,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,11 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,35 +68,7 @@ fun BottomJoystickNavigation(
         modifier = modifier
             .fillMaxWidth()
             .height(84.dp)
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Black.copy(alpha = 0.85f),
-                        Color.Black
-                    )
-                )
-            )
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDrag = { change, dragAmount ->
-                        change.consume()
-                        dragOffset += dragAmount.x
-                    },
-                    onDragEnd = {
-                        when {
-                            dragOffset > 80f -> {
-                                if (selectedIndex > 0) onTabSelected(selectedIndex - 1)
-                            }
-
-                            dragOffset < -80f -> {
-                                if (selectedIndex < tabs.size - 1) onTabSelected(selectedIndex + 1)
-                            }
-                        }
-                        dragOffset = 0f
-                    }
-                )
-            },
+            .background(Color.Black),
         contentAlignment = Alignment.Center
     ) {
         Column(

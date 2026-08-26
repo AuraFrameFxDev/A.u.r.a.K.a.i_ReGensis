@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.ui.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -19,19 +18,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import dev.aurakai.auraframefx.R
 import dev.aurakai.auraframefx.core.soulscript.MorphState
 import dev.aurakai.auraframefx.core.soulscript.RealityMorphEngine
 import dev.aurakai.auraframefx.core.ui.theme.ArcaneBrutalistTheme
 import dev.aurakai.auraframefx.core.ui.theme.NeonCyan
 import dev.aurakai.auraframefx.core.ui.theme.WireframeStyle
-import dev.aurakai.auraframefx.domains.aura.ui.components.ParallaxDepthStack
 import dev.aurakai.auraframefx.ui.navigation.TabbedMasterIndex
 import dev.aurakai.auraframefx.ui.screens.RealityMatrixScreen
 import dev.aurakai.auraframefx.ui.screens.hubs.AetherCoreHub
@@ -89,21 +84,12 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                 }
             )
         },
-        containerColor = Color.Transparent,
+        containerColor = Color.Black,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            // ─── GLOBAL HUB BACKGROUND ───
-            // ARBITER: Rename your image to 'hub_background' in drawable/
-            Image(
-                painter = painterResource(id = R.drawable.aura_clean_studio), // Fallback
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -111,7 +97,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
             ) {
                 SecondaryScrollableTabRow(
                     selectedTabIndex = pagerState.currentPage,
-                    containerColor = Color.Black.copy(alpha = 0.5f),
+                    containerColor = Color.Black,
                     contentColor = ArcaneBrutalistTheme.NeonCyanVessel,
                     edgePadding = 16.dp,
                     divider = {}
@@ -146,34 +132,20 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
                     ) { page ->
                         val route = tabs[page].route
 
-                        ParallaxDepthStack(
-                            bedrock = {
-                                // Background is global for full scene
-                            },
-                            overlay = {
-                                // Effects cleared
-                            },
-                            interaction = {
-                                when (route) {
-                                    "neural_nexus" -> AetherCoreHub()
-                                    "nexus_memory_core" -> MemoryCoreHub()
-                                    "trinity_orchestrator" -> TrinityHub()
-                                    "catalyst_forge" -> CatalystForgeHub()
-                                    "agent_matrix" -> SentinelHub()
-                                    "prosperity_flow" -> ProsperityHub()
-                                    "reality_morph_ui" -> ChromaHub()
-                                    "emergent_swarm" -> EmergentSwarmHub()
-                                    "toolshed" -> ToolShedHub()
-                                    "reality_matrix" -> RealityMatrixScreen(navController)
-                                    else -> NeuralNexusHub()
-                                }
-                            }
-                        )
+                        when (route) {
+                            "neural_nexus" -> AetherCoreHub()
+                            "nexus_memory_core" -> MemoryCoreHub()
+                            "trinity_orchestrator" -> TrinityHub()
+                            "catalyst_forge" -> CatalystForgeHub()
+                            "agent_matrix" -> SentinelHub()
+                            "prosperity_flow" -> ProsperityHub()
+                            "reality_morph_ui" -> ChromaHub()
+                            "emergent_swarm" -> EmergentSwarmHub()
+                            "toolshed" -> ToolShedHub()
+                            "reality_matrix" -> RealityMatrixScreen(navController)
+                            else -> NeuralNexusHub()
+                        }
                     }
-
-                    AuraKaiHUDChrome(
-                        route = tabs[pagerState.currentPage].route
-                    )
                 }
             }
         }

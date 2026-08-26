@@ -3,8 +3,6 @@ package dev.aurakai.auraframefx.ui.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
@@ -47,16 +45,16 @@ fun ReGenesisNavGraph(
         navController = navController,
         startDestination = startDestination!!,
         enterTransition = {
-            fadeIn(tween(400)) + slideInHorizontally { it / 6 } + scaleIn(initialScale = 0.93f)
+            fadeIn(tween(300)) + slideInHorizontally { it / 8 }
         },
         exitTransition = {
-            fadeOut(tween(380)) + slideOutHorizontally { -it / 8 } + scaleOut(targetScale = 1.07f)
+            fadeOut(tween(300)) + slideOutHorizontally { -it / 8 }
         },
         popEnterTransition = {
-            fadeIn(tween(400)) + slideInHorizontally { -it / 6 } + scaleIn(initialScale = 0.93f)
+            fadeIn(tween(300)) + slideInHorizontally { -it / 8 }
         },
         popExitTransition = {
-            fadeOut(tween(380)) + slideOutHorizontally { it / 8 } + scaleOut(targetScale = 1.07f)
+            fadeOut(tween(300)) + slideOutHorizontally { it / 8 }
         }
     ) {
         composable(AuraDestinations.LOGIN) {
