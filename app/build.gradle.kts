@@ -202,7 +202,7 @@ dependencies {
 
     // Local Encrypted Bedrock
     implementation("androidx.datastore:datastore:1.2.1")
-    implementation("com.google.crypto.tink:tink-android:1.15.0")
+    implementation("com.google.crypto.tink:tink-android:1.23.0")
 
     // Testing
     testImplementation(libs.junit)
