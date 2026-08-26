@@ -34,7 +34,7 @@ compose-ui = "1.11.1"
 material = "1.14.0"
 
 # Hilt DI
-hilt = "2.59.2"
+hilt = "2.60.1"
 hilt-ext = "1.4.0-beta01"
 
 # Firebase & AI
