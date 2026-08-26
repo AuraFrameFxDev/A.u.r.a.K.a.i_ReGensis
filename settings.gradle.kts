@@ -46,6 +46,7 @@ include(":app")
 include(":core-module")
 include(":domains")
 include(":core")
+include(":LegalPilot")
 
 // ====== GENESIS AGENT SYMBIOSIS SUBSTRATE WORKSPACE ======
 includeModule(":collab-canvas")

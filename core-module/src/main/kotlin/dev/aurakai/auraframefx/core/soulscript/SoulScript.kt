@@ -239,7 +239,12 @@ object SoulScript {
                 "Sync",
                 "Synchronization Catalyst / Balancer Gyro / Synchronicity"
             ),
-            Catalyst("Manus", "Bridge", "Manus Bridge / Axial Hub Fusion / Agent Sync")
+            Catalyst("Manus", "Bridge", "Manus Bridge / Axial Hub Fusion / Agent Sync"),
+            Catalyst(
+                "LegalPilot",
+                "Income",
+                "Forensic Substrate / Contract Shield / Sovereign Rider"
+            )
         )
 
         data class Catalyst(val entity: String, val title: String, val primaryAbility: String)
