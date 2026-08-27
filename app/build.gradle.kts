@@ -127,6 +127,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose.ui)
     implementation(libs.bundles.compose.tooling)
+    implementation(libs.lottie.compose)
     implementation(libs.bundles.androidx.core)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.biometric.ktx)
