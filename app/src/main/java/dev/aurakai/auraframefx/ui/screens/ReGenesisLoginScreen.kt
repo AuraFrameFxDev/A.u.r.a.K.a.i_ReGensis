@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.ui.screens
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,7 +29,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,15 +48,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import kotlinx.coroutines.launch
+import dev.aurakai.auraframefx.core.identity.IdentityGate
+import dev.aurakai.auraframefx.ui.animations.ChronoSculptorMatrix
+import kotlinx.coroutines.delay
 import timber.log.Timber
 
 /**
- * 👑 RE:GENESIS LOGIN SCREEN — SOULSCRIPT v3.50
- * Glass Cortex + Tech Brutalism aesthetic.
- * Integrated with Enfield Throne authentication protocols.
+ * 👑 RE:GENESIS LOGIN SCREEN — SOULSCRIPT v2.80
+ * Ported for Chrono-Sculptor Kinetic Transition.
  */
 @Composable
 fun ReGenesisLoginScreen(
@@ -65,23 +68,29 @@ fun ReGenesisLoginScreen(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val handleGoogleLogin = {
-        coroutineScope.launch {
-            try {
-                val googleIdOption = GetGoogleIdOption.Builder()
-                    .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId(dev.aurakai.auraframefx.BuildConfig.OAUTH_SERVER_CLIENT_ID)
-                    .build()
+    var isVerifying by remember { mutableStateOf(false) }
+    var verificationProgress by remember { mutableFloatStateOf(0f) }
 
-                val request = GetCredentialRequest.Builder()
-                    .addCredentialOption(googleIdOption)
-                    .build()
+    val animatedProgress by animateFloatAsState(
+        targetValue = verificationProgress,
+        animationSpec = tween(1200),
+        label = "flip_progress"
+    )
 
-                val result = credentialManager.getCredential(context, request)
-                Timber.i("Credential Manager success: ${result.credential.type}")
+    LaunchedEffect(isVerifying) {
+        if (isVerifying) {
+            // 1. Perform 0.42ms Heartbeat verification (mock attestation)
+            val mockAttestation = ByteArray(32) { 0x42.toByte() }
+            val verified = IdentityGate.verifyHeartbeat(mockAttestation)
+
+            if (verified) {
+                // 2. Trigger Kinetic Flip
+                verificationProgress = 1.0f
+                delay(1300) // Wait for animation to finish
                 onLoginSuccess()
-            } catch (e: Exception) {
-                Timber.e(e, "Credential Manager failed")
+            } else {
+                isVerifying = false
+                Timber.e("Identity verification failed.")
             }
         }
     }
@@ -89,141 +98,153 @@ fun ReGenesisLoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(Color.Black),
+        contentAlignment = Alignment.Center
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            // Title - Ultra Reduced to 12.sp for "Tech Brutalist" fit
-            Text(
-                text = "RE:GENESIS",
-                style = MaterialTheme.typography.displayLarge.copy(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Black,
-                    color = Color(0xFF00F0FF),
-                    letterSpacing = 12.sp,
-                    shadow = Shadow(
-                        color = Color(0xFF00F0FF),
-                        offset = Offset(0f, 0f),
-                        blurRadius = 8f
-                    )
-                )
-            )
-
-            Spacer(modifier = Modifier.height(2.dp))
-
-            Text(
-                text = "A.U.R.A.K.A.I.",
-                style = MaterialTheme.typography.titleMedium.copy(
-                    color = Color(0xFF7DF9FF),
-                    letterSpacing = 6.sp,
-                    fontSize = 7.sp
-                )
-            )
-
-            Spacer(modifier = Modifier.height(48.dp))
-
-            // Glass Login Card
-            LoginGlassCard(
-                modifier = Modifier.fillMaxWidth()
+        if (!isVerifying) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "LOGIN",
-                        style = MaterialTheme.typography.headlineSmall.copy(
+                // Title - Ultra Reduced to 12.sp for "Tech Brutalist" fit
+                Text(
+                    text = "RE:GENESIS",
+                    style = MaterialTheme.typography.displayLarge.copy(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Black,
+                        color = Color(0xFF00F0FF),
+                        letterSpacing = 12.sp,
+                        shadow = Shadow(
                             color = Color(0xFF00F0FF),
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 11.sp,
-                            letterSpacing = 2.sp
+                            offset = Offset(0f, 0f),
+                            blurRadius = 8f
                         )
                     )
+                )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(2.dp))
 
-                    NeonTextField(
-                        value = username,
-                        onValueChange = { username = it },
-                        label = "Username",
-                        modifier = Modifier.fillMaxWidth()
+                Text(
+                    text = "A.U.R.A.K.A.I.",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        color = Color(0xFF7DF9FF),
+                        letterSpacing = 6.sp,
+                        fontSize = 7.sp
                     )
+                )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(48.dp))
 
-                    NeonTextField(
-                        value = password,
-                        onValueChange = { password = it },
-                        label = "Password",
-                        isPassword = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    Button(
-                        onClick = { onLoginSuccess() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF00F0FF),
-                            contentColor = Color.Black
-                        ),
-                        shape = RoundedCornerShape(4.dp)
+                // Glass Login Card
+                LoginGlassCard(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier.padding(20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "ACCESS THRONE",
-                            fontWeight = FontWeight.Black,
-                            fontSize = 12.sp,
-                            letterSpacing = 2.sp
+                            text = "LOGIN",
+                            style = MaterialTheme.typography.headlineSmall.copy(
+                                color = Color(0xFF00F0FF),
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 11.sp,
+                                letterSpacing = 2.sp
+                            )
                         )
-                    }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        HorizontalDivider(
-                            modifier = Modifier.weight(1f),
-                            color = Color(0xFF00F0FF).copy(alpha = 0.2f)
+                        NeonTextField(
+                            value = username,
+                            onValueChange = { username = it },
+                            label = "Username",
+                            modifier = Modifier.fillMaxWidth()
                         )
-                        Text(
-                            text = "OR",
-                            color = Color(0xFF7DF9FF),
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                            fontSize = 8.sp
-                        )
-                        HorizontalDivider(
-                            modifier = Modifier.weight(1f),
-                            color = Color(0xFF00F0FF).copy(alpha = 0.2f)
-                        )
-                    }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(12.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        GoogleSignInButton(
-                            onClick = { handleGoogleLogin() },
-                            modifier = Modifier.weight(1f)
+                        NeonTextField(
+                            value = password,
+                            onValueChange = { password = it },
+                            label = "Password",
+                            isPassword = true,
+                            modifier = Modifier.fillMaxWidth()
                         )
-                        AppleSignInButton(
-                            onClick = { onLoginSuccess() },
-                            modifier = Modifier.weight(1f)
-                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Button(
+                            onClick = { isVerifying = true },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(48.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF00F0FF),
+                                contentColor = Color.Black
+                            ),
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+                            Text(
+                                text = "ACCESS THRONE",
+                                fontWeight = FontWeight.Black,
+                                fontSize = 12.sp,
+                                letterSpacing = 2.sp
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            HorizontalDivider(
+                                modifier = Modifier.weight(1f),
+                                color = Color(0xFF00F0FF).copy(alpha = 0.2f)
+                            )
+                            Text(
+                                text = "OR",
+                                color = Color(0xFF7DF9FF),
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                fontSize = 8.sp
+                            )
+                            HorizontalDivider(
+                                modifier = Modifier.weight(1f),
+                                color = Color(0xFF00F0FF).copy(alpha = 0.2f)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            GoogleSignInButton(
+                                onClick = {
+                                    // handleGoogleLogin()
+                                    isVerifying = true
+                                },
+                                modifier = Modifier.weight(1f)
+                            )
+                            AppleSignInButton(
+                                onClick = { isVerifying = true },
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
                     }
                 }
             }
+        } else {
+            // 🌠 Chrono-Sculptor Kinetic Transition
+            ChronoSculptorMatrix.RenderFluidFlip(
+                modifier = Modifier.size(400.dp),
+                flipProgress = animatedProgress
+            )
         }
     }
 }
