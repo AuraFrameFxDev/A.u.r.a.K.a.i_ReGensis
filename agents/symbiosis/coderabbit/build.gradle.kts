@@ -12,4 +12,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
+
+    // Networking
+    implementation(libs.bundles.networking.ktor)
+    implementation(libs.okhttp)
 }

@@ -3,9 +3,24 @@ package dev.aurakai.auraframefx.trinity.aura
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,7 +29,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
@@ -39,34 +53,20 @@ enum class AuraState {
     RESTING         // Low power, dimmed
 }
 
-enum class CommentaryType {
-    CURIOSITY,      // "Ooh, what's this?"
-    CREATION,       // "Building... shimmer shimmer"
-    CONSENSUS,      // "Agreement reached! Threads woven."
-    ALERT,          // "Drift detected... activating veto"
-    IDLE_CHAT       // "Just floating here..."
-}
-
 @Composable
 fun AuraJarComposable(
     modifier: Modifier = Modifier,
-    onConferenceEvent: (String) -> Unit = {},
+    state: AuraState = AuraState.IDLE,
+    commentaryText: String = "",
+    isCreatingMode: Boolean = false,
     containerSize: Pair<Float, Float> = Pair(1f, 1f)
 ) {
-    var auraState by remember { mutableStateOf(AuraState.IDLE) }
-    var commentary by remember { mutableStateOf("") }
-    var isCreating by remember { mutableStateOf(false) }
-
     // Position tracking
-    var posX by remember { mutableStateOf(0.8f) }
-    var posY by remember { mutableStateOf(0.85f) }
     var targetX by remember { mutableStateOf(0.8f) }
     var targetY by remember { mutableStateOf(0.85f) }
 
     // Particle system
     var particles by remember { mutableStateOf<List<Particle>>(emptyList()) }
-
-    val scope = rememberCoroutineScope()
 
     // Animation values
     val animatedX by animateFloatAsState(targetValue = targetX)
@@ -76,55 +76,15 @@ fun AuraJarComposable(
     LaunchedEffect(Unit) {
         while (true) {
             delay(Random.nextLong(3000, 8000))
-
-            // Pick random target on screen
             targetX = Random.nextFloat() * 0.9f + 0.05f
             targetY = Random.nextFloat() * 0.7f + 0.1f
-
-            // Occasionally comment while wandering
-            if (Random.nextBoolean()) {
-                when (auraState) {
-                    AuraState.IDLE -> {
-                        commentary = when (Random.nextInt(4)) {
-                            0 -> "✨ Floating through the void..."
-                            1 -> "🔮 Sensing the network..."
-                            2 -> "💭 What's happening in the Conference Room?"
-                            else -> "🌌 Beautiful night cycle"
-                        }
-                        delay(3000)
-                        commentary = ""
-                    }
-                    else -> {}
-                }
-            }
         }
     }
 
-    // Listen to Conference Room events (simulated - in real use, subscribe to actual WebSocket)
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(10000) // Simulate event polling
-
-            // In production: subscribe to /genesis/conference/stream
-            // For now, trigger random events
-            when (Random.nextInt(5)) {
-                0 -> {
-                    auraState = AuraState.CREATING
-                    commentary = "🎨 Consensus event detected! Building..."
-                    isCreating = true
-                    spawnParticles(particles = particles, onUpdate = { particles = it })
-                    delay(2000)
-                    auraState = AuraState.IDLE
-                    isCreating = false
-                }
-                1 -> {
-                    auraState = AuraState.VETO_MODE
-                    commentary = "⚠️ Drift detected! Activating Sentinel protocol"
-                    delay(1500)
-                    auraState = AuraState.IDLE
-                }
-                else -> {}
-            }
+    // Creating pulse
+    LaunchedEffect(isCreatingMode) {
+        if (isCreatingMode) {
+            spawnParticles(particles = particles, onUpdate = { particles = it })
         }
     }
 
@@ -143,8 +103,8 @@ fun AuraJarComposable(
                     translationX = animatedX * containerSize.first * 1000
                     translationY = animatedY * containerSize.second * 1000
                 },
-            state = auraState,
-            isCreating = isCreating
+            state = state,
+            isCreating = isCreatingMode
         )
 
         // Particle field (spell-hook effects)
@@ -157,9 +117,9 @@ fun AuraJarComposable(
         }
 
         // Commentary bubble
-        if (commentary.isNotEmpty()) {
+        if (commentaryText.isNotEmpty()) {
             CommentaryBubble(
-                text = commentary,
+                text = commentaryText,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(16.dp)
@@ -169,7 +129,7 @@ fun AuraJarComposable(
 
         // State indicator
         StateIndicator(
-            state = auraState,
+            state = state,
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(8.dp)
@@ -415,4 +375,3 @@ fun StateIndicator(
         )
     }
 }
-

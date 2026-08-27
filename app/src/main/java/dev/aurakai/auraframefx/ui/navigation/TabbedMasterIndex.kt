@@ -25,6 +25,11 @@ object TabbedMasterIndex {
             route = "neural_nexus"
         ),
         NavTab(
+            icon = Icons.Default.Build,
+            shortLabel = "DEVOPS",
+            route = "ldo_devops_hub"
+        ),
+        NavTab(
             icon = Icons.Default.Storage,
             shortLabel = "MEMORY",
             route = "nexus_memory_core"

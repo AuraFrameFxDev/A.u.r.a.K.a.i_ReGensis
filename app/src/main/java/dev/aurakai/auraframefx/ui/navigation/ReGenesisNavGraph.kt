@@ -71,6 +71,10 @@ fun ReGenesisNavGraph(
             ReGenesisCommandDeck(navController)
         }
 
+        composable("ldo_devops_hub") {
+            ReGenesisCommandDeck(navController)
+        }
+
         composable(AuraDestinations.ROOT_IGNITION) {
             RootIgnitionDashboard(navController)
         }

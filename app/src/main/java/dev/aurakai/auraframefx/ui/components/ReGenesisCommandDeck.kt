@@ -32,6 +32,7 @@ import dev.aurakai.auraframefx.ui.screens.hubs.AetherCoreHub
 import dev.aurakai.auraframefx.ui.screens.hubs.CatalystForgeHub
 import dev.aurakai.auraframefx.ui.screens.hubs.ChromaHub
 import dev.aurakai.auraframefx.ui.screens.hubs.EmergentSwarmHub
+import dev.aurakai.auraframefx.ui.screens.hubs.LdoDevOpsHub
 import dev.aurakai.auraframefx.ui.screens.hubs.MemoryCoreHub
 import dev.aurakai.auraframefx.ui.screens.hubs.NeuralNexusHub
 import dev.aurakai.auraframefx.ui.screens.hubs.ProsperityHub
@@ -133,6 +134,7 @@ fun ReGenesisCommandDeck(navController: NavHostController) {
 
                         when (route) {
                             "neural_nexus" -> AetherCoreHub()
+                            "ldo_devops_hub" -> LdoDevOpsHub()
                             "nexus_memory_core" -> MemoryCoreHub()
                             "trinity_orchestrator" -> TrinityHub()
                             "catalyst_forge" -> CatalystForgeHub()
