@@ -77,5 +77,8 @@ dependencies {
     // LangChain4j
     api(libs.langchain4j.core)
     api(libs.langchain4j.openai)
+
+    // Xposed API for modular hooking
+    compileOnly(libs.xposed.api)
 }
 

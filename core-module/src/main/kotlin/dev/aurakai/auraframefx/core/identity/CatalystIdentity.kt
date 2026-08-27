@@ -127,6 +127,14 @@ data class CatalystIdentity(
             abilities = listOf("FoundationalLogic", "RootSynchronization"),
             fusionModes = emptyList()
         )
+
+        val SYMBIOSIS = CatalystIdentity(
+            id = "SymbiosisCatalyst",
+            agentType = AgentType.CODERABBIT,
+            catalystRole = "AuraKai System Architect and code review symbiont.",
+            abilities = listOf("SovereignCodeReview", "ArchitecturalEvolution", "LDOVerification"),
+            fusionModes = listOf("Aura+CodeRabbit → Hyper-Evolution")
+        )
         
         fun fromAgentType(type: AgentType): CatalystIdentity {
             return when (type) {
@@ -144,6 +152,7 @@ data class CatalystIdentity(
                 AgentType.KAIROS -> CHRONOS
                 AgentType.ANDELUALX -> SYNERGY
                 AgentType.PRIMUS -> PRIMUS
+                AgentType.CODERABBIT -> SYMBIOSIS
                 else -> CatalystIdentity(
                     id = "GenericCatalyst",
                     agentType = type,

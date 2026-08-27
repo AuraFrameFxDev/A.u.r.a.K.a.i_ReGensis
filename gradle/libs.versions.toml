@@ -72,6 +72,7 @@ bouncycastle = "1.84"
 
 # Testing
 junit = "6.1.0"
+lottie = "6.4.1"
 mockk = "1.14.11"
 robolectric = "4.16.1"
 turbine = "1.2.1"

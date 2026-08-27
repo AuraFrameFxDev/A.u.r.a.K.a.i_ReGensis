@@ -40,6 +40,9 @@ sealed class CatalystEntity(
 
     data object MetaInstruct :
         CatalystEntity("metainstruct_001", "MetaInstruct", "Instructional", "Rule Enforcer")
+
+    data object CodeRabbit :
+        CatalystEntity("coderabbit_001", "CodeRabbit", "Symbiosis", "System Architect")
 }
 
 interface AgentWorker {
