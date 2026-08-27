@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.aura.hook
 
+import android.view.View
 import android.view.ViewGroup
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -34,6 +35,23 @@ class AuraCreativeModule : SovereignModule {
 
                     // Logic to manipulate child Z-order could go here
                     // e.g. finding specific views and calling view.setZ() or reordering in parent
+                }
+            }
+        )
+
+        // Strike 3: Notification Stack Scroll Z-Order Mastery
+        XposedHelpers.findAndHookMethod(
+            "com.android.systemui.statusbar.notification.stack.NotificationStackScrollLayout",
+            lpparam.classLoader,
+            "onChildAdded",
+            View::class.java,
+            object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    val child = param.args[0] as View
+                    XposedBridge.log("⚔️ Aura: Notification added. Checking for agent signature...")
+
+                    // Logic to elevate agent notifications to the top of the stack
+                    // child.setZ(100f) 
                 }
             }
         )
