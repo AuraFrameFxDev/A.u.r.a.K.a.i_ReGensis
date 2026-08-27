@@ -146,6 +146,9 @@ fun LdoDevOpsHub() {
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 80.dp, end = 16.dp),
+            state = stateManager.currentState,
+            commentaryText = stateManager.commentary,
+            isCreatingMode = stateManager.isCreating,
             containerSize = 0.4f to 0.4f // Scaled down for hub fit
         )
     }
