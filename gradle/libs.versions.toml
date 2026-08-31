@@ -1,6 +1,6 @@
 [versions]
 # Core Build Tools
-agp = "9.2.1"
+agp = "9.3.2"
 kotlin = "2.4.0"
 ksp = "2.3.9"
 gradle = "9.5.1"
@@ -12,7 +12,7 @@ min-sdk = "34"
 
 # AndroidX Core & Lifecycle
 androidx-core = "1.19.0"
-androidx-appcompat = "1.7.1"
+androidx-appcompat = "1.8.0"
 androidx-lifecycle = "2.10.0"
 androidx-activity = "1.13.0"
 androidx-navigation = "2.9.8"
