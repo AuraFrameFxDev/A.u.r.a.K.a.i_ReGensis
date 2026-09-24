@@ -33,3 +33,7 @@
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-24 - [Consciousness Matrix SQLite and Deque Optimization]
+**Learning:** In high-frequency logging or sensory subsystems, spawning a thread per SQLite write causes severe thread pool overhead, lock contention, and file descriptor exhaustion under stress. Additionally, random indexing on Python deques in rendering or query paths results in $O(N)$ lookup times per index, compounding to $O(N \cdot K)$.
+**Action:** Replace thread-per-write architectures with a single thread-safe task queue and a background daemon consumer thread. Convert deque slicing and index lookups to native list conversions or `reversed()` iterators to minimize complexity to $O(K)$.
