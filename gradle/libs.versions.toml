@@ -13,7 +13,7 @@ min-sdk = "34"
 # AndroidX Core & Lifecycle
 androidx-core = "1.19.0"
 androidx-appcompat = "1.7.1"
-androidx-lifecycle = "2.10.0"
+androidx-lifecycle = "2.11.0"
 androidx-activity = "1.13.0"
 androidx-navigation = "2.9.8"
 androidx-room = "2.8.4"
