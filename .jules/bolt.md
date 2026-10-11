@@ -33,3 +33,7 @@
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-14 - [Deferred Animation State Reads]
+**Learning:** Reading animation state (e.g., from `animateFloatAsState`) directly in a Composable's body via property delegation (`by`) triggers full recomposition of the parent on every frame. This is extremely expensive for high-frequency animations.
+**Action:** Always capture the `State<T>` object directly (without `by`) and access `.value` only within lambda-based modifiers like `graphicsLayer { ... }`, `offset { ... }`, or inside a `Canvas { ... }` draw block. This defers the read to the layout or draw phase, bypassing recomposition entirely.
