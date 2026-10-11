@@ -33,3 +33,7 @@
 ## 2026-07-10 - [Positional Gradient Hoisting Caution]
 **Learning:** Hoisting a `Brush.verticalGradient` completely into a `remember` block in Jetpack Compose can cause visual regressions if the gradient coordinates (`startY`, `endY`) depend on dynamic layout values like a horizon line or container size. While it eliminates `Brush` allocation, it loses spatial accuracy.
 **Action:** Hoist only the gradient colors (`listOf<Color>`) and alpha modifications into `remember`, but continue to instantiate the `Brush` inside the `Canvas` if it requires layout-dependent coordinates. This balances allocation reduction with visual fidelity.
+
+## 2026-07-18 - [Compose Draw Parameter and State Read Deferred Optimizations]
+**Learning:** High-frequency rendering loops in Jetpack Compose Canvas suffer significantly from redundant object instantiations like Color.copy() inside loops or repeated Brush creations. Additionally, standard property delegation (by state) causes outer composable recomposition every animation tick.
+**Action:** Standardize direct assignment to State objects, and read State.value directly within Canvas draw scope to defer state reads. Leverage built-in alpha parameters in draw functions (e.g. drawRect) instead of Color.copy to avoid allocation overhead. Always hoist static brushes, list colors, and Path objects using remember.
