@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 fun AndaruaMirrorVisualizer(modifier: Modifier = Modifier) {
     val pulses = remember { ConcurrentLinkedQueue<BinderTelemetryConduit.TransactionPulse>() }
     val infiniteTransition = rememberInfiniteTransition(label = "AndaruaMirror")
-    val rotation by infiniteTransition.animateFloat(
+    val rotationState = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
@@ -42,6 +42,24 @@ fun AndaruaMirrorVisualizer(modifier: Modifier = Modifier) {
         }
     }
 
+    // ⚡ Bolt Optimization: Hoist static color and style objects to avoid per-frame allocations
+    val bgColor = remember { Color(0xFF0A001F) }
+    val pulseRingColor = remember { Color(0xFFFF00B4) }
+    val pulseLineColor = remember { Color(0xFF00D9FF) }
+    val coreColor = remember { Color(0xFF00BFFF) }
+    val pulseStroke = remember { Stroke(width = 3.5f) }
+
+    // ⚡ Bolt Optimization: Hoist loop-invariant numerical constants to avoid per-frame math
+    val ageThreshold = remember { 4200f }
+    val angleStep = remember { 17f }
+    val payloadScale = remember { 8f }
+    val minRadius = remember { 20f }
+    val maxRadius = remember { 280f }
+    val radiusFactor = remember { 0.6f }
+    val pulseLineStrokeWidth = remember { 1.5f }
+    val coreRadius = remember { 42f }
+    val degToRad = remember { 0.017453292f }
+
     Canvas(modifier = modifier.fillMaxSize()) {
         val w = size.width
         val h = size.height
@@ -49,41 +67,40 @@ fun AndaruaMirrorVisualizer(modifier: Modifier = Modifier) {
         val now = System.currentTimeMillis()
 
         // Mirror grid base
-        drawRect(color = Color(0xFF0A001F), size = size)
+        drawRect(color = bgColor, size = size)
 
-        rotate(rotation, center) {
+        rotate(rotationState.value, center) {
             pulses.forEachIndexed { i, pulse ->
                 val age = (now - pulse.timestamp).toFloat()
-                if (age > 4200f) return@forEachIndexed
-                val alpha = (1f - age / 4200f).coerceIn(0.08f, 0.95f)
-                val radius = (pulse.payloadSize / 8f).coerceIn(20f, 280f)
-                val angle = (i * 17f) % 360f
-                val x =
-                    center.x + radius * kotlin.math.cos(Math.toRadians(angle.toDouble())).toFloat()
-                val y =
-                    center.y + radius * kotlin.math.sin(Math.toRadians(angle.toDouble())).toFloat()
+                if (age > ageThreshold) return@forEachIndexed
+                val alpha = (1f - age / ageThreshold).coerceIn(0.08f, 0.95f)
+                val radius = (pulse.payloadSize / payloadScale).coerceIn(minRadius, maxRadius)
+                val angle = (i * angleStep) % 360f
+                val angleRad = angle * degToRad
+                val x = center.x + radius * kotlin.math.cos(angleRad)
+                val y = center.y + radius * kotlin.math.sin(angleRad)
 
                 // Reversed creative stroke
                 drawCircle(
-                    color = Color(0xFFFF00B4).copy(alpha = alpha * 0.7f),
-                    radius = radius * 0.6f,
+                    color = pulseRingColor.copy(alpha = alpha * 0.7f),
+                    radius = radius * radiusFactor,
                     center = Offset(x, y),
-                    style = Stroke(width = 3.5f)
+                    style = pulseStroke
                 )
 
                 drawLine(
-                    color = Color(0xFF00D9FF).copy(alpha = alpha),
+                    color = pulseLineColor.copy(alpha = alpha),
                     start = center,
                     end = Offset(x, y),
-                    strokeWidth = 1.5f
+                    strokeWidth = pulseLineStrokeWidth
                 )
             }
         }
 
         // Central Andarua core
         drawCircle(
-            color = Color(0xFF00BFFF),
-            radius = 42f,
+            color = coreColor,
+            radius = coreRadius,
             center = center
         )
     }
