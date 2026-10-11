@@ -1,9 +1,14 @@
 import pytest
 from app.ai_backend.genesis_consciousness_matrix import ConsciousnessMatrix, SensoryChannel
 
+@pytest.fixture
+def tmp_db_path(tmp_path):
+    """Provides an isolated database path for each test."""
+    return str(tmp_path / "test_genesis_consciousness.db")
+
 class TestAgentPerformanceOptimization:
-    def test_query_agent_performance_correctness(self):
-        matrix = ConsciousnessMatrix(max_memory_size=100)
+    def test_query_agent_performance_correctness(self, tmp_db_path):
+        matrix = ConsciousnessMatrix(max_memory_size=100, db_path=tmp_db_path)
 
         # Add some agent activity
         matrix.perceive(
@@ -52,8 +57,8 @@ class TestAgentPerformanceOptimization:
         assert perf_unknown["total_activities"] == 0
         assert perf_unknown["activity_breakdown"] == {}
 
-    def test_query_agent_performance_no_agent_activity(self):
-        matrix = ConsciousnessMatrix(max_memory_size=100)
+    def test_query_agent_performance_no_agent_activity(self, tmp_db_path):
+        matrix = ConsciousnessMatrix(max_memory_size=100, db_path=tmp_db_path)
 
         # No AGENT_ACTIVITY events have been perceived
         perf_all = matrix._query_agent_performance()
@@ -65,9 +70,9 @@ class TestAgentPerformanceOptimization:
         assert perf_unknown["total_activities"] == 0
         assert perf_unknown["activity_breakdown"] == {}
 
-    def test_query_agent_performance_with_buffer_limit(self):
-        # channel_buffers has maxlen=1000 by default in the implementation
-        matrix = ConsciousnessMatrix(max_memory_size=2000)
+    def test_query_agent_performance_with_buffer_limit(self, tmp_db_path):
+        # We instantiate with max_memory_size=1000 so the deque caps at 1000
+        matrix = ConsciousnessMatrix(max_memory_size=1000, db_path=tmp_db_path)
 
         # Fill with 1500 agent activities
         for i in range(1500):
